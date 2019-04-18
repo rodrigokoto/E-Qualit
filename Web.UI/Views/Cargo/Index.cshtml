@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Dominio.Entidade.Cargo>
+@{
+    ViewBag.Title = "Cargos";
+}
+@section Metas {
+    <meta name="page" content="IndexCargo" />
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/CargoController.js")"></script>
+}
+
+@Html.AntiForgeryToken()
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Cargos -->
+        <form id="form-cargo">
+            <input type="hidden" name="IdSite" value="@ViewBag.IdSite" />
+            <input type="hidden" name="msgIconeAtivoAtivar" value="@Traducao.Cargo.ResourceCargo.Cargo_msg_icone_ativo_ativar" />
+            <input type="hidden" name="msgIconeAtivoInativar" value="@Traducao.Cargo.ResourceCargo.Cargo_msg_icone_ativo_inativar" />
+            <input type="hidden" name="msgIconeExcluir" value="@Traducao.Cargo.ResourceCargo.Cargo_msg_icone_excluir" />
+            <div class="panel panel-default" id="panel-cargo">
+                <div class="panel-body" id="panel-form-cargo">
+                    <div class="row">
+                        <div class="barra-busca">
+                            <p class="novo" style="position:static !important; margin-bottom:5px !important;">
+                                @Html.ActionLink("Novo Cargo", "Criar", "Cargo", new { idSite = ViewBag.IdSite }, null)
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </p>
+                            <div class="col-lg-12">
+                                <table id="tb-index-cargo" class="display dataTable no-footer dtr-inline " style="width: 100% !important;">
+                                    <thead>
+                                        <tr id="hr1" class="bg" role="row">
+                                            <th class="w30 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Cargo_lbl_NmNome" />
+                                            </th>
+                                            <th class="w25 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Site.ResourceSite.Site_lbl_titulo_site" />
+                                            </th>
+                                            <th class="w25 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Cliente.ResourceCliente.Cliente_lbl_titulo_cliente" />
+                                            </th>
+                                            <th class="w20 with-input"></th>
+                                        </tr>
+                                        <tr class="bg" role="row">
+                                            <th>@Traducao.Resource.Cargo_lbl_NmNome</th>
+                                            <th>@Traducao.Site.ResourceSite.Site_lbl_titulo_site</th>
+                                            <th>@Traducao.Cliente.ResourceCliente.Cliente_lbl_titulo_cliente</th>
+                                            <th>@Traducao.Shared.ResourceLabel.Label_perfil_Acao</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td>@item.NmNome</td>
+                                                <td>@item.Site.NmFantasia</td>
+                                                <td>@item.Site.Cliente.NmFantasia</td>
+                                                <td>
+                                                    <a href="@Url.Action("Editar", "Cargo", new { id = item.IdCargo })" class="edit icon-cliente  editar-color">
+                                                        <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
+                                                    </a>
+                                                    <a href="#" class="ativoinativo icon-cargo" data-valor="@item.Ativo" data-id="@item.IdCargo">
+                                                        @Html.Raw(item.Ativo ? "<i class=\"fa fa-check  ativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativo + "></i>" : "<i class=\"fa fa-check inativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + "></i>")
+                                                    </a>
+
+                                                    <a href="#" class="excluir icon-cliente trash-color" data-id="@item.IdCargo">
+                                                        <i class="fa fa-trash " aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+        </form>
+    </div>
+</div>
+<script>
+
+    $('.excluir').on('click', function () {
+
+        var idCargo = $(this).data('id');
+        var msgIconeExcluir = $(this).find('i').attr("title");
+
+        bootbox.confirm(msgIconeExcluir, function (result) {
+            if (result == true) {
+                APP.controller.CargoController.getMsgIconeExcluir(idCargo);
+            }
+        });
+
+    });
+
+    $('.ativoinativo').on('click', function () {
+
+        var idCargo = $(this).data('id');
+        var AtivoInativo = $(this).find('i').attr("title");
+
+        var msgIconeAtivoAtivar = $('[name=msgIconeAtivoAtivar]').val();
+        var msgIconeAtivoInativar = $('[name=msgIconeAtivoInativar]').val();
+
+        if (AtivoInativo != "Ativo") {
+            bootbox.confirm(msgIconeAtivoAtivar, function (result) {
+                if (result == true) {
+                    APP.controller.CargoController.getMsgIconeAtivo(idCargo);
+                }
+            });
+        } else {
+            bootbox.confirm(msgIconeAtivoInativar, function (result) {
+                if (result == true) {
+                    APP.controller.CargoController.getMsgIconeAtivo(idCargo);
+                }
+            });
+        }
+
+    });
+
+</script>

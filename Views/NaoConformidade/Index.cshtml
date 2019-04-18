@@ -1,0 +1,171 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model IEnumerable<Dominio.Entidade.RegistroConformidade>
+@{
+    ViewBag.Title = "Não Conformidade";
+
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+
+}
+@section Metas {
+    <meta name="page" content="IndexNaoConformidade" />
+}
+
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+}
+
+@Html.AntiForgeryToken()
+<input type="hidden" name="msgIconeDeleteNC" value="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_icone_delete" />
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Nao Conformidade -->
+        <form id="form-naoconformidade">
+            <div class="panel panel-default" id="panel-naoconformidade">
+                <div class="panel-body" id="panel-form-naoconformidade">
+                    <div class="row">
+                        <div class="barra-busca">
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.Cadastrar) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo">
+                                    @Html.ActionLink(Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_nova_nao_conformidade, "Criar", "NaoConformidade")
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
+                            <div class="col-lg-12">
+                                <table id="tb-index-nao-conformidade" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
+                                    <thead>
+                                        <tr class="bg">
+                                            <th class="w8 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro" />
+                                            </th>
+                                            <th class="w13 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Emissor" />
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtEmissao" />
+                                            </th>
+                                            <th class="w16 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtEncerramento" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_StatusEtapa" />
+                                            </th>
+                                            <th class="w21 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_ResponsavelImplementar" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags" />
+                                            </th>
+                                            <th class="w7 with-input"></th>
+                                        </tr>
+                                        <tr class="bg">
+                                            <th>
+                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro
+                                            </th>
+                                            <th>
+                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Emissor
+                                            </th>
+                                            <th>
+                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtEmissao
+                                            </th>
+                                            <th>
+                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtEncerramento
+                                            </th>
+                                            <th>
+                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_StatusEtapa
+                                            </th>
+                                            <th>
+                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_ResponsavelImplementar
+                                            </th>
+                                            <th class="">
+                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags
+                                            </th>
+                                            <th>
+                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Acoes
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.NuRegistro.ToString().Trim()
+                                                </td>
+                                                <td>
+
+                                                    @item.Emissor.NmCompleto.ToString().Trim()
+                                                </td>
+                                                <td>
+                                                    @item.DtEmissao.ToString(@Traducao.Resource.dateFormat).Trim()
+                                                </td>
+                                                <td>
+                                                    @if (item.DtEnceramento != null)
+                                                    {
+                                                        @item.DtEnceramento.Value.ToString(@Traducao.Resource.dateFormat).Trim()
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.StatusEtapa == 1)
+                                                    {
+                                                        <p class="status-acao-imediata">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Acao_imediata</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 2)
+                                                    {
+                                                        <p class="status-implementacao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Implementacao</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 3)
+                                                    {
+                                                        <p class="status-reverificacao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Reverificacao</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 4)
+                                                    {
+                                                        <p class="status-encerrada">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Encerrada</p>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @item.ResponsavelEtapa.NmCompleto.Trim()
+                                                </td>
+                                                <td class="">                                                    
+                                                    @(item.Tags != null ? item.Tags.ToString().Trim() : "")
+                                                </td>
+                                                <td>
+
+                                                    @if (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Editar)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.DefinirAcao)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.ImplementarAcao)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.VerificacaoDaEficacia)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Reverificacao)
+                                                        || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="@Url.Action("Editar", "NaoConformidade", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
+                                                            <i class="fa @(item.StatusEtapa == 4 ? "fa-search" : "fa-pencil")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                        </a>
+                                                    }
+                                                    @if (ViewBag.UltimoRegistro == item.NuRegistro && (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.Excluir) || ViewBag.IdPerfil != 4))
+                                                    {
+                                                        <a href="#" class="icon-cliente trash-color del-nao-conformidade" data-id-nao-conformidade="@item.IdRegistroConformidade">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+        </form>
+    </div>
+</div>

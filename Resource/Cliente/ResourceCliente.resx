@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Cliente_lbl_Bloquear" xml:space="preserve">
+    <value>Bloquear acesso após</value>
+  </data>
+  <data name="Cliente_lbl_Bloquear_3" xml:space="preserve">
+    <value>3 tentativas</value>
+  </data>
+  <data name="Cliente_lbl_Bloquear_4" xml:space="preserve">
+    <value>4 tentativas</value>
+  </data>
+  <data name="Cliente_lbl_Bloquear_5" xml:space="preserve">
+    <value>5 tentativas</value>
+  </data>
+  <data name="Cliente_lbl_Bloquear_nao" xml:space="preserve">
+    <value>Não Bloquear</value>
+  </data>
+  <data name="Cliente_lbl_DataValidade" xml:space="preserve">
+    <value>Validade do Contrato</value>
+  </data>
+  <data name="Cliente_lbl_Logo" xml:space="preserve">
+    <value>Logotipo do Cliente</value>
+  </data>
+  <data name="Cliente_lbl_Nome" xml:space="preserve">
+    <value>Nome do Cliente</value>
+  </data>
+  <data name="Cliente_lbl_placeholder_Bloquear" xml:space="preserve">
+    <value>Bloquear acesso após</value>
+  </data>
+  <data name="Cliente_lbl_placeholder_DataValidade" xml:space="preserve">
+    <value>__/__/____</value>
+  </data>
+  <data name="Cliente_lbl_placeholder_Nome" xml:space="preserve">
+    <value>Digite o nome do cliente</value>
+  </data>
+  <data name="Cliente_lbl_placeholder_TrocaSenha" xml:space="preserve">
+    <value>Solicitar a troca de senha</value>
+  </data>
+  <data name="Cliente_lbl_placeholder_Url" xml:space="preserve">
+    <value>Digite a URL de acesso</value>
+  </data>
+  <data name="Cliente_lbl_titulo" xml:space="preserve">
+    <value>Dados de Cliente</value>
+  </data>
+  <data name="Cliente_lbl_TrocaSenha" xml:space="preserve">
+    <value>Solicitar a troca de senha</value>
+  </data>
+  <data name="Cliente_lbl_TrocaSenha_120_dias" xml:space="preserve">
+    <value>120 dias</value>
+  </data>
+  <data name="Cliente_lbl_TrocaSenha_30_dias" xml:space="preserve">
+    <value>30 dias</value>
+  </data>
+  <data name="Cliente_lbl_TrocaSenha_60_dias" xml:space="preserve">
+    <value>60 dias</value>
+  </data>
+  <data name="Cliente_lbl_TrocaSenha_90_dias" xml:space="preserve">
+    <value>90 dias</value>
+  </data>
+  <data name="Cliente_lbl_TrocaSenha_nao_trocar" xml:space="preserve">
+    <value>Não Trocar</value>
+  </data>
+  <data name="Cliente_lbl_Url" xml:space="preserve">
+    <value>URL de Acesso</value>
+  </data>
+  <data name="Cliente_msg_required_Bloquear" xml:space="preserve">
+    <value>Campo obrigatório.</value>
+  </data>
+  <data name="Cliente_msg_required_DataValidade" xml:space="preserve">
+    <value>O campo Validade do Contrato é obrigatório.</value>
+  </data>
+  <data name="Cliente_msg_required_Logo" xml:space="preserve">
+    <value>O campo Logo do Cliente é obrigatório.</value>
+  </data>
+  <data name="Cliente_msg_required_maxlength_Nome" xml:space="preserve">
+    <value>O campo Nome do Cliente deve ter no máximo 60 caracteres.</value>
+  </data>
+  <data name="Cliente_msg_required_maxlength_Url" xml:space="preserve">
+    <value>O campo URL deve ter no máximo 60 caracteres.</value>
+  </data>
+  <data name="Cliente_msg_required_Nome" xml:space="preserve">
+    <value>O campo Nome do Cliente é obrigatório.</value>
+  </data>
+  <data name="Cliente_msg_required_TrocaSenha" xml:space="preserve">
+    <value>Campo obrigatório.</value>
+  </data>
+  <data name="Cliente_msg_required_Url" xml:space="preserve">
+    <value>O campo URL de Acesso é obrigatório.</value>
+  </data>
+  <data name="Cliente_lbl_Acao" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="Cliente_lbl_Acao_ativo" xml:space="preserve">
+    <value>Ativo</value>
+  </data>
+  <data name="Cliente_lbl_Acao_captcha" xml:space="preserve">
+    <value>Usa Captcha</value>
+  </data>
+  <data name="Cliente_lbl_Acao_senha_forte" xml:space="preserve">
+    <value>Exige Senha Forte</value>
+  </data>
+  <data name="Cliente_lbl_armazenar" xml:space="preserve">
+    <value>Armazenar senhas utilizadas</value>
+  </data>
+  <data name="Cliente_lbl_Armazenar_3" xml:space="preserve">
+    <value>3 últimas</value>
+  </data>
+  <data name="Cliente_lbl_Armazenar_4" xml:space="preserve">
+    <value>4 últimas</value>
+  </data>
+  <data name="Cliente_lbl_Armazenar_5" xml:space="preserve">
+    <value>5 últimas</value>
+  </data>
+  <data name="Cliente_lbl_Armazenar_6" xml:space="preserve">
+    <value>6 últimas</value>
+  </data>
+  <data name="Cliente_lbl_Armazenar_nao" xml:space="preserve">
+    <value>Não Armazenar</value>
+  </data>
+  <data name="Cliente_lbl_Contrato" xml:space="preserve">
+    <value>Contrato</value>
+  </data>
+  <data name="Cliente_lbl_placeholder_Armazenar" xml:space="preserve">
+    <value>Armazenar senhas utilizadas</value>
+  </data>
+  <data name="Cliente_msg_required_Armazenar" xml:space="preserve">
+    <value>O campo Armazenar deve ser preenchido</value>
+  </data>
+  <data name="Cliente_lbl_novo_cliente" xml:space="preserve">
+    <value>Novo Cliente</value>
+  </data>
+  <data name="Cliente_msg_required_Logo_extension" xml:space="preserve">
+    <value>O campo Logo só aceita extensões do tipo ".jpg", ".png" e ".gif"</value>
+  </data>
+  <data name="Cliente_msg_invalid_DataContrato_less_today" xml:space="preserve">
+    <value>A Data de Validade do contrato não pode ser inferior a Data de Hoje</value>
+  </data>
+  <data name="Cliente_msg_required_Ativo" xml:space="preserve">
+    <value>Na criação de um novo cliente o mesmo deve ser ativo.</value>
+  </data>
+  <data name="Cliente_msg_required_ExtensaoLogo" xml:space="preserve">
+    <value>Extensão do Logo do Cliente é obrigatória.</value>
+  </data>
+  <data name="Cliente_msg_required_NomeLogo" xml:space="preserve">
+    <value>Nome do Arquivo do Logo é Obrigatório.</value>
+  </data>
+  <data name="Cliente_msg_not_found_IdCliente" xml:space="preserve">
+    <value>Id do Cliente é Inválido.</value>
+  </data>
+  <data name="Cliente_msg_criar_valid" xml:space="preserve">
+    <value>Cliente criado com sucesso.</value>
+  </data>
+  <data name="Cliente_msg_editar_valid" xml:space="preserve">
+    <value>Cliente editado com sucesso.</value>
+  </data>
+  <data name="Cliente_lbl_Cliente" xml:space="preserve">
+    <value>Clientes</value>
+  </data>
+  <data name="Cliente_lbl_Escolha_cliente" xml:space="preserve">
+    <value>Escolha o Cliente</value>
+  </data>
+  <data name="Cliente_msg_icone_ativo_ativar" xml:space="preserve">
+    <value>Deseja mesmo Ativar o cliente?</value>
+  </data>
+  <data name="Cliente_msg_icone_ativo_inativar" xml:space="preserve">
+    <value>Deseja mesmo Inativar o cliente?</value>
+  </data>
+  <data name="Cliente_msg_icone_ativo_valid" xml:space="preserve">
+    <value>Status modificado com sucesso.</value>
+  </data>
+  <data name="Cliente_msg_icone_excluir" xml:space="preserve">
+    <value>Deseja mesmo Excluir o cliente?</value>
+  </data>
+  <data name="Cliente_lbl_titulo_cliente" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="Cliente_msg_required_LogoNome" xml:space="preserve">
+    <value>O Nome do logo do cliente é obrigatório.</value>
+  </data>
+  <data name="Cliente_msg_exluir" xml:space="preserve">
+    <value>Cliente excluido com sucesso.</value>
+  </data>
+</root>

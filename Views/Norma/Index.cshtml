@@ -1,0 +1,135 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+
+@model IEnumerable<Dominio.Entidade.Norma>
+@{
+    ViewBag.Title = "Index";
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+}
+
+@section Metas {
+    <meta name="page" content="IndexNorma" />
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/NormaController.js")"></script>
+}
+
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Norma -->
+        <form id="form-norma">
+            <div class="panel panel-default" data-toggle="collapse" id="panel-norma">
+                <div class="panel-body" id="panel-form-norma">
+                    <div class="row">
+                        <div class="barra-busca">
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.CadastroDeNorma) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo" style="position:static !important; margin-bottom:5px !important;">
+
+
+                                    @Html.ActionLink(Traducao.Norma.ResourceNorma.Norma_lbl_nova_norma, "AcoesNorma", "Auditoria")
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+
+                                </p>
+                            }
+                            <div class="col-lg-12">
+                                <!-- hidden -->
+                                <input type="hidden" name="IdSite" value="@ViewBag.IdSite" />
+                                <input type="hidden" name="msgIconeAtivoAtivar" value="@Traducao.Norma.ResourceNorma.Norma_msg_icone_ativo_ativar" />
+                                <input type="hidden" name="msgIconeAtivoInativar" value="@Traducao.Norma.ResourceNorma.Norma_msg_icone_ativo_inativar" />
+                                <input type="hidden" name="msgIconeExcluir" value="@Traducao.Norma.ResourceNorma.Norma_msg_icone_excluir" />
+                                <input type="hidden" name="formNormaProcessoDropSelect" value="@Traducao.Resource.Dropdown_name_select" />
+                                <table id="tb-index-norma" class="display dataTable no-footer dtr-inline " style="width: 100% !important;">
+                                    <thead>
+                                        <tr id="hr1" class="bg" role="row">
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Norma.ResourceNorma.Norma_lbl_item" title="">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Norma.ResourceNorma.Norma_placeholder_codigo" title="">
+                                            </th>
+                                            <th class="w45 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Norma.ResourceNorma.Norma_placeholder_titulo" title="">
+                                            </th>
+                                            <th class="w10">
+                                            </th>
+                                        </tr>
+                                        <tr class="bg" role="row">
+                                            <th class="sorting">@Traducao.Norma.ResourceNorma.Norma_lbl_item</th>
+                                            <th class="sorting">@Traducao.Norma.ResourceNorma.Norma_lbl_codigo</th>
+                                            <th class="sorting">@Traducao.Norma.ResourceNorma.Norma_lbl_titulo</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Count() > 0)
+                                        {
+                                            foreach (var norma in Model)
+                                            {
+                                                <!-- Norma -->
+                                                <tr role="row">
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input type="hidden" class="form-control" id="form-norma-item" name="formNormaDtCadastro" placeholder="Data Cadastro" data-msg-required="" value="@norma.DataCadastro" disabled />
+                                                            <input type="text" class="form-control" id="form-norma-item" name="formNormaItem"
+                                                                   placeholder="Item"
+                                                                   data-msg-required=""
+                                                                   value="@norma.Numero" IdNorma="@norma.IdNorma" disabled />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" id="form-norma-codigo" name="formNormaCodigo"
+                                                                   placeholder="Código"
+                                                                   data-msg-required=""
+                                                                   value="@norma.Codigo" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group" style="width: 100%;">
+                                                            <input type="text" class="form-control" style="width: 100%;" id="form-norma-titulo" name="formNormaTitulo"
+                                                                   placeholder="Título"
+                                                                   data-msg-required=""
+                                                                   value="@norma.Titulo" />
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-nowrap">
+                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.EdiçãoDeNorma) || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="#" class="save-norma ativo-color">
+                                                                <i class="fa fa-check" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_salvar"></i>
+                                                            </a>
+                                                            <a href="#" class="edit-norma editar-color">
+                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_editar"></i>
+                                                            </a>                                                       
+                                                            <a href="#" class="del-norma trash-color">
+                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_excluir"></i>
+                                                            </a>
+                                                            <a href="#" class="active-norma" data-id-norma="@norma.IdNorma">
+                                                                @Html.Raw(norma.Ativo ? "<i class=\"fa fa-circle  ativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativo + "></i>" : "<i class=\"fa fa-circle inativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + "></i>")
+                                                            </a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Auditoria/Index")</button>
+        </div>
+    </div>
+</div>

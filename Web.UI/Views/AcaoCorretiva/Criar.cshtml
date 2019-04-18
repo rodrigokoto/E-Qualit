@@ -1,0 +1,475 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@model Dominio.Entidade.RegistroConformidade
+@{
+    ViewBag.Title = Traducao.Resource.AcaoCorretiva;
+
+
+
+    var funcoes = new List<int>
+{
+(int)FuncoesAcaoCorretiva.DefinirAsConsequencias,
+(int)FuncoesAcaoCorretiva.DefinirAcao,
+(int)FuncoesAcaoCorretiva.ImplementarAcao,
+(int)FuncoesAcaoCorretiva.VerificacaoDaEficacia,
+(int)FuncoesAcaoCorretiva.Destravar,
+(int)FuncoesAcaoCorretiva.Editar,
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+    var listaEvidencias = new List<Anexo>();
+
+    if (Model.ArquivosDeEvidenciaAux.Count > 0)
+    {
+        Model.ArquivosDeEvidenciaAux.ToList().ForEach(evidencia =>
+        {
+            listaEvidencias.Add(new Anexo
+            {
+                IdAnexo = evidencia.IdAnexo,
+                Nome = evidencia.Nome,
+                Extensao = evidencia.Extensao,
+                ArquivoB64 = String.Format("data:application/" + evidencia.Extensao + ";base64," + Convert.ToBase64String(evidencia.Arquivo)),
+            });
+        });
+
+    }
+
+}
+@section Metas {
+    <meta name="page" content="CriarAcaoCorretiva" />
+}
+
+@{
+
+    var eAdminOuCordenador = (ViewBag.IdPerfil != 4) ? true : false;
+    var eResponsavel = Model.IdEmissor != ViewBag.IdUsuarioLogado ? false : true;
+    var eDestravado = Model.FlDesbloqueado == 0 ? false : true;
+    var eDisabled = (eDestravado && (eResponsavel || eAdminOuCordenador)) ? "" : "disabled";
+    //var eResponsavellInicarAcaoImediata = Model.IdResponsavelInicarAcaoImediata != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario) ? false : true;
+    var eResponsavelPorAcaoImediata = Model.AcoesImediatas.Any(x => x.IdResponsavelImplementar != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario)) ? false : true;
+
+    //var eDisabledIdResponsavelIniciarAcaoImediata = (eDestravado && (eResponsavellInicarAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+    var eDisabledEditarAcaoImediata = (eDestravado && (eResponsavelPorAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+
+    var temAcaoCorretiva = ViewBag.AcaoCorretiva != null ? ViewBag.AcaoCorretiva : null;
+    var disabled = temAcaoCorretiva != null ? "disabled" : null;
+
+    var nuRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.NuRegistro : null;
+    var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
+    var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
+    var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
+}
+
+
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js")"></script>
+}
+
+<script type="text/javascript">
+var perfil = '@ViewBag.IdPerfil';
+
+//$(function () { $(".datepicker").datepicker(); });
+
+var habilitaLoad = "";
+
+if ("@ViewBag.ScriptCall" == "sim")
+{
+
+    habilitaLoad = "sim";
+
+}
+else
+{
+    habilitaLoad = "não";
+}
+
+</script>
+
+
+<div id="main">
+    <div class="content-painel">
+        <!-- hidden -->
+        <input type="hidden" name="StatusEtapa" value="@ViewBag.StatusEtapa" />
+        <input type="hidden" name="labelDesejaCriarNcDtEmissaoAnteriorAUltima" value="@Traducao.Resource.NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" />
+        <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
+        <input type="hidden" name="IdSite" id="nao-conformidade-site" value="@ViewBag.IdSite" />
+        <input type="hidden" name="TipoRegistro" value="nc" />
+        <input type="hidden" name="IdAcaoCorretiva" class="IdAcaoCorretiva" value="@Model.IdRegistroConformidade" />
+        <input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
+        <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
+        <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
+        <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+
+        <!-- Formulario Ação Corretiva -->
+        <form id="form-criar-naoconformidade">
+            <div class="panel panel-default" id="panel-naoconformidade">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_titulo_identificacao</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-naoconformidade">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Numero Registro -->
+                            <div class="col-lg-offset-5 col-lg-2 col-md-offset-4 col-md-4 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-nm-registro" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_NmRegistro</label>
+                                    <input type="text" id="form-criar-nao-conformidade-nm-registro" name="formCriarNaoConformidadeNmRegistro" class="form-control"
+                                           placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_placeholder_NmRegistro"
+                                           value="@Model.NuRegistro" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Descricao Registro -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DsRegistro</label>
+                                    <textarea id="form-criar-nao-conformidade-ds-registro" name="formCriarNaoConformidadeDsRegistro" class="form-control"
+                                              placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_placeholder_Descricao_registro"
+                                              data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_DsRegistro"
+                                              data-msg-minlength="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_minlength_DsRegistro"
+                                              value=""
+                                              rows="7" @eDisabled>@Model.DescricaoRegistro</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Data de Emissao -->
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEmissao</label>
+                                    <div class='input-group input-group-datepicker'>
+                                        <input type='text' name="formCriarNaoConformidadeDtEmissao" id="form-criar-nao-conformidade-dt-emissao"
+                                               class="form-control data datepicker largura-calendario"
+                                               placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_placeholder_DtEmissao"
+                                               data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_DtEmissao"
+                                               value="@Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)" @eDisabled />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Processo -->
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Processo</label>
+                                    <select id="form-criar-nao-conformidade-processo" name="formCriarNaoConformidadeProcesso" class="form-control"
+                                            data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_Processo" @eDisabled>
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdProcesso != 0 && Model.IdProcesso != null)
+                                        {
+                                            <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Emissor -->
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.EmissorCausa</label>
+                                    <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
+                                            data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_Emissor"
+                                            disabled="@(ViewBag.IdPerfil== 4 || eDisabled == "disabled" ?"disabled": null)">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdEmissor != 0)
+                                        {
+                                            <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                        }
+                                        @if (ViewBag.IdPerfil == 4 && Model.IdRegistroConformidade == 0)
+                                        {
+                                            <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Responsavel -->
+                            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 divResponsavel">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.ResponsavelPorDefinirAcao</label>
+                                    <select id="form-criar-nao-conformidade-responsavel" name="formCriarNaoConformidadeResponsavel" class="form-control"
+                                            data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_Responsavel_definir_AC" @eDisabled>
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdResponsavelInicarAcaoImediata != null)
+                                        {
+                                            <option value="@Model.IdResponsavelInicarAcaoImediata" selected>@Model.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Formulario Acao Imediata -->
+        <form id="form-acaoimediata">
+            <div class="panel panel-default" id="panel-acaoimediata">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Acao_imediata</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-acaoimediata">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Data Descricao Acao -->
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-acaoimediata-dt-descricao-acao">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtDescricaoAcao</label>
+                                    <br />
+                                    <div class='input-group input-group-datepicker'>
+                                        <input type='text' name="formAcaoImadiataDtDescricaoAcao" id="form-acaoimediata-dt-descricao-acao" class="form-control data datepicker largura-calendario"
+                                               data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_DtDescricao"
+                                               value="@(Model.DtDescricaoAcao.HasValue?Model.DtDescricaoAcao.Value.ToString(@Traducao.Resource.dateFormat):"")" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Painel Acao Imediata -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <table id="tb-acao-imediata" class="display dataTable no-footer dtr-inline table-bordered table" style="">
+                                    <thead class="titulo-tabela">
+                                        <tr class="bg" role="row">
+                                            <th class="w20">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_AI_Acao_descricao</th>
+                                            <th class="w7">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_AI_Prazo_implementacao</th>
+                                            <th class="w15">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_AI_Responsavel_implementar</th>
+                                            <th class="w7">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_AI_Efetiva_implementacao</th>
+                                            <th class="w7">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_AI_Arquivo_evidencia</th>
+                                            <th class="w7"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{var Count = 0;}
+                                        @foreach (var acaoImediata in Model.AcoesImediatas)
+                                        {
+                                            Count++;
+                                            <tr role="row" class="odd">
+                                                <!-- Descricao -->
+                                                <td>
+                                                    @{ var formAcaoimediatatbDescricao = "formAcaoImediataTbDescricao" + Count; }
+                                                    <textarea type="text" id="@formAcaoimediatatbDescricao" name="formAcaoImadiataTbDescricao" class="form-control"
+                                                              placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_placeholder_AI_Descricao"
+                                                              data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Descricao">@acaoImediata.Descricao</textarea>
+                                                    <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
+                                                    <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
+                                                </td>
+                                                <!-- Prazo Implementacao -->
+                                                <td>
+                                                    <div class='input-group  input-group-datepicker'>
+                                                        @{ var formAcaoImadiataTbDtPrazoImplementacao = "formAcaoImadiataTbDtPrazoImplementacao" + Count; }
+                                                        <input type='text' name="formAcaoImadiataTbDtPrazoImplementacao" id="@formAcaoImadiataTbDtPrazoImplementacao" class="form-control data datepicker largura-calendario "
+                                                               placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_placeholder_AI_Prazo_implementacao"
+                                                               data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Prazo_implementacao"
+                                                               value="@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)" />
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar" teste="" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <!-- Responsavel Implementar -->
+                                                <td>
+                                                    <select id="form-acaoimediata-tb-responsavel-implementar" name="formAcaoImadiataTbResponsavelImplementar" class="form-control"
+                                                            data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Responsavel_implementar">
+                                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                        @if (acaoImediata.ResponsavelImplementar.IdUsuario != 0)
+                                                        {
+                                                            <option value="@acaoImediata.ResponsavelImplementar.IdUsuario" selected>@acaoImediata.ResponsavelImplementar.NmCompleto</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <!-- Data Efetiva Implementacao -->
+                                                <td>
+                                                    <div class='input-group  input-group-datepicker'>
+                                                        @{ var formAcaoImadiataTbDtEfetivaImplementacao = "formAcaoImadiataTbDtEfetivaImplementacao" + Count; }
+                                                        <input type='text' name="formAcaoImadiataTbDtEfetivaImplementacao" id="@formAcaoImadiataTbDtEfetivaImplementacao" class="form-control data datepicker largura-calendario dataEfetivaImplementacaoDatePicker"
+                                                               placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_placeholder_AI_Efetiva_implementacao"
+                                                               data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Efetiva_implementacao"
+                                                               value="@(acaoImediata.DtEfetivaImplementacao != null?acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <!-- Arquivo de Evidencia -->
+                                                <td>
+                                                    @{
+                                                        var base64 = "";
+                                                        var dataB64 = "";
+                                                        var nomeAnexo = "";
+                                                        var extensao = "";
+                                                        var idAnexo = 0;
+                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                        {
+                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
+                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                            dataB64 = base64;
+                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+
+                                                        }
+                                                    }
+
+                                                    <div class="upload-arq form-control" style="height: 40px !important">
+                                                        @if (acaoImediata.ArquivoEvidencia.Count == 0)
+                                                        {
+                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata">
+                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="hide">@nomeAnexo</i>
+                                                        }
+                                                        <ul>
+                                                            <li>
+                                                                <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
+                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                            </li>
+                                                        </ul>
+                                                        <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
+                                                               class=""
+                                                               data-msg-required=""
+                                                               data-b64="@dataB64">
+                                                    </div>
+                                                </td>
+                                                <!-- Acoes -->
+                                                <td>
+                                                    <input type="hidden" name="formAcaoImadiataTbAprovado" value="" />
+                                                    <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
+                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
+                                                        <i class="fa fa-check " aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-denied-acao-imediata trash-color">
+                                                        <i class="fa fa-check " aria-hidden="true"></i>
+                                                    </button>
+                                                    @if (acaoImediata.Aprovado.HasValue)
+                                                    {
+                                                        if (acaoImediata.Aprovado.Value == true)
+                                                        {
+                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                            </button>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color">
+                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                            </button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
+                                                            <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
+                                                            <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                        </button>
+
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.DefinirAcao) && Model.IdRegistroConformidade > 0 || ViewBag.IdPerfil != 4)
+                                {
+                                    <button type="button" class="btn btn-primary add-acao-imediata pull-right">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
+                                }
+                            </div>
+                            <!-- Responsavel Reverificacao -->
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Responsavel_reverificacao</label>
+                                    <select id="form-acaoimediata-responsavel-reverificacao" name="formAcaoImadiataResponsavelReverificacao" class="form-control"
+                                            data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_Responsavel_reverificacao">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (@Model.IdResponsavelReverificador != null)
+                                        {
+                                            <option value="@Model.IdResponsavelReverificador" selected>@Model.ResponsavelReverificador.NmCompleto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Foi Eficaz -->
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label>@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Foi_eficaz</label>
+                                    <div class="">
+                                        <label for="form-acaoimediata-foi-eficaz-sim">
+                                            <input type="radio" id="form-acaoimediata-foi-eficaz-sim" name="formAcaoImadiataFoiEficaz" value="true"
+                                                   @((Model.FlEficaz.HasValue) && Model.FlEficaz == true ? "checked" : null)>
+                                            @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                                        </label>
+                                        <label for="form-acaoimediata-foi-eficaz-nao">
+                                            <input type="radio" id="form-acaoimediata-foi-eficaz-nao" name="formAcaoImadiataFoiEficaz" value="false"
+                                                   @((Model.FlEficaz.HasValue) && Model.FlEficaz == false ? "checked" : null)>
+                                            @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.StatusEtapa == 4)
+                        {
+                            <div class="row">
+                                <!-- Status -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group pull-right">
+                                        <p class="status-encerrada">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Encerrada</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            @if (Model.IdRegistroConformidade > 0)
+            {
+
+                if (ViewBag.IdPerfil != 4)
+                {
+                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                }
+
+                if (Model.StatusEtapa == 4)
+                {
+                    <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+                }
+
+            }
+            @if (listaPermissoes.Where(x => funcoes.Any(y => y == x.IdFuncao)).Any() || ViewBag.IdPerfil != 4)
+            {
+                <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            }
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "AcaoCorretiva/Index")</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿@model Web.UI.Models.AlterarSenhaUsuarioViewModels
+
+@{
+    ViewBag.Title = "CadastroAlterarSenha";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="clinicaInfo" style="margin: 0 auto; width: 400px;" id="contentAlterarSenha">
+    @Html.Partial("AlterarSenha", Model)
+</div>
+
+@section scripts {
+    <script src="~/Scripts/admin.js?@Biblioteca.Util.Sha1Hash(Session.SessionID)"></script>
+    <script>
+    function AlterarSenhaSucesso(result) {
+
+            AjaxFormSuccess(result, "formAlterarSenha", "Login", "O formulário possui os seguintes erros:", function () {
+                if (TemErro("formAlterarSenha")) {
+                } else {
+                    window.top.location = "@Url.Action("Index","Home")";
+                }
+            });
+        }
+
+        function AlterarSenhaErro(result) {
+            AjaxFormError(result);
+        }
+    </script>
+}

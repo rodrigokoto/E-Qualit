@@ -1,0 +1,292 @@
+<mxEditor defaultGroup="group" defaultEdge="Select">
+  <include name="/Content/assets_src/js/vendor/mxGraph/javascript/src/config/editor-commons.xml"/>
+  <add as="onInit">
+    <![CDATA[
+		function ()
+		{
+			onInit(this);
+		}
+	]]>
+  </add>
+  <ui>
+    <add as="graph" element="graphContainer"/>
+    <add as="toolbar" element="toolbar"/>
+  </ui>
+  <Array as="templates">
+    <add as="group">
+      <Group label="" href="">
+        <mxCell vertex="1" style="group" connectable="0"/>
+      </Group>
+    </add>
+    <add as="connector">
+      <Connector label="" href="">
+        <mxCell edge="1">
+          <mxGeometry as="geometry" relative="1"/>
+        </mxCell>
+      </Connector>
+    </add>
+    <add as="container">
+      <Container label="Container" href="">
+        <mxCell vertex="1" style="swimlane" connectable="0">
+          <mxGeometry as="geometry" width="200" height="200"/>
+        </mxCell>
+      </Container>
+    </add>
+    <add as="rectangle">
+      <Retângulo label="Rectangle" href="">
+        <mxCell vertex="1">
+          <mxGeometry as="geometry" width="80" height="40"/>
+        </mxCell>
+      </Retângulo>
+    </add>
+    <add as="text">
+      <Texto label="Text Here" href="">
+        <mxCell vertex="1" style="text">
+          <mxGeometry as="geometry" width="80" height="20"/>
+        </mxCell>
+      </Texto>
+    </add>
+    <add as="image">
+      <Image label="" href="">
+        <mxCell vertex="1" style="image">
+          <mxGeometry as="geometry" width="80" height="50"/>
+        </mxCell>
+      </Image>
+    </add>
+    <add as="rounded">
+      <Arredondado label="Rounded" href="">
+        <mxCell vertex="1" style="rounded">
+          <mxGeometry as="geometry" width="80" height="40"/>
+        </mxCell>
+      </Arredondado>
+    </add>
+    <add as="shape">
+      <Shape label="Shape" href="">
+        <mxCell vertex="1" style="ellipse">
+          <mxGeometry as="geometry" width="60" height="60"/>
+        </mxCell>
+      </Shape>
+    </add>
+    <add as="actor">
+      <Ator label="Shape" href="">
+        <mxCell vertex="1" style="actor">
+          <mxGeometry as="geometry" width="40" height="60"/>
+        </mxCell>
+      </Ator>
+    </add>
+    <add as="cloud">
+      <Hexágono label="Shape" href="">
+        <mxCell vertex="1" style="cloud">
+          <mxGeometry as="geometry" width="80" height="60"/>
+        </mxCell>
+      </Hexágono>
+    </add>
+    <add as="hline">
+      <Shape label="" href="">
+        <mxCell vertex="1" style="ellipse">
+          <mxGeometry as="geometry" width="60" height="10"/>
+        </mxCell>
+      </Shape>
+    </add>
+  </Array>
+  <mxGraph as="graph" alternateEdgeStyle="verticalConnector" allowLoops="1" dropEnabled="1">
+    <add as="isAutoSizeCell">
+      <![CDATA[
+			function(cell)
+			{
+				return mxUtils.isNode(this.model.getValue(cell), 'text');
+			}
+		]]>
+    </add>
+    <add as="isSwimlane">
+      <![CDATA[
+			function (cell)
+			{
+				return mxUtils.isNode(this.model.getValue(cell), 'container');
+			}
+		]]>
+    </add>
+    <add as="getTooltipForCell">
+      <![CDATA[
+			function(cell)
+			{
+				var label = cell.getAttribute('label');
+				var style = cell.getStyle();
+			
+				return ((label != null) ? ('<b>' + label +
+						'</b> (' + cell.getId() + ')<br>') : '') +
+						((style != null) ? ('<br>Style: ' + style + '<br>') : '') +
+						'Connections: ' + cell.getEdgeCount()+
+						'<br>Children: ' + cell.getChildCount();
+			}
+		]]>
+    </add>
+    <add as="convertValueToString">
+      <![CDATA[
+			function(cell)
+			{
+				return cell.getAttribute('label');
+			}
+		]]>
+    </add>
+    <mxStylesheet as="stylesheet">
+      <add as="text">
+        <add as="shape" value="rectangle"/>
+        <add as="perimeter" value="rectanglePerimeter"/>
+        <add as="fontSize" value="12"/>
+        <add as="align" value="left"/>
+        <add as="verticalAlign" value="top"/>
+        <add as="shadow" value="0"/>
+        <add as="strokeColor" value="none"/>
+        <add as="fillColor" value="none"/>
+        <add as="gradientColor" value="none"/>
+      </add>
+      <add as="defaultVertex" extend="text">
+        <add as="shape" value="rectangle"/>
+        <add as="fontSize" value="11"/>
+        <add as="align" value="center"/>
+        <add as="verticalAlign" value="middle"/>
+        <add as="shadow" value="1"/>
+        <add as="strokeColor" value="#C3D9FF"/>
+        <add as="fillColor" value="#C3D9FF"/>
+        <add as="gradientColor" value="white"/>
+      </add>
+      <add as="group">
+        <add as="shape" value="rectangle"/>
+        <add as="perimeter" value="rectanglePerimeter"/>
+        <add as="fontSize" value="10"/>
+        <add as="align" value="center"/>
+        <add as="verticalAlign" value="middle"/>
+        <add as="strokeColor" value="gray"/>
+        <add as="dashed" value="1"/>
+      </add>
+      <add as="verticalConnector">
+        <add as="elbow" value="vertical"/>
+      </add>
+      <add as="straightConnector">
+        <add as="shape" value="connector"/>
+        <add as="endArrow" value="classic"/>
+        <add as="edgeStyle">null</add>
+      </add>
+      <add as="swimlane">
+        <add as="shape" value="swimlane"/>
+        <add as="shadow" value="0"/>
+        <add as="startSize" value="23"/>
+        <add as="align" value="center"/>
+        <add as="verticalAlign" value="top"/>
+        <add as="strokeColor" value="#EEEEEE"/>
+        <add as="fillColor" value="#D4D4D4"/>
+      </add>
+      <add as="rounded">
+        <add as="rounded" value="1"/>
+      </add>
+      <add as="ellipse">
+        <add as="shape" value="ellipse"/>
+        <add as="perimeter" value="ellipsePerimeter"/>
+        <add as="strokeColor" value="#CDEB8B"/>
+        <add as="fillColor" value="#CDEB8B"/>
+      </add>
+      <add as="doubleEllipse" extend="ellipse">
+        <add as="shape" value="doubleEllipse"/>
+      </add>
+      <add as="rhombus">
+        <add as="shape" value="rhombus"/>
+        <add as="perimeter" value="rhombusPerimeter"/>
+        <add as="strokeColor" value="#FFCF8A"/>
+        <add as="fillColor" value="#FFCF8A"/>
+      </add>
+      <add as="triangle" extend="rhombus">
+        <add as="shape" value="triangle"/>
+        <add as="perimeter" value="trianglePerimeter"/>
+        <add as="align" value="left"/>
+      </add>
+      <add as="hexagon">
+        <add as="shape" value="hexagon"/>
+      </add>
+      <add as="actor">
+        <add as="shape" value="actor"/>
+        <add as="strokeColor" value="#FFC7C7"/>
+        <add as="fillColor" value="#FFC7C7"/>
+      </add>
+      <add as="cloud">
+        <add as="shape" value="cloud"/>
+        <add as="perimeter" value="ellipsePerimeter"/>
+        <add as="strokeColor" value="#CDEB8B"/>
+        <add as="fillColor" value="#CDEB8B"/>
+      </add>
+      <add as="cylinder">
+        <add as="shape" value="cylinder"/>
+        <add as="spacingTop" value="10"/>
+        <add as="strokeColor" value="#4096EE"/>
+        <add as="fillColor" value="#4096EE"/>
+      </add>
+      <add as="hline">
+        <add as="shape" value="line"/>
+        <add as="strokeWidth" value="3"/>
+        <add as="perimeter" value="rectanglePerimeter"/>
+        <add as="fontColor" value="black"/>
+        <add as="fontSize" value="10"/>
+        <add as="align" value="center"/>
+        <add as="verticalAlign" value="bottom"/>
+        <add as="strokeColor" value="#36393D"/>
+      </add>
+    </mxStylesheet>
+    <mxGraphModel as="model">
+      <add as="valueForCellChanged">
+        <![CDATA[
+				function(cell, value)
+				{
+					var previous = null;
+					
+					if (value == null || isNaN(value.nodeType))
+					{
+						previous = cell.value.getAttribute('label');
+
+						if (value == null)
+						{
+							cell.value.removeAttribute('label');
+						}
+						else
+						{
+							cell.setAttribute('label', value);
+						}
+					}
+					else
+					{
+						previous = cell.value;
+						cell.value = value;
+					}
+					
+					return previous;
+				}
+			]]>
+      </add>
+    </mxGraphModel>
+  </mxGraph>
+  <mxDefaultToolbar as="toolbar">
+    <add as="Agrupar" action="group" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/group.gif"/>
+    <add as="Desagrupar" action="ungroup" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/ungroup.gif"/>
+    <add as="Selecionar" mode="select" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/select.gif"/>
+    <add as="Pan" mode="pan" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/pan.gif"/>
+    <add as="conector" mode="connect" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/connect.gif" value="">
+      <![CDATA[
+			function (editor)
+			{
+				if (editor.defaultEdge != null)
+				{
+					editor.defaultEdge.style = null;
+				}
+			}
+		]]>
+    </add>
+    <add as="Text" template="text" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/text.gif"/>
+    <add as="Container" template="container" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/swimlane.gif"/>
+    <add as="Rentâgulo" template="rectangle" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/rectangle.gif"/>
+    <add as="Arredondado" template="rounded" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/rounded.gif"/>
+    <add as="Elipse" template="shape" style="ellipse" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/ellipse.gif"/>
+    <add as="Losangulo" template="shape" style="rhombus" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/rhombus.gif"/>
+    <add as="Triangulo" template="actor" style="triangle" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/triangle.gif"/>
+    <add as="Hexagono" template="cloud" style="hexagon" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/hexagon.gif"/>
+    <add as="Actor" template="actor" style="actor" icon="/Content/assets_src/js/vendor/mxGraph/javascript/src/images/actor.gif"/>
+  </mxDefaultToolbar>
+</mxEditor>

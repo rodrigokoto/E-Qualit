@@ -1,0 +1,19 @@
+/* _fonts.scss */
+@import "source/font-awesome/font-awesome";
+
+//Abel Regular
+@font-face {
+    font-family: 'Abel-Regular';
+    src: url('#{$font-path}/Abel-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'JosefinSans-Light';
+    src: url('#{$font-path}/JosefinSans-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'journal';
+    src: url('#{$font-path}/journal.ttf') format('truetype');
+}
+

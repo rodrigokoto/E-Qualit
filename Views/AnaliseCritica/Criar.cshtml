@@ -1,0 +1,279 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@model Dominio.Entidade.AnaliseCritica
+@{
+    ViewBag.Title = "Análise Crítica";
+
+    var funcoes = new List<int>
+{
+(int)FuncoesAnaliseCritica.InserirTemasParaAnalise,
+(int)FuncoesAnaliseCritica.RegistroDaAta,
+(int)FuncoesAnaliseCritica.DefinirAcao,
+(int)FuncoesAnaliseCritica.ImplementarAcao,
+(int)FuncoesAnaliseCritica.VerificaçãoDaEficacia,
+(int)FuncoesAnaliseCritica.Destravar,
+(int)FuncoesAnaliseCritica.Editar
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+}
+@section scripts {
+
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/ckeditor/ckeditor.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/AnaliseCriticaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+
+
+}
+@section Metas {
+    <meta name="page" content="CriarAnaliseCritica" />
+}
+
+
+@*<script>
+        $(function () {
+            $(".datepicker").datepicker();
+        });
+    </script>*@
+<script type="text/javascript">
+    $(document).on('focus', '.datepicker', function () {
+        $(this).datepicker({
+            todayHighlight: true,
+            format: "@Traducao.Resource.dateFormat" ,
+            autoclose: true
+        })
+    });
+</script>
+<div id="main">
+    <div class="content-painel">
+        <!-- hidden -->
+        <input type="hidden" name="IdAnaliseCritica" class="IdAnaliseCritica" value="@Model.IdAnaliseCritica" />
+        <input type="hidden" name="IdSite" value="@ViewBag.IdSite" />
+        <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
+        <input type="hidden" name="tema-analise-critica" value="@ViewBag.Tema" />
+
+
+        <!-- Formulario Analise Critica -->
+        <form id="form-criar-analisecritica">
+            <input type="hidden" name="placeholderDropdownNameSelect" value="@Traducao.Resource.Dropdown_name_select" />
+            <input type="hidden" name="msgRequiredParticipante" value="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Participante" />
+            <div class="panel panel-default" id="panel-analisecritica">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_titulo_identificacao</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-analisecritica">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Responsavel -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-analise-critica-responsavel" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Responsavel</label>
+                                    <select id="form-criar-analise-critica-responsavel" name="formCriarAnaliseCriticaResponsavel" class="form-control"
+                                            data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Responsavel"
+                                            disabled="@(ViewBag.IdPerfil== 4?"disabled": null)">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdResponsavel > 0)
+                                        {
+                                            <option value="@Model.IdResponsavel" selected>@Model.Responsavel.NmCompleto</option>
+                                        }
+                                        @if (ViewBag.IdPerfil == 4 && Model.IdAnaliseCritica == 0)
+                                        {
+                                            <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Ata Analise Critica -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-analise-critica-ata" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Ata</label>
+                                    <input type="text" id="form-criar-analise-critica-ata" name="formCriarAnaliseCriticaAta" class="form-control"
+                                           placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_placeholder_Ata"
+                                           data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Ata"
+                                           value="@(Model.Ata != string.Empty ? Model.Ata : null )" />
+                                </div>
+                            </div>
+                            <!-- Data de Criação -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-analise-critica-dt-criacao">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_DtCriacao</label>
+                                    <br />
+                                    <div class='input-group  input-group-datepicker'>
+                                        <input type='text' name="formCriarAnaliseCriticaDtCriacao" id="form-criar-analise-critica-dt-criacao"
+                                               class="form-control data datepicker largura-calendario"
+                                               placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_placeholder_DtCriacao"
+                                               data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_DtCriacao"
+                                               value="@(Model.DataCadastro.HasValue?Model.DataCadastro.Value.ToString(@Traducao.Resource.dateFormat):null)" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Data de Proxima Analise -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-analise-critica-dt-proxima-analise">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Proxima_analise</label>
+                                    <br />
+                                    <div class='input-group  input-group-datepicker'>
+                                        <input type='text' name="formCriarAnaliseCriticaDtProximaAnalise" id="form-criar-analise-critica-dt-proxima-analise"
+                                               class="form-control data datepicker largura-calendario"
+                                               placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_placeholder_DtProximaAnalise"
+                                               data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_DtProximaAnalise"
+                                               @(Model.DataProximaAnalise.Year > 0001 ? new { value = Model.DataProximaAnalise.ToString(@Traducao.Resource.dateFormat) } : null) />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Tabela Pessoa Funcao -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <table id="tb-passoa-funcao" class="display dataTable no-footer dtr-inline table-bordered table" style="">
+                                    <thead class="titulo-tabela">
+                                        <tr class="bg" role="row">
+                                            <th class="w70 with-input">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Nome</th>
+                                            <th class="w25 with-input">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Funcao</th>
+                                            <th class="w5"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Funcionarios.Count > 0)
+                                        {
+                                            foreach (var funcionario in Model.Funcionarios)
+                                            {
+                                                <tr>
+                                                    <input type="hidden" name="formCriarAnaliseCriticaFuncionarioId" value="@funcionario.IdAnaliseCriticaFuncionario" />
+                                                    <td align="center">
+                                                        <div class="form-group">
+                                                            <select id="form-criar-analise-critica-participante" name="formCriarAnaliseCriticaParticipante" class="form-control"
+                                                                    data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Participante">
+                                                                <option value="@funcionario.IdUsuario" selected>@funcionario.Funcionario.NmCompleto</option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="form-criar-analise-critica-cargo" name="formCriarAnaliseCriticaCargo" class="form-control"
+                                                                   placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_placeholder_Funcao"
+                                                                   data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Funcao"
+                                                                   value="@funcionario.Funcao" disabled>
+                                                        </div>
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="#" class="excluir-funcionario icon-cliente">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <button type="button" class="btn btn-primary add-pessoa-funcao pull-right">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_novo_participante</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Formulario Temas -->
+        <form id="form-analisecriticatema">
+            <div class="panel panel-default" id="panel-analisecriticatema">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_titulo_temas</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-analisecriticatema">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Selecione o Tema -->
+                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                <div class="form-group">
+                                    <label for="form-criar-analise-critica-tema" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_tema</label>
+                                    <select id="form-criar-analise-critica-tema" name="formCriarAnaliseCriticaTema" class="form-control"
+                                            data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Temas">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Add Tema -->
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                <a href="#" class="add-tema-analise-critica icon-analise" data-tipo="tema" data-site="@ViewBag.IdSite" aria-hidden="true">
+                                    <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" title=@Traducao.Resource.EditarTema></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- TEMA -->
+                            <ul id="panel-lista-temas">
+                                @if (Model.Temas.Count > 0)
+                                {
+                                    foreach (var tema in Model.Temas)
+                                    {
+                                        <li class="row li-tema-AC">
+                                            <div class="barra-busca">
+                                                <!-- Titulo -->
+                                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                    <label>@tema.ControladorCategoria.Descricao</label>
+                                                </div>
+                                                <!-- Acoes -->
+                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                    <a href="#" class="btn icon-analise editar-tema" data-toggle="collapse">
+                                                        <i class="fa fa-pencil fa-1" aria-hidden="true"></i>
+                                                    </a>
+                                                    <a href="#" class="btn icon-analise excluir-tema" data-toggle="collapse">
+                                                        <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                                <!-- Gestao de Risco -->
+                                                <div name="GestaoDeRisco" class="gestaoDeRiscoPartial" id="gestaoDeRiscoPartial-@tema.IdControladorCategoria" data-name=''>
+                                                    <input type="hidden" name="idControladorCategoria" value="@tema.IdControladorCategoria">
+                                                    @Html.Partial("GestaoDeRisco", tema)
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            @if (Model.IdAnaliseCritica > 0)
+            {
+
+                @*if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAnaliseCritica.Destravar) || ViewBag.IdPerfil != 4)
+                {
+                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                }*@
+                <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+
+            }
+            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAnaliseCritica.RegistroDaAta) || ViewBag.IdPerfil != 4)
+            {
+                <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            }
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "AnaliseCritica/Index")</button>
+        </div>
+    </div>
+</div>

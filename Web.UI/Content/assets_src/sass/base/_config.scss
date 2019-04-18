@@ -1,0 +1,47 @@
+/* _config.scss */
+//Caminhos
+$image-path: '../imagens';			// Caminho das imagens
+$font-path: '../fonts';			// Caminho das fontes
+
+//Width Principal
+$main-width:  1170px;			   // Tamanho do Container 
+
+//Cores
+$bg-color:			 #f1f1f1;     	// Cor Background 
+
+$text-color:		 #555555;		// Cor Texto
+$title-color:		 #555555;		// Cor Títulos 
+$subtitle-color:	 #555555;		// Cor Subtitulos
+$link-color: 		 #66afe9;   	// Cor Links 
+
+$theme-color-01:	 #ffffff;   	// Cor Tema 01 
+$theme-color-02:	 #ffffff; 		// Cor Tema 02
+$theme-color-03:	 #ffffff; 		// Cor Tema 03 
+
+$btn-color: 		 #ffffff;  	    // Cor Botoes 01
+$btn-primary: 		 #337ab7;		// Cor Botão Primário 	 
+$btn-success:		 #5cb85c;       // Cor Botão Sucesso 
+$btn-danger:		 #d9534f;       // Cor Botão Sucesso 
+
+$input-bg:			 #ffffff;		// Cor Input
+$input-border:		 #cccccc;		// Cor Borda Input
+$input-focus:		 #66afe9;		// Cor Borda Input Focus
+$input-color:		 #555555;		// Cor Borda Input
+
+$selection-bg: 	 	 #ffffff;   	// Cor Background Selection
+$selection-color: 	 #555555;   	// Cor Selection
+
+$modalbox-color: 	 #0C0F13;		// Modal Box 
+
+//Fontes
+$main-font : 	'OpenSansRegular';		// Fonte Principal
+$regular-font:  'OpenSansRegular';		// Fonte Regular
+$bold-font: 	'OpenSansRegular';		// Fonte com Bold
+$light-font: 	'OpenSansRegular';		// Fonte com Italico
+
+//Media Queries
+$media-desk: 		"only screen and (max-width: 1170px)"; 
+$media-tablet-lg: 	"only screen and (max-width: 960px)"; 
+$media-tablet: 		"only screen and (max-width: 770px)"; 
+$media-mobile-lg: 	"only screen and (max-width: 640px)"; 
+$media-mobile: 		"only screen and (max-width: 480px)"; 

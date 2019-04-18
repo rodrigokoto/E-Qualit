@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Dominio.Entidade.Processo>
+@{
+    ViewBag.Title = "Home";
+}
+@section Metas {
+    <meta name="page" content="Index" />
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/HomeController.js")"></script>
+
+}
+<!-- Modal Modulos -->
+<div class="modal fade modal-modulos" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="mdModulos">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="Fechar"></i>
+                </button>
+                <h4 class="modal-title">Módulos</h4>
+            </div>
+            <div class="modal-body" id="pnlModulos">
+                @if (ViewBag.IdPerfil == 4)
+                {
+                    foreach (var funcionalidade in ViewBag.Funcionalidades)
+                    {
+                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                            <div class="thumbnail">
+                                <a href="@Url.Action("Index", funcionalidade.Url + "/Index" )">
+                                    <span class="fa-stack fa-4x modal-color">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="@funcionalidade.Image"></i>
+                                    </span><p>@funcionalidade.Nome</p>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                }
+                else
+                {
+                    //CdFormulario para filtrar modulos não ativos no momento(update funcionalidade set cdFormulario = 2 where IdFuncionalidade in (1,8,12,13))
+                    foreach (var site in Model.FirstOrDefault().Site.SiteFuncionalidades.Where(x => x.Funcionalidade.CdFormulario == "1"))
+                    {
+                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                            <div class="thumbnail">
+                                <a href="@Url.Action("Index", @site.Funcionalidade.Url + "/Index" )">
+                                    <span class="fa-stack fa-4x modal-color">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="@site.Funcionalidade.Image"></i>
+                                    </span><p>@site.Funcionalidade.Nome</p>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<div id="main">
+    <div class="content-painel">
+        @*<div class="panel panel-default" data-toggle="collapse" id="pai-calendario">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>Processos</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-calendario">
+                    <div class="barra-busca">
+                        <div class="row">
+                        @foreach (var processo in Model)
+                        {
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
+                                <div class="box" id="@processo.IdProcesso">
+                                    <h3>@processo.Nome</h3>
+                                    <div class="separator"></div>
+                                    <p>
+                                        Módulos
+                                        <a href="" class="mdModulos" name="modulos" data-toggle="modal" data-target="#mdModulos">
+                                            <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="Módulos"></i>
+                                        </a>
+                                    </p>
+
+                                </div>
+                            </div>
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+</div>

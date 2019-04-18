@@ -1,0 +1,260 @@
+﻿@model Dominio.Entidade.AnaliseCritica
+
+@{
+    ViewBag.Title = "Editar";
+}
+@section Metas {
+    <meta name="page" content="EditarAnaliseCritica" />
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/AnaliseCriticaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+
+}
+<script>
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+</script>
+<div class="row header-fixo">
+    <!-- Botao Menu Lateral -->
+    <span class="menu-lateral">&#9776;</span>
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar1">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <!-- Menu Central -->
+    <div class="col-md-12">
+        <ul class="nav nav-pills menu-one">
+            <li class="col-md-6" role="presentation"><a href="#panel1">Dados</a></li>
+            <li class="col-md-6" role="presentation"><a href="#panel2">Tema</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="top3" id="main1">
+    <!-- Menu Lateral -->
+    <div id="mySidenav" class="sidenav">
+        <span class="closebtn close-menu-lateral">
+            &times;</a>
+            <ul class="menu">
+                <li class="line-side ativa"><a href="#">Control Doc</a></li>
+                <li class="line-side"><a href="#">Cadastro Doc</a></li>
+                <li class="line-side"><a href="#">Elaborar</a></li>
+                <li class="line-side"><a href="#">Verificar</a></li>
+                <li class="line-side"><a href="#">Aprovar</a></li>
+                <li class="line-side"><a href="#">Revisar</a></li>
+            </ul>
+    </div>
+    <!-- Formulario Analise Critica -->
+    <form id="formularioAnaliseCritica">
+        <input type="hidden" id="idAnaliseCritica" value="@Model.IdAnaliseCritica" />
+        <input type="hidden" id="site-analise-critica" value="@ViewBag.IdSite" />
+        <input type="hidden" id="tema-analise-critica" value="@ViewBag.Tema" />
+        <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
+        <div id="main">
+            <div class="content-painel">
+                <div class="panel panel-default" id="panel1">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>Dados</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- Responsavel -->
+                                        <input type="hidden" class="id-responsavel-analise-critica" value="@Model.IdResponsavel" />
+                                        @*<input type="hidden" class="name-responsavel-analise-critica" value="@Model.Responsavel.NmCompleto" />*@
+                                        <label for="form-ac-responsavel">Responsável</label>
+                                        <select type="text" name="IdResponsavel" id="form-ac-responsavel form-analise-critica-responsavel" class="form-control" value="@Model.IdResponsavel">
+                                            <option value="@Model.IdResponsavel">@Model.Responsavel.NmCompleto</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- Ata de Analise Critica -->
+                                        <label for="form-ac-ata">@Traducao.Resource.AtaAnaliseCritica</label>
+                                        <input type="text" name="Ata" id="form-ac-ata" class="form-control" value="@Model.Ata">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- Data de Criação -->
+                                        <label for="form-ac-dt-criacao">@Traducao.Resource.DataCriacao</label>
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <input type='text' name="DataCriacao" id="form-ac-dt-criacao" class="form-control data datepicker" value="@Model.DataCriacao.ToString(@Traducao.Resource.dateFormat)" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- Data Proxima Analise -->
+                                        <label for="form-ac-dt-proxima-analise">@Traducao.Resource.DataProxAnalise</label>
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <input type='text' name="DataProximaAnalise" id="form-ac-dt-proxima-analise" class="form-control data datepicker" value="@Model.DataProximaAnalise.ToString(@Traducao.Resource.dateFormat)" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="panel-default panel-table">
+                                    <div class="panel-heading2">
+                                        <div class="col-md-12">
+                                            <div class="panel-body2">
+                                                <!-- Tabela Pessoa Funcao -->
+                                                <table id="pessoa-funcoes" class="table table-striped table-bordered table-list">
+                                                    <thead class="titulo-tabela">
+                                                        <tr>
+                                                            <th class="w70 with-input">Nome</th>
+                                                            <th class="w25 with-input">Função</th>
+                                                            <th class="w5"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.Funcionarios != null)
+                                                        {
+                                                            foreach (var funcionario in Model.Funcionarios)
+                                                            {
+                                                                <tr>
+                                                                    <!-- Participante -->
+                                                                    <input type="hidden" class="id-funcionario" value="@funcionario.Funcionario.IdUsuario" />
+                                                                    <input type="hidden" class="name-funcionario" value="@funcionario.Funcionario.NmCompleto" />
+                                                                    <td align="center">
+                                                                        <select name="participante-drop" class="form-control participante-drop">
+                                                                            <option value="@funcionario.Funcionario.IdUsuario">@funcionario.Funcionario.NmCompleto</option>
+                                                                        </select>
+                                                                        <input type="hidden" id="participante-drop-set-01" value="@funcionario.IdUsuario" />
+                                                                    </td>
+                                                                    <!-- Função -->
+                                                                    <td>
+                                                                        <input type="text" name="funcao" id="form-ac-ata" class="form-control" value="@funcionario.Funcao">
+                                                                    </td>
+                                                                    <!-- Icon Del -->
+                                                                    <td align="center">
+                                                                        <a href="javascript:;" class="excluir-funcionario icon-cliente">
+                                                                            <i class="fa fa-trash " aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                <!--- Novo Participante -->
+                                                <p class="novo2 pull-right">
+                                                    <a href="#" name="add-pessoa-funcao" id="add-pessoa-funcao">
+                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                        @Traducao.Resource.NovoParticipante
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--- Start Tema -->
+                <div class="panel panel-default" id="panel2">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_titulo_temas</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="listaTema">
+                        <!-- Start Selecionar Tema -->
+                        <div class="row bottom-buffer">
+                            <div class="col-md-11">
+                                <select id="tema-drow" class="form-control tema-drow">
+                                    <option value="0">@Traducao.Resource.SelecioneTema</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 text-nowrap">
+                                <a href="javascript:;" class="btnControladorCategoria icon-analise" data-tipo="tema" data-site="@ViewBag.IdSite" aria-hidden="true">
+                                    <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" title="Editar Tema"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- End Selecionar Tema -->
+                        <!-- Start Painel Tema -->
+                        <ul id="ul-panel-lista-tema">
+                            @foreach (var tema in Model.Temas)
+                            {
+                                <li class="liTema">
+                                    <div class="barra-busca">
+                                        <div class="col-md-11">
+                                            <div name="tituloTema" class="collapsible-header">
+                                                <input type="hidden" name="idControladorCategoria" value="@tema.IdTema">
+                                                <p name="titulo-tema" class="titulo-tema">@tema.Descricao<p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 text-nowrap">
+                                            <a href="javascript:;" class="btn editar-tema icon-analise" data-toggle="collapse">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+
+                                            <a href="javascript:;" class="btn excluir-tema icon-analise" data-toggle="collapse">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                        <div name="GestaoDeRisco" class="gestaoDeRiscoPartial" data-name="@tema.IdTema">
+                                            <input type="hidden" class="tema-descricao" value="@tema.Descricao">
+                                            <input type="hidden" class="tema-cor-risco" value="@tema.CorRisco">
+                                            <input type="hidden" class="tema-possui-gestao-risco" value="@tema.PossuiGestaoRisco.ToString()">
+
+                                            @Html.Partial("~/Views/GestaoDeRisco/_Index.cshtml", tema.GestaoDeRisco)
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                        <!-- End Painel Tema -->
+                    </div>
+                </div>
+                <!--- End Tema -->
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </form>
+</div><!--- panel -->
+
+<nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container-fluid" id="myNavbar1">
+        <ul class="nav navbar-nav navbar-right pull-right">
+            <li class="botoes-button">
+                <button type="button" class="btnSalvar btn-primary btn-responsive">@Traducao.Resource.botao_salvar</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<p id="back-top">
+    <a href="#top"><i style="padding-left:1px;" class="fa fa-angle-up"></i></a>
+</p>
+
+@section Styles{
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/lobipanel.min.css" rel="stylesheet" />
+    <link href="~/Content/fileUpload.css" rel="stylesheet" />
+}
+@section scripts {
+
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/assets_src/js/vendor/jquery.barrating.min.js"></script>
+}
+
+

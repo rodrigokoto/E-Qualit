@@ -1,0 +1,121 @@
+﻿@model Dominio.Entidade.RegistroConformidade
+
+@{
+    var eDestravado = Model.FlDesbloqueado == 0 ? false : true;
+    var eResponsavel = Model.IdEmissor != ViewBag.IdUsuarioLogado ? false : true;
+    var eAdminOuCordenador = (ViewBag.IdPerfil != 4) ? true : false;
+
+    var eDisabled = (eDestravado && (eResponsavel || eAdminOuCordenador)) ? null : "disabled";
+}
+
+@Html.AntiForgeryToken()
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js")"></script>
+}
+<script>
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+</script>
+<div class="barra-busca">
+    <input type="hidden" name="IdUsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
+    <form id="form-acao-corretiva-etapa-1">
+        <!-- Row 01 -->
+        <div class="row">
+            <div class="col-sm-offset-5 col-md-2">
+                <!-- Numero Registro -->
+                <div class="form-group">
+                    <label>@Traducao.Resource.AcaoCorretiva_PrimeiraEtapa_lbl_NuRegistro</label>
+                    <input type="text" name="NuRegistro" class="form-control numero-AC" value="@Model.NuRegistro" disabled />
+                </div>
+            </div>
+        </div>
+        <!-- Row 02 -->
+        <div class="row">
+            <div class="col-md-10">
+                <!-- Descrição Registro -->
+                <div class="form-group">
+                    <label>@Traducao.Resource.AcaoCorretiva_PrimeiraEtapa_lbl_DescricaoRegistro</label>
+                    <textarea name="DescricaoRegistro" rows="7" class="form-control"
+                              data-msg-required="@Traducao.Resource.NaoConformidade_msg_erro_required_DescricaoRegistro"
+                              data-msg-minlength="@Traducao.Resource.NaoConformidade_msg_erro_min_e_max_DescricaoRegistro"
+                              @eDisabled>
+                        @Model.DescricaoRegistro
+                    </textarea>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label>@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_EvidenciaImg</label>
+                    <div id="uplPE" class="upload">
+                        <div id="dropPE" class="drop" style="padding:35px 12px !important;">
+                            <a href="javascript:;" class="text-center">
+                                <i class="fa fa-paperclip fa-3x" aria-hidden="true"></i>&nbsp;Anexar
+                            </a>
+                            <input type="file" name="upl" multiple @eDisabled />
+                            <ul></ul>
+                            <input type="hidden" id="EvidenciaImg" name="EvidenciaImg" value="@ViewBag.DsArquivos" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row base-senhas">
+                <div class="col-md-4">
+                    <!-- Data de Emissão -->
+                    <div class="form-group">
+                        <label>@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_DtEmissao</label>
+                        <div class="input-group date" id="datetimepicker2">
+                            <input type="text" name="DtEmissao" class="form-control input-data datepicker" value="@Model.DtEmissao" disabled>
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!-- Processo -->
+                    <div class="form-group">
+                        <label>@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdProcesso</label>
+                        <select class="form-control" name="IdProcesso" id="drop-processos" data-rule-required="true" data-msg-required="@Traducao.Resource.NaoConformidade_msg_erro_required_IdProcesso" disabled>
+                            <option value="@Model.Processo.IdProcesso">@Model.Processo.Nome</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!-- Emissor - Não Conformidade -->
+                    <div class="form-group">
+                        <label>@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdEmissor</label>
+                        <select class="form-control @(ViewBag.IdPerfil != 4?"lista-emissores":"")"
+                                name="IdProcesso" id="drop-processos"
+                                data-rule-required="true"
+                                data-msg-required="@Traducao.Resource.NaoConformidade_msg_erro_required_IdEmissor"
+                                @eDisabled>
+                            <option value="@Model.Emissor.IdUsuario">@Model.Emissor.NmCompleto</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-6">
+                    <!-- Responsável -->
+                    <div class="form-group">
+                        <label>@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoCorretiva</label>
+                        <select class="form-group form-control"
+                                name="IdResponsavelInicarAcaoCorretiva"
+                                data-msg-required="@Traducao.Resource.NaoConformidade_msg_erro_required_IdResponsavelIniciarAcaoCorretiva"
+                                @eDisabled>
+                            <option value="@Model.ResponsavelInicarAcaoImediata.IdUsuario">@Model.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="IdSite" id="acao-corretiva-site" value="@ViewBag.IdSite" />
+    </form>
+</div>

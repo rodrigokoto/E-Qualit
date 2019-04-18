@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DomainValidation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Context\BaseContext.cs" />
+    <Compile Include="EntityConfig\AnaliseCriticaFuncionarioMap.cs" />
+    <Compile Include="EntityConfig\AnaliseCriticaTemaMap.cs" />
+    <Compile Include="EntityConfig\AnexoMap.cs" />
+    <Compile Include="EntityConfig\ArquivoCertificadoAnexoMap.cs" />
+    <Compile Include="EntityConfig\ArquivoDeEvidenciaAcaoImediataMap.cs" />
+    <Compile Include="EntityConfig\ArquivosEvidenciaCriterioQualificacaoMap.cs" />
+    <Compile Include="EntityConfig\ArquivosDeEvidenciaMap.cs" />
+    <Compile Include="EntityConfig\BreadCrumbMap.cs" />
+    <Compile Include="EntityConfig\ClienteContratoMap.cs" />
+    <Compile Include="EntityConfig\ClienteLogoMap.cs" />
+    <Compile Include="EntityConfig\AvaliaCriterioQualificacaoMap.cs" />
+    <Compile Include="EntityConfig\DocExternoMap.cs" />
+    <Compile Include="EntityConfig\DocLicencaMap.cs" />
+    <Compile Include="EntityConfig\DocumentoAssuntoMap.cs" />
+    <Compile Include="EntityConfig\AvaliacaoCriticidadeMap.cs" />
+    <Compile Include="EntityConfig\AvaliaCriterioAvaliacaoMap.cs" />
+    <Compile Include="EntityConfig\CalibracaoMap.cs" />
+    <Compile Include="EntityConfig\DocumentoComentarioMap.cs" />
+    <Compile Include="EntityConfig\ControladorCategoriasMap.cs" />
+    <Compile Include="EntityConfig\AnaliseCriticaMap.cs" />
+    <Compile Include="EntityConfig\CargoMap.cs" />
+    <Compile Include="EntityConfig\CargoProcessoMap.cs" />
+    <Compile Include="EntityConfig\ClienteMap.cs" />
+    <Compile Include="EntityConfig\ControleImpressaoMap.cs" />
+    <Compile Include="EntityConfig\CriterioAceitacaoMap.cs" />
+    <Compile Include="EntityConfig\CriterioQualificacaoMap.cs" />
+    <Compile Include="EntityConfig\HistoricoCriterioAvaliacaoMap.cs" />
+    <Compile Include="EntityConfig\IndicadorMap.cs" />
+    <Compile Include="EntityConfig\LicencaMap.cs" />
+    <Compile Include="EntityConfig\MetaMap.cs" />
+    <Compile Include="EntityConfig\PerfilMap.cs" />
+    <Compile Include="EntityConfig\FornecedorMap.cs" />
+    <Compile Include="EntityConfig\InstrumentoMap.cs" />
+    <Compile Include="EntityConfig\LogMap.cs" />
+    <Compile Include="EntityConfig\NormaMap.cs" />
+    <Compile Include="EntityConfig\NormaProcessoMap.cs" />
+    <Compile Include="EntityConfig\NotificacaoMensagemMap.cs" />
+    <Compile Include="EntityConfig\NotificacaoSmtpMap.cs" />
+    <Compile Include="EntityConfig\PaiMap.cs" />
+    <Compile Include="EntityConfig\PeriodicidadeAnaliseMap.cs" />
+    <Compile Include="EntityConfig\PlaiGerentesMap.cs" />
+    <Compile Include="EntityConfig\PlaiMap.cs" />
+    <Compile Include="EntityConfig\PlaiProcessoNormaMap.cs" />
+    <Compile Include="EntityConfig\PlanoVooMap.cs" />
+    <Compile Include="EntityConfig\ProdutoFornecedorMap.cs" />
+    <Compile Include="EntityConfig\ProdutoMap.cs" />
+    <Compile Include="EntityConfig\CriterioAvaliacaoMap.cs" />
+    <Compile Include="EntityConfig\DocRegistroMap.cs" />
+    <Compile Include="EntityConfig\RH\AdvertenciaMap.cs" />
+    <Compile Include="EntityConfig\RH\AtribuicaoMap.cs" />
+    <Compile Include="EntityConfig\RH\CargoRHMap.cs" />
+    <Compile Include="EntityConfig\RH\CompetenciaMap.cs" />
+    <Compile Include="EntityConfig\RH\ConhecimentoMap.cs" />
+    <Compile Include="EntityConfig\RH\CursoMap.cs" />
+    <Compile Include="EntityConfig\RH\DependenteMap.cs" />
+    <Compile Include="EntityConfig\RH\EmprestimoMap.cs" />
+    <Compile Include="EntityConfig\RH\EPIMap.cs" />
+    <Compile Include="EntityConfig\RH\EstoqueMap.cs" />
+    <Compile Include="EntityConfig\RH\ExameMap.cs" />
+    <Compile Include="EntityConfig\RH\FeriasMap.cs" />
+    <Compile Include="EntityConfig\RH\FolhaDePagamentoMap.cs" />
+    <Compile Include="EntityConfig\RH\FormacaoAcademicaMap.cs" />
+    <Compile Include="EntityConfig\RH\FuncionarioMap.cs" />
+    <Compile Include="EntityConfig\RH\HabilidadeMap.cs" />
+    <Compile Include="EntityConfig\RH\PlanoMap.cs" />
+    <Compile Include="EntityConfig\RH\SindicatoMap.cs" />
+    <Compile Include="EntityConfig\DocRotinaMap.cs" />
+    <Compile Include="EntityConfig\SiteAnexo.cs" />
+    <Compile Include="EntityConfig\SubModuloMap.cs" />
+    <Compile Include="EntityConfig\RH\TipoAdvertenciaMap.cs" />
+    <Compile Include="EntityConfig\RH\TipoEmprestimoMap.cs" />
+    <Compile Include="EntityConfig\RH\ParentescoMap.cs" />
+    <Compile Include="EntityConfig\RH\TipoPlanoMap.cs" />
+    <Compile Include="EntityConfig\RH\TreinamentoMap.cs" />
+    <Compile Include="EntityConfig\RH\ValeTransporteMap.cs" />
+    <Compile Include="EntityConfig\UsuarioAnexoMap.cs" />
+    <Compile Include="EntityConfig\UsuarioMap.cs" />
+    <Compile Include="EntityConfig\DocumentoCargoMap.cs" />
+    <Compile Include="EntityConfig\DocDocumentoMap.cs" />
+    <Compile Include="EntityConfig\DocTemplateMap.cs" />
+    <Compile Include="EntityConfig\DocUsuarioVerificaAprovaMap.cs" />
+    <Compile Include="EntityConfig\EnderecoMap.cs" />
+    <Compile Include="EntityConfig\FuncaoMap.cs" />
+    <Compile Include="EntityConfig\FuncionalidadeMap.cs" />
+    <Compile Include="EntityConfig\ListaValorMap.cs" />
+    <Compile Include="EntityConfig\NotificacaoMap.cs" />
+    <Compile Include="EntityConfig\ProcessoMap.cs" />
+    <Compile Include="EntityConfig\RegistroAcaoImediataMap.cs" />
+    <Compile Include="EntityConfig\RegistroConformidadesMap.cs" />
+    <Compile Include="EntityConfig\SiteMap.cs" />
+    <Compile Include="EntityConfig\SiteModuloMap.cs" />
+    <Compile Include="EntityConfig\TelefoneMap.cs" />
+    <Compile Include="EntityConfig\UsuarioCargoMap.cs" />
+    <Compile Include="EntityConfig\UsuarioClienteSiteMap.cs" />
+    <Compile Include="EntityConfig\UsuarioSenhaMap.cs" />
+    <Compile Include="Migrations\201712292113571_ControlDoc_Licencas.cs" />
+    <Compile Include="Migrations\201712292113571_ControlDoc_Licencas.Designer.cs">
+      <DependentUpon>201712292113571_ControlDoc_Licencas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712292303042_ControlDoc_DocExterno.cs" />
+    <Compile Include="Migrations\201712292303042_ControlDoc_DocExterno.Designer.cs">
+      <DependentUpon>201712292303042_ControlDoc_DocExterno.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712300106571_ControlDoc_Texto_Fluxo_Recurso.cs" />
+    <Compile Include="Migrations\201712300106571_ControlDoc_Texto_Fluxo_Recurso.Designer.cs">
+      <DependentUpon>201712300106571_ControlDoc_Texto_Fluxo_Recurso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712300149328_ControlDoc_Registros_Rotinas.cs" />
+    <Compile Include="Migrations\201712300149328_ControlDoc_Registros_Rotinas.Designer.cs">
+      <DependentUpon>201712300149328_ControlDoc_Registros_Rotinas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801082122184_Rename_ControlDoc.cs" />
+    <Compile Include="Migrations\201801082122184_Rename_ControlDoc.Designer.cs">
+      <DependentUpon>201801082122184_Rename_ControlDoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801091552345_Plai.cs" />
+    <Compile Include="Migrations\201801091552345_Plai.Designer.cs">
+      <DependentUpon>201801091552345_Plai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AnaliseCriticaFuncionarioRepositorio.cs" />
+    <Compile Include="Repository\AnaliseCriticaRepositorio.cs" />
+    <Compile Include="Repository\AnexoRepositorio.cs" />
+    <Compile Include="Repository\ArquivosEvidenciaCriterioQualificacaoRepositorio.cs" />
+    <Compile Include="Repository\ArquivoCertificadoAnexoRepositorio.cs" />
+    <Compile Include="Repository\ArquivoDeEvidenciaAcaoImediataRepositorio.cs" />
+    <Compile Include="Repository\AvaliacaoDeCriticidadeRepositorio.cs" />
+    <Compile Include="Repository\AvaliaCriterioAvaliacaoRepositorio.cs" />
+    <Compile Include="Repository\BaseRepositorio.cs" />
+    <Compile Include="Repository\CalibracaoRepositorio.cs" />
+    <Compile Include="Repository\CargoProcessoRepositorio.cs" />
+    <Compile Include="Repository\CargoRepositorio.cs" />
+    <Compile Include="Repository\ClienteContratoRepositorio.cs" />
+    <Compile Include="Repository\ClienteLogoRepositorio.cs" />
+    <Compile Include="Repository\ClienteRepositorio.cs" />
+    <Compile Include="Repository\AvaliaCriterioQualificacaoRepositorio.cs" />
+    <Compile Include="Repository\DocumentoAssuntoRepositorio.cs" />
+    <Compile Include="Repository\DocumentoComentarioRepositorio.cs" />
+    <Compile Include="Repository\ControladorCategoriasRepositorio.cs" />
+    <Compile Include="Repository\ControleImpressaoRepositorio.cs" />
+    <Compile Include="Repository\CriterioAceitacaoRepositorio.cs" />
+    <Compile Include="Repository\CriterioQualificacaoRepositorio.cs" />
+    <Compile Include="Repository\DocCargoRepositorio.cs" />
+    <Compile Include="Repository\DocDocumentoRepositorio.cs" />
+    <Compile Include="Repository\DocTemplateRepositorio.cs" />
+    <Compile Include="Repository\DocUsuarioVerificaAprovaRepositorio.cs" />
+    <Compile Include="Repository\FornecedorRepositorio.cs" />
+    <Compile Include="Repository\FuncaoRepositorio.cs" />
+    <Compile Include="Repository\FuncionalidadeRepositorio.cs" />
+    <Compile Include="Repository\HistoricoCriterioAvaliacaoRepositorio.cs" />
+    <Compile Include="Repository\IndicadorRepositorio.cs" />
+    <Compile Include="Repository\InstrumentoRepositorio.cs" />
+    <Compile Include="Repository\LoginRepositorio.cs" />
+    <Compile Include="Repository\LogRepositorio.cs" />
+    <Compile Include="Repository\NormaRepositorio.cs" />
+    <Compile Include="Repository\NotificacaoSmtpRepositorio.cs" />
+    <Compile Include="Repository\NotificacaoMensagemRepositorio.cs" />
+    <Compile Include="Repository\NotificacaoRepositorio.cs" />
+    <Compile Include="Repository\PaiRepositorio.cs" />
+    <Compile Include="Repository\PlaiGerentesRepositorio.cs" />
+    <Compile Include="Repository\PlaiProcessoNormaRepositorio.cs" />
+    <Compile Include="Repository\PlaiRepositorio.cs" />
+    <Compile Include="Repository\ProcessoRepositorio.cs" />
+    <Compile Include="Repository\ProdutoAvaliacaoFornecedorRepositorio.cs" />
+    <Compile Include="Repository\ProdutoCriterioQualificacaoRepositorio.cs" />
+    <Compile Include="Repository\ProdutoFornecedorRepositorio.cs" />
+    <Compile Include="Repository\ProdutoRepositorio.cs" />
+    <Compile Include="Repository\CriterioAvaliacaoRepositorio.cs" />
+    <Compile Include="Repository\RegistroAcaoImediataRepositorio.cs" />
+    <Compile Include="Repository\RegistroConformidadesRepositorio.cs" />
+    <Compile Include="Repository\RH\FuncionarioRepositorio.cs" />
+    <Compile Include="Repository\SiteAnexoRepositorio.cs" />
+    <Compile Include="Repository\SiteModuloRepositorio.cs" />
+    <Compile Include="Repository\SiteRepositorio.cs" />
+    <Compile Include="Repository\AnaliseCriticaTemaRepositorio.cs" />
+    <Compile Include="Repository\SubModuloRepositorio.cs" />
+    <Compile Include="Repository\UsuarioAnexoRepositorio.cs" />
+    <Compile Include="Repository\UsuarioCargoRepositorio.cs" />
+    <Compile Include="Repository\UsuarioClienteSiteRepositorio.cs" />
+    <Compile Include="Repository\UsuarioRepositorio.cs" />
+    <Compile Include="Repository\UsuarioSenhaRepositorio.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dominio\Dominio.csproj">
+      <Project>{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}</Project>
+      <Name>Dominio</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201712292113571_ControlDoc_Licencas.resx">
+      <DependentUpon>201712292113571_ControlDoc_Licencas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712292303042_ControlDoc_DocExterno.resx">
+      <DependentUpon>201712292303042_ControlDoc_DocExterno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712300106571_ControlDoc_Texto_Fluxo_Recurso.resx">
+      <DependentUpon>201712300106571_ControlDoc_Texto_Fluxo_Recurso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712300149328_ControlDoc_Registros_Rotinas.resx">
+      <DependentUpon>201712300149328_ControlDoc_Registros_Rotinas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801082122184_Rename_ControlDoc.resx">
+      <DependentUpon>201801082122184_Rename_ControlDoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801091552345_Plai.resx">
+      <DependentUpon>201801091552345_Plai.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

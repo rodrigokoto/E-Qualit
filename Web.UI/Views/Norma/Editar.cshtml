@@ -1,0 +1,55 @@
+﻿@model Dominio.Entidade.Norma
+@{
+    ViewBag.Title = "Editar";
+}
+<div id="main">
+    <!-- Inicio Panel -->
+    <div class="content-painel">
+        <div class="panel panel-default" id="parametro-instrumento">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h2>Nova Norma</h2>
+                </div>
+            </div>
+            <div class="panel-body collapse in" id="parametro-instrumento">
+                <div class="barra-busca">
+                    <div class="row base-senhas">
+                        <!-- Campo Instrumento -->
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                            <label>Item</label>
+                            <input name="Equipamento" class="form-control form-parametro-instrumento-instrumento" data-val="true" type="text" value="001-A" data-original-title="Instrumento">
+                        </div>
+                        <!-- Campo Numero -->
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
+                            <label>Código</label>
+                            <input name="Numero" class="form-control form-parametro-instrumento-numero" data-val="true" title="" type="text" value="ISO 14001" data-original-title="Numero">
+                        </div>
+                        <!-- Campo Marca -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                            <label>Título</label>
+                            <input name="Marca" class="form-control form-parametro-instrumento-marca" data-val="true" title="" type="text" value="ISO 14001 edição coordenador" data-original-title="Marca">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button class="btn btn-primary form-save" type="submit">Salvar</button>
+        </div>
+    </div>
+</div>
+@section Styles{
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/lobipanel.min.css" rel="stylesheet" />
+    <link href="~/Content/fileUpload.css" rel="stylesheet" />
+}
+@section scripts {
+    <script src="~/Scripts/jQuery.FileUpload/jquery.iframe-transport.js"></script>
+    <script src="~/Scripts/jQuery.FileUpload/jquery.fileupload.js"></script>
+}

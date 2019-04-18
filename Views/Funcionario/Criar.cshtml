@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Dominio.Entidade.SubModulo>
+
+
+@{
+    ViewBag.Title = "Criar";
+}
+
+<h2>@Traducao.Resource.Criar</h2>
+
+@foreach (var subModulo in Model)
+{
+    @subModulo.Descricao <br />
+}
+

@@ -1,0 +1,497 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@{
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+}
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7 ie6" lang="pt-BR"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8 ie7" lang="pt-BR"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9 ie8" lang="pt-BR"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9" lang="pt-BR"><![endif]-->
+<!--[if(gt IE 9)|!(IE)]><!-->
+<html class="no-js" lang="pt-br">
+<!--<![endif]-->
+<head>
+    <!-- Meta-Tags-->
+    @*<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta charset="utf-8" />*@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- Google Tags -->
+    <meta name="author" content="">
+    <meta name="description" content="">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="">
+
+    <!-- Outros -->
+    <meta http-equiv="expires" content="@(string.Format("{0:r}", DateTime.Now.AddHours(-1)))">
+    <meta http-equiv="cache-control" content="public" />
+    <meta http-equiv="Pragma" content="public">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Título -->
+    <title>@ViewBag.Title</title>
+
+    <!-- CSS -->
+    <!-- build:css -->
+    <link rel="stylesheet" href="../../content/assets/css/style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- endbuild -->
+    @RenderSection(name: "Styles", required: false)
+
+    <style>
+
+        #main {
+            margin: 40px 0 0 0;
+            padding: 15px 15px 40px;
+            float: right;
+            width: 100%;
+            max-height: @(HttpContext.Current.Request.Url.AbsoluteUri.ToLower().Contains("index") || HttpContext.Current.Request.Url.AbsoluteUri.ToLower().Contains("documentos") || HttpContext.Current.Request.Url.AbsoluteUri.ToLower().Contains("home") ? "485px;" : "461px;");;
+            overflow: auto;
+        }
+
+
+        body{
+            overflow:  hidden;
+        }
+
+        /*.navbar-fixed-bottom {
+            width: calc(100% - 280px);
+            margin: -20px 0 0 0;
+            position: fixed;
+            z-index: 1030;
+            left: 280px;
+        }*/
+
+        #sidebar-nav{
+            display: if;
+            z-index: 998
+        }
+
+    </style>
+
+    @RenderSection(name: "Metas", required: false)
+
+    @Styles.Render("~/Content/css/fileinput")
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+    <script type="text/javascript">
+        var jsIdioma = "@System.Threading.Thread.CurrentThread.CurrentCulture.Name";
+    </script>
+
+</head>
+
+<body>
+
+    @{
+        var imgSrcUsuario = "/Content/assets/imagens/avatar.jpg";
+        var imgSrcCliente = "/Content/assets/imagens/cliente-padrao.png";
+        var base64 = "";
+
+        if (ViewBag.UsuarioLogado.Arquivo != null)
+        {
+            var tipoImg = ViewBag.UsuarioLogado.TipoConteudo.ToString();
+            base64 = Convert.ToBase64String(ViewBag.UsuarioLogado.Arquivo);
+            imgSrcUsuario = string.Format("data:image/" + tipoImg + ";base64," + base64);
+        }
+
+        if (ViewBag.ClienteSelecionado != null)
+        {
+            if (ViewBag.ClienteSelecionado.TipoConteudo != null)
+            {
+                var tipoImgCliente = ViewBag.ClienteSelecionado.TipoConteudo.ToString();
+                base64 = Convert.ToBase64String(ViewBag.ClienteSelecionado.Arquivo);
+                imgSrcCliente = string.Format("data:image/" + tipoImgCliente + ";base64," + base64);
+            }
+        }
+
+    }
+
+    <!-- Loading -->
+    <div class="loading" style="display: none;">
+        <div class="animationload">
+            <div class="osahanloading"></div>
+        </div>
+    </div>
+
+
+    <div id="screen">
+        <div id="splash"></div>
+        <div id="dvAguarde">
+            <span>Aguarde...</span>
+        </div>
+    </div>
+    <!-- Modal Alert -->
+    @*@Html.Partial("_ModalAlert")*@
+    <div class="modal fade modal-pendencia" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="mdPendencia">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Notificações</h4>
+                </div>
+                <div class="modal-body" id="pnlPendencia">
+                    <div id="pnlNotificacoesUsuario" class="col-xs-12" style="height:350px;overflow:auto;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- HEADER -->
+    <header>
+        <!-- Wrapper -->
+        <div id="wrapper">
+            <!-- Navigation -->
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+                <!-- Empresa -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-top-links">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <img class="img-responsive logo-cliente" src="@(HttpContext.Current.Session["siteImg"] != null? (string)HttpContext.Current.Session["siteImg"]:imgSrcCliente)" alt="Equalit" />
+                    </a>
+
+                    <div class="slogan">@ViewBag.SiteFrase</div>
+                </div>
+                <!-- Nav User-->
+                <ul id="ulLayout" class="nav navbar-top-links navbar-right collapse">
+
+                    @if (ViewBag.QuantidadeSites > 1 && (ViewBag.IdPerfil == 3 || ViewBag.IdPerfil == 4))
+                    {
+                        <!-- Site -->
+                        <li class="dropdown">
+                            <a id="nav-user-site" class="dropdown-toggle" href="#" data-toggle="modal" data-target="#modal-panel-clientes-sites">
+                                <i class="fa fa-globe fa-2x" aria-hidden="true"></i>
+                                <span>Sites</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (ViewBag.IdPerfil == 1 || ViewBag.IdPerfil == 2)
+                    {
+                        <!-- Cliente -->
+                        <li class="dropdown">
+                            <a id="nav-user-clientes" class="dropdown-toggle" href="#">
+                                <i class="fa fa-sitemap fa-2x" aria-hidden="true"></i>
+                                <span>Clientes</span>
+                            </a>
+                        </li>
+                        <!-- Admin -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-cog fa-2x" aria-hidden="true"></i><span>Admin</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="@Url.Action("Index", "Cliente/Index")">Lista Clientes</a> </li>
+                                <li><a href="/Usuario/Index">Lista Usuarios</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else if (ViewBag.IdPerfil == 3)
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-cog fa-2x" aria-hidden="true"></i><span>Coordenador</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="@Url.Action("Index", "Site/Index")"> Lista Site</a></li>                                
+                            </ul>
+                        </li>
+
+                    }
+                    <!-- User -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img class="nav-settings__member-photo" src="@( HttpContext.Current.Session["usuarioImg"] != null? (string)HttpContext.Current.Session["usuarioImg"] :imgSrcUsuario)">
+                            <span>@Html.Raw(ViewBag.UsuarioLogado.Nome)</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li class="nav-settings__topcard nav-settings__no-hover">
+                                <h3 class="nav-settings__member-name"> @ViewBag.UsuarioLogado.Nome</h3>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("MeusDados", "Usuario")"> <i class="fa fa-pencil fa-fw"></i> Meus Dados</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AlterarSenha", "Usuario")"> <i class="fa fa-unlock fa-fw"></i> Alterar Senha</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Login")"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Contato -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#">
+                            <i class="fa fa-envelope fa-2x" aria-hidden="true"> </i>
+                            <span>Contato</span>
+                        </a>
+                    </li>
+                </ul>
+
+
+            </nav>
+        </div>
+    </header>
+
+    <!-- Clientes -->
+    @Html.Partial("MenuUser/_clientes")
+
+    <!-- Conteudo -->
+    <section>
+        <!-- Breadcrumb -->
+        <div class="row header-fixo">
+
+            @Html.Partial("_BreadCrumb")
+        </div>
+
+        <div id="sidebar-nav" class="sidebar" style="display: none; max-height: @(HttpContext.Current.Request.Url.AbsoluteUri.ToLower().Contains("index") || HttpContext.Current.Request.Url.AbsoluteUri.ToLower().Contains("documentos") || HttpContext.Current.Request.Url.AbsoluteUri.ToLower().Contains("home") ? "485px;": "461px;") overflow: auto" collapse="true">
+            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 95%;">
+                <div class="sidebar-scroll" style="overflow: hidden; width: auto; height: 95%;">
+                    <nav>
+                        <ul class="nav">
+
+                            <li>
+                                <a href="#" class="active" data-toggle="collapse" id="MenuDocumentosSistema" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuDocumentosSistema</span></a>
+                                <div id="Categoria" class="subPages class in" style="height: auto;">
+                                    <ul class="nav">
+                                        @foreach (var processo in ViewBag.Processos)
+                                        {
+                                            <li>
+                                                <div id="@(processo.Nome)" class="subPages collapse class">
+                                                    <ul class="nav">
+                                                        <li>
+                                                            <a href="#subPages@(processo.Nome)Categoria" id="hrefDocs" class="active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@processo.Nome</span> <i style="float: right" class="fa fa-bars"></i></a>
+                                                            <div id="subPages@(processo.Nome)Categoria" class="subPages2 class collapse" style="height: 0px;">
+                                                                <ul class="nav">
+                                                                    @{ var item = 0; }
+                                                                    @foreach (var categoria in ViewBag.Categorias)
+                                                                    {
+                                                                        <li class="liDocs" style="display: none;">
+                                                                            @Html.ActionLink((string)categoria.Descricao, "DocumentosAprovados", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, null)
+
+                                                                        </li>
+
+                                                                        @*if (item == (ViewBag.Categorias.Count - 1))
+                                        {
+                                            <li>
+                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) || ViewBag.IdPerfil != 4)
+                                                {
+                                                    @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, null)
+                                                }
+                                            </li>
+                                        }*@
+                                                                        item++;
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        }
+
+                                       
+
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li>
+                                <a href="#funcionalidades" class="active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i><span>@Traducao.Resource.MenuGestao</span> <i style="float: right" class="fa fa-bars"></i></a>
+                                <div id="funcionalidades" class="subPages class collapse" style="height: 0px;">
+                                    <ul class="nav">
+
+                                        @foreach (var funcionalidade in ViewBag.Funcionalidades)
+                                        {
+                                            <li><a href="@Url.Action("Index", funcionalidade.Url + "/index" )" class="">@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(funcionalidade.Tag)</a></li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </li>
+
+                            @{
+                                var PermiteVisualizarControleDocumentos = false;
+                            }
+
+                            @foreach (var permissao in listaPermissoes)
+                            {
+                                if (Enum.IsDefined(typeof(FuncoesControlDoc), permissao.IdFuncao))
+                                {
+                                    PermiteVisualizarControleDocumentos = true;
+                                    break;
+                                }
+                            }
+
+                            @if (ViewBag.IdPerfil != 4)
+                            {
+                                PermiteVisualizarControleDocumentos = true;
+                            }
+
+                            <li style="@( !PermiteVisualizarControleDocumentos ? "display:none" : "")">
+                                <a href="#ControleDocumentos" class="active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuControleDocumentos</span> <i style="float: right" class="fa fa-bars"></i></a>
+                                <div id="ControleDocumentos" class="subPages class collapse" style="height: 0px;">
+                                    <ul class="nav">
+
+                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Elaborar) || ViewBag.IdPerfil != 4)
+                                        {
+                                            <li><a href="@Url.Action("DocumentosElaboracao", "ControlDoc" )" class="">@Traducao.Resource.MenuControleDocumentosElaborar</a></li>
+                                        }
+                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Verificar) || ViewBag.IdPerfil != 4)
+                                        {
+                                            <li><a href="@Url.Action("DocumentosVerificacao", "ControlDoc")" class="">@Traducao.Resource.MenuControleDocumentosVerificar</a></li>
+                                        }
+                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Aprovar) || ViewBag.IdPerfil != 4)
+                                        {
+                                            <li><a href="@Url.Action("DocumentosAprovacao", "ControlDoc" )" class="">@Traducao.Resource.MenuControleDocumentosAprovar</a></li>
+                                        }
+                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Revisar) || ViewBag.IdPerfil != 4)
+                                        {
+                                            <li><a href="@Url.Action("DocumentosRevisao", "ControlDoc", null, null)" class="">@Traducao.Resource.MenuControleDocumentosRevisar</a></li>
+                                        }
+                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) || ViewBag.IdPerfil != 4)
+                                        {
+                                            <li>
+                                                @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", null, null)                                                
+                                            </li>
+                                        }
+                                        </ul>
+                                </div>
+                            </li>
+
+                            @*<li>
+                                <a href="#" class="active" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuAjuda</span></a>
+                                <div id="ajuda" class="subPages class in" style="height: auto;">
+                                    <ul class="nav">
+                                        <li>
+                                            <a href="#subPages2" class="active collapsed" data-toggle="collapse"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuManualDoUsuario</span> <i style="float: right" class="fa fa-bars"></i></a>
+                                            <div id="subPages2" class="subPages2 class collapse" style="height: 0px;">
+                                                <ul class="nav">
+                                                    <li><a href="@Url.Action("../Ajuda/ManualDoUsuarioEscrito/")" class="">@Traducao.Resource.MenuManualDoUsuarioEscrito</a></li>
+                                                    <li><a href="@Url.Action("../Ajuda/ManualDoUsuarioVideo/")" class="">@Traducao.Resource.MenuManualDoUsuarioVideo</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li>
+                                <a href="#treinamentos" class="active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i><span>@Traducao.Resource.MenuTreinamento</span> <i style="float: right" class="fa fa-bars"></i></a>
+                                <div id="treinamentos" class="subPages class collapse" style="height: 0px;">
+                                    <ul class="nav">
+                                        <li><a href="@Url.Action("../Treinamento/Gratuito/")" class="">@Traducao.Resource.MenuTreinamentoGratuito</a></li>
+                                        <li><a href="@Url.Action("../Treinamento/Pago/")" class="">@Traducao.Resource.MenuTreinamentoPago</a></li>
+                                    </ul>
+                                </div>
+                            </li>*@
+
+                        </ul>
+                    </nav>
+                </div><div class="slimScrollBar" style="background: rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 465.611px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+            </div>
+        </div>
+
+        @RenderBody()
+
+
+    </section>
+
+    <!--  Footer -->
+    <footer></footer>
+
+    <div class="printdiv" style="display:none"></div>
+
+    @Html.Partial("_OpcoesScripts")
+
+    <script>
+        /*
+        |--------------------------------------------------------------------------
+        | App
+        |--------------------------------------------------------------------------
+        */
+
+        var APP = {
+            core: {},
+            model: {},
+            component: {},
+            controller: {}
+        };
+    </script>
+
+    
+
+    <script src="@Url.Content("~/Content/assets/js/jquery.min.js")"></script>
+
+    <script src="@Url.Content("~/Content/assets/js/Core.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/Model.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/Component.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GeneralController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/NotificacaoController.js")"></script>
+
+
+
+
+    @RenderSection("scripts", required: false)
+
+    <script>
+
+        $("#main").css('width', '100%');
+
+        $("#btnEsconder").click(function () {
+
+            if ($("#sidebar-nav").attr("collapse") == "false") {
+                $("#sidebar-nav").attr("collapse", "true")
+                $("#main").css('width', '100%');
+                $("#sidebar-nav").hide();
+                $(".menu-one").attr("style", "top: -3px; position: absolute; width: 96.5%;");
+            }
+            else {
+                $("#sidebar-nav").attr("collapse", "false")
+                $("#main").css('width', 'calc(100% - 260px)');
+                $("#sidebar-nav").show();
+                $(".menu-one").attr("style", "top: -3px; position: absolute; width: 77.5%;");
+            }
+        });
+
+
+        $("#hrefDocs").click(function () {
+
+            var style = $($(".liDocs")[0]).attr("style");
+
+            if (style == "display: none;") {
+                $(".liDocs").show();
+            }
+            else {
+                $(".liDocs").hide();
+            }
+
+        });
+
+        if ("@HttpContext.Current.Request.Url.AbsoluteUri.ToLower().Contains("home/homeprocesso")" == "True") {
+            $("#btnEsconder").click();
+        }
+
+
+    </script>
+</body>
+</html>

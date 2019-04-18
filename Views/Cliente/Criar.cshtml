@@ -1,0 +1,665 @@
+﻿@using Dominio.Entidade
+@model Dominio.Entidade.Cliente
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/SiteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/UsuarioController.js")"></script>
+    
+}
+
+@{
+    ViewBag.Title = Model.NmFantasia == null ? "Criar" : "Editar";
+
+    var imgSrcPadrao = "/Content/assets/imagens/cliente-padrao.png";
+    var imgSrcCliente = imgSrcPadrao;
+    var imgNomeCliente = "";
+    var imgIdFotoCliente = "";
+    var base64 = "";
+
+    if (Model.ClienteLogo.Count > 0)
+    {
+        var tipoimg = Model.ClienteLogo.FirstOrDefault().Anexo.Extensao;
+        base64 = Convert.ToBase64String(Model.ClienteLogo.FirstOrDefault().Anexo.Arquivo);
+        imgNomeCliente = Model.ClienteLogo.FirstOrDefault().Anexo.Nome;
+        imgIdFotoCliente = Model.ClienteLogo.FirstOrDefault().Anexo.IdAnexo.ToString();
+        imgSrcCliente = String.Format("data:image/" + tipoimg + ";base64," + base64);
+    }
+
+    var base64Contrato = "";
+    var tipoFormadoContrato = "";
+    var listaContratos = new List<Anexo>();
+
+    if (Model.ContratosAux.Count > 0)
+    {
+        Model.ContratosAux.ToList().ForEach(contrato =>
+        {
+            listaContratos.Add(new Anexo
+            {
+                IdAnexo = contrato.IdAnexo,
+                Nome = contrato.Nome,
+                Extensao = contrato.Extensao,
+                ArquivoB64 = String.Format("data:application/" + contrato.Extensao + ";base64," + Convert.ToBase64String(contrato.Arquivo)),
+            });
+        });
+
+    }
+
+    var selectedTrocadeSenha0 = Model.NuDiasTrocaSenha == 0 ? "Selected" : null;
+    var selectedTrocadeSenha30 = Model.NuDiasTrocaSenha == 30 ? "Selected" : null;
+    var selectedTrocadeSenha60 = Model.NuDiasTrocaSenha == 60 ? "Selected" : null;
+    var selectedTrocadeSenha90 = Model.NuDiasTrocaSenha == 90 ? "Selected" : null;
+    var selectedTrocadeSenha120 = Model.NuDiasTrocaSenha == 120 ? "Selected" : null;
+
+    var selectedBloqueioAcesso0 = Model.NuTentativaBloqueioLogin == 0 ? "Selected" : null;
+    var selectedBloqueioAcesso3 = Model.NuTentativaBloqueioLogin == 3 ? "Selected" : null;
+    var selectedBloqueioAcesso4 = Model.NuTentativaBloqueioLogin == 4 ? "Selected" : null;
+    var selectedBloqueioAcesso5 = Model.NuTentativaBloqueioLogin == 5 ? "Selected" : null;
+
+    var selectedSenhaArmazenada0 = Model.NuArmazenaSenha == 0 ? "Selected" : null;
+    var selectedSenhaArmazenada3 = Model.NuArmazenaSenha == 3 ? "Selected" : null;
+    var selectedSenhaArmazenada4 = Model.NuArmazenaSenha == 4 ? "Selected" : null;
+    var selectedSenhaArmazenada5 = Model.NuArmazenaSenha == 5 ? "Selected" : null;
+    var selectedSenhaArmazenada6 = Model.NuArmazenaSenha == 6 ? "Selected" : null;
+
+
+}
+@section Metas {
+    <meta name="page" content="CriarCliente" />
+}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+</script>
+
+
+<div id="main">
+    <div class="content-painel">
+        <!-- Criar Cliente -->
+        <form id="form-cria-cliente">
+            <div class="panel panel-default" id="panel-form-cliente">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.Cliente.ResourceCliente.Cliente_lbl_titulo</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <input type="hidden" name="IdCliente" value="@Model.IdCliente" />
+                            <!-- Logo Cliente -->
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="formCriaClienteLogoNome" value="@imgNomeCliente">
+                                    <input type="hidden" name="formCriaClienteLogoIdAnexo" value="@imgIdFotoCliente">
+                                    <input type="hidden" name="formCriaClienteLogoDefault" value="@imgSrcCliente" />
+                                    <label for="form-cria-cliente-logo" class="control-label">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Logo</label>
+                                    <div class="upload-arq">
+                                        <a class="btn-upload-form-criar-cliente">
+                                            <img class="img-responsive" src="@imgSrcCliente"></img>
+                                        </a>
+                                        <input type="file" name="formCriaClienteLogo" id="form-cria-cliente-logo"
+                                               class=""
+                                               placeholder=""
+                                               accept="image/*"
+                                               data-msg-required="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_Logo"
+                                               data-msg-extension="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_Logo_extension"
+                                               data-b64="@base64">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="row">
+                                    <!-- Nome Cliente -->
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-cria-cliente-nome" class="control-label">Nome do Cliente</label>
+                                            <input type="text" name="formCriaClienteNome" id="form-cria-cliente-nome"
+                                                   class="form-control"
+                                                   placeholder="@Traducao.Cliente.ResourceCliente.Cliente_lbl_placeholder_Nome"
+                                                   data-msg-required="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_Nome"
+                                                   data-msg-maxlength="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_maxlength_Nome"
+                                                   value="@Model.NmFantasia">
+                                        </div>
+                                    </div>
+                                    <!-- URL de Acesso -->
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-cria-cliente-url" class="control-label">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Url</label>
+                                            <input type="text" name="formCriaClienteUrl" id="form-cria-cliente-url"
+                                                   class="form-control"
+                                                   placeholder="@Traducao.Cliente.ResourceCliente.Cliente_lbl_placeholder_Url"
+                                                   data-msg-required="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_Url"
+                                                   data-msg-maxlength="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_maxlength_Url"
+                                                   value="@Model.NmUrlAcesso">
+                                        </div>
+                                    </div>
+                                    <!-- Validade do Contrato -->
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-cria-cliente-dt-validade" class="control-label">@Traducao.Cliente.ResourceCliente.Cliente_lbl_DataValidade</label>
+                                            <div class='input-group' id=''>
+                                                <input type='text' name="formCriaClienteDtValidade" id="form-cria-cliente-dt-validade"
+                                                       class="form-control data datepicker"
+                                                       placeholder="@Traducao.Cliente.ResourceCliente.Cliente_lbl_placeholder_DataValidade"
+                                                       data-msg-required="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_DataValidade"
+                                                       value="@(Model.DtValidadeContrato.HasValue ? Model.DtValidadeContrato.Value.ToString(@Traducao.Resource.dateFormat) : null)" />
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>                                                  
+                                </div>
+                                <div class="row">
+                                    <!-- Troca de Senha -->
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-cria-cliente-troca-senha" class="control-label">@Traducao.Cliente.ResourceCliente.Cliente_lbl_TrocaSenha</label>
+                                            <select id="form-cria-cliente-troca-senha" name="formCriaClienteTrocaSenha" class="form-control"
+                                                    placeholder="@Traducao.Cliente.ResourceCliente.Cliente_lbl_placeholder_TrocaSenha"
+                                                    data-msg-required="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_TrocaSenha">
+                                                <option value="">@Traducao.Shared.ResourceLabel.Label_dropdown_name_select</option>
+                                                <option value="0" @selectedTrocadeSenha0>@Traducao.Cliente.ResourceCliente.Cliente_lbl_TrocaSenha_nao_trocar</option>
+                                                <option value="30" @selectedTrocadeSenha30>@Traducao.Cliente.ResourceCliente.Cliente_lbl_TrocaSenha_30_dias</option>
+                                                <option value="60" @selectedTrocadeSenha60>@Traducao.Cliente.ResourceCliente.Cliente_lbl_TrocaSenha_60_dias</option>
+                                                <option value="90" @selectedTrocadeSenha90>@Traducao.Cliente.ResourceCliente.Cliente_lbl_TrocaSenha_90_dias</option>
+                                                <option value="120" @selectedTrocadeSenha120>@Traducao.Cliente.ResourceCliente.Cliente_lbl_TrocaSenha_120_dias</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Bloquear -->
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-cria-cliente-bloquear" class="control-label">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Bloquear</label>
+                                            <select id="form-cria-cliente-bloquear" name="formCriaClienteBloquear" class="form-control"
+                                                    placeholder="@Traducao.Cliente.ResourceCliente.Cliente_lbl_placeholder_Bloquear"
+                                                    data-msg-required="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_Bloquear">
+                                                <option value="">@Traducao.Shared.ResourceLabel.Label_dropdown_name_select</option>
+                                                <option value="0" @selectedBloqueioAcesso0>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Bloquear_nao</option>
+                                                <option value="3" @selectedBloqueioAcesso3>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Bloquear_3</option>
+                                                <option value="4" @selectedBloqueioAcesso4>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Bloquear_4</option>
+                                                <option value="5" @selectedBloqueioAcesso5>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Bloquear_5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Armazenar -->
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-cria-cliente-armazenar" class="control-label">@Traducao.Cliente.ResourceCliente.Cliente_lbl_armazenar</label>
+                                            <select id="form-cria-cliente-armazenar" name="formCriaClienteArmazenar" class="form-control"
+                                                    placeholder="@Traducao.Cliente.ResourceCliente.Cliente_lbl_placeholder_Armazenar"
+                                                    data-msg-required="@Traducao.Cliente.ResourceCliente.Cliente_msg_required_Armazenar">
+                                                <option value="">@Traducao.Shared.ResourceLabel.Label_dropdown_name_select</option>
+                                                <option value="0" @selectedSenhaArmazenada0>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Armazenar_nao</option>
+                                                <option value="3" @selectedSenhaArmazenada3>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Armazenar_3</option>
+                                                <option value="4" @selectedSenhaArmazenada4>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Armazenar_4</option>
+                                                <option value="5" @selectedSenhaArmazenada5>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Armazenar_5</option>
+                                                <option value="6" @selectedSenhaArmazenada6>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Armazenar_6</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Contrato -->
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+
+                                            <label for="form-cria-cliente-contrato" class="control-label">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Contrato</label>
+                                            <div class="upload-arq form-control @(Model.IdCliente > 0 ? "box-upload-arq" : null)">
+                                                <a class="btn-upload-multiple-form-criar-cliente-contrato">
+                                                    <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                                </a>
+
+                                                <ul class="@(Model.IdCliente > 0 ? "dashed" : null)">
+                                                    @if (listaContratos.Count > 0)
+                                                    {
+                                                        foreach (var contrato in listaContratos)
+                                                        {
+                                                            <li>
+                                                                <a href="@contrato.ArquivoB64" target="_blank" download="@contrato.Nome">@contrato.Nome</a>
+                                                                <input type="hidden" name="formCriaClienteContratoNome" value="@contrato.Nome">
+                                                                <input type="hidden" name="formCriaClienteContratoIdAnexo" value="@contrato.IdAnexo">
+                                                                <input type="hidden" name="formCriaClienteContratoDefault" value="@imgSrcCliente" />
+                                                                <a href="#" class="btn-delete">
+                                                                    <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                                                                </a>
+                                                            </li>
+
+                                                        }
+                                                    }
+
+                                                </ul>
+                                                <input type="file" name="formCriaClienteContrato" id="form-cria-cliente-contrato"
+                                                       class=""
+                                                       data-msg-required=""
+                                                       data-b64=""
+                                                       multiple="multiple">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Acoes -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <!-- Escolha -->
+                                        <div class="form-group">
+                                            <label for="form-cria-usuario-escolha">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Acao</label>
+                                            <!-- Linha -->
+                                            <div class="row tabela-check">
+                                                <!-- Ativo -->
+                                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 checkbox">
+                                                    <input type="checkbox" name="formCriaClienteAtivo" id="form-cria-cliente-ativo"
+                                                           class="form-control"
+                                                           value="true"
+                                                           @(Model.IdCliente == 0 ? "checked disabled" : null)
+                                                           @(Model.FlAtivo != false ? "checked" : null)>
+
+                                                    <label for="form-cria-cliente-ativo">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Acao_ativo</label>
+                                                </div>
+                                                <!-- Captcha -->
+                                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 checkbox">
+                                                    <input type="checkbox" name="formCriaClienteCaptcha" id="form-cria-cliente-captcha"
+                                                           class="form-control"
+                                                           value="true"
+                                                           @(Model.IdCliente == 0 ? "checked" : null)
+                                                           @(Model.FlTemCaptcha != false ? "checked" : null)>
+                                                    <label for="form-cria-cliente-captcha">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Acao_captcha</label>
+                                                </div>
+                                                <!-- Senha -->
+                                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 checkbox">
+                                                    <input type="checkbox" name="formCriaClienteSenha" id="form-cria-cliente-senha"
+                                                           class="form-control"
+                                                           value="true"
+                                                           @(Model.IdCliente == 0 ? "checked" : null)
+                                                           @(Model.FlExigeSenhaForte != false ? "checked" : null)>
+                                                    <label for="form-cria-cliente-senha">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Acao_senha_forte</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        @if (ViewBag.PossuiSite == null || ViewBag.PossuiSite == 0)
+        {
+            <!-- Criar Site -->
+            <form id="form-cria-site">
+                <div class="panel panel-default" id="panel-form-site">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Site.ResourceSite.Site_lbl_titulo</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <!-- Logo Site -->
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    <div class="form-group">
+                                        <input type="hidden" name="formCriaSiteLogoDefault" value="@imgSrcPadrao">
+                                        <label for="form-cria-site-logo" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Logo</label>
+                                        <div class="upload-arq">
+                                            <a class="btn-upload-form-criar-site">
+                                                <img class="img-responsive" src="@imgSrcPadrao"></img>
+                                            </a>
+                                            <input type="file" name="formCriaSiteLogo" id="form-cria-site-logo" class=""
+                                                   placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Logo"
+                                                   accept="image/*"
+                                                   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Logo"
+                                                   data-msg-extension="@Traducao.Site.ResourceSite.Site_msg_required_Logo_extension"
+                                                   data-b64="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                        <div class="row">
+                                            <!-- Nome Fantasia -->
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-site-nome" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Nome</label>
+                                                    <input type="text" name="formCriaSiteNome" id="form-cria-site-nome" class="form-control"
+                                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Nome"
+                                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Nome"
+                                                           data-msg-maxlength="@Traducao.Site.ResourceSite.Site_msg_required_maxlength_Nome"
+                                                           value="" />
+                                                </div>
+                                            </div>
+                                            <!-- Razao Social -->
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-site-Razaosocial" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Razao_Social</label>
+                                                    <input type="text" name="formCriaSiteRazaoSocial" id="form-cria-site-Razaosocial" class="form-control"
+                                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Razao_Social"
+                                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Razao_Social"
+                                                           data-msg-maxlength="@Traducao.Site.ResourceSite.Site_msg_required_maxlength_Razao_Social"
+                                                           value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- CNPJ -->
+                                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-site-cnpj" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Cnpj</label>
+                                                    <input type='text' name="formCriaSiteCnpj" id="form-cria-site-cnpj" class="form-control input-cnpj"
+                                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Cnpj"
+                                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Cnpj"
+                                                           data-msg-cnpj="@Traducao.Site.ResourceSite.Site_msg_required_Cnpj_isvalid"
+                                                           value="" />
+                                                </div>
+                                            </div>
+                                            <!-- Frase -->
+                                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-site-frase" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Frase</label>
+                                                    <input type='text' name="formCriaSiteFrase" id="form-cria-site-frase" class="form-control"
+                                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Frase"
+                                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Frase"
+                                                           data-msg-maxlength="@Traducao.Site.ResourceSite.Site_msg_required_maxlength_Frase"
+                                                           value="" />
+                                                </div>
+                                            </div>
+                                            <!-- Observacoes -->
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-site-observacoes" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Observacoes</label>
+                                                    <input type='text' name="formCriaSiteObservacoes" id="form-cria-site-observacoes" class="form-control"
+                                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Observacoes"
+                                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes"
+                                                           data-msg-maxlength="@Traducao.Site.ResourceSite.Site_msg_required_maxlength_Observacoes"
+                                                           value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+            <!-- Modulos -->
+            <form id="form-modulos-acesso">
+                <div class="panel panel-default" id="panel-form-modulos">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Modulo.ResourceModulo.Modulo_lbl_titulo</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <!-- Modulos -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <!-- Modulos -->
+                                    <div class="form-group">
+                                        <label for="form-modulos-acesso-escolha">
+                                            @Traducao.Modulo.ResourceModulo.ResourceManager.GetString("Modulo_lbl_Modulo")
+                                            @*Teste*@
+                                        </label>
+                                        <div class="row tabela-check">
+
+                                            @foreach (var item in (List<Funcionalidade>)ViewBag.Funcionalidades)
+                                            {
+                                                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                    <input type="checkbox" name="formModulosAcessoEscolha" id="form-modulos-acesso-escolha-@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(item.Tag)" class="form-control" value="@item.IdFuncionalidade"
+                                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes">
+                                                    <label for="form-modulos-acesso-escolha-@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(item.Tag)">@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(item.Tag)</label>
+                                                </div>
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+
+            <!-- Processos -->
+            <form id="form-processos">
+                <div class="panel panel-default" id="panel-form-processos">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Processo.ResourceProcesso.Processo_lbl_titulo</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <!-- Tabela Processos -->
+                                <input type="hidden" name="msgProcessosNomeLabel" value="@Traducao.Processo.ResourceProcesso.Processo_lbl_Processo" />
+                                <input type="hidden" name="msgProcessosNomePlaceholder" value="@Traducao.Processo.ResourceProcesso.Processo_lbl_placeholder_Nome" />
+                                <input type="hidden" name="msgProcessosNomeRequired" value="@Traducao.Processo.ResourceProcesso.Processo_msg_required_Nome" />
+                                <input type="hidden" name="msgProcessosNomeRequiredMaxlength" value="@Traducao.Processo.ResourceProcesso.Processo_msg_required_maxlength_Nome" />
+                                <input type="hidden" name="msgProcessosAtivo" value="@Traducao.Processo.ResourceProcesso.Processo_lbl_Ativo" />
+                                <input type="hidden" name="msgIconeExcluir" value="@Traducao.Cargo.ResourceCargo.Cargo_msg_icone_excluir" />
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <!-- Table Processos -->
+                                    <table id="tb-processos" class="display dataTable no-footer dtr-inline table-bordered table" style="">
+                                        <thead class="titulo-tabela">
+                                            <tr class="bg" role="row">
+                                                <th class="w80">@Traducao.Processo.ResourceProcesso.Processo_lbl_Processo</th>
+                                                <th class="w10">@Traducao.Shared.ResourceLabel.Label_perfil_Status</th>
+                                                <th class="w10">@Traducao.Shared.ResourceLabel.Label_perfil_Acao</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @*@if (Model.Site.Processos.Count > 0)
+                                                {
+                                                    foreach (var proocesso in Model.Site.Processos)
+                                                    {
+                                                        <tr role="row" class="">
+                                                            <td>
+                                                                <!-- Processo -->
+                                                                <div class="form-group">
+                                                                    <input type="text" name="formProcessosNome" id="form-processos-nome" class="form-control"
+                                                                           placeholder="@Traducao.Processo.ResourceProcesso.Processo_lbl_placeholder_Nome"
+                                                                           data-msg-required="@Traducao.Processo.ResourceProcesso.Processo_msg_required_Nome"
+                                                                           data-msg-maxlength="@Traducao.Processo.ResourceProcesso.Processo_msg_required_maxlength_Nome"
+                                                                           value="@(proocesso.Nome)">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <!-- Ativo -->
+                                                                <div class="form-group checkbox">
+                                                                    <input type="checkbox" name="formProcessosAtivo" id="form-processos-ativo"
+                                                                           class="form-control"
+                                                                           checked="@(proocesso.FlAtivo == true?"checked":null)">
+                                                                    <label for="form-processos-ativo">@Traducao.Processo.ResourceProcesso.Processo_lbl_Ativo</label>
+                                                                </div>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {*@
+                                            <tr role="row" class="">
+                                                <td>
+                                                    <!-- Processo -->
+                                                    <div class="form-group">
+                                                        <input type="text" name="formProcessosNome" id="form-processos-nome" class="form-control"
+                                                               placeholder="@Traducao.Processo.ResourceProcesso.Processo_lbl_placeholder_Nome"
+                                                               data-msg-required="@Traducao.Processo.ResourceProcesso.Processo_msg_required_Nome"
+                                                               data-msg-maxlength="@Traducao.Processo.ResourceProcesso.Processo_msg_required_maxlength_Nome"
+                                                               value="@Traducao.Processo.ResourceProcesso.Processo_lbl_Processo_value">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <!-- Ativo -->
+                                                    <div class="form-group checkbox">
+                                                        <input type="checkbox" name="formProcessosAtivo" id="form-processos-ativo" class="form-control" value="true" checked disabled>
+                                                        <label for="form-processos-ativo">@Traducao.Processo.ResourceProcesso.Processo_lbl_Ativo</label>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            @*}*@
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-add-processo pull-right">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        }
+
+        @if (Model.IdCliente == 0)
+        {
+            <!-- Dados Usuario -->
+            <form id="form-cria-usuario">
+                <div class="panel panel-default" id="panel-form-usuario">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Usuario.ResourceUsuario.Usuario_lbl_titulo</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <!-- Imagem -->
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    <div class="form-group">
+                                        <input type="hidden" name="formCriaUsuarioLogoDefault" value="/Content/assets/Imagens/avatar.jpg">
+                                        <label for="form-cria-usuario-logo" class="control-label">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Foto</label>
+                                        <div class="upload-arq">
+                                            <a class="btn-upload-form-criar-usuario">
+                                                <img class="img-responsive" src="/Content/assets/Imagens/avatar.jpg"></img>
+                                            </a>
+                                            <input type="file" name="formCriaUsuarioLogo" id="form-cria-usuario-logo" class=""
+                                                   placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Foto"
+                                                   accept="image/*"
+                                                   data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Foto"
+                                                   data-msg-extension="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Foto_extension"
+                                                   data-b64="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                        <div class="row">
+                                            <!-- Responsavel -->
+                                            <div class="col-lg-9 col-md-9 col-sm-7 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-usuario-responsavel">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Responsavel</label>
+                                                    <input type="text" name="formCriaUsuarioResponsavel" id="form-cria-usuario-responsavel" class="form-control"
+                                                           placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Responsavel"
+                                                           data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Responsavel"
+                                                           data-msg-maxlength="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Responsavel_maxlength"
+                                                           value="">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <!-- Email -->
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-usuario-email">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Email</label>
+                                                    <input type="email" name="formCriaUsuarioEmail" id="form-cria-usuario-email" class="form-control"
+                                                           placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Email"
+                                                           data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Email"
+                                                           data-msg-email="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_email_error_format"
+                                                           data-msg-maxlength="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Email_maxlength">
+                                                </div>
+                                            </div>
+                                            <!-- CPF -->
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-usuario-cpf">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_CPF</label>
+                                                    <input type="text" name="formCriaUsuarioCpf" id="form-cria-usuario-cpf" class="form-control input-cpf"
+                                                           placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_CPF"
+                                                           data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF"
+                                                           data-msg-cpf="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF_isvalid">
+
+                                                </div>
+                                            </div>
+                                            <!-- Data Expiracao -->
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-cria-usuario-dt-expiracao">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_DataExpiracao</label>
+                                                    <br />
+                                                    <div class='input-group' id=''>
+                                                        <input type='text' name="formCriaUsuarioDtExpiracao" id="form-cria-usuario-dt-expiracao" class="form-control data datepicker"
+                                                               placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_DataExpiracao"
+                                                               data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_DataExpiracao"
+                                                               value="" />
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <!-- Acoes -->
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <!-- Escolha -->
+                                                <div class="form-group">
+                                                    <label for="form-cria-usuario-escolha">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes</label>
+                                                    <!-- Linha -->
+                                                    <div class="row tabela-check">
+                                                        <!-- E-mail -->
+                                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                            <input type="checkbox" name="formCriaUsuarioEscolhaEmail" id="form-cria-usuario-escolha-email" class="form-control" value="True" checked>
+                                                            <label for="form-cria-usuario-escolha-email">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_recebe_email</label>
+                                                        </div>
+                                                        <!-- Compartilhado -->
+                                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                            <input type="checkbox" name="formCriaUsuarioEscolhaCompartilhado" id="form-cria-usuario-escolha-compartilhado" class="form-control" value="True">
+                                                            <label for="form-cria-usuario-escolha-compartilhado">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_compartilhado</label>
+                                                        </div>
+                                                        <!-- Ativo -->
+                                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                            <input type="checkbox" name="formCriaUsuarioEscolhaAtivo" id="form-cria-usuario-escolha-ativo" class="form-control" value="True" checked disabled>
+                                                            <label for="form-cria-usuario-escolha-ativo">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_ativo</label>
+                                                        </div>
+                                                        <!-- Bloqueado -->
+                                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                            <input type="checkbox" name="formCriaUsuarioEscolhaBloqueado" id="form-cria-usuario-escolha-bloqueado" class="form-control" value="True">
+                                                            <label for="form-cria-usuario-escolha-bloqueado">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_bloqueado</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        }
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom ">
+    <div class="row pull-right">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="submit" id="btnSalvar" class="btn btn-primary btn-salvar">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Cliente/Index")</button>
+        </div>
+    </div>
+</div>

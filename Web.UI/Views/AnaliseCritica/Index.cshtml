@@ -1,0 +1,113 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model IEnumerable<Dominio.Entidade.AnaliseCritica>
+@{
+    ViewBag.Title = "Análise Crítica";
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+}
+@section Metas {
+    <meta name="page" content="IndexAnaliseCritica" />
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/AnaliseCriticaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+
+}
+@Html.AntiForgeryToken()
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Analise Critica-->
+        <form id="form-acaocorretiva">
+            <div class="panel panel-default" id="panel-analisecritica">
+                <div class="panel-body" id="panel-form-analisecritica">
+                    <div class="row">
+                        <input type="hidden" name="msgIconeDeleteNC" value="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_icone_delete" />
+                        <div class="barra-busca">
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAnaliseCritica.RegistroDaAta) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo">
+                                    @Html.ActionLink(Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_nova_analise_critica, "Criar", "AnaliseCritica")
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
+                            <div class="col-lg-12">
+                                <table id="tb-index-analise-critica" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
+                                    <thead>
+                                        <tr id="hr1" class="bg" role="row">
+                                            <th class="w50 with-input">
+                                                <input type="number" class="form-control" placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Ata" />
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_DtCriacao" />
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Proxima_analise" />
+                                            </th>
+                                            <th class="w10 with-input">
+
+                                            </th>
+                                        </tr>
+                                        <tr class="bg" role="row">
+                                            <th>
+                                                @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Ata
+                                            </th>
+                                            <th>
+                                                @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_DtCriacao
+                                            </th>
+                                            <th>
+                                                @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Proxima_analise
+                                            </th>
+                                            <th>
+                                                @Traducao.Resource.Acoes
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td>
+                                                    @item.Ata
+                                                </td>
+                                                <td>
+                                                    @item.DataCriacao.ToString(@Traducao.Resource.dateFormat)
+                                                </td>
+                                                <td>
+                                                    @item.DataProximaAnalise.ToString(@Traducao.Resource.dateFormat)
+                                                </td>
+                                                <td>
+                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAnaliseCritica.Editar) || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="@Url.Action("Editar", "AnaliseCritica", new { id = item.IdAnaliseCritica })" class="icon-cliente editar-analiseCritica editar-color" data-id-analiseCritica="@item.IdAnaliseCritica">
+                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                        </a>
+                                                    }
+                                                    <a id="btn-imprimir" idAnaliseCritica="@item.IdAnaliseCritica" class="icon-cliente view-color btn-imprimir" style="cursor: pointer">
+                                                        <i class="fa fa-print" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_imprimir"></i>
+                                                    </a>
+                                                    <a href="@Url.Action("Visualizar", "AnaliseCritica", new { id = item.IdAnaliseCritica })" class="icon-cliente editar-analiseCritica editar-color" data-id-analiseCritica="@item.IdAnaliseCritica">
+                                                    <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
+                                                    </a>
+                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAnaliseCritica.Excluir) || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="#" class="icon-cliente deletar-analiseCritica trash-color" data-id-analiseCritica="@item.IdAnaliseCritica">
+                                                            <i class="fa fa-trash excluir-analise-critica" idAnaliseCritica="@item.IdAnaliseCritica" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

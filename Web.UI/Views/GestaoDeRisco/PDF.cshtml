@@ -1,0 +1,422 @@
+﻿@using ApplicationService.Enum
+@using ApplicationService.Entidade
+@using Dominio.Entidade
+@model Dominio.Entidade.RegistroConformidade
+@{
+    ViewBag.Title = "Gestão de Risco";
+
+    Layout = null;
+
+    var funcoes = new List<int>
+{
+(int)FuncoesGestaoDeRisco.Registro,
+(int)FuncoesGestaoDeRisco.DefinirAcao,
+(int)FuncoesGestaoDeRisco.ImplementarAcao,
+(int)FuncoesGestaoDeRisco.Reverificacao,
+(int)FuncoesGestaoDeRisco.VerificacaoDaEficacia,
+(int)FuncoesGestaoDeRisco.AnularAMDestravar,
+(int)FuncoesGestaoDeRisco.AnularAMEditar,
+(int)FuncoesGestaoDeRisco.CriaNovaGR,
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+    var listaEvidencias = new List<Anexo>();
+
+    if (Model.ArquivosDeEvidenciaAux.Count > 0)
+    {
+        Model.ArquivosDeEvidenciaAux.ToList().ForEach(evidencia =>
+        {
+            listaEvidencias.Add(new Anexo
+            {
+                IdAnexo = evidencia.IdAnexo,
+                Nome = evidencia.Nome,
+                Extensao = evidencia.Extensao,
+                ArquivoB64 = String.Format("data:application/" + evidencia.Extensao + ";base64," + Convert.ToBase64String(evidencia.Arquivo)),
+            });
+        });
+
+    }
+
+    var eAdminOuCordenador = (ViewBag.IdPerfil != 4) ? true : false;
+    var eResponsavel = Model.IdEmissor != ViewBag.IdUsuarioLogado ? false : true;
+    var eDestravado = Model.FlDesbloqueado == 0 ? false : true;
+    var eDisabled = (eDestravado && (eResponsavel || eAdminOuCordenador)) ? null : "disabled";
+    var eResponsavellInicarAcaoImediata = Model.IdResponsavelInicarAcaoImediata != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario) ? false : true;
+    var eResponsavelPorAcaoImediata = Model.AcoesImediatas.Any(x => x.IdResponsavelImplementar != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario)) ? false : true;
+
+    var eDisabledIdResponsavelIniciarAcaoImediata = (eDestravado && (eResponsavellInicarAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+    var eDisabledEditarAcaoImediata = (eDestravado && (eResponsavelPorAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+
+    var temAcaoCorretiva = ViewBag.AcaoCorretiva != null ? ViewBag.AcaoCorretiva : null;
+    var disabled = temAcaoCorretiva != null ? "disabled" : null;
+
+    var nuRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.NuRegistro : null;
+    var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
+    var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
+    var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
+}
+
+<html>
+<head>
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/bootstrap")
+
+</head>
+<body style="background:white !important">
+    <div class="container">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+        <style>
+            .ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+                /*overflow: auto;*/
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+        <div id="main">
+            <div class="content-painel">
+                <!-- hidden -->
+                <input type="hidden" name="StatusEtapa" id="StatusEtapa" value="@ViewBag.StatusEtapa" />
+                <input type="hidden" name="labelDesejaCriarNcDtEmissaoAnteriorAUltima" value="@Traducao.Resource.NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" />
+                <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
+                <input type="hidden" name="IdSite" id="nao-conformidade-site" value="@ViewBag.IdSite" />
+                <input type="hidden" name="TipoRegistro" value="nc" />
+                <input type="hidden" name="IdGestaoDeRisco" id="IdGestaoDeRisco" class="IdGestaoDeRisco" value="ViewBag.IdGestaoDeRisco" />
+                <input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
+                <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
+                <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
+                <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+
+                <!-- Formulario Gestão de Risco -->
+                <form id="form-criar-gestaoderisco">
+                    <div class="panel panel-default" id="panel-gestaoderisco">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h2>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_titulo_identificacao</h2>
+                            </div>
+                        </div>
+                        <div class="panel-body" id="panel-form-gestaoderisco">
+                            <div class="barra-busca">
+
+                                <div class="row">
+                                    <!-- Descricao Registro -->
+                                    <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DsRegistro</label>
+                                            <br />
+                                            @Model.DescricaoRegistro
+                                        </div>
+                                    </div>
+                                    <!-- Arquivo de Evidencia -->
+                                    <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-cria-cliente-contrato" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Arquivo_evidencia</label>
+                                            <br />
+                                            @foreach (var evidencia in listaEvidencias)
+                                            {
+                                                @evidencia.Nome
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <!-- Data de Emissao -->
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao</label>
+                                                <br />
+                                                @Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)
+                                            </div>
+                                        </div>
+                                        <!-- Processo -->
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Processo</label>
+                                                <br />
+                                                @(Model.Processo != null ? @Model.Processo.Nome : "")
+
+                                            </div>
+                                        </div>
+                                        <!-- Emissor -->
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Emissor</label>
+                                                <br />
+                                                @if (ViewBag.IdPerfil != 4)
+                                                {
+
+                                                    @Model.Emissor.NmCompleto
+                                                }
+                                                else
+                                                {
+                                                    @ViewBag.NomeUsuario
+
+                                                }
+                                            </div>
+
+
+
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-2 col-sm-12 col-xs-12 ">
+                                            <!-- Criticidade -->
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-criticidade" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Criticidade</label>
+                                                    <input type="hidden" name="formGestaoDeRiscoCriticidadeCor" value="@Model.CriticidadeGestaoDeRisco" />
+                                                    @if (Model.CriticidadeGestaoDeRisco > 0 && Model.CriticidadeGestaoDeRisco < 6)
+                                                    {
+                                                        @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve
+                                                    }
+                                                    else if (Model.CriticidadeGestaoDeRisco >= 6 && Model.CriticidadeGestaoDeRisco < 11)
+                                                    {
+                                                        @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio
+                                                    }
+                                                    else
+                                                    {
+                                                        @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto
+                                                    }
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div>
+
+
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!-- Tags -->
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                        <div class="form-group">
+                                            <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Tags</label>
+                                            <br />
+                                            @Model.Tags
+                                        </div>
+                                    </div>
+                                    <!-- E Procedente -->
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+
+
+
+                                        <div class="form-group">
+                                            <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
+                                            <br />
+                                            @(Model.EProcedente == true ? Traducao.Shared.ResourceLabel.Label_radio_Sim : Traducao.Shared.ResourceLabel.Label_radio_Nao)
+                                            
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Numero Registro -->
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label id="lblformCriarNaoConformidadeNmRegistro" for="form-criar-nao-conformidade-nm-registro" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_NmRegistro</label>
+                                            <br />
+                                            @if (ViewBag.NumeroRisco == null)
+                                            {
+                                                @Model.NuRegistro
+                                            }
+                                            else
+                                            {
+                                                @ViewBag.NumeroRisco
+                                            }
+                                            
+                                        </div>
+                                    </div>
+
+                                    <!-- Responsavel -->
+                                    <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12" id="painel-acao-corretiva-sim" style="display: none; width:500px">
+                                        <div class="form-group">
+                                            <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Responsavel_definir_AC</label>
+                                            <br />
+                                            @Model.ResponsavelInicarAcaoImediata.NmCompleto
+                                        </div>
+                                    </div>
+
+                                    <!-- Justificativa -->
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="painel-acao-corretiva-nao">
+                                        <div class="form-group">
+
+                                            @if (Model.EProcedente == true)
+                                            {
+
+                                                <label for="form-criar-nao-conformidade-causa" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Causa</label>
+                                                <br />
+                                                @Model.Causa
+                                            }
+                                            else
+                                            {
+                                                <label for="form-criar-nao-conformidade-ds-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Justificativa</label>
+                                                <br />
+                                                @Model.DsJustificativa
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                </form>
+
+                <!-- Formulario Acao Imediata -->
+                <form id="form-acaoimediata">
+                    <div class="panel panel-default" id="panel-acaoimediata">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h2>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Acao_imediata</h2>
+                            </div>
+                        </div>
+                        <div class="panel-body" id="panel-form-acaoimediata">
+                            <div class="barra-busca">
+                                <div class="row">
+                                    <!-- Data Descricao Acao -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-acaoimediata-dt-descricao-acao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtDescricaoAcao</label>
+                                            <br />
+                                            @(Model.DtDescricaoAcao.HasValue ? Model.DtDescricaoAcao.Value.ToString(@Traducao.Resource.dateFormat) : "")
+                                        </div>
+                                    </div>
+                                    <!-- Painel Acao Imediata -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                        <table id="tb-acao-imediata" class="display dataTable no-footer dtr-inline table-bordered table" style="">
+                                            <thead class="titulo-tabela">
+                                                <tr class="bg" role="row">
+                                                    <th class="w20">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Acao_Descricao</th>
+                                                    <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Prazo_implementacao</th>
+                                                    <th class="w10">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Responsavel_implementar</th>
+                                                    <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Efetiva_implementacao</th>
+                                                    <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Arquivo_evidencia</th>
+                                                    <th class="w5"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{var Count = 0;}
+                                                @foreach (var acaoImediata in Model.AcoesImediatas)
+                                                {
+                                                    Count++;
+                                                    <tr role="row" class="odd">
+                                                        <!-- Descricao -->
+                                                        <td>
+                                                            @acaoImediata.IdAcaoImediata
+                                                        </td>
+                                                        <!-- Prazo Implementacao -->
+                                                        <td>
+                                                            @acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)
+                                                        </td>
+                                                        <!-- Responsavel Implementar -->
+                                                        <td>
+                                                            @acaoImediata.ResponsavelImplementar.NmCompleto
+                                                        </td>
+                                                        <!-- Data Efetiva Implementacao -->
+                                                        <td>
+                                                            @(acaoImediata.DtEfetivaImplementacao != null ? acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat) : null)
+                                                        </td>
+                                                        <!-- Arquivo de Evidencia -->
+                                                        <td>
+                                                            @{
+                                                                var base64 = "";
+                                                                var dataB64 = "";
+                                                                var nomeAnexo = "";
+                                                                var extensao = "";
+                                                                var idAnexo = 0;
+                                                                if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                {
+                                                                    idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                                    extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                                    nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
+                                                                    base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                    dataB64 = base64;
+                                                                    base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+
+                                                                }
+                                                            }
+
+                                                            @nomeAnexo
+
+                                                        </td>
+                                                        <!-- Acoes -->
+                                                        <td>
+                                                            @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
+                                                            {
+                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                            </button>
+
+                                                            }
+                                                            else
+                                                            {
+                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color">
+                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                            </button>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                       
+                                    </div>
+                                    <!-- Responsavel Reverificacao -->
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Responsavel_reverificacao</label>
+                                            <br />
+                                            @Model.ResponsavelReverificador.NmCompleto
+                                        </div>
+                                    </div>
+                                    <!-- Foi Eficaz -->
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Foi_eficaz</label>
+                                            <br />
+                                            @((Model.FlEficaz.HasValue) && Model.FlEficaz == true ? Traducao.Shared.ResourceLabel.Label_radio_Sim : Traducao.Shared.ResourceLabel.Label_radio_Nao)
+                                           
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+     
+    </body>
+</html>

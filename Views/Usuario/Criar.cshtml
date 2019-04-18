@@ -1,0 +1,378 @@
+﻿@model Dominio.Entidade.Usuario
+@{
+    ViewBag.Title = Model.IdUsuario == 0 ? "Criar" : "Editar";
+    var imgSrcPadrao = "/Content/assets/imagens/avatar.jpg";
+    var imgSrcUsuario = imgSrcPadrao;
+    var imgNome = "";
+    var base64 = "";
+    var idFotoPerFil = 0;
+    var idSite = 0;
+    var nomeSite = "";
+
+    if (Model.FotoPerfil.Count > 0)
+    {
+        idFotoPerFil = Model.FotoPerfil.FirstOrDefault().Anexo.IdAnexo;
+        var tipoimg = Model.FotoPerfil.FirstOrDefault().Anexo.Extensao;
+        imgNome = Model.FotoPerfil.FirstOrDefault().Anexo.Nome;
+        base64 = Convert.ToBase64String(Model.FotoPerfil.FirstOrDefault().Anexo.Arquivo);
+        imgSrcUsuario = String.Format("data:image/" + tipoimg + ";base64," + base64);
+    }
+}
+@section Metas {
+    <meta name="page" content="CriarUsuario" />
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/UsuarioController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/LoginController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/SiteController.js")"></script>
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+</script>
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Criar Usuario -->
+        <form id="form-cria-usuario">
+            <input type="hidden" name="IdUsuario" value="@Model.IdUsuario" />
+            <input type="hidden" name="idCliente" value="@ViewBag.IdCliente">
+            <input type="hidden" name="IdPerfilLogado" value="@ViewBag.IdPerfil">
+            <input type="hidden" id="IdSite" value="@ViewBag.IdSite" />
+            <div class="panel panel-default" id="panel-form-@(Model.IdUsuario == 0?"cadastro":"editar")">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Cadastro_titulo</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="barra-busca">
+                        <!-- Imagem -->
+                        <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
+                            <div class="form-group">
+                                <input type="hidden" name="formCriaUsuarioLogoNome" value="@imgNome">
+                                <input type="hidden" name="formCriaUsuarioLogoIdAnexo" value="@idFotoPerFil">
+                                <input type="hidden" name="formCriaUsuarioLogoDefault" value="@imgSrcUsuario">
+                                <label for="form-cria-usuario-logo" class="control-label">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Foto</label>
+                                <div class="upload-arq">
+                                    <a class="btn-upload-form-criar-usuario">
+                                        <img class="img-responsive" src="@imgSrcUsuario"></img>
+                                    </a>
+                                    <input type="file" name="formCriaUsuarioLogo" id="form-cria-usuario-logo" class=""
+                                           placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Foto"
+                                           accept="image/*"
+                                           data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Foto"
+                                           data-msg-extension="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Foto_extension"
+                                           data-b64="@base64"
+                                           multiple="multiple">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Responsavel -->
+                        <div class="col-lg-8 col-md-5 col-sm-9 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-cria-usuario-responsavel">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Responsavel</label>
+                                <input type="text" name="formCriaUsuarioResponsavel" id="form-cria-usuario-responsavel" class="form-control"
+                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Responsavel"
+                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Responsavel"
+                                       data-msg-maxlength="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Responsavel_maxlength"
+                                       value="@Model.NmCompleto">
+                            </div>
+                        </div>
+                        <!-- Sexo -->
+                        <!-- Email -->
+                        <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-cria-usuario-email">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Email</label>
+                                <input type="email" name="formCriaUsuarioEmail" id="form-cria-usuario-email" class="form-control"
+                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Email"
+                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Email"
+                                       data-msg-email="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_email_error_format"
+                                       data-msg-maxlength="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Email_maxlength"
+                                       value="@Model.CdIdentificacao">
+                            </div>
+                        </div>
+                        <!-- CPF -->
+                        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-cria-usuario-cpf">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_CPF</label>
+                                <input type="text" name="formCriaUsuarioCpf" id="form-cria-usuario-cpf" class="form-control input-cpf"
+                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_CPF"
+                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF"
+                                       data-msg-cpf="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF_isvalid"
+                                       value="@Model.NuCPF">
+                            </div>
+                        </div>
+                        <!-- Perfil -->
+                        <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-criar-usuario-perfil" class="control-label">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Perfil</label>
+                                <select id="form-criar-usuario-perfil" name="formCriaUsuarioPerfil" class="form-control"
+                                        data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Perfil" @(Model.IdPerfil == 1 ? "disabled" : null)>
+                                    <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                    @if (Model.IdUsuario > 0)
+                                    {
+                                        if (Model.IdPerfil == 1)
+                                        {
+                                            <option value="1" @(Model.IdPerfil == 1 ? "selected" : null)>@Traducao.Shared.ResourceLabel.Label_perfil_Administrador</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="2" @(Model.IdPerfil == 2 ? "selected" : null)>@Traducao.Shared.ResourceLabel.Label_perfil_Suporte</option>
+                                            <option value="3" @(Model.IdPerfil == 3 ? "selected" : null)>@Traducao.Shared.ResourceLabel.Label_perfil_Coordenador</option>
+                                            <option value="4" @(Model.IdPerfil == 4 ? "selected" : null)>@Traducao.Shared.ResourceLabel.Label_perfil_Colaborador</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ViewBag.IdPerfil == 1 && ViewBag.IdCliente == 0)
+                                        {
+                                            <option value="2">@Traducao.Shared.ResourceLabel.Label_perfil_Suporte</option>
+
+                                        }
+                                        else if (ViewBag.IdPerfil == 1 && ViewBag.IdCliente != 0)
+                                        {
+                                            <option value="2">@Traducao.Shared.ResourceLabel.Label_perfil_Suporte</option>
+                                            <option value="3">@Traducao.Shared.ResourceLabel.Label_perfil_Coordenador</option>
+                                            <option value="4">@Traducao.Shared.ResourceLabel.Label_perfil_Colaborador</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="3">@Traducao.Shared.ResourceLabel.Label_perfil_Coordenador</option>
+                                            <option value="4">@Traducao.Shared.ResourceLabel.Label_perfil_Colaborador</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Data Expiracao -->
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-cria-usuario-dt-expiracao">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_DataExpiracao</label>
+                                <div class='input-group' id=''>
+                                    <input type='text' name="formCriaUsuarioDtExpiracao" id="form-cria-usuario-dt-expiracao" class="form-control data datepicker largura-calendario"
+                                           placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_DataExpiracao"
+                                           data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_DataExpiracao"
+                                           value="@(Model.DtExpiracao.HasValue?Model.DtExpiracao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Acoes -->
+                        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                            <!-- Escolha -->
+                            <div class="form-group">
+                                <label for="form-cria-usuario-escolha">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes</label>
+                                <!-- Linha -->
+                                <div class="row tabela-check">
+                                    <!-- E-mail -->
+                                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                        @if (Model.IdUsuario == 0)
+                                        {
+                                            <input type="checkbox" name="formCriaUsuarioEscolhaEmail" id="form-cria-usuario-escolha-email" class="form-control" value="true" checked />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" name="formCriaUsuarioEscolhaEmail" id="form-cria-usuario-escolha-email" class="form-control" value="true" @(Model.FlRecebeEmail == true ? "checked" : null)>
+                                        }
+                                        <label for="form-cria-usuario-escolha-email">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_recebe_email</label>
+                                    </div>
+                                    <!-- Compartilhado -->
+                                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                        <input type="checkbox" name="formCriaUsuarioEscolhaCompartilhado" id="form-cria-usuario-escolha-compartilhado" class="form-control" value="true" @(Model.FlCompartilhado == false ? "" : "checked")>
+                                        <label for="form-cria-usuario-escolha-compartilhado">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_compartilhado</label>
+                                    </div>
+                                    <!-- Ativo -->
+                                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                        @if (Model.IdUsuario == 0)
+                                        {
+                                            <input type="checkbox" name="formCriaUsuarioEscolhaAtivo" id="form-cria-usuario-escolha-ativo" class="form-control" value="true" checked disabled>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" name="formCriaUsuarioEscolhaAtivo" id="form-cria-usuario-escolha-ativo" class="form-control" value="true" @(Model.FlAtivo == true ? "checked" : null)>
+                                        }
+                                        <label for="form-cria-usuario-escolha-ativo">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_ativo</label>
+                                    </div>
+                                    <!-- Bloqueado -->
+                                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                        <input type="checkbox" name="formCriaUsuarioEscolhaBloqueado" id="form-cria-usuario-escolha-bloqueado" class="form-control" value="true" @(Model.FlBloqueado == false ? "" : "checked")>
+                                        <label for="form-cria-usuario-escolha-bloqueado">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_bloqueado</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        @if (ViewBag.IdPerfil == 1)
+        {
+            <!-- Formulario Cliente -->
+            <form id="form-cliente-clientes">
+                <div class="panel panel-default" id="panel-form-clientes">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Cliente</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-sites-clientes-escolha">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Escolha_cliente</label>
+                                    <div class="row tabela-check">
+                                        <!-- Cliente -->
+                                        @foreach (var usuarioClienteSites in Model.UsuarioClienteSites)
+                                        {
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="hidden" name="idSiteBox" value="@usuarioClienteSites.IdSite">
+                                                <input type="hidden" name="nameSiteBox" value="@usuarioClienteSites.Site.NmFantasia">
+                                                <input type="checkbox" name="formClienteClientesEscolha" id="form-cliente-clientes-escolha-@usuarioClienteSites.IdCliente"
+                                                       class="form-control"
+                                                       value="@usuarioClienteSites.IdCliente"
+                                                       data-idcliente="@usuarioClienteSites.IdCliente"
+                                                       checked>
+                                                <label for="form-cliente-sites-escolha-@usuarioClienteSites.IdSite">@usuarioClienteSites.Cliente.NmFantasia</label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        }
+        else
+        {
+            <!-- Formulario Cliente -->
+            <form id="form-cliente-clientes">
+                <div class="panel panel-default" id="panel-form-clientes">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Cliente.ResourceCliente.Cliente_lbl_Cliente</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-sites-clientes-escolha">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Escolha_cliente</label>
+                                    <div class="row tabela-check">
+                                        <!-- Cliente -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+
+        <!-- Formulario Sites -->
+        <form id="form-cliente-sites">
+            <div class="panel panel-default" id="panel-form-sites">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.Site.ResourceSite.Site_lbl_Sites</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="barra-busca">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-sites-clientes-escolha">@Traducao.Site.ResourceSite.Site_lbl_Escolha_site</label>
+                                <div class="row tabela-check">
+                                    <!-- Sites -->
+                                    @foreach (var usuarioClienteSites in Model.UsuarioClienteSites)
+                                    {
+                                        <input type="hidden" value="@(idSite = usuarioClienteSites.IdSite.Value)">
+                                        <input type="hidden" value="@(nomeSite = usuarioClienteSites.Site.NmFantasia)">
+                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                            <input type="hidden" name="idSiteBox" value="@usuarioClienteSites.IdSite">
+                                            <input type="hidden" name="nameSiteBox" value="@usuarioClienteSites.Site.NmFantasia">
+                                            <input type="checkbox" name="formClienteSitesEscolha" id="form-cliente-sites-escolha-@usuarioClienteSites.IdSite"
+                                                   class="form-control"
+                                                   value="@usuarioClienteSites.IdSite"
+                                                   data-idsite="@usuarioClienteSites.IdSite"
+                                                   checked>
+                                            <label for="form-cliente-sites-escolha-@usuarioClienteSites.IdSite">@usuarioClienteSites.Site.NmFantasia</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        @if (Model.IdPerfil == 4)
+        {
+            <!-- Formulario Site Cargos -->
+            <form id="form-site-cargos">
+                <div class="panel panel-default" id="panel-form-cargos">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Cargo.ResourceCargo.Cargo_lbl_Cargos</h2>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <input type="hidden" name="idCargoSiteBox-@idSite" value="@idSite">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <!-- Site -->
+                                    <label for="form-cria-usuario-escolha">@Traducao.Cargo.ResourceCargo.Cargo_lbl_Escolha_cargo @nomeSite</label>
+                                    <div class="row tabela-check">
+                                        <!-- Cargos -->
+                                        @foreach (var cargos in Model.UsuarioCargoes)
+                                        {
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" name="formSiteCargos" id="form-site-cargos-@cargos.IdCargo" class="form-control" value="@cargos.IdCargo" checked>
+                                                <label for="form-site-cargos-@cargos.IdCargo">@cargos.Cargo.NmNome</label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        }
+        else
+        {
+            <!-- Formulario Site Cargos -->
+            <form id="form-site-cargos">
+                <div class="panel panel-default" id="panel-form-cargos">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Cargo.ResourceCargo.Cargo_lbl_Cargos</h2>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom ">
+    <div class="row pull-right">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="submit" id="btnSalvar" class="btn btn-primary btn-salvar">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Usuario", new { id = ViewBag.IdCliente }, null)</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,843 @@
+﻿using Dominio.Entidade;
+using Dominio.Enumerado;
+using Dominio.Interface.Repositorio;
+using ApplicationService.Interface;
+using Dominio.Validacao.RegistroConformidades.AcaoCorretivas;
+using Dominio.Validacao.RegistroConformidades.GestaoDeRiscos;
+using Dominio.Validacao.RegistroConformidades.NaoConformidades;
+using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Dominio.Servico;
+
+namespace ApplicationService.Servico
+{
+    public class RegistroConformidadesAppServico : BaseServico<RegistroConformidade>, IRegistroConformidadesAppServico
+    {
+        private readonly IRegistroConformidadesRepositorio _registroConformidadesRepositorio;
+        private readonly IRegistroAcaoImediataRepositorio _registroAcaoImediataRepositorio;
+        private readonly IAnexoRepositorio _anexoRepositorio;
+        private readonly IArquivoDeEvidenciaAcaoImediataRepositorio _arquivoDeEvidenciaAcaoImediataRepositorio;
+
+        private readonly INotificacaoAppServico _notificacaoServico;
+
+        public RegistroConformidadesAppServico(
+            IRegistroConformidadesRepositorio registroConformidadesRepositorio,
+            IRegistroAcaoImediataRepositorio registroAcaoImediataRepositorio,
+            INotificacaoAppServico notificacaoServico,
+            IAnexoRepositorio anexoRepositorio,
+            IArquivoDeEvidenciaAcaoImediataRepositorio arquivoDeEvidenciaAcaoImediataRepositorio,
+            IUsuarioRepositorio usuarioRepositorio)
+            : base(registroConformidadesRepositorio)
+        {
+            _registroConformidadesRepositorio = registroConformidadesRepositorio;
+            _registroAcaoImediataRepositorio = registroAcaoImediataRepositorio;
+            _arquivoDeEvidenciaAcaoImediataRepositorio = arquivoDeEvidenciaAcaoImediataRepositorio;
+            _notificacaoServico = notificacaoServico;
+            _anexoRepositorio = anexoRepositorio;
+        }
+
+        public RegistroConformidade SalvarPrimeiraEtapa(RegistroConformidade registroConformidade)
+        {
+            if (registroConformidade.IdResponsavelInicarAcaoImediata.HasValue)
+                registroConformidade.IdResponsavelEtapa = registroConformidade.IdResponsavelInicarAcaoImediata.Value;
+
+            registroConformidade = _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(registroConformidade);
+            _registroConformidadesRepositorio.Add(registroConformidade);
+
+            return registroConformidade;
+        }
+
+        public RegistroConformidade SalvarSegundaEtapa(RegistroConformidade registroConformidade, Funcionalidades funcionalidade)
+        {
+            registroConformidade = TrataRegistroConformidadeParaSerAtualizada(registroConformidade);
+
+            registroConformidade.AcoesImediatas.ToList().ForEach(x =>
+            {
+                x.Registro = registroConformidade;
+                x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
+            });
+
+
+            _registroConformidadesRepositorio.Update(registroConformidade);
+            _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
+
+            return registroConformidade;
+        }
+
+        private RegistroConformidade TrataAC(RegistroConformidade acaoCorretiva)
+        {
+            var objCtx = _registroConformidadesRepositorio.GetById(acaoCorretiva.IdRegistroConformidade);
+
+            var listaAcaoImediataUpdate = acaoCorretiva.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
+            var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
+
+            if (acaoCorretiva.OStatusEImplementacao() && temAcoesImediataParaAtualizar == false)
+            {
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(acaoCorretiva, objCtx);
+            }
+            else if (acaoCorretiva.OStatusEImplementacao() && temAcoesImediataParaAtualizar == true)
+            {
+                TrataQuandoResponsavelPorAcaoImediataAtualizaADataDeImplementacao(acaoCorretiva, listaAcaoImediataUpdate, objCtx);
+            }
+            else if (acaoCorretiva.OStatusEReverificacao() && temAcoesImediataParaAtualizar == true)
+            {
+                TrataRegistroAprovacaoReverificador(acaoCorretiva, listaAcaoImediataUpdate.ToList(), objCtx);
+            }
+
+            return objCtx;
+        }
+
+        private RegistroConformidade TrataGR(RegistroConformidade gestaoDeRisco)
+        {
+            var objCtx = _registroConformidadesRepositorio.GetById(gestaoDeRisco.IdRegistroConformidade);
+
+            var listaAcaoImediataUpdate = gestaoDeRisco.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
+            var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
+
+            if (gestaoDeRisco.OStatusEImplementacao() && temAcoesImediataParaAtualizar == false)
+            {
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(gestaoDeRisco, objCtx);
+
+            }
+            else if (gestaoDeRisco.OStatusEImplementacao() && temAcoesImediataParaAtualizar == true)
+            {
+                TrataQuandoResponsavelPorAcaoImediataAtualizaADataDeImplementacao(gestaoDeRisco, listaAcaoImediataUpdate, objCtx);
+            }
+            else
+            {
+                TrataRegistroAprovacaoReverificador(gestaoDeRisco, listaAcaoImediataUpdate.ToList(), objCtx);
+            }
+            return objCtx;
+        }
+
+        private RegistroConformidade TrataNC(RegistroConformidade naoConformidade)
+        {
+            var objCtx = _registroConformidadesRepositorio.GetById(naoConformidade.IdRegistroConformidade);
+
+            var listaAcaoImediataUpdate = naoConformidade.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
+            var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
+
+            if (naoConformidade.OStatusEEncerrada() && naoConformidade.EProcedente == false)
+            {
+
+                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+                if (registroAcaoCorretiva != null)
+                {
+                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                }
+
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
+
+                objCtx.EProcedente = naoConformidade.EProcedente;
+                objCtx.StatusEtapa = naoConformidade.StatusEtapa;
+                objCtx.DtDescricaoAcao = naoConformidade.DtDescricaoAcao;
+                objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
+                objCtx.IdUsuarioAlterou = naoConformidade.IdUsuarioAlterou;
+                objCtx.DtEnceramento = DateTime.Now;
+
+            }
+            else if (naoConformidade.OStatusEAcaoImediata() && naoConformidade.EProcedente == false)
+            {
+
+                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+                if (registroAcaoCorretiva != null)
+                {
+                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                }
+
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
+
+                objCtx.EProcedente = naoConformidade.EProcedente;
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                objCtx.DtDescricaoAcao = naoConformidade.DtDescricaoAcao;
+                objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
+                objCtx.IdUsuarioAlterou = naoConformidade.IdUsuarioAlterou;
+                objCtx.DtEnceramento = DateTime.Now;
+
+            }
+            else if (naoConformidade.OStatusEImplementacao() && naoConformidade.EProcedente == true && temAcoesImediataParaAtualizar == false)
+            {
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
+
+                objCtx.EProcedente = naoConformidade.EProcedente != null ? naoConformidade.EProcedente : objCtx.EProcedente;
+                objCtx.ECorrecao = naoConformidade.ECorrecao != null ? naoConformidade.ECorrecao : objCtx.ECorrecao;
+                objCtx.NecessitaAcaoCorretiva = naoConformidade.NecessitaAcaoCorretiva != null ? naoConformidade.NecessitaAcaoCorretiva : objCtx.NecessitaAcaoCorretiva;
+                objCtx.DescricaoAnaliseCausa = naoConformidade.DescricaoAnaliseCausa;
+                objCtx.IdResponsavelPorIniciarTratativaAcaoCorretiva = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva;
+                objCtx.DtEfetivaImplementacao = naoConformidade.DtEfetivaImplementacao;
+                objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
+                objCtx.DescricaoRegistro = naoConformidade.DescricaoRegistro;
+
+                if (naoConformidade.NecessitaAcaoCorretiva == true && naoConformidade.IdNuRegistroFilho == null)
+                {
+
+                    var acaoImediata = naoConformidade.AcoesImediatas.FirstOrDefault();
+
+                    var novaAc = CriarAcaoCorretivaApartirDeNaoConformidade(objCtx);
+
+                    novaAc.DescricaoRegistro += $"\n\n Referênte a Não Conformidade({objCtx.NuRegistro})";
+                    novaAc.DescricaoAcao = acaoImediata.Descricao;
+                    novaAc.DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao;
+
+                    _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaAc);
+                    _registroConformidadesRepositorio.Add(novaAc);
+
+                    objCtx.IdNuRegistroFilho = novaAc.NuRegistro;
+
+                }
+
+            }
+            else if (naoConformidade.OStatusEImplementacao() && temAcoesImediataParaAtualizar == true)
+            {
+
+                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+
+                if (registroAcaoCorretiva != null)
+                {
+                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                }
+
+                var listaAcaoImediataNaoImplementadas = naoConformidade.AcoesImediatas.FirstOrDefault(x => x.DtEfetivaImplementacao == null) != null;
+
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
+
+                objCtx.EProcedente = naoConformidade.EProcedente != null ? naoConformidade.EProcedente : objCtx.EProcedente;
+                objCtx.ECorrecao = naoConformidade.ECorrecao != null ? naoConformidade.ECorrecao : objCtx.ECorrecao;
+                objCtx.NecessitaAcaoCorretiva = naoConformidade.NecessitaAcaoCorretiva != null ? naoConformidade.NecessitaAcaoCorretiva : objCtx.NecessitaAcaoCorretiva;
+                objCtx.DescricaoAnaliseCausa = naoConformidade.DescricaoAnaliseCausa;
+                objCtx.IdResponsavelPorIniciarTratativaAcaoCorretiva = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva != 0 ? naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva : objCtx.IdResponsavelPorIniciarTratativaAcaoCorretiva;
+                objCtx.DtEfetivaImplementacao = naoConformidade.DtEfetivaImplementacao;
+                objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
+                objCtx.DescricaoRegistro = naoConformidade.DescricaoRegistro;
+
+                //if (listaAcaoImediataNaoImplementadas == false && objCtx.ECorrecao == false)
+                //{
+                //    objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                //    objCtx.DtEnceramento = DateTime.Now;
+                //}
+                if (listaAcaoImediataNaoImplementadas == false)
+                {
+                    objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Reverificacao;
+                }
+
+            }
+            else if (naoConformidade.OStatusEReverificacao() && temAcoesImediataParaAtualizar == true)
+            {
+                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+                if (registroAcaoCorretiva != null)
+                {
+                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                }
+
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
+
+                objCtx.EProcedente = naoConformidade.EProcedente != null ? naoConformidade.EProcedente : objCtx.EProcedente;
+                objCtx.ECorrecao = naoConformidade.ECorrecao != null ? naoConformidade.ECorrecao : objCtx.ECorrecao;
+                objCtx.NecessitaAcaoCorretiva = naoConformidade.NecessitaAcaoCorretiva != null ? naoConformidade.NecessitaAcaoCorretiva : objCtx.NecessitaAcaoCorretiva;
+                objCtx.DescricaoAnaliseCausa = naoConformidade.DescricaoAnaliseCausa;
+                objCtx.IdResponsavelPorIniciarTratativaAcaoCorretiva = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva;
+                objCtx.DtEfetivaImplementacao = naoConformidade.DtEfetivaImplementacao;
+                objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
+                objCtx.DescricaoRegistro = naoConformidade.DescricaoRegistro;
+
+
+                TrataRegistroAprovacaoReverificador(naoConformidade, listaAcaoImediataUpdate.ToList(), objCtx);
+            }
+            else
+            {
+                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+                if (registroAcaoCorretiva != null)
+                {
+                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                }
+
+                AtualizaAcoesImediatas(listaAcaoImediataUpdate.ToList(), objCtx);
+
+                TrataRegistroAprovacaoReverificador(naoConformidade, listaAcaoImediataUpdate.ToList(), objCtx);
+            }
+
+            return objCtx;
+
+
+        }
+
+        private RegistroConformidade TrataRegistroConformidadeParaSerAtualizada(RegistroConformidade registroConformidade)
+        {
+
+            switch (registroConformidade.TipoRegistro)
+            {
+                case "nc":
+                    registroConformidade = TrataNC(registroConformidade);
+                    break;
+
+                case "ac":
+                    registroConformidade = TrataAC(registroConformidade);
+                    break;
+
+                case "gr":
+                    registroConformidade = TrataGR(registroConformidade);
+                    break;
+
+                default:
+                    break;
+            }
+
+            registroConformidade.IdProcesso = registroConformidade.IdProcesso == 0 ? null : registroConformidade.IdProcesso;
+
+            return registroConformidade;
+
+        }
+
+        private void TrataRegistroQuandoEntraEmFaseDeImplementacao(RegistroConformidade registroConformidade, RegistroConformidade objCtx)
+        {
+            objCtx.IdResponsavelImplementar = registroConformidade.IdResponsavelImplementar;
+            objCtx.IdResponsavelReverificador = registroConformidade.IdResponsavelReverificador != null ? registroConformidade.IdResponsavelReverificador : objCtx.IdResponsavelReverificador;
+            objCtx.DtPrazoImplementacao = registroConformidade.DtPrazoImplementacao != null ? registroConformidade.DtPrazoImplementacao : objCtx.DtPrazoImplementacao;
+            objCtx.DtEfetivaImplementacao = registroConformidade.DtEfetivaImplementacao != null ? registroConformidade.DtEfetivaImplementacao : objCtx.DtEfetivaImplementacao;
+            objCtx.DsAcao = registroConformidade.DsAcao != null ? registroConformidade.DsAcao : objCtx.DsAcao;
+            objCtx.DtDescricaoAcao = registroConformidade.DtDescricaoAcao != null ? registroConformidade.DtDescricaoAcao : objCtx.DtDescricaoAcao;
+
+            if (objCtx.AcoesImediatas.Count == 0)
+            {
+                objCtx.AcoesImediatas = registroConformidade.AcoesImediatas;
+            }
+
+            objCtx.IdUsuarioAlterou = registroConformidade.IdUsuarioAlterou;
+            objCtx.Tags = registroConformidade.Tags;
+            objCtx.DescricaoRegistro = registroConformidade.DescricaoRegistro;
+            objCtx.IdEmissor = registroConformidade.IdEmissor;
+            objCtx.IdProcesso = registroConformidade.IdProcesso != null ? registroConformidade.IdProcesso : objCtx.IdProcesso;
+            objCtx.NecessitaAcaoCorretiva = registroConformidade.NecessitaAcaoCorretiva != null ? registroConformidade.NecessitaAcaoCorretiva : objCtx.NecessitaAcaoCorretiva;
+            objCtx.IdResponsavelInicarAcaoImediata = registroConformidade.IdResponsavelInicarAcaoImediata != null ? registroConformidade.IdResponsavelInicarAcaoImediata : objCtx.IdResponsavelInicarAcaoImediata;
+            objCtx.CriticidadeGestaoDeRisco = registroConformidade.CriticidadeGestaoDeRisco != null ? registroConformidade.CriticidadeGestaoDeRisco : objCtx.CriticidadeGestaoDeRisco;
+            objCtx.DtEmissao = registroConformidade.DtEmissao != null ? registroConformidade.DtEmissao : objCtx.DtEmissao;
+            objCtx.FlEficaz = registroConformidade.FlEficaz != null ? registroConformidade.FlEficaz : objCtx.FlEficaz;
+            objCtx.EProcedente = registroConformidade.EProcedente != null ? registroConformidade.EProcedente : objCtx.EProcedente;
+            objCtx.IdRegistroConformidade = registroConformidade.IdRegistroConformidade != 0 ? registroConformidade.IdRegistroConformidade : objCtx.IdRegistroConformidade;
+            objCtx.Causa = registroConformidade.Causa != null ? registroConformidade.Causa : objCtx.Causa;
+
+            //if(registroConformidade.IdResponsavelReverificador == null)
+            //{
+            //    throw new Exception("Você deve escolher um responsável por verificação.");
+            //}
+
+            bool Implementacao = true;
+
+            objCtx.AcoesImediatas.ToList().ForEach(acaoImediata =>
+            {
+
+                RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).FirstOrDefault();
+                acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
+                acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
+                acaoImediata.ArquivoEvidencia = acaoUpdate != null ? acaoUpdate.ArquivoEvidencia : null;
+
+                if (acaoUpdate != null && acaoUpdate.ArquivoEvidenciaAux != null && !string.IsNullOrEmpty(acaoUpdate.ArquivoEvidenciaAux.Extensao))
+                {
+                    acaoImediata.ArquivoEvidenciaAux = acaoUpdate != null ? acaoUpdate.ArquivoEvidenciaAux : null;
+                }
+
+
+                //acaoImediata.Descricao = objCtx.DsAcao;
+                //acaoImediata.DtPrazoImplementacao = objCtx.DtPrazoImplementacao;
+
+                if (acaoImediata.DtPrazoImplementacao == null)
+                {
+                    Implementacao = false;
+
+                }
+
+                acaoImediata.IdResponsavelImplementar = acaoUpdate != null && acaoUpdate.IdResponsavelImplementar != null ? acaoUpdate.IdResponsavelImplementar : acaoImediata.IdResponsavelImplementar;
+                acaoImediata.DtEfetivaImplementacao = acaoUpdate != null && acaoUpdate.DtEfetivaImplementacao != null ? acaoUpdate.DtEfetivaImplementacao : acaoImediata.DtEfetivaImplementacao;
+
+            });
+
+            var primeiraAcaoImdediata = objCtx.AcoesImediatas.FirstOrDefault();
+
+            if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime))
+            {
+                AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);
+            }
+
+            if (registroConformidade.EProcedente == false)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                objCtx.DtEnceramento = DateTime.Now;
+            }
+            if (!Implementacao)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
+            }
+            else
+            {
+                objCtx.StatusEtapa = registroConformidade.StatusEtapa;
+            }
+
+        }
+
+        private void TrataRegistroAprovacaoReverificador(RegistroConformidade registroConformidade, List<RegistroAcaoImediata> listaAcaoImediataUpdate, RegistroConformidade objCtx)
+        {
+            listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
+            {
+                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+            });
+
+            objCtx.Tags = registroConformidade.Tags;
+            objCtx.DescricaoRegistro = registroConformidade.DescricaoRegistro;
+            objCtx.IdEmissor = registroConformidade.IdEmissor;
+            objCtx.IdProcesso = registroConformidade.IdProcesso;
+            objCtx.IdResponsavelInicarAcaoImediata = registroConformidade.IdResponsavelInicarAcaoImediata;
+            objCtx.CriticidadeGestaoDeRisco = registroConformidade.CriticidadeGestaoDeRisco;
+            objCtx.DtEmissao = registroConformidade.DtEmissao;
+            objCtx.EProcedente = registroConformidade.EProcedente;
+            objCtx.FlEficaz = registroConformidade.FlEficaz;
+            objCtx.Causa = registroConformidade.Causa;
+
+            objCtx.IdResponsavelImplementar = registroConformidade.IdResponsavelImplementar;
+            objCtx.IdResponsavelReverificador = registroConformidade.IdResponsavelReverificador;
+            objCtx.DtPrazoImplementacao = registroConformidade.DtPrazoImplementacao;
+            objCtx.DtEfetivaImplementacao = registroConformidade.DtEfetivaImplementacao;
+            objCtx.DsAcao = registroConformidade.DsAcao;
+            objCtx.StatusRegistro = registroConformidade.StatusRegistro;
+
+            registroConformidade.AcoesImediatas.ToList().ForEach(acaoImediata =>
+            {
+                acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
+                acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
+                //acaoImediata.Descricao = objCtx.DsAcao;
+                //acaoImediata.DtPrazoImplementacao = objCtx.DtPrazoImplementacao;
+                //acaoImediata.IdResponsavelImplementar = objCtx.IdResponsavelImplementar;
+                //acaoImediata.DtEfetivaImplementacao = objCtx.DtEfetivaImplementacao;
+            });
+
+            if (registroConformidade.EProcedente == false)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                objCtx.DtEnceramento = DateTime.Now;
+            }
+
+            if (objCtx.FlEficaz == false && objCtx.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
+            {
+                var novaRegistro = CriarNovoCasoEficaciaForFalsa(objCtx, objCtx.TipoRegistro);
+                if (novaRegistro.TipoRegistro == "gr")
+                {
+                    novaRegistro.DescricaoRegistro += $"\n \n Referênte a Gestão de Risco({objCtx.NuRegistro})";
+                    novaRegistro.CriticidadeGestaoDeRisco = objCtx.CriticidadeGestaoDeRisco;
+                }
+                else if (novaRegistro.TipoRegistro == "ac")
+                {
+                    novaRegistro.DescricaoRegistro += $"\n \n Referênte a Ação Corretiva({objCtx.NuRegistro})";
+
+                }
+                else if (novaRegistro.TipoRegistro == "nc")
+                {
+                    novaRegistro.DescricaoRegistro += $"\n \n Referênte a Não Conformidade({objCtx.NuRegistro})";
+
+                }
+                _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaRegistro);
+                _registroConformidadesRepositorio.Add(novaRegistro);
+
+                if (objCtx.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
+                {
+                    objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                    objCtx.DtEnceramento = DateTime.Now;
+                }
+            }
+            else if (objCtx.FlEficaz == true)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                objCtx.DtEnceramento = DateTime.Now;
+            }
+            else if (objCtx.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                objCtx.DtEnceramento = DateTime.Now;
+            }
+            else
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Reverificacao;
+            }
+
+        }
+
+        private void TrataQuandoResponsavelPorAcaoImediataAtualizaADataDeImplementacao(RegistroConformidade registroConformidade, IEnumerable<RegistroAcaoImediata> listaAcaoImediataUpdate, RegistroConformidade objCtx)
+        {
+            if (registroConformidade.DtEfetivaImplementacao < registroConformidade.DtEmissao)
+            {
+                throw new Exception("Data Efetiva Implementação não pode ser menor que Data de Emissão.");
+            }
+            AtualizaAcoesImediatas(listaAcaoImediataUpdate.ToList(), objCtx);
+            var listaAcaoImediataNaoImplementadas = registroConformidade.AcoesImediatas.FirstOrDefault(x => x.DtEfetivaImplementacao == null) != null;
+            if (listaAcaoImediataNaoImplementadas == false)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Reverificacao;
+            }
+            if (registroConformidade.EProcedente == false)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                objCtx.DtEnceramento = DateTime.Now;
+            }
+
+            objCtx.Tags = registroConformidade.Tags;
+            objCtx.DescricaoRegistro = registroConformidade.DescricaoRegistro;
+            objCtx.IdEmissor = registroConformidade.IdEmissor;
+            objCtx.IdProcesso = registroConformidade.IdProcesso;
+            objCtx.IdResponsavelInicarAcaoImediata = registroConformidade.IdResponsavelInicarAcaoImediata;
+            objCtx.CriticidadeGestaoDeRisco = registroConformidade.CriticidadeGestaoDeRisco;
+            objCtx.DtEmissao = registroConformidade.DtEmissao;
+            objCtx.EProcedente = registroConformidade.EProcedente;
+            objCtx.Causa = registroConformidade.Causa;
+
+            objCtx.IdResponsavelImplementar = registroConformidade.IdResponsavelImplementar;
+            objCtx.IdResponsavelReverificador = registroConformidade.IdResponsavelReverificador;
+            objCtx.DtPrazoImplementacao = registroConformidade.DtPrazoImplementacao;
+            objCtx.DtEfetivaImplementacao = registroConformidade.DtEfetivaImplementacao;
+            objCtx.DsAcao = registroConformidade.DsAcao;
+
+            registroConformidade.AcoesImediatas.ToList().ForEach(acaoImediata =>
+            {
+                acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
+                acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
+                //acaoImediata.Descricao = objCtx.DsAcao;
+                //acaoImediata.DtPrazoImplementacao = objCtx.DtPrazoImplementacao;
+                //acaoImediata.IdResponsavelImplementar = objCtx.IdResponsavelImplementar;
+                //acaoImediata.DtEfetivaImplementacao = objCtx.DtEfetivaImplementacao;
+            });
+
+        }
+
+        private RegistroConformidade CriarNovoCasoEficaciaForFalsa(RegistroConformidade registroConformidade, string tipo)
+        {
+            var novoRegistro = new RegistroConformidade()
+            {
+                DescricaoRegistro = registroConformidade.DescricaoRegistro,// + $"\n Referênte a Não Conformidade({numeroRegistro})",
+                IdEmissor = registroConformidade.IdUsuarioAlterou,
+                IdUsuarioAlterou = registroConformidade.IdUsuarioAlterou,
+                IdUsuarioIncluiu = registroConformidade.IdUsuarioAlterou,
+                TipoRegistro = tipo,
+                StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata,
+                IdResponsavelInicarAcaoImediata = registroConformidade.IdResponsavelInicarAcaoImediata,
+                IdResponsavelEtapa = registroConformidade.IdResponsavelInicarAcaoImediata.Value,
+                IdSite = registroConformidade.IdSite,
+                IdProcesso = registroConformidade.IdProcesso,
+                NecessitaAcaoCorretiva = null,
+                EProcedente = true,
+                Tags = registroConformidade.Tags,
+                TipoNaoConformidade = registroConformidade.TipoNaoConformidade,
+                ENaoConformidadeAuditoria = registroConformidade.ENaoConformidadeAuditoria
+            };
+
+
+            registroConformidade.ArquivosDeEvidencia.ToList().ForEach(x =>
+            {
+                novoRegistro.ArquivosDeEvidencia.Add(new ArquivosDeEvidencia
+                {
+                    IdAnexo = x.IdAnexo,
+                    RegistroConformidade = novoRegistro,
+                    TipoRegistro = x.TipoRegistro
+                });
+            });
+
+
+
+            return novoRegistro;
+        }
+
+        private void AtualizaAcoesImediatas(List<RegistroAcaoImediata> listaAcaoImediataUpdate, RegistroConformidade objCtx)
+        {
+            listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
+            {
+                acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
+                acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
+
+                if (acaoImediata.ArquivoEvidenciaAux != null && acaoImediata.ArquivoEvidenciaAux.ArquivoB64 != null)
+                {
+                    acaoImediata.ArquivoEvidenciaAux.Tratar();
+
+                    if (acaoImediata.ArquivoEvidenciaAux.IdAnexo == 0)
+                    {
+                        acaoImediata.ArquivoEvidencia.Add(new ArquivoDeEvidenciaAcaoImediata
+                        {
+                            IdAcaoImediata = acaoImediata.IdAcaoImediata,
+                            Anexo = acaoImediata.ArquivoEvidenciaAux
+                        });
+                    }
+                    else
+                    {
+
+                        var anexoCtx = _anexoRepositorio.GetById(acaoImediata.ArquivoEvidenciaAux.IdAnexo);
+                        anexoCtx.Arquivo = acaoImediata.ArquivoEvidenciaAux.Arquivo;
+                        anexoCtx.Nome = acaoImediata.ArquivoEvidenciaAux.Nome;
+                        anexoCtx.Extensao = acaoImediata.ArquivoEvidenciaAux.Extensao;
+                        anexoCtx.DtAlteracao = DateTime.Now;
+
+                        _anexoRepositorio.Update(anexoCtx);
+                    }
+                }
+                _registroAcaoImediataRepositorio.AtualizaAcaoImediataComAnexos(acaoImediata);
+            });
+        }
+
+        public void ConsisteItegridadeAcaoImediata(RegistroAcaoImediata acaoImediata)
+        {
+            if (acaoImediata.Estado == EstadoObjetoEF.Added)
+            {
+                _registroAcaoImediataRepositorio.AlteraEstado(acaoImediata, EstadoObjetoEF.Added);
+            }
+            else if (acaoImediata.Estado == EstadoObjetoEF.Deleted)
+            {
+                RegistroAcaoImediata filhoQueSeraDeletado = new RegistroAcaoImediata()
+                {
+                    IdRegistroConformidade = acaoImediata.IdRegistroConformidade,
+                    Descricao = acaoImediata.Descricao,
+                    DtInclusao = acaoImediata.DtInclusao,
+                    DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao,
+                    IdUsuarioIncluiu = acaoImediata.IdUsuarioIncluiu,
+                    IdResponsavelImplementar = acaoImediata.IdResponsavelImplementar
+
+                };
+                _registroAcaoImediataRepositorio.AlteraEstado(acaoImediata, EstadoObjetoEF.Deleted);
+            }
+
+            else if (acaoImediata.Estado == EstadoObjetoEF.Modified)
+            {
+                _registroAcaoImediataRepositorio.AlteraEstado(acaoImediata, EstadoObjetoEF.Modified);
+            }
+
+        }
+
+        public List<RegistroConformidade> ObtemListaRegistroConformidadePorSite(int idSite, string tipoRegistro, ref int numeroUltimoRegistro, int? idProcesso = null)
+        {
+            var listaNC = _registroConformidadesRepositorio.Get(
+                                     x => x.IdSite == idSite &&
+                                     (x.IdProcesso == idProcesso || idProcesso == null)
+
+                                     && x.TipoRegistro == tipoRegistro).OrderByDescending(x => x.NuRegistro)
+                                     .ToList();
+
+            numeroUltimoRegistro = listaNC.Count > 0 ? listaNC.Select(x => x.NuRegistro).Max() : 0;
+            return listaNC;
+        }
+
+        public RegistroConformidade ObtemAcaoConformidadePorNaoConformidade(RegistroConformidade naoConformidade)
+        {
+            var acaoConformidade = new RegistroConformidade();
+            try
+            {
+                return _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        public DateTime ObtemUltimaDataEmissao(int idSite, string tipoRegistro)
+        {
+            try
+            {
+                return _registroConformidadesRepositorio
+                    .Get(
+                        x => x.IdSite == idSite
+                        && x.TipoRegistro == tipoRegistro
+                    ).Max(x => x.DtEmissao);
+            }
+            catch (Exception e)
+            {
+                return DateTime.Now;
+            }
+        }
+
+        public void GestaoDeRiscoValida(RegistroConformidade gestaoDeRisco, ref List<string> erros)
+        {
+            var validacao = new CamposObrigatoriosGestaoDeRiscoEtapa1Validation().Validate(gestaoDeRisco);
+
+            if (!validacao.IsValid)
+            {
+                erros.AddRange(UtilsServico.PopularErros(validacao.Errors));
+            }
+        }
+
+        public RegistroConformidade SalvarGestaoDeRisco(RegistroConformidade gestaoDeRisco)
+        {
+            var gestaoDeRiscoCTX = _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(gestaoDeRisco);
+            //_registroConformidadesRepositorio.Add(gestaoDeRiscoCTX);
+
+            return gestaoDeRisco;
+        }
+
+        private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoAC(RegistroConformidade acaoCorretiva)
+        {
+            var acaoImediataUpdateIsValid = acaoCorretiva.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
+            if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && acaoImediataUpdateIsValid == false)
+            {
+                return new CamposObrigatoriosAcaoCorretivaEtapa2Validation();
+            }
+            else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && acaoImediataUpdateIsValid == true)
+            {
+                return new CamposObrigatoriosGestaoDeRiscoImplementacaoDtEfetivaImplementacao();
+            }
+            else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
+            {
+                return new CamposObrigatoriosAcaoCorretivaReverificacao();
+            }
+            return null;
+        }
+
+        private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoGR(RegistroConformidade gestaoDeRisco)
+        {
+            var acaoImediataUpdateIsValid = gestaoDeRisco.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
+            if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && acaoImediataUpdateIsValid == false)
+            {
+                return new CamposObrigatoriosGestaoDeRiscoEtapa2Validation();
+            }
+            else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && acaoImediataUpdateIsValid == true)
+            {
+                return new CamposObrigatoriosGestaoDeRiscoImplementacaoDtEfetivaImplementacao();
+            }
+            else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
+            {
+                return new CamposObrigatoriosNaoConformidadeReverificacao();
+            }
+            return null;
+        }
+
+        private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoNC(RegistroConformidade naoConformidade)
+        {
+            var acaoImediataUpdateIsValid = naoConformidade.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
+            if (naoConformidade.EProcedente == false && naoConformidade.OStatusEEncerrada() && acaoImediataUpdateIsValid == false)
+            {
+                return new NCEProcedenteFalseViewValidation();
+            }
+            else if (naoConformidade.EProcedente == true && naoConformidade.OStatusEImplementacao() && acaoImediataUpdateIsValid == false)
+            {
+                return new NCEProcedenteTrueViewValidation();
+            }
+            else if (naoConformidade.EProcedente == true && naoConformidade.OStatusEImplementacao() && acaoImediataUpdateIsValid == true)
+            {
+                return new NCEProcedenteTrueViewValidation();
+            }
+            else if (naoConformidade.OStatusEReverificacao())
+            {
+                return new CamposObrigatoriosNaoConformidadeReverificacao();
+            }
+
+
+            return null;
+        }
+
+        public RegistroConformidade CriarAcaoCorretivaApartirDeNaoConformidade(RegistroConformidade naoConformidade)
+        {
+
+            return new RegistroConformidade()
+            {
+                DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa,// + $"\n Referênte a Não Conformidade({numeroRegistro})",
+                IdEmissor = naoConformidade.IdUsuarioAlterou,
+                IdUsuarioAlterou = naoConformidade.IdUsuarioAlterou,
+                IdUsuarioIncluiu = naoConformidade.IdUsuarioAlterou,
+                TipoRegistro = "ac",
+                StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata,
+                IdResponsavelInicarAcaoImediata = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva,
+                IdResponsavelEtapa = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva,
+                IdSite = naoConformidade.IdSite,
+                IdProcesso = naoConformidade.IdProcesso,
+                IdRegistroPai = naoConformidade.IdRegistroConformidade
+            };
+        }
+
+
+        private bool TemAcaoImediata(RegistroConformidade registroConformidade) => (registroConformidade.AcoesImediatas.Count > 0);
+
+        private AbstractValidator<RegistroConformidade> DefineEtapa(RegistroConformidade registroConformidade)
+        {
+            var objCtx = _registroConformidadesRepositorio.GetById(registroConformidade.IdRegistroConformidade) != null;
+            if (objCtx == false && registroConformidade.StatusEtapa == 1)
+            {
+                switch (registroConformidade.TipoRegistro)
+                {
+                    case "nc":
+                        var camposObrigatoriosEtapa1 = new CriacaoNCViewValidation();
+                        return camposObrigatoriosEtapa1;
+
+                    case "ac":
+                        var camposObrigatoriosAcaoCorretivaEtapa1 = new CamposObrigatoriosAcaoCorretivaEtapa1Validation();
+                        return camposObrigatoriosAcaoCorretivaEtapa1;
+
+                    case "gr":
+                        var camposObrigatoriosGestaoDeRiscoEtapa1 = new CamposObrigatoriosGestaoDeRiscoEtapa1Validation();
+                        return camposObrigatoriosGestaoDeRiscoEtapa1;
+                }
+            }
+            else if (objCtx == true && registroConformidade.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata)
+            {
+                switch (registroConformidade.TipoRegistro)
+                {
+                    case "nc":
+                        var camposObrigatoriosEtapa1 = new CriacaoNCViewValidation();
+                        return camposObrigatoriosEtapa1;
+
+                    case "ac":
+                        var camposObrigatoriosNaoConformidadeEtapa1 = new CamposObrigatoriosAcaoCorretivaEtapa1Validation();
+                        return camposObrigatoriosNaoConformidadeEtapa1;
+
+                    case "gr":
+                        var camposObrigatoriosAcaoCorretivaEtapa1 = new CamposObrigatoriosGestaoDeRiscoEtapa1Validation();
+                        return camposObrigatoriosAcaoCorretivaEtapa1;
+                }
+            }
+            else if (objCtx == true && registroConformidade.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao)
+            {
+                switch (registroConformidade.TipoRegistro)
+                {
+                    case "nc":
+                        var camposObrigatoriosEtapa2 = new CamposObrigatoriosNaoConformidadeEtapa2Validation();
+                        return camposObrigatoriosEtapa2;
+
+                    case "ac":
+                        var camposObrigatoriosNaoConformidadeEtapa2 = new CamposObrigatoriosAcaoCorretivaEtapa2Validation();
+                        return camposObrigatoriosNaoConformidadeEtapa2;
+
+                    case "gr":
+                        var camposObrigatoriosAcaoCorretivaEtapa2 = new CamposObrigatoriosGestaoDeRiscoEtapa2Validation();
+                        return camposObrigatoriosAcaoCorretivaEtapa2;
+                }
+
+            }
+            else if (objCtx == true && registroConformidade.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada)
+            {
+                switch (registroConformidade.TipoRegistro)
+                {
+                    case "nc":
+                        var camposObrigatoriosNaoConformidadeEtapa4 = new CamposObrigatoriosNaoConformidadeEtapa4Validation();
+                        return camposObrigatoriosNaoConformidadeEtapa4;
+
+                    case "ac":
+                        var camposObrigatoriosAcaoCorretivaEtapa4 = new CamposObrigatoriosAcaoCorretivaEtapa4Validation();
+                        return camposObrigatoriosAcaoCorretivaEtapa4;
+
+                    case "gr":
+                        var camposObrigatoriosGestaoDeRiscoEtapa4 = new CamposObrigatoriosGestaoDeRiscoEtapa4Validation();
+                        return camposObrigatoriosGestaoDeRiscoEtapa4;
+                }
+            }
+            return null;
+        }
+
+        public RegistroConformidade DestravarEtapa(RegistroConformidade registroConformidade)
+        {
+            registroConformidade.FlDesbloqueado = 1;
+            _registroConformidadesRepositorio.Update(registroConformidade);
+
+            return registroConformidade;
+        }
+    }
+}

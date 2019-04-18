@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+@section Metas {
+    <meta name="page" content="RecuperarSenha" />
+}
+
+@section styles{
+    <style>
+        section {
+            padding-top: 0 !important;
+        }
+    </style>
+}
+
+@section scripts {
+<script src="@Url.Content("~/Content/assets/js/LoginController.js")"></script>
+}
+
+
+@Html.AntiForgeryToken()
+<form id="form-recuperar-senha">
+    <div id="cntLogin" class="login-form">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                <bloquote>
+                    <div class="bg-info">
+                        <p>
+                            <span style="font-size:45px; color:#0088cc;">@Traducao.Resource.Pratica</span> @Traducao.Resource.CotidianaGlobalizado
+                        </p>
+                    </div>
+                </bloquote>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-offset-1 col-lg-4 col-md-4">
+                <img src="~/Content/assets/imagens/logo-equalit-bg.png" class="img-responsive logo-login" />
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-6 col-md-8">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="form-header blue-header">
+                            <h4>@Traducao.Login.ResourceLogin.RecuperaSenha_titulo</h4>
+                        </div>
+                        <!-- Email -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-envelope icon-login user-color" aria-hidden="true"></i>
+                                </span>
+                                <input type="text" id="form-recuperar-senha-email" name="formRecuperarSenhaEmail" class="form-control"
+                                       placeholder="@Traducao.Resource.login_email_lbl"
+                                       data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Email"
+                                       data-msg-email="@Traducao.Login.ResourceLogin.Login_msg_required_email_error_format"
+                                       value="" />
+                            </div>
+                        </div>
+                        <div class="bg-btn-enviar">
+                            <button type="button" id="" class="btn btn-custom btn-lg btn-block btn-recuperar-senha">@Traducao.Resource.botao_enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

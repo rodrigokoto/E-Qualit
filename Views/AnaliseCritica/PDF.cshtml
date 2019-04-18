@@ -1,0 +1,272 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@model Dominio.Entidade.AnaliseCritica
+@{
+    ViewBag.Title = "Análise Crítica";
+    Layout = null;
+
+    var funcoes = new List<int>
+{
+(int)FuncoesAnaliseCritica.InserirTemasParaAnalise,
+(int)FuncoesAnaliseCritica.RegistroDaAta,
+(int)FuncoesAnaliseCritica.DefinirAcao,
+(int)FuncoesAnaliseCritica.ImplementarAcao,
+(int)FuncoesAnaliseCritica.VerificaçãoDaEficacia,
+(int)FuncoesAnaliseCritica.Destravar,
+(int)FuncoesAnaliseCritica.Editar
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+}
+<html>
+<head>
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/bootstrap")
+
+</head>
+<body style="background:white !important">
+    <div class="container">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+        <style>
+            .ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+                /*overflow: auto;*/
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+               
+        <div id="main">
+            <div class="content-painel">
+                <div class="panel panel-default lobipanel" id="panel2">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>Dados</h2>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">@Traducao.Resource.Responsavel</label>
+
+                                        <div class='input-campos' id='IdResponsave'>
+                                            @(Model.Responsavel != null ? Model.Responsavel.NmCompleto : "")
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">@Traducao.Resource.AtaSG</label>
+
+                                        <div class='input-campos' id='datetimepicker2'>
+                                            @Model.Ata
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">@Traducao.Resource.DataCriacao</label>
+                                        <div class='input-campos' id='datetimepicker2'>
+                                            @Model.DataCriacao.ToShortDateString()
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">@Traducao.Resource.DataProxAnalise</label>
+                                        <div class='input-campos' id='datetimepicker2'>
+                                            @Model.DataProximaAnalise.ToShortDateString()
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel-default panel-table">
+                                        <div class="panel-body2">
+                                            <table id="pessoa-funcoes" class="table table-striped table-bordered table-list">
+                                                <thead class="titulo-tabela">
+                                                    <tr>
+                                                        <th class="w65 with-input">Nome</th>
+                                                        <th class="w35 with-input">Função</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var funcionario in Model.Funcionarios)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class='input-campos' id='datetimepicker2'>
+                                                                    @funcionario.Funcionario.NmCompleto
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class='input-campos' id='datetimepicker2'>
+                                                                    @funcionario.Funcao
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--- panel -->
+                <div class="panel panel-default lobipanel" id="panel2">
+
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_titulo_temas</h2>
+                        </div>
+                    </div>
+
+                    @foreach (var tema in Model.Temas)
+                    {
+                        <div class="panel-body" id="listaTema">
+
+                            <div class="barra-busca">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">@Traducao.Resource.TemaSelecionado</label>
+
+                                            <div class='input-campos' id='IdResponsave'>
+                                                @tema.ControladorCategoria.Descricao
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">@Traducao.Resource.Descricao</label>
+
+                                            <div class='input-campos' id='IdResponsave'>
+
+                                                @Html.Raw(tema.Descricao)
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">@Traducao.Resource.Risco</label>
+
+                                            <div class='input-campos' id='IdResponsave'>
+
+                                                @{
+                                                    var Level = "";
+                                                }
+
+                                                @if (tema.CorRisco <= 5)
+                                                {
+                                                    Level = "Leve";
+                                                }
+                                                else if (tema.CorRisco > 5 && tema.CorRisco <= 10)
+                                                {
+                                                    Level = "Médio";
+                                                }
+                                                else
+                                                {
+                                                    Level = "Alto";
+                                                }
+
+                                                @Level
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">@Traducao.Resource.DocDocumento_lbl_GestaoRisco </label>
+
+                                            <div class='input-campos' id='IdResponsave'>
+                                                @(tema.PossuiGestaoRisco ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4" style="width: 31.333333% !important;">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">@Traducao.Resource.Numero</label>
+                                            <div class='input-campos' id='IdResponsave'>
+                                                @(tema.GestaoDeRisco != null ? tema.GestaoDeRisco.NuRegistro.ToString() : "-")
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">@Traducao.Resource.IdentRisco</label>
+
+                                            <div class='input-campos' id='IdResponsave'>
+                                                @(tema.GestaoDeRisco != null ? tema.GestaoDeRisco.DescricaoRegistro : "-")
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+</body>
+</html>
+

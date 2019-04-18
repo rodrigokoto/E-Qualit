@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "CopiaControlada";
+    Layout = "~/Views/Shared/ControleDeImpressao/_LayoutCopiaNaoControlada.cshtml";
+
+    if (ViewBag.CopiaControlada)
+    {
+        Layout = "~/Views/Shared/ControleDeImpressao/_LayoutCopiaControlada.cshtml";
+    }
+}
+
+<h2>@Traducao.Resource.DadosPagina </h2>
+
+

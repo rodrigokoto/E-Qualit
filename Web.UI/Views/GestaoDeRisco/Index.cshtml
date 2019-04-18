@@ -1,0 +1,176 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model IEnumerable<Dominio.Entidade.RegistroConformidade>
+@{
+    ViewBag.Title = "Gestão de Risco";
+
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+
+}
+@section Metas {
+    <meta name="page" content="IndexGestaoDeRisco" />
+}
+@Html.AntiForgeryToken()
+<input type="hidden" name="msgIconeDeleteGR" value="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_icone_delete" />
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+}
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Gestão de Risco -->
+        <form id="form-naoconformidade">
+            <div class="panel panel-default" id="panel-naoconformidade">
+                <div class="panel-body" id="panel-form-naoconformidade">
+                    <div class="row">
+                        <div class="barra-busca">
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesGestaoDeRisco.Registro) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo">
+                                    @Html.ActionLink(Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_nova_nao_conformidade, "Criar", "GestaoDeRisco")
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
+                            <div class="col-lg-12">
+                                <table id="tb-index-gestao-de-risco" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
+                                    <thead>
+                                        <tr class="bg">
+                                            <th class="w8 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_NmRegistro" />
+                                            </th>
+                                            <th class="w13 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Emissor" />
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao" />
+                                            </th>
+                                            <th class="w16 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEncerramento" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_StatusEtapa" />
+                                            </th>
+                                            <th class="w21 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_ResponsavelImplementar" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Tags" />
+                                            </th>
+                                            <th class="w7 with-input"></th>
+                                        </tr>
+                                        <tr class="bg">
+                                            <th>
+                                                @Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_NmRegistro
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Emissor
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEncerramento
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_StatusEtapa
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_ResponsavelImplementar
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Tags
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Acoes
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @{ int index = 0; }
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.NuRegistro)
+                                                </td>
+                                                <td>
+
+                                                    @Html.DisplayFor(modelItem => item.Emissor.NmCompleto)
+                                                </td>
+                                                <td>
+                                                    @item.DtEmissao.ToString(@Traducao.Resource.dateFormat)
+                                                </td>
+                                                <td>
+                                                    @if (item.DtEnceramento != null)
+                                                    {
+                                                        @item.DtEnceramento.Value.ToString(@Traducao.Resource.dateFormat)
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.StatusEtapa == 1)
+                                                    {
+                                                        <p class="status-acao-imediata">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Acao_imediata</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 2)
+                                                    {
+                                                        <p class="status-implementacao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Implementacao</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 3)
+                                                    {
+                                                        <p class="status-reverificacao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Reverificacao</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 4)
+                                                    {
+                                                        <p class="status-encerrada">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Encerrada</p>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ResponsavelEtapa.NmCompleto)
+                                                </td>
+                                                <td class="">
+                                                    @Html.DisplayFor(modelItem => item.Tags)
+                                                </td>
+                                                <td>
+                                                    @*@if (ViewBag.IdPerfil != 4)*@
+
+                                                    @if (
+                                                           listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoDeRisco.AnularAMEditar)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoDeRisco.DefinirAcao)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoDeRisco.ImplementarAcao)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoDeRisco.VerificacaoDaEficacia)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoDeRisco.Reverificacao)
+                                                        || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="@Url.Action("Editar", "GestaoDeRisco", new { id = item.IdRegistroConformidade })" class="edit icon-cliente editar-color">
+                                                            <i class="fa @(item.StatusEtapa == 4 ? "fa-search" : "fa-pencil")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                        </a>
+                                                    }
+
+                                                    @if (ViewBag.UltimoRegistro == item.NuRegistro  && (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoDeRisco.Excluir) || ViewBag.IdPerfil != 4))
+                                                    {
+                                                        <a href="#" class="icon-cliente trash-color del-gestao-de-risco" data-id-gestao-de-risco="@item.IdRegistroConformidade">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+                                                    }
+
+                                                </td>
+                                            </tr>
+
+                                            index++;
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+        </form>
+    </div>
+</div>

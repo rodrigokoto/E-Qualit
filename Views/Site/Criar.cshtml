@@ -1,0 +1,287 @@
+﻿@using Dominio.Entidade
+@model Dominio.Entidade.Site
+
+@{
+    ViewBag.Title = Model.IdSite == 0 ? "Criar" : "Editar";
+    var ativoParaCriacao = Model.IdSite == 0 ? true : false;
+
+    var imgSrcPadrao = "/Content/assets/imagens/cliente-padrao.png";
+    var imgSrcSite = imgSrcPadrao;
+    var imgNome = "";
+    var base64 = "";
+    var idFotoPerFil = 0;
+    var idSite = 0;
+    var nomeSite = "";
+
+    if (Model.SiteAnexo.Count > 0)
+    {
+        idFotoPerFil = Model.SiteAnexo.FirstOrDefault().Anexo.IdAnexo;
+        var tipoimg = Model.SiteAnexo.FirstOrDefault().Anexo.Extensao;
+        imgNome = Model.SiteAnexo.FirstOrDefault().Anexo.Nome;
+        base64 = Convert.ToBase64String(Model.SiteAnexo.FirstOrDefault().Anexo.Arquivo);
+        imgSrcSite = String.Format("data:image/" + tipoimg + ";base64," + base64);
+    }
+
+}
+@section Metas {
+    <meta name="page" content="CriarSite" />
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/SiteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+}
+
+@imgNome
+<div id="main">
+    <input type="hidden" name="IdSite" value="@Model.IdSite" />
+    <input type="hidden" name="IdCliente" value="@Model.IdCliente" />
+    <div class="content-painel">
+        <!-- Formulario Site -->
+        <form id="form-criar-site">
+            <div class="panel panel-default" id="panel-form-site">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.Site.ResourceSite.Site_lbl_titulo_site</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-criarsite">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Logo Site -->
+                            <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="formCriaSiteLogoNome" value="@imgNome">
+                                    <input type="hidden" name="formCriaSiteLogoIdAnexo" value="@idFotoPerFil">
+                                    <input type="hidden" name="formCriaSiteLogoDefault" value="@imgSrcSite">
+                                    <label for="form-cria-site-logo" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Logo</label>
+                                    <div class="upload-arq">
+                                        <a class="btn-upload-form-criar-site">
+                                            <img class="img-responsive" src="@imgSrcSite"></img>
+                                        </a>
+                                        <input type="file" name="formCriaSiteLogo" id="form-cria-site-logo" class=""
+                                               placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Logo"
+                                               accept="image/*"
+                                               data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Logo"
+                                               data-msg-extension="@Traducao.Site.ResourceSite.Site_msg_required_Logo_extension"
+                                               data-b64="@base64">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Nome Fantasia -->
+                            <div class="col-lg-6 col-md-8 col-sm-9 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-cria-site-nome" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Nome</label>
+                                    <input type="text" name="formCriaSiteNome" id="form-cria-site-nome" class="form-control"
+                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Nome"
+                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Nome"
+                                           data-msg-maxlength="@Traducao.Site.ResourceSite.Site_msg_required_maxlength_Nome"
+                                           value="@Model.NmFantasia" />
+                                </div>
+                            </div>
+                            <!-- Razao Social -->
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-cria-site-Razaosocial" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Razao_Social</label>
+                                    <input type="text" name="formCriaSiteRazaoSocial" id="form-cria-site-Razaosocial" class="form-control"
+                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Razao_Social"
+                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Razao_Social"
+                                           data-msg-maxlength="@Traducao.Site.ResourceSite.Site_msg_required_maxlength_Razao_Social"
+                                           value="@Model.NmRazaoSocial" "    />
+                                </div>
+                            </div>
+                            <!-- CNPJ -->
+                            <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-cria-site-cnpj" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Cnpj</label>
+                                    <input type='text' name="formCriaSiteCnpj" id="form-cria-site-cnpj" class="form-control input-cnpj"
+                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Cnpj"
+                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Cnpj"
+                                           data-msg-cnpj="@Traducao.Site.ResourceSite.Site_msg_required_Cnpj_isvalid"
+                                           value="@Model.NuCNPJ" />
+                                </div>
+                            </div>
+                            <!-- Frase -->
+                            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-cria-site-frase" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Frase</label>
+                                    <input type='text' name="formCriaSiteFrase" id="form-cria-site-frase" class="form-control"
+                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Frase"
+                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Frase"
+                                           data-msg-maxlength="@Traducao.Site.ResourceSite.Site_msg_required_maxlength_Frase"
+                                           value="@Model.DsFrase" />
+                                </div>
+                            </div>
+                            <!-- Observacoes -->
+                            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-cria-site-observacoes" class="control-label">@Traducao.Site.ResourceSite.Site_lbl_Observacoes</label>
+                                    <input type='text' name="formCriaSiteObservacoes" id="form-cria-site-observacoes" class="form-control"
+                                           placeholder="@Traducao.Site.ResourceSite.Site_lbl_placeholder_Observacoes"
+                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes"
+                                           data-msg-maxlength="@Traducao.Site.ResourceSite.Site_msg_required_maxlength_Observacoes"
+                                           value="@Model.DsObservacoes" />
+                                </div>
+                            </div>
+                            <!-- Ativo -->
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 checkbox checkbox-margintop">
+                                <div class="form-group">
+                                    <input type="checkbox" id="form-cria-site-ativo" name="formCriaSiteAtivo"
+                                           class="form-control"
+                                           onclick="chkValue(this);"
+                                           @((Model.FlAtivo == true || ativoParaCriacao) ? "checked" : null) />
+                                    <label for="form-cria-site-ativo">Ativo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+
+        @if (ViewBag.IdPerfil == 1)
+        {
+            <!-- Formulario Modulos -->
+            <form id="form-modulos-acesso">
+                <div class="panel panel-default" id="panel-form-modulos">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Modulo.ResourceModulo.Modulo_lbl_titulo</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <!-- Modulos -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <!-- Modulos -->
+                                    <div class="form-group">
+                                        <label for="form-modulos-acesso-escolha">@Traducao.Modulo.ResourceModulo.Modulo_lbl_Modulo</label>
+                                        <div class="row tabela-check">
+
+                                            @foreach (var item in (List<Funcionalidade>)ViewBag.Funcionalidades)
+                                            {
+                                                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                    <input type="checkbox" name="formModulosAcessoEscolha" id="form-modulos-acesso-escolha-@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(item.Tag)" class="form-control" value="@item.IdFuncionalidade"
+                                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes" @(Model.SiteFuncionalidades.Any(x => x.IdFuncionalidade == item.IdFuncionalidade) ? "checked" : null)>
+                                                    <label for="form-modulos-acesso-escolha-@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(item.Tag)">@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(item.Tag)</label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        }
+
+        <!-- Processos -->
+        <form id="form-processos">
+            <div class="panel panel-default" id="panel-form-processos">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.Processo.ResourceProcesso.Processo_lbl_titulo</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Tabela Processos -->
+
+                            <input type="hidden" name="msgProcessosNomeLabel" value="@Traducao.Processo.ResourceProcesso.Processo_lbl_Processo" />
+                            <input type="hidden" name="msgProcessosNomePlaceholder" value="@Traducao.Processo.ResourceProcesso.Processo_lbl_placeholder_Nome" />
+                            <input type="hidden" name="msgProcessosNomeRequired" value="@Traducao.Processo.ResourceProcesso.Processo_msg_required_Nome" />
+                            <input type="hidden" name="msgProcessosNomeRequiredMaxlength" value="@Traducao.Processo.ResourceProcesso.Processo_msg_required_maxlength_Nome" />
+                            <input type="hidden" name="msgProcessosAtivo" value="@Traducao.Processo.ResourceProcesso.Processo_lbl_Ativo" />
+                            <input type="hidden" name="msgIconeExcluir" value="@Traducao.Cargo.ResourceCargo.Cargo_msg_icone_excluir" />
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <!-- Table Processos -->
+                                <table id="tb-processos" class="display dataTable no-footer dtr-inline table-bordered table" style="">
+                                    <thead class="titulo-tabela">
+                                        <tr class="bg" role="row">
+                                            <th class="w80">@Traducao.Processo.ResourceProcesso.Processo_lbl_Processo</th>
+                                            <th class="w10">@Traducao.Shared.ResourceLabel.Label_perfil_Status</th>
+                                            <th class="w10">@Traducao.Shared.ResourceLabel.Label_perfil_Acao</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Processos.Count > 0)
+                                        {
+                                            foreach (var proocesso in Model.Processos)
+                                            {
+                                                <tr role="row" class="">
+                                                    <td>
+                                                        <!-- Processo -->
+                                                        <div class="form-group">
+                                                            <input type="hidden" name="formProcessosId" value="@proocesso.IdProcesso" />
+                                                            <input type="text" name="formProcessosNome" id="form-processos-nome" class="form-control"
+                                                                   placeholder="@Traducao.Processo.ResourceProcesso.Processo_lbl_placeholder_Nome"
+                                                                   data-msg-required="@Traducao.Processo.ResourceProcesso.Processo_msg_required_Nome"
+                                                                   data-msg-maxlength="@Traducao.Processo.ResourceProcesso.Processo_msg_required_maxlength_Nome"
+                                                                   value="@(proocesso.Nome)">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <!-- Ativo -->
+                                                        <div class="form-group checkbox">
+                                                            <input type="checkbox" name="formProcessosAtivo" id="form-processos-ativo-@proocesso.Nome"
+                                                                   class="form-control"
+                                                                   checked="@(proocesso.FlAtivo == true?"checked":null)">
+                                                            <label for="form-processos-ativo-@proocesso.Nome">@Traducao.Processo.ResourceProcesso.Processo_lbl_Ativo</label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" class="btn-delete-processo icon-cliente trash-color">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="Deseja mesmo Excluir o cargo?"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr role="row" class="">
+                                                <td>
+                                                    <!-- Processo -->
+                                                    <div class="form-group">
+                                                        <input type="text" name="formProcessosNome" id="form-processos-nome" class="form-control"
+                                                               placeholder="@Traducao.Processo.ResourceProcesso.Processo_lbl_placeholder_Nome"
+                                                               data-msg-required="@Traducao.Processo.ResourceProcesso.Processo_msg_required_Nome"
+                                                               data-msg-maxlength="@Traducao.Processo.ResourceProcesso.Processo_msg_required_maxlength_Nome"
+                                                               value="@Traducao.Processo.ResourceProcesso.Processo_lbl_Processo_value">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <!-- Ativo -->
+                                                    <div class="form-group checkbox">
+                                                        <input type="checkbox" name="formProcessosAtivo" id="form-processos-ativo" class="form-control" value="true" checked disabled>
+                                                        <label for="form-processos-ativo">@Traducao.Processo.ResourceProcesso.Processo_lbl_Ativo</label>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-add-processo pull-right">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Site", new { id = Model.IdCliente }, null)</button>
+        </div>
+    </div>
+</div>
+
+

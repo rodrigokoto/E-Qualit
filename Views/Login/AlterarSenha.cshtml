@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+@section Metas {
+    <meta name="page" content="AlterarSenhaLogin" />
+}
+
+@section styles{
+    <style>
+        section {
+            padding-top: 0 !important;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/LoginController.js")"></script>
+}
+
+@Html.AntiForgeryToken()
+<form id="form-alterar-senha">
+    <input type="hidden" name="formAlterarSenhaUtilizaSenhaForte" value="@ViewBag.UtilizaSenhaForte" />
+    <input type="hidden" name="formAlterarSenhaIdUsuario" value="@ViewBag.IdUsuario" ; />
+    <input type="hidden" name="lblStrongPasswordMuitoPequena" value="@Traducao.Resource.StrongPassword_lbl_muito_pequena" />
+    <input type="hidden" name="lblStrongPasswordFraca" value="@Traducao.Resource.StrongPassword_lbl_fraca" />
+    <input type="hidden" name="lblStrongPasswordMedia" value="@Traducao.Resource.StrongPassword_lbl_media" />
+    <input type="hidden" name="lblStrongPasswordForte" value="@Traducao.Resource.StrongPassword_lbl_forte" />
+    <input type="hidden" name="lblStrongPasswordMuitoForte" value="@Traducao.Resource.StrongPassword_lbl_muito_forte" />
+    <div id="cntLogin" class="login-form">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                <bloquote>
+                    <div class="bg-info">
+                        <p>
+                            <span style="font-size:45px; color:#0088cc;">@Traducao.Resource.Pratica</span> @Traducao.Resource.CotidianaGlobalizado
+                        </p>
+                    </div>
+                </bloquote>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-offset-1 col-lg-4 col-md-4">
+                <img src="~/Content/assets/imagens/logo-equalit-bg.png" class="img-responsive logo-login" />
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-6 col-md-8">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="form-header blue-header">
+                            <h4>@Traducao.Login.ResourceLogin.AlterarSenha_titulo</h4>
+                        </div>
+                        <!-- Senha Atual -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-key icon-login site-color"></i>
+                                </span>
+                                <input type="password" id="form-alterar-senha-atual" name="formAlterarSenhaAtual" class="form-control"
+                                       placeholder="@Traducao.Login.ResourceLogin.AlterarSenha_lbl_placeholder_Senha_atual"
+                                       data-msg-required="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_atual"
+                                       value="" />
+                            </div>
+                        </div>
+                        <!-- Nova Senha -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-key icon-login ativo-color"></i>
+                                </span>
+                                <input type="password" id="form-alterar-senha-nova" name="formAlterarSenhaNova" class="form-control"
+                                       placeholder="@Traducao.Login.ResourceLogin.AlterarSenha_lbl_placeholder_Senha_nova"
+                                       data-msg-required="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_nova"
+                                       data-msg-minlength="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_nova_minlength"
+                                       data-msg-notEqualsTo="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_notequals"
+                                       data-msg-strongPassword="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_nova_strong_pwd"
+                                       value="" />
+                            </div>
+                        </div>
+                        <!-- Confirmar Senha -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-key icon-login blue-color"></i>
+                                </span>
+                                <input type="password" id="form-alterar-senha-confirmar" name="formAlterarSenhaConfirmar" class="form-control"
+                                       placeholder="@Traducao.Login.ResourceLogin.AlterarSenha_lbl_placeholder_Senha_confirma"
+                                       data-msg-required="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_confirma"
+                                       data-msg-minlength="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_confirma_minlength"
+                                       data-msg-notEqualsTo="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_notequals"
+                                       data-msg-equalto="@Traducao.Login.ResourceLogin.AlterarSenha_msg_required_Senha_confirma_equals"
+                                       value="" />
+                            </div>
+                        </div>
+                        <div class="bg-btn-enviar">
+                            <button type="button" id="" class="btn btn-custom btn-lg btn-block btn-alterar-senha">@Traducao.Resource.botao_enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,497 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model Dominio.Entidade.Instrumento
+@{
+    ViewBag.Title = "Instrumento";
+
+    var funcoes = new List<int>
+{
+(int)FuncoesInstrumento.CadastroDeInstrumento,
+(int)FuncoesInstrumento.EditarInstrumento,
+(int)FuncoesInstrumento.ExcluirInstrumento,
+(int)FuncoesInstrumento.CadastroDeCalibracao,
+(int)FuncoesInstrumento.EditarCalibracao,
+(int)FuncoesInstrumento.ExcluirCalibracao,
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+}
+@section Metas {
+    <meta name="page" content="CriarInstrumentos" />
+}
+<!--
+<div class="row header-fixo" style="top: 123px;">
+     Tabs
+    <div class="col-md-12 tabs hide">
+        <ul class="nav nav-pills menu-one">
+            <li role="presentation" class="col-md-6">
+                <a href="#parametro-instrumento">Parâmetros do Instrumento a Controlar</a>
+            </li>
+            <li role="presentation" class="col-md-6">
+                <a href="#tabela-calibracao">Tabela Calibração</a>
+            </li>
+            <li role="presentation" class="col-md-6 hide">
+                <a href="#pos-calibracao">Parâmetros do Instrumento Pós Calibração</a>
+            </li>
+        </ul>
+    </div>
+</div>-->
+@section scripts {
+
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/InstrumentosController.js")"></script>
+}
+
+<div id="main" style="margin: 40px 0 0 0 !important;">
+    <div class="content-painel">
+        <!-- Formulario Parametro Instrumento -->
+        <form id="form-parametro-instrumento">
+            <input name="IdInstrumento" type="hidden" id="IdInstrumento" value="@Model.IdInstrumento" />
+            <input name="IdSite" type="hidden" id="IdSite" value="@ViewBag.IdSite" />
+            <input name="idFuncao" type="hidden" id="idFuncao" value="@ViewBag.IdFuncao" />
+            <input name="IdProcesso" type="hidden" id="IdProcesso" value="@ViewBag.IdProcesso" />
+            <input name="IdResponsavelHidden" type="hidden" id="IdResponsavelHidden" value="@Model.IdResponsavel" />
+            <!-- Inicio Panel -->
+            <div class="content-painel">
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-target="parametro-instrumento">
+                        <div class="panel-title">
+                            <h2>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_titulo_intrumento_a_controlar</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="parametro-instrumento">
+                        <div class="barra-busca">
+                            <div class="row base-senhas">
+                                <!-- Instrumento -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Intrumento</label>
+                                        <input name="Equipamento" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-instrumento" data-val="true" type="text"
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Instrumento"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Intrumento"
+                                               value="@Model.Equipamento">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Numero -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero</label>
+                                        <input name="Numero" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-numero" data-val="true" title="" type="text"
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Numero"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Numero"
+                                               value="@Model.Numero">
+                                    </div>
+                                </div>
+                                <!-- Marca -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Marca</label>
+                                        <input name="Marca" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-marca" data-val="true" title="" type="text"
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Marca"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Marca"
+                                               value="@Model.Marca">
+                                    </div>
+                                </div>
+                                <!-- Modelo -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Modelo</label>
+                                        <input name="Modelo" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-modelo" data-val="true" title="" type="text"
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Modelo"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Modelo"
+                                               value="@Model.Modelo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Responsavel -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Responsavel</label>
+                                        <select name="IdResponsavel" @( Model.FlagTravado ? "disabled" : "") id="dropdown-responsavel" class="form-control form-parametro-instrumento-responsavel"
+                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Responsavel"
+                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Responsavel">
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Local -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form-parametro-instrumento-local-de-uso" class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Local_de_uso</label>
+                                        <input name="LocalDeUso" @( Model.FlagTravado ? "disabled" : "") id="form-parametro-instrumento-local-de-uso" class="form-control form-parametro-instrumento-local-de-uso" type="text"
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Local_de_uso"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Local_de_uso"
+                                               value="@Model.LocalDeUso">
+                                    </div>
+                                </div>
+                                <!-- Escala -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Escala</label>
+                                        <input name="Escala" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-escala" data-val="true" title="" type="text"
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Escala"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Escala"
+                                               value="@Model.Escala">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Menor -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Menos_divisao</label>
+                                        <input name="MenorDivisao" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-menor-divisao" data-val="true" title="" type="text"
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Menor_divisao"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Menor_divisao"
+                                               value="@Model.MenorDivisao">
+                                    </div>
+                                </div>
+                                <!-- Criterio -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Criterio_de_aceitacao</label>
+                                        <input name="valorAceitacao" @( Model.FlagTravado ? "disabled" : "") onkeyup="SubstituiVirgulaPorPonto(this)" class="form-control form-parametro-instrumento-criterio-aceitacao" data-val="true" title="" type="text"
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Criterio_de_aceitacao"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Criterio_de_aceitacao"
+                                               data-msg-number="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_number_Criterio_de_aceitacao"
+                                               value="@Model.valorAceitacao" data-original-title="criteiro">
+                                    </div>
+                                </div>
+                                <!-- Campo Critério -->
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Calculado_pelo_sistema</label>
+                                        </div>
+                                        <input name="SistemaDefineStatus" @( Model.FlagTravado ? "disabled" : "") id="radio-sim" class="radio-sim-nao" type="radio" value="true" @(Model.SistemaDefineStatus == true && Model.IdInstrumento > 0 ? "checked" : "")>
+                                        <label class="demo-list-radio" for="radio-sim">@Traducao.Shared.ResourceButtons.btn_lbl_sim</label>
+
+                                        <input name="SistemaDefineStatus" @( Model.FlagTravado ? "disabled" : "") id="radio-nao" class="radio-sim-nao" type="radio" value="false" @(Model.SistemaDefineStatus == false && Model.IdInstrumento > 0 ? "checked" : "")>
+                                        <label class="demo-list-radio" for="radio-nao">@Traducao.Shared.ResourceButtons.btn_lbl_nao</label>
+
+                                        <em id="emErroSistemaDefineStatus" class="error help-block" style="display:none;">@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Calculado_pelo_sistema</em>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_DescricaoCriterio</label>
+                                        <textarea name="DescricaoCriterio" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-descricao-criterio" title=""
+                                                  placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_DescricaoCriterio"
+                                                  data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_DsRegistro"
+                                                  data-msg-minlength="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_minlength_DsRegistro"
+                                                  value=""
+                                                  rows="7">@Model.DescricaoCriterio</textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="IdSite" id="acao-corretiva-site" value="" />
+            <input type="hidden" name="TipoRegistro" value="ac" />
+        </form>
+
+
+        <!-- Painel -->
+        <div class="panel panel-default tb-calibracao hide">
+            <div class="panel-heading" data-toggle="collapse" data-target="#tabela-calibracao">
+                <h2>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_titulo_tabela_calibracao</h2>
+            </div>
+            <div class="panel-body" id="tabela">
+                <div class="barra-busca">
+                    <!-- Tabela -->
+                    <div class="row">
+                        <!--- Novo Participante -->
+                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.CadastroDeCalibracao) || ViewBag.IdPerfil != 4)
+                        {
+                            <p class="novo">
+
+                                <a href="#" name="tb-calibracao-add" class="tb-calibracao-add">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    @Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_nova_calibracao
+                                </a>
+                            </p>
+                        }
+                        <table id="tb-calibracao" class="display dataTable no-footer dtr-inline" role="grid" aria-describedby="tbCliente_info">
+                            <thead>
+                                <tr class="bg" role="row">
+                                    <th class="w12 sorting_asc hidden" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_calibracao</th>
+                                    <th class="w12 sorting_asc" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_numero_certificado</th>
+                                    <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_dt_calibracao</th>
+                                    <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_proxima_calibracao</th>
+                                    <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_orgao_calibrador</th>
+                                    <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_aprovado_por</th>
+                                    <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_aprovado</th>
+                                    <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_observacoes</th>
+                                    <th class="w12 with-input" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Linha 1 -->
+                                @if (Model.Calibracao != null)
+                                {
+                                    foreach (var calibracao in Model.Calibracao)
+                                    {
+                                        <!-- Campo Tabela -->
+                                        <tr role="row" class="odd campos-tabela-calibracao">
+                                            <td class="id-calibracao hidden">@calibracao.IdCalibracao</td>
+                                            <td>@calibracao.Certificado</td>
+                                            <td>@(calibracao.DataCalibracao != null ? calibracao.DataCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
+                                            <td>@(calibracao.DataProximaCalibracao != null ? calibracao.DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
+                                            <td>@calibracao.OrgaoCalibrador</td>
+                                            <td>@calibracao.UsuarioAprovador.NmCompleto</td>
+                                            <td>
+                                                @if (calibracao.Aprovado == 0)
+                                                {
+                                                    <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                                }
+                                                else if (calibracao.Aprovado == 1)
+                                                {
+                                                    <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
+                                                }
+                                                else if (calibracao.Aprovado == 2)
+                                                {
+                                                    <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
+                                                }
+                                                else if (calibracao.Aprovado == 3)
+                                                {
+                                                    <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
+                                                }
+
+                                            </td>
+                                            <td>@calibracao.Observacoes</td>
+                                            <td class="text-nowrap">
+                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.EditarCalibracao) || ViewBag.IdPerfil != 4)
+                                                {
+                                                    <a class="edit icon-cliente editar-color tb-calibracao-editar" data-id="@calibracao.IdCalibracao" style="cursor:pointer">
+                                                        <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                    </a>
+                                                }
+                                                @if (calibracao.ArquivoCertificado.Count > 0)
+                                                {
+                                                    var anexoTratado = calibracao.ArquivoCertificado.FirstOrDefault().Anexo.TrataAnexoVindoBanco();
+
+                                                    <a href="@anexoTratado" class="icon-cliente view-color" target="_blank" download="@calibracao.ArquivoCertificado.FirstOrDefault().Anexo.Nome">
+                                                        <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
+                                                    </a>
+                                                }
+
+                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.ExcluirCalibracao) || ViewBag.IdPerfil != 4)
+                                                {
+                                                    <a href="" class="tb-calibracao-excluir icon-cliente trash-color" data-id="@calibracao.IdCalibracao">
+                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario Pos Calibracao -->
+        <form id="form-pos-calibracao" class="hide">
+            <input name="EdicaoCalibracao" value="0" type="hidden" />
+            <input id="IdCalibracao" value="0" type="hidden" />
+            <input name="IdAprovadorCalibracao" type="hidden" id="IdAprovadorCalibracao" value="@ViewBag.IdAprovadorCalibracao" />
+            <!-- Parametros do Instrumento -->
+            <div class="content-painel">
+                <div class="panel panel-default tb-calibracao-pos-calibracao" style="">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#pos-calibracao">
+                        <h2>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_titulo_pos_calibracao</h2>
+                    </div>
+                    <div class="panel-body" id="pos-calibracao">
+                        <div class="barra-busca">
+                            <div class="row base-senhas">
+                                <!-- Data Registro -->
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                                    <label for="form-pos-calibracao-dt-registro">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_data_registro</label>
+                                    <br />
+                                    <div class='input-group input-group-datepicker' ' id='datetimepicker2'>
+                                        <input name="DtRegistro" class="form-control form-pos-calibracao-dt-registro data datepicker largura-calendario" type='text'
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_dt_registro"
+                                               data-rule-required="true" data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.OCampoEObrigatorio" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Proxima Calibracao -->
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                                    <label for="form-pos-calibracao-dt-proxima-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_proxima_calibracao</label>
+                                    <br />
+                                    <div class='input-group input-group-datepicker' ' id='datetimepicker2'>
+                                        <input name="DataProximaCalibracao" class="form-control form-pos-calibracao-dt-proxima-calibracao data datepicker largura-calendario" type='text'
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_proxima_calibracao"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.OCampoEObrigatorio" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Data Notificacao -->
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                                    <label for="form-pos-calibracao-dt-notificacao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_data_notificacao</label>
+                                    <br />
+                                    <div class='input-group input-group-datepicker' id='datetimepicker2'>
+                                        <input name="DtNotificacao" class="form-control form-pos-calibracao-dt-notificacao data datepicker largura-calendario" type='text'
+                                               placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_dt_notificacao"
+                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.OCampoEObrigatorio" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Numero Certificado -->
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                    <label>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_nm_certificado</label>
+                                    <input name="Certificado" class="form-control form-pos-calibracao-nm-certificado" title="" type="text"
+                                           placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_nm_certificado" value="">
+                                    <label for="Certificado" id="lblErroNuCertificado" class="error" style="display: none;">@Traducao.Instrumentos.ResourceInstrumentos.OCampoEObrigatorio</label>
+                                </div>
+                                <!-- Orgao Calibrador -->
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                    <label>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_orgao_calibrador</label>
+                                    <input name="OrgaoCalibrador" class="form-control form-pos-calibracao-orgao-calibrador" title="" type="text"
+                                           placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_orgao_calibrador" value="">
+                                    <label for="OrgaoCalibrador" id="lblErroOrgaoCalibrador" class="error" style="display: none;">@Traducao.Instrumentos.ResourceInstrumentos.OCampoEObrigatorio</label>
+                                </div>
+                                <!-- Parametros -->
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 hide form-pos-calibracao-parametros">
+                                    <label>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_parametros</label>
+                                    <div class="panel-body2">
+                                        <table name="CriteriosAceitacao" class="table table-striped table-bordered table-list tb-parametros-pos-calibracao">
+                                            <thead class="titulo-tabela">
+                                                <tr style="padding: 20px !important;">
+                                                    <th class="w2"></th>
+                                                    <th class="w10 with-input">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_intervalo</th>
+                                                    <th class="w10 with-input">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_erro</th>
+                                                    <th class="w2"></th>
+                                                    <th class="w10 with-input">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_incerteza</th>
+                                                    <th class="w2"></th>
+                                                    <th class="w10 with-input">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_resultado</th>
+                                                    <th class="w2" align="center"><a href="#" data-valor="True" class="icon-cliente"><i class="fa fa-plus-circle white-color form-pos-calibracao-parametros-icone-add" aria-hidden="true"></i></a></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- Aprovado por -->
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                    <label>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_aprovado_por</label>
+                                    <select name="Aprovador" class="form-control form-pos-calibracao-aprovado-por" data-val="true" title="" data-original-title="Selecione" data-rule-required="true" data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.OCampoEObrigatorio">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                    </select>
+                                </div>
+                                <!-- Aprovado -->
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 DivAprovado">
+                                    <label>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_aprovado</label>
+                                    <div class="row form-pos-calibracao-aprovado" style="padding-top: 3px !important;">
+                                        <label style="margin-right: 20px;" class="demo-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="form-pos-calibracao-aprovado">
+                                            <input name="Aprovado" class="form-pos-calibracao-aprovado-sim" id="form-pos-calibracao-aprovado" type="radio" value="1">
+                                            @Traducao.Shared.ResourceButtons.btn_lbl_sim
+                                        </label>
+                                        <label class="demo-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="form-pos-calibracao-aprovado">
+                                            <input name="Aprovado" class="form-pos-calibracao-aprovado-nao" id="form-pos-calibracao-nao-aprovado" type="radio" value="0">
+                                            @Traducao.Shared.ResourceButtons.btn_lbl_nao
+                                        </label>
+                                        <label class="demo-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="form-pos-calibracao-aprovado">
+                                            <input name="Aprovado" class="form-pos-calibracao-aprovado-fora" id="form-pos-calibracao-fora-uso" type="radio" value="2">
+                                            @Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso
+                                        </label>
+                                        <label class="demo-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="form-pos-calibracao-aprovado">
+                                            <input name="Aprovado" class="form-pos-calibracao-aprovado-em-calibracao" id="form-pos-calibracao-em-calibracao" type="radio" value="3">
+                                            @Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Certificado -->
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form-pos-calibracao-certificado" class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_certificado</label>
+                                        <div class="upload-arq form-control">
+                                            <a class="btn-upload-multiple-form-criar-cliente-contrato">
+                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                            </a>
+                                            <ul class="ulAnexos"></ul>
+                                            <input type="file" name="ArquivoCertificado" id="form-pos-calibracao-certificado"
+                                                   class=""
+                                                   data-msg-required=""
+                                                   data-b64=""
+                                                   multiple="multiple">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Campo Observação -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_observacoes</label>
+                                    <textarea name="Observacoes" class="form-control form-group" rows="8" placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_observacoes">                    
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="IdSite" id="acao-corretiva-site" value="" />
+                <input type="hidden" name="TipoRegistro" value="ac" />
+            </div>
+        </form>
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            @if (Model.IdInstrumento > 0)
+            {
+
+                if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.Destravar) || ViewBag.IdPerfil != 4)
+                {
+                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_destravar, "Destravar", "Instrumento", new { IdInstrumento = Model.IdInstrumento }, null)</button>
+                }
+
+                <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+
+            }
+            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.EditarInstrumento)
+                || listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.CadastroDeInstrumento)
+                || ViewBag.IdPerfil != 4)
+            {
+
+                <button class="btn btn-primary btn-salvar form-save" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            }
+
+
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Instrumento/Index")</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function SubstituiVirgulaPorPonto(campo) {
+        campo.value = campo.value.replace(/,/gi, ".");
+        campo.value = campo.value.replace(/[A-Za-z]/gi, "");
+    }
+
+</script>

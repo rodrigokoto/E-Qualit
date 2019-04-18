@@ -1,0 +1,131 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model IEnumerable<Dominio.Entidade.Instrumento>
+@{
+    ViewBag.Title = "Instrumentos";
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+}
+@section Metas {
+    <meta name="page" content="IndexInstrumentos" />
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/InstrumentosController.js")"></script>
+}
+@Html.AntiForgeryToken()
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Instrumento -->
+        <form id="form-list-">
+            <div class="panel panel-default" id="panel-instrumento">
+                <div class="panel-body" id="panel-form-instrumento">
+                    <div class="row">
+                        <div class="barra-busca">
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.CadastroDeInstrumento) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo">
+                                    @Html.ActionLink(Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_titulo_novo_instrumento, "Criar", "Instrumento")
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
+                            <div class="col-lg-12">
+                                <table id="tb-instrumento" class="display table table-striped table-bordered dt-responsive" style="width:100% !important;">
+                                    <thead>
+                                        <tr id="hr1" class="bg">
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Local_de_uso">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Intrumento">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Dt_proxima_calibracao">
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status">
+                                            </th>
+                                            <th class="w10"></th>
+                                        </tr>
+                                        <tr class="bg">
+                                            <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero</th>
+                                            <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Local_de_uso</th>
+                                            <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Intrumento</th>
+                                            <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Dt_proxima_calibracao</th>
+                                            <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status</th>
+                                            <th>@Traducao.Shared.ResourceLabel.Label_perfil_Acao</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var instrumento in Model)
+                                        {
+                                            <tr class="odd">
+                                                <td>@instrumento.Numero</td>
+                                                <td>@instrumento.LocalDeUso</td>
+                                                <td>@instrumento.Equipamento</td>
+                                                @if (instrumento.Calibracao.Count > 0 && instrumento.Calibracao.LastOrDefault() != null && instrumento.Calibracao.LastOrDefault().DataProximaCalibracao != null)
+                                                {
+                                                    <td>@instrumento.Calibracao.LastOrDefault().DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data)</td>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                                <td>
+                                                    @if (instrumento.Calibracao.LastOrDefault() != null)
+                                                    {
+
+                                                        if (instrumento.Calibracao.LastOrDefault().Aprovado == 0)
+                                                        {
+                                                            <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                                        }
+                                                        else if (instrumento.Calibracao.LastOrDefault().Aprovado == 1)
+                                                        {
+                                                            <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
+                                                        }
+                                                        else if (instrumento.Calibracao.LastOrDefault().Aprovado == 2)
+                                                        {
+                                                            <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
+                                                        }
+                                                        else if (instrumento.Calibracao.LastOrDefault().Aprovado == 3)
+                                                        {
+                                                            <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                                    }
+                                                </td>
+
+                                                <td>
+                                                    @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesInstrumento.EditarInstrumento).Count() > 0 || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="@Url.Action("Editar","Instrumento", new {id = instrumento.IdInstrumento}) " class="edit icon-cliente editar-color">
+                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                        </a>
+                                                    }
+                                                    @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesInstrumento.ExcluirInstrumento).Count() > 0 || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="#" class="excluir icon-cliente trash-color tb-instrumento-excluir" data-id="@instrumento.IdInstrumento">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

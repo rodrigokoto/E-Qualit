@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Dominio.Entidade.Site>
+@{
+    ViewBag.Title = "Index";
+    var idCliente = ViewBag.IdCliente;
+}
+@section Metas {
+    <meta name="page" content="IndexSite" />
+}
+
+@section scripts {
+
+    <script src="@Url.Content("~/Content/assets/js/SiteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+}
+
+
+
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Site -->
+        <form id="form-sites">
+            <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
+            <input type="hidden" name="msgIconeAtivoAtivar" value="@Traducao.Site.ResourceSite.Site_msg_icone_ativo_ativar" />
+            <input type="hidden" name="msgIconeAtivoInativar" value="@Traducao.Site.ResourceSite.Site_msg_icone_ativo_inativar" />
+            <input type="hidden" name="msgIconeExcluir" value="@Traducao.Site.ResourceSite.Site_msg_icone_excluir" />
+            <div class="panel panel-default" id="panel-sites">
+                <div class="panel-body" id="panel-form-sites">
+                    <div class="row">
+                        <div class="barra-busca">
+                            <p class="novo" style="position:static !important; margin-bottom:5px !important;">
+
+                                @Html.ActionLink(@Traducao.Site.ResourceSite.Site_lbl_novo_site, "Criar", "Site", new { idCliente = idCliente }, null)
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </p>
+                            <div class="col-lg-12">
+                                <table id="tb-index-sites" class="display dataTable no-footer dtr-inline " style="width: 100% !important;">
+                                    <thead>
+                                        <tr id="hr1" class="bg" role="row">
+                                            <th class="w25 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Site.ResourceSite.Site_lbl_Nome" />
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Site.ResourceSite.Site_lbl_Razao_Social" />
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Site.ResourceSite.Site_lbl_Cnpj" />
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Site.ResourceSite.Site_lbl_Cnpj" />
+                                            </th>
+                                            <th class="w15 with-input">
+
+                                            </th>
+                                        </tr>
+                                        <tr class="bg" role="row">
+                                            <th>@Traducao.Site.ResourceSite.Site_lbl_Nome</th>
+                                            <th>@Traducao.Site.ResourceSite.Site_lbl_Razao_Social</th>
+                                            <th>@Traducao.Site.ResourceSite.Site_lbl_Cnpj</th>
+                                            <th>@Traducao.Site.ResourceSite.Site_lbl_Cliente</th>
+                                            <th>@Traducao.Shared.ResourceLabel.Label_perfil_Acao</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td>@item.NmFantasia</td>
+                                                <td>@item.NmRazaoSocial</td>
+                                                <td>@Convert.ToUInt64(@item.NuCNPJ).ToString(@"00\.000\.000\/0000\-00")</td>
+                                                <td>@item.Cliente.NmFantasia</td>
+                                                <td>
+                                                    @if (ViewBag.Controller == "Site")
+                                                    {
+
+                                                        <a href="@Url.Action("Editar", "Site", new { id = item.IdSite })" class="edit icon-cliente  editar-color">
+                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                        </a>
+                                                        <a href="#" class="ativoinativo icon-cliente" data-valor="@item.FlAtivo" data-id="@item.IdSite">
+
+                                                            @if (item.FlAtivo)
+                                                            {
+                                                                @Html.Raw("<i class=\"fa fa-check  ativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativar + "></i>")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw("<i class=\"fa fa-check inativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + "></i>")
+                                                            }
+
+                                                        </a>
+                                                    }
+
+                                                    <a class="icon-cliente user-color" href="@Url.Action("Index", "Cargo", new { id = item.IdSite})">
+                                                        <i class="fa fa-sitemap" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_cargo"></i>
+                                                    </a>
+
+                                                    <a class="icon-cliente user-color" href="@Url.Action("Index", "Usuario", new { id = item.Cliente.IdCliente, idSite = item.IdSite })">
+                                                        <i class="fa fa-user " aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_usuario"></i>
+                                                    </a>
+
+                                                    @if (ViewBag.Controller == "Site")
+                                                    {
+                                                        <a href="#" class="excluir icon-cliente trash-color" data-id="@item.IdSite">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+        </form>
+    </div>
+</div>
+<script>
+    $('.excluir').on('click', function () {
+
+        var idCliente = $(this).data('id');
+        var msgIconeExcluir = $('[name=msgIconeExcluir]').val();
+
+        bootbox.confirm(msgIconeExcluir, function (result) {
+            if (result == true) {
+                APP.controller.SiteController.getMsgIconeExcluir(idCliente);
+            }
+        });
+
+    });
+
+    $('.ativoinativo').on('click', function () {
+
+        var idSite = $(this).data('id');
+        var AtivoInativo = $(this).find('i').attr("title");
+
+        var msgIconeAtivoAtivar = $('[name=msgIconeAtivoAtivar]').val();
+        var msgIconeAtivoInativar = $('[name=msgIconeAtivoInativar]').val();
+
+        if (AtivoInativo != "Ativar") {
+            bootbox.confirm(msgIconeAtivoAtivar, function (result) {
+                if (result == true) {
+                    APP.controller.SiteController.getMsgIconeAtivo(idSite);
+                }
+            });
+        } else {
+            bootbox.confirm(msgIconeAtivoInativar, function (result) {
+                if (result == true) {
+                    APP.controller.SiteController.getMsgIconeAtivo(idSite);
+                }
+            });
+        }
+
+    });
+</script>

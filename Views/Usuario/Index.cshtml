@@ -1,0 +1,306 @@
+﻿@model IEnumerable<Dominio.Entidade.Usuario>
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    var eAdminSuporte = (ViewBag.IdPerfil == 1 || ViewBag.IdPerfil == 2) ? true : false;
+}
+@section Metas {
+    <meta name="page" content="IndexUsuario" />
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/UsuarioController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/LoginController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/SiteController.js")"></script>
+}
+@Html.AntiForgeryToken()
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario  -->
+        <form id="form-usuario">
+
+            <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
+            <input type="hidden" id="IdSite" value="@ViewBag.IdSite" />
+            <input type="hidden" name="msgIconeAtivoAtivar" value="@Traducao.Usuario.ResourceUsuario.Usuario_msg_icone_ativo_ativar" />
+            <input type="hidden" name="msgIconeAtivoInativar" value="@Traducao.Usuario.ResourceUsuario.Usuario_msg_icone_ativo_inativar" />
+            <input type="hidden" name="msgIconeBloqueiaAtivar" value="@Traducao.Usuario.ResourceUsuario.Usuario_msg_icone_bloqueia_ativar" />
+            <input type="hidden" name="msgIconeBloqueiaInativar" value="@Traducao.Usuario.ResourceUsuario.Usuario_msg_icone_bloqueia_inativar" />
+            <input type="hidden" name="msgIconeEmailAtivar" value="@Traducao.Usuario.ResourceUsuario.Usuario_msg_icone_email_ativar" />
+            <input type="hidden" name="msgIconeEmailInativar" value="@Traducao.Usuario.ResourceUsuario.Usuario_msg_icone_email_inativar" />
+            <input type="hidden" name="msgIconeExcluir" value="@Traducao.Usuario.ResourceUsuario.Usuario_msg_icone_excluir" />
+            <div class="panel panel-default" id="panel-usuario">
+                <div class="panel-body" id="panel-form-usuario">
+                    <div class="row">
+                        <div class="barra-busca">
+                            <p class="novo" style="position:static !important; margin-bottom:5px !important;">
+                                @Html.ActionLink(@Traducao.Usuario.ResourceUsuario.Usuario_lbl_novo_usuario, "Criar", "Usuario", new { IdSite = ViewBag.IdSite }, null)
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </p>
+                            <div class="col-lg-12">
+                                <table id="tb-index-usuario" class="display dataTable no-footer dtr-inline " style="width: 100% !important;">
+                                    <thead>
+                                        <tr id="hr1" class="bg" role="row">
+                                            <th class="w25 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Nome" />
+                                            </th>
+
+                                            <th class="w25 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Email" />
+                                            </th>
+                                            @if (eAdminSuporte)
+                                            {
+                                                <th class="w25 with-input">
+                                                    <input type="text" class="form-control" placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Cliente" />
+                                                </th>
+                                            }
+                                            <th class="w25 with-input"> </th>
+                                        </tr>
+                                        <tr class="bg" role="row">
+                                            <th>@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Nome</th>
+                                            <th>@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Email</th>
+                                            @if (eAdminSuporte)
+                                            {
+                                                <th>@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Cliente</th>
+                                            }
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td>@item.NmCompleto</td>
+                                                <td>@item.CdIdentificacao</td>
+                                                @if (eAdminSuporte)
+                                                {
+                                                    <td>@(item.UsuarioClienteSites.Count == 0 ? "Administror" : item.UsuarioClienteSites.FirstOrDefault().Cliente.NmFantasia)</td>
+                                                }
+                                                <td class="text-nowrap" style="text-align: center; align-content: center">
+                                                    <div style="float: right; margin-right: 10px; ">
+                                                        <a href="@Url.Action("Editar", "Usuario", new { id = item.IdUsuario, IdSite = ViewBag.IdSite })" onclick="return Editar(this.href);" class="icon-cliente editar-color">
+                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                        </a>
+
+                                                        <a href="#" class="ativoinativo icon-cargo" data-valor="@item.FlAtivo" data-id="@item.IdUsuario">
+                                                            @Html.Raw(item.FlAtivo ? "<i class=\"fa fa-check  ativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativo + "></i>" : "<i class=\"fa fa-check inativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + "></i>")
+                                                        </a>
+
+                                                        <a href="#" class="desbloqueaUsuario icon-cargo @(item.FlBloqueado == false?"ativo-color":"inativo-color")" data-valor="@item.FlAtivo" data-id="@item.IdUsuario" data-idUsuario="@item.IdUsuario">
+                                                            <i class="fa @(item.FlBloqueado == false?"fa-unlock-alt":"fa-lock")" aria-hidden="true" data-toggle="tooltip" title="@(item.FlBloqueado == false? @Traducao.Shared.ResourceButtons.btn_lbl_desbloqueado : @Traducao.Shared.ResourceButtons.btn_lbl_bloqueado)"></i>
+                                                        </a>
+
+                                                        <a href="#" class="naoRecebeEmail icon-cargo @(item.FlRecebeEmail == false?"inativo-color":"ativo-color")" data-valor="@item.FlAtivo" data-id="@item.IdUsuario" data-idUsuario="@item.IdUsuario">
+                                                            <i class="fa @(item.FlRecebeEmail == false?"fa-envelope":"fa-envelope-open")" aria-hidden="true" data-toggle="tooltip" title="@(item.FlRecebeEmail == false? @Traducao.Shared.ResourceButtons.btn_lbl_nao_receber_email : @Traducao.Shared.ResourceButtons.btn_lbl_receber_email)"></i>
+                                                        </a>
+
+                                                        <a title="
+                                                    @(item.DtInclusao.HasValue ?
+                                                        Traducao.Shared.ResourceButtons.btn_lbl_dt_inclusao.ToString()+" - "+ item.DtInclusao.Value.ToString("dd/MM/yyyy"):
+                                                        Traducao.Shared.ResourceButtons.btn_lbl_dt_inclusao_nao_informada)">
+                                                            <i class="fa fa-calendar trash-color icon-cliente" aria-hidden="true"></i>
+                                                        </a>
+
+                                                        <a title="
+                                                    @(item.DtAlteracao!= null ?
+                                                        Traducao.Shared.ResourceButtons.btn_lbl_dt_alteracao.ToString() + " - " + item.DtAlteracao.Value.ToString("dd/MM/yyyy") :
+                                                        Traducao.Shared.ResourceButtons.btn_lbl_dt_alteracao_nao_informada) ">
+                                                            <i class="fa fa-calendar trash-color icon-cliente" aria-hidden="true"></i>
+                                                        </a>
+
+                                                        <a href="#" class="abreModalMigracao icon-cliente trash-color" data-idCliente="@ViewBag.IdCliente" data-id="@item.IdUsuario">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="modal" data-target="modal-panel-migracao" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+
+                                                        @*<a href="" class="icon-cliente user-color" title="@Traducao.Resource.VisualizarRevisoes">
+                                                            <i class="fa fa-archive" aria-hidden="true" data-original-title="Visualizar Revisões" ></i>
+                                                        </a>*@
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div id="modal-panel-migracao" class="modal fade" role="dialog" style="width: 40%; margin-left: 30%">
+    <div class="modal-dialog modal-lg" style="text-align:left!important;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                </button>
+                <h4 class="modal-title">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_titulo</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <input type="hidden" id="idClienteMigracaoAtual" value="" />
+                <input type="hidden" id="idUsuarioMigracaoAtual" value="" />
+
+                <div class="form-group comboUsuarios">
+                    <label for="IdUsuarioMigracao" class="control-label">@Traducao.Usuario.ResourceUsuario.UsuarioMigracaoPendencias:</label>
+                    <select id="IdUsuarioMigracao" name="IdUsuarioMigracao" class="form-control"></select>
+                </div>
+
+                <div class="alert alert-danger alertaPendencias">
+                    <strong>@Traducao.Usuario.ResourceUsuario.AtencaoParaExcluirEsseUsuarioVoceDevePrimeiroCadastrarOutroComOMesmoCargo</strong>
+                </div>
+
+                <button type="button" id="btnExcluir" class="btn btn-primary btnExcluir ">@Traducao.Resource.Excluir</button>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    
+    $('.ativoinativo').on('click', function () {
+
+        var idCliente = $('[name=IdCliente]').val();
+        var idUsuario = $(this).data('id');
+        var AtivoInativo = $(this).find('i').attr("title");
+
+        var msgIconeAtivoAtivar = $('[name=msgIconeAtivoAtivar]').val();
+        var msgIconeAtivoInativar = $('[name=msgIconeAtivoInativar]').val();
+
+        if (AtivoInativo != "Ativo") {
+            bootbox.confirm(msgIconeAtivoAtivar, function (result) {
+                if (result == true) {
+                    APP.controller.UsuarioController.getMsgIconeAtivo(idUsuario, idCliente);
+                }
+            });
+        } else {
+            bootbox.confirm(msgIconeAtivoInativar, function (result) {
+                if (result == true) {
+                    APP.controller.UsuarioController.getMsgIconeAtivo(idUsuario, idCliente);
+                }
+            });
+        }
+
+    });
+
+    $('.desbloqueaUsuario').on('click', function () {
+
+        var idCliente = $('[name=IdCliente]').val();
+        var idUsuario = $(this).data('id');
+        var AtivoInativo = $(this).find('i').attr("title");
+
+        var msgIconeBloqueiaAtivar = $('[name=msgIconeBloqueiaAtivar]').val();
+        var msgIconeBloqueiaInativar = $('[name=msgIconeBloqueiaInativar]').val();
+
+        if (AtivoInativo == "Desbloqueado") {
+            bootbox.confirm(msgIconeBloqueiaAtivar, function (result) {
+                if (result == true) {
+                    APP.controller.UsuarioController.getMsgIconeBloqueia(idUsuario, idCliente);
+                }
+            });
+        } else {
+            bootbox.confirm(msgIconeBloqueiaInativar, function (result) {
+                if (result == true) {
+                    APP.controller.UsuarioController.getMsgIconeBloqueia(idUsuario, idCliente);
+                }
+            });
+        }
+
+    });
+
+    $('.naoRecebeEmail').on('click', function () {
+
+        var idCliente = $('[name=IdCliente]').val();
+        var idUsuario = $(this).data('id');
+        var AtivoInativo = $(this).find('i').attr("title");
+
+        var msgIconeEmailAtivar = $('[name=msgIconeEmailAtivar]').val();
+        var msgIconeEmailInativar = $('[name=msgIconeEmailInativar]').val();
+
+        if (AtivoInativo == "Receber e-mail") {
+            bootbox.confirm(msgIconeEmailAtivar, function (result) {
+                if (result == true) {
+                    APP.controller.UsuarioController.getMsgIconeEmail(idUsuario, idCliente);
+                }
+            });
+        } else {
+            bootbox.confirm(msgIconeEmailInativar, function (result) {
+                if (result == true) {
+                    APP.controller.UsuarioController.getMsgIconeEmail(idUsuario, idCliente);
+                }
+            });
+        }
+
+    });
+
+    $('.abreModalMigracao').on('click', function () {
+
+        APP.component.Loading.showLoading();
+
+        $('#modal-panel-migracao').modal('show'); 
+
+        var idCliente = $(this).attr('data-idcliente');
+        var idUsuario = $(this).attr('data-id');
+        
+        $("#idUsuarioMigracaoAtual").val(idUsuario);
+        $("#idClienteMigracaoAtual").val(idCliente);
+        
+
+        var Lista = APP.controller.UsuarioController.getUsuarioMigracaoPorSite();
+
+        if (Lista != null && Lista.length > 0) {
+            APP.component.SelectListCompare.selectList(Lista, $('[name=IdUsuarioMigracao] option'), $('[name=IdUsuarioMigracao]'), 'IdUsuario', 'NmCompleto');
+
+            $(".alertaPendencias").hide();
+            $(".comboUsuarios").show();
+            $("#btnExcluir").show();
+        }
+        else {
+            $(".alertaPendencias").show();
+            $(".comboUsuarios").hide();
+            $("#btnExcluir").hide();
+        }
+
+        APP.component.Loading.hideLoading();
+
+    });
+
+    $('.btnExcluir').on('click', function () {
+
+        $.ajaxSetup({ async: false });
+
+        $('#modal-panel-migracao').modal('hide'); 
+
+        var idCliente = $("#idClienteMigracaoAtual").val();
+        var idUsuario = $("#idUsuarioMigracaoAtual").val();
+        var idUsuarioMigracao = $("#IdUsuarioMigracao").val();
+
+        var msgIconeExcluir = $('[name=msgIconeExcluir]').val();
+
+        bootbox.confirm(msgIconeExcluir, function (result) {
+            if (result == true) {
+                APP.controller.UsuarioController.getMsgIconeExcluir(idUsuario, idCliente, idUsuarioMigracao);
+            }
+        });
+
+        $.ajaxSetup({ async: true });
+
+    });
+
+
+</script>

@@ -1,0 +1,176 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+
+@model Dominio.Entidade.Produto
+@{
+    ViewBag.Title = "Fornecedor";
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
+}
+
+@section Metas {
+    <meta name="page" content="IndexFornecedores" />
+}
+@Html.AntiForgeryToken()
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario  -->
+        <input type="hidden" id="hdIdProduto" value="@ViewBag.IdProduto" />
+        <form id="form-">
+            <div class="panel panel-default" id="panel-padrao">
+                <div class="panel-body" id="panel-form-padrao">
+                    <div class="row">
+                        <div class="barra-busca">
+
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeFornecedor) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo" style="position:static !important; margin-bottom:5px !important;">
+                                    @Html.ActionLink("Novo Fornecedor", "AcoesFornecedores", new { idProduto = ViewBag.IdProduto })
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
+
+
+                            <div class="col-lg-12">
+                                <!-- Produto -->
+                                <div class="col-lg-10 col-md-10 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form-index-fornecedor-produto">@Traducao.Resource.ProdutoServico</label>
+                                        <input type="text" name="formIndexFornecedorProduto" id="form-index-fornecedor-produto" class="form-control" disabled="" value="@Model.Nome">
+                                    </div>
+                                </div>
+                                <!-- Codigo -->
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form-index-fornecedor-codigo">Código</label>
+                                        <input type="text" name="formIndexFornecedorCodigo" id="form-index-fornecedor-codigo" class="form-control" disabled="" value="@Model.Tags">
+                                    </div>
+                                </div>
+                                <!-- Tabela Fornecedores -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <table id="tb-index-fornecedores" class="display dataTable no-footer dtr-inline role=" grid"">
+                                            <thead class="titulo-tabela">
+                                                <tr>
+                                                    <th class="w15"></th>
+                                                    <th colspan="3" class="w30" style="background: #920620 !important; font-size: 20px; text-align: center;">@Traducao.Resource.DadosQualificacao</th>
+                                                    <th colspan="3" class="w30" style="background: #3b7d00 !important; font-size: 20px; text-align: center;">@Traducao.Resource.DadosAvaliacao</th>
+                                                    <th class="w10 "></th>
+                                                </tr>
+                                                <tr id="hr1" class="bg" role="row">
+                                                    <th class="w15 with-input">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Fornecedor">
+                                                    </th>
+                                                    <th class="w10 with-input" style="background: #920620 !important;">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Responsavel" title="">
+                                                    </th>
+                                                    <th class="w10 with-input" style="background: #920620 !important;">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Status" title="">
+                                                    </th>
+                                                    <th class="w10 with-input" style="background: #920620 !important;">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Data" title="">
+                                                    </th>
+                                                    <th class="w10 with-input" style="background: #3b7d00 !important;">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Responsavel" title="">
+                                                    </th>
+                                                    <th class="w10 with-input" style="background: #3b7d00 !important;">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Status" title="">
+                                                    </th>
+                                                    <th class="w10 with-input" style="background: #3b7d00 !important;">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Data" title="">
+                                                    </th>
+                                                    <th class="w7">
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w15 sorting">@Traducao.Resource.Fornecedor</th>
+                                                    <th class="w10 sorting" style="background: #920620 !important;">@Traducao.Resource.Responsavel</th>
+                                                    <th class="w10 sorting" style="background: #920620 !important;">@Traducao.Resource.Status</th>
+                                                    <th class="w10 sorting" style="background: #920620 !important;">@Traducao.Resource.Data</th>
+                                                    <th class="w10 sorting" style="background: #3b7d00 !important;">@Traducao.Resource.Responsavel</th>
+                                                    <th class="w10 sorting" style="background: #3b7d00 !important;">@Traducao.Resource.Nota</th>
+                                                    <th class="w10 sorting" style="background: #3b7d00 !important;">@Traducao.Resource.Data</th>
+                                                    <th class="w7 sorting">@Traducao.Resource.Acoes</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var produtoFornecedor in Model.Fornecedores.ToList())
+                                                {
+
+                                                    var ultimaQualificacao = produtoFornecedor.Fornecedor.AvaliaCriteriosQualificacao.Where(x => x.Aprovado == false).OrderByDescending(x => x.IdAvaliaCriterioQualificacao).FirstOrDefault();
+
+                                                    if (ultimaQualificacao == null)
+                                                    {
+                                                        ultimaQualificacao = produtoFornecedor.Fornecedor.AvaliaCriteriosQualificacao.OrderByDescending(x => x.IdAvaliaCriterioQualificacao).FirstOrDefault();
+                                                    }                                                    
+                                                    
+                                                    var ultimaAvaliacao = @produtoFornecedor.Fornecedor.AvaliaCriteriosAvaliacao.OrderByDescending(x => x.IdAvaliaCriterioAvaliacao).FirstOrDefault();
+                                                    var MediaAvaliacao = @produtoFornecedor.Fornecedor.AvaliaCriteriosAvaliacao.Where(x => (x.DtAvaliacao.ToString()) == (ultimaAvaliacao.DtAvaliacao.ToString())).Select(x => x.NotaAvaliacao).Average();
+
+                                                <tr role="row" class="odd">
+                                                    <td>@produtoFornecedor.Fornecedor.Nome</td>
+                                                    <td>@(ultimaQualificacao != null && ultimaQualificacao.IdAvaliaCriterioQualificacao != 0 ? ultimaQualificacao.ResponsavelPorQualificar.NmCompleto : Traducao.Resource.lbl_adefinir)</td>
+                                                    <td>@(ultimaQualificacao != null && ultimaQualificacao.Aprovado == true ? Traducao.Resource.lbl_Aprovado : Traducao.Resource.lbl_Reprovado)</td>
+                                                    <td>@(ultimaQualificacao != null && ultimaQualificacao.DtQualificacaoVencimento != null ? ultimaQualificacao.DtQualificacaoVencimento.Value.ToString(Traducao.Resource.dateFormat) : "-")</td>
+
+                                                    <td>@produtoFornecedor.Produto.Responsavel.NmCompleto</td>
+                                                    <td>@(MediaAvaliacao != null && ultimaAvaliacao != null ? MediaAvaliacao.Value.ToString() : Traducao.Resource.lbl_Sem_Nota)</td>
+                                                    <td>@(ultimaAvaliacao != null && ultimaAvaliacao.DtAvaliacao != default(DateTime) ? ultimaAvaliacao.DtAvaliacao.ToString(@Traducao.Resource.dateFormat) : "-")</td>
+                                                    <td class="text-nowrap">
+                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeFornecedoresEditar) || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Editar" })" onclick="javascript:document.getElementById('qualificafornecedor').style.display = 'block';" class="editar icon-cliente inativo-color">
+                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_editar" data-original-title="@Traducao.Resource.btn_lbl_editar"></i>
+                                                            </a>
+                                                        }
+                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.RealizarQualificaçãoEditar) || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Qualificar" })" id="botao-qualificar" onclick="javascript:document.getElementById('qualificafornecedor').style.display = 'block';" class="excluir icon-cliente inativo-color">
+                                                                <i class="fa fa-star" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_qualificar" data-original-title="@Traducao.Resource.btn_lbl_qualificar"></i>
+                                                            </a>
+                                                        }
+                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.RealizarAvaliaçãoEditar) || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora="Avaliar" })" class="edit icon-cliente ativo-color" onclick="javascript:document.getElementById('avaliafornecedor').style.display = 'block';">
+                                                                <i class="fa fa-check-circle" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_avaliar" data-original-title="@Traducao.Resource.btn_lbl_avaliar"></i>
+                                                            </a>
+
+                                                            <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Historico" })" class="edit icon-cliente view-color" onclick="javascript:document.getElementById('historico').style.display = 'block';">
+                                                                <i class="fa fa-file-text" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_historico" data-original-title="@Traducao.Resource.btn_lbl_historico"></i>
+                                                            </a>
+                                                        }
+                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.ExcluirFornecedor) || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="#" class="excluir icon-cliente trash-color excluirFornecedor" idFornecedor="@produtoFornecedor.IdFornecedor">
+                                                                <i class="fa fa-trash " aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_excluir" data-original-title="@Traducao.Resource.btn_lbl_excluir"></i>
+                                                            </a>
+                                                        }
+                                                    </td>
+                                                </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+        </form>
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <button class="btn btn-primary" type="submit">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Produtos")</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ControlDoc_lbl_Aprovador" xml:space="preserve">
+    <value>Aprovador</value>
+  </data>
+  <data name="ControlDoc_lbl_Aprovadores" xml:space="preserve">
+    <value>Aprovadores</value>
+  </data>
+  <data name="ControlDoc_lbl_Arquivo" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="ControlDoc_lbl_Cadastro" xml:space="preserve">
+    <value>Cadastro</value>
+  </data>
+  <data name="ControlDoc_lbl_Categoria" xml:space="preserve">
+    <value>Categoria</value>
+  </data>
+  <data name="ControlDoc_lbl_DataEmissao" xml:space="preserve">
+    <value>Data de Emissão</value>
+  </data>
+  <data name="ControlDoc_lbl_DataNotificacao" xml:space="preserve">
+    <value>Data da Notificação</value>
+  </data>
+  <data name="ControlDoc_lbl_DataVencimento" xml:space="preserve">
+    <value>Data de Vencimento</value>
+  </data>
+  <data name="ControlDoc_lbl_DocsExternos" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="ControlDoc_lbl_DocumentoNecessitaRevisaoPeriodica" xml:space="preserve">
+    <value>Documento necessita de revisão periódica?</value>
+  </data>
+  <data name="ControlDoc_lbl_Elaborador" xml:space="preserve">
+    <value>Elaborador</value>
+  </data>
+  <data name="ControlDoc_lbl_Escolha" xml:space="preserve">
+    <value>Formato</value>
+  </data>
+  <data name="ControlDoc_lbl_Fluxo" xml:space="preserve">
+    <value>Fluxo</value>
+  </data>
+  <data name="ControlDoc_lbl_GestaoRisco" xml:space="preserve">
+    <value>Gestão de Risco</value>
+  </data>
+  <data name="ControlDoc_lbl_IdentificacaoRisco" xml:space="preserve">
+    <value>Identificação do Risco</value>
+  </data>
+  <data name="ControlDoc_lbl_Licenca" xml:space="preserve">
+    <value>Licença</value>
+  </data>
+  <data name="ControlDoc_lbl_LinkAcesso" xml:space="preserve">
+    <value>Link de acesso</value>
+  </data>
+  <data name="ControlDoc_lbl_Mensagem" xml:space="preserve">
+    <value>Mensagem:</value>
+  </data>
+  <data name="ControlDoc_lbl_NovoFluxo" xml:space="preserve">
+    <value>Novo Fluxo</value>
+  </data>
+  <data name="ControlDoc_lbl_Numero" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="ControlDoc_lbl_NumeroDocumento" xml:space="preserve">
+    <value>Número do Documento</value>
+  </data>
+  <data name="ControlDoc_lbl_Processo" xml:space="preserve">
+    <value>Processo</value>
+  </data>
+  <data name="ControlDoc_lbl_Recursos" xml:space="preserve">
+    <value>Recursos</value>
+  </data>
+  <data name="ControlDoc_lbl_Registros" xml:space="preserve">
+    <value>Registros</value>
+  </data>
+  <data name="ControlDoc_lbl_Risco" xml:space="preserve">
+    <value>Risco</value>
+  </data>
+  <data name="ControlDoc_lbl_Riscos" xml:space="preserve">
+    <value>Riscos</value>
+  </data>
+  <data name="ControlDoc_lbl_Rotina" xml:space="preserve">
+    <value>Rotina</value>
+  </data>
+  <data name="ControlDoc_lbl_SelecionarTodos" xml:space="preserve">
+    <value>Selecionar Todos</value>
+  </data>
+  <data name="ControlDoc_lbl_Sigla" xml:space="preserve">
+    <value>Sigla</value>
+  </data>
+  <data name="ControlDoc_lbl_Texto" xml:space="preserve">
+    <value>Texto</value>
+  </data>
+  <data name="ControlDoc_lbl_TituloDocumento" xml:space="preserve">
+    <value>Título do Documento</value>
+  </data>
+  <data name="ControlDoc_lbl_Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="ControlDoc_lbl_UtilizarWorkflow" xml:space="preserve">
+    <value>Utilizar Workflow?</value>
+  </data>
+  <data name="ControlDoc_lbl_Verificador" xml:space="preserve">
+    <value>Verificador</value>
+  </data>
+  <data name="ControlDoc_lbl_Verificadores" xml:space="preserve">
+    <value>Verificadores</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_Aprovadores" xml:space="preserve">
+    <value>É preciso selecionar um Aprovador.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_DocTemplate" xml:space="preserve">
+    <value>É preciso que seja selecionado ao menos 1 template para o documento.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_DtAlteracao" xml:space="preserve">
+    <value>Propriedade "Data da alteração" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_DtNotificacao" xml:space="preserve">
+    <value>O campo "Data da Notificação" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_FlRevisaoPeriodica" xml:space="preserve">
+    <value>O campo "Tem para revisão periódica?" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_FlStatus" xml:space="preserve">
+    <value>Propriedade "Status" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_FlWorkFlow" xml:space="preserve">
+    <value>O campo "Tem para workflow?" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_IdCategoria" xml:space="preserve">
+    <value>O campo "Categoria" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_IdDocIdentificador" xml:space="preserve">
+    <value>O campo "Identificador Documento" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_IdElaborador" xml:space="preserve">
+    <value>O campo "Código do elaborador" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_IdSigla" xml:space="preserve">
+    <value>O Campo "Sigla" é obrigatorio.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo "Site" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_IdUsuarioIncluiu" xml:space="preserve">
+    <value>Propriedade "Usuario Inclusor" é obrigatória.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_NumeroDocumento" xml:space="preserve">
+    <value>O campo "Número Documento" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_Titulo" xml:space="preserve">
+    <value>O campo "Título" é obrigatório.</value>
+  </data>
+  <data name="ControlDoc_msg_erro_required_Verificadores" xml:space="preserve">
+    <value>É preciso selecionar um Verificador.</value>
+  </data>
+  <data name="ControlDoc_msg_Success" xml:space="preserve">
+    <value>Documento salvo com sucesso.</value>
+  </data>
+  <data name="ControlDoc_msg_Success_Aprovacao" xml:space="preserve">
+    <value>Documento enviado para Aprovação.</value>
+  </data>
+  <data name="ControlDoc_msg_Success_Aprovado" xml:space="preserve">
+    <value>Documento Aprovado com sucesso.</value>
+  </data>
+  <data name="ControlDoc_msg_Success_Eleboracao" xml:space="preserve">
+    <value>Documetno enviado para Elaboração.</value>
+  </data>
+  <data name="ControlDoc_msg_Success_Verificacao" xml:space="preserve">
+    <value>Documento enviado para Verificação.</value>
+  </data>
+  <data name="ControlDoc_lbl_Causa" xml:space="preserve">
+    <value>Causa</value>
+  </data>
+  <data name="ControlDoc_lbl_NumeroAcao" xml:space="preserve">
+    <value>Número Ação</value>
+  </data>
+  <data name="ControlDoc_msg_SemRevisao" xml:space="preserve">
+    <value>Documento sem revisão.</value>
+  </data>
+  <data name="ControlDoc_msg_documentoEmUso" xml:space="preserve">
+    <value>O documento "{0}" que tentou abir está em revisão por outro usuário.</value>
+  </data>
+  <data name="ControlDoc_lbl_Justificativa" xml:space="preserve">
+    <value>Justificativa</value>
+  </data>
+</root>

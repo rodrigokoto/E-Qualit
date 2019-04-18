@@ -1,0 +1,217 @@
+﻿@model Web.UI.Models.LayoutImpressaoViewModel
+@{
+    Layout = null;
+}
+@section scripts {
+
+    <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+}
+<html>
+<head>
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/bootstrap")
+    <style>
+        table td.custom-td {
+            width: 100px;
+            overflow: hidden;
+            display: inline-block;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body style="background:white !important">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    @if (Model.IsImpressaoControlada)
+                    {
+                        <div class="col-xs-6" style="color:red">cópia controlada</div>
+                        <div class="col-xs-6" style="color:red">cópia controlada</div>
+                    }
+                    else
+                    {
+                        <div class="col-xs-6" style="color:red">cópia não controlada</div>
+                        <div class="col-xs-6" style="color:red">cópia não controlada</div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table>
+                            <tr>
+                                <td rowspan="2"> <img src="data:image/png;base64, @Model.LogoCliente" width="120" height="100" /></td>
+                                <td class="custom-td"></td>
+                                <td class="custom-td">&nbsp;</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="custom-td">&nbsp;</td>
+                                <td class="custom-td"></td>
+                                <td>@Html.Raw(string.Format("{0}  -  Revisão: {1}", Model.Documento.Titulo, Model.Documento.NuRevisao))</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div><div class="col-xs-12">&nbsp;</div></div>
+                <div class="row">
+                    <div class="col-xs-3">Sigla: @Model.Documento.Sigla.Descricao </div>
+                    <div class="col-xs-3">Número Documento: @Model.Documento.NumeroDocumento</div>
+                    <div class="col-xs-3">Processo: @Model.Documento.Processo.Nome </div>
+                    <div class="col-xs-3">Categoria: @Model.Documento.Categoria.Descricao </div>
+                </div>
+            </div>
+            <div class="row">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    Texto
+                </div>
+                <div class="row">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>@Html.Raw(Model.Documento.TextoDoc)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @if (Model.Documento.Registros != null && Model.Documento.Registros.Count > 0)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        Registros
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Traducao.Resource.Identificar
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Armazenar
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Proteger
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Recuperar
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Retencao
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Disposicao
+                                    </th>
+                                </tr>
+                            </thead>
+                            @{
+                                foreach (var rotina in Model.Documento.Registros)
+                                {
+                                    <tr>
+                                        <td>@rotina.Identificar</td>
+                                        <td>@rotina.Armazenar</td>
+                                        <td>@rotina.Proteger</td>
+                                        <td>@rotina.Recuperar</td>
+                                        <td>@rotina.Retencao</td>
+                                        <td>@rotina.Disposicao</td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.Documento.Rotinas != null && Model.Documento.Rotinas.Count > 0)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        Rotinas
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Traducao.Resource.Item
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Oque
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Quem
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Registro
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Como
+                                    </th>
+                                </tr>
+                            </thead>
+                            @{
+                                foreach (var rotina in Model.Documento.Rotinas)
+                                {
+                                    <tr>
+                                        <td>@rotina.Item</td>
+                                        <td>@rotina.OQue</td>
+                                        <td>@rotina.Quem</td>
+                                        <td>@rotina.Registro</td>
+                                        <td>@rotina.Como</td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.Documento.RecursoDoc))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        @Traducao.Resource.Recursos
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>@Html.Raw(Model.Documento.RecursoDoc)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.Documento.GestaoDeRisco != null)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        @Traducao.Resource.Riscos
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>@Html.Raw(Model.Documento.GestaoDeRisco.Causa)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>
+
+

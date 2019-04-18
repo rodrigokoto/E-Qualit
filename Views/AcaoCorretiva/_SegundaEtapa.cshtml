@@ -1,0 +1,125 @@
+﻿@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js")"></script>
+}
+<script>
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+</script>
+
+<div class="barra-busca">
+    <form id="form-acao-corretiva-etapa-2">
+        <input type="hidden" name="StatusEtapa" value="2" />
+        <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+        <input type="hidden" name="IdUsuarioLogado" value="@ViewBag.IdUsuarioLogado" />
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <!-- Data da descrição da ação -->
+                <div class="form-group">
+                    <label>@Traducao.Resource.NaoConformidade_SegundaEtapa_lbl_DtDescricaoAcao</label>
+                    <div id="datetimepicker2" class="input-group">
+                        <input type="text" name="DtDescricaoAcao" class="form-control data datepicker" />
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <!-- Painel Ação imediata -->
+                <div class="form-group painel-acao-corretiva-sim" id="AcoesImediatas">
+                    <table class="table table-striped table-bordered table-list tb-acao-imediata">
+                        <thead class="titulo-tabela">
+                            <tr>
+                                <th class="w20">Ação Imediata</th>
+                                <th class="w7">Prazo implementação</th>
+                                <th class="w10">Responsável por implementar</th>
+                                <th class="w7">Efetiva implementação</th>
+                                <th class="w7">Arquivo de Evidência</th>
+                                <th class="w5"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.AcoesImediatas.Count > 0)
+                            {
+                                foreach (var acaoImediata in Model.AcoesImediatas)
+                                {
+                                    <tr>
+                                        <td class="descricao-acao-imediata">
+                                            <p>@acaoImediata.Descricao</p>
+                                            <input type="text" name="Descricao" data-rule-required="true" data-msg-required="@Traducao.Resource.AcaoImediata_msg_erro_required_Descricao" value="@acaoImediata.Descricao" style="display:none;" />
+                                        </td>
+                                        <td class="prazo-para-implementar">
+                                            <p>@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)</p>
+                                            <input type="text" name="DtPrazoImplementacao" class="form-control data" data-rule-required="true" data-msg-required="@Traducao.Resource.AcaoImediata_msg_erro_required_DtPrazoImplementacao" value="@acaoImediata.DtPrazoImplementacao.Value.ToString("dd/MM/yyyy")" style="display:none;" />
+                                        </td>
+                                        <td class="responsavel-para-implementar">
+                                            <select class="form-control" name="IdResponsavelImplementar" data-rule-required="true" data-msg-required="@Traducao.Resource.AcaoImediata_msg_erro_required_IdResponsavelImplementar" disabled>
+                                                <option value="@acaoImediata.ResponsavelImplementar.IdUsuario">@acaoImediata.ResponsavelImplementar.NmCompleto</option>
+                                            </select>
+                                        </td>
+                                        <td class="data-para-efetiva-implementacao">
+                                            @if (acaoImediata.DtEfetivaImplementacao != null)
+                                            {
+                                                <p>@acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat)</p>
+                                                <input type="text" name="DtEfetivaImplementacao" data-rule-required="true" data-msg-required="@Traducao.Resource.AcaoImediata_msg_erro_required_DtEfetivaImplementacao" class="form-control input-data" value="@acaoImediata.DtEfetivaImplementacao.Value.ToString("dd/MM/yyyy")" style="display:none;" />
+                                            }
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary add-acao-imediata pull-right">Adicionar</button>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-3">
+                <!-- Responsável Reverificação -->
+                <div class="form-group responsavel-reverificacao">
+                    <label>@Traducao.Resource.NaoConformidade_TerceiraEtapa_lbl_IdResponsavelDefinir</label>
+                    <br />
+                    <select class="form-control" name="IdResponsavelReverificador">
+                        <option value="0">@Traducao.Resource.Dropdown_name_select</option>
+                    </select>
+                </div>
+            </div>
+            @*}*@
+            <div class="col-md-2">
+                <!-- Foi Eficaz -->
+                <div class="form-group foi-eficaz hide">
+                    <div class="row">
+                        <label>Foi eficaz?</label>
+                    </div>
+                    <input type="radio" name="FlEficaz" value="true" />
+                    <label class="demo-list-radio">Sim</label>
+                    <input type="radio" name="FlEficaz" value="false" />
+                    <label class="demo-list-radio">Não</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-12">
+
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+        <input type="hidden" name="IdSite" id="acao-corretiva-site" value="@ViewBag.IdSite" />
+        <input type="hidden" name="TipoRegistro" value="ac" />
+    </form>
+</div>

@@ -1,0 +1,6 @@
+<Playlist Version="1.0">
+   <Add Test="TestProject.Site.InserirSite" />
+   <Add Test="TestProject.Site.ExibirSites" />
+   <Add Test="TestProject.Site.AlterarSite" />
+   <Add Test="TestProject.Site.ExcluirSite" />
+</Playlist>

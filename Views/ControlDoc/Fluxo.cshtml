@@ -1,0 +1,23 @@
+﻿@model Dominio.Entidade.DocDocumento
+@{
+    ViewBag.Title = "Recursos";
+}
+
+<h2>@Traducao.Resource.Recursos</h2>
+
+
+@section scripts {
+
+    <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+}
+
+@if (Model != null)
+{
+    @Model.IdDocumento
+}
+else
+{
+    @Html.Raw(Traducao.Resource.MsgNaoConstaDocProcess)
+}
+

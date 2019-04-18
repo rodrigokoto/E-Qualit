@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Dominio.Entidade.Produto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Criar", "Criar")
+</p>
+<table class="table">
+    <thead>
+        <tr class="bg">       
+            <th>
+                @Html.DisplayNameFor(model => model.IdProduto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdSite)
+            </th>
+            <th>
+                @Traducao.Resource.Produto_lbl_IdResponsavel
+            </th>
+            <th>
+                @Traducao.Resource.Produto_lbl_Nome
+            </th>
+            <th>
+                @Traducao.Resource.Produto_lbl_Especificacao
+            </th>
+            <th>
+                @Traducao.Resource.Produto_lbl_Tags
+            </th>          
+            <th>
+                @Traducao.Resource.Produto_lbl_Status
+            </th>         
+            <th></th>
+        </tr>
+        </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProduto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdSite)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Responsavel.NmCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especificacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tags)
+                </td>               
+                <td>
+                    @if (item.Status == 1)
+                    {
+                        @Traducao.Resource.Produto_lbl_Status_Ativo
+                    }
+                    else
+                    {
+                        @Traducao.Resource.Produto_lbl_Status_Desativado
+                    }
+
+                </td>              
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>

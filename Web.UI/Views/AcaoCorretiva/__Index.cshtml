@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js")"></script>
+}
+
+<meta name="controller" content="AcaoCorretivaController" />
+<meta name="page" content="PrimeiraEtapaAcaoCorretiva" />
+
+<br /><br /><br />
+<h2>Ação Corretiva</h2>
+<button type="button" class="btn btn-gestao-de-risco-etapa">
+    <input type="hidden" name="StatusEtapa" value="1" />
+    Incluir uma nova AC
+</button>
+
+
+<form id="form-gestao-de-risco-etapa-1">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>O que falhou?</label>
+                <textarea name="DescricaoRegistro" rows="3" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Evidência (imagem/arquivo):</label>
+                <input name="EvidenciaImg" type="file" />
+                <input name="EvidenciaImg" type="file" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Numero da Ação Corretiva:</label>
+                <input type="text" name="NuRegistro" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label>Data emissão:</label>
+                <div class="input-group date" id="datetimepicker2">
+                    <input type="text" name="DtEmissao" class="form-control input-data">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Processo</label>
+                <select class="form-control" name="IdProcesso" required>
+                    <option value="0">@Traducao.Resource.Dropdown_name_select</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Emissor:</label>
+                <select class="form-group" name="IdEmissor" required>
+                    <option value="0">@Traducao.Resource.Dropdown_name_select</option>
+                    <option value="@Html.ActionLink("Incluir", "Criar", "NaoConformidado">Emissor Logado</option>
+                    <option value="03">Emissor03</option>
+                    <option value="04">Emissor04</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Responsável por Iniciar a tratativa de Ação Corretiva</label>
+                <select class="form-group" name="IdResponsavelInicarAcaoCorretiva" required>
+                    <option value="0">@Traducao.Resource.Dropdown_name_select</option>
+                    <option value="01">Responsavel01</option>
+                    <option value="02">Responsavel02</option>
+                    <option value="03">Responsavel03</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>TAGs</label>
+                <textarea name="Tags" class="form-group" rows="5"></textarea>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="IdSite" id="acao-corretiva-site" value="" />
+    <input type="hidden" name="TipoRegistro" value="ac" />
+
+    <button type="button" class="btn btn-salvar-notificar">Salvar e Notificar</button>
+</form>

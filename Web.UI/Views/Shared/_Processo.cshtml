@@ -1,0 +1,13 @@
+﻿@model Entidade.Processo
+@using Web.UI.Helpers
+
+<div class="row">
+   <div class="col-md-12">
+      @Html.LabelFor(m => m.NmProcesso)
+      @Html.CustomTextBoxFor(m => m.NmProcesso, new { @class = "form-control", Name = "LvProcesso[" + ViewBag.index + "].NmProcesso" })
+   </div>
+   <div class="col-md-12">
+      @Html.CheckBoxFor(m => m.FlAtivo, new { Name = "LvProcesso[" + ViewBag.index + "].FlAtivo" })
+       @Html.LabelFor(m => m.FlAtivo)
+   </div>
+</div>

@@ -1,0 +1,3433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="botao_cancelar" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="botao_entrar" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="botao_enviar" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="botao_excluir" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="botao_nao" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="botao_salvar" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="botao_sim" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="Endereco_lbl_CdEstado" xml:space="preserve">
+    <value>CdEstado</value>
+  </data>
+  <data name="Endereco_lbl_DsComplemento" xml:space="preserve">
+    <value>Complemeem</value>
+  </data>
+  <data name="Endereco_lbl_DsLogradouro" xml:space="preserve">
+    <value>Logradouro</value>
+  </data>
+  <data name="Endereco_lbl_DsPais" xml:space="preserve">
+    <value>DsPais</value>
+  </data>
+  <data name="Endereco_lbl_FlTipoEndereco" xml:space="preserve">
+    <value>FlTipoEndereco</value>
+  </data>
+  <data name="Endereco_lbl_IdEndereco" xml:space="preserve">
+    <value>IdEndereco</value>
+  </data>
+  <data name="Endereco_lbl_IdRelacionado" xml:space="preserve">
+    <value>ID Endereço Relacionado</value>
+  </data>
+  <data name="Endereco_lbl_NmBairro" xml:space="preserve">
+    <value>Bairro</value>
+  </data>
+  <data name="Endereco_lbl_NmCidade" xml:space="preserve">
+    <value>Cidade</value>
+  </data>
+  <data name="Endereco_lbl_NuCep" xml:space="preserve">
+    <value>NuCep</value>
+  </data>
+  <data name="Endereco_lbl_NuNumero" xml:space="preserve">
+    <value>NuNumero</value>
+  </data>
+  <data name="Endereco_msg_erro_length_CdEstado" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 2 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_length_DsComplemento" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 30 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_length_DsLogradouro" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 60 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_length_DsPais" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 32 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_length_FlTipoEndereco" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 3 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_length_NmBairro" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 30 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_length_NmCidade" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 30 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_length_NuCep" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 9 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_length_NuNumero" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 15 caracteres</value>
+  </data>
+  <data name="Endereco_msg_erro_required_CdEstado" xml:space="preserve">
+    <value>O campo "CdEstado" é obrigatório</value>
+  </data>
+  <data name="Endereco_msg_erro_required_DsLogradouro" xml:space="preserve">
+    <value>O campo "DsLogradouro" é obrigatório</value>
+  </data>
+  <data name="Endereco_msg_erro_required_FlTipoEndereco" xml:space="preserve">
+    <value>O campo "FlTipoEndereco" é obrigatório</value>
+  </data>
+  <data name="Endereco_msg_erro_required_IdEndereco" xml:space="preserve">
+    <value>O campo "IdEndereco" é obrigatório</value>
+  </data>
+  <data name="Endereco_msg_erro_required_IdRelacionado" xml:space="preserve">
+    <value>O campo "IdRelacionado" é obrigatório</value>
+  </data>
+  <data name="Endereco_msg_erro_required_NmBairro" xml:space="preserve">
+    <value>O campo "NmBairro" é obrigatório</value>
+  </data>
+  <data name="Endereco_msg_erro_required_NmCidade" xml:space="preserve">
+    <value>O campo "NmCidade" é obrigatório</value>
+  </data>
+  <data name="Endereco_msg_erro_required_NuCep" xml:space="preserve">
+    <value>O campo "NuCep" é obrigatório</value>
+  </data>
+  <data name="Endereco_msg_erro_required_NuNumero" xml:space="preserve">
+    <value>O campo "NuNumero" é obrigatório</value>
+  </data>
+  <data name="Endereco_PK_Endereco" xml:space="preserve">
+    <value>Endereço já cadastrado</value>
+  </data>
+  <data name="FilaEnvio_lbl_DsAssunto" xml:space="preserve">
+    <value>Assunto</value>
+  </data>
+  <data name="FilaEnvio_lbl_DsBody" xml:space="preserve">
+    <value>Mensagem</value>
+  </data>
+  <data name="FilaEnvio_lbl_DsEmailFrom" xml:space="preserve">
+    <value>Email de Envio</value>
+  </data>
+  <data name="FilaEnvio_lbl_DsEmailTo" xml:space="preserve">
+    <value>Email Destino</value>
+  </data>
+  <data name="FilaEnvio_lbl_DsErro" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="FilaEnvio_lbl_DtDisparo" xml:space="preserve">
+    <value>Data Disparo</value>
+  </data>
+  <data name="FilaEnvio_lbl_DtEnvio" xml:space="preserve">
+    <value>Data Envio</value>
+  </data>
+  <data name="FilaEnvio_lbl_DtInclusao" xml:space="preserve">
+    <value>Data Inclusão</value>
+  </data>
+  <data name="FilaEnvio_lbl_IdCampanha" xml:space="preserve">
+    <value>ID Campanha</value>
+  </data>
+  <data name="FilaEnvio_lbl_IdFilaEnvio" xml:space="preserve">
+    <value>ID Fila</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_length_DsAssunto" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 200 caracteres</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_length_DsBody" xml:space="preserve">
+    <value>O tamanho máximo permitido é de -1 caracteres</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_length_DsEmailFrom" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 200 caracteres</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_length_DsEmailTo" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 200 caracteres</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_length_DsErro" xml:space="preserve">
+    <value>O tamanho máximo permitido é de -1 caracteres</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_required_DsAssunto" xml:space="preserve">
+    <value>O campo "Assunto" é obrigatório</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_required_DsBody" xml:space="preserve">
+    <value>O campo "Mensagem" é obrigatório</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_required_DsEmailTo" xml:space="preserve">
+    <value>O campo "Email Destino" é obrigatório</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_required_DtInclusao" xml:space="preserve">
+    <value>O campo "Data Inclusão" é obrigatório</value>
+  </data>
+  <data name="FilaEnvio_msg_erro_required_IdFilaEnvio" xml:space="preserve">
+    <value>O campo "ID Fila" é obrigatório</value>
+  </data>
+  <data name="FilaEnvio_PK_CE_Fila" xml:space="preserve">
+    <value>Item da Fila de Envio já cadastrado</value>
+  </data>
+  <data name="formato_data" xml:space="preserve">
+    <value>dd/MM/yyyy</value>
+  </data>
+  <data name="formato_data_hora" xml:space="preserve">
+    <value>dd/MM/yyyy HH:mm</value>
+  </data>
+  <data name="formato_data_hora_segundo" xml:space="preserve">
+    <value>dd/MM/yyyy HH:mm:ss</value>
+  </data>
+  <data name="ListaValor_lbl_CdCodigo" xml:space="preserve">
+    <value>Codigo</value>
+  </data>
+  <data name="ListaValor_lbl_CdTabela" xml:space="preserve">
+    <value>Tabela</value>
+  </data>
+  <data name="ListaValor_lbl_DsDescricao" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="ListaValor_lbl_IdListaValor" xml:space="preserve">
+    <value>ID Lista</value>
+  </data>
+  <data name="ListaValor_msg_erro_length_CdCodigo" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 40 caracteres</value>
+  </data>
+  <data name="ListaValor_msg_erro_length_CdTabela" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 10 caracteres</value>
+  </data>
+  <data name="ListaValor_msg_erro_length_DsDescricao" xml:space="preserve">
+    <value>O tamanho máximo permitido é de -1 caracteres</value>
+  </data>
+  <data name="ListaValor_msg_erro_required_CdCodigo" xml:space="preserve">
+    <value>O campo "Codigo" é obrigatório</value>
+  </data>
+  <data name="ListaValor_msg_erro_required_CdTabela" xml:space="preserve">
+    <value>O campo "Tabela" é obrigatório</value>
+  </data>
+  <data name="ListaValor_msg_erro_required_DsDescricao" xml:space="preserve">
+    <value>O campo "Descrição" é obrigatório</value>
+  </data>
+  <data name="ListaValor_msg_erro_required_IdListaValor" xml:space="preserve">
+    <value>O campo "ID Lista" é obrigatório</value>
+  </data>
+  <data name="ListaValor_PK_ListaValor" xml:space="preserve">
+    <value>ListaValor já cadastrado</value>
+  </data>
+  <data name="login_alterar_senha_confirma_senha_lbl" xml:space="preserve">
+    <value>Confirmação da nova senha</value>
+  </data>
+  <data name="login_alterar_senha_nova_senha_lbl" xml:space="preserve">
+    <value>Nova senha</value>
+  </data>
+  <data name="login_alterar_senha_senha_atual_lbl" xml:space="preserve">
+    <value>Senha atual</value>
+  </data>
+  <data name="login_alterar_senha_titulo" xml:space="preserve">
+    <value>Alterar Senha</value>
+  </data>
+  <data name="login_email_lbl" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="login_esqueci_senha_lbl" xml:space="preserve">
+    <value>Esqueci minha senha</value>
+  </data>
+  <data name="login_recupera_senha_titulo" xml:space="preserve">
+    <value>Recupere sua senha</value>
+  </data>
+  <data name="login_senha_lbl" xml:space="preserve">
+    <value>Senha</value>
+  </data>
+  <data name="login_titulo" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="mensagem_aviso" xml:space="preserve">
+    <value>Aviso</value>
+  </data>
+  <data name="mensagem_confimacao" xml:space="preserve">
+    <value>Confirmação</value>
+  </data>
+  <data name="mensagem_confirma_exclusao_registro" xml:space="preserve">
+    <value>Confirma a exclusão do registro ?</value>
+  </data>
+  <data name="mensagem_erro_atualizar_dados" xml:space="preserve">
+    <value>O seguinte erro ocorreu ao tentar atualizar os dados.&lt;br&gt;{{0}}</value>
+  </data>
+  <data name="mensagem_erro_campo_obrigatorio" xml:space="preserve">
+    <value>Campo obrigatório ({0})</value>
+  </data>
+  <data name="mensagem_erro_maximo_caracter" xml:space="preserve">
+    <value>Máximo de {0} caracteres</value>
+  </data>
+  <data name="mensagem_exclusao_registro_titulo" xml:space="preserve">
+    <value>Exclusão de Registro</value>
+  </data>
+  <data name="mensagem_geral_erro_modal" xml:space="preserve">
+    <value>O formulário possui os seguintes erros:</value>
+  </data>
+  <data name="mensagem_registros_alterados" xml:space="preserve">
+    <value>Registros atualizados com sucesso</value>
+  </data>
+  <data name="mensagem_registro_alterado" xml:space="preserve">
+    <value>Registro atualizado com sucesso</value>
+  </data>
+  <data name="mensagem_registro_excluido" xml:space="preserve">
+    <value>Registro excluído com sucesso</value>
+  </data>
+  <data name="mensagem_registro_incluido" xml:space="preserve">
+    <value>Registro incluído com sucesso</value>
+  </data>
+  <data name="tabela_anterior" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="tabela_busca" xml:space="preserve">
+    <value>Busca</value>
+  </data>
+  <data name="tabela_busca_sem_registro" xml:space="preserve">
+    <value>Nenhum registro encontrado</value>
+  </data>
+  <data name="tabela_filtro_registro" xml:space="preserve">
+    <value>(filtrando de _MAX_ registros)</value>
+  </data>
+  <data name="tabela_info" xml:space="preserve">
+    <value>Mostrando página _PAGE_ de _PAGES_</value>
+  </data>
+  <data name="tabela_proximo" xml:space="preserve">
+    <value>Próximo</value>
+  </data>
+  <data name="tabela_registro_por_pagina" xml:space="preserve">
+    <value>_MENU_ registros por página</value>
+  </data>
+  <data name="tabela_sem_registro" xml:space="preserve">
+    <value>Sem registros</value>
+  </data>
+  <data name="tabela_todos_busca" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabela_todos_registros" xml:space="preserve">
+    <value>Todos</value>
+  </data>
+  <data name="tabela_visualizando_pagina" xml:space="preserve">
+    <value>_MENU_ registros por página</value>
+  </data>
+  <data name="Telefone_lbl_DsObservacao" xml:space="preserve">
+    <value>Observação</value>
+  </data>
+  <data name="Telefone_lbl_FlTipoTelefone" xml:space="preserve">
+    <value>Tipo de Telefone</value>
+  </data>
+  <data name="Telefone_lbl_IdRelacionado" xml:space="preserve">
+    <value>ID Telefone Relacionado</value>
+  </data>
+  <data name="Telefone_lbl_IdTelefone" xml:space="preserve">
+    <value>ID Telefone</value>
+  </data>
+  <data name="Telefone_lbl_NuRamal" xml:space="preserve">
+    <value>NuRamal</value>
+  </data>
+  <data name="Telefone_lbl_NuTelefone" xml:space="preserve">
+    <value>NuTelefone</value>
+  </data>
+  <data name="Telefone_msg_erro_length_DsObservacao" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 300 caracteres</value>
+  </data>
+  <data name="Telefone_msg_erro_length_FlTipoTelefone" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 3 caracteres</value>
+  </data>
+  <data name="Telefone_msg_erro_length_NuRamal" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 15 caracteres</value>
+  </data>
+  <data name="Telefone_msg_erro_length_NuTelefone" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 15 caracteres</value>
+  </data>
+  <data name="Telefone_msg_erro_required_FlTipoTelefone" xml:space="preserve">
+    <value>O campo "FlTipoTelefone" é obrigatório</value>
+  </data>
+  <data name="Telefone_msg_erro_required_IdRelacionado" xml:space="preserve">
+    <value>O campo "IdRelacionado" é obrigatório</value>
+  </data>
+  <data name="Telefone_msg_erro_required_IdTelefone" xml:space="preserve">
+    <value>O campo "IdTelefone" é obrigatório</value>
+  </data>
+  <data name="Telefone_msg_erro_required_NuTelefone" xml:space="preserve">
+    <value>O campo "NuTelefone" é obrigatório</value>
+  </data>
+  <data name="Telefone_PK_Telefone" xml:space="preserve">
+    <value>Telefone já cadastrado</value>
+  </data>
+  <data name="SelectField_Default" xml:space="preserve">
+    <value>Selecione um valor</value>
+  </data>
+  <data name="mensagem_data_invalida" xml:space="preserve">
+    <value>Data inválida</value>
+  </data>
+  <data name="email_formato_invalido" xml:space="preserve">
+    <value>O email informado não possui um formato válido</value>
+  </data>
+  <data name="login_captcha_invalido" xml:space="preserve">
+    <value>Código de segurança inválido</value>
+  </data>
+  <data name="login_usuario_senha_invalido" xml:space="preserve">
+    <value>Usuário ou senha inválidos</value>
+  </data>
+  <data name="login_usuario_inativo" xml:space="preserve">
+    <value>Usuário ou senha ínválidos</value>
+  </data>
+  <data name="login_usuario_sem_cliente" xml:space="preserve">
+    <value>Há um problema com os dados cadastrais da sua empresa, entre em contato com o suporte da Isotec.</value>
+  </data>
+  <data name="CtrlUsuario_FK_UsuarioClienteSite_CtrlUsuario" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela CtrlUsuario e a tabela UsuarioClienteSite</value>
+  </data>
+  <data name="CtrlUsuario_FK_UsuarioProcessoAcao_CtrlUsuario" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela CtrlUsuario e a tabela UsuarioCargo</value>
+  </data>
+  <data name="CtrlUsuario_lbl_CdIdentificacao" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="CtrlUsuario_lbl_CdSenha" xml:space="preserve">
+    <value>Senha</value>
+  </data>
+  <data name="CtrlUsuario_lbl_DtAlteracaoSenha" xml:space="preserve">
+    <value>Data Alteração Senha</value>
+  </data>
+  <data name="CtrlUsuario_lbl_DtExpiracao" xml:space="preserve">
+    <value>Data Expiração</value>
+  </data>
+  <data name="CtrlUsuario_lbl_DtUltimoAcesso" xml:space="preserve">
+    <value>Data Último Acesso</value>
+  </data>
+  <data name="CtrlUsuario_lbl_FlAtivo" xml:space="preserve">
+    <value>Ativo?</value>
+  </data>
+  <data name="CtrlUsuario_lbl_FlBloqueado" xml:space="preserve">
+    <value>Bloqueado?</value>
+  </data>
+  <data name="CtrlUsuario_lbl_FlCompartilhado" xml:space="preserve">
+    <value>Compartilhado?</value>
+  </data>
+  <data name="CtrlUsuario_lbl_FlRecebeEmail" xml:space="preserve">
+    <value>Recebe E-mail?</value>
+  </data>
+  <data name="CtrlUsuario_lbl_FlSexo" xml:space="preserve">
+    <value>Sexo</value>
+  </data>
+  <data name="CtrlUsuario_lbl_IdPerfil" xml:space="preserve">
+    <value>ID Perfil</value>
+  </data>
+  <data name="CtrlUsuario_lbl_IdUsuario" xml:space="preserve">
+    <value>ID Usuário</value>
+  </data>
+  <data name="CtrlUsuario_lbl_NmArquivoFoto" xml:space="preserve">
+    <value>Arquivo Foto</value>
+  </data>
+  <data name="CtrlUsuario_lbl_NmCompleto" xml:space="preserve">
+    <value>Responsável</value>
+  </data>
+  <data name="CtrlUsuario_lbl_NmFuncao" xml:space="preserve">
+    <value>Função</value>
+  </data>
+  <data name="CtrlUsuario_lbl_NuCPF" xml:space="preserve">
+    <value>CPF</value>
+  </data>
+  <data name="CtrlUsuario_lbl_NuFalhaLNoLogin" xml:space="preserve">
+    <value>Número de Falhas no Login</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_length_CdIdentificacao" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 120 caracteres</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_length_CdSenha" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 120 caracteres</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_length_FlSexo" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 1 caracteres</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_length_NmArquivoFoto" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 80 caracteres</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_length_NmCompleto" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 30 caracteres</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_length_NmFuncao" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 100 caracteres</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_length_NuCPF" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 30 caracteres</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_CdIdentificacao" xml:space="preserve">
+    <value>O campo "Identificação" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_CdSenha" xml:space="preserve">
+    <value>O campo "Senha" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_DtAlteracaoSenha" xml:space="preserve">
+    <value>O campo "Data Alteração Senha" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_FlAtivo" xml:space="preserve">
+    <value>O campo "Ativo?" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_FlBloqueado" xml:space="preserve">
+    <value>O campo "Bloqueado?" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_FlCompartilhado" xml:space="preserve">
+    <value>O campo "Compartilhado?" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_FlSexo" xml:space="preserve">
+    <value>O campo "Sexo" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_IdPerfil" xml:space="preserve">
+    <value>O campo "ID Perfil" é obrigatório oooo</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_IdUsuario" xml:space="preserve">
+    <value>O campo "ID Usuário" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_NmCompleto" xml:space="preserve">
+    <value>O campo "Nome Completo" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_msg_erro_required_NuFalhaLNoLogin" xml:space="preserve">
+    <value>O campo "Número de Falhas no Login" é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_PK_Usuario" xml:space="preserve">
+    <value>PK_Usuario já cadastrado.</value>
+  </data>
+  <data name="CtrlPerfil_lbl_IdPerfil" xml:space="preserve">
+    <value>ID Perfil</value>
+  </data>
+  <data name="CtrlPerfil_lbl_NmNome" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="CtrlPerfil_msg_erro_length_NmNome" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 30 caracteres</value>
+  </data>
+  <data name="CtrlPerfil_msg_erro_required_IdPerfil" xml:space="preserve">
+    <value>O campo "ID Perfil" é obrigatório ......</value>
+  </data>
+  <data name="CtrlPerfil_msg_erro_required_NmNome" xml:space="preserve">
+    <value>O campo "Nome Perfil" é obrigatório</value>
+  </data>
+  <data name="CtrlPerfil_PK_CtrlPerfil" xml:space="preserve">
+    <value>PK_CtrlPerfil já cadastrado.</value>
+  </data>
+  <data name="UsuarioClienteSite_AK_UsuarioCliente" xml:space="preserve">
+    <value>AK_UsuarioCliente já cadastrado.</value>
+  </data>
+  <data name="UsuarioClienteSite_lbl_IdCliente" xml:space="preserve">
+    <value>ID Cliente</value>
+  </data>
+  <data name="UsuarioClienteSite_lbl_IdSite" xml:space="preserve">
+    <value>ID Site</value>
+  </data>
+  <data name="UsuarioClienteSite_lbl_IdUsuario" xml:space="preserve">
+    <value>ID Usuário</value>
+  </data>
+  <data name="UsuarioClienteSite_lbl_IdUsuarioClienteSite" xml:space="preserve">
+    <value>ID Usuário Cliente Site</value>
+  </data>
+  <data name="UsuarioClienteSite_msg_erro_required_IdCliente" xml:space="preserve">
+    <value>O campo "ID Cliente" é obrigatório</value>
+  </data>
+  <data name="UsuarioClienteSite_msg_erro_required_IdUsuario" xml:space="preserve">
+    <value>O campo "ID Usuário" é obrigatório</value>
+  </data>
+  <data name="UsuarioClienteSite_msg_erro_required_IdUsuarioClienteSite" xml:space="preserve">
+    <value>O campo "ID Usuário Cliente Site" é obrigatório</value>
+  </data>
+  <data name="UsuarioClienteSite_PK_UsuarioClienteSite" xml:space="preserve">
+    <value>PK_UsuarioClienteSite já cadastrado.</value>
+  </data>
+  <data name="login_usuario_bloqueado" xml:space="preserve">
+    <value>Identificação e/ou senha bloqueada, entre em contato com o coordenador</value>
+  </data>
+  <data name="login_usuario_data_expirada" xml:space="preserve">
+    <value>Há um problema com os seus dados cadastrais, entre em contato com o suporte da Isotec</value>
+  </data>
+  <data name="login_senha_bloqueada" xml:space="preserve">
+    <value>Sua senha foi bloqueada, entre em contato com o Coordenador e solicite o desbloqueio</value>
+  </data>
+  <data name="login_usuario_senha_invalido_tentativas" xml:space="preserve">
+    <value>Identificação e/ou senha inválidos, você ainda tem {0} tentativas</value>
+  </data>
+  <data name="alterar_senha_nao_igual" xml:space="preserve">
+    <value>A senha atual não confere</value>
+  </data>
+  <data name="login_usuario_ativo_associado" xml:space="preserve">
+    <value>Não existem sites ativos cadastrados para este usuário. Favor entrar em contato com o Coordenador e verificar a situação</value>
+  </data>
+  <data name="alterar_senha_usuario_compartilhado" xml:space="preserve">
+    <value>Ocorreu um erro, se a senha não pode ser enviada ao e-mail ao usuário do sistema.  Entre em contato com o coordenador</value>
+  </data>
+  <data name="Cliente_AK_Cliente" xml:space="preserve">
+    <value>URL de Acesso já cadastrada.</value>
+  </data>
+  <data name="Cliente_AK_Cliente_Fantasia" xml:space="preserve">
+    <value>AK_Cliente_Fantasia já cadastrado.</value>
+  </data>
+  <data name="Cliente_FK_Site_Cliente" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Cliente e a tabela Site</value>
+  </data>
+  <data name="Cliente_FK_UsuarioClienteSite_Cliente" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Cliente e a tabela UsuarioClienteSite</value>
+  </data>
+  <data name="Cliente_lbl_DtValidadeContrato" xml:space="preserve">
+    <value>Validade do Contrato</value>
+  </data>
+  <data name="Cliente_lbl_FlAtivo" xml:space="preserve">
+    <value>Ativo</value>
+  </data>
+  <data name="Cliente_lbl_FlEstruturaAprovador" xml:space="preserve">
+    <value>Estrutura Aprovador?</value>
+  </data>
+  <data name="Cliente_lbl_FlExigeSenhaForte" xml:space="preserve">
+    <value>Exige Senha Forte?</value>
+  </data>
+  <data name="Cliente_lbl_FlTemCaptcha" xml:space="preserve">
+    <value>Usa Captcha</value>
+  </data>
+  <data name="Cliente_lbl_IdCliente" xml:space="preserve">
+    <value>ID Cliente</value>
+  </data>
+  <data name="Cliente_lbl_NmAquivoContrato" xml:space="preserve">
+    <value>Contrato</value>
+  </data>
+  <data name="Cliente_lbl_NmFantasia" xml:space="preserve">
+    <value>Nome do Cliente</value>
+  </data>
+  <data name="Cliente_lbl_NmLogo" xml:space="preserve">
+    <value>Nome Logo</value>
+  </data>
+  <data name="Cliente_lbl_NmUrlAcesso" xml:space="preserve">
+    <value>URL de Acesso</value>
+  </data>
+  <data name="Cliente_lbl_NuArmazenaSenha" xml:space="preserve">
+    <value>Armazena as últimas</value>
+  </data>
+  <data name="Cliente_lbl_NuDiasTrocaSenha" xml:space="preserve">
+    <value>Solicitar a troca de senha a cada</value>
+  </data>
+  <data name="Cliente_lbl_NuTentativaBloqueioLogin" xml:space="preserve">
+    <value>Bloquear após</value>
+  </data>
+  <data name="Cliente_msg_erro_length_NmAquivoContrato" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 1000 caracteres</value>
+  </data>
+  <data name="Cliente_msg_erro_length_NmFantasia" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 40 caracteres</value>
+  </data>
+  <data name="Cliente_msg_erro_length_NmLogo" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 80 caracteres</value>
+  </data>
+  <data name="Cliente_msg_erro_length_NmUrlAcesso" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 60 caracteres</value>
+  </data>
+  <data name="Cliente_msg_erro_required_DtValidadeContrato" xml:space="preserve">
+    <value>O campo "Data Validade Contrato" é obrigatório</value>
+  </data>
+  <data name="Cliente_msg_erro_required_FlAtivo" xml:space="preserve">
+    <value>O campo "Ativo?" é obrigatório</value>
+  </data>
+  <data name="Cliente_msg_erro_required_FlTemCaptcha" xml:space="preserve">
+    <value>O campo "Tem Captcha?" é obrigatório</value>
+  </data>
+  <data name="Cliente_msg_erro_required_IdCliente" xml:space="preserve">
+    <value>O campo "ID Cliente" é obrigatório</value>
+  </data>
+  <data name="Cliente_msg_erro_required_NmFantasia" xml:space="preserve">
+    <value>O campo "Nome Fantasia" é obrigatório</value>
+  </data>
+  <data name="Cliente_msg_erro_required_NmUrlAcesso" xml:space="preserve">
+    <value>O campo "URL Acesso" é obrigatório</value>
+  </data>
+  <data name="Cliente_msg_erro_required_NuDiasTrocaSenha" xml:space="preserve">
+    <value>O campo "Número de Dias de Troca de Senha" é obrigatório</value>
+  </data>
+  <data name="Cliente_PK_Cliente" xml:space="preserve">
+    <value>PK_Cliente já cadastrado.</value>
+  </data>
+  <data name="Cliente_Titulo_Pagina" xml:space="preserve">
+    <value>Clientes</value>
+  </data>
+  <data name="Cliente_lbl_novo_cliente" xml:space="preserve">
+    <value>Novo Cliente</value>
+  </data>
+  <data name="botao_adicionar" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="botao_alterar" xml:space="preserve">
+    <value>Alterar</value>
+  </data>
+  <data name="Cliente_Titulo_Pagina_Editar" xml:space="preserve">
+    <value>Editar Cliente</value>
+  </data>
+  <data name="Cliente_Titulo_Pagina_Novo" xml:space="preserve">
+    <value>Novo Cliente</value>
+  </data>
+  <data name="CtrlUsuario_lbl_Alterar" xml:space="preserve">
+    <value>Alterar Usuário</value>
+  </data>
+  <data name="CtrlUsuario_lbl_Incluir" xml:space="preserve">
+    <value>Incluir Usuário</value>
+  </data>
+  <data name="CtrlUsuario_lbl_novo_cliente" xml:space="preserve">
+    <value>Novo Usuário</value>
+  </data>
+  <data name="CtrlUsuario_lbl_sexo_feminino" xml:space="preserve">
+    <value>Feminino</value>
+  </data>
+  <data name="CtrlUsuario_lbl_sexo_masculino" xml:space="preserve">
+    <value>Masculino</value>
+  </data>
+  <data name="CtrlUsuario_Titulo_Pagina" xml:space="preserve">
+    <value>Usuários</value>
+  </data>
+  <data name="Site_FK_Cargo_Site" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Site e a tabela Cargo</value>
+  </data>
+  <data name="Site_FK_Processo_Site" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Site e a tabela Processo</value>
+  </data>
+  <data name="Site_FK_SiteModulo_Site" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Site e a tabela SiteModulo</value>
+  </data>
+  <data name="Site_FK_UsuarioClienteSite_Site" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Site e a tabela UsuarioClienteSite</value>
+  </data>
+  <data name="Site_lbl_DsFrase" xml:space="preserve">
+    <value>Frase</value>
+  </data>
+  <data name="Site_lbl_DsObservacoes" xml:space="preserve">
+    <value>Observações</value>
+  </data>
+  <data name="Site_lbl_FlAtivo" xml:space="preserve">
+    <value>Ativo</value>
+  </data>
+  <data name="Site_lbl_IdCliente" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="Site_lbl_IdSite" xml:space="preserve">
+    <value>ID Site</value>
+  </data>
+  <data name="Site_lbl_NmFantasia" xml:space="preserve">
+    <value>Nome Fantasia</value>
+  </data>
+  <data name="Site_lbl_NmLogo" xml:space="preserve">
+    <value>Logotipo</value>
+  </data>
+  <data name="Site_lbl_NmRazaoSocial" xml:space="preserve">
+    <value>Razão Social</value>
+  </data>
+  <data name="Site_lbl_NuCNPJ" xml:space="preserve">
+    <value>CNPJ</value>
+  </data>
+  <data name="Site_msg_erro_length_DsFrase" xml:space="preserve">
+    <value>O tamanho máximo da Frase permitido é de 150 caracteres</value>
+  </data>
+  <data name="Site_msg_erro_length_DsObservacoes" xml:space="preserve">
+    <value>O tamanho máximo das Observações permitido é de 2000 caracteres</value>
+  </data>
+  <data name="Site_msg_erro_length_NmFantasia" xml:space="preserve">
+    <value>O tamanho máximo do Nome Fantasia permitido é de 40 caracteres</value>
+  </data>
+  <data name="Site_msg_erro_length_NmLogo" xml:space="preserve">
+    <value>O tamanho máximo do Logo permitido é de 40 caracteres</value>
+  </data>
+  <data name="Site_msg_erro_length_NmRazaoSocial" xml:space="preserve">
+    <value>O tamanho máximo da Razão Social permitido é de 60 caracteres</value>
+  </data>
+  <data name="Site_msg_erro_length_NuCNPJ" xml:space="preserve">
+    <value>O tamanho máximo do CNPJ permitido é de 14 caracteres</value>
+  </data>
+  <data name="Site_msg_erro_required_FlAtivo" xml:space="preserve">
+    <value>O campo "Ativo" é obrigatório</value>
+  </data>
+  <data name="Site_msg_erro_required_IdCliente" xml:space="preserve">
+    <value>O campo "Cliente" é obrigatório</value>
+  </data>
+  <data name="Site_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo "ID Site" é obrigatório</value>
+  </data>
+  <data name="Site_msg_erro_required_NmFantasia" xml:space="preserve">
+    <value>O campo "Nome Fantasia" é obrigatório</value>
+  </data>
+  <data name="Site_msg_erro_required_NmRazaoSocial" xml:space="preserve">
+    <value>O campo "Razão Social" é obrigatório</value>
+  </data>
+  <data name="Site_PK_Site" xml:space="preserve">
+    <value>PK_Site já cadastrado.</value>
+  </data>
+  <data name="Site_Titulo_Pagina" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="Site_FK_Site_Cliente" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Cliente e a tabela Site</value>
+  </data>
+  <data name="Funcionalidade_FK_CargoProcesso_Funcionalidade" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Funcionalidade e a tabela CargoProcesso</value>
+  </data>
+  <data name="Funcionalidade_FK_ClienteModulo_CtrlFuncionalidade" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Funcionalidade e a tabela SiteModulo</value>
+  </data>
+  <data name="Funcionalidade_FK_Funcao_Funcionalidade" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Funcionalidade e a tabela Funcao</value>
+  </data>
+  <data name="Funcionalidade_lbl_CdFormulario" xml:space="preserve">
+    <value>Código Formulário</value>
+  </data>
+  <data name="Funcionalidade_lbl_IdFuncionalidade" xml:space="preserve">
+    <value>ID Funcionalidade</value>
+  </data>
+  <data name="Funcionalidade_lbl_IdFuncionalidadePai" xml:space="preserve">
+    <value>Funcionalidade Pai</value>
+  </data>
+  <data name="Funcionalidade_lbl_NmNome" xml:space="preserve">
+    <value>Nome Funcionalidade</value>
+  </data>
+  <data name="Funcionalidade_lbl_NuOrdem" xml:space="preserve">
+    <value>Ordem</value>
+  </data>
+  <data name="Funcionalidade_msg_erro_length_CdFormulario" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 20 caracteres</value>
+  </data>
+  <data name="Funcionalidade_msg_erro_length_NmNome" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 30 caracteres</value>
+  </data>
+  <data name="Funcionalidade_msg_erro_required_IdFuncionalidade" xml:space="preserve">
+    <value>O campo "ID Funcionalidade" é obrigatório</value>
+  </data>
+  <data name="Funcionalidade_msg_erro_required_NmNome" xml:space="preserve">
+    <value>O campo "Nome Funcionalidade" é obrigatório</value>
+  </data>
+  <data name="Funcionalidade_msg_erro_required_NuOrdem" xml:space="preserve">
+    <value>O campo "Ordem" é obrigatório</value>
+  </data>
+  <data name="Funcionalidade_PK_CtrlFuncionalidade" xml:space="preserve">
+    <value>PK_CtrlFuncionalidade já cadastrado.</value>
+  </data>
+  <data name="Acesso_Negado" xml:space="preserve">
+    <value>Acesso Negado</value>
+  </data>
+  <data name="Site_msg_erro_excluir_ativo" xml:space="preserve">
+    <value>Somente site com status inativo pode ser excluído</value>
+  </data>
+  <data name="Processo_AK_Processo" xml:space="preserve">
+    <value>AK_Processo já cadastrado.</value>
+  </data>
+  <data name="Processo_FK_CargoProcesso_Processo" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Processo e a tabela CargoProcesso</value>
+  </data>
+  <data name="Processo_lbl_FlAtivo" xml:space="preserve">
+    <value>Ativo?</value>
+  </data>
+  <data name="Processo_lbl_FlQualidade" xml:space="preserve">
+    <value>FlQualidade</value>
+  </data>
+  <data name="Processo_lbl_IdProcesso" xml:space="preserve">
+    <value>ID Processo</value>
+  </data>
+  <data name="Processo_lbl_IdSite" xml:space="preserve">
+    <value>ID Site</value>
+  </data>
+  <data name="Processo_lbl_NmProcesso" xml:space="preserve">
+    <value>Nome do Processo</value>
+  </data>
+  <data name="Processo_msg_erro_length_NmProcesso" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 60 caracteres</value>
+  </data>
+  <data name="Processo_msg_erro_required_FlAtivo" xml:space="preserve">
+    <value>O campo "Ativo?" é obrigatório</value>
+  </data>
+  <data name="Processo_msg_erro_required_FlQualidade" xml:space="preserve">
+    <value>O campo "FlQualidade" é obrigatório</value>
+  </data>
+  <data name="Processo_msg_erro_required_IdProcesso" xml:space="preserve">
+    <value>O campo "ID Processo" é obrigatório</value>
+  </data>
+  <data name="Processo_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo "ID Site" é obrigatório</value>
+  </data>
+  <data name="Processo_PK_Processo" xml:space="preserve">
+    <value>PK_Processo já cadastrado.</value>
+  </data>
+  <data name="Cargo_AK_Cargo" xml:space="preserve">
+    <value>AK_Cargo já cadastrado.</value>
+  </data>
+  <data name="Cargo_FK_CargoProcesso_Cargo" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Cargo e a tabela CargoProcesso</value>
+  </data>
+  <data name="Cargo_FK_UsuarioCargo_Cargo" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Cargo e a tabela UsuarioCargo</value>
+  </data>
+  <data name="Cargo_lbl_IdCargo" xml:space="preserve">
+    <value>ID Cargo</value>
+  </data>
+  <data name="Cargo_lbl_IdSite" xml:space="preserve">
+    <value>ID Site</value>
+  </data>
+  <data name="Cargo_lbl_NmNome" xml:space="preserve">
+    <value>Nome Cargo</value>
+  </data>
+  <data name="Cargo_msg_erro_length_NmNome" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 40 caracteres</value>
+  </data>
+  <data name="Cargo_msg_erro_required_IdCargo" xml:space="preserve">
+    <value>O campo "ID Cargo" é obrigatório</value>
+  </data>
+  <data name="Cargo_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo "ID Site" é obrigatório</value>
+  </data>
+  <data name="Cargo_msg_erro_required_NmNome" xml:space="preserve">
+    <value>O campo "Nome Cargo" é obrigatório</value>
+  </data>
+  <data name="Cargo_PK_Cargo" xml:space="preserve">
+    <value>PK_Cargo já cadastrado.</value>
+  </data>
+  <data name="CargoProcesso_lbl_IdCargo" xml:space="preserve">
+    <value>ID Cargo</value>
+  </data>
+  <data name="CargoProcesso_lbl_IdCargoProcesso" xml:space="preserve">
+    <value>ID Cargo Processo</value>
+  </data>
+  <data name="CargoProcesso_lbl_IdFuncao" xml:space="preserve">
+    <value>IdFuncao</value>
+  </data>
+  <data name="CargoProcesso_lbl_IdProcesso" xml:space="preserve">
+    <value>ID Processo</value>
+  </data>
+  <data name="CargoProcesso_msg_erro_required_IdCargo" xml:space="preserve">
+    <value>O campo "ID Cargo" é obrigatório</value>
+  </data>
+  <data name="CargoProcesso_msg_erro_required_IdCargoProcesso" xml:space="preserve">
+    <value>O campo "ID Cargo Processo" é obrigatório</value>
+  </data>
+  <data name="CargoProcesso_msg_erro_required_IdFuncao" xml:space="preserve">
+    <value>O campo "IdFuncao" é obrigatório</value>
+  </data>
+  <data name="CargoProcesso_msg_erro_required_IdProcesso" xml:space="preserve">
+    <value>O campo "ID Processo" é obrigatório</value>
+  </data>
+  <data name="CargoProcesso_PK_CargoProcesso" xml:space="preserve">
+    <value>PK_CargoProcesso já cadastrado.</value>
+  </data>
+  <data name="Cargo_Titulo_Pagina" xml:space="preserve">
+    <value>Cargo</value>
+  </data>
+  <data name="Cargo_Titulo_Pagina_Editar" xml:space="preserve">
+    <value>Editar Cargo</value>
+  </data>
+  <data name="Cargo_Titulo_Pagina_Novo" xml:space="preserve">
+    <value>Novo Cargo</value>
+  </data>
+  <data name="Cargo_Pagina_Header_Cargo" xml:space="preserve">
+    <value>Cargos</value>
+  </data>
+  <data name="Cargo_Pagina_Header_Processos" xml:space="preserve">
+    <value>Processos que o Cargo interage</value>
+  </data>
+  <data name="Cargo_Pagina_Modulo_Titulo" xml:space="preserve">
+    <value>Módulo e Ações que Executa no Processo</value>
+  </data>
+  <data name="Funcao_FK_CargoProcesso_Funcao" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela Funcao e a tabela CargoProcesso</value>
+  </data>
+  <data name="Funcao_lbl_IdFuncao" xml:space="preserve">
+    <value>ID Funcao</value>
+  </data>
+  <data name="Funcao_lbl_IdFuncionalidade" xml:space="preserve">
+    <value>ID Funcionalidade</value>
+  </data>
+  <data name="Funcao_lbl_NmNome" xml:space="preserve">
+    <value>Nome Função</value>
+  </data>
+  <data name="Funcao_lbl_NuOrdem" xml:space="preserve">
+    <value>Ordem Função</value>
+  </data>
+  <data name="Funcao_msg_erro_length_NmNome" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 40 caracteres</value>
+  </data>
+  <data name="Funcao_msg_erro_required_IdFuncao" xml:space="preserve">
+    <value>O campo "ID Funcao" é obrigatório</value>
+  </data>
+  <data name="Funcao_msg_erro_required_IdFuncionalidade" xml:space="preserve">
+    <value>O campo "ID Funcionalidade" é obrigatório</value>
+  </data>
+  <data name="Funcao_msg_erro_required_NmNome" xml:space="preserve">
+    <value>O campo "Nome Função" é obrigatório</value>
+  </data>
+  <data name="Funcao_msg_erro_required_NuOrdem" xml:space="preserve">
+    <value>O campo "Ordem Função" é obrigatório</value>
+  </data>
+  <data name="Funcao_PK_Funcao" xml:space="preserve">
+    <value>PK_Funcao já cadastrado.</value>
+  </data>
+  <data name="Processo_msg_erro_required_NmProcesso" xml:space="preserve">
+    <value>O nome do processo é obrigatório</value>
+  </data>
+  <data name="CtrlUsuario_AK_CtrlUsuario" xml:space="preserve">
+    <value>E-mail já está cadastrado.</value>
+  </data>
+  <data name="EnviarSenha" xml:space="preserve">
+    <value>Senhor @NOME
+Login @LOGIN
+Senha @SENHA
+URl @URL</value>
+  </data>
+  <data name="mensagem_nmSite_invalido" xml:space="preserve">
+    <value>Site inválido.</value>
+  </data>
+  <data name="DocCargo_lbl_DtInclusao" xml:space="preserve">
+    <value>Data de Inclusão</value>
+  </data>
+  <data name="DocCargo_lbl_Id" xml:space="preserve">
+    <value>PK</value>
+  </data>
+  <data name="DocCargo_lbl_IdCargo" xml:space="preserve">
+    <value>Cargo</value>
+  </data>
+  <data name="DocCargo_lbl_IdDocumento" xml:space="preserve">
+    <value>Documento</value>
+  </data>
+  <data name="DocCargo_lbl_IdUsuarioIncluiu" xml:space="preserve">
+    <value>Usuário que Inseriu o registro</value>
+  </data>
+  <data name="DocCargo_msg_erro_required_Id" xml:space="preserve">
+    <value>O campo "PK" é obrigatório</value>
+  </data>
+  <data name="DocCargo_PK_DocUsuario" xml:space="preserve">
+    <value>PK_DocUsuario já cadastrado.</value>
+  </data>
+  <data name="DocDocumento_FK_DocTemplate_DocDocumento" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela DocDocumento e a tabela DocTemplate</value>
+  </data>
+  <data name="DocDocumento_FK_DocUsuarioVerificaAprova_DocDocumento" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela DocDocumento e a tabela DocUsuarioVerificaAprova</value>
+  </data>
+  <data name="DocDocumento_FK_DocUsuario_DocDocumento" xml:space="preserve">
+    <value>Um erro de integridade detectado entre a tabela DocDocumento e a tabela DocCargo</value>
+  </data>
+  <data name="DocDocumento_lbl_CdLetra" xml:space="preserve">
+    <value>Sigla</value>
+  </data>
+  <data name="DocDocumento_lbl_CdNumero" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="DocDocumento_lbl_DsAssunto" xml:space="preserve">
+    <value>Assunto</value>
+  </data>
+  <data name="DocDocumento_lbl_DsComentario" xml:space="preserve">
+    <value>Comentário</value>
+  </data>
+  <data name="DocDocumento_lbl_DtAlteracao" xml:space="preserve">
+    <value>Data da alteração</value>
+  </data>
+  <data name="DocDocumento_lbl_DtAprovacao" xml:space="preserve">
+    <value>Data de aprovação</value>
+  </data>
+  <data name="DocDocumento_lbl_DtEmissao" xml:space="preserve">
+    <value>Data da emissão</value>
+  </data>
+  <data name="DocDocumento_lbl_DtInclusao" xml:space="preserve">
+    <value>Data da inclusão</value>
+  </data>
+  <data name="DocDocumento_lbl_DtNotificacao" xml:space="preserve">
+    <value>Data de notificação</value>
+  </data>
+  <data name="DocDocumento_lbl_DtPedidoAprovacao" xml:space="preserve">
+    <value>Data do pedido de aprovação</value>
+  </data>
+  <data name="DocDocumento_lbl_DtPedidoVerificacao" xml:space="preserve">
+    <value>Data do pedido de verificação</value>
+  </data>
+  <data name="DocDocumento_lbl_DtVencimento" xml:space="preserve">
+    <value>Data do vencimento</value>
+  </data>
+  <data name="DocDocumento_lbl_DtVerificacao" xml:space="preserve">
+    <value>Data da verificação</value>
+  </data>
+  <data name="DocDocumento_lbl_FlRevisaoPeriodica" xml:space="preserve">
+    <value>Flag para revisão periódica</value>
+  </data>
+  <data name="DocDocumento_lbl_FlStatus" xml:space="preserve">
+    <value>Flag para status</value>
+  </data>
+  <data name="DocDocumento_lbl_FlWorkFlow" xml:space="preserve">
+    <value>Flag para workflow</value>
+  </data>
+  <data name="DocDocumento_lbl_IdCategoria" xml:space="preserve">
+    <value>Categoria</value>
+  </data>
+  <data name="DocDocumento_lbl_IdDocIdentificador" xml:space="preserve">
+    <value>Identificador Documento</value>
+  </data>
+  <data name="DocDocumento_lbl_IdDocumento" xml:space="preserve">
+    <value>PK</value>
+  </data>
+  <data name="DocDocumento_lbl_IdDocumentoPai" xml:space="preserve">
+    <value>Documento Pai</value>
+  </data>
+  <data name="DocDocumento_lbl_IdElaborador" xml:space="preserve">
+    <value>Código do elaborador</value>
+  </data>
+  <data name="DocDocumento_lbl_IdProcesso" xml:space="preserve">
+    <value>Processo</value>
+  </data>
+  <data name="DocDocumento_lbl_IdSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="DocDocumento_lbl_IdUsuarioIncluiu" xml:space="preserve">
+    <value>Identificador Usuário inclusão</value>
+  </data>
+  <data name="DocDocumento_lbl_NmTitulo" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="DocDocumento_lbl_NuRevisao" xml:space="preserve">
+    <value>Revisão</value>
+  </data>
+  <data name="DocDocumento_lbl_XmlMetadata" xml:space="preserve">
+    <value>XML documento</value>
+  </data>
+  <data name="DocDocumento_msg_erro_length_CdLetra" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 15 caracteres</value>
+  </data>
+  <data name="DocDocumento_msg_erro_length_CdNumero" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 15 caracteres</value>
+  </data>
+  <data name="DocDocumento_msg_erro_length_DsAssunto" xml:space="preserve">
+    <value>O tamanho máximo permitido é de -1 caracteres</value>
+  </data>
+  <data name="DocDocumento_msg_erro_length_DsComentario" xml:space="preserve">
+    <value>O tamanho máximo permitido é de -1 caracteres</value>
+  </data>
+  <data name="DocDocumento_msg_erro_length_NmTitulo" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 1000 caracteres</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_DtAlteracao" xml:space="preserve">
+    <value>O campo "Data da alteração" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_FlRevisaoPeriodica" xml:space="preserve">
+    <value>O campo "Flag para revisão periódica" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_FlStatus" xml:space="preserve">
+    <value>O campo "Flag para status" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_FlWorkFlow" xml:space="preserve">
+    <value>O campo "Flag para workflow" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_IdCategoria" xml:space="preserve">
+    <value>O campo "Categoria" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_IdDocIdentificador" xml:space="preserve">
+    <value>O campo "Identificador Documento" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_IdDocumento" xml:space="preserve">
+    <value>O campo "PK" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_IdElaborador" xml:space="preserve">
+    <value>O campo "Código do elaborador" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo "Site" é obrigatório</value>
+  </data>
+  <data name="DocDocumento_PK_DocDocumento" xml:space="preserve">
+    <value>PK_DocDocumento já cadastrado.</value>
+  </data>
+  <data name="DocTemplate_AK_DocTemplate" xml:space="preserve">
+    <value>AK_DocTemplate já cadastrado.</value>
+  </data>
+  <data name="DocTemplate_lbl_IdDocTemplate" xml:space="preserve">
+    <value>IdDocTemplate</value>
+  </data>
+  <data name="DocTemplate_lbl_IdDocumento" xml:space="preserve">
+    <value>IdDocumento</value>
+  </data>
+  <data name="DocTemplate_lbl_TpTemplate" xml:space="preserve">
+    <value>TpTemplate</value>
+  </data>
+  <data name="DocTemplate_msg_erro_length_TpTemplate" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 2 caracteres</value>
+  </data>
+  <data name="DocTemplate_msg_erro_required_IdDocTemplate" xml:space="preserve">
+    <value>O campo "IdDocTemplate" é obrigatório</value>
+  </data>
+  <data name="DocTemplate_msg_erro_required_IdDocumento" xml:space="preserve">
+    <value>O campo "IdDocumento" é obrigatório</value>
+  </data>
+  <data name="DocTemplate_PK_DocTemplate" xml:space="preserve">
+    <value>PK_DocTemplate já cadastrado.</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_AK_DocUsuarioVerificaAprova" xml:space="preserve">
+    <value>AK_DocUsuarioVerificaAprova já cadastrado.</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_lbl_FlAprovou" xml:space="preserve">
+    <value>Flag de aprovação</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_lbl_IdDocumento" xml:space="preserve">
+    <value>Identificador do documento</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_lbl_IdDocUsuarioVerificaAprova" xml:space="preserve">
+    <value>PK</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_lbl_IdUsuario" xml:space="preserve">
+    <value>Identificador do usuário</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_lbl_TpEtapa" xml:space="preserve">
+    <value>Código da etapa</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_msg_erro_length_TpEtapa" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 2 caracteres</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_msg_erro_required_IdDocumento" xml:space="preserve">
+    <value>O campo "Identificador do documento" é obrigatório</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_msg_erro_required_IdDocUsuarioVerificaAprova" xml:space="preserve">
+    <value>O campo "PK" é obrigatório</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_msg_erro_required_IdUsuario" xml:space="preserve">
+    <value>O campo "Identificador do usuário" é obrigatório</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_msg_erro_required_TpEtapa" xml:space="preserve">
+    <value>O campo "Código da etapa" é obrigatório</value>
+  </data>
+  <data name="DocUsuarioVerificaAprova_PK_DocUsuarioVerificaAprova" xml:space="preserve">
+    <value>PK_DocUsuarioVerificaAprova já cadastrado.</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_DocCargo" xml:space="preserve">
+    <value>Necessário que sejá escolhido ao menos 1 cargo</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_DocTemplate" xml:space="preserve">
+    <value>É preciso que seja selecionado ao menos 1 template para o documento</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_DocUsuarioAprovacao" xml:space="preserve">
+    <value>É preciso que seja selecionado ao menos 1 usuário aprovador para o documento</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_DocUsuarioVerificacao" xml:space="preserve">
+    <value>É preciso que seja selecionado ao menos 1 usuário verificador para o documento</value>
+  </data>
+  <data name="ControleAcesso_assunto_email_novosusuario" xml:space="preserve">
+    <value>Acesso ao Sistema e-Qualit</value>
+  </data>
+  <data name="ControleAcesso_assunto_email_reenviosenha" xml:space="preserve">
+    <value>Reenvio de Senha Acesso ao Sistema</value>
+  </data>
+  <data name="ControleAcesso_msg_erro_usuarionaolocalizado" xml:space="preserve">
+    <value>Usuário não localizado.</value>
+  </data>
+  <data name="mensagem_erro_email_invalido" xml:space="preserve">
+    <value>E-mail inválido</value>
+  </data>
+  <data name="mensagem_erro_cnpj_invalido" xml:space="preserve">
+    <value>O CNPJ inválido</value>
+  </data>
+  <data name="mensagem_erro_cpfcnpj_invalido" xml:space="preserve">
+    <value>O CPF/CNP inválido</value>
+  </data>
+  <data name="mensagem_erro_cpf_invalido" xml:space="preserve">
+    <value>O CPF inválido</value>
+  </data>
+  <data name="AcaoCorretivas_msg_erro_required_DescricaoRegistro" xml:space="preserve">
+    <value>O Campo Causa é obrigatório</value>
+  </data>
+  <data name="AcaoCorretiva_msg_erro_min_e_max_DescricaoRegistro" xml:space="preserve">
+    <value>O campo Causa deve ter no minimo 4 caracteres</value>
+  </data>
+  <data name="AcaoCorretiva_msg_erro_required_IdEmissor" xml:space="preserve">
+    <value>O campo Emissor é obrigatório</value>
+  </data>
+  <data name="AcaoCorretiva_msg_erro_required_IdProcesso" xml:space="preserve">
+    <value>O campo Processo é obrigatório</value>
+  </data>
+  <data name="AcaoCorretiva_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo Site é obrigatório</value>
+  </data>
+  <data name="GestaoDeRisco_msg_erro_min_e_max_DescricaoRegistro" xml:space="preserve">
+    <value>O campo Identificação de Risco deve ter no minimo 4 caracteres</value>
+  </data>
+  <data name="GestaoDeRisco_msg_erro_required_DescricaoRegistro" xml:space="preserve">
+    <value>O campo Identificação do Risco é obrigatório</value>
+  </data>
+  <data name="GestaoDeRisco_msg_erro_required_IdEmissor" xml:space="preserve">
+    <value>O campo Emissor é obrigatório</value>
+  </data>
+  <data name="GestaoDeRisco_msg_erro_required_IdProcesso" xml:space="preserve">
+    <value>O campo Processo é obrigatório</value>
+  </data>
+  <data name="GestaoDeRisco_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo Site é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_min_e_max_DescricaoRegistro" xml:space="preserve">
+    <value>O campo 'Registro' deve ter entre 4 e 2000 caracteres.</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_DescricaoRegistro" xml:space="preserve">
+    <value> O campo O que falhou? é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IdEmissor" xml:space="preserve">
+    <value>O campo Emissor é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IdProcesso" xml:space="preserve">
+    <value>O campo Processo é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IdResponsavelIniciarAcaoCorretiva" xml:space="preserve">
+    <value>O campo Responsavel por Iniciar Ação Corretiva é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo Site é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IdTipoNaoConformidade" xml:space="preserve">
+    <value>O campo Tipo Não Conformidade é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IsNaoConformidadeAuditoria" xml:space="preserve">
+    <value>O campo Responsavel por É Não Conformidade Auditoria  é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IsNaoConformidadeFornecedor" xml:space="preserve">
+    <value>O campo Responsavel por É Não Conformidade Forcedor  é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_NaoConformidadeFornecedorEmail" xml:space="preserve">
+    <value>O campo Responsavel por E-mailForcedor é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_NaoConformidadeFornecedorName" xml:space="preserve">
+    <value>O campo Responsavel por Nome Forcedor é obrigatório</value>
+  </data>
+  <data name="notifcacao_msg_erro_DsDescricao_length" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 1000 caracteres</value>
+  </data>
+  <data name="notifcacao_msg_erro_DsDescricao_required" xml:space="preserve">
+    <value>Descrição é obrigatória</value>
+  </data>
+  <data name="notifcacao_msg_erro_IdRelacionado_required" xml:space="preserve">
+    <value>O Id do módulo relacionado deve ser maior ou igual a zero</value>
+  </data>
+  <data name="notifcacao_msg_erro_NuDiasAntecedencia_required" xml:space="preserve">
+    <value>O número de dias de antecedência deve ser maior ou igual a zero</value>
+  </data>
+  <data name="notifcacao_msg_erro_TpNotificacao_length" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 2 caracteres</value>
+  </data>
+  <data name="notifcacao_msg_erro_TpNotificacao_required" xml:space="preserve">
+    <value>Tipo de notificação é obrigatório</value>
+  </data>
+  <data name="email_notificacao_nc_abertura_assunto" xml:space="preserve">
+    <value>Abertura de Não Conformidade Nº {0}</value>
+  </data>
+  <data name="email_notificacao_nc_abertura_mensagem" xml:space="preserve">
+    <value>        &lt;p&gt;{0}&lt;/p&gt;
+Empresa: {1}&lt;br&gt;
+Site: {2}&lt;br&gt;
+Assunto: {3}&lt;br&gt;
+		&lt;p&gt;
+			Foi aberta a não conformidade de nº {4} no sistema.
+		&lt;/p&gt;
+		&lt;p&gt;
+			Obrigado.&lt;br /&gt;
+			www.e-qualit.com.br
+		&lt;/p&gt;
+		&lt;p&gt;Atenção: Está é uma mensagem automática, por favor, não responda.&lt;/p&gt;
+        &lt;p&gt;&lt;hr&gt;&lt;/p&gt;
+        &lt;p&gt;Assinatura Eletrônica:&lt;br&gt;</value>
+  </data>
+  <data name="email_notificacao_nc_definir_assunto" xml:space="preserve">
+    <value>Definir uma ação imediata</value>
+  </data>
+  <data name="email_notificacao_nc_identificar_assunto" xml:space="preserve">
+    <value>Identificar a causa da Não Conformidade</value>
+  </data>
+  <data name="email_notificacao_nc_implementar_assunto" xml:space="preserve">
+    <value>Implementar a ação imediata</value>
+  </data>
+  <data name="email_notificacao_nc_mensagem" xml:space="preserve">
+    <value>        &lt;p&gt;{0}&lt;/p&gt;
+  Empresa: {1}&lt;br /&gt;
+  Site: {2}&lt;br /&gt;
+  Assunto: {3}&lt;br /&gt;
+  &lt;p&gt;
+   O Sistema e-qualit informa que a não conformidade abaixo, necessita de sua intervenção.
+   &lt;br&gt;&lt;br&gt;Acesse a não conformidade número {4}.
+            &lt;br&gt;&lt;br&gt;Por favor acesse o Módulo Registros - Não Conformidade no Sistema e-qualit e atualize-se.
+  &lt;/p&gt;
+  &lt;p&gt;
+   Obrigado.&lt;br /&gt;
+   www.e-qualit.com.br
+  &lt;/p&gt;
+  &lt;p&gt;Atenção: Está é uma mensagem automática, por favor, não responda.&lt;/p&gt;
+        &lt;p&gt;&lt;hr&gt;&lt;/p&gt;
+        &lt;p&gt;Assinatura Eletrônica:&lt;br&gt;</value>
+  </data>
+  <data name="email_notificacao_nc_notificacao_assunto" xml:space="preserve">
+    <value>Notificação de Não Conformidade</value>
+  </data>
+  <data name="email_notificacao_nc_reverificacao_assunto" xml:space="preserve">
+    <value>Reverificação</value>
+  </data>
+  <data name="notifcacao_msg_erro_FlEtapa_length" xml:space="preserve">
+    <value>O tamanho máximo permitido é de 20 caracteres</value>
+  </data>
+  <data name="email_notificacao_ac_acao_assunto" xml:space="preserve">
+    <value>Analisar Ação Corretiva</value>
+  </data>
+  <data name="email_notificacao_ac_analisar_assunto" xml:space="preserve">
+    <value>Analisar a efetividade da Ação Corretiva</value>
+  </data>
+  <data name="email_notificacao_ac_defnir_assunto" xml:space="preserve">
+    <value>Definir Ação Corretiva</value>
+  </data>
+  <data name="email_notificacao_ac_implementar_assunto" xml:space="preserve">
+    <value>Implementar ação corretiva</value>
+  </data>
+  <data name="email_notificacao_ac_iniciar_assunto" xml:space="preserve">
+    <value>Iniciar Ação Corretiva</value>
+  </data>
+  <data name="email_notificacao_ac_mensagem" xml:space="preserve">
+    <value>&lt;p&gt;{0},&lt;/p&gt;
+&lt;p&gt;
+Cliente: {1}&lt;br /&gt;
+Site: {2}&lt;br /&gt;
+Assunto: {3}&lt;br /&gt;
+&lt;/p&gt;
+&lt;p&gt;
+O Sistema e-qualit informa que a ação corretiva abaixo, necessita de sua intervenção.
+&lt;br&gt;&lt;br&gt;Ação Corretiva número {5}.
+&lt;br&gt;&lt;br&gt;Por favor acesse o Módulo Registros - Ação Corretiva no Sistema e-qualit e atualize-se.
+&lt;/p&gt;
+&lt;p&gt;
+Obrigado.&lt;br /&gt;
+www.e-qualit.com.br
+&lt;/p&gt;
+&lt;p&gt;Atenção: Está é uma mensagem automática, por favor, não responda.&lt;/p&gt;</value>
+  </data>
+  <data name="email_notificacao_ac_notificacao_assunto" xml:space="preserve">
+    <value>Notificação de Ação Corretiva</value>
+  </data>
+  <data name="email_notificacao_gr_acao_assunto" xml:space="preserve">
+    <value>Analisar a Gestão de Riscos</value>
+  </data>
+  <data name="email_notificacao_gr_analisar_assunto" xml:space="preserve">
+    <value>Analisar a efetividade da Gestão de Riscos</value>
+  </data>
+  <data name="email_notificacao_gr_defnir_assunto" xml:space="preserve">
+    <value>Definir Gestão de Riscos</value>
+  </data>
+  <data name="email_notificacao_gr_implementar_assunto" xml:space="preserve">
+    <value>Implementar uma Gestão de Riscos</value>
+  </data>
+  <data name="email_notificacao_gr_iniciar_assunto" xml:space="preserve">
+    <value>Iniciar Gestão de Riscos</value>
+  </data>
+  <data name="email_notificacao_gr_mensagem" xml:space="preserve">
+    <value>&lt;p&gt;{0},&lt;/p&gt;
+&lt;p&gt;
+Cliente: {1}&lt;br /&gt;
+Site: {2}&lt;br /&gt;
+Assunto: {3}&lt;br /&gt;
+&lt;/p&gt;
+&lt;p&gt;
+O Sistema e-qualit informa que a ação corretiva abaixo, necessita de sua intervenção.
+&lt;br&gt;&lt;br&gt;Ação Corretiva número {5}.
+&lt;br&gt;&lt;br&gt;Por favor acesse o Módulo Registros - Gestão de Riscos no Sistema e-qualit e atualize-se.
+&lt;/p&gt;
+&lt;p&gt;
+Obrigado.&lt;br /&gt;
+www.e-qualit.com.br
+&lt;/p&gt;
+&lt;p&gt;Atenção: Está é uma mensagem automática, por favor, não responda.&lt;/p&gt;</value>
+  </data>
+  <data name="email_notificacao_gr_notificacao_assunto" xml:space="preserve">
+    <value>Notificação de Gestão de Riscos</value>
+  </data>
+  <data name="NaoConformidade_Index_lbl_DtEmissao" xml:space="preserve">
+    <value>Data de Emissão</value>
+  </data>
+  <data name="NaoConformidade_Index_lbl_DtEnceramento" xml:space="preserve">
+    <value>Data de Encerramento</value>
+  </data>
+  <data name="NaoConformidade_Index_lbl_Emissor" xml:space="preserve">
+    <value>Emissor</value>
+  </data>
+  <data name="NaoConformidade_Index_lbl_NuRegistro" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="NaoConformidade_Index_lbl_ResponsavelImplementar" xml:space="preserve">
+    <value>Responsavel por Implementar</value>
+  </data>
+  <data name="NaoConformidade_Index_lbl_StatusEtapa" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_btn_SalvarENotificar" xml:space="preserve">
+    <value>Salvar e Notificar</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_DescricaoRegistro" xml:space="preserve">
+    <value>O que falhou?</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_DtEmissao" xml:space="preserve">
+    <value>Data de Emissão:</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_ENaoConformidadeAuditoria" xml:space="preserve">
+    <value>Não conformidade de auditoria:</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_ENaoConformidadeAuditoria_Nao" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_ENaoConformidadeAuditoria_Sim" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_EvidenciaImg" xml:space="preserve">
+    <value>Evidência (imagem/arquivo):</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_IdEmissor" xml:space="preserve">
+    <value>Emissor - não conformidade:</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_IdProcesso" xml:space="preserve">
+    <value>Processo:</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoCorretiva" xml:space="preserve">
+    <value>Responsável por análise e definição de ação imediata:</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_IdTipoNaoConformidade" xml:space="preserve">
+    <value>Tipo de não conformidade:</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_NuRegistro" xml:space="preserve">
+    <value>Número da não conformidade:</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_DescricaoAcao" xml:space="preserve">
+    <value>Justificativa</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_DescricaoCausaAcaoCorretiva" xml:space="preserve">
+    <value>Análise da Causa</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_DtDescricaoAcao" xml:space="preserve">
+    <value>Data da descrição da ação:</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_ECorrecao" xml:space="preserve">
+    <value>Ação imediata é uma correção?</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_ECorrecao_false" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_ECorrecao_true" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_EProcedente" xml:space="preserve">
+    <value>Não Conformidade é procedente?</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_EProcedente_false" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_EProcedente_true" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_IdResponsavelPorIniciarAcaoCorretiva" xml:space="preserve">
+    <value>Responsavel por iniciar a tratativa da ação corretiva</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_NecessitaAcaoCorretiva" xml:space="preserve">
+    <value>Necessita ação correção?</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_NecessitaAcaoCorretiva_false" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_NecessitaAcaoCorretiva_true" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="NaoConformidade_SegundaEtapa_lbl_NumeroAcaoCorretiva" xml:space="preserve">
+    <value>Número Ação Corretiva:</value>
+  </data>
+  <data name="NaoConformidade_TerceiraEtapa_lbl_IdResponsavelDefinir" xml:space="preserve">
+    <value>Responsavel por reverificação</value>
+  </data>
+  <data name="DocDocumento_lbl_Aprovador" xml:space="preserve">
+    <value>Aprovador</value>
+  </data>
+  <data name="DocDocumento_lbl_Arquivo" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="DocDocumento_lbl_Elaborador" xml:space="preserve">
+    <value>Elaborador</value>
+  </data>
+  <data name="DocDocumento_lbl_RevisaoPeriodica_False" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="DocDocumento_lbl_RevisaoPeriodica_True" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="DocDocumento_lbl_Verificador" xml:space="preserve">
+    <value>Verificador</value>
+  </data>
+  <data name="DocDocumento_lbl_WorkFlow_False" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="DocDocumento_lbl_WorkFlow_True" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="DocDocumento_lbl_Fluxo" xml:space="preserve">
+    <value>Fluxo</value>
+  </data>
+  <data name="DocDocumento_lbl_Rotina" xml:space="preserve">
+    <value>Rotina</value>
+  </data>
+  <data name="DocDocumento_lbl_Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="DocDocumento_lbl_GestaoRisco" xml:space="preserve">
+    <value>Gestão de Riscos</value>
+  </data>
+  <data name="DocDocumento_lbl_Registros" xml:space="preserve">
+    <value>Registros</value>
+  </data>
+  <data name="DocDocumento_lbl_Texto" xml:space="preserve">
+    <value>Texto</value>
+  </data>
+  <data name="DocDocumento_msg_EnviadoParaAprovacao" xml:space="preserve">
+    <value>Documento enviado para aprovacao!</value>
+  </data>
+  <data name="DocDocumento_msg_EnviadoParaElaboracao" xml:space="preserve">
+    <value>Documento enviado para elaboração!</value>
+  </data>
+  <data name="DocDocumento_msg_EnviadoParaVerificacao" xml:space="preserve">
+    <value>Documento enviado para verificação!</value>
+  </data>
+  <data name="DocDocumento_msg_erro_ComentarioNecessario" xml:space="preserve">
+    <value>Necessario incluir um comentário !</value>
+  </data>
+  <data name="DocDocumento_msg_erro_ConteudoDocumento" xml:space="preserve">
+    <value>Erro ao recuperar o Conteudo do Documento</value>
+  </data>
+  <data name="DocDocumento_msg_erro_EnviadoParaVerificacao" xml:space="preserve">
+    <value>Erro ao enviar documento para Verificacao</value>
+  </data>
+  <data name="DocDocumento_msg_erro_Justificativa" xml:space="preserve">
+    <value>É necessário informar uma justificativa para o documento</value>
+  </data>
+  <data name="DocDocumento_msg_Sucesso" xml:space="preserve">
+    <value>Os dados foram salvos com sucesso!</value>
+  </data>
+  <data name="botao_voltar" xml:space="preserve">
+    <value>Voltar</value>
+  </data>
+  <data name="redefinir_Senha" xml:space="preserve">
+    <value>Redefinir sua senha</value>
+  </data>
+  <data name="ChangePassword_lbl_ConfirmPassword" xml:space="preserve">
+    <value>Confirmar Senha</value>
+  </data>
+  <data name="ChangePassword_lbl_NewPassword" xml:space="preserve">
+    <value>Nova Senha</value>
+  </data>
+  <data name="ChangePassword_lbl_OldPassword" xml:space="preserve">
+    <value>Senha Atual</value>
+  </data>
+  <data name="ChangePassword_msg_erro_length_NewPassword" xml:space="preserve">
+    <value>O {0} deve ter pelo menos {2} caracteres.</value>
+  </data>
+  <data name="ChangePassword_msg_erro_required_NewPassword" xml:space="preserve">
+    <value>O campo "Nova Senha" é obrigatório</value>
+  </data>
+  <data name="ChangePassword_msg_erro_required_OldPassword" xml:space="preserve">
+    <value>O campo "Senha Atual" é obrigatório</value>
+  </data>
+  <data name="ChangePassword_msg_inconsistencia_ConfirmPassword" xml:space="preserve">
+    <value>A senha e a corfirmação de senha estão diferentes</value>
+  </data>
+  <data name="AcaoImediata_msg_erro_required_Descricao" xml:space="preserve">
+    <value>Campo Descrição é obrigatório</value>
+  </data>
+  <data name="AcaoImediata_msg_erro_required_DtEfetivaImplementacao" xml:space="preserve">
+    <value>Campo Data de Efetiva Implementação</value>
+  </data>
+  <data name="AcaoImediata_msg_erro_required_DtPrazoImplementacao" xml:space="preserve">
+    <value>Campo Data de Implementação é obrigatório</value>
+  </data>
+  <data name="AcaoImediata_msg_erro_required_IdResponsavelImplementar" xml:space="preserve">
+    <value>Campo Responsavel por Implementar é obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_min_e_max_DescricaoAcao" xml:space="preserve">
+    <value>Justificativa deve ter no minimo 4 caracteres</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_DescricaoAcao" xml:space="preserve">
+    <value>O Campo Justificativa é obrigatório.</value>
+  </data>
+  <data name="NaoConformidade_Index_msg_DesejaExcluirEssaNC" xml:space="preserve">
+    <value>Deseja realmente, excluir essa Não Conformidade?</value>
+  </data>
+  <data name="NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" xml:space="preserve">
+    <value>Deseja realmente, criar uma nao conformidade com o dia anterior a última cadastrada?</value>
+  </data>
+  <data name="Produto_msg_erro_required_Especificacao" xml:space="preserve">
+    <value>O Campo Especificação é Obrigatório</value>
+  </data>
+  <data name="Produto_msg_erro_required_IdResponsavel" xml:space="preserve">
+    <value>O Campo Responsavel é Obrigatório</value>
+  </data>
+  <data name="Produto_msg_erro_required_MaxAprovado" xml:space="preserve">
+    <value>O Campo Valor maxímo para Aprovado</value>
+  </data>
+  <data name="Produto_msg_erro_required_MaxAprovadoAnalise" xml:space="preserve">
+    <value>O Campo Valor maxímo para Aprovado para Analise</value>
+  </data>
+  <data name="Produto_msg_erro_required_MaxReprovado" xml:space="preserve">
+    <value>O Campo Valor maxímo para Reprovado</value>
+  </data>
+  <data name="Produto_msg_erro_required_MinAprovado" xml:space="preserve">
+    <value>O Campo Valor mínimo para Aprovado</value>
+  </data>
+  <data name="Produto_msg_erro_required_MinAprovadoAnalise" xml:space="preserve">
+    <value>O Campo Valor mínimo para Aprovado para Analise</value>
+  </data>
+  <data name="Produto_msg_erro_required_MinReprovado" xml:space="preserve">
+    <value>O Campo Valor mínimo para Reprovado</value>
+  </data>
+  <data name="Produto_msg_erro_required_Nome" xml:space="preserve">
+    <value>O Campo Nome é Obrigatório</value>
+  </data>
+  <data name="AvaliacaoDeCriticidade_msg_erro_required_IdSite" xml:space="preserve">
+    <value>Campo Site é Obrigatório</value>
+  </data>
+  <data name="AvaliacaoDeCriticidade_msg_erro_required_Titulo" xml:space="preserve">
+    <value>Campo Titulo é Obrigatório</value>
+  </data>
+  <data name="Produto_lbl_Especificacao" xml:space="preserve">
+    <value>Especificação</value>
+  </data>
+  <data name="Produto_lbl_IdResponsavel" xml:space="preserve">
+    <value>Responsavel</value>
+  </data>
+  <data name="Produto_lbl_Nome" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Produto_lbl_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Produto_lbl_Tags" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="Produto_lbl_Status_Ativo" xml:space="preserve">
+    <value>Ativo</value>
+  </data>
+  <data name="Produto_lbl_Status_Desativado" xml:space="preserve">
+    <value>Desativado</value>
+  </data>
+  <data name="Produto_msg_erro_required_AvaliacoesCriticidade" xml:space="preserve">
+    <value>Deve Ter pelo menos um Criterio de Avaliação</value>
+  </data>
+  <data name="CriterioQualificacao_msg_requerid_DtVencimento" xml:space="preserve">
+    <value>O Campo Data de Vencimento é Obrigatório</value>
+  </data>
+  <data name="CriterioQualificacao_msg_requerid_IdSite" xml:space="preserve">
+    <value>O Campo Site é Obrigatório</value>
+  </data>
+  <data name="CriterioQualificacao_msg_requerid_TemControleVencimento" xml:space="preserve">
+    <value>O Campo Possui Controle de Vencimento é Obrigatório</value>
+  </data>
+  <data name="CriterioQualificacao_msg_requerid_Titulo" xml:space="preserve">
+    <value>O campo Titulo é Obrigatório</value>
+  </data>
+  <data name="CriterioQualificacao_lbl_DtVencimento" xml:space="preserve">
+    <value>Data de Vencimento</value>
+  </data>
+  <data name="CriterioQualificacao_lbl_IdSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="CriterioQualificacao_lbl_TemControleVencimento" xml:space="preserve">
+    <value>Possui Controle de Vencimento?</value>
+  </data>
+  <data name="CriterioQualificacao_lbl_Titulo" xml:space="preserve">
+    <value>Titulo</value>
+  </data>
+  <data name="CriterioQualificacao_msg_no_exist" xml:space="preserve">
+    <value>Criterio de Qualidicação não Existe</value>
+  </data>
+  <data name="Fornecedor_lbl_Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Fornecedor_lbl_IdProcesso" xml:space="preserve">
+    <value>Departamento</value>
+  </data>
+  <data name="Fornecedor_lbl_IdSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="Fornecedor_lbl_Nome" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Fornecedor_lbl_Telefone" xml:space="preserve">
+    <value>Telefone</value>
+  </data>
+  <data name="Fornecedor_msg_erro_format_Email" xml:space="preserve">
+    <value>Formato de E-mail inválido</value>
+  </data>
+  <data name="Fornecedor_msg_erro_IdFornecedor_invalido" xml:space="preserve">
+    <value>Produto não Existe!</value>
+  </data>
+  <data name="Fornecedor_msg_erro_required_Email" xml:space="preserve">
+    <value>Campo E-mail é Obrigatório</value>
+  </data>
+  <data name="Fornecedor_msg_erro_required_IdProcesso" xml:space="preserve">
+    <value>Campo Departamento é Obrigatório</value>
+  </data>
+  <data name="Fornecedor_msg_erro_required_IdSite" xml:space="preserve">
+    <value>Campo Site é Obrigatório</value>
+  </data>
+  <data name="Fornecedor_msg_erro_required_Nome" xml:space="preserve">
+    <value>Campo Nome é Obrigatório</value>
+  </data>
+  <data name="Fornecedor_msg_erro_required_Telefone" xml:space="preserve">
+    <value>Campo Telefone é Obrigatório</value>
+  </data>
+  <data name="AvaliacaoDeCriticidade_msg_erro_required_IdProduto" xml:space="preserve">
+    <value>O Produto é Obrigatório</value>
+  </data>
+  <data name="Home_msg_erro_invalid_IdPerfil" xml:space="preserve">
+    <value>Perfil Inválido.</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_min_e_max_DescricaoAnaliseCausa" xml:space="preserve">
+    <value>O campo Descrição Analise da Casua de ter no minimo 4 caracteres e no maximo 2000</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_AcoesImediatas" xml:space="preserve">
+    <value>Pelo menos uma Ação Imediata deve ser incluída.</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_DescricaoAnaliseCausa" xml:space="preserve">
+    <value>O Campo Descricao Analise Causa é Obrigatório.</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_ECorrecao" xml:space="preserve">
+    <value>O Campo É Correção é Obrigatório</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_EProcedente" xml:space="preserve">
+    <value>O Campo É Procedente é Obrigatorio</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_NecessitaAcaoCorretiva" xml:space="preserve">
+    <value>O Campo Necessita Ação Corretiva é Obrigatório.</value>
+  </data>
+  <data name="AcaoCorretiva_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoCorretiva" xml:space="preserve">
+    <value>Responsável por iniciar a tratativa de Ação Corretiva:</value>
+  </data>
+  <data name="GestaoDeRisco_PrimeiraEtapa_lbl_DescricaoRegistro" xml:space="preserve">
+    <value>O que falharia?</value>
+  </data>
+  <data name="GestaoDeRisco_PrimeiraEtapa_lbl_EvidenciaImg" xml:space="preserve">
+    <value>Evidência (imagem/arquivo):</value>
+  </data>
+  <data name="GestaoDeRisco_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoCorretiva" xml:space="preserve">
+    <value>Responsável Iniciar a tratativa da ação:</value>
+  </data>
+  <data name="GestaoDeRisco_SegundaEtapa_lbl_NecessitaAcaoCorretiva" xml:space="preserve">
+    <value>Necessita nova gestão de risco?</value>
+  </data>
+  <data name="Dropdown_name_select" xml:space="preserve">
+    <value>Selecione</value>
+  </data>
+  <data name="GestaoDeRisco_TerceiraEtapa_lbl_IdResponsavelDefinir" xml:space="preserve">
+    <value>Responsavel pela análise das Ações</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IdUsuarioIncluiu" xml:space="preserve">
+    <value>"Usuario que incluiu é Obrigatório"</value>
+  </data>
+  <data name="NaoConformidade_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoImediata" xml:space="preserve">
+    <value>Responsável por análise e definição de ação imediata:</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_required_IdResponsavelInicarAcaoImediata" xml:space="preserve">
+    <value>Campo Responsavel Acao Imediata.</value>
+  </data>
+  <data name="btn_lbl_editar" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="btn_lbl_excluir" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="AcaoCorretiva_PrimeiraEtapa_lbl_DescricaoRegistro" xml:space="preserve">
+    <value>Causa:</value>
+  </data>
+  <data name="AcaoCorretiva_PrimeiraEtapa_lbl_NuRegistro" xml:space="preserve">
+    <value>Número da Ação Corretiva</value>
+  </data>
+  <data name="GestaDeRisco_PrimeiraEtapa_lbl_NuRegistro" xml:space="preserve">
+    <value>Número da Gestão de Risco</value>
+  </data>
+  <data name="btn_lbl_ativar" xml:space="preserve">
+    <value>Ativar</value>
+  </data>
+  <data name="btn_lbl_desativar" xml:space="preserve">
+    <value>Desativar</value>
+  </data>
+  <data name="btn_lbl_salvar" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="NaoConformidade_msg_erro_Destravar" xml:space="preserve">
+    <value>Usuário logado não tem Permissão para destravar</value>
+  </data>
+  <data name="GestaoDeRisco_PrimeiraEtapa_lbl_IdEmissor" xml:space="preserve">
+    <value>Emissor - gestão de risco:</value>
+  </data>
+  <data name="StrongPassword_lbl_forte" xml:space="preserve">
+    <value>Forte</value>
+  </data>
+  <data name="StrongPassword_lbl_fraca" xml:space="preserve">
+    <value>Fraca</value>
+  </data>
+  <data name="StrongPassword_lbl_media" xml:space="preserve">
+    <value>Média</value>
+  </data>
+  <data name="StrongPassword_lbl_muito_forte" xml:space="preserve">
+    <value>Muito Forte</value>
+  </data>
+  <data name="StrongPassword_lbl_muito_pequena" xml:space="preserve">
+    <value>Muito Pequena</value>
+  </data>
+  <data name="DocDocumento_msg_erro_required_DocAssunto" xml:space="preserve">
+    <value>É necessário escrever um assunto.</value>
+  </data>
+  <data name="MessageDelete" xml:space="preserve">
+    <value>Confirma a exclusão do projeto &lt;strong&gt;{{0}}}&lt;/strong&gt;?</value>
+  </data>
+  <data name="MessageErro" xml:space="preserve">
+    <value>O seguinte erro ocorreu ao tentar atualizar os dados.&lt;br&gt;{{0}}</value>
+  </data>
+  <data name="RegistroExlcuido" xml:space="preserve">
+    <value>Registro excluído com sucesso</value>
+  </data>
+  <data name="TitleDelete" xml:space="preserve">
+    <value>Confirmação</value>
+  </data>
+  <data name="TitleErro" xml:space="preserve">
+    <value>Aviso</value>
+  </data>
+  <data name="TitleErroFormulario" xml:space="preserve">
+    <value>O formulário possui os seguintes erros:</value>
+  </data>
+  <data name="TitleSuccess" xml:space="preserve">
+    <value>Aviso</value>
+  </data>
+  <data name="TituloMenuNotificacoes" xml:space="preserve">
+    <value>Notificações</value>
+  </data>
+  <data name="AbrilResumido" xml:space="preserve">
+    <value>Abr</value>
+  </data>
+  <data name="Agosto" xml:space="preserve">
+    <value>Agosto</value>
+  </data>
+  <data name="AgostoResumido" xml:space="preserve">
+    <value>Ago</value>
+  </data>
+  <data name="CloseText" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="CurrentText" xml:space="preserve">
+    <value>Hoje</value>
+  </data>
+  <data name="dateFormat" xml:space="preserve">
+    <value>dd/MM/yyyy</value>
+  </data>
+  <data name="Dezembro" xml:space="preserve">
+    <value>Dezembro</value>
+  </data>
+  <data name="DezembroResumido" xml:space="preserve">
+    <value>Dez</value>
+  </data>
+  <data name="Domingo" xml:space="preserve">
+    <value>Domingo</value>
+  </data>
+  <data name="DomingoMin" xml:space="preserve">
+    <value>Do</value>
+  </data>
+  <data name="DomingoResumido" xml:space="preserve">
+    <value>Dom</value>
+  </data>
+  <data name="Fevereiro" xml:space="preserve">
+    <value>Fevereiro</value>
+  </data>
+  <data name="FevereiroResumido" xml:space="preserve">
+    <value>Fev</value>
+  </data>
+  <data name="Janeiro" xml:space="preserve">
+    <value>Janeiro</value>
+  </data>
+  <data name="JaneiroResumido" xml:space="preserve">
+    <value>Jan</value>
+  </data>
+  <data name="Julho" xml:space="preserve">
+    <value>Julho</value>
+  </data>
+  <data name="JulhoResumido" xml:space="preserve">
+    <value>Jul</value>
+  </data>
+  <data name="Junho" xml:space="preserve">
+    <value>Junho</value>
+  </data>
+  <data name="JunhoResumido" xml:space="preserve">
+    <value>Jun</value>
+  </data>
+  <data name="Maio" xml:space="preserve">
+    <value>Maio</value>
+  </data>
+  <data name="MaioResumido" xml:space="preserve">
+    <value>Mai</value>
+  </data>
+  <data name="Marco" xml:space="preserve">
+    <value>Março</value>
+  </data>
+  <data name="MarcoResumido" xml:space="preserve">
+    <value>Mar</value>
+  </data>
+  <data name="Novembro" xml:space="preserve">
+    <value>Novembro</value>
+  </data>
+  <data name="NovembroResumido" xml:space="preserve">
+    <value>Nov</value>
+  </data>
+  <data name="Outubro" xml:space="preserve">
+    <value>Outubro</value>
+  </data>
+  <data name="OutubroResumido" xml:space="preserve">
+    <value>Out</value>
+  </data>
+  <data name="QuartaFeira" xml:space="preserve">
+    <value>Quarta-Feira</value>
+  </data>
+  <data name="QuartaFeiraMin" xml:space="preserve">
+    <value>Qa</value>
+  </data>
+  <data name="QuartaFeiraResumido" xml:space="preserve">
+    <value>Qua</value>
+  </data>
+  <data name="QuintaFeira" xml:space="preserve">
+    <value>Quinta-Feira</value>
+  </data>
+  <data name="QuintaFeiraMin" xml:space="preserve">
+    <value>Qi</value>
+  </data>
+  <data name="QuintaFeiraResumido" xml:space="preserve">
+    <value>Qui</value>
+  </data>
+  <data name="Sabado" xml:space="preserve">
+    <value>Sábado</value>
+  </data>
+  <data name="SabadoMin" xml:space="preserve">
+    <value>Sa</value>
+  </data>
+  <data name="SabadoResumido" xml:space="preserve">
+    <value>Sab</value>
+  </data>
+  <data name="SegundaFeira" xml:space="preserve">
+    <value>Segunda-Feira</value>
+  </data>
+  <data name="SegundaFeiraMin" xml:space="preserve">
+    <value>Se</value>
+  </data>
+  <data name="SegundaFeiraResumido" xml:space="preserve">
+    <value>Seg</value>
+  </data>
+  <data name="Setembro" xml:space="preserve">
+    <value>Setembro</value>
+  </data>
+  <data name="SetembroResumido" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="SextaFeira" xml:space="preserve">
+    <value>Sexta-Feira</value>
+  </data>
+  <data name="SextaFeiraMin" xml:space="preserve">
+    <value>Se</value>
+  </data>
+  <data name="SextaFeiraResumido" xml:space="preserve">
+    <value>Sex</value>
+  </data>
+  <data name="TercaFeira" xml:space="preserve">
+    <value>Terça-Feira</value>
+  </data>
+  <data name="TercaFeiraMin" xml:space="preserve">
+    <value>Te</value>
+  </data>
+  <data name="TercaFeiraResumido" xml:space="preserve">
+    <value>Ter</value>
+  </data>
+  <data name="SiteMensagemDefault" xml:space="preserve">
+    <value>Selecione Um Site</value>
+  </data>
+  <data name="MenuGestao" xml:space="preserve">
+    <value>Gestão</value>
+  </data>
+  <data name="MenuAjuda" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="MenuManualDoUsuario" xml:space="preserve">
+    <value>Manual do Usuário</value>
+  </data>
+  <data name="MenuManualDoUsuarioEscrito" xml:space="preserve">
+    <value>Escrito</value>
+  </data>
+  <data name="MenuManualDoUsuarioVideo" xml:space="preserve">
+    <value>Vídeo</value>
+  </data>
+  <data name="MenuTreinamento" xml:space="preserve">
+    <value>Treinamentos</value>
+  </data>
+  <data name="MenuTreinamentoGratuito" xml:space="preserve">
+    <value>Treinamentos Gratuitos</value>
+  </data>
+  <data name="MenuTreinamentoPago" xml:space="preserve">
+    <value>Treinamentos Pagos</value>
+  </data>
+  <data name="MenuControleDocumentos" xml:space="preserve">
+    <value>Controle de Documentos</value>
+  </data>
+  <data name="MenuControleDocumentosAprovar" xml:space="preserve">
+    <value>Aprovar</value>
+  </data>
+  <data name="MenuControleDocumentosElaborar" xml:space="preserve">
+    <value>Elaborar</value>
+  </data>
+  <data name="MenuControleDocumentosRevisar" xml:space="preserve">
+    <value>Revisar</value>
+  </data>
+  <data name="MenuControleDocumentosVerificar" xml:space="preserve">
+    <value>Verificar</value>
+  </data>
+  <data name="MenuDocumentosSistema" xml:space="preserve">
+    <value>Documentos de Sistema</value>
+  </data>
+  <data name="MenuObsoleto" xml:space="preserve">
+    <value>Obsoleto</value>
+  </data>
+  <data name="ValidaDataNotificacao" xml:space="preserve">
+    <value>A data de notificação deve ser menor que a data da próxima calibração.</value>
+  </data>
+  <data name="ValidaDataRegistro" xml:space="preserve">
+    <value>A data de registro deve ser menor que a data de notificação.</value>
+  </data>
+  <data name="Acoes" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="Criterios" xml:space="preserve">
+    <value>Critérios</value>
+  </data>
+  <data name="IncluirItem" xml:space="preserve">
+    <value>Incluir Item</value>
+  </data>
+  <data name="DesejaRealmenteExcluirEsseRegistro" xml:space="preserve">
+    <value>Deseja realmente excluir esse registro?</value>
+  </data>
+  <data name="SucessoAoExcluirORegistro" xml:space="preserve">
+    <value>O registro foi excluido com sucesso.</value>
+  </data>
+  <data name="btn_lbl_avaliar" xml:space="preserve">
+    <value>Avaliar</value>
+  </data>
+  <data name="btn_lbl_historico" xml:space="preserve">
+    <value>Histórico</value>
+  </data>
+  <data name="btn_lbl_qualificar" xml:space="preserve">
+    <value>Qualificar</value>
+  </data>
+  <data name="lbl_adefinir" xml:space="preserve">
+    <value>a definir</value>
+  </data>
+  <data name="lbl_Aprovado" xml:space="preserve">
+    <value>aprovado</value>
+  </data>
+  <data name="lbl_Reprovado" xml:space="preserve">
+    <value>reprovado</value>
+  </data>
+  <data name="lbl_Sem_Nota" xml:space="preserve">
+    <value>sem nota</value>
+  </data>
+  <data name="Nao" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="Sim" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="Imprimir" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="Revisar" xml:space="preserve">
+    <value>Revisar</value>
+  </data>
+  <data name="Visualizar" xml:space="preserve">
+    <value>Visualizar</value>
+  </data>
+  <data name="VisualizarRevisoes" xml:space="preserve">
+    <value>Visualizar Revisões</value>
+  </data>
+  <data name="data-msg-required" xml:space="preserve">
+    <value>Abril</value>
+  </data>
+  <data name="IdCliente" xml:space="preserve">
+    <value>Id do Cliente</value>
+  </data>
+  <data name="MsgApenasNumeros" xml:space="preserve">
+    <value>Para que o Sistema possa calcular automáticamente é necessario que o campo Critério de Aceitação contenha apenas números</value>
+  </data>
+  <data name="MsgCampoAprovado" xml:space="preserve">
+    <value>Campo aprovado é obrigatório</value>
+  </data>
+  <data name="MsgCampoControleVencimento" xml:space="preserve">
+    <value>Campo responsavel por controlar vencimento é obrigatório</value>
+  </data>
+  <data name="MsgCampoCriterioAceitacao" xml:space="preserve">
+    <value>O campo Criterio de Aceitação de Uso é obrigatório.</value>
+  </data>
+  <data name="MsgCampoDescricao" xml:space="preserve">
+    <value>O campo descrição deve ser preenchido.</value>
+  </data>
+  <data name="MsgCampoLocalDeUso" xml:space="preserve">
+    <value>O campo Local de Uso é obrigatório.</value>
+  </data>
+  <data name="MsgCampoMenorDivisao" xml:space="preserve">
+    <value>O campo Menor Divisão de Uso é obrigatório.</value>
+  </data>
+  <data name="MsgCampoObservacoes" xml:space="preserve">
+    <value>Campo observações é obrigatório</value>
+  </data>
+  <data name="MsgCampoPreenchido" xml:space="preserve">
+    <value>O campo deve ser preenchido</value>
+  </data>
+  <data name="MsgCampoQualificar" xml:space="preserve">
+    <value>Campo responsavel por qualificar é obrigatório</value>
+  </data>
+  <data name="MsgCampoUso" xml:space="preserve">
+    <value>O campo Escala de Uso é obrigatório.</value>
+  </data>
+  <data name="MsgCodigoObrigatorio" xml:space="preserve">
+    <value>Código obrigatório</value>
+  </data>
+  <data name="MsgCriacaoObrigatoria" xml:space="preserve">
+    <value>A Data de Criação é obrigatória.</value>
+  </data>
+  <data name="MsgDataAlteracaoObrigatoria" xml:space="preserve">
+    <value>A Data de Alteração é obrigatório.</value>
+  </data>
+  <data name="MsgDataAnalise" xml:space="preserve">
+    <value>Data de próxima análise Obrigatória</value>
+  </data>
+  <data name="MsgDataEmissao" xml:space="preserve">
+    <value>Data emissão é obrigatória</value>
+  </data>
+  <data name="MsgDataQualificacao" xml:space="preserve">
+    <value>Data de qualificação de vencimento é obrigatória</value>
+  </data>
+  <data name="MsgDE" xml:space="preserve">
+    <value>DE</value>
+  </data>
+  <data name="MsgDoErro" xml:space="preserve">
+    <value>Mensagem do erro</value>
+  </data>
+  <data name="MsgErroAprovador" xml:space="preserve">
+    <value>Erro no Aprovador</value>
+  </data>
+  <data name="MsgErroAtaObrigatoria" xml:space="preserve">
+    <value>Ata Obrigatória</value>
+  </data>
+  <data name="MsgErroCadastro" xml:space="preserve">
+    <value>Erro no cadastro</value>
+  </data>
+  <data name="MsgErroCampoNota" xml:space="preserve">
+    <value>Campo Nota é Obrigatório</value>
+  </data>
+  <data name="MsgErroCriterioAvaliacao" xml:space="preserve">
+    <value>Campo Criterio de Avaliação é obrigatório</value>
+  </data>
+  <data name="MsgErroDataCriacao" xml:space="preserve">
+    <value>Data de criação Obrigatória</value>
+  </data>
+  <data name="MsgErroFuncaoSelecionada" xml:space="preserve">
+    <value>Pelo menos uma Função deve ser selecionada</value>
+  </data>
+  <data name="MsgErroIdSite" xml:space="preserve">
+    <value>IdSite é Obrigatório</value>
+  </data>
+  <data name="MsgErroIdSiteMaior" xml:space="preserve">
+    <value>IdSite deve ser maior que 0</value>
+  </data>
+  <data name="MsgErroInfAprovador" xml:space="preserve">
+    <value>É necessário informar um aprovador.</value>
+  </data>
+  <data name="MsgErroInfVerificador" xml:space="preserve">
+    <value>É necessário informar um verificador.</value>
+  </data>
+  <data name="MsgErroNomeUnico" xml:space="preserve">
+    <value>O cargo deve ter nomr único por site</value>
+  </data>
+  <data name="MsgErroNotaMaxima" xml:space="preserve">
+    <value>A nota máxima é 100</value>
+  </data>
+  <data name="MsgErroNotaMinima" xml:space="preserve">
+    <value>A nota mínima é 0</value>
+  </data>
+  <data name="MsgErroVerificador" xml:space="preserve">
+    <value>Erro no verificador</value>
+  </data>
+  <data name="MsgEscolhaLicencaDocExt" xml:space="preserve">
+    <value>Ao escolher Upload, não podem existir outras opções.</value>
+  </data>
+  <data name="MsgIdObrigatorio" xml:space="preserve">
+    <value>Id do Usuário é obrigatório.</value>
+  </data>
+  <data name="MsgInstrumentoObrigatorio" xml:space="preserve">
+    <value>O nome do Instrumento é obrigatório.</value>
+  </data>
+  <data name="MsgL" xml:space="preserve">
+    <value>L</value>
+  </data>
+  <data name="MsgModeloObrigatorio" xml:space="preserve">
+    <value>O Modelo é Obrigatório.</value>
+  </data>
+  <data name="MsgNumeroDoc" xml:space="preserve">
+    <value>Número do documento é obrigatório</value>
+  </data>
+  <data name="MsgNumeroObrigatorio" xml:space="preserve">
+    <value>O Número é obrigatório.</value>
+  </data>
+  <data name="MsgObjetivoInformado" xml:space="preserve">
+    <value>O objetivo deve ser informado.</value>
+  </data>
+  <data name="MsgObservacoesObrigatorias" xml:space="preserve">
+    <value>Observações são obrigatórias</value>
+  </data>
+  <data name="MsgOrgaoExpedidor" xml:space="preserve">
+    <value>Orgão expedidor é obrigatório</value>
+  </data>
+  <data name="MsgPeriodo" xml:space="preserve">
+    <value>O perído deve ser informado.</value>
+  </data>
+  <data name="MsgPlanoDeAcao" xml:space="preserve">
+    <value>Deve ser informado um plano de ação ou justificativa.</value>
+  </data>
+  <data name="MsgProcessoPreenchido" xml:space="preserve">
+    <value>O processo deve ser preenchido.</value>
+  </data>
+  <data name="MsgResponsavel" xml:space="preserve">
+    <value>O responsável deve ser preenchido.</value>
+  </data>
+  <data name="MsgResposavelObrigatorio" xml:space="preserve">
+    <value>O campo Responsável é obrigatório.</value>
+  </data>
+  <data name="MsgRevisaoCriarAssunto" xml:space="preserve">
+    <value>Para criar nova revião é necessário adicionar um assunto.</value>
+  </data>
+  <data name="MsgSiteInformado" xml:space="preserve">
+    <value>O site deve ser informado.</value>
+  </data>
+  <data name="MsgTituloObrigatorio" xml:space="preserve">
+    <value>Título Obrigatório</value>
+  </data>
+  <data name="MsgTraducaoMinMax1" xml:space="preserve">
+    <value>Descrição deve ser entre 1 e 70 caracteres </value>
+  </data>
+  <data name="MsgTraducaoMinMax2" xml:space="preserve">
+    <value>Tabela deve ser entre 1 e 10 elementos</value>
+  </data>
+  <data name="MsgTraducaoNull" xml:space="preserve">
+    <value>Campo descrição obrigatório.</value>
+  </data>
+  <data name="MsgTraducaoObrigatoria" xml:space="preserve">
+    <value>Site é obrigatório</value>
+  </data>
+  <data name="MsgTraducaoVObrigatoria" xml:space="preserve">
+    <value>Campo descrição obrigatório.</value>
+  </data>
+  <data name="MsgUnidadeInformada" xml:space="preserve">
+    <value>A unidade deve ser informada.</value>
+  </data>
+  <data name="MsgValorInformado" xml:space="preserve">
+    <value>O valor realizado deve ser informado.</value>
+  </data>
+  <data name="NomeEquipamento" xml:space="preserve">
+    <value>Nome do Equipamento</value>
+  </data>
+  <data name="PlanoDeAcao" xml:space="preserve">
+    <value>Plano de Ação</value>
+  </data>
+  <data name="StatusEtapa" xml:space="preserve">
+    <value>StatusEtapa</value>
+  </data>
+  <data name="Cargo" xml:space="preserve">
+    <value>Cargo</value>
+  </data>
+  <data name="CNH" xml:space="preserve">
+    <value>CNH</value>
+  </data>
+  <data name="Funcionario" xml:space="preserve">
+    <value>Funcionário</value>
+  </data>
+  <data name="MsgAcaoImediataNecessaria" xml:space="preserve">
+    <value>É necessario ter pelo menos uma Ação Imediata</value>
+  </data>
+  <data name="MsgAnoValido" xml:space="preserve">
+    <value>O ano deve ser informado.</value>
+  </data>
+  <data name="MsgAptoParaSalvarSegundaEtapaPerfilCoordenadorPorEtapaValidacao" xml:space="preserve">
+    <value>Somente o Perfil de Coordenador pode Salvar essa etapa</value>
+  </data>
+  <data name="MsgAssunto" xml:space="preserve">
+    <value>O campo assunto é obrigatório.</value>
+  </data>
+  <data name="MsgAssuntoMin" xml:space="preserve">
+    <value>Deve conter entre 3 e 200 caracteres.</value>
+  </data>
+  <data name="MsgCampoAprovacaoPreenchido" xml:space="preserve">
+    <value>Todos os Campos de Aprovação devem ser preenchidos</value>
+  </data>
+  <data name="MsgCampoReverificador" xml:space="preserve">
+    <value>Campo Reverificador não pode estar nulo.</value>
+  </data>
+  <data name="MsgDataEncReuniao" xml:space="preserve">
+    <value>Data de reunião encerramento obrigatório.</value>
+  </data>
+  <data name="MsgDataReuniao" xml:space="preserve">
+    <value>Data de reunião abertura obrigatório.</value>
+  </data>
+  <data name="MsgDeveEstarAtivo" xml:space="preserve">
+    <value>Deve estar ativo.</value>
+  </data>
+  <data name="MsgDevePossuirFuncionario" xml:space="preserve">
+    <value>Informe o funcionário do dependente.</value>
+  </data>
+  <data name="MsgdevePossuirNomeUnicoPorSite" xml:space="preserve">
+    <value>Já existe um processo cadastrado com esse nome.</value>
+  </data>
+  <data name="MsgDeveSerMaiorRegistro" xml:space="preserve">
+    <value>Ação Corretiva deve ter o registro mais atual para deleção.</value>
+  </data>
+  <data name="MsgDeveTerCargo" xml:space="preserve">
+    <value>Deve ser informado o cargo.</value>
+  </data>
+  <data name="MsgDeveTerCNH" xml:space="preserve">
+    <value>CNH Necessária.</value>
+  </data>
+  <data name="MsgDeveTerValeTransporte" xml:space="preserve">
+    <value>Deve ser informado o vale transporte.</value>
+  </data>
+  <data name="MsgErroEnvio" xml:space="preserve">
+    <value>Preencha os campos obrigatórios.</value>
+  </data>
+  <data name="MsgGestaoNaoInformado" xml:space="preserve">
+    <value>Gestão de Risco não informado.</value>
+  </data>
+  <data name="MsgGestor" xml:space="preserve">
+    <value>Gestor deve ser informado.</value>
+  </data>
+  <data name="MsgIdSite" xml:space="preserve">
+    <value>O campo Site é obrigatório.</value>
+  </data>
+  <data name="MsgIdSiteMin" xml:space="preserve">
+    <value>Deve conter pelo menos 1 caracter.</value>
+  </data>
+  <data name="MsgItemEtapaImplementacao" xml:space="preserve">
+    <value>O Item deve está na Etapa de Implementação</value>
+  </data>
+  <data name="MsgMensagem" xml:space="preserve">
+    <value>O campo mensagem é obrigatório.</value>
+  </data>
+  <data name="MsgMensagemMin" xml:space="preserve">
+    <value>Deve conter no mínimo 4 caracteres.</value>
+  </data>
+  <data name="MsgNaoConformidade" xml:space="preserve">
+    <value>Não conformidade.</value>
+  </data>
+  <data name="MsgNaoCritico" xml:space="preserve">
+    <value>O Status \"Não Critico\"</value>
+  </data>
+  <data name="MsgNaoPodeVazio" xml:space="preserve">
+    <value>Não pode estar vazio</value>
+  </data>
+  <data name="MsgNecessitaAcao" xml:space="preserve">
+    <value>O campo Necessita de Ação é obrigatório.</value>
+  </data>
+  <data name="MsgNotificacao" xml:space="preserve">
+    <value>O campo notificação é obrigatório.</value>
+  </data>
+  <data name="MsgNotificacaoMin" xml:space="preserve">
+    <value>Deve conter pelo menos 1 caracter.</value>
+  </data>
+  <data name="MsgPaiObrigatorio" xml:space="preserve">
+    <value>Pai obrigatório.</value>
+  </data>
+  <data name="MsgProcessoDuplicado" xml:space="preserve">
+    <value>Nome do processo duplicado.</value>
+  </data>
+  <data name="MsgRegistroNaoConformidade" xml:space="preserve">
+    <value>O Tipo desse registro deve ser Não Conformidade</value>
+  </data>
+  <data name="MsgRemetenteValido" xml:space="preserve">
+    <value>Insira um remetente válido.</value>
+  </data>
+  <data name="MsgRepresentanteAplicavelObrigatorio" xml:space="preserve">
+    <value>Representante aplicavel obrigatório.</value>
+  </data>
+  <data name="MsgRepresentanteObrigatorio" xml:space="preserve">
+    <value>Representante obrigatório.</value>
+  </data>
+  <data name="MsgTraducaoResponsavel" xml:space="preserve">
+    <value>Responsavel por etapa obrigatório.</value>
+  </data>
+  <data name="MsgTraducaoTipoInvalido" xml:space="preserve">
+    <value>Tipo de Registro Invalido</value>
+  </data>
+  <data name="MsgUsuarioResponsavel" xml:space="preserve">
+    <value>Usuario deve ser Responsavel pela etapa</value>
+  </data>
+  <data name="StatusInvalido" xml:space="preserve">
+    <value>Status Invalido</value>
+  </data>
+  <data name="TraducaoTipoDeRegistro" xml:space="preserve">
+    <value>Traduçao para Tipo de Registro Invalido.</value>
+  </data>
+  <data name="ValeTransporte" xml:space="preserve">
+    <value>Vale Transporte</value>
+  </data>
+  <data name="Bloquaeado" xml:space="preserve">
+    <value>Bloquaeado</value>
+  </data>
+  <data name="CdUsuario" xml:space="preserve">
+    <value>Usuário</value>
+  </data>
+  <data name="ContaNaoPodeCompartilhar" xml:space="preserve">
+    <value>Conta não deve ser Compartilhada</value>
+  </data>
+  <data name="CpfDuplicado" xml:space="preserve">
+    <value>Cpf Duplicado</value>
+  </data>
+  <data name="DocumentosExternos" xml:space="preserve">
+    <value>Documentos Externos</value>
+  </data>
+  <data name="DsSmtp" xml:space="preserve">
+    <value>Campo Smtp é obrigatório.</value>
+  </data>
+  <data name="EmailDuplicado" xml:space="preserve">
+    <value>E-mail Duplicado</value>
+  </data>
+  <data name="EmailNaoConfere" xml:space="preserve">
+    <value>E-mail não confere</value>
+  </data>
+  <data name="Expirado" xml:space="preserve">
+    <value>Expirado</value>
+  </data>
+  <data name="Licenca" xml:space="preserve">
+    <value>Licença</value>
+  </data>
+  <data name="MsgCampoNecessitaAcaoCorrecao" xml:space="preserve">
+    <value>Campo Necessita de ação correção é obrigatório.</value>
+  </data>
+  <data name="MsgCampoProcedente" xml:space="preserve">
+    <value>o Campo Procedente é obrigatório.</value>
+  </data>
+  <data name="MsgDadoEtapaValido" xml:space="preserve">
+    <value>Dados da Etapa Invalido</value>
+  </data>
+  <data name="MsgDescricaoNaoInformada" xml:space="preserve">
+    <value>Descrição não informada</value>
+  </data>
+  <data name="MsgErroAlterarSenha" xml:space="preserve">
+    <value>Erro ao alterar Senha</value>
+  </data>
+  <data name="MsgErroCpfDuplicado" xml:space="preserve">
+    <value>Já existe um usuário cadastrado com esse cpf.</value>
+  </data>
+  <data name="MsgErroEmailDuplicado" xml:space="preserve">
+    <value>Já existe um usuário cadastrado com esse e-mail.</value>
+  </data>
+  <data name="MsgErroSenhaNaoCorresponde" xml:space="preserve">
+    <value>A senha digitada não correponde a senha atual</value>
+  </data>
+  <data name="MsgNaoNulo" xml:space="preserve">
+    <value>Não Nulo</value>
+  </data>
+  <data name="MsgProcedenteOperacao" xml:space="preserve">
+    <value>É Procedente nessa operação deve ser \"não\".</value>
+  </data>
+  <data name="MsgProcedenteOprecaoSim" xml:space="preserve">
+    <value>É Procedente nessa operação deve ser \"sim\".</value>
+  </data>
+  <data name="NaoAtivo" xml:space="preserve">
+    <value>Não Ativo</value>
+  </data>
+  <data name="NuPorta" xml:space="preserve">
+    <value>Número da porta é obrigatório.</value>
+  </data>
+  <data name="Recursos" xml:space="preserve">
+    <value>Recursos</value>
+  </data>
+  <data name="RegistrosResponsavelAcaoCorretiva" xml:space="preserve">
+    <value>Todos os campos de registro são obrigatórios para o documento.</value>
+  </data>
+  <data name="SenhaNaoConfere" xml:space="preserve">
+    <value>Senha não confere</value>
+  </data>
+  <data name="UsuarioNaoExiste" xml:space="preserve">
+    <value>Usuario não existe</value>
+  </data>
+  <data name="ValidaCriarFluxo" xml:space="preserve">
+    <value>É necessário criar um fluxo</value>
+  </data>
+  <data name="ValidaCriarTexto" xml:space="preserve">
+    <value>É necessário criar um texto para o documento</value>
+  </data>
+  <data name="ValidaDataLicenca" xml:space="preserve">
+    <value>É necessario definir uma data de emissão para a licença</value>
+  </data>
+  <data name="ValidaDataVencimentoLicenca" xml:space="preserve">
+    <value>É necessario definir uma data de vencimento para a licença</value>
+  </data>
+  <data name="ValidaDocumentosExternos" xml:space="preserve">
+    <value>É necessário indicar o caminho do documento externo</value>
+  </data>
+  <data name="ValidaRecursoPreenchidos" xml:space="preserve">
+    <value>Os recursos devem ser preenchidos</value>
+  </data>
+  <data name="ValidaTodosCamposAcaoCorretiva" xml:space="preserve">
+    <value>É necessário preencher todos os campos dentro de Registros Responsavel Acao Corretiva!</value>
+  </data>
+  <data name="AcaoCorretiva" xml:space="preserve">
+    <value>Ação Corretiva</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="Leve" xml:space="preserve">
+    <value>Leve</value>
+  </data>
+  <data name="Medio" xml:space="preserve">
+    <value>Médio</value>
+  </data>
+  <data name="MsgCamposObrigatoriosAC" xml:space="preserve">
+    <value>Registro deve ser do tipo AC.</value>
+  </data>
+  <data name="MsgNaoConstaDocProcess" xml:space="preserve">
+    <value>Não consta documento para este processo</value>
+  </data>
+  <data name="MsgProblemaCompilacao" xml:space="preserve">
+    <value>'Problema na compilação'</value>
+  </data>
+  <data name="MsgResponsavelAcaoImediataNeeded" xml:space="preserve">
+    <value>Responsável por ação imediata é obrigatório.</value>
+  </data>
+  <data name="MsgTraducao" xml:space="preserve">
+    <value>Tradução</value>
+  </data>
+  <data name="MsgUsuarioAlterado" xml:space="preserve">
+    <value>Usuário Alterado obrigatório.</value>
+  </data>
+  <data name="MsgUsuarioIncluido" xml:space="preserve">
+    <value>Usuário incluído obrigatório.</value>
+  </data>
+  <data name="IdControladorCategorias" xml:space="preserve">
+    <value>Categorias</value>
+  </data>
+  <data name="MsgErroExclusaoRegistro" xml:space="preserve">
+    <value>Ocorreu um erro ao realizar a exclusão do registro!</value>
+  </data>
+  <data name="MsgOcorreuErro" xml:space="preserve">
+    <value>Ocorreu um erro!</value>
+  </data>
+  <data name="MsgSaveSuccess" xml:space="preserve">
+    <value>Salvo com sucesso!</value>
+  </data>
+  <data name="BtnImprimir" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="ImpressaoDocs" xml:space="preserve">
+    <value>Impressão de Documentos</value>
+  </data>
+  <data name="MsgDesejaExcluirRegistro" xml:space="preserve">
+    <value>Deseja excluir o registro?</value>
+  </data>
+  <data name="MsgRegistroExcluidoSucesso" xml:space="preserve">
+    <value>Registro excluido com sucesso</value>
+  </data>
+  <data name="MsgCargoSelect" xml:space="preserve">
+    <value>Selecione um cargo</value>
+  </data>
+  <data name="MsgCalibracaoSalva" xml:space="preserve">
+    <value>Calibração salva com sucesso!</value>
+  </data>
+  <data name="MsgErroCargoSite" xml:space="preserve">
+    <value>Erro ao obter cargo por site.</value>
+  </data>
+  <data name="MsgErroContatoADM" xml:space="preserve">
+    <value>Erro ao realizar a operação. Por gentileza entrar em contato com o administrador</value>
+  </data>
+  <data name="MsgErroGravarDados" xml:space="preserve">
+    <value>Ocorreu um erro ao gravar os dados!</value>
+  </data>
+  <data name="MsgErroInclusaoArquivo" xml:space="preserve">
+    <value>Erro na inclusão do arquivo</value>
+  </data>
+  <data name="MsgImagemAddSucesso" xml:space="preserve">
+    <value>Imagem adicionada com sucesso!</value>
+  </data>
+  <data name="MsgMetaTotal" xml:space="preserve">
+    <value>Meta e Total do Plano de Voo devem ser iguais</value>
+  </data>
+  <data name="MsgUsuarioLogadoNaoCoordenador" xml:space="preserve">
+    <value>Usuario Logado Não tem o Perfil Coordenador</value>
+  </data>
+  <data name="QstFaltaCompromete" xml:space="preserve">
+    <value>A falta ou ausência deste fornecedor no mercado compromete meu trabalho?</value>
+  </data>
+  <data name="QstFornecedorAtividade" xml:space="preserve">
+    <value>Este fornecedor paralisa minhas atividades?</value>
+  </data>
+  <data name="QstFornecedorCompromete" xml:space="preserve">
+    <value>Este produto/serviço compromete o nome ou imagem de minha empresa?</value>
+  </data>
+  <data name="QstFornecedorImpacto" xml:space="preserve">
+    <value>Este fornecedor tem impacto direto no meu produto/serviços?</value>
+  </data>
+  <data name="QstImpactoLegal" xml:space="preserve">
+    <value>O produto/serviço tem impacto legal?</value>
+  </data>
+  <data name="QstQualidadeImpacta" xml:space="preserve">
+    <value>A qualidade o serviço/produto fornecedor impacta diretamente no meu produto/serviço?</value>
+  </data>
+  <data name="TesteErro" xml:space="preserve">
+    <value>Teste um erro!</value>
+  </data>
+  <data name="VerifiqueSenha" xml:space="preserve">
+    <value>Verifique a senha.</value>
+  </data>
+  <data name="Abril" xml:space="preserve">
+    <value>Abril</value>
+  </data>
+  <data name="dateFormatJson" xml:space="preserve">
+    <value>dd/mm/yy</value>
+  </data>
+  <data name="DtEfetivaImplementacaoObrigatoria" xml:space="preserve">
+    <value>Data de efetiva implementação obrigatória.</value>
+  </data>
+  <data name="DtDescricaoDeveSerMaiorQueADataDeRegistro" xml:space="preserve">
+    <value>A data da descrição deve ser maior ou igual que a data do registro.</value>
+  </data>
+  <data name="Descricao" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="MsgDataAberturaDeveSerMenorQueADataDeEncerramento" xml:space="preserve">
+    <value>A data e hora de abertura da reunião deve ser menor que a data e hora de encerramento da reunião.</value>
+  </data>
+  <data name="MsgMax1000Titulo" xml:space="preserve">
+    <value>Título deve conte no máximo 1000 caracteres</value>
+  </data>
+  <data name="MsgMax100Categoria" xml:space="preserve">
+    <value>Categoria deve ter no máximo 100 caracteres</value>
+  </data>
+  <data name="MsgMax300" xml:space="preserve">
+    <value>Máximo de 300 caracteres </value>
+  </data>
+  <data name="MsgMax500" xml:space="preserve">
+    <value>Deve conter no máximo 500 caracteres</value>
+  </data>
+  <data name="MsgMin500" xml:space="preserve">
+    <value>Deve conter no mínimo 500 caracteres</value>
+  </data>
+  <data name="MsgAtaMax100" xml:space="preserve">
+    <value>Campo ata deve conter no máximo 100 caracteres.</value>
+  </data>
+  <data name="MsgDtProximaAvaliacaoIsRequired" xml:space="preserve">
+    <value>Data próxima avaliação é obrigatória.</value>
+  </data>
+  <data name="lbl_AprovadoAnalise" xml:space="preserve">
+    <value>Aprovação em Analise.</value>
+  </data>
+  <data name="CadastroDeFornecedores" xml:space="preserve">
+    <value>Cadastro de Fornecedores</value>
+  </data>
+  <data name="CampoContatoObrigatorio" xml:space="preserve">
+    <value>O campo Contato é obrigatório</value>
+  </data>
+  <data name="Contato" xml:space="preserve">
+    <value>Contato</value>
+  </data>
+  <data name="CriteriosAvaliacao" xml:space="preserve">
+    <value>Critérios para Avaliação</value>
+  </data>
+  <data name="DataQualificacao" xml:space="preserve">
+    <value>Data da Qualificação</value>
+  </data>
+  <data name="DataQualificacaoObrigatoria" xml:space="preserve">
+    <value>A Data da Qualificação é obrigatória</value>
+  </data>
+  <data name="DigiteContato" xml:space="preserve">
+    <value>Digite o Contato</value>
+  </data>
+  <data name="DigiteDataQualificacao" xml:space="preserve">
+    <value>Digite a Data da Qualificação</value>
+  </data>
+  <data name="DigiteNome" xml:space="preserve">
+    <value>Digite o nome</value>
+  </data>
+  <data name="EmailValido" xml:space="preserve">
+    <value>Digite um E-mail valido</value>
+  </data>
+  <data name="EspecificacaoTecnica" xml:space="preserve">
+    <value>Especificação técnica</value>
+  </data>
+  <data name="Fornecedor" xml:space="preserve">
+    <value>Fornecedor</value>
+  </data>
+  <data name="HistoricoAvaliacao" xml:space="preserve">
+    <value>Histórico de Avaliações</value>
+  </data>
+  <data name="ProdutoServico" xml:space="preserve">
+    <value>Produto/Serviço</value>
+  </data>
+  <data name="SelecioneResonsavel" xml:space="preserve">
+    <value>Selecione o responsável</value>
+  </data>
+  <data name="AddCategoria" xml:space="preserve">
+    <value>Adicione uma categoria.</value>
+  </data>
+  <data name="AddSigla" xml:space="preserve">
+    <value>Adicione uma sigla.</value>
+  </data>
+  <data name="AjustarTela" xml:space="preserve">
+    <value>Ajustar Tela</value>
+  </data>
+  <data name="Anexar" xml:space="preserve">
+    <value>Anexar</value>
+  </data>
+  <data name="AprovadorObrigatorio" xml:space="preserve">
+    <value>O campo Aprovador deve ser preenchido</value>
+  </data>
+  <data name="Armazenar" xml:space="preserve">
+    <value>Armazenar</value>
+  </data>
+  <data name="Assunto" xml:space="preserve">
+    <value>Assunto</value>
+  </data>
+  <data name="AtaAnaliseCritica" xml:space="preserve">
+    <value>Ata de Análise Crítica</value>
+  </data>
+  <data name="AtaSG" xml:space="preserve">
+    <value>Ata de Análise Crítica do SG</value>
+  </data>
+  <data name="Ativar" xml:space="preserve">
+    <value>Ativar</value>
+  </data>
+  <data name="AumentarZoom" xml:space="preserve">
+    <value>Aumentar Zoom</value>
+  </data>
+  <data name="AvaliacoesFornecedores" xml:space="preserve">
+    <value>Avaliação do Fornecedores</value>
+  </data>
+  <data name="Cadastro" xml:space="preserve">
+    <value>Cadastro</value>
+  </data>
+  <data name="CampoObrigatorio" xml:space="preserve">
+    <value>Este campo é obrigatório</value>
+  </data>
+  <data name="CampoProcessoObrigatorio" xml:space="preserve">
+    <value>O campo Processo deve ser preenchido</value>
+  </data>
+  <data name="CampoTituloObrigatorio" xml:space="preserve">
+    <value>O campo título deve ser preenchido</value>
+  </data>
+  <data name="Cargos" xml:space="preserve">
+    <value>Cargos</value>
+  </data>
+  <data name="CategoriaObrigatoria" xml:space="preserve">
+    <value>É necessário selecionar uma categoria</value>
+  </data>
+  <data name="Colar" xml:space="preserve">
+    <value>Colar</value>
+  </data>
+  <data name="Comentarios" xml:space="preserve">
+    <value>Comentários</value>
+  </data>
+  <data name="Como" xml:space="preserve">
+    <value>Como</value>
+  </data>
+  <data name="CopiaControlada" xml:space="preserve">
+    <value>Cópia Controlada:</value>
+  </data>
+  <data name="Copiar" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="Cortar" xml:space="preserve">
+    <value>Cortar</value>
+  </data>
+  <data name="DataCriacao" xml:space="preserve">
+    <value>Data de Criação</value>
+  </data>
+  <data name="DataNotObrigatorio" xml:space="preserve">
+    <value>O campo data da notificação deve ser preenchido</value>
+  </data>
+  <data name="DataProxAnalise" xml:space="preserve">
+    <value>Data próxima Análise</value>
+  </data>
+  <data name="DataVencimentoObrigatoria" xml:space="preserve">
+    <value>A data de vencimento é obrigatória</value>
+  </data>
+  <data name="DataVersao" xml:space="preserve">
+    <value>Data da Versão</value>
+  </data>
+  <data name="Deletar" xml:space="preserve">
+    <value>Deletar</value>
+  </data>
+  <data name="Desfazer" xml:space="preserve">
+    <value>Desfazer</value>
+  </data>
+  <data name="DesmarcarTodos" xml:space="preserve">
+    <value>Desmarcar Todos</value>
+  </data>
+  <data name="DigiteDataVencimento" xml:space="preserve">
+    <value>Digite a data de Vencimento</value>
+  </data>
+  <data name="DigiteObrigacoes" xml:space="preserve">
+    <value>Digite as Obrigações</value>
+  </data>
+  <data name="DigiteObs" xml:space="preserve">
+    <value>Digite as observações</value>
+  </data>
+  <data name="DiminuirZoom" xml:space="preserve">
+    <value>Diminuir Zoom</value>
+  </data>
+  <data name="Disposicao" xml:space="preserve">
+    <value>Disposição</value>
+  </data>
+  <data name="DocsExternos" xml:space="preserve">
+    <value>Docs. Externos</value>
+  </data>
+  <data name="Editar" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="EditarTema" xml:space="preserve">
+    <value>Editar Tema</value>
+  </data>
+  <data name="Excluir" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="ExportarDiagramaparaPDF" xml:space="preserve">
+    <value>Exportar Diagrama para PDF</value>
+  </data>
+  <data name="Fechar" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="Fluxo" xml:space="preserve">
+    <value>Fluxo</value>
+  </data>
+  <data name="formulario" xml:space="preserve">
+    <value>formulario</value>
+  </data>
+  <data name="Identificar" xml:space="preserve">
+    <value>Identificar</value>
+  </data>
+  <data name="IdentRisco" xml:space="preserve">
+    <value>Identificação do Risco</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="licencaa" xml:space="preserve">
+    <value>Licenca</value>
+  </data>
+  <data name="MsgDescricao200Caracteres" xml:space="preserve">
+    <value>Descrição deve conter no máximo 200 caracteres</value>
+  </data>
+  <data name="NDoc" xml:space="preserve">
+    <value>Nº do Documento</value>
+  </data>
+  <data name="NDocMax15" xml:space="preserve">
+    <value>O campo número do Documento deve conter no máximo 15 caracteres</value>
+  </data>
+  <data name="NDocObrigatorio" xml:space="preserve">
+    <value>Nº do Documento é Obrigatório</value>
+  </data>
+  <data name="NovaRotina" xml:space="preserve">
+    <value>Nova Rotina</value>
+  </data>
+  <data name="Novo" xml:space="preserve">
+    <value>Novo</value>
+  </data>
+  <data name="NovoParticipante" xml:space="preserve">
+    <value>Novo Participante</value>
+  </data>
+  <data name="NovoRegistro" xml:space="preserve">
+    <value>NovoRegistro</value>
+  </data>
+  <data name="Numero" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="ObsObrigatoria" xml:space="preserve">
+    <value>As Observações São obrigatórias</value>
+  </data>
+  <data name="Oque" xml:space="preserve">
+    <value>O Que</value>
+  </data>
+  <data name="OrgaoExpedidor" xml:space="preserve">
+    <value>Órgão Expedidor</value>
+  </data>
+  <data name="OrgaoExpedidorObrigatorio" xml:space="preserve">
+    <value>O Órgão Expedidor é obrigatório</value>
+  </data>
+  <data name="Participantes" xml:space="preserve">
+    <value>Participantes</value>
+  </data>
+  <data name="Proteger" xml:space="preserve">
+    <value>Proteger</value>
+  </data>
+  <data name="Quem" xml:space="preserve">
+    <value>Quem</value>
+  </data>
+  <data name="Recuperar" xml:space="preserve">
+    <value>Recuperar</value>
+  </data>
+  <data name="Refazer" xml:space="preserve">
+    <value>Refazer</value>
+  </data>
+  <data name="Registro" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="Registros" xml:space="preserve">
+    <value>Registros</value>
+  </data>
+  <data name="Responsavel" xml:space="preserve">
+    <value>Responsável</value>
+  </data>
+  <data name="ResponsavelControlar" xml:space="preserve">
+    <value>Responsável por controlar</value>
+  </data>
+  <data name="ResponsavelControlarObrigatorio" xml:space="preserve">
+    <value>O Responsável por controlar é obrigatório</value>
+  </data>
+  <data name="Retencao" xml:space="preserve">
+    <value>Retenção</value>
+  </data>
+  <data name="Revisao" xml:space="preserve">
+    <value>Revisão</value>
+  </data>
+  <data name="Risco" xml:space="preserve">
+    <value>Risco</value>
+  </data>
+  <data name="Riscos" xml:space="preserve">
+    <value>Riscos</value>
+  </data>
+  <data name="Rotina" xml:space="preserve">
+    <value>Rotina</value>
+  </data>
+  <data name="SelecionarTodos" xml:space="preserve">
+    <value>Selecionar Todos</value>
+  </data>
+  <data name="Selecione" xml:space="preserve">
+    <value>Selecione</value>
+  </data>
+  <data name="SelecioneCTRL" xml:space="preserve">
+    <value>Selecione mais itens com ctrl.</value>
+  </data>
+  <data name="SelecioneResponsavelControlar" xml:space="preserve">
+    <value>Selecione o Responsável por controlar</value>
+  </data>
+  <data name="SelecioneTema" xml:space="preserve">
+    <value>Selecione o tema</value>
+  </data>
+  <data name="SiglaObrigatoria" xml:space="preserve">
+    <value>O campo sigla deve ser preenchido</value>
+  </data>
+  <data name="Tema" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="TemaSelecionado" xml:space="preserve">
+    <value>Tema Selecionado</value>
+  </data>
+  <data name="Texto" xml:space="preserve">
+    <value>Texto</value>
+  </data>
+  <data name="UploadArquivos" xml:space="preserve">
+    <value>Upload de Arquivos</value>
+  </data>
+  <data name="UsuarioDestino" xml:space="preserve">
+    <value>Usuário Destino</value>
+  </data>
+  <data name="Vencimento" xml:space="preserve">
+    <value>Vencimento</value>
+  </data>
+  <data name="VerificadorObrigatorio" xml:space="preserve">
+    <value>O campo Verificador deve ser preenchido</value>
+  </data>
+  <data name="VisualizarDiagrama" xml:space="preserve">
+    <value>Visualizar Diagrama</value>
+  </data>
+  <data name="ZoomAtual" xml:space="preserve">
+    <value>Zoom Atual</value>
+  </data>
+  <data name="EnviarAprovacao" xml:space="preserve">
+    <value>Enviar para aprovação</value>
+  </data>
+  <data name="EnviarVerificacao" xml:space="preserve">
+    <value>Enviar para verificação</value>
+  </data>
+  <data name="NovaRevisao" xml:space="preserve">
+    <value>NovaRevisao</value>
+  </data>
+  <data name="CopiaNaoControlada" xml:space="preserve">
+    <value>cópia não controlada</value>
+  </data>
+  <data name="DadosPagina" xml:space="preserve">
+    <value>Dados da pagina</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Adicionar" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="CritariosAvaliacao" xml:space="preserve">
+    <value>Definição dos critérios para Avaliação</value>
+  </data>
+  <data name="Criterio" xml:space="preserve">
+    <value>Critério</value>
+  </data>
+  <data name="CriteriosCriticidade" xml:space="preserve">
+    <value>Critérios para Avaliação de Criticidade</value>
+  </data>
+  <data name="Critico" xml:space="preserve">
+    <value>Crítico</value>
+  </data>
+  <data name="DadosAvaliacao" xml:space="preserve">
+    <value>Dados de Avaliação</value>
+  </data>
+  <data name="DadosQualificacao" xml:space="preserve">
+    <value>Dados de Qualificação</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Destravar" xml:space="preserve">
+    <value>Destravar</value>
+  </data>
+  <data name="Entre0100" xml:space="preserve">
+    <value>*Insira um valor entre 0 e 100</value>
+  </data>
+  <data name="IntervaloAprovacao" xml:space="preserve">
+    <value>Intervalo de Aprovação de</value>
+  </data>
+  <data name="Nota" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="ParametrosFornecedor" xml:space="preserve">
+    <value>Parâmetros para avaliação do Fornecedor</value>
+  </data>
+  <data name="SalvarNotificar" xml:space="preserve">
+    <value>Salvar e Notificar</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ContatoAdm" xml:space="preserve">
+    <value> entre em contato com o administrador</value>
+  </data>
+  <data name="CotidianaGlobalizado" xml:space="preserve">
+    <value>cotidiana prova que o desafiador cenário globalizado aponta para a melhoria do fluxo de informações.</value>
+  </data>
+  <data name="DataExpiraPreenchido" xml:space="preserve">
+    <value>O campo Data Expiração deve ser preenchido</value>
+  </data>
+  <data name="FaleConosco" xml:space="preserve">
+    <value>Fale Conosco</value>
+  </data>
+  <data name="PorGentileza" xml:space="preserve">
+    <value>Por gentileza,</value>
+  </data>
+  <data name="Pratica" xml:space="preserve">
+    <value>A prática</value>
+  </data>
+  <data name="RelatorioBarras" xml:space="preserve">
+    <value>Relatório Barras</value>
+  </data>
+  <data name="RelatorioColunas" xml:space="preserve">
+    <value>Relatório Colunas</value>
+  </data>
+  <data name="SaibaMais" xml:space="preserve">
+    <value>Saiba Mais</value>
+  </data>
+  <data name="SelecioneProcessoIniciar" xml:space="preserve">
+    <value> selecione um processo para iniciar a operação.</value>
+  </data>
+  <data name="DadosUsuario" xml:space="preserve">
+    <value>Dados do Usuário</value>
+  </data>
+  <data name="MsgMaxAssuntosDescricao" xml:space="preserve">
+    <value>O campo descrição do assunto deve possuir no máximo 1000 caracteres.</value>
+  </data>
+  <data name="MsgMaxRecursos500Caracteres" xml:space="preserve">
+    <value>O campo recursos deve conter no máximo 500 caracteres.</value>
+  </data>
+  <data name="MsgMaxRegistrosArmazenar" xml:space="preserve">
+    <value>O campo armazenar dos registros deve possuir no máximo 300 caracteres.</value>
+  </data>
+  <data name="MsgMaxRegistrosDisposicao" xml:space="preserve">
+    <value>O campo disposição dos registros deve possuir no máximo 300 caracteres.</value>
+  </data>
+  <data name="MsgMaxRegistrosIdentificar" xml:space="preserve">
+    <value>O campo identificar dos registros deve possuir no máximo 300 caracteres.</value>
+  </data>
+  <data name="MsgMaxRegistrosProteger" xml:space="preserve">
+    <value>O campo proteger dos registros deve possuir no máximo 300 caracteres.</value>
+  </data>
+  <data name="MsgMaxRegistrosRecuperar" xml:space="preserve">
+    <value>O campo recuperar dos registros deve possuir no máximo 300 caracteres.</value>
+  </data>
+  <data name="MsgMaxRegistrosRetencao" xml:space="preserve">
+    <value>O campo retenção dos registros deve possuir no máximo 300 caracteres.</value>
+  </data>
+  <data name="MsgMaxRotinasComo" xml:space="preserve">
+    <value>O campo Como das rotinas deve possuir no máximo 500 caracteres.</value>
+  </data>
+  <data name="MsgMaxRotinasOQue" xml:space="preserve">
+    <value>O campo O Que das rotinas deve possuir no máximo 500 caracteres.</value>
+  </data>
+  <data name="MsgMaxRotinasQuem" xml:space="preserve">
+    <value>O campo Quem das rotinas deve possuir no máximo 500 caracteres.</value>
+  </data>
+  <data name="MsgMaxRotinasRegistro" xml:space="preserve">
+    <value>O campo Registro das rotinas deve possuir no máximo 500 caracteres.</value>
+  </data>
+  <data name="ParaExcluirEsseRegistroVoceDeveExcluirNoCriterioOriginal" xml:space="preserve">
+    <value>Para excluir esse registro em definitivo você deve excluir em todos produtos que ele estiver atrelado.</value>
+  </data>
+  <data name="SucessoAoSalvarORegistro" xml:space="preserve">
+    <value>Sucesso ao salvar o registro.</value>
+  </data>
+  <data name="AprovadoBold" xml:space="preserve">
+    <value>APROVADO</value>
+  </data>
+  <data name="Ate" xml:space="preserve">
+    <value>até</value>
+  </data>
+  <data name="Categoria" xml:space="preserve">
+    <value>Categoria </value>
+  </data>
+  <data name="Disponibilidade" xml:space="preserve">
+    <value>Disponibilidade</value>
+  </data>
+  <data name="IntevaroReprovacao" xml:space="preserve">
+    <value>Intervalo de Reprovação de</value>
+  </data>
+  <data name="MaxAnaliseObrigatorio" xml:space="preserve">
+    <value>o campo máximo para análise é obrigatório</value>
+  </data>
+  <data name="MaxAprovacaoObrigatorio" xml:space="preserve">
+    <value>o campo máximo para aprovação é obrigatório</value>
+  </data>
+  <data name="MaxReprovacaoObrigatorio" xml:space="preserve">
+    <value>o campo máximo para reprovação é obrigatório</value>
+  </data>
+  <data name="MinAnaliseObrigatorio" xml:space="preserve">
+    <value>o campo minimo para análise é obrigatório</value>
+  </data>
+  <data name="MinAprovacaoObrigatorio" xml:space="preserve">
+    <value>o campo minimo para aprovação é obrigatório</value>
+  </data>
+  <data name="MinReprovacaoObrigatorio" xml:space="preserve">
+    <value>o campo minimo para reprovação é obrigatório</value>
+  </data>
+  <data name="MsgMax300Codigo" xml:space="preserve">
+    <value>Código deve conter no máximo 300 caracteres</value>
+  </data>
+  <data name="MsgMax300Especificacao" xml:space="preserve">
+    <value>Especificação deve conter no máximo 300 caracteres</value>
+  </data>
+  <data name="MsgMax300Nome" xml:space="preserve">
+    <value>Nome deve conter no máximo 300 caracteres</value>
+  </data>
+  <data name="MsgMax500Codigo" xml:space="preserve">
+    <value>Código deve conter no máximo 500 caracteres</value>
+  </data>
+  <data name="MsgMax500Descricao" xml:space="preserve">
+    <value>Descrição deve conter no máximo 500 caracteres</value>
+  </data>
+  <data name="MsgMax500Titulo" xml:space="preserve">
+    <value>Títilo deve conter no máximo 500 caracteres</value>
+  </data>
+  <data name="MsgMin500Descricao" xml:space="preserve">
+    <value>Descrição deve conter no mínimo 500 caracteres</value>
+  </data>
+  <data name="Processo" xml:space="preserve">
+    <value>Processo</value>
+  </data>
+  <data name="ReprovadoBold" xml:space="preserve">
+    <value>REPROVADO</value>
+  </data>
+  <data name="RestricaoAnalise" xml:space="preserve">
+    <value>RESTRIÇÃO - ANÁLISE</value>
+  </data>
+  <data name="Sigla" xml:space="preserve">
+    <value>Sigla</value>
+  </data>
+  <data name="Titulo" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Enviar" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="Salvar" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="CriteriosQualificacao" xml:space="preserve">
+    <value>Critérios de Qualificação de Fornecedor</value>
+  </data>
+  <data name="DescricaoRevisaoEmissaoInicial" xml:space="preserve">
+    <value>Emissão Inicial</value>
+  </data>
+  <data name="AtualizadoCoisa" xml:space="preserve">
+    <value>Alguma Coisa</value>
+  </data>
+  <data name="AtualizadoDia" xml:space="preserve">
+    <value>Atualizado dia:</value>
+  </data>
+  <data name="CalibracaoExcluida" xml:space="preserve">
+    <value>Calibracao Excluida!</value>
+  </data>
+  <data name="Codigo" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="DesejaExcluir" xml:space="preserve">
+    <value>Deseja realmente, excluir esse item?</value>
+  </data>
+  <data name="MetasRealizados" xml:space="preserve">
+    <value>Metas X Realizados</value>
+  </data>
+  <data name="NaoConformidade" xml:space="preserve">
+    <value>Não Conformidade</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Hora" xml:space="preserve">
+    <value>Hora</value>
+  </data>
+  <data name="Minuto" xml:space="preserve">
+    <value>Minuto</value>
+  </data>
+  <data name="ReuniaoDeAbertura" xml:space="preserve">
+    <value>Reunião de Abertura</value>
+  </data>
+  <data name="ReuniaoDeEncerramento" xml:space="preserve">
+    <value>Reunião de Encerramento</value>
+  </data>
+  <data name="DataAberturaReuniaoDeveEstaDentroDoPeriodoPlai" xml:space="preserve">
+    <value>A data de abertura da reunião deve estar dentro do periodo da plai.</value>
+  </data>
+  <data name="DataEnceramentoReuniaoDeveEstarDentroDoPeriodoPlai" xml:space="preserve">
+    <value>A data de enceramento da reunião deve estar dentro do periodo da plai.</value>
+  </data>
+  <data name="EmissorCausa" xml:space="preserve">
+    <value>Emissor da Causa</value>
+  </data>
+</root>

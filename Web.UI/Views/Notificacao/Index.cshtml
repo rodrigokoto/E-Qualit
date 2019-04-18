@@ -1,0 +1,54 @@
+﻿@model List<Dominio.Entidade.Notificacao>
+
+@{
+    var processos = Model.GroupBy(x => x.Processo)
+        .Select(x => x.First().Processo)
+        .ToList();
+
+}
+<input type="hidden" id="TotalNotificacoes" name="TotalNotificacoes" value="@Model.Count" />
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/NotificacaoController.js")"></script>
+}
+<div class="panel panel-default">
+
+    @foreach (var processo in processos)
+    {
+        if (processo != null)
+        { 
+        <div class="panel-heading" data-toggle="collapse" data-target="#notificacao@(Model.FirstOrDefault().IdUsuario)">
+            @(processo != null ? processo.Nome : "")
+        </div>
+
+        <div class="panel-body collapse in" id="notificacao@(Model.FirstOrDefault().IdUsuario)">
+            <div class="row">
+                @foreach (var notificacaoProcesso in Model.Where(x => x.IdProcesso == processo.IdProcesso))
+                {
+                    <div class="pad col-xs-12 col-lg-3 col-sm-4 col-md-4">
+                        <h4>
+                            @*<a href="@Url.Action("RedirecionaNotificacao", "Notificacao", new { id = notificacaoProcesso.IdNotificacao })">*@
+                            <label style="font-size: 1.2em;color: #5bc0de;position: absolute;z-index: 20;font-weight: bold;font-family: 'Permanent Marker'; top: 0;">
+                                @notificacaoProcesso.Funcionalidade.Nome
+                            </label>
+                            @*</a>*@
+                        </h4>
+                        <br>
+                        <input type="hidden" value="@notificacaoProcesso.IdNotificacao" />
+                        <p>
+                            @notificacaoProcesso.Processo.Nome
+                            <br />
+                            @notificacaoProcesso.Usuario.NmCompleto
+                        </p>
+                        <a href="@Url.Action("RedirecionaNotificacao", "Notificacao", new { idNotificacao = notificacaoProcesso.IdNotificacao })">
+                            Acesse <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                        </a>
+                        <span class="peel">
+                            <span class="peel-back peel-back-red"></span>
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+        }
+    }
+</div>

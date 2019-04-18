@@ -1,0 +1,350 @@
+﻿@model Web.UI.Models.LayoutImpressaoViewModel
+@{
+    Layout = null;
+}
+@section scripts {
+
+    <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+}
+<html>
+<head>
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @Html.Partial("../Shared/_OpcoesScripts")
+
+    <script src="~/Content/assets/js/scripts.js"></script>
+    <style>
+        table td.custom-td {
+            width: 100px;
+            overflow: hidden;
+            display: inline-block;
+            white-space: nowrap;
+        }
+    </style>
+    <script type="text/javascript">
+        var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
+        mxDefaultLanguage = 'pt';
+
+    </script>
+    <script src="~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxClient.js"></script>
+    <script src="~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxApplication.js"></script>
+
+
+</head>
+
+<body style="background:white !important">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    @if (Model.IsImpressaoControlada)
+                    {
+                    <div class="col-xs-6" style="color:red">@Traducao.Resource.CopiaControlada</div>
+                    <div class="col-xs-6" style="color:red">@Traducao.Resource.CopiaControlada</div>
+                    }
+                    else
+                    {
+                    <div class="col-xs-6" style="color:red">@Traducao.Resource.CopiaNaoControlada</div>
+                    <div class="col-xs-6" style="color:red">@Traducao.Resource.CopiaNaoControlada</div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table>
+                            <tr>
+                                <td rowspan="2"> <img src="data:image/png;base64, @Model.LogoCliente" width="120" height="100" /></td>
+                                <td class="custom-td"></td>
+                                <td class="custom-td">&nbsp;</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="custom-td">&nbsp;</td>
+                                <td class="custom-td"></td>
+                                <td>@Html.Raw(string.Format("{0}  -  Revisão: {1}", Model.Documento.Titulo, Model.Documento.NuRevisao))</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div><div class="col-xs-12">&nbsp;</div></div>
+                <div class="row">
+                    <div class="col-xs-3">Sigla: @Model.Documento.Sigla.Descricao </div>
+                    <div class="col-xs-3">Número Documento: @Model.Documento.NumeroDocumento</div>
+                    <div class="col-xs-3">Processo: @Model.Documento.Processo.Nome </div>
+                    <div class="col-xs-3">Categoria: @Model.Documento.Categoria.Descricao </div>
+                </div>
+            </div>
+            <div class="row">&nbsp;</div>
+        </div>
+        @if (Model.Documento.TextoDoc != null)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        Texto
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>@Html.Raw(Model.Documento.TextoDoc)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- Formulario FLUXO -->
+        @if (Model.Documento.FluxoDoc != null)
+        {
+
+            @*<form id="form-emissao-documento-fluxo">
+                    <div class="panel panel-default" id="panel-form-fluxo">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h2>Fluxo</h2>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="barra-busca">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="row containerGraph">
+
+                                            <div class="col-md-12 col-xs-12">
+                                                <input type="hidden" value="@Model.Documento.FluxoDoc" id="form-emissao-documento-fluxo-conteudo" />
+                                                <div id="graphContainer">
+                                                     Graph Here
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>*@
+            <!-- Formulario FLUXO -->
+            <form id="form-emissao-documento-fluxo">
+                <div class="panel panel-default" id="panel-form-fluxo">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Resource.Fluxo</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- MENU -->
+                                            <div id="menu-graph">
+                                                <ul style="visibility:hidden">
+                                                    <li>
+                                                        <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
+                                                    </li>
+                                                    <li class="separador"></li>
+                                                    <li>
+                                                        <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
+                                                    </li>
+                                                    <li class="separador"></li>
+                                                    <li>
+                                                        <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
+                                                    </li>
+                                                    <li class="separador"></li>
+                                                    <li>
+                                                        <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row containerGraph">
+                                        <div class="col-md-1 col-xs-2 tollbarGraph" style="visibility:hidden">
+                                            <div id="toolbar" valign="top"></div>
+                                        </div>
+                                        <div class="col-md-11 col-xs-10">
+                                            <input type="hidden" value="@Model.Documento.FluxoDoc" id="form-emissao-documento-fluxo-conteudo" />
+                                            <div id="graphContainer">
+                                                <!-- Graph Here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+
+        @if (Model.Documento.Registros != null && Model.Documento.Registros.Count > 0)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        Registros
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Traducao.Resource.Identificar
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Armazenar
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Proteger
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Recuperar
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Retencao
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Disposicao
+                                    </th>
+                                </tr>
+                            </thead>
+                            @{
+                                foreach (var rotina in Model.Documento.Registros)
+                                {
+                                    <tr>
+                                        <td>@rotina.Identificar</td>
+                                        <td>@rotina.Armazenar</td>
+                                        <td>@rotina.Proteger</td>
+                                        <td>@rotina.Recuperar</td>
+                                        <td>@rotina.Retencao</td>
+                                        <td>@rotina.Disposicao</td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.Documento.Rotinas != null && Model.Documento.Rotinas.Count > 0)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        Rotinas
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Traducao.Resource.Item
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Oque
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Quem
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Registro
+                                    </th>
+                                    <th>
+                                        @Traducao.Resource.Como
+                                    </th>
+                                </tr>
+                            </thead>
+                            @{
+                                foreach (var rotina in Model.Documento.Rotinas)
+                                {
+                                    <tr>
+                                        <td>@rotina.Item</td>
+                                        <td>@rotina.OQue</td>
+                                        <td>@rotina.Quem</td>
+                                        <td>@rotina.Registro</td>
+                                        <td>@rotina.Como</td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.Documento.RecursoDoc))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        @Traducao.Resource.Recursos
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>@Html.Raw(Model.Documento.RecursoDoc)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.Documento.GestaoDeRisco != null)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        @Traducao.Resource.Riscos
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>@Html.Raw(Model.Documento.GestaoDeRisco.Causa)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>
+
+

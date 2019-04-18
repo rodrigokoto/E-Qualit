@@ -1,0 +1,197 @@
+﻿@model Dominio.Entidade.Plai
+@{
+    ViewBag.Title = "Plai";
+    List<Dominio.Entidade.PlaiProcessoNorma> NormasSelecionadas = ViewBag.NormasSelecionadas;
+    Layout = null;
+
+}
+@section Metas {
+    <meta name="page" content="AcoesPlai" />
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/PlaiController.js")"></script>
+}
+
+<html>
+<head>
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/bootstrap")
+
+</head>
+<body style="background:white !important">
+    <div class="container">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+        <style>
+            .ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+                /*overflow: auto;*/
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $(function () {
+                $(".datepicker").datepicker();
+            });
+        </script>
+        <div id="main">
+            <div class="content-painel">
+                <!-- Formulario Plai -->
+                <form id="form-criar-plai">
+                    <!-- Hidden -->
+                    <input type="hidden" name="IdSite" value="1" />
+                    <input type="hidden" name="IdPlai" value="@Model.IdPlai" />
+                    <div class="panel panel-default" id="panel-plai">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h2>@Traducao.Auditoria.ResourceAuditoria.PlanoAuditoriaInterna</h2>
+                            </div>
+                        </div>
+                        <div class="panel-body" id="panel-form-plai">
+                            <div class="barra-busca">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                        <label>@Traducao.Resource.ReuniaoDeAbertura</label>
+                                        <div class="row">
+                                            <!-- Data Reuniao Abertura -->
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                <div class="form-group">
+                                                    <label for="form-criar-plai-dt-reuniao-abertura" class="control-label">@Traducao.Resource.Data</label>
+                                                    @Model.DataReuniaoAbertura.ToShortDateString()
+                                                </div>
+                                            </div>
+                                            <!-- Hora Reuniao Abertura -->
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                <div class="form-group">
+                                                    <label for="form-criar-plai-hr-reuniao-abertura" class="control-label">@Traducao.Resource.Hora</label>
+                                                    @Model.DataReuniaoAbertura.ToShortTimeString()
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                        <label>@Traducao.Resource.ReuniaoDeEncerramento</label>
+                                        <div class="row">
+                                            <!-- Data Reuniao Encerramento -->
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                <div class="form-group">
+                                                    <label for="form-criar-plai-dt-reuniao-encerramento" class="control-label">@Traducao.Resource.Data</label>
+                                                    @Model.DataReuniaoEncerramento.ToShortDateString()
+                                                </div>
+                                            </div>
+                                            <!-- Hora Reuniao Encerramento -->
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                <div class="form-group">
+                                                    <label for="form-criar-plai-hr-reuniao-encerramento" class="control-label">@Traducao.Resource.Hora</label>
+                                                    @Model.DataReuniaoEncerramento.ToShortTimeString()
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                        <label></label>
+                                        <!-- Elaborador -->
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-criar-plai-elaborador" class="control-label">@Traducao.Resource.DocDocumento_lbl_Elaborador</label>
+                                                    @if (Model.Elaborador != null)
+                                                    {
+                                                        @Model.Elaborador.NmCompleto
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                            <label for="form-criar-plai-gerentes" class="control-label">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_titulo_Gerentes</label>
+                                            @foreach (var plaiGerente in Model.PlaiGerentes)
+                                            {
+                                                @plaiGerente.Usuario.NmCompleto
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @foreach (var item in Model.PlaiProcessoNorma)
+                                    {
+                                        <div class="row plai-processo">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                    <div class="titulo-tabela-blue" style="margin:30px 0 15px 0">
+                                                        <input type="hidden" name="IdProcesso" value="@item.IdProcesso" />
+                                                        <input type="hidden" name="IdPlai" value="@item.IdPlai" />
+                                                        @item.Processo.Nome
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                    <div class="row">
+                                                        <!-- Data Processo -->
+                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+                                                            <div class="form-group">                                                                
+                                                                <div class='input-group'>
+                                                                    <label for="form-criar-plai-processo-data" class="control-label">@Traducao.Resource.Data</label>
+                                                                    @item.Data.ToShortDateString()
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Hora Processo -->
+                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+                                                            <div class="form-group">                                                                
+                                                                <div class='input-group'>
+                                                                    <label for="form-criar-plai-processo-hora" class="control-label">@Traducao.Resource.Hora</label>
+                                                                    @item.Data.ToShortTimeString()
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <!-- Normas -->
+                                                            <div class="form-group">
+                                                                <label for="form-criar-plai-processo-normas">Normas</label>
+                                                                <div class="row tabela-check">
+
+                                                                    @foreach (var norma in ViewBag.Normas)
+                                                                    {
+                                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                                            @norma.Codigo
+                                                                        </div>
+                                                                    }
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

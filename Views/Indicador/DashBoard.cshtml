@@ -1,0 +1,54 @@
+﻿@section Metas {
+    <meta name="page" content="DashBoard" />
+}
+@{
+    ViewBag.Title = "DashBoard";
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/IndicadorController.js")"></script>
+
+}
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario  -->
+        <form id="form-dashboard">
+            <div class="panel panel-default" data-toggle="collapse" id="panel-dashboard">
+                <div class="panel-body" id="panel-form-dashboard">
+                    <div class="row">
+                        <div class="barra-busca">
+
+                            <div class="col-sm-12">
+                                <h3>Right Tabs - Vertical Text</h3>
+                                <hr />
+                                <div class="col-xs-9">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="relatorio-barras">@Traducao.Resource.RelatorioBarras</div>
+                                        <div class="tab-pane" id="relatorio-colunas">@Traducao.Resource.RelatorioColunas</div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <!-- required for floating -->
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs tabs-right vertical-text">
+                                        <li id="relatorioBarras" class="active">
+                                            <a href="#relatorio-barras" data-toggle="tab">@Traducao.Resource.RelatorioBarras</a>
+                                        </li>
+
+                                        <li id="relatorioColunas">
+                                            <a href="#relatorio-colunas" data-toggle="tab">@Traducao.Resource.RelatorioColunas</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div id="relatorios" class="col-md-12">
+                                    <ul></ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div>
+        </form>
+    </div>
+</div>

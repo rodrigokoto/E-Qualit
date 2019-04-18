@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Relatorio";
+}
+@section Metas {
+    <meta name="page" content="DashBoard" />
+}
+@section scripts{
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/xrange.js"></script>
+}
+<div class="row">
+    <ul class="col-md-12">
+        <li id="relatorios" class="col-md-4">
+            <div id="containerPizza"></div>
+        </li>
+
+        <li id="relatorios" class="col-md-4">
+            <div id="containerSpline"></div>
+        </li>
+        
+        <li id="relatorios" class="col-md-4">
+            <div id="containerRosquinha"></div>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <ul class="col-md-12">
+        <li id="relatorios" class="col-md-4">
+            <div id="containerEmpilhado"></div>
+        </li>
+        <li id="relatorios" class="col-md-4">
+            <div id="containerBarra"></div>
+        </li>
+        <li id="relatorios" class="col-md-4">
+            <div id="containerRange"></div>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,579 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@using Dominio.Enumerado
+@model Dominio.Entidade.Indicador
+@{
+    ViewBag.Title = "Indicador";
+
+    //Funcoes
+    var funcoes = new List<int>
+{
+(int)FuncoesNaoConformidade.Cadastrar,
+(int)FuncoesNaoConformidade.CriarTipoDeNC,
+(int)FuncoesNaoConformidade.DefinirAcao,
+(int)FuncoesNaoConformidade.ImplementarAcao,
+(int)FuncoesNaoConformidade.Reverificacao,
+(int)FuncoesNaoConformidade.VerificacaoDaEficacia,
+(int)FuncoesNaoConformidade.Destravar,
+(int)FuncoesNaoConformidade.Editar,
+(int)FuncoesNaoConformidade.AnaliseDaCausa,
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+    var temPeriodicidadeAnalise = Model.PeriodicidadeDeAnalises.Count > 0;
+    var listaPeriodicidade = new List<PeriodicidaDeAnalise>();
+    var metas = new List<Meta>();
+    var realizados = new List<PlanoVoo>();
+    if (temPeriodicidadeAnalise)
+    {
+        listaPeriodicidade.AddRange(Model.PeriodicidadeDeAnalises);
+        metas.AddRange(listaPeriodicidade[0].PlanoDeVoo);
+        realizados.AddRange(listaPeriodicidade[0].MetasRealizadas);
+    }
+
+}
+@section Metas {
+    <meta name="page" content="CriarIndicador" />
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/IndicadorController.js")"></script>
+
+}
+<script type="text/javascript">
+    var perfil = '@ViewBag.IdPerfil';
+
+    function allnumeric(inputtxt) {
+        var numbers = /^[1-9]+$/;
+        if (inputtxt.value.match(numbers)) {
+            Soma();
+            return true;
+        }
+        else {
+            inputtxt.focus();
+             return false;
+        }
+    }
+
+
+    function SubstituiVirgulaPorPonto(campo) {
+        campo.value = campo.value.replace(/,/gi, ".");
+        campo.value = campo.value.replace(/[A-Za-z]/gi, "");
+    }
+
+
+    function Soma() {
+        var jan = parseInt($('#form-planodevoo-meta-jan').val());
+        var fev = parseInt($('#form-planodevoo-meta-fev').val());
+        var mar = parseInt($('#form-planodevoo-meta-mar').val());
+        var abr = parseInt($('#form-planodevoo-meta-abr').val());
+        var mai = parseInt($('#form-planodevoo-meta-mai').val());
+        var jun = parseInt($('#form-planodevoo-meta-jun').val());
+        var jul = parseInt($('#form-planodevoo-meta-jul').val());
+        var ago = parseInt($('#form-planodevoo-meta-ago').val());
+        var set = parseInt($('#form-planodevoo-meta-set').val());
+        var out = parseInt($('#form-planodevoo-meta-out').val());
+        var nov = parseInt($('#form-planodevoo-meta-nov').val());
+        var dez = parseInt($('#form-planodevoo-meta-dez').val());
+
+        var total = jan + fev + mar + abr + mai + jun + jul + ago + set + out + nov + dez;
+
+        $('#form-planodevoo-meta-total').val(total);
+
+    }
+
+    var habilitaLoad = "";
+
+    if ("@ViewBag.ScriptCall" == @Traducao.Resource.botao_sim)
+    {
+
+        habilitaLoad = @Traducao.Resource.botao_sim;
+
+    }
+    else
+    {
+        habilitaLoad = @Traducao.Resource.botao_nao;
+    }
+
+</script>
+
+<div id="main">
+    <div class="content-painel indicadorForm">
+        <!-- hidden -->
+        <input type="hidden" name="IdSite" value="@ViewBag.IdSite" />
+        <input type="hidden" name="IdIndicador" value="@Model.Id" />
+        <input type="hidden" name="IdPeriodicidade" value="@(listaPeriodicidade.Count > 0 ? Model.PeriodicidadeDeAnalises[0].Id.ToString() : null)" />
+        <!-- Formulario Indicador -->
+        <form id="form-criar-indicador">
+            <div class="panel panel-default" id="panel-indicador">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_titulo</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-indicador">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Processo -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-processo" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Processo</label>
+                                    <select id="form-criar-indicador-processo" name="formCriarIndicadorProcesso" class="form-control"
+                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Processo">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.Id > 0)
+                                        {
+                                            <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Responsavel -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-responsavel" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Responsavel</label>
+                                    <select id="form-criar-indicador-responsavel" name="formCriarIndicadorResponsavel" class="form-control"
+                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Responsavel">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.Id > 0)
+                                        {
+                                            <option value="@Model.IdResponsavel" selected>@Model.Responsavel.NmCompleto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Periodicidade -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-periodicidade" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade</label>
+                                    <select id="form-criar-indicador-periodicidade" name="formCriarIndicadorPeriodicidade" class="form-control"
+                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Periodicidade">
+                                        <option value=""> @Traducao.Resource.Dropdown_name_select</option>
+                                        <option value="1" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Mensal ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_mensal</option>
+                                        <option value="2" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Trimestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral</option>
+                                        <option value="3" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Semestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral</option>
+                                        <option value="4" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Anual ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Sentido da Meta -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-sentido" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido</label>
+                                    <select id="form-criar-indicador-sentido" name="formCriarIndicadorSentido" class="form-control"
+                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Sentido">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        <option value="1" @(Model.Direcao == (int)DirecaoIndicador.MelhoParaCima ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_cima</option>
+                                        <option value="2" @(Model.Direcao == (int)DirecaoIndicador.MelhoParaBaixo ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_baixo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Objetivo -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-objetivo" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Objetivo</label>
+                                    <textarea id="form-criar-indicador-objetivo" name="formCriarIndicadorObjetivo" class="form-control"
+                                              placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Objetivo"
+                                              data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Objetivo"
+                                              value=""
+                                              rows="5">@Model.Objetivo</textarea>
+                                </div>
+                            </div>
+                            <!-- Indicador -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-indicador" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Indicador</label>
+                                    <textarea id="form-criar-indicador-indicador" name="formCriarIndicadorIndicador" class="form-control"
+                                              placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Indicador"
+                                              data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Indicador"
+                                              value=""
+                                              rows="5">@Model.Descricao</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Ano -->
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-ano" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Ano</label>
+                                    <input type="text" id="form-criar-indicador-ano" name="formCriarIndicadorAno" class="form-control" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                           placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Ano"
+                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Ano"
+                                           value="@(Model.Ano > 0? Model.Ano.ToString():null)" />
+                                </div>
+                            </div>
+                            <!-- Meta -->
+                            <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-meta" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Meta</label>
+                                    <input type="text" id="form-criar-indicador-meta" name="formCriarIndicadorMeta" class="form-control" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                           placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Meta"
+                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Meta"
+                                           data-msg-number="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_number_Meta"
+                                           value="@Model.MetaAnual" />
+                                </div>
+                            </div>
+                            <!-- Unidade -->
+                            <div class="col-lg-6 col-md-2 col-sm-4 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-unidade" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Unidade</label>
+                                    <input type="text" id="form-criar-indicador-unidade" name="formCriarIndicadorUnidade" class="form-control"
+                                           placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Unidade"
+                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Unidade"
+                                           value="@Model.Unidade" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Formulario Plano de Voo -->
+        <form id="form-planodevoo">
+            <div class="panel panel-default" id="panel-planodevoo">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_titulo_plano_de_voo</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-planodevoo">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Painel Plano de Voo -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <table id="tb-plano-de-voo" class="display dataTable no-footer dtr-inline table-bordered table" style="" name="formAcaoImadiata">
+                                    <thead class="titulo-tabela">
+                                        <tr class="bg" role="row">
+                                            <th class="w8"></th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Jan</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Fev</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Mar</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Abr</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Mai</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Jun</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Jul</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Ago</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Set</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Out</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Nov</th>
+                                            <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Dez</th>
+                                            <th class="w7">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Plano de Voo -->
+                                        <tr role="row" class="odd">
+                                            <td>
+                                                <label>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_titulo_plano_de_voo</label>
+                                            </td>
+                                            <!-- Janeiro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-jan" name="formPlanoDeVooMetaJan" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jan"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[0].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Fevereiro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-fev" name="formPlanoDeVooMetaFev" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Fev"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[1].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Março -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-mar" name="formPlanoDeVooMetaMar" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mar"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[2].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Abril -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-abr" name="formPlanoDeVooMetaAbr" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Abr"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[3].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Maio -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-mai" name="formPlanoDeVooMetaMai" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mai"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[4].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Jun -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-jun" name="formPlanoDeVooMetaJun" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jun"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[5].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Julho -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-jul" name="formPlanoDeVooMetaJul" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jul"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[6].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Agosto -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-ago" name="formPlanoDeVooMetaAgo" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Ago"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[7].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Setembro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-set" name="formPlanoDeVooMetaSet" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Set"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[8].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Outubro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-out" name="formPlanoDeVooMetaOut" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Out"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[9].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Novembro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-nov" name="formPlanoDeVooMetaNov" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Nov"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[10].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Dezembro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-dez" name="formPlanoDeVooMetaDez" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Dez"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(metas.Count > 0 ? metas[11].Valor.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Total -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" id="form-planodevoo-meta-total" name="formPlanoDeVooTotal" class="form-control"
+                                                           placeholder=""
+                                                           data-msg-required=""
+                                                           value="" />
+                                                </div>
+                                            </td>
+
+                                        </tr>
+
+                                        <!-- Realizado -->
+                                        <tr role="row" class="odd">
+                                            <td>
+                                                <label>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_titulo_realizado</label>
+                                            </td>
+                                            <!-- Janeiro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooJan" value="@(realizados.Count > 0? realizados[0].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-jan" name="formPlanoDeVooRealizadoJan" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jan"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 0 && realizados[0].Realizado.HasValue ? realizados[0].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Fevereiro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooFev" value="@(realizados.Count > 1? realizados[1].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-fev" name="formPlanoDeVooRealizadoFev" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Fev"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 1  && realizados[1].Realizado.HasValue ? realizados[1].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Março -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooMar" value="@(realizados.Count > 2? realizados[2].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-mar" name="formPlanoDeVooRealizadoMar" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mar"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 2  && realizados[2].Realizado.HasValue ? realizados[2].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Abril -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooAbr" value="@(realizados.Count > 3 ? realizados[3].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-abr" name="formPlanoDeVooRealizadoAbr" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Abr"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 3  && realizados[3].Realizado.HasValue ? realizados[3].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Maio -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooMai" value="@(realizados.Count > 4 ? realizados[4].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-mai" name="formPlanoDeVooRealizadoMai" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mai"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 4  && realizados[4].Realizado.HasValue ? realizados[4].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Jun -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooJun" value="@(realizados.Count > 5 ? realizados[5].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-jun" name="formPlanoDeVooRealizadoJun" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jun"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 5  && realizados[5].Realizado.HasValue ? realizados[5].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Julho -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooJul" value="@(realizados.Count > 6 ? realizados[6].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-jul" name="formPlanoDeVooRealizadoJul" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jul"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 6  && realizados[6].Realizado.HasValue ? realizados[6].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Agosto -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooAgo" value="@(realizados.Count > 7 ? realizados[7].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-ago" name="formPlanoDeVooRealizadoAgo" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Ago"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 7  && realizados[7].Realizado.HasValue ? realizados[7].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Setembro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooSet" value="@(realizados.Count > 8 ? realizados[8].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-set" name="formPlanoDeVooRealizadoSet" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Set"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 8  && realizados[8].Realizado.HasValue ? realizados[8].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Outubro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooOut" value="@(realizados.Count > 9 ? realizados[9].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-out" name="formPlanoDeVooRealizadoOut" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Out"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 9  && realizados[9].Realizado.HasValue ? realizados[9].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Novembro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooNov" value="@(realizados.Count > 10? realizados[10].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-nov" name="formPlanoDeVooRealizadoNov" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Nov"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 10  && realizados[10].Realizado.HasValue ? realizados[10].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                            <!-- Dezembro -->
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="IdPlanoDeVooDez" value="@(realizados.Count > 11 ? realizados[11].Id.ToString():null)" />
+                                                    <input type="text" id="form-planodevoo-realizado-dez" name="formPlanoDeVooRealizadoDez" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                           placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Dez"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           value="@(realizados.Count > 11  && realizados[11].Realizado.HasValue ? realizados[11].Realizado.Value.ToString():null)" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Relatorio -->
+        <form id="form-dashboard">
+            <div class="panel panel-default" id="panel-dashboard">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>Relatório</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-dashboard">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Painel Dashboard -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div id="relatorios" class="col-md-12">
+                                        <ul></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+
+            @*<button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_destravar, "Destravar", "Indicador")</button>*@
+            @if (Model.Id > 0)
+            {
+                if (ViewBag.IdPerfil != 4)
+                {
+                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                }
+            }
+
+            <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+            @if (listaPermissoes.Where(x => funcoes.Any(y => y == x.IdFuncao)).Any() || ViewBag.IdPerfil != 4)
+            {
+                <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            }
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Indicador/Index")</button>
+        </div>
+    </div>
+</div>

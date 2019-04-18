@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AlterarSenha_lbl_placeholder_Senha_atual" xml:space="preserve">
+    <value>Digite sua senha atual</value>
+  </data>
+  <data name="AlterarSenha_lbl_placeholder_Senha_confirma" xml:space="preserve">
+    <value>Confirme a nova senha</value>
+  </data>
+  <data name="AlterarSenha_lbl_placeholder_Senha_nova" xml:space="preserve">
+    <value>Digite sua nova senha</value>
+  </data>
+  <data name="AlterarSenha_lbl_Senha_atual" xml:space="preserve">
+    <value>Senha Atual</value>
+  </data>
+  <data name="AlterarSenha_lbl_Senha_confirma" xml:space="preserve">
+    <value>Repetir Senha</value>
+  </data>
+  <data name="AlterarSenha_lbl_Senha_nova" xml:space="preserve">
+    <value>Nova Senha</value>
+  </data>
+  <data name="AlterarSenha_lbl_titulo" xml:space="preserve">
+    <value>Alterar Senha</value>
+  </data>
+  <data name="AlterarSenha_msg_required_Senha_atual" xml:space="preserve">
+    <value>O campo Senha Atual é obrigatório.</value>
+  </data>
+  <data name="AlterarSenha_msg_required_Senha_confirma" xml:space="preserve">
+    <value>O campo Confirmar Senha é obrigatório.</value>
+  </data>
+  <data name="AlterarSenha_msg_required_Senha_confirma_equals" xml:space="preserve">
+    <value>O campo Nova Senha deve ser igual ao Confirmar Senha.</value>
+  </data>
+  <data name="AlterarSenha_msg_required_Senha_confirma_minlength" xml:space="preserve">
+    <value>O campo Confirma Senha deve ter no mínimo 6 caracteres.</value>
+  </data>
+  <data name="AlterarSenha_msg_required_Senha_nova" xml:space="preserve">
+    <value>O campo Nova Senha é obrigatório.</value>
+  </data>
+  <data name="AlterarSenha_msg_required_Senha_nova_minlength" xml:space="preserve">
+    <value>O campo Nova Senha deve ter no mínimo 6 caracteres.</value>
+  </data>
+  <data name="AlterarSenha_msg_Senha_error_equals" xml:space="preserve">
+    <value>A senha Atual não confere.</value>
+  </data>
+  <data name="AlterarSenha_msg_Senha_valid_change" xml:space="preserve">
+    <value>Alteração de Senha efetuada com sucesso.</value>
+  </data>
+  <data name="AlterarSenha_msg_required_Senha_nova_strong_pwd" xml:space="preserve">
+    <value>A Senha deve ser forte ou muito forte.</value>
+  </data>
+  <data name="AlterarSenha_msg_required_Senha_notequals" xml:space="preserve">
+    <value>A Nova Senha não pode ser igual a Atual.</value>
+  </data>
+  <data name="Usuario_lbl_Acoes" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="Usuario_lbl_Acoes_ativo" xml:space="preserve">
+    <value>Ativo?</value>
+  </data>
+  <data name="Usuario_lbl_Acoes_bloqueado" xml:space="preserve">
+    <value>Bloqueado?</value>
+  </data>
+  <data name="Usuario_lbl_Acoes_compartilhado" xml:space="preserve">
+    <value>Compartilhado?</value>
+  </data>
+  <data name="Usuario_lbl_Acoes_recebe_email" xml:space="preserve">
+    <value>Recebe E-mail</value>
+  </data>
+  <data name="Usuario_lbl_CPF" xml:space="preserve">
+    <value>CPF</value>
+  </data>
+  <data name="Usuario_lbl_DataExpiracao" xml:space="preserve">
+    <value>Data Expiração</value>
+  </data>
+  <data name="Usuario_lbl_Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Usuario_lbl_Foto" xml:space="preserve">
+    <value>Foto do Usuário</value>
+  </data>
+  <data name="Usuario_lbl_placeholder_CPF" xml:space="preserve">
+    <value>___.___.___-__</value>
+  </data>
+  <data name="Usuario_lbl_placeholder_DataExpiracao" xml:space="preserve">
+    <value>__/__/____</value>
+  </data>
+  <data name="Usuario_lbl_placeholder_Email" xml:space="preserve">
+    <value>Digite o e-mail.</value>
+  </data>
+  <data name="Usuario_lbl_placeholder_Foto" xml:space="preserve">
+    <value>Faça o Upload de sua foto.</value>
+  </data>
+  <data name="Usuario_lbl_placeholder_Responsavel" xml:space="preserve">
+    <value>Digite o nome do responsável</value>
+  </data>
+  <data name="Usuario_lbl_placeholder_Sexo" xml:space="preserve">
+    <value>Escolha o sexo.</value>
+  </data>
+  <data name="Usuario_lbl_Responsavel" xml:space="preserve">
+    <value>Responsável</value>
+  </data>
+  <data name="Usuario_lbl_Sexo" xml:space="preserve">
+    <value>Sexo</value>
+  </data>
+  <data name="Usuario_lbl_Sexo_feminino" xml:space="preserve">
+    <value>Feminino</value>
+  </data>
+  <data name="Usuario_lbl_Sexo_masculino" xml:space="preserve">
+    <value>Masculino</value>
+  </data>
+  <data name="Usuario_lbl_titulo" xml:space="preserve">
+    <value>Dados do Usuário</value>
+  </data>
+  <data name="Usuario_msg_required_Acoes" xml:space="preserve">
+    <value>Escolha uma ou mais ações.</value>
+  </data>
+  <data name="Usuario_msg_required_CPF" xml:space="preserve">
+    <value>O campo CPF é obrigatório.</value>
+  </data>
+  <data name="Usuario_msg_required_DataExpiracao" xml:space="preserve">
+    <value>O campo Data de Expiração é obrigatório.</value>
+  </data>
+  <data name="Usuario_msg_required_Email" xml:space="preserve">
+    <value>O campo E-mail é obrigatório.</value>
+  </data>
+  <data name="Usuario_msg_required_email_error_format" xml:space="preserve">
+    <value>O formato de e-mail não é válido.</value>
+  </data>
+  <data name="Usuario_msg_required_Email_maxlength" xml:space="preserve">
+    <value>O campo E-mail deve ter no máximo 60 caracteres.</value>
+  </data>
+  <data name="Usuario_msg_required_Foto" xml:space="preserve">
+    <value>O campo Foto é obrigatório.</value>
+  </data>
+  <data name="Usuario_msg_required_Responsavel" xml:space="preserve">
+    <value>O campo Responsável é obrigatório.</value>
+  </data>
+  <data name="Usuario_msg_required_Responsavel_maxlength" xml:space="preserve">
+    <value>O campo Responsável deve ter no máximo 60 caracteres.</value>
+  </data>
+  <data name="Usuario_msg_required_Sexo" xml:space="preserve">
+    <value>O campo Sexo é obrigatório.</value>
+  </data>
+  <data name="Usuario_msg_required_Foto_extension" xml:space="preserve">
+    <value>O campo Foto só aceita extensões do tipo ".jpg", ".png" e ".gif"</value>
+  </data>
+  <data name="Usuario_lbl_novo_usuario" xml:space="preserve">
+    <value>Novo Usuário</value>
+  </data>
+  <data name="Usuario_msg_criar_valid" xml:space="preserve">
+    <value>Usuário criado com sucesso.</value>
+  </data>
+  <data name="Usuario_msg_editar_valid" xml:space="preserve">
+    <value>Usuário editado com sucesso.</value>
+  </data>
+  <data name="Usuario_msg_not_found_IdUsuario" xml:space="preserve">
+    <value>Id do Usuário não encontrado no sistema.</value>
+  </data>
+  <data name="Usuario_msg_required_maxlength_Usuario" xml:space="preserve">
+    <value>O Campo CPF deve conter 11 caracteres.</value>
+  </data>
+  <data name="Usuario_msg_required_Perfil" xml:space="preserve">
+    <value>O Perfil é obrigatório.</value>
+  </data>
+  <data name="Usuario_lbl_Cadastro_titulo" xml:space="preserve">
+    <value>Cadastro de Usuário</value>
+  </data>
+  <data name="Usuario_lbl_Cliente" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="Usuario_lbl_Nome" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Usuario_lbl_Perfil" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="Usuario_msg_icone_ativo_ativar" xml:space="preserve">
+    <value>Deseja mesmo Ativar o usuário?</value>
+  </data>
+  <data name="Usuario_msg_icone_ativo_inativar" xml:space="preserve">
+    <value>Deseja mesmo Inativar o usuário?</value>
+  </data>
+  <data name="Usuario_msg_icone_ativo_valid" xml:space="preserve">
+    <value>Status modificado com sucesso.</value>
+  </data>
+  <data name="Usuario_msg_icone_bloqueia_ativar" xml:space="preserve">
+    <value>Deseja mesmo Bloquear o usuário?</value>
+  </data>
+  <data name="Usuario_msg_icone_bloqueia_inativar" xml:space="preserve">
+    <value>Deseja mesmo Desbloquear o usuário?</value>
+  </data>
+  <data name="Usuario_msg_icone_bloqueia_valid" xml:space="preserve">
+    <value>Status modificado com sucesso.</value>
+  </data>
+  <data name="Usuario_msg_icone_email_ativar" xml:space="preserve">
+    <value>Deseja mesmo não receber e-mail?</value>
+  </data>
+  <data name="Usuario_msg_icone_email_inativar" xml:space="preserve">
+    <value>Deseja mesmo receber e-mail?</value>
+  </data>
+  <data name="Usuario_msg_icone_email_valid" xml:space="preserve">
+    <value>Status modificado com sucesso.</value>
+  </data>
+  <data name="Usuario_msg_required_CPF_isvalid" xml:space="preserve">
+    <value>Digite um CPF válido.</value>
+  </data>
+  <data name="Usuario_msg_icone_excluir" xml:space="preserve">
+    <value>Deseja mesmo Excluir o usuário?</value>
+  </data>
+  <data name="Cliente_msg_required_SiteFuncionalidade" xml:space="preserve">
+    <value>É necessario escolher um modulo.</value>
+  </data>
+  <data name="Usuario_msg_exluir" xml:space="preserve">
+    <value>Usuário excluido com sucesso.</value>
+  </data>
+  <data name="Usuario_msg_ErroEnviarEmail" xml:space="preserve">
+    <value>Erro ao enviar e-mail de novo usuário.</value>
+  </data>
+  <data name="AlteraSenha_lbl_SuaSenhaExpirou" xml:space="preserve">
+    <value>Sua senha expirou, altere para continuar navegando.</value>
+  </data>
+  <data name="Usuario_Senha_NovaSenhaDeveSerDiferente" xml:space="preserve">
+    <value>A nova senha deve ser diferente das @UltimasSenhas@ últimas senhas</value>
+  </data>
+  <data name="UsuarioMigracaoPendencias" xml:space="preserve">
+    <value>Usuários para migração de pendências.</value>
+  </data>
+  <data name="AtencaoParaExcluirEsseUsuarioVoceDevePrimeiroCadastrarOutroComOMesmoCargo" xml:space="preserve">
+    <value>Atenção: para excluir esse usuario você deve cadastrar primeiro outro com o mesmo cargo para migrar suas pendências.</value>
+  </data>
+</root>

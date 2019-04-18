@@ -1,0 +1,125 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+
+@model IEnumerable<Dominio.Entidade.Produto>
+@{
+    ViewBag.Title = "Produtos";
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+}
+@section Metas {
+    <meta name="page" content="IndexProdutos" />
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
+}
+
+@Html.AntiForgeryToken()
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Produtos -->
+        <form id="form-produtos">
+            <div class="panel panel-default" id="panel-produtos">
+                <div class="panel-body" id="panel-form-produtos">
+                    <div class="row">
+                        <div class="barra-busca">
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeProdutos) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo" style="position:static !important; margin-bottom:5px !important;">
+                                    @Html.ActionLink(Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_NovoProduto, "AcoesProdutos", "Fornecedor")
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
+                            <div class="col-lg-12">
+                                <table id="tb-index-produtos" class="display dataTable no-footer dtr-inline " style="width: 100% !important;">
+                                    <thead>
+                                        <tr id="hr1" class="bg" role="row">
+                                            <th class="w35 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Nome">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Tags" title="">
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Responsavel" title="">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Status" title="">
+                                            </th>
+                                            <th class="w15">
+
+                                            </th>
+                                        </tr>
+                                        <tr class="bg" role="row">
+                                            <th class="sorting">@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Nome</th>
+                                            <th class="sorting">@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Tags</th>
+                                            <th class="sorting">@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Responsavel</th>
+                                            <th class="sorting">@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Status</th>
+                                            <th class="sorting">@Traducao.Fornecedores.ResourceFornecedores.Produto_lbl_Acoes</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var produto in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td>@produto.Nome</td>
+                                                <td>@produto.Tags</td>
+                                                <td>@produto.Responsavel.NmCompleto</td>
+                                                <td>@(produto.Status == 0 ? "Não Critico" : "Crítico")</td>
+                                                <td class="text-nowrap">
+                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeprodutosEditar) || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="@Url.Action("AcoesProdutos", new { id = produto.IdProduto, Ancora = "Alterar" })" class="edit icon-cliente editar-color">
+                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_editar"></i>
+                                                        </a>
+                                                    }
+                                                    @if (produto.Status == 1)
+                                                    {
+
+                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeQualificaçãoEditar) || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="@Url.Action("AcoesProdutos", new { id = produto.IdProduto, Ancora = "CriterioQualificacao" })" class="excluir icon-cliente inativo-color">
+                                                                <i class="fa fa-star" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Fornecedores.ResourceFornecedores.Produto_btn_lbl_definiicao_criterio_qualificacao"></i>
+                                                            </a>
+                                                        }
+                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoEditar) || ViewBag.IdPerfil != 4)
+                                                        {
+
+                                                            <a href="@Url.Action("AcoesProdutos", new { id = produto.IdProduto, Ancora = "CriterioAvaliacao" })" class="edit icon-cliente ativo-color">
+                                                                <i class="fa fa-check-circle" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Fornecedores.ResourceFornecedores.Produto_btn_lbl_definiicao_criterio_avaliacao"></i>
+                                                            </a>
+                                                        }
+                                                    }
+
+                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeFornecedor) || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="@Url.Action("AcoesFornecedores", new { idProduto = produto.IdProduto })" class="icon-cliente site-color">
+                                                            <i class="fa fa-user-plus" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Fornecedores.ResourceFornecedores.Produto_btn_lbl_cadastro_fornecedor"></i>
+                                                        </a>
+                                                        <a href="@Url.Action("IndexFornecedores", new { idProduto = produto.IdProduto })" class="edit icon-cliente view-color">
+                                                            <i class="fa fa-users" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Fornecedores.ResourceFornecedores.Produto_btn_lbl_ver_fornecedor"></i>
+                                                        </a>
+                                                    }
+                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeprodutosExcluir) || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <a href="#" class="excluir icon-cliente trash-color">
+                                                            <i class="fa fa-trash excluirProduto" aria-hidden="true" idProduto="@produto.IdProduto" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_excluir"></i>
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+        </form>
+    </div>
+</div>

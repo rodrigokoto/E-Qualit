@@ -1,0 +1,70 @@
+﻿@model List<Dominio.Entidade.ControladorCategoria>
+@Html.AntiForgeryToken()
+<div class="content">
+
+    <button type="button" id="btn-new-tipo" class="btn btn-primary btnControladorCategoria">Novo Tipo</button>
+    <span id="msgMaxCaracteres" style="color: red; font-weight: bold; display: none">@Traducao.Resource.MsgDescricao200Caracteres</span>
+    <table id="tbCadastroCategoria" class="display" style="width:100%;">
+
+        <thead>
+            <tr class="bg">
+                <th>@Traducao.Resource.Descricao</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="w85" id="descricao-hidden">
+                    <input type="text" id="nova-descricao-cadastro-categoria" required />
+                    <input type="hidden" id="id-cadastro-categoria" />
+                    <input type="hidden" id="tipo-cadastro-categoria" value="@ViewBag.TipoCadastro" />
+                    <input type="hidden" id="idsite-cadastro-categoria" value="@ViewBag.IdSite" />
+                </td>
+                <td class="w15">
+                    <a href="#" id="cadastro-categoria-insert">
+                        <i class="fa fa-check ativo-color" aria-hidden="true" data-toggle="tooltip" data-original-title=@Traducao.Resource.Editar></i>
+                    </a>
+                    <a href="#" class="cadastro-categoria-clean">
+                        <i class="fa fa-close trash-color"></i>
+                    </a>
+                </td>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="descricao-categoria">
+                        @item.Descricao
+
+
+                    </td>
+
+                    <td class="w15">
+
+                        <a href="#" class="ativa-desativa" data-url="@item.IdControladorCategorias">
+
+                            @if (@item.Ativo)
+                            {
+                                <i class="fa fa-check ativo-color" aria-hidden="true" data-toggle="tooltip" data-original-title=@Traducao.Resource.Ativar></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-close trash-color" aria-hidden="true"></i>
+                            }
+                        </a>
+                        <a href="#" class="edita-descricao editar-color" data-url="@item.IdControladorCategorias">
+                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title=@Traducao.Resource.Editar></i>
+                        </a>
+                        @*<a href="#" class="exclui-descricao" data-url="@item.IdControladorCategorias">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>*@
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+

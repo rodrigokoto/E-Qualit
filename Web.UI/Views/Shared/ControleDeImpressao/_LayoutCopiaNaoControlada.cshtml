@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7 ie6" lang="pt-BR"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8 ie7" lang="pt-BR"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9 ie8" lang="pt-BR"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9" lang="pt-BR"><![endif]-->
+<!--[if(gt IE 9)|!(IE)]><!-->
+<html class="no-js" lang="pt-br">
+<!--<![endif]-->
+<head>
+    <!-- Meta-Tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- Título -->
+    <title>@ViewBag.Title</title>
+
+    <!-- CSS -->
+
+
+    <style type="text/css">
+        .background {
+            background-image: url(http://equalith.g2it.com.br/v2/img/pt/copianaocontrolada_bg.png);
+            background-repeat: repeat;
+            min-height: 1024px;
+        }
+    </style>
+
+</head>
+
+<body class="background">
+    <!-- Conteudo -->
+    <section>
+        @RenderBody()
+    </section>
+
+    @Html.Partial("_OpcoesScripts")
+
+    <script>
+        /*
+        |--------------------------------------------------------------------------
+        | App
+        |--------------------------------------------------------------------------
+        */
+
+        var APP = {
+            core: {},
+            model: {},
+            component: {},
+            controller: {}
+        };
+    </script>
+
+
+    <script src="@Url.Content("~/Content/assets/js/jquery.min.js")"></script>
+
+    <script src="@Url.Content("~/Content/assets/js/Core.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/Model.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/Component.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GeneralController.js")"></script>
+    
+
+
+
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+

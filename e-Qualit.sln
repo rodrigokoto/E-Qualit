@@ -1,0 +1,145 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resource", "Resource\Resource.csproj", "{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.UI", "Web.UI\Web.UI.csproj", "{57EE4648-710B-48CA-8503-CD386D06AD77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC", "IoC\IoC.csproj", "{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Apresentation", "0 - Apresentation", "{103625F5-BE36-429C-8E07-7A44FDB5485D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Domain", "2 - Domain", "{955BACB8-9099-4776-A401-835629EE92CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infra", "3 - Infra", "{40D84046-F617-4675-8E81-304A4E6494CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - CrossCutting", "4 - CrossCutting", "{B78AF235-1FD5-4493-8605-E24DA9AD4D34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.1 - Data", "3.1 - Data", "{DAB153FF-ACD6-4234-AC7C-34FEEAB252B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.2 - WindowService", "3.2 - WindowService", "{214E6A3C-1C09-47BC-8C6E-DD86D8E41BDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificacaoWindowsService", "NotificacaoService\NotificacaoWindowsService.csproj", "{47854297-3215-4BA4-B80A-68CA838A4695}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - ApplicationService", "1 - ApplicationService", "{1CFD48CC-BF1F-4BA2-BA7E-85B46F94CB1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationService", "ApplicationService\ApplicationService.csproj", "{C11EB225-BF41-4A74-854B-738129077634}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}.Release|x86.Build.0 = Release|Any CPU
+		{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}.Debug|x86.Build.0 = Debug|Any CPU
+		{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}.Release|x86.ActiveCfg = Release|Any CPU
+		{E3B548F8-CC15-4C89-8AE5-9A50DE48F7FF}.Release|x86.Build.0 = Release|Any CPU
+		{57EE4648-710B-48CA-8503-CD386D06AD77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57EE4648-710B-48CA-8503-CD386D06AD77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57EE4648-710B-48CA-8503-CD386D06AD77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57EE4648-710B-48CA-8503-CD386D06AD77}.Debug|x86.Build.0 = Debug|Any CPU
+		{57EE4648-710B-48CA-8503-CD386D06AD77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57EE4648-710B-48CA-8503-CD386D06AD77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57EE4648-710B-48CA-8503-CD386D06AD77}.Release|x86.ActiveCfg = Release|Any CPU
+		{57EE4648-710B-48CA-8503-CD386D06AD77}.Release|x86.Build.0 = Release|Any CPU
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}.Debug|x86.Build.0 = Debug|Any CPU
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}.Release|x86.ActiveCfg = Release|Any CPU
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0}.Release|x86.Build.0 = Release|Any CPU
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}.Release|x86.Build.0 = Release|Any CPU
+		{47854297-3215-4BA4-B80A-68CA838A4695}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{47854297-3215-4BA4-B80A-68CA838A4695}.Debug|x86.ActiveCfg = Debug|x86
+		{47854297-3215-4BA4-B80A-68CA838A4695}.Debug|x86.Build.0 = Debug|x86
+		{47854297-3215-4BA4-B80A-68CA838A4695}.Release|Any CPU.ActiveCfg = Release|x86
+		{47854297-3215-4BA4-B80A-68CA838A4695}.Release|x86.ActiveCfg = Release|x86
+		{47854297-3215-4BA4-B80A-68CA838A4695}.Release|x86.Build.0 = Release|x86
+		{C11EB225-BF41-4A74-854B-738129077634}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C11EB225-BF41-4A74-854B-738129077634}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C11EB225-BF41-4A74-854B-738129077634}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C11EB225-BF41-4A74-854B-738129077634}.Debug|x86.Build.0 = Debug|Any CPU
+		{C11EB225-BF41-4A74-854B-738129077634}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C11EB225-BF41-4A74-854B-738129077634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C11EB225-BF41-4A74-854B-738129077634}.Release|x86.ActiveCfg = Release|Any CPU
+		{C11EB225-BF41-4A74-854B-738129077634}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43} = {DAB153FF-ACD6-4234-AC7C-34FEEAB252B2}
+		{57EE4648-710B-48CA-8503-CD386D06AD77} = {103625F5-BE36-429C-8E07-7A44FDB5485D}
+		{7FAB04D8-B4CC-446E-B808-0A479DBD9CA0} = {B78AF235-1FD5-4493-8605-E24DA9AD4D34}
+		{DAB153FF-ACD6-4234-AC7C-34FEEAB252B2} = {40D84046-F617-4675-8E81-304A4E6494CA}
+		{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C} = {955BACB8-9099-4776-A401-835629EE92CF}
+		{214E6A3C-1C09-47BC-8C6E-DD86D8E41BDE} = {40D84046-F617-4675-8E81-304A4E6494CA}
+		{47854297-3215-4BA4-B80A-68CA838A4695} = {214E6A3C-1C09-47BC-8C6E-DD86D8E41BDE}
+		{C11EB225-BF41-4A74-854B-738129077634} = {1CFD48CC-BF1F-4BA2-BA7E-85B46F94CB1E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {337176D4-061F-4D91-A6FB-8AFFECFF4952}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://g2db.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DAL\\DAL.csproj
+		SccProjectTopLevelParentUniqueName1 = e-Qualit.sln
+		SccProjectName1 = DAL
+		SccLocalPath1 = DAL
+		SccProjectUniqueName2 = Resource\\Resource.csproj
+		SccProjectName2 = Resource
+		SccLocalPath2 = Resource
+		SccProjectUniqueName3 = IoC\\IoC.csproj
+		SccProjectTopLevelParentUniqueName3 = e-Qualit.sln
+		SccProjectName3 = IoC
+		SccLocalPath3 = IoC
+		SccProjectUniqueName4 = Dominio\\Dominio.csproj
+		SccProjectTopLevelParentUniqueName4 = e-Qualit.sln
+		SccProjectName4 = Dominio
+		SccLocalPath4 = Dominio
+		SccProjectUniqueName5 = NotificacaoService\\NotificacaoWindowsService.csproj
+		SccProjectTopLevelParentUniqueName5 = e-Qualit.sln
+		SccProjectName5 = NotificacaoService
+		SccLocalPath5 = NotificacaoService
+		SccProjectUniqueName6 = Web.UI\\Web.UI.csproj
+		SccProjectTopLevelParentUniqueName6 = e-Qualit.sln
+		SccProjectName6 = Web.UI
+		SccLocalPath6 = Web.UI
+		SccProjectUniqueName7 = ApplicationService\\ApplicationService.csproj
+		SccProjectTopLevelParentUniqueName7 = e-Qualit.sln
+		SccProjectName7 = ApplicationService
+		SccLocalPath7 = ApplicationService
+	EndGlobalSection
+EndGlobal

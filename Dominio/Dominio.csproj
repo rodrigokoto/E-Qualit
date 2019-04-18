@@ -1,0 +1,501 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dominio</RootNamespace>
+    <AssemblyName>Dominio</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DomainValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DomainValidation.1.0.0\lib\net45\DomainValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.3.3\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entidade\ArquivosEvidenciaCriterioQualificacao.cs" />
+    <Compile Include="Entidade\AvaliaCriterioQualificacao.cs" />
+    <Compile Include="Entidade\DocLicenca.cs" />
+    <Compile Include="Entidade\Anexo.cs" />
+    <Compile Include="Entidade\ArquivoCertificadoAnexo.cs" />
+    <Compile Include="Entidade\ArquivoDeEvidenciaAcaoImediata.cs" />
+    <Compile Include="Entidade\ArquivosDeEvidencia.cs" />
+    <Compile Include="Entidade\BreadCrumb.cs" />
+    <Compile Include="Entidade\ClienteContrato.cs" />
+    <Compile Include="Entidade\ClienteLogo.cs" />
+    <Compile Include="Entidade\DocumentoAssunto.cs" />
+    <Compile Include="Entidade\AtividadeResiduos.cs" />
+    <Compile Include="Entidade\AnaliseCriticaTema.cs" />
+    <Compile Include="Entidade\AvaliacaoCriticidade.cs" />
+    <Compile Include="Entidade\AvaliaCriterioAvaliacao.cs" />
+    <Compile Include="Entidade\Calibracao.cs" />
+    <Compile Include="Entidade\DocumentoComentario.cs" />
+    <Compile Include="Entidade\ControleImpressao.cs" />
+    <Compile Include="Entidade\CriterioAceitacao.cs" />
+    <Compile Include="Entidade\CriterioQualificacao.cs" />
+    <Compile Include="Entidade\DocExterno.cs" />
+    <Compile Include="Entidade\Fornecedor.cs" />
+    <Compile Include="Entidade\HistoricoCriterioAvaliacao.cs" />
+    <Compile Include="Entidade\Indicador.cs" />
+    <Compile Include="Entidade\Instrumento.cs" />
+    <Compile Include="Entidade\Log.cs" />
+    <Compile Include="Entidade\Meta.cs" />
+    <Compile Include="Entidade\Norma.cs" />
+    <Compile Include="Entidade\NormaProcesso.cs" />
+    <Compile Include="Entidade\NotificacaoMensagem.cs" />
+    <Compile Include="Entidade\NotificacaoSmtp.cs" />
+    <Compile Include="Entidade\Pai.cs" />
+    <Compile Include="Entidade\PeriodicidadeAnalise.cs" />
+    <Compile Include="Entidade\Plai.cs" />
+    <Compile Include="Entidade\PlaiGerentes.cs" />
+    <Compile Include="Entidade\PlaiProcessoNorma.cs" />
+    <Compile Include="Entidade\PlanoVoo.cs" />
+    <Compile Include="Entidade\Produto.cs" />
+    <Compile Include="Entidade\ProdutoCriterioQualificacao.cs" />
+    <Compile Include="Entidade\ProdutoFornecedor.cs" />
+    <Compile Include="Entidade\CriterioAvaliacao.cs" />
+    <Compile Include="Entidade\RegistroAcaoImediata.cs" />
+    <Compile Include="Entidade\AnaliseCritica.cs" />
+    <Compile Include="Entidade\Cargo.cs" />
+    <Compile Include="Entidade\CargoConteudoDocumento.cs" />
+    <Compile Include="Entidade\CargoProcesso.cs" />
+    <Compile Include="Entidade\Cliente.cs" />
+    <Compile Include="Entidade\ControladorCategoria.cs" />
+    <Compile Include="Entidade\CtrlPerfil.cs" />
+    <Compile Include="Entidade\DocDocumentoXML.cs" />
+    <Compile Include="Entidade\Licenca.cs" />
+    <Compile Include="Entidade\Recurso.cs" />
+    <Compile Include="Entidade\DocRegistro.cs" />
+    <Compile Include="Entidade\Residuo.cs" />
+    <Compile Include="Entidade\RH\Advertencia.cs" />
+    <Compile Include="Entidade\RH\Atribuicao.cs" />
+    <Compile Include="Entidade\RH\Base.cs" />
+    <Compile Include="Entidade\RH\CargoRH.cs" />
+    <Compile Include="Entidade\RH\Competencia.cs" />
+    <Compile Include="Entidade\RH\Conhecimento.cs" />
+    <Compile Include="Entidade\RH\Curso.cs" />
+    <Compile Include="Entidade\RH\Dependente.cs" />
+    <Compile Include="Entidade\RH\Emprestimo.cs" />
+    <Compile Include="Entidade\RH\EPI.cs" />
+    <Compile Include="Entidade\RH\Estoque.cs" />
+    <Compile Include="Entidade\RH\Exame.cs" />
+    <Compile Include="Entidade\RH\Ferias.cs" />
+    <Compile Include="Entidade\RH\FolhaDePagamento.cs" />
+    <Compile Include="Entidade\RH\FormacaoAcademica.cs" />
+    <Compile Include="Entidade\RH\Funcionario.cs" />
+    <Compile Include="Entidade\RH\Habilidade.cs" />
+    <Compile Include="Entidade\RH\Parentesco.cs" />
+    <Compile Include="Entidade\RH\Plano.cs" />
+    <Compile Include="Entidade\RH\Sindicato.cs" />
+    <Compile Include="Entidade\SubModulo.cs" />
+    <Compile Include="Entidade\RH\TipoAdvertencia.cs" />
+    <Compile Include="Entidade\RH\TipoEmprestimo.cs" />
+    <Compile Include="Entidade\RH\TipoPlano.cs" />
+    <Compile Include="Entidade\RH\Treinamento.cs" />
+    <Compile Include="Entidade\RH\ValeTransporte.cs" />
+    <Compile Include="Entidade\Risco.cs" />
+    <Compile Include="Entidade\DocRotina.cs" />
+    <Compile Include="Entidade\Usuario.cs" />
+    <Compile Include="Entidade\DocCargo.cs" />
+    <Compile Include="Entidade\DocDocumento.cs" />
+    <Compile Include="Entidade\DocTemplate.cs" />
+    <Compile Include="Entidade\DocUsuarioVerificaAprova.cs" />
+    <Compile Include="Entidade\Endereco.cs" />
+    <Compile Include="Entidade\Funcao.cs" />
+    <Compile Include="Entidade\Funcionalidade.cs" />
+    <Compile Include="Entidade\ListaValor.cs" />
+    <Compile Include="Entidade\AnaliseCriticaFuncionario.cs" />
+    <Compile Include="Entidade\Notificacao.cs" />
+    <Compile Include="Entidade\Processo.cs" />
+    <Compile Include="Entidade\RegistroConformidade.cs" />
+    <Compile Include="Entidade\Site.cs" />
+    <Compile Include="Entidade\SiteModulo.cs" />
+    <Compile Include="Entidade\Telefone.cs" />
+    <Compile Include="Entidade\UsuarioAnexo.cs" />
+    <Compile Include="Entidade\UsuarioCargo.cs" />
+    <Compile Include="Entidade\UsuarioClienteSite.cs" />
+    <Compile Include="Entidade\UsuarioSenha.cs" />
+    <Compile Include="Enumerado\Acao.cs" />
+    <Compile Include="Enumerado\DirecaoIndicador.cs" />
+    <Compile Include="Enumerado\CriticidadeGestaoDeRisco.cs" />
+    <Compile Include="Enumerado\Funcionalidades.cs" />
+    <Compile Include="Enumerado\PeriodicidadeIndicador.cs" />
+    <Compile Include="Enumerado\PeriodoAnalise.cs" />
+    <Compile Include="Enumerado\EquipamentoStatus.cs" />
+    <Compile Include="Enumerado\EstadoObjetoEF.cs" />
+    <Compile Include="Enumerado\PerfisAcesso.cs" />
+    <Compile Include="Enumerado\StatusRegistro.cs" />
+    <Compile Include="Enumerado\StatusDocumento.cs" />
+    <Compile Include="Enumerado\EtapasRegistroConformidade.cs" />
+    <Compile Include="Enumerado\ModuloFilho.cs" />
+    <Compile Include="Enumerado\TipoNotificacao.cs" />
+    <Compile Include="Enumerado\UnidadeDeMedida.cs" />
+    <Compile Include="Especificacao\AnaliseCriticas\PossuiGestaoDeRiscoEspecification.cs" />
+    <Compile Include="Especificacao\Clientes\ClienteDeveEstarCadastrado.cs" />
+    <Compile Include="Especificacao\ControladorCategorias\DeveTerDescricaoUnicaPorCategoriaESiteEspecification .cs" />
+    <Compile Include="Especificacao\Cargos\DeveTerNomeUnicoPorSiteSpecification.cs" />
+    <Compile Include="Especificacao\DocDocumentos\DeveSerElaboracaoEspecification.cs" />
+    <Compile Include="Especificacao\DocDocumentos\DeveTerUmaUnicaCopiaComStatusDiferenteDeRevisar.cs" />
+    <Compile Include="Especificacao\DocDocumentos\DeveTerUsuarioUnicoVerificadorPorEtapa .cs" />
+    <Compile Include="Especificacao\DocDocumentos\DeveTerUsuarioUnicoAprovadorPorEtapa.cs" />
+    <Compile Include="Especificacao\DocDocumentos\PossuiWorkFlowDeveTerAprovadoresEspecification.cs" />
+    <Compile Include="Especificacao\DocDocumentos\PossuiWorkFlowDeveTerVerificadoresEspecification.cs" />
+    <Compile Include="Especificacao\Indicadores\SeNãoAtingiuAMetaDeveTerPlanoDeAcaoOuJustificativa.cs" />
+    <Compile Include="Especificacao\Instrumentos\DevePossuirNomeUnicoPorModeloSpecification.cs" />
+    <Compile Include="Especificacao\Instrumentos\DevePossuirNumeroUnicoPorModeloSpecification.cs" />
+    <Compile Include="Especificacao\Instrumentos\PossuiCriteriosAceitacaoSpecification.cs" />
+    <Compile Include="Especificacao\Plais\PossuiPlainMesAnteriorEspecificacao.cs" />
+    <Compile Include="Especificacao\Processos\DevePossuirNomeUnicoPorSite.cs" />
+    <Compile Include="Especificacao\Processos\DevePossuirNomeUnicoPorSiteEdicao.cs" />
+    <Compile Include="Especificacao\RegistroConformidades\GestaoDeRiscos\DeveTerGestaoDeRiscoInformadoEspecification.cs" />
+    <Compile Include="Especificacao\RegistroConformidades\DeveSerORegistroMaisAtualPeloSiteEspecification.cs" />
+    <Compile Include="Especificacao\RegistroConformidades\SomenteAdministradoECoordenadorPodemDestravarEtapaSpecification.cs" />
+    <Compile Include="Especificacao\RH\Dependentes\DevePossuirFuncionarioEspecification.cs" />
+    <Compile Include="Especificacao\RH\Funcionarios\DeveInformarCamposObrigatorios.cs" />
+    <Compile Include="Especificacao\RH\Funcionarios\DevePossuirCargoEspecification.cs" />
+    <Compile Include="Especificacao\RH\Funcionarios\DevePossuirValeTransporteInformadoEspecification.cs" />
+    <Compile Include="Especificacao\RH\Funcionarios\SeInformadoCNHDeveTerVencimentoCNH.cs" />
+    <Compile Include="Especificacao\Sites\SiteDeveEstarCadastrado.cs" />
+    <Compile Include="Especificacao\Temas\DeveTerGestaoDeRiscoInformadoEspecification.cs" />
+    <Compile Include="Especificacao\Usuarios\DeveEstarAtivo.cs" />
+    <Compile Include="Especificacao\Usuarios\DeveEstarDesbloqueado.cs" />
+    <Compile Include="Especificacao\Usuarios\DeveExistirNoBanco.cs" />
+    <Compile Include="Especificacao\Usuarios\DevePossuirCdIdentificacaoESenhaIguaisAoBanco.cs" />
+    <Compile Include="Especificacao\Usuarios\DevePossuirCdIdentificacaoIgualDoBanco.cs" />
+    <Compile Include="Especificacao\Usuarios\DevePossuirCPFUnico.cs" />
+    <Compile Include="Especificacao\Usuarios\DevePossuirEmailUnico.cs" />
+    <Compile Include="Especificacao\Usuarios\DevePossuirSenhaIgualDoBanco.cs" />
+    <Compile Include="Especificacao\Usuarios\DevePossuirSenhaAtualIgualDoBancoAlteracao.cs" />
+    <Compile Include="Especificacao\Usuarios\DeveTerContaNaoCompartilhada.cs" />
+    <Compile Include="Especificacao\Usuarios\NaoDeveEstarExpirado.cs" />
+    <Compile Include="Interface\Repositorio\IAnexoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IArquivosEvidenciaCriterioQualificacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IArquivoCertificadoAnexoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IArquivoDeEvidenciaAcaoImediataRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IClienteContratoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IClienteLogoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IAvaliaCriterioQualificacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IDocumentoComentarioRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IDocumentoAssuntoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IAnaliseCriticaFuncionarioRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IAnaliseCriticaRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IAvaliacaoCriticidadeRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IAvaliaCriterioAvaliacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IBaseRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ICalibracaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ICargoProcessoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ICargoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IClienteRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IComentarioDocumentoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IControladorCategoriasRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IControleImpressaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ICriterioAceitacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ICriterioQualificacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IDocCargoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IFornecedorRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IFuncaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IHistoricoCriterioAvaliacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IIndicadorRepostorio.cs" />
+    <Compile Include="Interface\Repositorio\IInstrumentoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ILoginRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ILogRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\INormaRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\INotificacaoSmtpRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\INotificacaoMensagemRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\INotificacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ICtrlUsuario.cs" />
+    <Compile Include="Interface\Repositorio\IDocUsuarioVerificaAprovaRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IPaiRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IPeriodicidadeAnaliseRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IPlaiGerentesRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IPlaiProcessoNormaRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IPlaiRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IProcessoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IProdutoAvaliacaoFornecedorRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IProdutoFornecedorRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IProdutoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ICriterioAvaliacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IRegistroAcaoImediataRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IAnaliseCriticaTemaRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ISiteAnexoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ISubModuloRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IUsuarioAnexoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IUsuarioRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IDocDocumentoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IDocTemplateRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IFuncionalidadeRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IRegistroConformidadesRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ISiteModuloRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\ISiteRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IUsuarioCargoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IUsuarioClienteSiteRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IUsuarioSenhaRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\RH\IEpiRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\RH\IFuncionarioRepositorio.cs" />
+    <Compile Include="Interface\Servico\IAnaliseCriticaFuncionarioServico.cs" />
+    <Compile Include="Interface\Servico\IAnaliseCriticaServico.cs" />
+    <Compile Include="Interface\Servico\IAnexoServico.cs" />
+    <Compile Include="Interface\Servico\IAvaliaCriterioAvaliacaoServico.cs" />
+    <Compile Include="Interface\Servico\ICalibracaoServico.cs" />
+    <Compile Include="Interface\Servico\IAvaliacaoCriticidadeServico.cs" />
+    <Compile Include="Interface\Servico\ICargoServico.cs" />
+    <Compile Include="Interface\Servico\IClienteServico.cs" />
+    <Compile Include="Interface\Servico\IControladorCategoriasServico.cs" />
+    <Compile Include="Interface\Servico\IControleImpressaoServico.cs" />
+    <Compile Include="Interface\Servico\ICriterioAceitacaoServico.cs" />
+    <Compile Include="Interface\Servico\ICriterioQualificacaoServico.cs" />
+    <Compile Include="Interface\Servico\IDocCargoServico.cs" />
+    <Compile Include="Interface\Servico\IDocumentoAssuntoServico.cs" />
+    <Compile Include="Interface\Servico\IDocumentoComentarioServico.cs" />
+    <Compile Include="Interface\Servico\IDocUsuarioVerificaAprovaServico.cs" />
+    <Compile Include="Interface\Servico\IEmailPlaiServico.cs" />
+    <Compile Include="Interface\Servico\IFornecedorServico.cs" />
+    <Compile Include="Interface\Servico\IHistoricoCriterioAvaliacaoServico.cs" />
+    <Compile Include="Interface\Servico\IIndicadorServico.cs" />
+    <Compile Include="Interface\Servico\IInstrumentoServico.cs" />
+    <Compile Include="Interface\Servico\ILoginServico.cs" />
+    <Compile Include="Interface\Servico\ILogServico.cs" />
+    <Compile Include="Interface\Servico\INormaServico.cs" />
+    <Compile Include="Interface\Servico\INotificacaoMensagemServico.cs" />
+    <Compile Include="Interface\Servico\INotificacaoSmtpServico.cs" />
+    <Compile Include="Interface\Servico\INotificacaoServico.cs" />
+    <Compile Include="Interface\Servico\IPaiServico.cs" />
+    <Compile Include="Interface\Servico\IPlaiProcessoNormaServico.cs" />
+    <Compile Include="Interface\Servico\IPlaiServico.cs" />
+    <Compile Include="Interface\Servico\IProcessoServico.cs" />
+    <Compile Include="Interface\Servico\IProdutoCriterioQualificacaoServico.cs" />
+    <Compile Include="Interface\Servico\IProdutoFornecedorServico.cs" />
+    <Compile Include="Interface\Servico\IProdutoServico.cs" />
+    <Compile Include="Interface\Servico\ICriterioAvaliacaoServico.cs" />
+    <Compile Include="Interface\Servico\IUsuarioSenhaServico.cs" />
+    <Compile Include="Interface\Servico\IUsuarioServico.cs" />
+    <Compile Include="Interface\Servico\IDocDocumentoServico.cs" />
+    <Compile Include="Interface\Servico\IDocTemplateServico.cs" />
+    <Compile Include="Interface\Servico\IFuncionalidadeServico.cs" />
+    <Compile Include="Interface\Servico\IRegistroConformidadesServico.cs" />
+    <Compile Include="Interface\Servico\ISiteModuloServico.cs" />
+    <Compile Include="Interface\Servico\ISiteServico.cs" />
+    <Compile Include="Interface\Servico\IUsuarioCargoServico.cs" />
+    <Compile Include="Interface\Servico\IUsuarioClienteSiteServico.cs" />
+    <Compile Include="Interface\Servico\IAnaliseCriticaTemaServico.cs" />
+    <Compile Include="Interface\Servico\RH\IEpiServico.cs" />
+    <Compile Include="Interface\Servico\RH\IFuncionarioServico.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servico\AnaliseCriticaFuncionarioServico.cs" />
+    <Compile Include="Servico\AnaliseCriticaServico.cs" />
+    <Compile Include="Servico\AnexoServico.cs" />
+    <Compile Include="Servico\AvaliacaoDeCriticidadeServico.cs" />
+    <Compile Include="Servico\AvaliaCriterioAvaliacaoServico.cs" />
+    <Compile Include="Servico\CalibracaoServico.cs" />
+    <Compile Include="Servico\CargoServico.cs" />
+    <Compile Include="Servico\ClienteServico.cs" />
+    <Compile Include="Servico\ControladorCategoriasServico.cs" />
+    <Compile Include="Servico\ControleImpressaoServico.cs" />
+    <Compile Include="Servico\CriterioAceitacaoServico.cs" />
+    <Compile Include="Servico\CriterioQualificacaoServico.cs" />
+    <Compile Include="Servico\DocCargoServico.cs" />
+    <Compile Include="Servico\DocDocumentoServico.cs" />
+    <Compile Include="Servico\DocumentoAssuntoServico.cs" />
+    <Compile Include="Servico\DocumentoComentarioServico.cs" />
+    <Compile Include="Servico\DocUsuarioVerificaAprovaServico.cs" />
+    <Compile Include="Servico\FornecedorServico.cs" />
+    <Compile Include="Servico\UsuarioSenhaServico.cs" />
+    <Compile Include="Validacao\AnaliseCriticas\GestaoDeRiscoDeveTerCriticidadeMediaOuAltaValidation.cs" />
+    <Compile Include="Servico\FuncionalidadeServico.cs" />
+    <Compile Include="Servico\HistoricoCriterioAvaliacaoServico.cs" />
+    <Compile Include="Servico\IndicadorServico.cs" />
+    <Compile Include="Servico\InstrumentoServico.cs" />
+    <Compile Include="Servico\LoginServico.cs" />
+    <Compile Include="Servico\LogServico.cs" />
+    <Compile Include="Servico\NormaServico.cs" />
+    <Compile Include="Servico\NotificacaoSmtpServico.cs" />
+    <Compile Include="Servico\NotificacaoMensagemServico.cs" />
+    <Compile Include="Servico\NotificacaoServico.cs" />
+    <Compile Include="Servico\PaiServico.cs" />
+    <Compile Include="Servico\PlaiProcessoNormaServico.cs" />
+    <Compile Include="Servico\PlaiServico.cs" />
+    <Compile Include="Servico\ProcessoServico.cs" />
+    <Compile Include="Servico\ProdutoFornecedorServico.cs" />
+    <Compile Include="Servico\ProdutoServico.cs" />
+    <Compile Include="Servico\CriterioAvaliacaoServico.cs" />
+    <Compile Include="Servico\RegistroConformidadesServico.cs" />
+    <Compile Include="Servico\DocTemplateServico.cs" />
+    <Compile Include="Servico\RH\EpiServico.cs" />
+    <Compile Include="Servico\RH\FuncionarioServico.cs" />
+    <Compile Include="Servico\SiteModuloServico.cs" />
+    <Compile Include="Servico\SiteServico.cs" />
+    <Compile Include="Servico\AnaliseCriticaTemaServico.cs" />
+    <Compile Include="Servico\UsuarioCargoServico.cs" />
+    <Compile Include="Servico\UsuarioClienteSiteServico.cs" />
+    <Compile Include="Servico\UsuarioServico.cs" />
+    <Compile Include="Servico\UtilsServico.cs" />
+    <Compile Include="Entidade\SiteAnexo.cs" />
+    <Compile Include="Util\UtilsServico.cs" />
+    <Compile Include="Validacao\AcoesImediatas\CamposObrigatoriosAcaoImediata.cs" />
+    <Compile Include="Validacao\AnaliseCriticas\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\AvaliacaoDeCriticidades\AptoParaCadastrarAvaliacaoDeCriticidade.cs" />
+    <Compile Include="Validacao\BaseValidation.cs" />
+    <Compile Include="Validacao\Calibracoes\CamposObrigatoriosCalibracao.cs" />
+    <Compile Include="Validacao\Cargos\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\Cargos\DeveTerNomeUnicoValidation.cs" />
+    <Compile Include="Validacao\Clientes\AptoParaEdicaoValidation.cs" />
+    <Compile Include="Validacao\Clientes\View\CriarClienteViemValidation.cs" />
+    <Compile Include="Validacao\Clientes\View\EdiarClienteViewValidation.cs" />
+    <Compile Include="Validacao\Clientes\View\ValidaCampos.cs" />
+    <Compile Include="Validacao\ControladorCategorias\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\ControladorCategorias\CamposObrigatoriosValidation.cs" />
+    <Compile Include="Validacao\ControladorCategorias\ENovaCategoriaValidation.cs" />
+    <Compile Include="Validacao\ControleImpressoes\CamposObrigatoriosValidation.cs" />
+    <Compile Include="Validacao\CriterioAceitacoes\CamposObrigatoriosCriterioAceitacao.cs" />
+    <Compile Include="Validacao\AvaliacoesCriterioAvaliacao\AptoParaAvaliaCriterioAvaliacao.cs" />
+    <Compile Include="Validacao\CriteriosQualificacao\AptoParaCadastroCriterioQualificacao.cs" />
+    <Compile Include="Validacao\CriteriosQualificacao\AptoParaQualificarCriterioQualificacaoSemControleVencimento.cs" />
+    <Compile Include="Validacao\CriteriosQualificacao\AptoParaQualificarCriterioQualificacao.cs" />
+    <Compile Include="Validacao\DocDocumentos\AptoParaCadastroAtualizarValidation.cs" />
+    <Compile Include="Validacao\DocDocumentos\CampoAssuntoObrigatorioRevisaoValidation.cs" />
+    <Compile Include="Validacao\DocDocumentos\CamposObrigatoriosEtapaVerificacaoValidation.cs" />
+    <Compile Include="Validacao\DocDocumentos\ValidaCamposDocDocumento.cs" />
+    <Compile Include="Validacao\DocDocumentos\View\CamposObrigatoriosRevisaoViewValidation.cs" />
+    <Compile Include="Validacao\DocDocumentoXMLValidacao.cs" />
+    <Compile Include="Validacao\DocDocumentos\View\CamposObrigatoriosValidation.cs" />
+    <Compile Include="Validacao\Fornecedores\AptoParaCadastrarFornecedor.cs" />
+    <Compile Include="Validacao\Funcionarios\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\Indicadores\PlanoDeVooAptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\Indicadores\AtingiuMetaValidation.cs" />
+    <Compile Include="Validacao\Indicadores\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\Instrumentos\AptoParaCadastroInstrumentoValidation.cs" />
+    <Compile Include="Validacao\Instrumentos\AptoParaEditarInstrumentoValidation.cs" />
+    <Compile Include="Validacao\Instrumentos\View\CriarInstrumentoViewValidation.cs" />
+    <Compile Include="Validacao\Instrumentos\View\EditarInstrumentoViewValidation.cs" />
+    <Compile Include="Validacao\Instrumentos\View\ValidaCampoInstrumento.cs" />
+    <Compile Include="Validacao\Normas\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\NotificacoesMensagem\AptoParaCadastroNotificacaoMensagemValidation.cs" />
+    <Compile Include="Validacao\NotificacoesSmtp\AptoParaCadastroNotificacaoSmtp.cs" />
+    <Compile Include="Validacao\Notificacoes\AptoParaCadastroNotificacaoValidation.cs" />
+    <Compile Include="Validacao\Pais\AptoParaCadastroValidacao.cs" />
+    <Compile Include="Validacao\Processos\AptoParaCadastraProcessoValidation.cs" />
+    <Compile Include="Validacao\Plais\AptoParaCadastroValidacao.cs" />
+    <Compile Include="Validacao\Processos\AptoParaEditarProcessoValidation.cs" />
+    <Compile Include="Validacao\Processos\View\CriarProcessoViewValidation.cs" />
+    <Compile Include="Validacao\Processos\View\EditarProcessoViewValidation.cs" />
+    <Compile Include="Validacao\Processos\View\ValidaCamposProcesso.cs" />
+    <Compile Include="Validacao\Produtos\View\AptoParaCadastrarProduto.cs" />
+    <Compile Include="Validacao\CriteriosAvaliacao\AptoParaCadastraCriterioAvaliacao.cs" />
+    <Compile Include="Validacao\CriteriosAvaliacao\AptoParaQualificaCriterioAvaliacao.cs" />
+    <Compile Include="Validacao\Produtos\ValidaCampoProduto.cs" />
+    <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\AptoParaExclusaoAcaoCorretivaValidation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaEtapa4Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaReverificacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\AptoParaCadastroComGestaoDeRiscoValidacao.cs" />
+    <Compile Include="Validacao\NaoConformidadeValidacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaEtapa1Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaEtapa2Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoEtapa1Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoEtapa2Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoEtapa4Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoImplementacaoDtEfetivaImplementacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoReverificacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaCriarNovaAcaoCorretiva.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaExclusaoNaoConformidadeValidation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaSalvarSegundaEtapaPerfilCoordenadorPorEtapaValidacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaSalvarSegundaEtapaResponsavelPorEtapaValidacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\NCEProcedenteFalseViewValidation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\NCEProcedenteTrueViewValidation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\CriacaoNCViewValidation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\CamposObrigatoriosNaoConformidadeEtapa2Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\CamposObrigatoriosNaoConformidadeEtapa4Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\CamposObrigatoriosNaoConformidadeReverificacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata.cs" />
+    <Compile Include="Validacao\RegistroConformidades\NaoConformidades\ValidaCamposNC.cs" />
+    <Compile Include="Validacao\RegistroConformidades\ValidaCamposRegistroConformidade.cs" />
+    <Compile Include="Validacao\RH\Dependentes\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\RH\Funcionarios\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\Sites\AptoParaEdicaoValidation.cs" />
+    <Compile Include="Validacao\Sites\View\CNPJValidator.cs" />
+    <Compile Include="Validacao\Sites\View\CriarSiteViewValidation.cs" />
+    <Compile Include="Validacao\Sites\View\EditarViewValidation.cs" />
+    <Compile Include="Validacao\Sites\View\ValidaCampos.cs" />
+    <Compile Include="Validacao\Temas\AptoParaCadastroComConformidadeValidacao.cs" />
+    <Compile Include="Validacao\Temas\CampoDescricaoObrigatorioValidation.cs" />
+    <Compile Include="Validacao\Usuarios\AlterarSenhaValidation.cs" />
+    <Compile Include="Validacao\Usuarios\AptoParaAcessarValidation.cs" />
+    <Compile Include="Validacao\Usuarios\AptoParaCadastroValidation.cs" />
+    <Compile Include="Validacao\Usuarios\AptoParaEditarValidation.cs" />
+    <Compile Include="Validacao\Usuarios\ExisteEssaIdentificacaoValidation.cs" />
+    <Compile Include="Validacao\Usuarios\AptoParaLogarValidation.cs" />
+    <Compile Include="Validacao\Usuarios\LoginView\AlterarSenhaViewValidation.cs" />
+    <Compile Include="Validacao\Usuarios\LoginView\EsqueciaSenhaViewValidation.cs" />
+    <Compile Include="Validacao\Usuarios\MeusDadosView\EditarUsuarioMeusDadosViewValidation.cs" />
+    <Compile Include="Validacao\Usuarios\ValidaCamposUsuario.cs" />
+    <Compile Include="Validacao\Usuarios\UsuarioEComplartilhadoValidation.cs" />
+    <Compile Include="Validacao\Usuarios\AptoParaAlterarSenhaViaEmailValidation.cs" />
+    <Compile Include="Validacao\Usuarios\View\CPFValidator.cs" />
+    <Compile Include="Validacao\Usuarios\View\CriarUsuarioViewValidation.cs" />
+    <Compile Include="Validacao\Usuarios\View\EditarUsuarioViewValidation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Resource\Resource.csproj">
+      <Project>{e3b548f8-cc15-4c89-8ae5-9a50de48f7ff}</Project>
+      <Name>Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Especificacao\RH\ValeTransportes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

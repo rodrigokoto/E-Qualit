@@ -1,0 +1,127 @@
+﻿@model Dominio.Entidade.Cargo
+@{
+    ViewBag.Title = Model.IdCargo == 0 ? "Criar" : "Editar";
+    var Modulos = ViewBag.Modulos;
+    var Funcionalidades = ViewBag.Funcionalidades;
+}
+@section Styles {
+    <link href="~/Content/lobipanel.min.css" rel="stylesheet" />
+}
+@section Metas {
+    <meta name="page" content="CriarCargo" />
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/CargoController.js")"></script>
+}
+
+<div id="main">
+    <div class="content-painel">
+        <input type="hidden" name="idCargo" value="@Model.IdCargo">
+        <input type="hidden" name="IdSite" value="@Model.IdSite">
+        <!-- Formulario Cargo -->
+        <form id="form-cargo">
+            <div class="panel panel-default" id="panel-cargo">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>Cargo</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-cargo">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-cargo" class="control-label">Nome do Cargo</label>
+                                    <input type="text" id="form-cargo" name="formCargoNome" class="form-control"
+                                           placeholder=""
+                                           data-msg-required=""
+                                           value="@Model.NmNome" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        @foreach (var processo in ViewBag.Processos)
+        {
+            <!-- Formulario Processo -->
+            <form id="form-cargo-processo-@processo.IdProcesso">
+                <input type="hidden" name="formCargoProcessoIdProcesso" value="@processo.IdProcesso">
+                <div class="panel panel-default" id="panel-processo">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Cargo.ResourceCargo.Cargo_Titulo_Funcionalidade</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="panel-form-processo">
+                        <div class="barra-busca">
+                            @*<div class="row">
+                                    <!-- Processo -->
+                                    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-cargo-processo-nome" class="control-label">Processo</label>
+                                            <input type="text" name="formCargoProcessoNome" id="form-cargo-processo-nome"
+                                                   class="form-control" placeholder=""
+                                                   data-msg-required="" value="@processo.Nome"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <!-- Ativo -->
+                                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox checkbox-margintop">
+                                        <div class="form-group">
+                                            <input type="checkbox" name="formCargoProcessoAtivo" id="form-cargo-processo-ativo"
+                                                   class="form-control" checked="@(processo.FlAtivo==true?"checked":null)"
+                                                   disabled>
+                                            <label for="form-cargo-processo-ativo">Ativo</label>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            @foreach (var funcionalidade in Funcionalidades)
+                            {
+                                <!-- Modulo -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group titulo-tabela">
+                                        <label for="form-cargo-modulo-funcionalidade" style="padding:5px; color: #fff !important;">@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(@funcionalidade.Tag)</label>
+
+                                        <!-- Funcionalidade -->
+                                        <div class="row tabela-check">
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" name="formCargoModuloFuncionalidadeAll-@processo.Nome-@funcionalidade.Nome"
+                                                       id="form-cargo-modulo-funcionalidade-all-@processo.Nome-@funcionalidade.Nome"
+                                                       class="form-control" value="" />
+                                                <label for="form-cargo-modulo-funcionalidade-all-@processo.Nome-@funcionalidade.Nome">@Traducao.Shared.ResourceLabel.Label_select_All</label>
+                                            </div>
+                                            @foreach (var funcao in funcionalidade.Funcoes)
+                                            {
+                                                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+
+                                                    <input type="hidden" name="IdCargoProcesso" value="@(Model.CargoProcessos.Any(x=>x.Funcao.IdFuncao == funcao.IdFuncao && x.IdProcesso == processo.IdProcesso)? Model.CargoProcessos.First(x=>x.Funcao.IdFuncao == funcao.IdFuncao && x.IdProcesso == processo.IdProcesso).IdCargoProcesso:0)" />
+                                                    <input type="checkbox" name="formCargoModuloFuncionalidade"
+                                                           id="form-cargo-modulo-funcionalidade-@processo.Nome-@Model.IdCargo-@funcao.IdFuncao"
+                                                           class="form-control" value="@funcao.IdFuncao"
+                                                           @(Model.CargoProcessos.Any(x => x.Funcao.IdFuncao == funcao.IdFuncao && x.IdProcesso == processo.IdProcesso) ? "checked" : null) />
+                                                    <label for="form-cargo-modulo-funcionalidade-@processo.Nome-@Model.IdCargo-@funcao.IdFuncao">@funcao.NmNome</label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Cargo", new { id = Model.IdSite }, null)</button>
+        </div>
+    </div>
+</div>

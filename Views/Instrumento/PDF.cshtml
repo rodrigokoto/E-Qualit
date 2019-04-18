@@ -1,0 +1,259 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model Dominio.Entidade.Instrumento
+@{
+    ViewBag.Title = "Instrumento";
+
+    Layout = null;
+
+    var funcoes = new List<int>
+{
+(int)FuncoesInstrumento.CadastroDeInstrumento,
+(int)FuncoesInstrumento.EditarInstrumento,
+(int)FuncoesInstrumento.ExcluirInstrumento,
+(int)FuncoesInstrumento.CadastroDeCalibracao,
+(int)FuncoesInstrumento.EditarCalibracao,
+(int)FuncoesInstrumento.ExcluirCalibracao,
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+}
+
+<html>
+<head>
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/bootstrap")
+
+</head>
+<body style="background:white !important">
+    <div class="container">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+        <style>
+            .ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+                /*overflow: auto;*/
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <div id="main" style="margin: 40px 0 0 0 !important;">
+            <div class="content-painel">
+                <!-- Formulario Parametro Instrumento -->
+                <form id="form-parametro-instrumento">
+                    <input name="IdInstrumento" type="hidden" id="IdInstrumento" value="@Model.IdInstrumento" />
+                    <input name="IdSite" type="hidden" id="IdSite" value="@ViewBag.IdSite" />
+                    <input name="idFuncao" type="hidden" id="idFuncao" value="@ViewBag.IdFuncao" />
+                    <input name="IdProcesso" type="hidden" id="IdProcesso" value="@ViewBag.IdProcesso" />
+                    <input name="IdResponsavelHidden" type="hidden" id="IdResponsavelHidden" value="@Model.IdResponsavel" />
+                    <!-- Inicio Panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-target="parametro-instrumento">
+                            <div class="panel-title">
+                                <h2>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_titulo_intrumento_a_controlar</h2>
+                            </div>
+                        </div>
+                        <div class="panel-body" id="parametro-instrumento">
+                            <div class="barra-busca">
+                                <div class="row base-senhas">
+                                    <!-- Instrumento -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Intrumento</label>
+                                            <br />
+                                            @Model.Equipamento
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Numero -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero</label>
+                                            <br />
+                                            @Model.Numero
+                                        </div>
+                                    </div>
+                                    <!-- Marca -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Marca</label>
+                                            <br />
+                                            @Model.Marca
+                                        </div>
+                                    </div>
+                                    <!-- Modelo -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Modelo</label>
+                                            <br />
+                                            @Model.Modelo
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Responsavel -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Responsavel</label>
+                                            <br />
+                                            @ViewBag.Responsavel
+                                        </div>
+                                    </div>
+                                    <!-- Local -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-parametro-instrumento-local-de-uso" class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Local_de_uso</label>
+                                            @Model.LocalDeUso
+                                        </div>
+                                    </div>
+                                    <!-- Escala -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Escala</label>
+                                            <br />
+                                            @Model.Escala
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Menor -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Menos_divisao</label>
+                                            <br />
+                                            @Model.MenorDivisao
+                                        </div>
+                                    </div>
+                                    <!-- Criterio -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Criterio_de_aceitacao</label>
+                                            <br />
+                                            @Model.valorAceitacao
+                                        </div>
+                                    </div>
+                                    <!-- Campo Critério -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Calculado_pelo_sistema</label>
+                                            </div>
+                                            <br />
+                                            @(Model.SistemaDefineStatus == true ? Traducao.Resource.Sim : Traducao.Resource.Nao )
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_DescricaoCriterio</label>
+                                            <br />
+                                            @Model.DescricaoCriterio
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="IdSite" id="acao-corretiva-site" value="" />
+                    <input type="hidden" name="TipoRegistro" value="ac" />
+                
+
+                <!-- Painel -->
+                
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_titulo_tabela_calibracao</h2>
+                        </div>
+                        <div class="panel-body" id="tabela">
+                            <div class="barra-busca">
+                                <!-- Tabela -->
+                                <div class="row">
+                                    <!--- Novo Participante -->
+
+                                    <table id="tb-calibracao" class="display dataTable no-footer dtr-inline" role="grid" aria-describedby="tbCliente_info">
+                                        <thead>
+                                            <tr class="bg" role="row">
+                                                <th class="w12 sorting_asc hidden" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_calibracao</th>
+                                                <th class="w12 sorting_asc" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_numero_certificado</th>
+                                                <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_dt_calibracao</th>
+                                                <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_proxima_calibracao</th>
+                                                <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_orgao_calibrador</th>
+                                                <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_aprovado_por</th>
+                                                <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_aprovado</th>
+                                                <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_observacoes</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Linha 1 -->
+                                            @if (Model.Calibracao != null)
+                                            {
+                                                foreach (var calibracao in Model.Calibracao)
+                                                {
+                                                    <!-- Campo Tabela -->
+                                                    <tr role="row" class="odd campos-tabela-calibracao">
+                                                        <td class="id-calibracao hidden">@calibracao.IdCalibracao</td>
+                                                        <td>@calibracao.Certificado</td>
+                                                        <td>@(calibracao.DataCalibracao != null ? calibracao.DataCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
+                                                        <td>@(calibracao.DataProximaCalibracao != null ? calibracao.DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
+                                                        <td>@calibracao.OrgaoCalibrador</td>
+                                                        <td>@calibracao.UsuarioAprovador.NmCompleto</td>
+                                                        <td>
+                                                            @if (calibracao.Aprovado == 0)
+                                                            {
+                                                                <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                                            }
+                                                            else if (calibracao.Aprovado == 1)
+                                                            {
+                                                                <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
+                                                            }
+                                                            else if (calibracao.Aprovado == 2)
+                                                            {
+                                                                <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
+                                                            }
+                                                            else if (calibracao.Aprovado == 3)
+                                                            {
+                                                                <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
+                                                            }
+
+                                                        </td>
+                                                        <td>@calibracao.Observacoes</td>
+
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </body>
+</html>

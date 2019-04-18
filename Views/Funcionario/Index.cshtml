@@ -1,0 +1,162 @@
+﻿@model IEnumerable<Dominio.Entidade.RH.Funcionario>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Codigo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.DataNascimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstadoCivil)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Endereco)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bairro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cep)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Uf)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelefoneResidencial)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelefoneCelular)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelefoneRecado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VencimentoCNH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TituloEleitoral)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Outro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCadastro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoCargo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoCompetencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoEmprestimo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DataNascimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoCivil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Endereco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bairro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cep)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uf)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefoneResidencial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefoneCelular)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefoneRecado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VencimentoCNH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TituloEleitoral)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Outro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCadastro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoCargo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoCompetencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoEmprestimo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>

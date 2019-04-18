@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C11EB225-BF41-4A74-854B-738129077634}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ApplicationService</RootNamespace>
+    <AssemblyName>ApplicationService</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DomainValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DomainValidation.1.0.0\lib\net45\DomainValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.3.3\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entidade\ClienteApp.cs" />
+    <Compile Include="Entidade\Email.cs" />
+    <Compile Include="Entidade\PermissoesApp.cs" />
+    <Compile Include="Entidade\ProcessoApp.cs" />
+    <Compile Include="Entidade\SiteModuloApp.cs" />
+    <Compile Include="Entidade\UsuarioApp.cs" />
+    <Compile Include="Enum\FuncoesFornecedores.cs" />
+    <Compile Include="Enum\FuncoesAuditoria.cs" />
+    <Compile Include="Enum\FuncoesAcaoCorretiva.cs" />
+    <Compile Include="Enum\FuncoesAnaliseCritica.cs" />
+    <Compile Include="Enum\FuncoesControlDoc.cs" />
+    <Compile Include="Enum\FuncoesGestaoDeRisco.cs" />
+    <Compile Include="Enum\FuncoesInstrumento.cs" />
+    <Compile Include="Enum\FuncoesNaoConformidade.cs" />
+    <Compile Include="Enum\TempletesDisparoDeEmail.cs" />
+    <Compile Include="Interface\IAnaliseCriticaFuncionarioAppServico.cs" />
+    <Compile Include="Interface\IAnaliseCriticaAppServico.cs" />
+    <Compile Include="Interface\IAnaliseCriticaTemaAppServico.cs" />
+    <Compile Include="Interface\IAnexoAppServico.cs" />
+    <Compile Include="Interface\IArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
+    <Compile Include="Interface\IArquivoCertificadoAnexoAppServico.cs" />
+    <Compile Include="Interface\IAvaliacaoCriticidadeAppServico.cs" />
+    <Compile Include="Interface\IAvaliaCriterioAvaliacaoAppServico.cs" />
+    <Compile Include="Interface\IBaseServico.cs" />
+    <Compile Include="Interface\ICalibracaoAppServico.cs" />
+    <Compile Include="Interface\ICargoAppServico.cs" />
+    <Compile Include="Interface\ICargoProcessoAppServico.cs" />
+    <Compile Include="Interface\IClienteAppServico.cs" />
+    <Compile Include="Interface\IClienteContratoAppServico.cs" />
+    <Compile Include="Interface\IControladorCategoriasAppServico.cs" />
+    <Compile Include="Interface\IControleImpressaoAppServico.cs" />
+    <Compile Include="Interface\ICriterioAceitacaoAppServico.cs" />
+    <Compile Include="Interface\ICriterioAvaliacaoAppServico.cs" />
+    <Compile Include="Interface\IAvaliaCriterioQualificacaoAppServico.cs" />
+    <Compile Include="Interface\ICriterioQualificacaoAppServico.cs" />
+    <Compile Include="Interface\ICtrlUsuario.cs" />
+    <Compile Include="Interface\IDocCargoAppServico.cs" />
+    <Compile Include="Interface\IDocDocumentoAppServico.cs" />
+    <Compile Include="Interface\IDocTemplateAppServico.cs" />
+    <Compile Include="Interface\IDocumentoAssuntoAppServico.cs" />
+    <Compile Include="Interface\IDocumentoComentarioAppServico.cs" />
+    <Compile Include="Interface\IDocUsuarioVerificaAprovaAppServico.cs" />
+    <Compile Include="Interface\IEmailPlaiServico.cs" />
+    <Compile Include="Interface\IFornecedorAppServico.cs" />
+    <Compile Include="Interface\IFuncaoAppServico.cs" />
+    <Compile Include="Interface\IFuncionalidadeAppServico.cs" />
+    <Compile Include="Interface\IHistoricoCriterioAvaliacaoAppServico.cs" />
+    <Compile Include="Interface\IIndicadorAppServico.cs" />
+    <Compile Include="Interface\IInstrumentoAppServico.cs" />
+    <Compile Include="Interface\ILoginAppServico.cs" />
+    <Compile Include="Interface\ILogAppServico.cs" />
+    <Compile Include="Interface\INormaAppServico.cs" />
+    <Compile Include="Interface\INotificacaoMensagemAppServico.cs" />
+    <Compile Include="Interface\INotificacaoAppServico.cs" />
+    <Compile Include="Interface\INotificacaoSmtpAppServico.cs" />
+    <Compile Include="Interface\IPaiAppServico.cs" />
+    <Compile Include="Interface\IPlaiGerentesAppServico.cs" />
+    <Compile Include="Interface\IPlaiProcessoNormaAppServico.cs" />
+    <Compile Include="Interface\IPlaiAppServico.cs" />
+    <Compile Include="Interface\IProcessoAppServico.cs" />
+    <Compile Include="Interface\IProdutoCriterioQualificacaoAppServico.cs" />
+    <Compile Include="Interface\IProdutoFornecedorAppServico.cs" />
+    <Compile Include="Interface\IProdutoAppServico.cs" />
+    <Compile Include="Interface\IRegistroConformidadesAppServico.cs" />
+    <Compile Include="Interface\ISiteModuloAppServico.cs" />
+    <Compile Include="Interface\ISiteAppServico.cs" />
+    <Compile Include="Interface\ISubModuloAppServico.cs" />
+    <Compile Include="Interface\IUsuarioCargoAppServico.cs" />
+    <Compile Include="Interface\IUsuarioClienteSiteAppServico.cs" />
+    <Compile Include="Interface\IUsuarioAppServico.cs" />
+    <Compile Include="Interface\RH\IEpiAppServico.cs" />
+    <Compile Include="Interface\RH\IFuncionarioAppServico.cs" />
+    <Compile Include="Interface\IUsuarioAnexoAppServico.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servico\AnaliseCriticaFuncionarioAppServico.cs" />
+    <Compile Include="Servico\AnaliseCriticaAppServico.cs" />
+    <Compile Include="Servico\AnaliseCriticaTemaAppServico.cs" />
+    <Compile Include="Servico\AnexoAppServico.cs" />
+    <Compile Include="Servico\ArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
+    <Compile Include="Servico\ArquivoCertificadoAnexoAppServico.cs" />
+    <Compile Include="Servico\AvaliacaoCriticidadeAppServico.cs" />
+    <Compile Include="Servico\AvaliaCriterioAvaliacaoAppServico.cs" />
+    <Compile Include="Servico\BaseServico.cs" />
+    <Compile Include="Servico\CalibracaoAppServico.cs" />
+    <Compile Include="Servico\CargoAppServico.cs" />
+    <Compile Include="Servico\CargoProcessoAppServico.cs" />
+    <Compile Include="Servico\ClienteAppServico.cs" />
+    <Compile Include="Servico\ClienteContratoAppServico.cs" />
+    <Compile Include="Servico\ControladorCategoriasAppServico.cs" />
+    <Compile Include="Servico\ControleImpressaoAppServico.cs" />
+    <Compile Include="Servico\CriterioAceitacaoAppServico.cs" />
+    <Compile Include="Servico\CriterioAvaliacaoAppServico.cs" />
+    <Compile Include="Servico\AvaliaCriterioQualificacaoAppServico.cs" />
+    <Compile Include="Servico\CriterioQualificacaoAppServico.cs" />
+    <Compile Include="Servico\DocCargoAppServico.cs" />
+    <Compile Include="Servico\DocDocumentoAppServico.cs" />
+    <Compile Include="Servico\DocTemplateAppServico.cs" />
+    <Compile Include="Servico\DocumentoAssuntoAppServico.cs" />
+    <Compile Include="Servico\DocumentoComentarioAppServico.cs" />
+    <Compile Include="Servico\DocUsuarioVerificaAprovaAppServico.cs" />
+    <Compile Include="Servico\FornecedorAppServico.cs" />
+    <Compile Include="Servico\FuncaoAppServico.cs" />
+    <Compile Include="Servico\FuncionalidadeAppServico.cs" />
+    <Compile Include="Servico\GestaoDeRiscoServico.cs" />
+    <Compile Include="Servico\HistoricoCriterioAvaliacaoAppServico.cs" />
+    <Compile Include="Servico\IndicadorAppServico.cs" />
+    <Compile Include="Servico\InstrumentoAppServico.cs" />
+    <Compile Include="Servico\LoginAppServico.cs" />
+    <Compile Include="Servico\LogAppServico.cs" />
+    <Compile Include="Servico\NormaAppServico.cs" />
+    <Compile Include="Servico\NotificacaoMensagemAppServico.cs" />
+    <Compile Include="Servico\NotificacaoAppServico.cs" />
+    <Compile Include="Servico\NotificacaoSmtpAppServico.cs" />
+    <Compile Include="Servico\PaiAppServico.cs" />
+    <Compile Include="Servico\PlaiGerentesAppServico.cs" />
+    <Compile Include="Servico\PlaiProcessoNormaAppServico.cs" />
+    <Compile Include="Servico\PlaiAppServico.cs" />
+    <Compile Include="Servico\ProcessoAppServico.cs" />
+    <Compile Include="Servico\ProdutoFornecedorAppServico.cs" />
+    <Compile Include="Servico\ProdutoAppServico.cs" />
+    <Compile Include="Servico\RegistroConformidadesAppServico.cs" />
+    <Compile Include="Servico\RH\EpiAppServico.cs" />
+    <Compile Include="Servico\RH\FuncionarioAppServico.cs" />
+    <Compile Include="Servico\SiteModuloAppServico.cs" />
+    <Compile Include="Servico\SiteAppServico.cs" />
+    <Compile Include="Servico\SubModuloAppServico.cs" />
+    <Compile Include="Servico\UsuarioAnexoAppServico.cs" />
+    <Compile Include="Servico\UsuarioCargoAppServico.cs" />
+    <Compile Include="Servico\UsuarioClienteSiteAppServico.cs" />
+    <Compile Include="Servico\UsuarioAppServico.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{0c54e06c-d4b2-4525-818c-1b0baeeb1a43}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dominio\Dominio.csproj">
+      <Project>{0cb075c2-b41c-40af-9b82-1f6a586f6d0c}</Project>
+      <Name>Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Resource\Resource.csproj">
+      <Project>{e3b548f8-cc15-4c89-8ae5-9a50de48f7ff}</Project>
+      <Name>Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

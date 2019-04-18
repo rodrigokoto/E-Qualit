@@ -1,0 +1,147 @@
+﻿@model Dominio.Entidade.Cliente
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+
+    if (Model != null)
+    {
+        //if (Model.ClienteLogo.Count > 0)
+        //{
+        //    var anexo = Model.ClienteLogo.FirstOrDefault().Anexo;
+        //    Model.ClienteLogoAux = new Dominio.Entidade.Anexo
+        //    {
+        //        ArquivoB64 = String.Format("data:image/" + anexo.Extensao + ";base64," + anexo.Arquivo)
+        //    };
+        //}
+
+    }
+
+
+
+}
+@section Metas {
+    <meta name="page" content="Login" />
+}
+
+@section scripts{
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="@Url.Content("~/Content/assets/js/LoginController.js")"></script>
+
+}
+
+@section styles{
+    <style>
+        section {
+            padding-top: 0 !important;
+        }
+    </style>
+}
+
+<form id="form-login">
+    <div id="cntLogin" class="login-form">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                <bloquote>
+                    <div class="bg-info">
+                        <p>
+                            <span style="font-size:45px; color:#0088cc;">@Traducao.Resource.Pratica</span> @Traducao.Resource.CotidianaGlobalizado
+                        </p>
+                    </div>
+                </bloquote>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-offset-1 col-lg-4 col-md-4">
+                @if (Model != null)
+                {
+                    if (Model.ClienteLogo.Count > 0)
+                    {
+                        <img src="@Model.ClienteLogoAux.ArquivoB64" class="img-responsive logo-login" style="opacity: 0.5; border-radius:10px;" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/assets/imagens/logo-equalit-bg.png" class="img-responsive logo-login" />
+                    }
+                }
+                else
+                {
+                    <img src="~/Content/assets/imagens/logo-equalit-bg.png" class="img-responsive logo-login" />
+
+                }
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-6 col-md-8">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="form-header blue-header">
+                            <h4>@Traducao.Login.ResourceLogin.Login_titulo</h4>
+                        </div>
+                        <!-- Email -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-envelope icon-login user-color" aria-hidden="true"></i>
+                                </span>
+                                <input type="text" id="form-login-email" name="formLoginEmail" class="form-control"
+                                       placeholder="@Traducao.Login.ResourceLogin.Login_lbl_placeholder_Email"
+                                       data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Email"
+                                       data-msg-email="@Traducao.Login.ResourceLogin.Login_msg_required_email_error_format"
+                                       value="" />
+                            </div>
+                        </div>
+                        <!-- Senha -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-key icon-login editar-color"></i>
+                                </span>
+                                <input type="password" id="form-login-senha" name="formLoginSenha" class="form-control"
+                                       placeholder="@Traducao.Login.ResourceLogin.Login_lbl_placeholder_Senha"
+                                       data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Senha"
+                                       value="" />
+                            </div>
+                        </div>
+                        <!-- Captcha -->
+                        <div class="form-group captcha">
+                            @*@if (Model != null)
+                                {
+                                    if (Model.FlTemCaptcha)
+                                    {
+
+                                        <div class="input-group">
+                                            <div class="g-recaptcha" data-sitekey="6Le38m8UAAAAAM2t-B4wAoLaTcOaXIwYM1shs90s" data-callback="recaptchaCallback">
+                                            </div>
+                                            <input type="hidden" id="hiddenRecaptcha" name="hiddenRecaptcha" class="hiddenRecaptcha required"
+                                                   data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Recaptcha">
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="input-group">
+                                        <div class="g-recaptcha" data-sitekey="6Le38m8UAAAAAM2t-B4wAoLaTcOaXIwYM1shs90s" data-callback="recaptchaCallback">
+                                        </div>
+                                        <input type="hidden" id="hiddenRecaptcha" name="hiddenRecaptcha" class="hiddenRecaptcha required"
+                                               data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Recaptcha">
+                                    </div>
+                                }*@
+                        </div>
+
+                        <div class="bg-btn">
+                            <button type="button" class="btn btn-custom btn-lg btn-block btn-login">@Traducao.Resource.botao_entrar</button>
+                        </div>
+                        <div class="esqueciminhasenha">
+                            <a href="@Url.Action("RecuperarSenha", "Login")">@Traducao.Resource.login_esqueci_senha_lbl</a>
+                        </div>
+                        <div role="separator" class="divider"></div>
+                        <ul class=" menu-login nav nav-pills">
+                            <li><a href="http://www.equalit.com.br/site" target="_blank">@Traducao.Resource.SaibaMais</a></li>
+                            <li><a href="mailto:faleconosco@equalit.com.br">@Traducao.Resource.FaleConosco</a></li>
+                        </ul>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
