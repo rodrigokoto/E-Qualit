@@ -638,6 +638,7 @@ APP.controller.ControlDocController = {
     aux: { IdDocumento: '' },
 
     saveFormEmissaoDocumento: function (emissaoDocumento, _statusEtapa) {
+        debugger;
         var url = "/ControlDoc/Salvar/";
         var eEdicao = false;
 

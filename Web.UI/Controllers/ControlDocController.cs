@@ -1059,7 +1059,7 @@ namespace Web.UI.Controllers
                 x.Disposicao = itemAtualizar.Disposicao;
             });
 
-            if (!string.IsNullOrEmpty(source.DocExterno.Anexo.ArquivoB64))
+            if (source.DocExterno != null && !string.IsNullOrEmpty(source.DocExterno.Anexo.ArquivoB64))
             {
                 if (dest.DocExterno == null || dest.DocExterno.IdDocExterno == 0)
                 {
