@@ -517,12 +517,16 @@ APP.controller.ControlDocController = {
         var validate = {};
         $('[id^=panel-form]').each(function () {
             var isVisible = $(this).is(':visible');
-            if (isVisible) {
-                validate = {
 
-                    valid: $(this).closest('form').valid(),
-                };
-                arrayFormValidate.push(validate);
+            var id = $(this).attr('id');
+            if (id !== 'panel-form-fluxo') {
+                if (isVisible) {
+                    validate = {
+
+                        valid: $(this).closest('form').valid(),
+                    };
+                    arrayFormValidate.push(validate);
+                }
             }
         });
 
@@ -584,7 +588,6 @@ APP.controller.ControlDocController = {
         var formEmissaoDocumentoAssuntos = $('#form-emissao-documento-assuntos');
         var formEmissaoDocumentoComentarios = $('#form-emissao-documento-comentarios');
         var formEmissaoDocumentoCargos = $('#form-emissao-documento-cargos');
-
         var emissaoDocumentoObj = {};
 
         var ConteudoDocumento = {};

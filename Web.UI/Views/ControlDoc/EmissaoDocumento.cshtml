@@ -61,6 +61,7 @@
     </div>
 
 </div>
+<!--Barra cima -->
 <!-- Conteudo -->
 @*@Html.Partial("_Menu")*@
 <div class="top3" id="main1" style="top: 140px; position: absolute;">
@@ -375,89 +376,44 @@
                 </div>
             </form>
             <!-- Formulario FLUXO -->
-            <form id="form-emissao-documento-fluxo">
-                <div class="panel panel-default" id="panel-form-fluxo">
-                    <div class="panel-heading">
-                        <div class="panel-title">
-                            <h2>@Traducao.Resource.Fluxo</h2>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="barra-busca">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <!-- MENU -->
-                                            <div id="menu-graph">
-                                                <ul>
-                                                    <li>
-                                                        <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
-                                                    </li>
-                                                    <li class="separador"></li>
-                                                    <li>
-                                                        <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
-                                                    </li>
-                                                    <li class="separador"></li>
-                                                    <li>
-                                                        <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
-                                                    </li>
-                                                    <li class="separador"></li>
-                                                    <li>
-                                                        <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row containerGraph">
-                                        <div class="col-md-1 col-xs-2 tollbarGraph">
-                                            <div id="toolbar" valign="top"></div>
-                                        </div>
-                                        <div class="col-md-11 col-xs-10">
-                                            <input type="hidden" value="@Model.FluxoDoc" id="form-emissao-documento-fluxo-conteudo" />
-                                            <div id="graphContainer">
-                                                <!-- Graph Here -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                        </div>
+
+
+
+
+
+
+
+
+            <div class="panel panel-default" id="panel-form-fluxo">
+                <div class="panel-heading">
+                    <div class="panel-title">
+
+                        <h2>@Traducao.Resource.Fluxo</h2>
                     </div>
                 </div>
-            </form>
+                <div class="panel-body">
+                    <div class="barra-busca" style="padding-top: 20px;padding-bottom: 50px;">
+                        <div class="col-md-12">
+
+                            @* ------------------- Aqui*@
+                            @*<a href="#" data-toggle="modal" data-target="#modal-panel-form-comentarios">Comentários</a>*@
+                            <a href="#" data-toggle="modal" data-target="#modal-panel-form-fluxo" style="margin-bottom:30px">Comentários</a>
+                            &nbsp;
+                            &nbsp;
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
             <!-- Formulario REGISTROS -->
             <form id="form-emissao-documento-registros">
                 <div class="panel panel-default" id="panel-form-registros">
@@ -950,6 +906,98 @@
         </div>
     </div>
 </form>
+
+
+<!-- Modal Fluxo -->
+<form id="form-emissao-documento-fluxo">
+    <div id="modal-panel-form-fluxo" class="modal fade" role="dialog" style="width:100%;height:100%;top: 3px;margin-bottom: 3px">
+        <div class="modal-dialog" style="width:100%;height:100%;margin-top:3px;margin-bottom: 3px">
+            <!-- Modal content-->
+            <div class="modal-content" style="width:100%;height:100%" tabindex="-1">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">@Traducao.Resource.Fluxo</h4>
+                </div>
+
+                @*form fluxo*@
+                <div class="form-group"  style="width:100%;height:100%">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- MENU -->
+                            <div id="menu-graph">
+                                <ul>
+                                    <li>
+                                        <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
+                                    </li>
+                                    <li class="separador"></li>
+                                    <li>
+                                        <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
+                                    </li>
+                                    <li class="separador"></li>
+                                    <li>
+                                        <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
+                                    </li>
+                                    <li class="separador"></li>
+                                    <li>
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row containerGraph">
+                        <div class="col-md-1 col-xs-2 tollbarGraph">
+                            <div id="toolbar" valign="top"></div>
+                        </div>
+                        <div class="col-md-11 col-xs-10">
+                            <input type="hidden" value="@Model.FluxoDoc" id="form-emissao-documento-fluxo-conteudo" />
+                            <div id="graphContainer" style="overflow:hidden;width:105%;height:470px;margin-left:0px;margin-right:0px;padding:0px">
+                                <!-- Graph Here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
 <!-- Comentarios -->
 <form id="form-emissao-documento-comentarios">
     <div id="modal-panel-form-comentarios" class="modal fade" role="dialog">
