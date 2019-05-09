@@ -1336,8 +1336,16 @@ namespace Web.UI.Controllers
             }
             else
             {
-                doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
-                doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
+                //[aqui] somente estas duas linhas
+                if (doc.DocUsuarioVerificaAprova.Count == 0)
+                {
+                    doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
+                    doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
+                }
+
+
+
+
                 //if (doc.FlStatus == 0)
                 //    doc.FlStatus = (int)StatusDocumento.Elaboracao;
             }

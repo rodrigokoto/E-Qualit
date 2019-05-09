@@ -55,6 +55,34 @@ APP.controller.ControlDocController = {
 
             APP.controller.ControlDocController.models.idusuariodestino = this.value;
         });
+
+
+
+        function moveItems(origin, dest) {
+            debugger;
+            $(origin).find(':selected').appendTo(dest);
+        }
+
+
+
+        $('#add').click(function () {
+            moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
+        });
+
+        $('#remove').click(function () {
+            moveItems('#form-cadastro-verificador', '#form-cadastro-verificadorBase');
+        });
+
+        $('#addAprovador').click(function () {
+            moveItems('#form-cadastro-aprovadorBase', '#form-cadastro-aprovador');
+        });
+
+        $('#removeAprovador').click(function () {
+            moveItems('#form-cadastro-aprovador', '#form-cadastro-aprovadorBase');
+        });
+
+
+
     },
 
     setup: function () {
@@ -77,6 +105,7 @@ APP.controller.ControlDocController = {
         //Control Doc - REGISTROS
         this.buttonAddNovoRegistroFormRegistro = $('.form-registros-add-registro');
         this.buttonSaveNovoRegistroFormRegistro = $('.salvar-form-registros');
+        //[aqui]
         this.buttonEditNovoRegistroFormRegistro = $('.editar-form-registros');
         this.buttonDelNovoRegistroFormRegistro = $('.excluir-form-registros');
 
@@ -551,7 +580,7 @@ APP.controller.ControlDocController = {
 
             //ValidateOK = true;
             if (ValidateOK == true) {
-
+                debugger;
                 var emissaoDocumento = APP.controller.ControlDocController.getEmissaoDocumentoObj();
 
                 if ($("#emissao-documento-IdDocumento").val() != 0) {
@@ -1086,6 +1115,15 @@ APP.controller.ControlDocController = {
             };
         }
 
+
+        function arrayRemove(arr, value) {
+            debugger;
+            return arr.filter(function (ele) {
+                return ele.IdUsuario != value;
+            });
+
+        }
+
         $.ajax({
             type: "GET",
             dataType: 'JSON',
@@ -1095,8 +1133,26 @@ APP.controller.ControlDocController = {
 
             },
             success: function (result) {
+                debugger;
                 if (result.StatusCode == 200) {
-                    APP.component.SelectListCompare.init(result.Lista, $('[name=formCadastroVerificador] option'), '#form-cadastro-verificador', 'IdUsuario', 'NmCompleto');
+                    //var retorno = result.Lista.pop();
+                    //retorno = result.Lista.pop();
+                    debugger;
+
+
+                    var retultado = result.Lista;
+                    var lista = $('[name=formCadastroVerificador] option');
+                    for (var i = 0; i < lista.length; i++) {
+                        var valor = lista[i].value;
+                        retultado = arrayRemove(retultado, valor);
+
+                    }
+
+                    
+                    APP.component.SelectListCompare.init(retultado, $('[name=formCadastroVerificadorBase] option'), '#form-cadastro-verificadorBase', 'IdUsuario', 'NmCompleto');
+
+
+                    //APP.component.SelectListCompare.init(result.Lista, $('[name=formCadastroVerificador] option'), '#form-cadastro-verificadorBase', 'IdUsuario', 'NmCompleto');
                 }
             },
             error: function (result) {
@@ -1110,7 +1166,7 @@ APP.controller.ControlDocController = {
     },
 
     setComboAprovador: function (_IdProcesso) {
-
+        debugger;
         var idSite = $('#emissao-documento-site').val();
         let idFuncao = 102;
         var data = "";
@@ -1131,6 +1187,14 @@ APP.controller.ControlDocController = {
             };
         }
 
+        function arrayRemove(arr, value) {
+            debugger;
+            return arr.filter(function (ele) {
+                return ele.IdUsuario != value;
+            });
+
+        }
+
         $.ajax({
             type: "GET",
             dataType: 'JSON',
@@ -1141,7 +1205,18 @@ APP.controller.ControlDocController = {
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
-                    APP.component.SelectListCompare.init(result.Lista, $('[name=formCadastroAprovador] option'), '#form-cadastro-aprovador', 'IdUsuario', 'NmCompleto');
+
+                    debugger;
+
+                    var retultado = result.Lista;
+                    var lista = $('[name=formCadastroAprovador] option');
+                    for (var i = 0; i < lista.length; i++) {
+                        var valor = lista[i].value;
+                        retultado = arrayRemove(retultado, valor);
+
+                    }
+
+                    APP.component.SelectListCompare.init(retultado, $('[name=formCadastroAprovadorBase] option'), '#form-cadastro-aprovadorBase', 'IdUsuario', 'NmCompleto');
                 }
             },
             error: function (result) {
@@ -1195,7 +1270,8 @@ APP.controller.ControlDocController = {
         var objVerificadores = [];
 
         // Objeto Verificadores
-        $('[name=formCadastroVerificador] :selected').each(function () {
+        //$('[name=formCadastroVerificador] :selected').each(function () {
+        $('[name=formCadastroVerificador]').find('option').each(function () {
             var verificador = {
                 IdUsuario: $(this).val(),
                 TpEtapa: "V",
@@ -1215,7 +1291,8 @@ APP.controller.ControlDocController = {
         var objAprovadores = [];
 
         // Objeto Aprovadores
-        $('[name=formCadastroAprovador] :selected').each(function () {
+        //$('[name=formCadastroAprovador] :selected').each(function () {
+        $('[name=formCadastroAprovador]').find('option').each(function () {
             var aprovador = {
                 IdUsuario: $(this).val(),
                 TpEtapa: "A",
@@ -1344,6 +1421,11 @@ APP.controller.ControlDocController = {
 
         // Inicializa o componente
         onInit(editor);
+
+        function DisabledEditor(status)
+        {
+            editor.graph.setEnabled(status);
+        }
 
         $("#Copy").click(function () {
             editor.execute('copy');
@@ -1556,7 +1638,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRegistrosRecuperar]').prop('disabled', true);
             $(this).closest('tr').find('[name=formRegistrosRetencao]').prop('disabled', true);
             $(this).closest('tr').find('[name=formRegistrosDisposicao]').prop('disabled', true);
-
+            editor.graph.setEnabled(false);
         });
 
     },
@@ -1573,7 +1655,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRegistrosRecuperar]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRegistrosRetencao]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRegistrosDisposicao]').prop('disabled', false);
-
+            editor.graph.setEnabled(true);
         });
 
     },
@@ -1707,6 +1789,8 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRotinaQuem]').prop('disabled', true);
             $(this).closest('tr').find('[name=formRotinaRegistro]').prop('disabled', true);
             $(this).closest('tr').find('[name=formRotinaComo]').prop('disabled', true);
+            editor.graph.setEnabled(false);
+
 
             var itemAtual = $(this).closest('tr').find('[name=formRotinaItem]').val();
             var total = $('#tb-form-rotina tbody tr').length;
@@ -1739,7 +1823,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRotinaQuem]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRotinaRegistro]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRotinaComo]').prop('disabled', false);
-
+            editor.graph.setEnabled(true);
         });
 
     },
@@ -2219,7 +2303,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formAssuntoDtVersao]').prop('disabled', true);
             $(this).closest('tr').find('[name=formAssuntoRevisao]').prop('disabled', true);
             $(this).closest('tr').find('[name=formAssuntoDescricao]').prop('disabled', true);
-
+            //editor.graph.setEnabled(false);
         });
 
     },
@@ -2233,7 +2317,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formAssuntoDtVersao]').prop('disabled', false);
             $(this).closest('tr').find('[name=formAssuntoRevisao]').prop('disabled', false);
             $(this).closest('tr').find('[name=formAssuntoDescricao]').prop('disabled', false);
-
+            //editor.graph.setEnabled(true);
         });
 
     },
@@ -2504,6 +2588,8 @@ APP.controller.ControlDocController = {
                     $('.btn-voltar-elaboracao').show();
                     $("input").attr("disabled", "disabled");
                     $(".quatro").hide();
+                    $(".close").removeAttr("disabled");
+                    editor.graph.setEnabled(false);
                     break;
                 case 2:
                     APP.controller.ControlDocController.setDisableVerificacao(statusEtapa);
@@ -2512,7 +2598,7 @@ APP.controller.ControlDocController = {
                     $("input").attr("disabled", "disabled");
                     $("#form-cargos-escolha-all").removeAttr("disabled");
                     $(".closeCargos").removeAttr("disabled");
-
+                    editor.graph.setEnabled(true);
 
                     break;
                 case 3:
