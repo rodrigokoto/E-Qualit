@@ -21,12 +21,35 @@
     <meta name="page" content="ConteudoDocumento" />
 }
 
+@section Styles
+{
+    <style type="text/css">
+        .caixa {
+            font-family: 'Abel-Regular', sans-serif !important;
+            width: 100%;
+            padding: 12px 10px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            background: #fff;
+        }
 
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .tabela-check {
+            background-color: white !important;
+        }
+
+        #main {
+            max-height: 700px !important;
+        }
+    </style>
+}
 
 <script type="text/javascript">
     var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
     mxDefaultLanguage = 'pt';
-
 </script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -34,11 +57,11 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-@*<script>
-        $(function () {
-            $(".datepicker").datepicker();
-        });
-    </script>*@
+<script>
+        //$(function () {
+        //    console.log(editor);
+        //});
+    </script>
 
 <script type="text/javascript">
     $(document).on('focus', '.datepicker', function () {
@@ -54,7 +77,7 @@
 
 <div class="row header-fixo">
     <!-- Menu-lateral -->
-    
+
     <span class="menu-lateral" onclick="openNav()">&#9776; </span>
     <!-- Navebar -->
     <div class="navbar-header">
@@ -107,7 +130,7 @@
         <input type="hidden" name="IdProcesso" id="emissao-documento-processo" value="@(Model.IdProcesso == 0 ? ViewBag.IdProcesso : Model.IdProcesso)" />
         <input type="hidden" name="IdDocumento" id="emissao-documento-IdDocumento" value="@Model.IdDocumento" />
         <input type="hidden" name="NmUsuarioLogado" id="emissao-documento-NmUsuarioLogado" value="@ViewBag.NmUsuarioLogado" />
-        <div class="content-painel">
+        <div class="row" style="background-color: white;padding-left: 20px;">
             <!-- Formulario CADASTRO -->
             @if (ViewBag.EhOboleto == 1)
             {
@@ -122,15 +145,15 @@
                 <input type="hidden" name="eColaborador" id="emissao-documento-e-colaborador" value="@ViewBag.eColaborador" />
                 <input type="hidden" name="IdUsuarioLogado" id="emissao-documento-id-usuario-logado" value="@ViewBag.IdUsuarioLogado" />
                 <input type="hidden" name="NuRevisao" id="emissao-documento-NuRevisao" value="@Model.NuRevisao" />
-                <div class="panel panel-default" id="panel-form-cadastro">
-                    <div class="panel-heading">
-                        <div class="panel-title">
-                            <h2>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Cadastro</h2>
+                <div id="panel-form-cadastro">
+                    <div>
+                        <div>
+                            <h4>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Cadastro</h4>
                         </div>
                     </div>
-                    <div class="panel-body">
-                        <div class="barra-busca">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div>
+                        <div class="caixa">
+                            <div class="col-sm-2">
                                 <!-- Titulo do Documento -->
                                 <div class="form-group">
                                     <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_TituloDocumento</label>
@@ -138,7 +161,7 @@
                                     @Model.Titulo
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <div class="col-sm-2">
                                 <!-- Sigla -->
                                 <div class="form-group">
                                     <label for="form-cadastro-sigla">
@@ -148,7 +171,7 @@
                                     @Model.Sigla.Descricao
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <div class="col-sm-2">
                                 <!-- Numero Documento -->
                                 <div class="form-group">
                                     <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
@@ -159,16 +182,16 @@
                                     @numeroDocumento
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="col-sm-3">
                                 <!-- Processo -->
                                 <div class="form-group">
                                     <label for="form-cadastro-processo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Processo</label>
                                     <br />
-                                    @(Model.Processo != null? Model.Processo.Nome: "")
+                                    @(Model.Processo != null ? Model.Processo.Nome : "")
 
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="col-sm-3">
                                 <!-- Categoria -->
                                 <div class="form-group">
                                     <label for="form-cadastro-categoria">
@@ -179,7 +202,8 @@
                                     @Model.Categoria.Descricao
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: none">
+
+                            <div style="display: none">
                                 <!-- Escolha -->
                                 <div class="form-group">
                                     <label for="form-cadastro-escolha">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Escolha</label>
@@ -217,9 +241,9 @@
                                         </div>
                                         <!-- Licenca -->
                                         @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                        <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
-                                        <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
-                                    </div>*@
+                                                <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
+                                            </div>*@
                                         <!-- Docs Externos -->
                                         <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
                                             <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-docsexternos" class="" value="DE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "DE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? "checked" : "")>
@@ -238,14 +262,14 @@
             @if (Model.DocTemplate.Find(x => x.TpTemplate == "T") != null)
             {
                 <form id="form-emissao-documento-texto">
-                    <div class="panel panel-default" id="panel-form-texto">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.Resource.Texto</h2>
+                    <div id="panel-form-texto">
+                        <div>
+                            <div>
+                                <h4>@Traducao.Resource.Texto</h4>
                             </div>
                         </div>
-                        <div class="panel-body">
-                            <div class="barra-busca">
+                        <div class="">
+                            <div class="caixa">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div id=@Traducao.Resource.formulario>
@@ -263,68 +287,68 @@
             @if (Model.DocTemplate.Find(x => x.TpTemplate == "F") != null)
             {
                 <form id="form-emissao-documento-fluxo">
-                    <div class="panel panel-default" id="panel-form-fluxo">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.Resource.Fluxo</h2>
+                    <div id="panel-form-fluxo">
+                        <div>
+                            <div>
+                                <h4>@Traducao.Resource.Fluxo</h4>
                             </div>
                         </div>
-                        <div class="panel-body">
-                            <div class="barra-busca">
+                        <div>
+                            <div class="caixa">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <!-- MENU -->
-                                                <div id="menu-graph">
-                                                    <ul>
-                                                        <li>
-                                                            <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
-                                                        </li>
-                                                        <li class="separador"></li>
-                                                        <li>
-                                                            <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
-                                                        </li>
-                                                        <li class="separador"></li>
-                                                        <li>
-                                                            <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
-                                                        </li>
-                                                        <li class="separador"></li>
-                                                        <li>
-                                                            <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                @*<div id="menu-graph">
+                                                        <ul>
+                                                            <li>
+                                                                <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
+                                                            </li>
+                                                            <li class="separador"></li>
+                                                            <li>
+                                                                <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
+                                                            </li>
+                                                            <li class="separador"></li>
+                                                            <li>
+                                                                <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
+                                                            </li>
+                                                            <li class="separador"></li>
+                                                            <li>
+                                                                <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
+                                                            </li>
+                                                        </ul>
+                                                    </div>*@
                                             </div>
                                         </div>
                                         <div class="row containerGraph">
@@ -351,19 +375,19 @@
             {
                 <!-- Formulario REGISTROS -->
                 <form id="form-emissao-documento-registros">
-                    <div class="panel panel-default" id="panel-form-registros">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.Resource.Registros</h2>
+                    <div id="panel-form-registros">
+                        <div>
+                            <div>
+                                <h4>@Traducao.Resource.Registros</h4>
                             </div>
                         </div>
-                        <div class="panel-body">
-                            <div class="barra-busca">
+                        <div>
+                            <div class="caixa">
 
-                                <div class="col-md-12" style="margin-top: 40px;">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <table id="tb-form-registros" class="table table-striped table-bordered table-list">
-                                            <thead class="titulo-tabela">
+                                            <thead>
                                                 <tr>
                                                     <th class="w10 with-input">@Traducao.Resource.Identificar</th>
                                                     <th class="w10 with-input">@Traducao.Resource.Armazenar</th>
@@ -416,19 +440,18 @@
             {
                 <!-- Formulario ROTINA -->
                 <form id="form-emissao-documento-rotina">
-                    <div class="panel panel-default" id="panel-form-rotina">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.Resource.Rotina</h2>
+                    <div id="panel-form-rotina">
+                        <div>
+                            <div>
+                                <h4>@Traducao.Resource.Rotina</h4>
                             </div>
                         </div>
-                        <div class="panel-body">
-                            <div class="barra-busca">
-
-                                <div class="col-md-12" style="margin-top: 40px;">
+                        <div>
+                            <div class="caixa">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <table id="tb-form-rotina" class="table table-striped table-bordered table-list">
-                                            <thead class="titulo-tabela">
+                                            <thead>
                                                 <tr>
                                                     <th class="w10 with-input">@Traducao.Resource.Item</th>
                                                     <th class="w10 with-input">@Traducao.Resource.Oque</th>
@@ -477,14 +500,14 @@
             {
                 <!-- Formulario RECURSOS -->
                 <form id="form-emissao-documento-recursos">
-                    <div class="panel panel-default" id="panel-form-recursos">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.Resource.Recursos</h2>
+                    <div id="panel-form-recursos">
+                        <div>
+                            <div>
+                                <h4>@Traducao.Resource.Recursos</h4>
                             </div>
                         </div>
-                        <div class="panel-body">
-                            <div class="barra-busca">
+                        <div>
+                            <div class="caixa">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div id="formulario">
@@ -501,65 +524,52 @@
             {
                 <!-- Formulario RISCOS -->
                 <form id="form-emissao-documento-riscos">
-                    <div class="panel panel-default" id="panel-form-riscos">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.Resource.Riscos</h2>
+                    <div id="panel-form-riscos">
+                        <div>
+                            <div>
+                                <h4>@Traducao.Resource.Riscos</h4>
                             </div>
                         </div>
-                        <div class="panel-body">
-                            <div class="barra-busca gestao-de-risco">
-                                <div class="row top-buffer">
-
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                            <div class="form-group">
-                                                @Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
-                                            </div>
-                                        </div>
+                        <div>
+                            <div class="caixa">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        @Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
+                                        <!-- Identificacao -->
+                                        <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
+                                        <br />
+                                        @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro : "")
                                     </div>
+                                </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                            <div class="form-group">
-                                                <!-- Identificacao -->
-                                                <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
-                                                <br />
-                                                @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro : "")
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <!-- Criticidade -->
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                        <div class="form-group">
-                                            <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
-                                            @{
-                                                var Criticidade = "";
-                                            }
-                                            @if (Model.GestaoDeRisco != null)
+                                <!-- Criticidade -->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
+                                        @{
+                                            var Criticidade = "";
+                                        }
+                                        @if (Model.GestaoDeRisco != null)
+                                        {
+                                            if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 5)
                                             {
-                                                if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 5)
-                                                {
-                                                    Criticidade = @Traducao.Resource.Leve;
-                                                }
-                                                else if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco > 5 && Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 10)
-                                                {
-                                                    Criticidade = Traducao.Resource.Medio;
-                                                }
-                                                else
-                                                {
-                                                    Criticidade = Traducao.Resource.Auto;
-                                                }
+                                                Criticidade = @Traducao.Resource.Leve;
                                             }
+                                            else if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco > 5 && Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 10)
+                                            {
+                                                Criticidade = Traducao.Resource.Medio;
+                                            }
+                                            else
+                                            {
+                                                Criticidade = Traducao.Resource.Auto;
+                                            }
+                                        }
 
-                                            <br />@Criticidade
-                                        </div>
+                                        <br />@Criticidade
                                     </div>
                                 </div>
                                 <!-- Necessita Acao -->
-                                <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12 ">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
                                         <div class="">
@@ -570,10 +580,7 @@
                                 </div>
 
 
-                                <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
-
-
-
+                                <div class="col-sm-2">
                                     @if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.Causa))
                                     {
                                         <div class="form-group">
@@ -583,12 +590,10 @@
                                             @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa : "" )
                                         </div>
                                     }
-
-
                                 </div>
                                 @if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.DsJustificativa))
                                 {
-                                    <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
+                                    <div class="col-sm-2">
                                         <div class="form-group">
                                             <!-- Justificativa -->
                                             <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
@@ -606,25 +611,25 @@
             @if (Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null)
             {
                 <form id="form-emissao-documento-docsexternos">
-                    <div class="panel panel-default" id="panel-form-docsexternos">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.Resource.UploadArquivos</h2>
+                    <div id="panel-form-docsexternos">
+                        <div>
+                            <div>
+                                <h4>@Traducao.Resource.UploadArquivos</h4>
                             </div>
                         </div>
-                        <div class="panel-body">
-                            <div class="barra-busca">
+                        <div>
+                            <div class="caixa">
 
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <!-- Arquivo -->
                                         <label>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Arquivo</label>
                                         <div class="upload-arq  @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
-                                            <a class="btn-upload-file-form-docexterno-anexo">
+                                            @*<a class="btn-upload-file-form-docexterno-anexo">
                                                 <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                            </a>
+                                            </a>*@
 
-                                            <ul class="@(Model.IdDocumento > 0 ? "dashed" : null)">
+                                            <ul>
                                                 @if (Model.DocExterno != null)
                                                 {
                                                     <li>

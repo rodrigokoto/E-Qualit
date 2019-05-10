@@ -1338,7 +1338,7 @@ APP.controller.ControlDocController = {
 
         // Carrega o arquivo de Configuracao utilizado pelo MxGraph
         var config = mxUtils.load('/Content/assets_src/js/vendor/mxGraph/javascript/src/config/diagrameditor.xml').getDocumentElement();
-
+        
         // Carrega o editor
         editor = new mxEditor(config);
 
@@ -1457,6 +1457,8 @@ APP.controller.ControlDocController = {
 
             // Clones the source if new connection has no target
             editor.graph.connectionHandler.setCreateTarget(enabled);
+
+            //editor.graph.setEnabled(true);
 
         }
 
