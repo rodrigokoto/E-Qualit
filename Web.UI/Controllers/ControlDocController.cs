@@ -183,6 +183,56 @@ namespace Web.UI.Controllers
             //return View("PDF", model);
         }
 
+
+        public ActionResult PDFTeste(int id, bool controlada, string usuarioDest)
+        {
+            ApplicationService.Entidade.UsuarioApp UsuarioLogado = (ApplicationService.Entidade.UsuarioApp)ViewBag.UsuarioLogado;
+
+            if (!string.IsNullOrEmpty(usuarioDest))
+            {
+                var controleImpressao = new ControleImpressao()
+                {
+                    DataImpressao = DateTime.Now,
+                    IdFuncionalidade = 2, //control-doc
+                    CodigoReferencia = string.Empty,
+                    CopiaControlada = controlada,
+                    DataInclusao = DateTime.Now,
+                    IdUsuarioDestino = string.IsNullOrEmpty(usuarioDest) ? 0 : Convert.ToInt32(usuarioDest),
+                    IdUsuarioIncluiu = Convert.ToInt32(UsuarioLogado.IdUsuario)
+                };
+
+                _controleImpressaoAppServico.Add(controleImpressao);
+            }
+
+            var documento = _documentoAppServico.Get(s => s.IdDocumento == id).FirstOrDefault();
+
+            var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == documento.IdSite);
+
+            var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
+
+            LayoutImpressaoViewModel model = new LayoutImpressaoViewModel()
+            {
+                LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo),
+                Documento = documento,
+                IsImpressaoControlada = controlada
+            };
+
+            var pdf = new ViewAsPdf
+            {
+                ViewName = "PDF",
+                Model = model,
+                PageOrientation = Orientation.Portrait,
+                PageSize = Size.A4,
+                PageMargins = new Margins(10, 15, 10, 15),
+                FileName = "Documento.pdf"
+            };
+
+            ViewBag.CopiaControlada = controlada;
+                       
+
+            return View("PDF", model);
+        }
+
         public ActionResult ConteudoDocumento(int id, int Obsoleto = 0)
         {
             var documento = new DocDocumento();
