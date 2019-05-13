@@ -44,6 +44,11 @@
         #main {
             max-height: 700px !important;
         }
+
+        #menu-graph {
+            /*padding-top: 4px;*/
+            padding-left: 0px;
+        }
     </style>
 }
 
@@ -58,10 +63,10 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
-        //$(function () {
-        //    console.log(editor);
-        //});
-    </script>
+    //$(function () {
+    //    console.log(editor);
+    //});
+</script>
 
 <script type="text/javascript">
     $(document).on('focus', '.datepicker', function () {
@@ -300,55 +305,55 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <!-- MENU -->
-                                                @*<div id="menu-graph">
-                                                        <ul>
-                                                            <li>
-                                                                <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"></i>
-                                                            </li>
-                                                            <li>
+                                                <div id="menu-graph">
+                                                    <ul>
+                                                        @*<li>
+                                                            <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
+                                                        </li>*@
+                                                        <li>
+                                                            <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"> Expandir</i>
+                                                        </li>
+                                                        @*<li>
                                                                 <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
-                                                            </li>
-                                                            <li class="separador"></li>
-                                                            <li>
-                                                                <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
-                                                            </li>
-                                                            <li class="separador"></li>
-                                                            <li>
-                                                                <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
-                                                            </li>
-                                                            <li class="separador"></li>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
+                                                        </li>
+                                                        <li class="separador"></li>
+                                                        <li>
+                                                            <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
+                                                        </li>*@
+                                                        @*<li class="separador"></li>
+                                                        <li>
+                                                            <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
+                                                        </li>*@
+                                                        @*<li class="separador"></li>
                                                             <li>
                                                                 <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
-                                                            </li>
-                                                        </ul>
-                                                    </div>*@
+                                                            </li>*@
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row containerGraph">
@@ -626,8 +631,8 @@
                                         <label>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Arquivo</label>
                                         <div class="upload-arq  @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
                                             @*<a class="btn-upload-file-form-docexterno-anexo">
-                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                            </a>*@
+                                                    <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                                </a>*@
 
                                             <ul>
                                                 @if (Model.DocExterno != null)
