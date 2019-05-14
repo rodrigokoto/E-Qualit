@@ -19,6 +19,9 @@
     <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+    @*<script src="@Url.Content("~/Content/assets/js/CanvasJS/canvasjs.min.js")"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery.ui.1.12.1.min.js")"></script>
+
 }
 
 @Html.AntiForgeryToken()
@@ -38,6 +41,11 @@
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                 </p>
                             }
+                            <p class="novo">
+                                <a href="#" onclick="abrirModalGrafico();">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_grafico</a>
+                                @*@Html.ActionLink(Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_grafico, "Graficos", "NaoConformidade")*@
+                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            </p>
                             <div class="col-lg-12">
                                 <table id="tb-index-nao-conformidade" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
                                     <thead>
@@ -133,7 +141,7 @@
                                                 <td>
                                                     @item.ResponsavelEtapa.NmCompleto.Trim()
                                                 </td>
-                                                <td class="">                                                    
+                                                <td class="">
                                                     @(item.Tags != null ? item.Tags.ToString().Trim() : "")
                                                 </td>
                                                 <td>
@@ -165,7 +173,15 @@
                         </div>
                     </div>
                 </div>
-                <div>
         </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalGrafico" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    @Html.Partial("FiltroGrafico")
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -68,6 +68,7 @@ namespace Web.UI.Controllers
             ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
+            ViewBag.TiposNaoConformidade = RetornarTiposNaoConformidade();
 
             var numeroUltimoRegistro = 0;
             //var idProcesso = Util.ObterProcessoSelecionado();            //var idProcesso = Util.ObterProcessoSelecionado();
@@ -104,9 +105,33 @@ namespace Web.UI.Controllers
             return View(naoConformidade);
         }
 
-        
+        public ActionResult FiltroGrafico()
+        {
+            return PartialView();
+        }
 
-            
+        private SelectList RetornarTiposNaoConformidade()
+        {
+            var idSite = Util.ObterSiteSelecionado();
+            var listaAtivos = _controladorCategoriasServico.ListaAtivos("tnc", idSite);
+
+            if (!listaAtivos.Select(x => x.Descricao).Contains("Auditoria"))
+            {
+                _controladorCategoriasServico.Add(new ControladorCategoria
+                {
+                    IdSite = idSite,
+                    Descricao = "Auditoria",
+                    TipoTabela = "tnc",
+                    Ativo = true
+                });
+
+                listaAtivos = _controladorCategoriasServico.ListaAtivos("tnc", idSite);
+            }
+
+            return new SelectList(listaAtivos.OrderBy(x => x.Descricao).ToList(), "IdControladorCategoria", "Descricao");
+
+        }
+
         public ActionResult PDF(int id)
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
@@ -228,7 +253,7 @@ namespace Web.UI.Controllers
                     naoConformidade.StatusRegistro = 1;
                     naoConformidade = _registroConformidadesAppServico.SalvarPrimeiraEtapa(naoConformidade);
                     naoConformidade.Site = _siteService.GetById(naoConformidade.IdSite);
-                    
+
                     erros = EnviarNotificacao(naoConformidade, erros);
                 }
             }
@@ -310,7 +335,7 @@ namespace Web.UI.Controllers
 
                 _registroConformidadesServico.ValidaNaoConformidade(naoConformidade, Util.ObterCodigoUsuarioLogado(), ref erros);
 
-                if(naoConformidade.EProcedente == null)
+                if (naoConformidade.EProcedente == null)
                 {
                     erros.Add(Traducao.Resource.MsgCampoProcedente);
                 }
@@ -539,7 +564,7 @@ namespace Web.UI.Controllers
 
             conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
             conteudo = conteudo.Replace("#NuNaoConformidade#", nc.NuRegistro.ToString());
-           
+
             Email _email = new Email();
 
             _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
@@ -574,6 +599,12 @@ namespace Web.UI.Controllers
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_save_valid }, JsonRequestBehavior.AllowGet);
 
 
+        }
+
+        private SelectList RetornarListaTipoNaoConformidade()
+        {
+            //var tipos = _registroTipoConformidadesAppServico.GetAll
+            return null;
         }
     }
 }

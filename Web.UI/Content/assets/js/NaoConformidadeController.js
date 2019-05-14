@@ -5,6 +5,53 @@
 |--------------------------------------------------------------------------
 */
 
+removeNoNumerics = (function (el)
+{
+    el.value =  el.value.replace(/[^\d.-]/g, ''); 
+});
+
+dateFormat = (function (el) {
+    value = el.value;
+
+    var month = value.substring(0, 2);
+    if (month < 1 || month > 12) {
+        el.value = '';
+        return;
+    }
+
+    var year = value.substring(2, 6);
+    if (year <= 1900 || year >= 2500) {
+        el.value = '';
+        return;
+    }
+
+    el.value = month + '/' + year;
+});
+
+abrirModalGrafico = (function () {
+    $('#dtDe').datepicker({
+        dateFormat: "mm/yy",
+        startView: "months",
+        minViewMode: "months"
+    })
+    .datepicker("option", "changeMonth", true)
+    .datepicker("option", "changeYear", true)
+    .datepicker("option", "showButtonPanel", true);
+
+
+    $('#dtAte').datepicker({
+        dateFormat: "mm/yy",
+        startView: "months",
+        minViewMode: "months"
+    })
+        .datepicker("option", "changeMonth", true)
+        .datepicker("option", "changeYear", true)
+        .datepicker("option", "showButtonPanel", true);
+    
+
+    $("#modalGrafico").modal();
+});
+
 APP.controller.NaoConformidadeController = {
 
     init: function () {
@@ -1665,4 +1712,5 @@ APP.controller.NaoConformidadeController = {
 
         });
     },
+
 };
