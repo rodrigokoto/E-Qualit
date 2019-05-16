@@ -304,6 +304,15 @@ namespace Traducao.ControlDoc {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsável.
+        /// </summary>
+        public static string ControlDoc_lbl_Responsavel_Risco {
+            get {
+                return ResourceManager.GetString("ControlDoc_lbl_Responsavel_Risco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Risco.
         /// </summary>
         public static string ControlDoc_lbl_Risco {
