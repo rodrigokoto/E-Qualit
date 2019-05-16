@@ -26,6 +26,7 @@
 <script type="text/javascript">
     var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
     mxDefaultLanguage = 'pt';
+    $(".loading").show();
 
 </script>
 
@@ -125,7 +126,7 @@
                                 <div class="form-group">
                                     <label for="form-cadastro-sigla">
                                         @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Sigla
-                                        <i class="fa fa-plus-circle trash-color add-sigla" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.AddSigla data-tipo="SIGLADOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
+                                        <i id="form-cadastro-sigla-i" class="fa fa-plus-circle trash-color add-sigla" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.AddSigla data-tipo="SIGLADOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
                                     </label>
                                     <select id="form-cadastro-sigla" name="formCadastroSigla" class="form-control" required data-msg-required=@Traducao.Resource.SiglaObrigatoria>
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
@@ -187,7 +188,7 @@
                                 <div class="form-group">
                                     <label for="form-cadastro-categoria">
                                         @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Categoria
-                                        <i class="fa fa-plus-circle trash-color add-categoria" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.CategoriaObrigatoria data-tipo="CATDOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
+                                        <i id="form-cadastro-categoria-i" class="fa fa-plus-circle trash-color add-categoria" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.CategoriaObrigatoria data-tipo="CATDOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
                                     </label>
                                     <select id="form-cadastro-categoria" name="formCadastroCategoria" class="form-control" required data-msg-required=@Traducao.Resource.CategoriaObrigatoria>
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
@@ -1245,7 +1246,7 @@
                 </li>
             }
             <li class="botoes-button">
-                <button type="button" class="btn btn-primary btn-voltar-elaboracao" style="display: none;">@Traducao.Resource.botao_voltar</button>
+                <button type="button" class="btn btn-primary btn-voltar-elaboracao" style="display: none;">@Traducao.Resource.VoltarElaboracao</button>
             </li>
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Aprovar) || ViewBag.IdPerfil != 4)
             {

@@ -8,6 +8,8 @@
 APP.controller.ControlDocController = {
 
     init: function () {
+               
+
         var page = APP.component.Util.getPage();
 
         this.setup();
@@ -34,6 +36,8 @@ APP.controller.ControlDocController = {
 
             this.setImprimirDocumento();
             this.imprimir();
+            //this.DisabledEditor(true);
+
         }
 
         $(document).on("change", "#ddlCopiaControlada", function () {
@@ -59,7 +63,6 @@ APP.controller.ControlDocController = {
 
 
         function moveItems(origin, dest) {
-            debugger;
             $(origin).find(':selected').appendTo(dest);
         }
 
@@ -82,7 +85,7 @@ APP.controller.ControlDocController = {
         });
 
 
-
+        
     },
 
     setup: function () {
@@ -329,7 +332,6 @@ APP.controller.ControlDocController = {
 
     //Criar
     emissaoDocumento: function () {
-
         APP.component.AtivaLobiPanel.init();
         APP.component.Datapicker.init();
         APP.component.FileUpload.init();
@@ -580,7 +582,6 @@ APP.controller.ControlDocController = {
 
             //ValidateOK = true;
             if (ValidateOK == true) {
-                debugger;
                 var emissaoDocumento = APP.controller.ControlDocController.getEmissaoDocumentoObj();
 
                 if ($("#emissao-documento-IdDocumento").val() != 0) {
@@ -669,8 +670,7 @@ APP.controller.ControlDocController = {
 
     aux: { IdDocumento: '' },
 
-    saveFormEmissaoDocumento: function (emissaoDocumento, _statusEtapa) {
-        debugger;
+    saveFormEmissaoDocumento: function (emissaoDocumento, _statusEtapa) {        
         var url = "/ControlDoc/Salvar/";
         var eEdicao = false;
 
@@ -1117,7 +1117,6 @@ APP.controller.ControlDocController = {
 
 
         function arrayRemove(arr, value) {
-            debugger;
             return arr.filter(function (ele) {
                 return ele.IdUsuario != value;
             });
@@ -1133,12 +1132,9 @@ APP.controller.ControlDocController = {
 
             },
             success: function (result) {
-                debugger;
                 if (result.StatusCode == 200) {
                     //var retorno = result.Lista.pop();
                     //retorno = result.Lista.pop();
-                    debugger;
-
 
                     var retultado = result.Lista;
                     var lista = $('[name=formCadastroVerificador] option');
@@ -1166,7 +1162,6 @@ APP.controller.ControlDocController = {
     },
 
     setComboAprovador: function (_IdProcesso) {
-        debugger;
         var idSite = $('#emissao-documento-site').val();
         let idFuncao = 102;
         var data = "";
@@ -1188,7 +1183,6 @@ APP.controller.ControlDocController = {
         }
 
         function arrayRemove(arr, value) {
-            debugger;
             return arr.filter(function (ele) {
                 return ele.IdUsuario != value;
             });
@@ -1206,7 +1200,6 @@ APP.controller.ControlDocController = {
             success: function (result) {
                 if (result.StatusCode == 200) {
 
-                    debugger;
 
                     var retultado = result.Lista;
                     var lista = $('[name=formCadastroAprovador] option');
@@ -1421,11 +1414,7 @@ APP.controller.ControlDocController = {
 
         // Inicializa o componente
         onInit(editor);
-
-        function DisabledEditor(status)
-        {
-            editor.graph.setEnabled(status);
-        }
+              
 
         $("#Copy").click(function () {
             editor.execute('copy');
@@ -1510,10 +1499,12 @@ APP.controller.ControlDocController = {
             var page = APP.component.Util.getPage();
 
             if (page == "ConteudoDocumento") {
-                var enabled = false;
+                enabled = false;
                 $(".tollbarGraph").hide();
-            }
+                editor.graph.setEnabled(false);
 
+            }
+         
             // Enables rotation handle
             mxVertexHandler.prototype.rotationEnabled = enabled;
 
@@ -2617,6 +2608,11 @@ APP.controller.ControlDocController = {
 
         $("[id^=form-emissao-documento-] :input").attr("disabled", true);
         $("[id^=tb-form-] tbody tr td:last-child").hide();
+        $("#form-cadastro-sigla-i").hide();
+        $("#form-cadastro-categoria-i").hide();
+        $(".novo").hide();
+        $('.btn-salvar').hide();
+
 
         if (_statusEtapa == 1) {
             $("#form-emissao-documento-comentarios :input").prop("disabled", false);
