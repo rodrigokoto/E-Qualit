@@ -14,6 +14,8 @@ using Rotativa;
 using Rotativa.Options;
 using System.Configuration;
 using ApplicationService.Entidade;
+using Web.UI.Models;
+using System.Data;
 
 namespace Web.UI.Controllers
 {
@@ -108,6 +110,66 @@ namespace Web.UI.Controllers
         public ActionResult FiltroGrafico()
         {
             return PartialView();
+        }
+
+
+        public ActionResult Grafico(int tipoGrafico, int tipoNaoConformidade, string dtDe, string dtAte, int estiloGrafico)
+        {
+            var diaDe = 1;
+            var mesDe = Convert.ToInt32(dtDe.Substring(0, 2));
+            var anoDe = Convert.ToInt32(dtDe.Substring(2, 4));
+
+            var mesAte = Convert.ToInt32(dtAte.Substring(0, 2));
+            var anoAte = Convert.ToInt32(dtAte.Substring(2, 4));
+            var diaAte = DateTime.DaysInMonth(anoAte, mesAte);
+
+            var dataDe = new DateTime(anoDe, mesDe, diaDe);
+            var dataAte = new DateTime(anoAte, mesAte, diaAte);
+
+            ViewBag.Title = ObterNomeGrafico(tipoGrafico);
+
+
+            var parametros = new Dictionary<string, string>();
+            parametros.Add("Tipo não conformidade", (tipoNaoConformidade > 0 ? _controladorCategoriasServico.GetById(tipoNaoConformidade).Descricao : "Todos"));
+            parametros.Add("De", dataDe.ToString("MM/yyyy"));
+            parametros.Add("Até", dataAte.ToString("MM/yyyy"));
+
+            return View(new GraficoNaoConformidadeViewModel { EstiloGrafico = estiloGrafico, DtDe = dataDe, DtAte = dataAte, IdTipoGrafico = tipoGrafico, IdTipoNaoConformidade = tipoNaoConformidade, Parametros = parametros });
+        }
+
+        private string ObterNomeGrafico(int tipoGrafico)
+        {
+            string retorno = "";
+
+
+            switch (tipoGrafico)
+            {
+                case 1:
+                    retorno = "Total de NCs geradas x Mês";
+                    break;
+                case 2:
+                    retorno = "Total de NCs geradas x NCs abertas x NCs fechadas";
+                    break;
+                case 3:
+                    retorno = "Total de NCs geradas x Tipo de NC";
+                    break;
+                case 4:
+                    retorno = "Total de NCs geradas x Total de NC com AC";
+                    break;
+                case 5:
+                    retorno = "Total de NCs geradas x Departamento";
+                    break;
+                case 6:
+                    retorno = "Total de NCs geradas x Unidade";
+                    break;
+                case 7:
+                    retorno = "Comparativo do total de NCs gerado mês a mês x ano a ano";
+                    break;
+                default:
+                    break;
+            }
+
+            return retorno;
         }
 
         private SelectList RetornarTiposNaoConformidade()
@@ -601,10 +663,72 @@ namespace Web.UI.Controllers
 
         }
 
-        private SelectList RetornarListaTipoNaoConformidade()
+        [HttpPost]
+        public JsonResult ObterDadosGraficosBarra(int tipoGrafico, DateTime dtDe, DateTime dtAte, int? tipoNaoConformidade)
         {
-            //var tipos = _registroTipoConformidadesAppServico.GetAll
-            return null;
+            List<object[]> dataPoints = null;
+            var dtDados = new DataTable();
+            int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
+
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);                       
+
+            dataPoints = GerarDataPointsBarra(dtDados);
+
+            return Json(dataPoints);
         }
+
+        [HttpPost]
+        public JsonResult ObterDadosGraficosPizza(int tipoGrafico, DateTime dtDe, DateTime dtAte, int? tipoNaoConformidade)
+        {
+            var dtDados = new DataTable();
+            List<object> dataPoints = null;
+            int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
+
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);
+
+            dataPoints = GerarDataPointsPizza(dtDados);
+
+            return Json(dataPoints);
+        }
+
+               
+
+        private List<object[]> GerarDataPointsBarra(DataTable dtDados)
+        {
+            List<object[]> dataPoints = new List<object[]>();
+
+
+            bool barraUnica = dtDados.Rows.Count == 1;
+
+            foreach (DataRow item in dtDados.Rows)
+            {
+                var data = new object[] { item["Rotulo"], item["Valor"] };
+
+                dataPoints.Add(data);
+            }
+
+            if (barraUnica)
+                dataPoints.Add(new object[] { "", 0 });
+
+            return dataPoints;
+        }
+
+
+        private List<object> GerarDataPointsPizza(DataTable dtDados)
+        {
+            List<object> dataPoints = new List<object>();
+
+            foreach (DataRow item in dtDados.Rows)
+            {
+                var data = new { label = item["Rotulo"].ToString(), data = Convert.ToDecimal(item["Valor"]) };
+
+                dataPoints.Add(data);
+            }
+
+            return dataPoints;
+        }
+
+
+
     }
 }

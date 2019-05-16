@@ -240,6 +240,7 @@
     <Compile Include="Helpers\VerificaIntegridadeLoginAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AlterarSenhaUsuarioViewModels.cs" />
+    <Compile Include="Models\GraficoNaoConformidadeViewModel.cs" />
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocator\Interface\IServiceLocator.cs" />
@@ -903,6 +904,7 @@
     <Content Include="Content\assets\js\FuncionarioController.js" />
     <Content Include="Content\assets\js\GeneralController.js" />
     <Content Include="Content\assets\js\GestaoDeRiscoController.js" />
+    <Content Include="Content\assets\js\GraficoNaoConformidade.js" />
     <Content Include="Content\assets\js\HomeController.js" />
     <Content Include="Content\assets\js\IndicadorController.js" />
     <Content Include="Content\assets\js\InstrumentosController.js" />
@@ -1693,6 +1695,40 @@
     <Content Include="Content\assets_src\js\vendor\mxGraph\javascript\src\resources\mxApplication_pt.txt" />
     <Content Include="Content\assets_src\js\vendor\mxGraph\javascript\src\resources\mxApplication_zh.txt" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Scripts\flot\excanvas.js" />
+    <Content Include="Scripts\flot\excanvas.min.js" />
+    <Content Include="Scripts\flot\jquery.colorhelpers.js" />
+    <Content Include="Scripts\flot\jquery.colorhelpers.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.canvas.js" />
+    <Content Include="Scripts\flot\jquery.flot.canvas.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.categories.js" />
+    <Content Include="Scripts\flot\jquery.flot.categories.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.crosshair.js" />
+    <Content Include="Scripts\flot\jquery.flot.crosshair.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.errorbars.js" />
+    <Content Include="Scripts\flot\jquery.flot.errorbars.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.fillbetween.js" />
+    <Content Include="Scripts\flot\jquery.flot.fillbetween.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.image.js" />
+    <Content Include="Scripts\flot\jquery.flot.image.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.js" />
+    <Content Include="Scripts\flot\jquery.flot.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.navigate.js" />
+    <Content Include="Scripts\flot\jquery.flot.navigate.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.pie.js" />
+    <Content Include="Scripts\flot\jquery.flot.pie.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.resize.js" />
+    <Content Include="Scripts\flot\jquery.flot.resize.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.selection.js" />
+    <Content Include="Scripts\flot\jquery.flot.selection.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.stack.js" />
+    <Content Include="Scripts\flot\jquery.flot.stack.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.symbol.js" />
+    <Content Include="Scripts\flot\jquery.flot.symbol.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.threshold.js" />
+    <Content Include="Scripts\flot\jquery.flot.threshold.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.time.js" />
+    <Content Include="Scripts\flot\jquery.flot.time.min.js" />
     <Content Include="Scripts\Fornecedor.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
@@ -1723,6 +1759,8 @@
     <Content Include="Views\AnaliseCritica\Visualizar.cshtml" />
     <Content Include="Views\NaoConformidade\FiltroGrafico.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
+    <Content Include="Views\NaoConformidade\Grafico.cshtml" />
+    <Content Include="Views\Shared\_BlankLayout.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

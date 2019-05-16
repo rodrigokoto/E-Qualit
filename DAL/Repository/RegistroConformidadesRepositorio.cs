@@ -2,6 +2,8 @@
 using Dominio.Entidade;
 using Dominio.Interface.Repositorio;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace DAL.Repository
@@ -76,5 +78,59 @@ namespace DAL.Repository
 
             }
         }
+
+        public DataTable RetornarDadosGraficoNcsMes(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var parametros = new Dictionary<string, object>();
+            parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
+            parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
+
+            if (idTipoNaoConformidade.HasValue)
+                parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);
+
+            parametros.Add("IdSite", idSite);
+
+            var dtDados = base.GetDataTable("SP_GRAFICO_NCS_MES", CommandType.StoredProcedure, parametros);
+
+            return dtDados;
+
+        }
+
+
+        public DataTable RetornarDadosGraficoNcsAbertasFechadas(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var parametros = new Dictionary<string, object>();
+            parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
+            parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
+
+            if (idTipoNaoConformidade.HasValue)
+                parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);
+
+            parametros.Add("IdSite", idSite);
+
+            var dtDados = base.GetDataTable("SP_GRAFICO_NCS_GERADAS_ABERTAS_FECHADAS", CommandType.StoredProcedure, parametros);
+
+            return dtDados;
+
+        }
+
+        public DataTable RetornarDadosGraficoNcsTipo(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var parametros = new Dictionary<string, object>();
+            parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
+            parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
+
+            if (idTipoNaoConformidade.HasValue)
+                parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);
+
+            parametros.Add("IdSite", idSite);
+
+            var dtDados = base.GetDataTable("SP_GRAFICO_NCS_TIPO", CommandType.StoredProcedure, parametros);
+
+            return dtDados;
+
+        }
+
+        
     }
 }

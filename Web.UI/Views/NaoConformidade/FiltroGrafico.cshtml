@@ -1,11 +1,16 @@
-﻿<!-- Modal content-->
+﻿@{
+
+    var url = Url.Action("Grafico", "NaoConformidade", null, Request.Url.Scheme);
+}
+
+<!-- Modal content-->
 <div class="modal-body">
     <div class="row">
         <div class="col-xs-12">
             <div class="form-group">
                 <label class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_tipo_grafico</label>
                 <select id="ddlTipoGrafico" class="form-control">
-                    <option value="0">Selecione</option>
+                    <option value="">Selecione</option>
                     <option value="1">Total de NCs geradas x Mês</option>
                     <option value="2">Total de NCs geradas x NCs abertas x NCs fechadas</option>
                     <option value="3">Total de NCs geradas x Tipo de NC</option>
@@ -23,7 +28,7 @@
             <div class="form-group">
                 <label class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tipo</label>
                 <select id="ddlTipoNaoConformidade" class="form-control">
-                    <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                    <option value="0">@Traducao.Resource.Dropdown_name_select</option>
                     @foreach (var item in ViewBag.TiposNaoConformidade.Items)
                     {
                         <option value="@item.IdControladorCategorias">@item.Descricao</option>
@@ -49,41 +54,14 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <input name="tipoGrafico" id="graficoBarra" type="radio"/><i class="fa fa-bar-chart"></i>
-            <input name="tipoGrafico" id="graficoPizza" type="radio"/><i class="fa fa-pie-chart"></i>
+            <input name="estiloGrafico" value="1" id="graficoBarra" type="radio" checked/><i class="fa fa-bar-chart"></i>
+            <input name="estiloGrafico" value="2" id="graficoPizza" type="radio" /><i class="fa fa-pie-chart"></i>
         </div>
     </div>
 </div>
 
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-    <button type="button" class="btn btn-primary">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_grafico</button>
+    <button type="button" class="btn btn-primary" onclick="abrirGrafico('@url')">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_grafico</button>
 </div>
-
-
-
-@*<div class="col-xs-4 ">
-        <div class="form-group">
-            <label>De</label>
-            <br />
-            <div class='input-group input-group-datepicker'>
-                <input type='text' id="dtDe" class="form-control datepicker data largura-calendario" />
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xs-4 ">
-        <div class="form-group">
-            <label>Até</label>
-            <br />
-            <div class='input-group input-group-datepicker'>
-                <input type='text' id="dtAte" class="form-control datepicker data largura-calendario"/>
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                </span>
-            </div>
-        </div>*@
 
