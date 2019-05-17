@@ -43,6 +43,12 @@
 
         #main {
             max-height: 700px !important;
+            padding-bottom: 120px !important;
+        }
+
+        #menu-graph {
+            /*padding-top: 4px;*/
+            padding-left: 0px;
         }
     </style>
 }
@@ -58,10 +64,10 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
-        //$(function () {
-        //    console.log(editor);
-        //});
-    </script>
+    //$(function () {
+    //    console.log(editor);
+    //});
+</script>
 
 <script type="text/javascript">
     $(document).on('focus', '.datepicker', function () {
@@ -140,140 +146,127 @@
                     </div>
                 </p>
             }
+            <div class="row" style="margin-top:10rem;">
 
-            <form id="form-emissao-documento-cadastro" name="formTest">
-                <input type="hidden" name="eColaborador" id="emissao-documento-e-colaborador" value="@ViewBag.eColaborador" />
-                <input type="hidden" name="IdUsuarioLogado" id="emissao-documento-id-usuario-logado" value="@ViewBag.IdUsuarioLogado" />
-                <input type="hidden" name="NuRevisao" id="emissao-documento-NuRevisao" value="@Model.NuRevisao" />
-                <div id="panel-form-cadastro">
-                    <div>
-                        <div>
-                            <h4>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Cadastro</h4>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="caixa">
-                            <div class="col-sm-2">
-                                <!-- Titulo do Documento -->
-                                <div class="form-group">
-                                    <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_TituloDocumento</label>
-                                    <br />
-                                    @Model.Titulo
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <!-- Sigla -->
-                                <div class="form-group">
-                                    <label for="form-cadastro-sigla">
-                                        @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Sigla
-                                    </label>
-                                    <br />
-                                    @Model.Sigla.Descricao
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <!-- Numero Documento -->
-                                <div class="form-group">
-                                    <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
-                                    <br />
-                                    @{
-                                        string numeroDocumento = ((Model.NumeroDocumento % 2).Equals(1) || (Model.NumeroDocumento % 2).Equals(0) ? @Model.NumeroDocumento.ToString("000") : @Model.NumeroDocumento.ToString().Replace(".", ","));
-                                    }
-                                    @numeroDocumento
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- Processo -->
-                                <div class="form-group">
-                                    <label for="form-cadastro-processo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Processo</label>
-                                    <br />
-                                    @(Model.Processo != null ? Model.Processo.Nome : "")
-
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- Categoria -->
-                                <div class="form-group">
-                                    <label for="form-cadastro-categoria">
-                                        @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Categoria
-                                        <i class="fa fa-plus-circle trash-color add-categoria" style="display:none" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="Adicione uma categoria." data-tipo="CATDOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
-                                    </label>
-                                    <br />
-                                    @Model.Categoria.Descricao
-                                </div>
-                            </div>
-
-                            <div style="display: none">
-                                <!-- Escolha -->
-                                <div class="form-group">
-                                    <label for="form-cadastro-escolha">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Escolha</label>
-                                    <!-- Linha -->
-                                    <div class="row tabela-check">
-                                        <!-- Texto -->
-                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-texto" class="" value="T" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "T") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "T").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "T") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-texto">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Texto</label>
-                                        </div>
-                                        <!-- Fluxo -->
-                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-fluxo" class="" value="F" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "F") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "F").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "F") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-fluxo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Fluxo</label>
-                                        </div>
-                                        <!-- Registros -->
-                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-registros" class="" value="R" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "R") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "R").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "R") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-registros">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Registros</label>
-                                        </div>
-                                        <!-- Rotina -->
-                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-rotina" class="" value="RO" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RO").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-rotina">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina</label>
-                                        </div>
-                                        <!-- Recursos -->
-                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-recursos" class="" value="RE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-recursos">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Recursos</label>
-                                        </div>
-                                        <!-- Riscos -->
-                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-riscos" class="" value="RI" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RI") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RI").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RI") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-riscos">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Riscos</label>
-                                        </div>
-                                        <!-- Licenca -->
-                                        @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                                <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
-                                                <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
-                                            </div>*@
-                                        <!-- Docs Externos -->
-                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-docsexternos" class="" value="DE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "DE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-docsexternos">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_DocsExternos</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-            <!-- Formulario TEXTO -->
-            @if (Model.DocTemplate.Find(x => x.TpTemplate == "T") != null)
-            {
-                <form id="form-emissao-documento-texto">
-                    <div id="panel-form-texto">
+                <form id="form-emissao-documento-cadastro" name="formTest">
+                    <input type="hidden" name="eColaborador" id="emissao-documento-e-colaborador" value="@ViewBag.eColaborador" />
+                    <input type="hidden" name="IdUsuarioLogado" id="emissao-documento-id-usuario-logado" value="@ViewBag.IdUsuarioLogado" />
+                    <input type="hidden" name="NuRevisao" id="emissao-documento-NuRevisao" value="@Model.NuRevisao" />
+                    <div id="panel-form-cadastro">
                         <div>
                             <div>
-                                <h4>@Traducao.Resource.Texto</h4>
+                                <h4>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Cadastro</h4>
                             </div>
                         </div>
-                        <div class="">
+                        <div>
                             <div class="caixa">
-                                <div class="col-md-12">
+                                <div class="col-sm-2">
+                                    <!-- Titulo do Documento -->
                                     <div class="form-group">
-                                        <div id=@Traducao.Resource.formulario>
-                                            @Html.Raw(Model.TextoDoc)
+                                        <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_TituloDocumento</label>
+                                        <br />
+                                        @Model.Titulo
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <!-- Sigla -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-sigla">
+                                            @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Sigla
+                                        </label>
+                                        <br />
+                                        @Model.Sigla.Descricao
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <!-- Numero Documento -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
+                                        <br />
+                                        @{
+                                            string numeroDocumento = ((Model.NumeroDocumento % 2).Equals(1) || (Model.NumeroDocumento % 2).Equals(0) ? @Model.NumeroDocumento.ToString("000") : @Model.NumeroDocumento.ToString().Replace(".", ","));
+                                        }
+                                        @numeroDocumento
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <!-- Processo -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-processo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Processo</label>
+                                        <br />
+                                        @(Model.Processo != null ? Model.Processo.Nome : "")
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <!-- Categoria -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-categoria">
+                                            @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Categoria
+                                            <i class="fa fa-plus-circle trash-color add-categoria" style="display:none" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="Adicione uma categoria." data-tipo="CATDOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
+                                        </label>
+                                        <br />
+                                        @Model.Categoria.Descricao
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <!-- Elaborador -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-elaborador">
+                                            @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador
+                                        </label>
+                                        <br />
+                                        @Model.Elaborador.NmCompleto
+                                    </div>
+                                </div>
+
+                                <div style="display: none">
+                                    <!-- Escolha -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-escolha">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Escolha</label>
+                                        <!-- Linha -->
+                                        <div class="row tabela-check">
+                                            <!-- Texto -->
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-texto" class="" value="T" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "T") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "T").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "T") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-texto">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Texto</label>
+                                            </div>
+                                            <!-- Fluxo -->
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-fluxo" class="" value="F" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "F") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "F").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "F") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-fluxo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Fluxo</label>
+                                            </div>
+                                            <!-- Registros -->
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-registros" class="" value="R" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "R") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "R").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "R") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-registros">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Registros</label>
+                                            </div>
+                                            <!-- Rotina -->
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-rotina" class="" value="RO" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RO").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-rotina">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina</label>
+                                            </div>
+                                            <!-- Recursos -->
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-recursos" class="" value="RE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-recursos">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Recursos</label>
+                                            </div>
+                                            <!-- Riscos -->
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-riscos" class="" value="RI" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RI") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RI").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RI") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-riscos">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Riscos</label>
+                                            </div>
+                                            <!-- Licenca -->
+                                            @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                    <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
+                                                    <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
+                                                </div>*@
+                                            <!-- Docs Externos -->
+                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-docsexternos" class="" value="DE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "DE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-docsexternos">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_DocsExternos</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -282,375 +275,436 @@
                         </div>
                     </div>
                 </form>
+            </div>
+            <!-- Formulario TEXTO -->
+            @if (Model.DocTemplate.Find(x => x.TpTemplate == "T") != null)
+            {
+                <div class="row">
+
+                    <form id="form-emissao-documento-texto">
+                        <div id="panel-form-texto">
+                            <div>
+                                <div>
+                                    <h4>@Traducao.Resource.Texto</h4>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="caixa">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div id=@Traducao.Resource.formulario>
+                                                @Html.Raw(Model.TextoDoc)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             }
             <!-- Formulario FLUXO -->
             @if (Model.DocTemplate.Find(x => x.TpTemplate == "F") != null)
             {
-                <form id="form-emissao-documento-fluxo">
-                    <div id="panel-form-fluxo">
-                        <div>
+                <div class="row">
+
+                    <form id="form-emissao-documento-fluxo">
+                        <div id="panel-form-fluxo">
                             <div>
-                                <h4>@Traducao.Resource.Fluxo</h4>
+                                <div>
+                                    <h4>@Traducao.Resource.Fluxo</h4>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="caixa">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <!-- MENU -->
-                                                @*<div id="menu-graph">
+                            <div>
+                                <div class="caixa">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <!-- MENU -->
+                                                    <div id="menu-graph">
                                                         <ul>
+                                                            @*<li>
+                                                                    <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
+                                                                </li>*@
                                                             <li>
-                                                                <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
+                                                                <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"> Expandir</i>
                                                             </li>
-                                                            <li>
-                                                                <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
-                                                            </li>
-                                                            <li class="separador"></li>
-                                                            <li>
-                                                                <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
-                                                            </li>
-                                                            <li class="separador"></li>
-                                                            <li>
-                                                                <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
-                                                            </li>
-                                                            <li>
-                                                                <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
-                                                            </li>
-                                                            <li class="separador"></li>
-                                                            <li>
-                                                                <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
-                                                            </li>
+                                                            @*<li>
+                                                                        <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
+                                                                </li>
+                                                                <li class="separador"></li>
+                                                                <li>
+                                                                    <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
+                                                                </li>*@
+                                                            @*<li class="separador"></li>
+                                                                <li>
+                                                                    <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
+                                                                </li>*@
+                                                            @*<li class="separador"></li>
+                                                                <li>
+                                                                    <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
+                                                                </li>*@
                                                         </ul>
-                                                    </div>*@
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row containerGraph">
-                                            <div class="col-md-1 col-xs-2 tollbarGraph">
-                                                <div id="toolbar" valign="top"></div>
-                                            </div>
-                                            <div class="col-md-11 col-xs-10">
-                                                <input type="hidden" value="@Model.FluxoDoc" id="form-emissao-documento-fluxo-conteudo" />
-                                                <div id="graphContainer" disabled>
-                                                    <!-- Graph Here -->
+                                            <div class="row containerGraph">
+                                                <div class="col-md-1 col-xs-2 tollbarGraph">
+                                                    <div id="toolbar" valign="top"></div>
+                                                </div>
+                                                <div class="col-md-11 col-xs-10">
+                                                    <input type="hidden" value="@Model.FluxoDoc" id="form-emissao-documento-fluxo-conteudo" />
+                                                    <div id="graphContainer" disabled>
+                                                        <!-- Graph Here -->
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-
+                    </form>
+                </div>
             }
             @if (Model.DocTemplate.Find(x => x.TpTemplate == "R") != null)
             {
-                <!-- Formulario REGISTROS -->
-                <form id="form-emissao-documento-registros">
-                    <div id="panel-form-registros">
-                        <div>
+                <div class="row">
+
+                    <!-- Formulario REGISTROS -->
+                    <form id="form-emissao-documento-registros">
+                        <div id="panel-form-registros">
                             <div>
-                                <h4>@Traducao.Resource.Registros</h4>
+                                <div>
+                                    <h4>@Traducao.Resource.Registros</h4>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="caixa">
+                            <div>
+                                <div class="caixa">
 
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <table id="tb-form-registros" class="table table-striped table-bordered table-list">
-                                            <thead>
-                                                <tr>
-                                                    <th class="w10 with-input">@Traducao.Resource.Identificar</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Armazenar</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Proteger</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Recuperar</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Retencao</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Disposicao</th>
-                                                    <th class="w5 text-nowrap"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.DocTemplate.Find(t => t.TpTemplate == "R") != null)
-                                                {
-                                                    foreach (var registro in Model.Registros)
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <table id="tb-form-registros" class="table table-striped table-bordered table-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="w10 with-input">@Traducao.Resource.Identificar</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Armazenar</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Proteger</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Recuperar</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Retencao</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Disposicao</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.DocTemplate.Find(t => t.TpTemplate == "R") != null)
                                                     {
-                                                        <tr>
-                                                            <td>
-                                                                <input type="hidden" name="formRegistrosIdRegistroDoc" value="@registro.IdDocRegistro" />
-                                                                <label name="formRegistrosIdentificar" if="form-registros-identificar" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Identificar</label>
-                                                            </td>
-                                                            <td>
-                                                                <label name="formRegistrosArmazenar" if="form-registros-armazenar" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Armazenar</label>
-                                                            </td>
-                                                            <td>
-                                                                <label name="formRegistrosProteger" if="form-registros-proteger" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Proteger</label>
-                                                            </td>
-                                                            <td>
-                                                                <label name="formRegistrosRecuperar" if="form-registros-recuperar" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Recuperar</label>
-                                                            </td>
-                                                            <td>
-                                                                <label name="formRegistrosRetencao" if="form-registros-retencao" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Retencao</label>
-                                                            </td>
-                                                            <td>
-                                                                <label name="formRegistrosDisposicao" if="form-registros-disposicao" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Disposicao</label>
-                                                            </td>
+                                                        foreach (var registro in Model.Registros)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="hidden" name="formRegistrosIdRegistroDoc" value="@registro.IdDocRegistro" />
+                                                                    <label name="formRegistrosIdentificar" if="form-registros-identificar" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Identificar</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label name="formRegistrosArmazenar" if="form-registros-armazenar" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Armazenar</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label name="formRegistrosProteger" if="form-registros-proteger" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Proteger</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label name="formRegistrosRecuperar" if="form-registros-recuperar" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Recuperar</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label name="formRegistrosRetencao" if="form-registros-retencao" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Retencao</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label name="formRegistrosDisposicao" if="form-registros-disposicao" maxlength="300" class="" data-val="true" title="" type="text" disabled>@registro.Disposicao</label>
+                                                                </td>
 
-                                                        </tr>
+                                                            </tr>
+                                                        }
                                                     }
-                                                }
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             }
             @if (Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null)
             {
                 <!-- Formulario ROTINA -->
-                <form id="form-emissao-documento-rotina">
-                    <div id="panel-form-rotina">
-                        <div>
-                            <div>
-                                <h4>@Traducao.Resource.Rotina</h4>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="caixa">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <table id="tb-form-rotina" class="table table-striped table-bordered table-list">
-                                            <thead>
-                                                <tr>
-                                                    <th class="w10 with-input">@Traducao.Resource.Item</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Oque</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Quem</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Registro</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Como?</th>
-                                                    <th class="w5 text-nowrap"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.DocTemplate.Find(t => t.TpTemplate == "RO") != null)
-                                                {
-                                                    foreach (var rotina in Model.Rotinas)
-                                                    {
-                                                        <tr>
-                                                            <td>
-                                                                <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdDocRotina" />
-                                                                <label name="formRotinaItem" if="form-rotina-item" class="" disabled="">@rotina.Item</label>
-                                                            </td>
-                                                            <td>
-                                                                <label type="text" name="formRotinaOQue" if="form-rotina-o-que" class="" disabled>@rotina.OQue</label>
-                                                            </td>
-                                                            <td>
-                                                                <label type="text" name="formRotinaQuem" if="form-rotina-quem" class="" disabled>@rotina.Quem</label>
-                                                            </td>
-                                                            <td>
-                                                                <label type="text" name="formRotinaRegistro" if="form-rotina-registro" class="" disabled>@rotina.Registro</label>
-                                                            </td>
-                                                            <td>
-                                                                <label type="text" name="formRotinaComo" if="form-rotina-como" class="" disabled>@rotina.Como</label>
-                                                            </td>
+                <div class="row">
 
-                                                        </tr>
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    <form id="form-emissao-documento-rotina">
+                        <div id="panel-form-rotina">
+                            <div>
+                                <div>
+                                    <h4>@Traducao.Resource.Rotina</h4>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </form>
-            }
-            @if (Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null)
-            {
-                <!-- Formulario RECURSOS -->
-                <form id="form-emissao-documento-recursos">
-                    <div id="panel-form-recursos">
-                        <div>
                             <div>
-                                <h4>@Traducao.Resource.Recursos</h4>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="caixa">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div id="formulario">
-                                            @Html.Raw(Model.RecursoDoc)
+                                <div class="caixa">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <table id="tb-form-rotina" class="table table-striped table-bordered table-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="w10 with-input">@Traducao.Resource.Item</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Oque</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Quem</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Registro</th>
+                                                        <th class="w10 with-input">@Traducao.Resource.Como?</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.DocTemplate.Find(t => t.TpTemplate == "RO") != null)
+                                                    {
+                                                        foreach (var rotina in Model.Rotinas)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdDocRotina" />
+                                                                    <label name="formRotinaItem" if="form-rotina-item" class="" disabled="">@rotina.Item</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label type="text" name="formRotinaOQue" if="form-rotina-o-que" class="" disabled>@rotina.OQue</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label type="text" name="formRotinaQuem" if="form-rotina-quem" class="" disabled>@rotina.Quem</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label type="text" name="formRotinaRegistro" if="form-rotina-registro" class="" disabled>@rotina.Registro</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label type="text" name="formRotinaComo" if="form-rotina-como" class="" disabled>@rotina.Como</label>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+            }
+            @if (Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null)
+            {
+                <div class="row">
+
+                    <!-- Formulario RECURSOS -->
+                    <form id="form-emissao-documento-recursos">
+                        <div id="panel-form-recursos">
+                            <div>
+                                <div>
+                                    <h4>@Traducao.Resource.Recursos</h4>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="caixa">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div id="formulario">
+                                                @Html.Raw(Model.RecursoDoc)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             }
             @if (Model.DocTemplate.Find(x => x.TpTemplate == "RI") != null)
             {
                 <!-- Formulario RISCOS -->
-                <form id="form-emissao-documento-riscos">
-                    <div id="panel-form-riscos">
-                        <div>
+                <div class="row">
+
+                    <form id="form-emissao-documento-riscos">
+                        <div id="panel-form-riscos">
                             <div>
-                                <h4>@Traducao.Resource.Riscos</h4>
+                                <div>
+                                    <h4>@Traducao.Resource.Riscos</h4>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="caixa">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        @Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
-                                        <!-- Identificacao -->
-                                        <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
-                                        <br />
-                                        @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro : "")
-                                    </div>
-                                </div>
-
-                                <!-- Criticidade -->
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
-                                        @{
-                                            var Criticidade = "";
-                                        }
-                                        @if (Model.GestaoDeRisco != null)
-                                        {
-                                            if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 5)
-                                            {
-                                                Criticidade = @Traducao.Resource.Leve;
-                                            }
-                                            else if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco > 5 && Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 10)
-                                            {
-                                                Criticidade = Traducao.Resource.Medio;
-                                            }
-                                            else
-                                            {
-                                                Criticidade = Traducao.Resource.Auto;
-                                            }
-                                        }
-
-                                        <br />@Criticidade
-                                    </div>
-                                </div>
-                                <!-- Necessita Acao -->
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
-                                        <div class="">
-                                            @(Model.PossuiGestaoRisco == true ? Traducao.Resource.Sim : Traducao.Resource.Nao )
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-                                <div class="col-sm-2">
-                                    @if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.Causa))
-                                    {
-                                        <div class="form-group">
-                                            <!-- Causa -->
-                                            <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
-                                            <br />
-                                            @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa : "" )
-                                        </div>
-                                    }
-                                </div>
-                                @if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.DsJustificativa))
-                                {
+                            <div>
+                                <div class="caixa">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <!-- Justificativa -->
-                                            <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
+                                            @Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
+                                            <!-- Identificacao -->
+                                            <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
                                             <br />
-                                            @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa : "")
+                                            @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro : "")
                                         </div>
                                     </div>
-                                }
+
+                                    <!-- Criticidade -->
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
+                                            @{
+                                                var Criticidade = "";
+                                            }
+                                            @if (Model.GestaoDeRisco != null)
+                                            {
+                                                if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 5)
+                                                {
+                                                    Criticidade = @Traducao.Resource.Leve;
+                                                }
+                                                else if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco > 5 && Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 10)
+                                                {
+                                                    Criticidade = Traducao.Resource.Medio;
+                                                }
+                                                else
+                                                {
+                                                    Criticidade = Traducao.Resource.Auto;
+                                                }
+                                            }
+
+                                            <br />@Criticidade
+                                        </div>
+                                    </div>
+                                    <!-- Necessita Acao -->
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
+                                            <div class="">
+                                                @(Model.PossuiGestaoRisco == true ? Traducao.Resource.Sim : Traducao.Resource.Nao )
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-sm-2">
+                                        @if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.Causa))
+                                        {
+                                            <div class="form-group">
+                                                <!-- Causa -->
+                                                <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
+                                                <br />
+                                                @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa : "" )
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.DsJustificativa))
+                                    {
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <!-- Justificativa -->
+                                                <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
+                                                <br />
+                                                @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa : "")
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="col-sm-2">
+
+                                        <div class="form-group">
+                                            <!-- Responsável -->
+                                            <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Responsavel_Risco</label>
+                                            <br />
+                                            @((Model.GestaoDeRisco != null && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null) ? Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto : "" )
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             }
             <!-- Formulario DOCS.EXTERNOS -->
             @if (Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null)
             {
-                <form id="form-emissao-documento-docsexternos">
-                    <div id="panel-form-docsexternos">
-                        <div>
+                <div class="row">
+
+                    <form id="form-emissao-documento-docsexternos">
+                        <div id="panel-form-docsexternos">
                             <div>
-                                <h4>@Traducao.Resource.UploadArquivos</h4>
+                                <div>
+                                    <h4>@Traducao.Resource.UploadArquivos</h4>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="caixa">
+                            <div>
+                                <div class="caixa">
 
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <!-- Arquivo -->
-                                        <label>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Arquivo</label>
-                                        <div class="upload-arq  @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
-                                            @*<a class="btn-upload-file-form-docexterno-anexo">
-                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                            </a>*@
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <!-- Arquivo -->
+                                            <label>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Arquivo</label>
+                                            <div class="upload-arq  @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
+                                                @*<a class="btn-upload-file-form-docexterno-anexo">
+                                                        <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                                    </a>*@
 
-                                            <ul>
-                                                @if (Model.DocExterno != null)
-                                                {
-                                                    <li>
-                                                        <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome">@Model.DocExterno.Anexo.Nome</a>
-                                                        <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
-                                                        <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
-                                                    </li>
-                                                }
+                                                <ul>
+                                                    @*@if (Model.DocExterno != null)
+        {
+            <li>
+                <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome">@Model.DocExterno.Anexo.Nome</a>
+                <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
+                <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
+        }*@
 
-                                            </ul>
-                                            <input type="file" name="formDocExternoAnexoAnexo" id="form-docexterno-anexo"
-                                                   class=""
-                                                   data-msg-required=""
-                                                   data-b64="" />
+                                                    @if (Model.DocExterno != null)
+                                                    {
+                                                        <li>
+                                                            <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome" id="formDocExternoAnexoUpload">@Model.DocExterno.Anexo.Nome</a>
+                                                            <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
+                                                            <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
+                                                            <input type="hidden" name="formDocExternoAnexoIdDocExterno" value="@Model.DocExterno.IdDocExterno">
+                                                        </li>
+                                                    }
+
+                                                </ul>
+                                                <input type="file" name="formDocExternoAnexoAnexo" id="form-docexterno-anexo"
+                                                       class=""
+                                                       data-msg-required=""
+                                                       data-b64="" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             }
         </div>
     </div>

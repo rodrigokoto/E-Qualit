@@ -183,6 +183,56 @@ namespace Web.UI.Controllers
             //return View("PDF", model);
         }
 
+
+        public ActionResult PDFTeste(int id, bool controlada, string usuarioDest)
+        {
+            ApplicationService.Entidade.UsuarioApp UsuarioLogado = (ApplicationService.Entidade.UsuarioApp)ViewBag.UsuarioLogado;
+
+            if (!string.IsNullOrEmpty(usuarioDest))
+            {
+                var controleImpressao = new ControleImpressao()
+                {
+                    DataImpressao = DateTime.Now,
+                    IdFuncionalidade = 2, //control-doc
+                    CodigoReferencia = string.Empty,
+                    CopiaControlada = controlada,
+                    DataInclusao = DateTime.Now,
+                    IdUsuarioDestino = string.IsNullOrEmpty(usuarioDest) ? 0 : Convert.ToInt32(usuarioDest),
+                    IdUsuarioIncluiu = Convert.ToInt32(UsuarioLogado.IdUsuario)
+                };
+
+                _controleImpressaoAppServico.Add(controleImpressao);
+            }
+
+            var documento = _documentoAppServico.Get(s => s.IdDocumento == id).FirstOrDefault();
+
+            var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == documento.IdSite);
+
+            var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
+
+            LayoutImpressaoViewModel model = new LayoutImpressaoViewModel()
+            {
+                LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo),
+                Documento = documento,
+                IsImpressaoControlada = controlada
+            };
+
+            var pdf = new ViewAsPdf
+            {
+                ViewName = "PDF",
+                Model = model,
+                PageOrientation = Orientation.Portrait,
+                PageSize = Size.A4,
+                PageMargins = new Margins(10, 15, 10, 15),
+                FileName = "Documento.pdf"
+            };
+
+            ViewBag.CopiaControlada = controlada;
+                       
+
+            return View("PDF", model);
+        }
+
         public ActionResult ConteudoDocumento(int id, int Obsoleto = 0)
         {
             var documento = new DocDocumento();
@@ -208,6 +258,12 @@ namespace Web.UI.Controllers
             documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
             CarregarDropDownUsuarios();
             ViewBag.EhOboleto = Obsoleto;
+
+            if (documento.IdDocExterno > 0)
+            {
+                documento.DocExterno.Anexo.ArquivoB64 = documento.DocExterno.Anexo.TrataAnexoVindoBanco();
+
+            }
 
             DocDocumento documentoFilhoAtualizar = new DocDocumento();
 
@@ -867,8 +923,10 @@ namespace Web.UI.Controllers
 
             if (documento.FlWorkFlow)
             {
-                documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Usuario.NmCompleto).ToList();
-                documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                //documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                //documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").ToList();
+                documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").ToList();
             }
             if (documento.IdGestaoDeRisco > 0)
             {
@@ -1006,6 +1064,10 @@ namespace Web.UI.Controllers
             dest.XmlMetadata = source.XmlMetadata;
             //dest.DocExterno = source.DocExterno;
 
+            //dest.DocUsuarioVerificaAprova = source.DocUsuarioVerificaAprova;
+            //dest.Aprovadores = source.Aprovadores;
+            //dest.Verificadores = source.Verificadores;
+
             if (dest.GestaoDeRisco != null)
             {
                 if (source.GestaoDeRisco != null)
@@ -1057,6 +1119,7 @@ namespace Web.UI.Controllers
                 x.Proteger = itemAtualizar.Proteger;
                 x.Recuperar = itemAtualizar.Recuperar;
                 x.Disposicao = itemAtualizar.Disposicao;
+                x.Retencao = itemAtualizar.Retencao;
             });
 
             if (source.DocExterno != null && !string.IsNullOrEmpty(source.DocExterno.Anexo.ArquivoB64))
@@ -1339,10 +1402,14 @@ namespace Web.UI.Controllers
                 //[aqui] somente estas duas linhas
                 if (doc.DocUsuarioVerificaAprova.Count == 0)
                 {
-                    doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
-                    doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
-                }
+                    //doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
+                    //doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);]
 
+                    doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
+                    doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
+                    
+                }
+                    
 
 
 
