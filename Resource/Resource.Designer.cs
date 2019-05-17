@@ -9869,6 +9869,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Voltar para elaboração.
+        /// </summary>
+        public static string VoltarElaboracao {
+            get {
+                return ResourceManager.GetString("VoltarElaboracao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zoom Atual.
         /// </summary>
         public static string ZoomAtual {
