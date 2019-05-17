@@ -917,8 +917,10 @@ namespace Web.UI.Controllers
 
             if (documento.FlWorkFlow)
             {
-                documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Usuario.NmCompleto).ToList();
-                documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                //documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                //documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").ToList();
+                documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").ToList();
             }
             if (documento.IdGestaoDeRisco > 0)
             {
@@ -1056,6 +1058,10 @@ namespace Web.UI.Controllers
             dest.XmlMetadata = source.XmlMetadata;
             //dest.DocExterno = source.DocExterno;
 
+            //dest.DocUsuarioVerificaAprova = source.DocUsuarioVerificaAprova;
+            //dest.Aprovadores = source.Aprovadores;
+            //dest.Verificadores = source.Verificadores;
+
             if (dest.GestaoDeRisco != null)
             {
                 if (source.GestaoDeRisco != null)
@@ -1107,6 +1113,7 @@ namespace Web.UI.Controllers
                 x.Proteger = itemAtualizar.Proteger;
                 x.Recuperar = itemAtualizar.Recuperar;
                 x.Disposicao = itemAtualizar.Disposicao;
+                x.Retencao = itemAtualizar.Retencao;
             });
 
             if (source.DocExterno != null && !string.IsNullOrEmpty(source.DocExterno.Anexo.ArquivoB64))
@@ -1389,10 +1396,14 @@ namespace Web.UI.Controllers
                 //[aqui] somente estas duas linhas
                 if (doc.DocUsuarioVerificaAprova.Count == 0)
                 {
-                    doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
-                    doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
-                }
+                    //doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
+                    //doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);]
 
+                    doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
+                    doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
+                    
+                }
+                    
 
 
 

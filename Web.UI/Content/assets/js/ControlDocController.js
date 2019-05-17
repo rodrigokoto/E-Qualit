@@ -66,10 +66,20 @@ APP.controller.ControlDocController = {
             $(origin).find(':selected').appendTo(dest);
         }
 
-
+        function orderItems(origin, orderUp) {
+            debugger;
+            $(origin).find(':selected').appendTo(dest);
+        }
 
         $('#add').click(function () {
-            moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
+            debugger;
+            if ($('#form-cadastro-verificadorBase').find(':selected').length + $('#form-cadastro-verificador').find('option').length > 3) {
+                bootbox.alert("Numero máximo de verificadores 3.");
+            } else {
+                moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
+            }
+            //debugger;
+            //moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
         });
 
         $('#remove').click(function () {
@@ -77,7 +87,11 @@ APP.controller.ControlDocController = {
         });
 
         $('#addAprovador').click(function () {
-            moveItems('#form-cadastro-aprovadorBase', '#form-cadastro-aprovador');
+            if ($('#form-cadastro-aprovadorBase').find(':selected').length + $('#form-cadastro-aprovador').find('option').length > 3) {
+                bootbox.alert("Numero máximo de aprovadores 3.");
+            } else {
+                moveItems('#form-cadastro-aprovadorBase', '#form-cadastro-aprovador');
+            }
         });
 
         $('#removeAprovador').click(function () {
@@ -85,7 +99,57 @@ APP.controller.ControlDocController = {
         });
 
 
-        
+
+
+
+        $('#up').click(function () {
+            var opt = $('#form-cadastro-verificador option:selected');
+
+            if (opt.is(':first-child')) {
+                opt.insertAfter($('#form-cadastro-verificador option:last-child'));
+            }
+            else {
+                opt.insertBefore(opt.prev());
+            }
+            //orderItems('#form-cadastro-verificadorBase', true);
+        });
+
+        $('#down').click(function () {
+            var opt = $('#form-cadastro-verificador option:selected');
+
+            if (opt.is(':last-child')) {
+                opt.insertBefore($('#form-cadastro-verificador option:first-child'));
+            }
+            else {
+                opt.insertAfter(opt.next());
+            }
+        });
+
+
+
+
+        $('#upAprovador').click(function () {
+            var opt = $('#form-cadastro-aprovador option:selected');
+
+            if (opt.is(':first-child')) {
+                opt.insertAfter($('#form-cadastro-aprovador option:last-child'));
+            }
+            else {
+                opt.insertBefore(opt.prev());
+            }
+            //orderItems('#form-cadastro-verificadorBase', true);
+        });
+
+        $('#downAprovador').click(function () {
+            var opt = $('#form-cadastro-aprovador option:selected');
+
+            if (opt.is(':last-child')) {
+                opt.insertBefore($('#form-cadastro-aprovador option:first-child'));
+            }
+            else {
+                opt.insertAfter(opt.next());
+            }
+        });
     },
 
     setup: function () {
@@ -934,6 +998,10 @@ APP.controller.ControlDocController = {
 
         // Hide OR Show de Campos do Formulario
         this.setHideAndShowFormCadastro();
+
+        this.setRadioFormCadastroRevisaoPeriodica();
+
+
     },
 
     setHideAndShowFormCadastro: function () {
@@ -941,6 +1009,19 @@ APP.controller.ControlDocController = {
         $('#form-cadastro-dt-notificacao').closest('.form-group').hide();
         $('#form-cadastro-verificador').closest('.form-group').hide();
         $('#form-cadastro-aprovador').closest('.form-group').hide();
+
+    },
+
+
+    setRadioFormCadastroRevisaoPeriodica: function () {
+
+        var RadioFormCadastroRevisaoPeriodica = APP.component.Radio.init('formCadastroRevisaoPeriodica');
+
+        if (RadioFormCadastroRevisaoPeriodica != "sim") {
+            $('#form-cadastro-dt-notificacao').closest('.form-group').hide();
+        } else {
+            $('#form-cadastro-dt-notificacao').closest('.form-group').show();
+        }
 
     },
 
@@ -1144,7 +1225,7 @@ APP.controller.ControlDocController = {
 
                     }
 
-                    
+
                     APP.component.SelectListCompare.init(retultado, $('[name=formCadastroVerificadorBase] option'), '#form-cadastro-verificadorBase', 'IdUsuario', 'NmCompleto');
 
 
@@ -1239,7 +1320,7 @@ APP.controller.ControlDocController = {
     },
 
     getRadioFormCadastroRevisaoPeriodica: function () {
-
+        debugger;
         $('[name=formCadastroRevisaoPeriodica]').on('change', function () {
 
             var RadioFormCadastroRevisaoPeriodica = APP.component.Radio.init('formCadastroRevisaoPeriodica');
@@ -1414,7 +1495,10 @@ APP.controller.ControlDocController = {
 
         // Inicializa o componente
         onInit(editor);
-              
+
+        function DisabledEditor(status) {
+            editor.graph.setEnabled(status);
+        }
 
         $("#Copy").click(function () {
             editor.execute('copy');
@@ -1685,8 +1769,8 @@ APP.controller.ControlDocController = {
                 Identificar: $(this).find('[name=formRegistrosIdentificar]').val(),
                 Armazenar: $(this).find('[name=formRegistrosArmazenar]').val(),
                 Proteger: $(this).find('[name=formRegistrosProteger]').val(),
-                Retencao: $(this).find('[name=formRegistrosRecuperar]').val(),
-                Recuperar: $(this).find('[name=formRegistrosRetencao]').val(),
+                Retencao: $(this).find('[name=formRegistrosRetencao]').val(),
+                Recuperar: $(this).find('[name=formRegistrosRecuperar]').val(),
                 Disposicao: $(this).find('[name=formRegistrosDisposicao]').val(),
             };
             arrayFormRegistrosObj.push(registros);
@@ -2215,7 +2299,7 @@ APP.controller.ControlDocController = {
             IdDocExterno: $('[name=formDocExternoAnexoIdDocExterno]').val(),
             Anexo: anexo,
         };
-        
+
         return emissaoDocumentoFormDocsExternosObj;
 
     },
@@ -2587,7 +2671,7 @@ APP.controller.ControlDocController = {
                 case 2:
                     APP.controller.ControlDocController.setDisableVerificacao(statusEtapa);
                     $('.btn-aprovar').show();
-                    $('.btn-voltar-elaboracao').show();
+                    $('.btn-voltar-elaboracao').skjhgeds
                     $("input").attr("disabled", "disabled");
                     $("#form-cargos-escolha-all").removeAttr("disabled");
                     $(".closeCargos").removeAttr("disabled");
