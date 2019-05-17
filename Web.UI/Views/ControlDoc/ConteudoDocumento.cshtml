@@ -42,8 +42,9 @@
         }
 
         #main {
-            max-height: 700px !important;
             padding-bottom: 120px !important;
+            max-height: 90vh !important;
+            overflow: auto !important;
         }
 
         #menu-graph {
@@ -146,7 +147,7 @@
                     </div>
                 </p>
             }
-            <div class="row" style="margin-top:10rem;">
+            <div class="row" style="margin-top:1.5rem;">
 
                 <form id="form-emissao-documento-cadastro" name="formTest">
                     <input type="hidden" name="eColaborador" id="emissao-documento-e-colaborador" value="@ViewBag.eColaborador" />
@@ -675,12 +676,12 @@
 
                                                 <ul>
                                                     @*@if (Model.DocExterno != null)
-        {
-            <li>
-                <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome">@Model.DocExterno.Anexo.Nome</a>
-                <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
-                <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
-        }*@
+                                                        {
+                                                            <li>
+                                                                <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome">@Model.DocExterno.Anexo.Nome</a>
+                                                                <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
+                                                                <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
+                                                        }*@
 
                                                     @if (Model.DocExterno != null)
                                                     {
