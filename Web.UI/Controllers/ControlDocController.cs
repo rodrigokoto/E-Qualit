@@ -259,6 +259,12 @@ namespace Web.UI.Controllers
             CarregarDropDownUsuarios();
             ViewBag.EhOboleto = Obsoleto;
 
+            if (documento.IdDocExterno > 0)
+            {
+                documento.DocExterno.Anexo.ArquivoB64 = documento.DocExterno.Anexo.TrataAnexoVindoBanco();
+
+            }
+
             DocDocumento documentoFilhoAtualizar = new DocDocumento();
 
             //if (Obsoleto == 1)

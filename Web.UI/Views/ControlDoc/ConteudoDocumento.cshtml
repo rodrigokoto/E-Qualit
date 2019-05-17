@@ -674,12 +674,21 @@
                                                     </a>*@
 
                                                 <ul>
+                                                    @*@if (Model.DocExterno != null)
+        {
+            <li>
+                <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome">@Model.DocExterno.Anexo.Nome</a>
+                <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
+                <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
+        }*@
+
                                                     @if (Model.DocExterno != null)
                                                     {
                                                         <li>
-                                                            <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome">@Model.DocExterno.Anexo.Nome</a>
+                                                            <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome" id="formDocExternoAnexoUpload">@Model.DocExterno.Anexo.Nome</a>
                                                             <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
                                                             <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
+                                                            <input type="hidden" name="formDocExternoAnexoIdDocExterno" value="@Model.DocExterno.IdDocExterno">
                                                         </li>
                                                     }
 
