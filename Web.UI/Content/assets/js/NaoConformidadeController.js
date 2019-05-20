@@ -812,7 +812,7 @@ APP.controller.NaoConformidadeController = {
     },
 
     setAndHideCriarNaoConformidade: function () {
-
+        $('#numeroRegistro').hide();
         //
 
     },

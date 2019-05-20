@@ -1320,7 +1320,6 @@ APP.controller.ControlDocController = {
     },
 
     getRadioFormCadastroRevisaoPeriodica: function () {
-        debugger;
         $('[name=formCadastroRevisaoPeriodica]').on('change', function () {
 
             var RadioFormCadastroRevisaoPeriodica = APP.component.Radio.init('formCadastroRevisaoPeriodica');
@@ -1587,6 +1586,14 @@ APP.controller.ControlDocController = {
                 $(".tollbarGraph").hide();
                 editor.graph.setEnabled(false);
 
+            }
+            else if (page == "EmissaoDocumento") {
+                var statusEtapa = parseInt($('[name=StatusEtapa]').val());
+
+                if (statusEtapa == 1 || statusEtapa == 2) {
+                    $("#menu-graph").hide();
+                    $("#toolbar").hide();
+                }
             }
          
             // Enables rotation handle
@@ -2675,7 +2682,8 @@ APP.controller.ControlDocController = {
                     $("input").attr("disabled", "disabled");
                     $("#form-cargos-escolha-all").removeAttr("disabled");
                     $(".closeCargos").removeAttr("disabled");
-                    editor.graph.setEnabled(true);
+                    editor.graph.setEnabled(false);
+                    //editor.graph.setHideButton();
 
                     break;
                 case 3:
