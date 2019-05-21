@@ -14,7 +14,6 @@ APP.controller.ControlDocController = {
 
         this.setup();
         APP.component.MenuSideBar.init();
-
         if (page == "ListDocumentos") {
             this.listDocumentos();
         }
@@ -38,6 +37,13 @@ APP.controller.ControlDocController = {
             this.imprimir();
             //this.DisabledEditor(true);
 
+        }
+
+        if (page == "PDF") {
+            var xmlString2 = $("#form-emissao-documento-fluxo-conteudo").val();
+            if (xmlString2 != "" && xmlString2 != null && xmlString2 != undefined) {
+                this.formFluxo();
+            }
         }
 
         $(document).on("change", "#ddlCopiaControlada", function () {
@@ -302,27 +308,31 @@ APP.controller.ControlDocController = {
                 idUsuarioDestino = "";
             }
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/ControlDoc/PDF?id=' + idDocumento + '&controlada=' + isControlada + '&usuarioDest=' + idUsuarioDestino, true);
-            xhr.responseType = 'arraybuffer';
-            xhr.onload = function (e) {
-                if (this.status == 200) {
-                    var blob = new Blob([this.response], { type: "application/pdf" });
-                    var pdfUrl = URL.createObjectURL(blob);
-                    printJS(pdfUrl);
-                }
-                APP.controller.ControlDocController.models.iscontrolada = null;
-                APP.controller.ControlDocController.models.idusuariodestino = null;
-
-                APP.component.Loading.hideLoading();
-
-            };
-
-            xhr.send();
-
-
+            gerarPdf(idDocumento, isControlada, idUsuarioDestino);
 
         }
+    },
+
+    downloadPdf: function (idDocumento, isControlada, idUsuarioDestino, fluxoBase64) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/ControlDoc/PDF', true);
+        xhr.responseType = 'arraybuffer';
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        xhr.onload = function (e) {
+            if (this.status == 200) {
+                var blob = new Blob([this.response], { type: "application/pdf" });
+                var pdfUrl = URL.createObjectURL(blob);
+                printJS(pdfUrl);
+            }
+            APP.controller.ControlDocController.models.iscontrolada = null;
+            APP.controller.ControlDocController.models.idusuariodestino = null;
+
+            APP.component.Loading.hideLoading();
+
+        };
+
+        xhr.send(JSON.stringify({ "id": idDocumento, "controlada": isControlada, "usuarioDest": idUsuarioDestino, "fluxoBase64": fluxoBase64 })); 
     },
 
     setExcluirDocumento: function () {

@@ -2,6 +2,7 @@ using DomainValidation.Interfaces.Validation;
 using System;
 using System.Collections.Generic;
 using DomainValidation.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dominio.Entidade
 {
@@ -65,6 +66,8 @@ namespace Dominio.Entidade
         public string SaidaTextoDoc { get; set; }
         public string TextoDoc { get; set; }
         public string FluxoDoc { get; set; }
+        [NotMapped]
+        public string FluxoBase64 { get; set; }
         public string RecursoDoc { get; set; }
         public byte StatusRegistro { get; set; }
         public int? IdUsuarioAlteracao { get; set; }
