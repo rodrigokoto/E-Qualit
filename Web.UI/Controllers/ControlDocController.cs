@@ -1081,6 +1081,7 @@ namespace Web.UI.Controllers
                     dest.GestaoDeRisco.CriticidadeGestaoDeRisco = source.GestaoDeRisco.CriticidadeGestaoDeRisco;
                     dest.GestaoDeRisco.ResponsavelImplementar = source.GestaoDeRisco.ResponsavelImplementar;
                     dest.GestaoDeRisco.DescricaoRegistro = source.GestaoDeRisco.DescricaoRegistro;
+                    dest.GestaoDeRisco.IdResponsavelInicarAcaoImediata = source.GestaoDeRisco.IdResponsavelInicarAcaoImediata;
                 }
             }
             else
