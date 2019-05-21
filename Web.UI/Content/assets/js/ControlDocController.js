@@ -1535,7 +1535,8 @@ APP.controller.ControlDocController = {
 
         $("#View").click(function () {
             var graph = editor.graph;
-            mxUtils.show(graph, null, 100, 200);
+            var document2 = mxUtils.show(graph, null, 10, 200);
+            document2.body.style.overflow = "auto";
         });
 
         $("#zoomActual").click(function () {
