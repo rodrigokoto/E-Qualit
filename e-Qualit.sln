@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - ApplicationService", "1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationService", "ApplicationService\ApplicationService.csproj", "{C11EB225-BF41-4A74-854B-738129077634}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio.Testes", "Dominio.Testes\Dominio.Testes.csproj", "{C921D856-1235-4474-B45A-4E44737C6122}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,14 @@ Global
 		{C11EB225-BF41-4A74-854B-738129077634}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C11EB225-BF41-4A74-854B-738129077634}.Release|x86.ActiveCfg = Release|Any CPU
 		{C11EB225-BF41-4A74-854B-738129077634}.Release|x86.Build.0 = Release|Any CPU
+		{C921D856-1235-4474-B45A-4E44737C6122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C921D856-1235-4474-B45A-4E44737C6122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C921D856-1235-4474-B45A-4E44737C6122}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C921D856-1235-4474-B45A-4E44737C6122}.Debug|x86.Build.0 = Debug|Any CPU
+		{C921D856-1235-4474-B45A-4E44737C6122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C921D856-1235-4474-B45A-4E44737C6122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C921D856-1235-4474-B45A-4E44737C6122}.Release|x86.ActiveCfg = Release|Any CPU
+		{C921D856-1235-4474-B45A-4E44737C6122}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,41 +115,9 @@ Global
 		{214E6A3C-1C09-47BC-8C6E-DD86D8E41BDE} = {40D84046-F617-4675-8E81-304A4E6494CA}
 		{47854297-3215-4BA4-B80A-68CA838A4695} = {214E6A3C-1C09-47BC-8C6E-DD86D8E41BDE}
 		{C11EB225-BF41-4A74-854B-738129077634} = {1CFD48CC-BF1F-4BA2-BA7E-85B46F94CB1E}
+		{C921D856-1235-4474-B45A-4E44737C6122} = {955BACB8-9099-4776-A401-835629EE92CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {337176D4-061F-4D91-A6FB-8AFFECFF4952}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://g2db.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = DAL\\DAL.csproj
-		SccProjectTopLevelParentUniqueName1 = e-Qualit.sln
-		SccProjectName1 = DAL
-		SccLocalPath1 = DAL
-		SccProjectUniqueName2 = Resource\\Resource.csproj
-		SccProjectName2 = Resource
-		SccLocalPath2 = Resource
-		SccProjectUniqueName3 = IoC\\IoC.csproj
-		SccProjectTopLevelParentUniqueName3 = e-Qualit.sln
-		SccProjectName3 = IoC
-		SccLocalPath3 = IoC
-		SccProjectUniqueName4 = Dominio\\Dominio.csproj
-		SccProjectTopLevelParentUniqueName4 = e-Qualit.sln
-		SccProjectName4 = Dominio
-		SccLocalPath4 = Dominio
-		SccProjectUniqueName5 = NotificacaoService\\NotificacaoWindowsService.csproj
-		SccProjectTopLevelParentUniqueName5 = e-Qualit.sln
-		SccProjectName5 = NotificacaoService
-		SccLocalPath5 = NotificacaoService
-		SccProjectUniqueName6 = Web.UI\\Web.UI.csproj
-		SccProjectTopLevelParentUniqueName6 = e-Qualit.sln
-		SccProjectName6 = Web.UI
-		SccLocalPath6 = Web.UI
-		SccProjectUniqueName7 = ApplicationService\\ApplicationService.csproj
-		SccProjectTopLevelParentUniqueName7 = e-Qualit.sln
-		SccProjectName7 = ApplicationService
-		SccLocalPath7 = ApplicationService
 	EndGlobalSection
 EndGlobal
