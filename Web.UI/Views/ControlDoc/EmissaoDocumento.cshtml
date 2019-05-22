@@ -118,7 +118,7 @@
                                 <!-- Titulo do Documento -->
                                 <div class="form-group">
                                     <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_TituloDocumento</label>
-                                    <input type="text" name="formCadastroTituloDocumento" id="form-cadastro-titulo-documento" class="form-control" required data-msg-required=@Traducao.Resource.CampoTituloObrigatorio value="@Model.Titulo">
+                                    <input type="text" name="formCadastroTituloDocumento" id="form-cadastro-titulo-documento" class="form-control" required data-msg-required="@Traducao.Resource.CampoTituloObrigatorio" value="@Model.Titulo">
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -128,7 +128,7 @@
                                         @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Sigla
                                         <i id="form-cadastro-sigla-i" class="fa fa-plus-circle trash-color add-sigla" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.AddSigla data-tipo="SIGLADOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
                                     </label>
-                                    <select id="form-cadastro-sigla" name="formCadastroSigla" class="form-control" required data-msg-required=@Traducao.Resource.SiglaObrigatoria>
+                                    <select id="form-cadastro-sigla" name="formCadastroSigla" class="form-control" required data-msg-required="@Traducao.Resource.SiglaObrigatoria">
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Sigla != null)
                                         {
@@ -152,14 +152,14 @@
 
                                     }
 
-                                    <input type="text" name="formCadastroNmDocumento" class="form-control" id="form-cadastro-numero-documento" value="@numeroDocumento" required data-msg-required=@Traducao.Resource.NDoc data-msg-maxlength=@Traducao.Resource.NDocMax15>
+                                    <input type="text" name="formCadastroNmDocumento" class="form-control" id="form-cadastro-numero-documento" value="@numeroDocumento" required data-msg-required="@Traducao.Resource.NDoc" data-msg-maxlength=@Traducao.Resource.NDocMax15>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                 <!-- Processo -->
                                 <div class="form-group">
                                     <label for="form-cadastro-processo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Processo</label>
-                                    <select id="form-cadastro-processo" name="formCadastroProcesso" class="form-control" data-msg-required=@Traducao.Resource.MsgProcessoPreenchido>
+                                    <select id="form-cadastro-processo" name="formCadastroProcesso" class="form-control" required data-msg-required="@Traducao.Resource.MsgProcessoPreenchido">
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Processo != null)
                                         {
@@ -197,7 +197,7 @@
                                         @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Categoria
                                         <i id="form-cadastro-categoria-i" class="fa fa-plus-circle trash-color add-categoria" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.CategoriaObrigatoria data-tipo="CATDOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
                                     </label>
-                                    <select id="form-cadastro-categoria" name="formCadastroCategoria" class="form-control" required data-msg-required=@Traducao.Resource.CategoriaObrigatoria>
+                                    <select id="form-cadastro-categoria" name="formCadastroCategoria" class="form-control" required data-msg-required="@Traducao.Resource.CategoriaObrigatoria">
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Categoria != null)
                                         {
@@ -277,7 +277,7 @@
                                     <label for="form-cadastro-dt-notificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_DataNotificacao</label>
                                     <br />
                                     <div class='input-group date' id='datetimepicker2'>
-                                        <input type='text' name="formCadastroDtNotificacao" id="form-cadastro-dt-notificacao" class="form-control data" data-msg-required=@Traducao.Resource.DataNotObrigatorio value="@Model.DtNotificacao" />
+                                        <input type='text' name="formCadastroDtNotificacao" id="form-cadastro-dt-notificacao" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@Model.DtNotificacao" />
                                         <span class="input-group-addon">
                                             <i class="fa fa-calendar" aria-hidden="true"></i>
                                         </span>
@@ -305,7 +305,7 @@
                                 <!-- Elaborador -->
                                 <div class="form-group">
                                     <label for="form-cadastro-elaborador">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador</label>
-                                    <select id="form-cadastro-elaborador" name="formCadastroElaborador" class="form-control" required data-msg-required=@Traducao.Resource.CampoObrigatorio>
+                                    <select id="form-cadastro-elaborador" name="formCadastroElaborador" class="form-control" required data-msg-required="@Traducao.Resource.CampoObrigatorio">
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Elaborador != null)
                                         {
@@ -330,7 +330,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             @*@Html.ListBox("AllUsers", (List<SelectListItem>)ViewBag.AllUsers, new { @class = "form-control" })*@
-                                            <select id="form-cadastro-verificadorBase" name="formCadastroVerificadorBase" class="form-control" size="5" multiple="multiple" data-msg-required=@Traducao.Resource.VerificadorObrigatorio>
+                                            <select id="form-cadastro-verificadorBase" name="formCadastroVerificadorBase" class="form-control" size="5" multiple="multiple" data-msg-required="@Traducao.Resource.VerificadorObrigatorio">
                                                 @if (Model.Verificadores != null)
                                                 {
                                                     foreach (var verificador in Model.Verificadores)
@@ -349,7 +349,7 @@
 
                                         <div class="col-md-4">
 
-                                            <select id="form-cadastro-verificador" name="formCadastroVerificador" class="form-control" size="5" multiple="multiple" data-msg-required=@Traducao.Resource.VerificadorObrigatorio>
+                                            <select id="form-cadastro-verificador" name="formCadastroVerificador" class="form-control" size="5" multiple="multiple" data-msg-required="@Traducao.Resource.VerificadorObrigatorio">
                                                 @if (Model.Verificadores != null)
                                                 {
                                                     foreach (var verificador in Model.Verificadores)
@@ -383,7 +383,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
 
-                                            <select id="form-cadastro-aprovadorBase" name="formCadastroAprovadorBase" class="form-control" size="5" multiple="multiple" data-msg-required=@Traducao.Resource.AprovadorObrigatorio></select>
+                                            <select id="form-cadastro-aprovadorBase" name="formCadastroAprovadorBase" class="form-control" size="5" multiple="multiple" data-msg-required="@Traducao.Resource.AprovadorObrigatorio"></select>
                                         </div>
                                         <div class="col-md-1 text-sm-center">
                                             <div class="btn-group-vertical m-b">
@@ -394,7 +394,7 @@
                                         <div class="col-md-4">
 
 
-                                            <select id="form-cadastro-aprovador" name="formCadastroAprovador" class="form-control" size="5" multiple="multiple" data-msg-required=@Traducao.Resource.AprovadorObrigatorio>
+                                            <select id="form-cadastro-aprovador" name="formCadastroAprovador" class="form-control" size="5" multiple="multiple" data-msg-required="@Traducao.Resource.AprovadorObrigatorio">
                                                 @if (Model.Aprovadores != null)
                                                 {
                                                     foreach (var aprovador in Model.Aprovadores)
