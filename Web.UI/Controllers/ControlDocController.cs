@@ -14,12 +14,13 @@ using Rotativa.Options;
 using Web.UI.Models;
 using System.Web.Routing;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Web.UI.Controllers
 {
     //[SitePossuiModulo((int)Funcionalidades.ControlDoc)]
     //[ProcessoSelecionado]
-    [VerificaIntegridadeLogin]
+    //[VerificaIntegridadeLogin]
     public class ControlDocController : BaseController
     {
         private int _funcaoImprimir = 8;
@@ -133,7 +134,8 @@ namespace Web.UI.Controllers
             ViewBag.usuarios = lstItem;
         }
 
-        public ActionResult PDF(int id, bool controlada, string usuarioDest)
+        [HttpPost]
+        public ActionResult PDF([System.Web.Http.FromBody]int id, bool controlada, string usuarioDest, string fluxoBase64)
         {
             ApplicationService.Entidade.UsuarioApp UsuarioLogado = (ApplicationService.Entidade.UsuarioApp)ViewBag.UsuarioLogado;
 
@@ -154,6 +156,7 @@ namespace Web.UI.Controllers
             }
 
             var documento = _documentoAppServico.Get(s => s.IdDocumento == id).FirstOrDefault();
+            documento.FluxoBase64 = fluxoBase64;
 
             var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == documento.IdSite);
 
@@ -184,7 +187,7 @@ namespace Web.UI.Controllers
         }
 
 
-        public ActionResult PDFTeste(int id, bool controlada, string usuarioDest)
+        public ActionResult PDFTeste(int id, bool controlada, string usuarioDest, string fluxoBase64)
         {
             ApplicationService.Entidade.UsuarioApp UsuarioLogado = (ApplicationService.Entidade.UsuarioApp)ViewBag.UsuarioLogado;
 
@@ -205,6 +208,7 @@ namespace Web.UI.Controllers
             }
 
             var documento = _documentoAppServico.Get(s => s.IdDocumento == id).FirstOrDefault();
+            documento.FluxoBase64 = fluxoBase64;
 
             var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == documento.IdSite);
 
