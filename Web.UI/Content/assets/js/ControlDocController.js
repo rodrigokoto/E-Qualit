@@ -8,11 +8,12 @@
 APP.controller.ControlDocController = {
 
     init: function () {
+               
+
         var page = APP.component.Util.getPage();
 
         this.setup();
         APP.component.MenuSideBar.init();
-
         if (page == "ListDocumentos") {
             this.listDocumentos();
         }
@@ -34,6 +35,15 @@ APP.controller.ControlDocController = {
 
             this.setImprimirDocumento();
             this.imprimir();
+            //this.DisabledEditor(true);
+
+        }
+
+        if (page == "PDF") {
+            var xmlString2 = $("#form-emissao-documento-fluxo-conteudo").val();
+            if (xmlString2 != "" && xmlString2 != null && xmlString2 != undefined) {
+                this.formFluxo();
+            }
         }
 
         $(document).on("change", "#ddlCopiaControlada", function () {
@@ -59,14 +69,23 @@ APP.controller.ControlDocController = {
 
 
         function moveItems(origin, dest) {
+            $(origin).find(':selected').appendTo(dest);
+        }
+
+        function orderItems(origin, orderUp) {
             debugger;
             $(origin).find(':selected').appendTo(dest);
         }
 
-
-
         $('#add').click(function () {
-            moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
+            debugger;
+            if ($('#form-cadastro-verificadorBase').find(':selected').length + $('#form-cadastro-verificador').find('option').length > 3) {
+                bootbox.alert("Numero máximo de verificadores 3.");
+            } else {
+                moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
+            }
+            //debugger;
+            //moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
         });
 
         $('#remove').click(function () {
@@ -74,7 +93,11 @@ APP.controller.ControlDocController = {
         });
 
         $('#addAprovador').click(function () {
-            moveItems('#form-cadastro-aprovadorBase', '#form-cadastro-aprovador');
+            if ($('#form-cadastro-aprovadorBase').find(':selected').length + $('#form-cadastro-aprovador').find('option').length > 3) {
+                bootbox.alert("Numero máximo de aprovadores 3.");
+            } else {
+                moveItems('#form-cadastro-aprovadorBase', '#form-cadastro-aprovador');
+            }
         });
 
         $('#removeAprovador').click(function () {
@@ -83,6 +106,56 @@ APP.controller.ControlDocController = {
 
 
 
+
+
+        $('#up').click(function () {
+            var opt = $('#form-cadastro-verificador option:selected');
+
+            if (opt.is(':first-child')) {
+                opt.insertAfter($('#form-cadastro-verificador option:last-child'));
+            }
+            else {
+                opt.insertBefore(opt.prev());
+            }
+            //orderItems('#form-cadastro-verificadorBase', true);
+        });
+
+        $('#down').click(function () {
+            var opt = $('#form-cadastro-verificador option:selected');
+
+            if (opt.is(':last-child')) {
+                opt.insertBefore($('#form-cadastro-verificador option:first-child'));
+            }
+            else {
+                opt.insertAfter(opt.next());
+            }
+        });
+
+
+
+
+        $('#upAprovador').click(function () {
+            var opt = $('#form-cadastro-aprovador option:selected');
+
+            if (opt.is(':first-child')) {
+                opt.insertAfter($('#form-cadastro-aprovador option:last-child'));
+            }
+            else {
+                opt.insertBefore(opt.prev());
+            }
+            //orderItems('#form-cadastro-verificadorBase', true);
+        });
+
+        $('#downAprovador').click(function () {
+            var opt = $('#form-cadastro-aprovador option:selected');
+
+            if (opt.is(':last-child')) {
+                opt.insertBefore($('#form-cadastro-aprovador option:first-child'));
+            }
+            else {
+                opt.insertAfter(opt.next());
+            }
+        });
     },
 
     setup: function () {
@@ -235,27 +308,31 @@ APP.controller.ControlDocController = {
                 idUsuarioDestino = "";
             }
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/ControlDoc/PDF?id=' + idDocumento + '&controlada=' + isControlada + '&usuarioDest=' + idUsuarioDestino, true);
-            xhr.responseType = 'arraybuffer';
-            xhr.onload = function (e) {
-                if (this.status == 200) {
-                    var blob = new Blob([this.response], { type: "application/pdf" });
-                    var pdfUrl = URL.createObjectURL(blob);
-                    printJS(pdfUrl);
-                }
-                APP.controller.ControlDocController.models.iscontrolada = null;
-                APP.controller.ControlDocController.models.idusuariodestino = null;
-
-                APP.component.Loading.hideLoading();
-
-            };
-
-            xhr.send();
-
-
+            gerarPdf(idDocumento, isControlada, idUsuarioDestino);
 
         }
+    },
+
+    downloadPdf: function (idDocumento, isControlada, idUsuarioDestino, fluxoBase64) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/ControlDoc/PDF', true);
+        xhr.responseType = 'arraybuffer';
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        xhr.onload = function (e) {
+            if (this.status == 200) {
+                var blob = new Blob([this.response], { type: "application/pdf" });
+                var pdfUrl = URL.createObjectURL(blob);
+                printJS(pdfUrl);
+            }
+            APP.controller.ControlDocController.models.iscontrolada = null;
+            APP.controller.ControlDocController.models.idusuariodestino = null;
+
+            APP.component.Loading.hideLoading();
+
+        };
+
+        xhr.send(JSON.stringify({ "id": idDocumento, "controlada": isControlada, "usuarioDest": idUsuarioDestino, "fluxoBase64": fluxoBase64 })); 
     },
 
     setExcluirDocumento: function () {
@@ -329,7 +406,6 @@ APP.controller.ControlDocController = {
 
     //Criar
     emissaoDocumento: function () {
-
         APP.component.AtivaLobiPanel.init();
         APP.component.Datapicker.init();
         APP.component.FileUpload.init();
@@ -580,7 +656,6 @@ APP.controller.ControlDocController = {
 
             //ValidateOK = true;
             if (ValidateOK == true) {
-                debugger;
                 var emissaoDocumento = APP.controller.ControlDocController.getEmissaoDocumentoObj();
 
                 if ($("#emissao-documento-IdDocumento").val() != 0) {
@@ -669,8 +744,7 @@ APP.controller.ControlDocController = {
 
     aux: { IdDocumento: '' },
 
-    saveFormEmissaoDocumento: function (emissaoDocumento, _statusEtapa) {
-        debugger;
+    saveFormEmissaoDocumento: function (emissaoDocumento, _statusEtapa) {        
         var url = "/ControlDoc/Salvar/";
         var eEdicao = false;
 
@@ -934,6 +1008,10 @@ APP.controller.ControlDocController = {
 
         // Hide OR Show de Campos do Formulario
         this.setHideAndShowFormCadastro();
+
+        this.setRadioFormCadastroRevisaoPeriodica();
+
+
     },
 
     setHideAndShowFormCadastro: function () {
@@ -941,6 +1019,19 @@ APP.controller.ControlDocController = {
         $('#form-cadastro-dt-notificacao').closest('.form-group').hide();
         $('#form-cadastro-verificador').closest('.form-group').hide();
         $('#form-cadastro-aprovador').closest('.form-group').hide();
+
+    },
+
+
+    setRadioFormCadastroRevisaoPeriodica: function () {
+
+        var RadioFormCadastroRevisaoPeriodica = APP.component.Radio.init('formCadastroRevisaoPeriodica');
+
+        if (RadioFormCadastroRevisaoPeriodica != "sim") {
+            $('#form-cadastro-dt-notificacao').closest('.form-group').hide();
+        } else {
+            $('#form-cadastro-dt-notificacao').closest('.form-group').show();
+        }
 
     },
 
@@ -1117,7 +1208,6 @@ APP.controller.ControlDocController = {
 
 
         function arrayRemove(arr, value) {
-            debugger;
             return arr.filter(function (ele) {
                 return ele.IdUsuario != value;
             });
@@ -1133,12 +1223,9 @@ APP.controller.ControlDocController = {
 
             },
             success: function (result) {
-                debugger;
                 if (result.StatusCode == 200) {
                     //var retorno = result.Lista.pop();
                     //retorno = result.Lista.pop();
-                    debugger;
-
 
                     var retultado = result.Lista;
                     var lista = $('[name=formCadastroVerificador] option');
@@ -1148,7 +1235,7 @@ APP.controller.ControlDocController = {
 
                     }
 
-                    
+
                     APP.component.SelectListCompare.init(retultado, $('[name=formCadastroVerificadorBase] option'), '#form-cadastro-verificadorBase', 'IdUsuario', 'NmCompleto');
 
 
@@ -1166,7 +1253,6 @@ APP.controller.ControlDocController = {
     },
 
     setComboAprovador: function (_IdProcesso) {
-        debugger;
         var idSite = $('#emissao-documento-site').val();
         let idFuncao = 102;
         var data = "";
@@ -1188,7 +1274,6 @@ APP.controller.ControlDocController = {
         }
 
         function arrayRemove(arr, value) {
-            debugger;
             return arr.filter(function (ele) {
                 return ele.IdUsuario != value;
             });
@@ -1206,7 +1291,6 @@ APP.controller.ControlDocController = {
             success: function (result) {
                 if (result.StatusCode == 200) {
 
-                    debugger;
 
                     var retultado = result.Lista;
                     var lista = $('[name=formCadastroAprovador] option');
@@ -1246,7 +1330,6 @@ APP.controller.ControlDocController = {
     },
 
     getRadioFormCadastroRevisaoPeriodica: function () {
-
         $('[name=formCadastroRevisaoPeriodica]').on('change', function () {
 
             var RadioFormCadastroRevisaoPeriodica = APP.component.Radio.init('formCadastroRevisaoPeriodica');
@@ -1422,8 +1505,7 @@ APP.controller.ControlDocController = {
         // Inicializa o componente
         onInit(editor);
 
-        function DisabledEditor(status)
-        {
+        function DisabledEditor(status) {
             editor.graph.setEnabled(status);
         }
 
@@ -1453,7 +1535,8 @@ APP.controller.ControlDocController = {
 
         $("#View").click(function () {
             var graph = editor.graph;
-            mxUtils.show(graph, null, 100, 200);
+            var document2 = mxUtils.show(graph, null, 10, 200);
+            document2.body.style.overflow = "auto";
         });
 
         $("#zoomActual").click(function () {
@@ -1510,10 +1593,20 @@ APP.controller.ControlDocController = {
             var page = APP.component.Util.getPage();
 
             if (page == "ConteudoDocumento") {
-                var enabled = false;
+                enabled = false;
                 $(".tollbarGraph").hide();
-            }
+                editor.graph.setEnabled(false);
 
+            }
+            else if (page == "EmissaoDocumento") {
+                var statusEtapa = parseInt($('[name=StatusEtapa]').val());
+
+                if (statusEtapa == 1 || statusEtapa == 2) {
+                    $("#menu-graph").hide();
+                    $("#toolbar").hide();
+                }
+            }
+         
             // Enables rotation handle
             mxVertexHandler.prototype.rotationEnabled = enabled;
 
@@ -1694,8 +1787,8 @@ APP.controller.ControlDocController = {
                 Identificar: $(this).find('[name=formRegistrosIdentificar]').val(),
                 Armazenar: $(this).find('[name=formRegistrosArmazenar]').val(),
                 Proteger: $(this).find('[name=formRegistrosProteger]').val(),
-                Retencao: $(this).find('[name=formRegistrosRecuperar]').val(),
-                Recuperar: $(this).find('[name=formRegistrosRetencao]').val(),
+                Retencao: $(this).find('[name=formRegistrosRetencao]').val(),
+                Recuperar: $(this).find('[name=formRegistrosRecuperar]').val(),
                 Disposicao: $(this).find('[name=formRegistrosDisposicao]').val(),
             };
             arrayFormRegistrosObj.push(registros);
@@ -2224,7 +2317,7 @@ APP.controller.ControlDocController = {
             IdDocExterno: $('[name=formDocExternoAnexoIdDocExterno]').val(),
             Anexo: anexo,
         };
-        
+
         return emissaoDocumentoFormDocsExternosObj;
 
     },
@@ -2596,11 +2689,12 @@ APP.controller.ControlDocController = {
                 case 2:
                     APP.controller.ControlDocController.setDisableVerificacao(statusEtapa);
                     $('.btn-aprovar').show();
-                    $('.btn-voltar-elaboracao').show();
+                    $('.btn-voltar-elaboracao').skjhgeds
                     $("input").attr("disabled", "disabled");
                     $("#form-cargos-escolha-all").removeAttr("disabled");
                     $(".closeCargos").removeAttr("disabled");
-                    editor.graph.setEnabled(true);
+                    editor.graph.setEnabled(false);
+                    //editor.graph.setHideButton();
 
                     break;
                 case 3:
@@ -2617,6 +2711,11 @@ APP.controller.ControlDocController = {
 
         $("[id^=form-emissao-documento-] :input").attr("disabled", true);
         $("[id^=tb-form-] tbody tr td:last-child").hide();
+        $("#form-cadastro-sigla-i").hide();
+        $("#form-cadastro-categoria-i").hide();
+        $(".novo").hide();
+        $('.btn-salvar').hide();
+
 
         if (_statusEtapa == 1) {
             $("#form-emissao-documento-comentarios :input").prop("disabled", false);

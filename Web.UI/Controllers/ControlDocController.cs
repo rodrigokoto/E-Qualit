@@ -14,12 +14,13 @@ using Rotativa.Options;
 using Web.UI.Models;
 using System.Web.Routing;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Web.UI.Controllers
 {
     //[SitePossuiModulo((int)Funcionalidades.ControlDoc)]
     //[ProcessoSelecionado]
-    [VerificaIntegridadeLogin]
+    //[VerificaIntegridadeLogin]
     public class ControlDocController : BaseController
     {
         private int _funcaoImprimir = 8;
@@ -133,7 +134,8 @@ namespace Web.UI.Controllers
             ViewBag.usuarios = lstItem;
         }
 
-        public ActionResult PDF(int id, bool controlada, string usuarioDest)
+        [HttpPost]
+        public ActionResult PDF([System.Web.Http.FromBody]int id, bool controlada, string usuarioDest, string fluxoBase64)
         {
             ApplicationService.Entidade.UsuarioApp UsuarioLogado = (ApplicationService.Entidade.UsuarioApp)ViewBag.UsuarioLogado;
 
@@ -154,6 +156,7 @@ namespace Web.UI.Controllers
             }
 
             var documento = _documentoAppServico.Get(s => s.IdDocumento == id).FirstOrDefault();
+            documento.FluxoBase64 = fluxoBase64;
 
             var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == documento.IdSite);
 
@@ -183,6 +186,57 @@ namespace Web.UI.Controllers
             //return View("PDF", model);
         }
 
+
+        public ActionResult PDFTeste(int id, bool controlada, string usuarioDest, string fluxoBase64)
+        {
+            ApplicationService.Entidade.UsuarioApp UsuarioLogado = (ApplicationService.Entidade.UsuarioApp)ViewBag.UsuarioLogado;
+
+            if (!string.IsNullOrEmpty(usuarioDest))
+            {
+                var controleImpressao = new ControleImpressao()
+                {
+                    DataImpressao = DateTime.Now,
+                    IdFuncionalidade = 2, //control-doc
+                    CodigoReferencia = string.Empty,
+                    CopiaControlada = controlada,
+                    DataInclusao = DateTime.Now,
+                    IdUsuarioDestino = string.IsNullOrEmpty(usuarioDest) ? 0 : Convert.ToInt32(usuarioDest),
+                    IdUsuarioIncluiu = Convert.ToInt32(UsuarioLogado.IdUsuario)
+                };
+
+                _controleImpressaoAppServico.Add(controleImpressao);
+            }
+
+            var documento = _documentoAppServico.Get(s => s.IdDocumento == id).FirstOrDefault();
+            documento.FluxoBase64 = fluxoBase64;
+
+            var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == documento.IdSite);
+
+            var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
+
+            LayoutImpressaoViewModel model = new LayoutImpressaoViewModel()
+            {
+                LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo),
+                Documento = documento,
+                IsImpressaoControlada = controlada
+            };
+
+            var pdf = new ViewAsPdf
+            {
+                ViewName = "PDF",
+                Model = model,
+                PageOrientation = Orientation.Portrait,
+                PageSize = Size.A4,
+                PageMargins = new Margins(10, 15, 10, 15),
+                FileName = "Documento.pdf"
+            };
+
+            ViewBag.CopiaControlada = controlada;
+                       
+
+            return View("PDF", model);
+        }
+
         public ActionResult ConteudoDocumento(int id, int Obsoleto = 0)
         {
             var documento = new DocDocumento();
@@ -208,6 +262,12 @@ namespace Web.UI.Controllers
             documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
             CarregarDropDownUsuarios();
             ViewBag.EhOboleto = Obsoleto;
+
+            if (documento.IdDocExterno > 0)
+            {
+                documento.DocExterno.Anexo.ArquivoB64 = documento.DocExterno.Anexo.TrataAnexoVindoBanco();
+
+            }
 
             DocDocumento documentoFilhoAtualizar = new DocDocumento();
 
@@ -867,8 +927,10 @@ namespace Web.UI.Controllers
 
             if (documento.FlWorkFlow)
             {
-                documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Usuario.NmCompleto).ToList();
-                documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                //documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                //documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
+                documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").ToList();
+                documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").ToList();
             }
             if (documento.IdGestaoDeRisco > 0)
             {
@@ -1006,6 +1068,10 @@ namespace Web.UI.Controllers
             dest.XmlMetadata = source.XmlMetadata;
             //dest.DocExterno = source.DocExterno;
 
+            //dest.DocUsuarioVerificaAprova = source.DocUsuarioVerificaAprova;
+            //dest.Aprovadores = source.Aprovadores;
+            //dest.Verificadores = source.Verificadores;
+
             if (dest.GestaoDeRisco != null)
             {
                 if (source.GestaoDeRisco != null)
@@ -1015,6 +1081,7 @@ namespace Web.UI.Controllers
                     dest.GestaoDeRisco.CriticidadeGestaoDeRisco = source.GestaoDeRisco.CriticidadeGestaoDeRisco;
                     dest.GestaoDeRisco.ResponsavelImplementar = source.GestaoDeRisco.ResponsavelImplementar;
                     dest.GestaoDeRisco.DescricaoRegistro = source.GestaoDeRisco.DescricaoRegistro;
+                    dest.GestaoDeRisco.IdResponsavelInicarAcaoImediata = source.GestaoDeRisco.IdResponsavelInicarAcaoImediata;
                 }
             }
             else
@@ -1057,6 +1124,7 @@ namespace Web.UI.Controllers
                 x.Proteger = itemAtualizar.Proteger;
                 x.Recuperar = itemAtualizar.Recuperar;
                 x.Disposicao = itemAtualizar.Disposicao;
+                x.Retencao = itemAtualizar.Retencao;
             });
 
             if (source.DocExterno != null && !string.IsNullOrEmpty(source.DocExterno.Anexo.ArquivoB64))
@@ -1339,10 +1407,14 @@ namespace Web.UI.Controllers
                 //[aqui] somente estas duas linhas
                 if (doc.DocUsuarioVerificaAprova.Count == 0)
                 {
-                    doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
-                    doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
-                }
+                    //doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
+                    //doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);]
 
+                    doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
+                    doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
+                    
+                }
+                    
 
 
 

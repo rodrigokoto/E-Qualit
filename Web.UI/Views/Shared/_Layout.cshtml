@@ -279,7 +279,7 @@
                                                 <div id="@(processo.Nome)" class="subPages collapse class">
                                                     <ul class="nav">
                                                         <li>
-                                                            <a href="#subPages@(processo.Nome)Categoria" id="hrefDocs" class="active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@processo.Nome</span> <i style="float: right" class="fa fa-bars"></i></a>
+                                                            <a href="#subPages@(processo.Nome)Categoria" id="hrefDocs" class="hrefDocs active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@processo.Nome</span> <i style="float: right" class="fa fa-bars"></i></a>
                                                             <div id="subPages@(processo.Nome)Categoria" class="subPages2 class collapse" style="height: 0px;">
                                                                 <ul class="nav">
                                                                     @{ var item = 0; }
@@ -473,18 +473,16 @@
             }
         });
 
-
-        $("#hrefDocs").click(function () {
-
-            var style = $($(".liDocs")[0]).attr("style");
+        $(".hrefDocs").click(function (e) {
+            var cadeiaLi = $(this).next().find('.liDocs');
+            var style = cadeiaLi[0].attributes[1].nodeValue;
 
             if (style == "display: none;") {
-                $(".liDocs").show();
+                cadeiaLi.show();
             }
             else {
-                $(".liDocs").hide();
+                cadeiaLi.hide();
             }
-
         });
 
         if ("@HttpContext.Current.Request.Url.AbsoluteUri.ToLower().Contains("home/homeprocesso")" == "True") {

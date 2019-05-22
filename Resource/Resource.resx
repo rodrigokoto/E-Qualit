@@ -3430,4 +3430,7 @@ www.e-qualit.com.br
   <data name="EmissorCausa" xml:space="preserve">
     <value>Emissor da Causa</value>
   </data>
+  <data name="VoltarElaboracao" xml:space="preserve">
+    <value>Voltar para elaboração</value>
+  </data>
 </root>

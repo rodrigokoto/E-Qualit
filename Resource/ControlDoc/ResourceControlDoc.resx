@@ -300,4 +300,7 @@
   <data name="ControlDoc_lbl_Justificativa" xml:space="preserve">
     <value>Justificativa</value>
   </data>
+  <data name="ControlDoc_lbl_Responsavel_Risco" xml:space="preserve">
+    <value>Responsável</value>
+  </data>
 </root>
