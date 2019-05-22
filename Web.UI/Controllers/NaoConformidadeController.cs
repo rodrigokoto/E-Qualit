@@ -626,6 +626,7 @@ namespace Web.UI.Controllers
 
             conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
             conteudo = conteudo.Replace("#NuNaoConformidade#", nc.NuRegistro.ToString());
+            conteudo = conteudo.Replace("#NuRegistroConformidade#", nc.IdRegistroConformidade.ToString());
 
             Email _email = new Email();
 

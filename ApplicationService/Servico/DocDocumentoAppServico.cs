@@ -412,7 +412,7 @@ namespace ApplicationService.Servico
                                                     x.IdSite == site &&
                                                     x.FlStatus == (int)StatusDocumento.Aprovacao);
 
-            listaDocumentosAprovacao = listaDocumentosAprovacao.Where(x => x.DocUsuarioVerificaAprova.Any(y => y.IdDocUsuarioVerificaAprova == usuarioAprovador)).ToList();
+            listaDocumentosAprovacao = listaDocumentosAprovacao.Where(x => x.DocUsuarioVerificaAprova.Any(y => y.Usuario.IdUsuario == usuarioAprovador)).ToList();
 
             return listaDocumentosAprovacao;
         }
