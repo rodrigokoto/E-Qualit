@@ -1656,6 +1656,7 @@
     <Content Include="Templates\AteracaoStatusGestaoDeRisco-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusAcaoCorretiva-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusNaoConformidade-pt-BR.html" />
+    <Content Include="Templates\NotificacaoVerificacaoDocumento-pt-BR.html" />
     <Content Include="Templates\NovoUsuario-pt-BR.html" />
     <Content Include="Templates\ReenvioSenha-pt-BR.html" />
     <Content Include="Views\AnaliseCritica\Criar.cshtml" />

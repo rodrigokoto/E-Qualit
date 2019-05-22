@@ -78,7 +78,6 @@ APP.controller.ControlDocController = {
         }
 
         $('#add').click(function () {
-            debugger;
             if ($('#form-cadastro-verificadorBase').find(':selected').length + $('#form-cadastro-verificador').find('option').length > 3) {
                 bootbox.alert("Numero máximo de verificadores 3.");
             } else {

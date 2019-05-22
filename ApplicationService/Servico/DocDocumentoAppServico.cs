@@ -193,28 +193,40 @@ namespace ApplicationService.Servico
             }
         }
 
-        public void NotificacaoVerificadoresEmail(decimal NuDocumento, int idSite, List<DocUsuarioVerificaAprova> aprovadores, int? idProcesso = null)
+        public void NotificacaoVerificadoresEmail(DocDocumento documento, int idSite, List<DocUsuarioVerificaAprova> aprovadores, int? idProcesso = null)
         {
+
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NotificacaoVerificacaoDocumento-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+
+            template = template.Replace("#nroDoc#", documento.NumeroDocumento.ToString());
+            template = template.Replace("#titulo#", documento.Titulo);
+            var textoEmail = template.Replace("#linkAcesso#", GerarLinkVerificacao(documento));
+
             foreach (var aprovador in aprovadores)
             {
-                var notificacao = new Notificacao("Você está recebendo uma notificação do sistema de gestão e-Qualit," +
-                    "existe uma não conformidade no sistema a qual necessita sua verificação.<br>" +
-                    "Por favor, acesse seu sistema de gestão, no menu – Registros – módulo – Não Conformidade," +
-                    "vá ao registro número " + NuDocumento + ".",
-                    DateTime.Now,
-                    DateTime.Now,
-                    (int)Funcionalidades.ControlDoc,
-                    idProcesso,
-                    1,
-                    idSite,
-                    5,
-                    "E", aprovador.IdUsuario);
 
-                _notificacaoServico.Add(notificacao);
+                var notificacao = new Notificacao(textoEmail,
+                        DateTime.Now,
+                        DateTime.Now,
+                        (int)Funcionalidades.ControlDoc,
+                        idProcesso,
+                        1,
+                        idSite,
+                        5,
+                        "E", aprovador.IdUsuario);
+
                 var usuario = _usuarioAppServico.GetById(aprovador.IdUsuario);
-                notificacao.Usuario = usuario;
-                EnviaEmail(notificacao);
+                _notificacaoServico.Add(notificacao);
+
+                EnviaEmailSemTemplate(notificacao, usuario);
             }
+        }
+
+        private string GerarLinkVerificacao(DocDocumento documento)
+        {
+            var prefixo = "http://" + ConfigurationManager.AppSettings["Dominio"].ToString();
+            return prefixo + "ControlDoc/Editar/" + documento.IdDocumento.ToString();
         }
 
         public void NotificacaoElaboradorEmail(decimal NuDocumento, int idSite, int idElaborador, DateTime dataVencimento, int? idProcesso = null)
@@ -241,24 +253,30 @@ namespace ApplicationService.Servico
             }
         }
 
+        private void EnviaEmailSemTemplate(Notificacao notificacao, Usuario usuario)
+        {
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoControlDoc;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = usuario.CdIdentificacao;
+            _email.Conteudo = notificacao.Descricao;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
+        }
+
+
         private void EnviaEmail(Notificacao notificacao)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NotificacaoDocumento-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
             string template = System.IO.File.ReadAllText(path);
             string conteudo = template;
 
-            conteudo = conteudo.Replace("#Corpo#", notificacao.Descricao);
-           
-            Email _email = new Email();
+            notificacao.Descricao = conteudo.Replace("#Corpo#", notificacao.Descricao);
 
-            _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoControlDoc;
-            _email.De = ConfigurationManager.AppSettings["EmailDE"];
-            _email.Para = notificacao.Usuario.CdIdentificacao;
-            _email.Conteudo = conteudo;
-            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
-            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
-            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
-            _email.Enviar();
+            this.EnviaEmailSemTemplate(notificacao, notificacao.Usuario);
         }
 
         public void NotificacaoColaboradores(decimal NuDocumento, List<Usuario> usuarios, int idSite, int? idProcesso)
@@ -563,16 +581,16 @@ namespace ApplicationService.Servico
 
         private bool DocumentoFoiVerificadoPortodos(List<DocUsuarioVerificaAprova> verificadores)
         {
-            foreach (var verificador in verificadores)
-                if (verificador.FlVerificou == false)
+            foreach (var verificador in verificadores.Where(x => x.TpEtapa == _statusVerificacao))
+                if (verificador.FlVerificou != true)
                     return false;
 
             return true;
         }
 
-        private bool UsuarioEAprovadorDocumento(List<DocUsuarioVerificaAprova> doc, int idUsuario)
+        private bool UsuarioEAprovadorDocumento(List<DocUsuarioVerificaAprova> aprovadores, int idUsuario)
         {
-            int usuarioAprova = doc.Where(s => s.IdUsuario == idUsuario
+            int usuarioAprova = aprovadores.Where(s => s.IdUsuario == idUsuario
                                             && s.TpEtapa == _statusAprovacao).Count();
 
             if (usuarioAprova > 0)

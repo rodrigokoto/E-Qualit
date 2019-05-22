@@ -159,27 +159,34 @@
                                 <!-- Processo -->
                                 <div class="form-group">
                                     <label for="form-cadastro-processo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Processo</label>
-                                    @if (ViewBag.IdPerfil != 4)
-                                    {
+                                    <select id="form-cadastro-processo" name="formCadastroProcesso" class="form-control" data-msg-required=@Traducao.Resource.MsgProcessoPreenchido>
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.Processo != null)
+                                        {
+                                            <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
+                                        }
+                                    </select>
+                                    @*@if (ViewBag.IdPerfil != 4)
+                                        {
 
 
-                                        <select id="form-cadastro-processo" name="formCadastroProcesso" class="form-control" data-msg-required=@Traducao.Resource.MsgProcessoPreenchido>
-                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                            @if (Model.Processo != null)
-                                            {
-                                                <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
-                                            }
-                                        </select>
-                                    }
-                                    else
-                                    {
-                                        <select id="form-cadastro-processo" disabled name="formCadastroProcesso" class="form-control" data-msg-required=@Traducao.Resource.MsgProcessoPreenchido>
-                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            <select id="form-cadastro-processo" name="formCadastroProcesso" class="form-control" data-msg-required=@Traducao.Resource.MsgProcessoPreenchido>
+                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                @if (Model.Processo != null)
+                                                {
+                                                    <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
+                                                }
+                                            </select>
+                                        }
+                                        else
+                                        {
+                                            <select id="form-cadastro-processo" disabled name="formCadastroProcesso" class="form-control" data-msg-required=@Traducao.Resource.MsgProcessoPreenchido>
+                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
 
-                                            <option value="@Model.IdProcesso" selected>@ViewBag.NomeProcesso</option>
+                                                <option value="@Model.IdProcesso" selected>@ViewBag.NomeProcesso</option>
 
-                                        </select>
-                                    }
+                                            </select>
+                                        }*@
 
                                 </div>
                             </div>

@@ -17,7 +17,7 @@ namespace ApplicationService.Interface
         void NotificacaoColaboradores(decimal NuDocumento, List<Usuario> usuarios, int idSite, int? idProcesso = null);
 
         void NotificacaoAprovadoresEmail(decimal NuDocumento, int idSite, List<DocUsuarioVerificaAprova> aprovadores, int? IdPocesso = null);
-        void NotificacaoVerificadoresEmail(decimal NuDocumento, int idSite, List<DocUsuarioVerificaAprova> aprovadores, int? IdPocesso = null);
+        void NotificacaoVerificadoresEmail(DocDocumento documento, int idSite, List<DocUsuarioVerificaAprova> aprovadores, int? IdPocesso = null);
         void NotificacaoElaboradorEmail(decimal NuDocumento, int idSite, int idElaborador, DateTime dataVencimento, int? IdPocesso = null);
 
         // Etapas do documento

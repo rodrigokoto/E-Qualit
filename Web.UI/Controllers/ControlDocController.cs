@@ -965,7 +965,7 @@ namespace Web.UI.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public JsonResult Editar(DocDocumento documentoEditado)
+        public JsonResult Editar(DocDocumento documentoEditado, bool validaAssunto = true)
         {
             if (documentoEditado.GestaoDeRisco != null)
                 documentoEditado.IdGestaoDeRisco = documentoEditado.GestaoDeRisco.IdRegistroConformidade;
@@ -975,8 +975,8 @@ namespace Web.UI.Controllers
 
             try
             {
-                //if (documentoEditado.FlStatus == (byte)StatusDocumento.Aprovado)
-                _documentoServico.AssuntoObrigatorioEditarRevisao(documentoEditado, ref erros);
+                if(validaAssunto)
+                    _documentoServico.AssuntoObrigatorioEditarRevisao(documentoEditado, ref erros);
 
                 TrataEdicaoDoc(documentoEditado, ref erros);
 
@@ -1178,9 +1178,10 @@ namespace Web.UI.Controllers
 
                     documento.FlStatus = (int)StatusDocumento.Verificacao;
 
-                    Editar(documento);
+                    Editar(documento, false);
 
-                    _documentoAppServico.NotificacaoVerificadoresEmail(documento.NumeroDocumento, documento.IdSite, documento.Verificadores);
+
+                    _documentoAppServico.NotificacaoVerificadoresEmail(documento, documento.IdSite, documento.Verificadores);
 
                 }
                 else
