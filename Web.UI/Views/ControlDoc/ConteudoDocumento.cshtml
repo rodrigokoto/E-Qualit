@@ -18,6 +18,7 @@
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GerarPdfDocumento.js")"></script>
 
 }
 @section Metas {
@@ -67,101 +68,6 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
-
-    function copyStylesInline(destinationNode, sourceNode) {
-        var containerElements = ["svg", "g"];
-        for (var cd = 0; cd < destinationNode.childNodes.length; cd++) {
-            var child = destinationNode.childNodes[cd];
-            if (containerElements.indexOf(child.tagName) != -1) {
-                copyStylesInline(child, sourceNode.childNodes[cd]);
-                continue;
-            }
-            var style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
-            if (style == "undefined" || style == null) continue;
-            for (var st = 0; st < style.length; st++) {
-                child.style.setProperty(style[st], style.getPropertyValue(style[st]));
-            }
-        }
-    }
-
-    function gerarPdf(idDocumento, isControlada, idUsuarioDestino) {
-        if (document.getElementById('graphContainer') != null) {
-            var svg = document.getElementById('graphContainer').children[0];
-            var copy = svg.cloneNode(true);
-            copyStylesInline(copy, svg);
-            var canvas = document.createElement("canvas");
-            var bbox = svg.getBBox();
-            canvas.width = svg.clientWidth;
-            canvas.height = svg.clientHeight;
-            var ctx = canvas.getContext("2d");
-            ctx.clearRect(0, 0, bbox.width, bbox.height);
-            var data = (new XMLSerializer()).serializeToString(copy);
-            var DOMURL = window.URL || window.webkitURL || window;
-            var img = new Image();
-            var svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
-            var url = DOMURL.createObjectURL(svgBlob);
-            img.onload = function () {
-                ctx.drawImage(img, 0, 0);
-                DOMURL.revokeObjectURL(url);
-                var fluxoBase64 = canvas.toDataURL("image/png");
-
-                APP.controller.ControlDocController.downloadPdf(idDocumento, isControlada, idUsuarioDestino, fluxoBase64);
-            };
-            img.src = url;
-        }
-        else {
-            APP.controller.ControlDocController.downloadPdf(idDocumento, isControlada, idUsuarioDestino, '');
-        }
-
-    }
-
-    function triggerDownload(imgURI, fileName) {
-        var evt = new MouseEvent("click", {
-            view: window,
-            bubbles: false,
-            cancelable: true
-        });
-        var a = document.createElement("a");
-        a.setAttribute("download", fileName);
-        a.setAttribute("href", imgURI);
-        a.setAttribute("target", '_blank');
-        a.dispatchEvent(evt);
-    }
-
-    function downloadSvg(svg, fileName) {
-        var copy = svg.cloneNode(true);
-        copyStylesInline(copy, svg);
-        var canvas = document.createElement("canvas");
-        var bbox = svg.getBBox();
-        canvas.width = 1000;
-        canvas.height = 1000;
-        var ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, bbox.width, bbox.height);
-        var data = (new XMLSerializer()).serializeToString(copy);
-        var DOMURL = window.URL || window.webkitURL || window;
-        var img = new Image();
-        var svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
-        var url = DOMURL.createObjectURL(svgBlob);
-        img.onload = function () {
-            ctx.drawImage(img, 0, 0);
-            DOMURL.revokeObjectURL(url);
-            if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
-                var blob = canvas.msToBlob();
-                navigator.msSaveOrOpenBlob(blob, fileName);
-            }
-            else {
-                var imgURI = canvas
-                    .toDataURL("image/png")
-                    .replace("image/png", "image/octet-stream");
-                triggerDownload(imgURI, fileName);
-            }
-            document.removeChild(canvas);
-        };
-        img.src = url;
-    }
-
-</script>
 
 <script type="text/javascript">
     $(document).on('focus', '.datepicker', function () {
@@ -364,9 +270,9 @@
                                             </div>
                                             <!-- Licenca -->
                                             @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
-                                        </div>*@
+                                                    <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
+                                                    <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
+                                                </div>*@
                                             <!-- Docs Externos -->
                                             <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
                                                 <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-docsexternos" class="" value="DE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "DE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? "checked" : "")>
@@ -431,50 +337,50 @@
                                                     <div id="menu-graph">
                                                         <ul>
                                                             @*<li>
-                                                            <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
-                                                        </li>*@
+                                                                    <i class="fa fa-files-o" aria-hidden="true" id="Copy" title="@Traducao.Resource.Copiar"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-scissors" aria-hidden="true" id="Cut" title="@Traducao.Resource.Cortar"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-clipboard" aria-hidden="true" id="Paste" title="@Traducao.Resource.Colar"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-trash-o" aria-hidden="true" id="Delete" title="@Traducao.Resource.Deletar"></i>
+                                                                </li>*@
                                                             <li>
                                                                 <i class="fa fa-eye" aria-hidden="true" id="View" title="@Traducao.Resource.VisualizarDiagrama"> Expandir</i>
                                                             </li>
                                                             @*<li>
-                                                                <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
-                                                        </li>
-                                                        <li class="separador"></li>
-                                                        <li>
-                                                            <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
-                                                        </li>*@
+                                                                        <i class="fa fa-undo" aria-hidden="true" id="Undo" title="@Traducao.Resource.Desfazer"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-repeat" aria-hidden="true" id="Redo" title="@Traducao.Resource.Refazer"></i>
+                                                                </li>
+                                                                <li class="separador"></li>
+                                                                <li>
+                                                                    <i class="fa fa-object-group" aria-hidden="true" id="selectAll" title="@Traducao.Resource.SelecionarTodos"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-object-ungroup" aria-hidden="true" id="unselectAll" title="@Traducao.Resource.DesmarcarTodos"></i>
+                                                                </li>*@
                                                             @*<li class="separador"></li>
-                                                        <li>
-                                                            <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
-                                                        </li>*@
+                                                                <li>
+                                                                    <i class="fa fa-search" aria-hidden="true" id="zoomActual" title="@Traducao.Resource.ZoomAtual"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-search-plus" aria-hidden="true" id="zoomIn" title="@Traducao.Resource.AumentarZoom"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-search-minus" aria-hidden="true" id="zoomOut" title="@Traducao.Resource.DiminuirZoom"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-arrows" aria-hidden="true" id="zoomFit" title="@Traducao.Resource.AjustarTela"></i>
+                                                                </li>*@
                                                             @*<li class="separador"></li>
-                                                        <li>
-                                                            <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
-                                                        </li>*@
+                                                                <li>
+                                                                    <i class="fa fa-file-pdf-o" aria-hidden="true" id="ExportPdf" title="@Traducao.Resource.ExportarDiagramaparaPDF"></i>
+                                                                </li>*@
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -604,44 +510,44 @@
                                                     {
                                                         foreach (var rotina in Model.Indicadores)
                                                         {
-                                                    <tr>
-                                                        <td>
-                                                            <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdIndicadores" />
-                                                            <label type="text" name="formIndicadoresObjetivo" maxlength="8000" rows="5" if="form-indicadores-objetivo" class="" disabled="">@rotina.Objetivo</label>
-                                                        </td>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdIndicadores" />
+                                                                    <label type="text" name="formIndicadoresObjetivo" maxlength="8000" rows="5" if="form-indicadores-objetivo" class="" disabled="">@rotina.Objetivo</label>
+                                                                </td>
 
-                                                        @*<td>
-                                                            <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdIndicadores" />
-                                                            <select id="form-indicadores-responsavel" name="formIndicadoresResponsavel" class="" disabled 
-                                                                    data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Responsavel_implementar">
-                                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                                                @if (rotina.IdResponsavel != 0)
-                                                                {
-                                                                    <option value="@rotina.IdResponsavel" selected>@rotina.ResponsavelNomeCompleto</option>
-                                                                }
-                                                            </select>
-                                                        </td>*@
-
-
-
-                                                        <td>
-                                                            <label type="text" name="formIndicadoresResponsavel" if="form-indicadores-responsavel" class="" disabled>@rotina.ResponsavelNomeCompleto</label>
-                                                        </td>
-                                                        <td>
-                                                            <label type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="" disabled>@rotina.IndicadoresMeta</label>
-                                                        </td>
-                                                        <td>
-                                                            <label type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="" disabled>@rotina.IndicadoresMetaMaximaMinima</label>
-                                                        </td>
-                                                        <td>
-                                                            <label type="text" name="formIndicadoresIndicadores" maxlength="8000" rows="5" if="form-indicadores-indicadores" class="" disabled>@rotina.Indicadores</label>
-                                                        </td>
-                                                        <td>
-                                                            <label type="text" name="formIndicadoresUnidadeMeta" if="form-indicadores-UnidadeMeta" class="" disabled>@rotina.IndicadoresUnidadeMeta</label>
-                                                        </td>
+                                                                @*<td>
+                                                                        <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdIndicadores" />
+                                                                        <select id="form-indicadores-responsavel" name="formIndicadoresResponsavel" class="" disabled
+                                                                                data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Responsavel_implementar">
+                                                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                                            @if (rotina.IdResponsavel != 0)
+                                                                            {
+                                                                                <option value="@rotina.IdResponsavel" selected>@rotina.ResponsavelNomeCompleto</option>
+                                                                            }
+                                                                        </select>
+                                                                    </td>*@
 
 
-                                                    </tr>
+
+                                                                <td>
+                                                                    <label type="text" name="formIndicadoresResponsavel" if="form-indicadores-responsavel" class="" disabled>@rotina.ResponsavelNomeCompleto</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="" disabled>@rotina.IndicadoresMeta</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="" disabled>@rotina.IndicadoresMetaMaximaMinima</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label type="text" name="formIndicadoresIndicadores" maxlength="8000" rows="5" if="form-indicadores-indicadores" class="" disabled>@rotina.Indicadores</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label type="text" name="formIndicadoresUnidadeMeta" if="form-indicadores-UnidadeMeta" class="" disabled>@rotina.IndicadoresUnidadeMeta</label>
+                                                                </td>
+
+
+                                                            </tr>
                                                         }
                                                     }
                                                 </tbody>
@@ -866,17 +772,17 @@
                                             <label>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Arquivo</label>
                                             <div class="upload-arq  @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
                                                 @*<a class="btn-upload-file-form-docexterno-anexo">
-                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                            </a>*@
+                                                        <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                                    </a>*@
 
                                                 <ul>
                                                     @*@if (Model.DocExterno != null)
-                                                {
-                                                    <li>
-                                                        <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome">@Model.DocExterno.Anexo.Nome</a>
-                                                        <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
-                                                        <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
-                                                }*@
+                                                        {
+                                                            <li>
+                                                                <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome">@Model.DocExterno.Anexo.Nome</a>
+                                                                <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
+                                                                <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
+                                                        }*@
 
                                                     @if (Model.DocExterno != null)
                                                     {

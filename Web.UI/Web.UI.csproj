@@ -901,6 +901,7 @@
     <Content Include="Content\assets\js\FornecedoresController.js" />
     <Content Include="Content\assets\js\FuncionarioController.js" />
     <Content Include="Content\assets\js\GeneralController.js" />
+    <Content Include="Content\assets\js\GerarPdfDocumento.js" />
     <Content Include="Content\assets\js\GestaoDeRiscoController.js" />
     <Content Include="Content\assets\js\HomeController.js" />
     <Content Include="Content\assets\js\IndicadorController.js" />
