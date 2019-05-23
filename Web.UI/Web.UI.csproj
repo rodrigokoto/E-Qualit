@@ -901,6 +901,7 @@
     <Content Include="Content\assets\js\FornecedoresController.js" />
     <Content Include="Content\assets\js\FuncionarioController.js" />
     <Content Include="Content\assets\js\GeneralController.js" />
+    <Content Include="Content\assets\js\GerarPdfDocumento.js" />
     <Content Include="Content\assets\js\GestaoDeRiscoController.js" />
     <Content Include="Content\assets\js\HomeController.js" />
     <Content Include="Content\assets\js\IndicadorController.js" />
@@ -1652,10 +1653,13 @@
     <Content Include="Content\assets_src\js\vendor\mxGraph\javascript\src\resources\mxApplication_zh.txt" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\Fornecedor.js" />
+    <Content Include="Templates\NotificacaoElaboracaoDocumento-pt-BR.html" />
     <Content Include="Templates\NotificacaoDocumento-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusGestaoDeRisco-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusAcaoCorretiva-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusNaoConformidade-pt-BR.html" />
+    <Content Include="Templates\NotificacaoAprovacaoDocumento-pt-BR.html" />
+    <Content Include="Templates\NotificacaoVerificacaoDocumento-pt-BR.html" />
     <Content Include="Templates\NovoUsuario-pt-BR.html" />
     <Content Include="Templates\ReenvioSenha-pt-BR.html" />
     <Content Include="Views\AnaliseCritica\Criar.cshtml" />

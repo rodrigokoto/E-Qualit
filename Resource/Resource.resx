@@ -3433,4 +3433,7 @@ www.e-qualit.com.br
   <data name="VoltarElaboracao" xml:space="preserve">
     <value>Voltar para elaboração</value>
   </data>
+  <data name="MarcarVerificado" xml:space="preserve">
+    <value>Marcar como Verificado</value>
+  </data>
 </root>

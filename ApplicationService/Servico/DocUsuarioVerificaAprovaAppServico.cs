@@ -15,25 +15,12 @@ namespace ApplicationService.Servico
             _docUsuarioVerificaAprovaRepositorio = docUsuarioVerificaAprovaRepositorio;
         }
 
-        public void AlterarUsuariosDoDocumento(int idDocumento, List<DocUsuarioVerificaAprova> lista)
-        {
-            var listaDoBanco = _docUsuarioVerificaAprovaRepositorio.Get(x => x.IdDocumento == idDocumento).ToList();
-
-            foreach (var usDeletar in listaDoBanco)
+        public void AlterarUsuariosDoDocumento(List<DocUsuarioVerificaAprova> lista)
+        {            
+            foreach (var usuarioVerificaAprova in lista)
             {
-                _docUsuarioVerificaAprovaRepositorio.Remove(usDeletar);
-                lista.Remove(usDeletar);
+                _docUsuarioVerificaAprovaRepositorio.Update(usuarioVerificaAprova);
             }
-
-            
-            List<DocUsuarioVerificaAprova> listaIncluir = new List<DocUsuarioVerificaAprova>();
-
-            foreach (var usIncluir in lista)
-            {
-                _docUsuarioVerificaAprovaRepositorio.Add(lista.Where(x => usIncluir.IdUsuario == x.IdUsuario
-                                                        && x.IdDocUsuarioVerificaAprova == usIncluir.IdDocUsuarioVerificaAprova).FirstOrDefault());
-            }
-
         }
 
         public void AtualizarParaEstadoInicialDoDocumento(List<DocUsuarioVerificaAprova> lista)
