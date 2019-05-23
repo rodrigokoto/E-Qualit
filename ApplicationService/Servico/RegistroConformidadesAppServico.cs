@@ -127,6 +127,8 @@ namespace ApplicationService.Servico
                 if (registroAcaoCorretiva != null)
                 {
                     registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    registroAcaoCorretiva.StatusEtapa = 4;
+                    registroAcaoCorretiva.DtEnceramento = DateTime.Now;
                     _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
                 }
 
@@ -147,6 +149,28 @@ namespace ApplicationService.Servico
                 if (registroAcaoCorretiva != null)
                 {
                     registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                }
+
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
+
+                objCtx.EProcedente = naoConformidade.EProcedente;
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                objCtx.DtDescricaoAcao = naoConformidade.DtDescricaoAcao;
+                objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
+                objCtx.IdUsuarioAlterou = naoConformidade.IdUsuarioAlterou;
+                objCtx.DtEnceramento = DateTime.Now;
+
+            }
+            else if (naoConformidade.OStatusEImplementacao() && naoConformidade.EProcedente == false)
+            {
+
+                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+                if (registroAcaoCorretiva != null)
+                {
+                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    registroAcaoCorretiva.StatusEtapa = 4;
+                    registroAcaoCorretiva.DtEnceramento = DateTime.Now;
                     _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
                 }
 
@@ -361,7 +385,7 @@ namespace ApplicationService.Servico
 
             var primeiraAcaoImdediata = objCtx.AcoesImediatas.FirstOrDefault();
 
-            if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime))
+            if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4)
             {
                 AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);
             }

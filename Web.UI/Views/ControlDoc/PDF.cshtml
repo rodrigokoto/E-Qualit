@@ -27,9 +27,8 @@
 
 
         <style>
-            body
-            {
-                font-size:10px;
+            body {
+                font-size: 10px;
             }
 
             .ui-timepicker {
@@ -212,6 +211,13 @@
                                                     <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-rotina" class="" value="RO" data-id="@(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RO").IdDocTemplate.ToString() : "")" @(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? "checked" : "")>
                                                     <label for="form-cadastro-escolha-rotina">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina</label>
                                                 </div>
+
+                                                <!-- Indicadores -->
+                                                <div class="col-lg-2 col-md-3 col-xs-6 col-xs-12 checkbox">
+                                                    <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="" value="IN" data-id="@(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.Documento.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
+                                                    <label for="form-cadastro-escolha-indicadores">Indicadores</label>
+                                                </div>
+
                                                 <!-- Recursos -->
                                                 <div class="col-lg-2 col-md-3 col-xs-6 col-xs-12 checkbox">
                                                     <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-recursos" class="" value="RE" data-id="@(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RE").IdDocTemplate.ToString() : "")" @(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? "checked" : "")>
@@ -365,6 +371,89 @@
                             </div>
                         </form>
                     }
+
+
+
+
+                    @if (Model.Documento.DocTemplate.Find(x => x.TpTemplate == "IN") != null)
+                    {
+                        <!-- Formulario Indicadores -->
+                        <form id="form-emissao-documento-indicadores">
+                            <div id="panel-form-indicadores">
+                                <div>
+                                    <div>
+                                        <h6>Indicadores</h6>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="caixa">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <table id="tb-form-indicadores" class="table table-striped table-bordered table-list">
+                                                    <thead>
+                                                        <tr>
+                                                            @*<th class="w10 with-input">@Traducao.Resource.Item</th>
+                                                                <th class="w10 with-input">@Traducao.Resource.Oque</th>
+                                                                <th class="w10 with-input">@Traducao.Resource.Quem</th>
+                                                                <th class="w10 with-input">@Traducao.Resource.Registro</th>
+                                                                <th class="w10 with-input">@Traducao.Resource.Como?</th>*@
+
+                                                            <th class="w10 with-input">Objetivo</th>
+                                                            <th class="w5 with-input">Responsável</th>
+                                                            <th class="w5 with-input">Meta Max</th>
+                                                            <th class="w10 with-input">Meta Min</th>
+                                                            <th class="w10 with-input">Indicador</th>
+                                                            <th class="w5 with-input">Unidade</th>
+
+
+                                                            <th class="w5 text-nowrap"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.Documento.DocTemplate.Find(t => t.TpTemplate == "IN") != null)
+                                                        {
+                                                            foreach (var indicador in Model.Documento.Indicadores)
+                                                            {
+                                                        <tr>
+                                                            <td>
+                                                                <input type="hidden" name="formIndicadoresIdIndicadores" value="@indicador.IdIndicadores" />
+                                                                @indicador.Objetivo
+                                                            </td>
+                                                            <td>
+                                                                indicador.ResponsavelNomeCompleto
+                                                            </td>
+                                                            <td>
+                                                                @indicador.IndicadoresMeta
+                                                            </td>
+                                                            <td>
+                                                                @indicador.IndicadoresMetaMaximaMinima
+                                                            </td>
+                                                            <td>
+                                                                @indicador.Indicadores
+                                                            </td>
+                                                            <td>
+                                                                @indicador.IndicadoresUnidadeMeta
+                                                            </td>
+
+                                                        </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+
+
+
+
+
+
+
 
                     @if (Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RO") != null)
                     {

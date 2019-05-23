@@ -87,6 +87,7 @@ namespace DAL.Context
         public DbSet<DocRotina> RotinaDoc { get; set; }
         public DbSet<DocRegistro> RegistroDoc { get; set; }
 
+        public DbSet<DocIndicadores> DocIndicadores { get; set; }
 
 
         #region RH
@@ -201,7 +202,10 @@ namespace DAL.Context
             //modelBuilder.Configurations.Add(new DocLicencaMap());
             modelBuilder.Configurations.Add(new LicencaMap());
             modelBuilder.Configurations.Add(new DocExternoMap());
+
             modelBuilder.Configurations.Add(new DocRotinaMap());
+            modelBuilder.Configurations.Add(new DocIndicadoresMap());
+
             modelBuilder.Configurations.Add(new DocRegistroMap());
 
             
