@@ -866,6 +866,15 @@ namespace Dominio.Servico
                 case 3:
                     dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsTipo(dtDe, dtAte, idTipoNaoConformidade, idSite);
                     break;
+                case 4:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsAcaoCorretiva(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 5:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsProcesso(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 6:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsSite(dtDe, dtAte, idTipoNaoConformidade);
+                    break;
 
                 default:
                     break;

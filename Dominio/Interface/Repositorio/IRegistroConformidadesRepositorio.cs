@@ -11,5 +11,8 @@ namespace Dominio.Interface.Repositorio
         DataTable RetornarDadosGraficoNcsMes(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite);
         DataTable RetornarDadosGraficoNcsTipo(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite);
         DataTable RetornarDadosGraficoNcsAbertasFechadas(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite);
+        DataTable RetornarDadosGraficoNcsAcaoCorretiva(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite);
+        DataTable RetornarDadosGraficoNcsProcesso(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite);
+        DataTable RetornarDadosGraficoNcsSite(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade);
     }
 }
