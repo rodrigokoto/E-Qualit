@@ -154,7 +154,7 @@ namespace Web.UI.Controllers
             }
 
             var documento = _documentoAppServico.Get(s => s.IdDocumento == id).FirstOrDefault();
-
+            documento = AdicionarUsuario(documento);
             var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == documento.IdSite);
 
             var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
@@ -228,7 +228,7 @@ namespace Web.UI.Controllers
             };
 
             ViewBag.CopiaControlada = controlada;
-                       
+
 
             return View("PDF", model);
         }
@@ -293,7 +293,7 @@ namespace Web.UI.Controllers
             //    documento.DocExterno = documentoFilhoAtualizar.DocExterno;
             //    documento.DocTemplate = DocDocumento
             //}           
-
+            documento = AdicionarUsuario(documento);
             return View(documento);
         }
 
@@ -955,8 +955,22 @@ namespace Web.UI.Controllers
             ViewBag.NumeroRisco = documento.GestaoDeRisco != null ? documento.GestaoDeRisco.NuRegistro : 0;
             ViewBag.IsEdicao = true;
             CarregarDropDownUsuarios();
+
+            documento = AdicionarUsuario(documento);
+
+
             documento.Rotinas = documento.Rotinas.OrderBy(x => x.Item).ToList();
             return View("EmissaoDocumento", documento);
+        }
+
+        public DocDocumento AdicionarUsuario(DocDocumento documentoAtual)
+        {
+            for (int i = 0; i < documentoAtual.Indicadores.Count; i++)
+            {
+                var usuarioResponsavel = _usuarioAppServico.GetById((int)documentoAtual.Indicadores[i].IdResponsavel);
+                documentoAtual.Indicadores[i].ResponsavelNomeCompleto = usuarioResponsavel.NmCompleto;
+            }
+            return documentoAtual;
         }
 
         [HttpPost]
@@ -1121,7 +1135,27 @@ namespace Web.UI.Controllers
                 x.Recuperar = itemAtualizar.Recuperar;
                 x.Disposicao = itemAtualizar.Disposicao;
                 x.Retencao = itemAtualizar.Retencao;
+
             });
+
+
+            //Indicadores
+            dest.Indicadores.AddRange(source.Indicadores.Where(s => s.IdIndicadores == 0));
+            List<DocIndicadores> indicadores = dest.Indicadores.Where(s => !source.Indicadores.Any(a => s.IdIndicadores == a.IdIndicadores)).ToList();
+            indicadores.ForEach(f => _documentoAppServico.RemoverGenerico(f));
+
+            dest.Indicadores.ForEach(x =>
+            {
+                var itemAtualizar = source.Indicadores.Where(y => y.IdIndicadores == x.IdIndicadores).FirstOrDefault();
+                x.IdResponsavel = itemAtualizar.IdResponsavel;
+                x.Indicadores = itemAtualizar.Indicadores;
+                x.IndicadoresMeta = itemAtualizar.IndicadoresMeta;
+                x.IndicadoresMetaMaximaMinima = itemAtualizar.IndicadoresMetaMaximaMinima;
+                x.IndicadoresUnidadeMeta = itemAtualizar.IndicadoresUnidadeMeta;
+                x.Objetivo = itemAtualizar.Objetivo;
+            });
+
+
 
             if (source.DocExterno != null && !string.IsNullOrEmpty(source.DocExterno.Anexo.ArquivoB64))
             {
@@ -1400,17 +1434,14 @@ namespace Web.UI.Controllers
             }
             else
             {
-                //[aqui] somente estas duas linhas
+                
                 if (doc.DocUsuarioVerificaAprova.Count == 0)
                 {
-                    //doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
-                    //doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);]
-
                     doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
                     doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
-                    
+
                 }
-                    
+
 
 
 

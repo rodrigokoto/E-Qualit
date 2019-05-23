@@ -84,6 +84,9 @@
             <li role="presentation" class="col-md-1" id="panel-tab-rotina" style="@(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? "" : "display: none;")">
                 <a href="#panel-form-rotina" data-toggle="#panel-form-rotina">Rotina</a>
             </li>
+            <li role="presentation" class="col-md-1" id="panel-tab-indicadores" style="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "" : "display: none;")">
+                <a href="#panel-form-indicadores" data-toggle="#panel-form-indicadores">Indicadores</a>
+            </li>
             <li role="presentation" class="col-md-1" id="panel-tab-recursos" style="@(Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? "" : "display: none;")">
                 <a href="#panel-form-recursos" data-toggle="#panel-form-recursos">Recursos</a>
             </li>
@@ -225,6 +228,14 @@
                                             <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-rotina" class="form-control" value="RO" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RO").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? "checked" : "")>
                                             <label for="form-cadastro-escolha-rotina">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina</label>
                                         </div>
+                                        @*@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina*@
+                                        <!-- Indicadores -->
+                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                            <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="form-control" value="IN" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
+                                            <label for="form-cadastro-escolha-indicadores">Indicadores</label>
+                                        </div>
+
+
                                         <!-- Recursos -->
                                         <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
                                             <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-recursos" class="form-control" value="RE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? "checked" : "")>
@@ -235,6 +246,10 @@
                                             <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-riscos" class="form-control" value="RI" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RI") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RI").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RI") != null ? "checked" : "")>
                                             <label for="form-cadastro-escolha-riscos">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Riscos</label>
                                         </div>
+
+
+
+
                                         <!-- Licenca -->
                                         @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
                                                 <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="form-control" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
@@ -438,14 +453,6 @@
             </form>
             <!-- Formulario FLUXO -->
 
-
-
-
-
-
-
-
-
             <div class="panel panel-default" id="panel-form-fluxo">
                 <div class="panel-heading">
                     <div class="panel-title">
@@ -607,6 +614,98 @@
                     </div>
                 </div>
             </form>
+            <!-- Formulario INDICADORES -->
+            <form id="form-emissao-documento-indicadores">
+                <div class="panel panel-default" id="panel-form-indicadores">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            @*@Traducao.Resource.Rotina*@
+                            <h2>Indicadores</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="barra-busca">
+                            <p class="novo">
+                                <a href="#" class="form-rotina-add-indicadores"><i class="fa fa-plus-circle" aria-hidden="true"></i>Novo Indicador</a>
+                            </p>
+                            <div class="col-md-12" style="margin-top: 40px;">
+                                <div class="form-group">
+                                    <table id="tb-form-indicadores" class="table table-striped table-bordered table-list">
+                                        <thead class="titulo-tabela">
+                                            <tr>
+                                                <th class="w10 with-input">Objetivo</th>
+                                                <th class="w5 with-input">Responsável</th>
+                                                <th class="w5 with-input">Meta Max</th>
+                                                <th class="w10 with-input">Meta Min</th>
+                                                <th class="w10 with-input">Indicador</th>
+                                                <th class="w5 with-input">Unidade</th>
+
+                                                <th class="w5 text-nowrap"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.DocTemplate.Find(t => t.TpTemplate == "IN") != null)
+                                            {
+                                                foreach (var rotina in Model.Indicadores)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name="formIndicadoresIdIndicadores" value="@rotina.IdIndicadores" />
+                                                            <textarea type="text" name="formIndicadoresObjetivo" maxlength="8000" rows="5" if="form-indicadores-objetivo" class="form-control" disabled="">@rotina.Objetivo</textarea>
+                                                        </td>
+                                                        @*<td>
+                                                                <textarea type="text" name="formIndicadoresResponsavel" if="form-indicadores-responsavel" class="form-control" disabled>@rotina.IdResponsavel</textarea>
+                                                            </td>*@
+
+
+                                                        <td>
+                                                            <select id="form-indicadores-responsavel" name="formIndicadoresResponsavel" class="form-control" disabled
+                                                                    data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Responsavel_implementar">
+                                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                                @if (rotina.IdResponsavel != 0)
+                                                                {
+                                                                    <option value="@rotina.IdResponsavel" selected>@rotina.ResponsavelNomeCompleto</option>
+                                                                }
+                                                            </select>
+                                                        </td>
+
+
+
+
+                                                        <td>
+                                                            <textarea type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control" disabled>@rotina.IndicadoresMeta</textarea>
+                                                        </td>
+
+                                                        <td>
+                                                            <textarea type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="form-control" disabled>@rotina.IndicadoresMetaMaximaMinima</textarea>
+                                                        </td>
+
+                                                        <td>
+                                                            <textarea type="text" name="formIndicadoresIndicadores" maxlength="8000" rows="5" if="form-indicadores-indicadores" class="form-control" disabled>@rotina.Indicadores</textarea>
+                                                        </td>
+                                                        <td>
+                                                            <textarea type="text" name="formIndicadoresUnidadeMeta" if="form-indicadores-UnidadeMeta" class="form-control" disabled>@rotina.IndicadoresUnidadeMeta</textarea>
+                                                        </td>
+
+                                                        <td class="text-nowrap">
+                                                            <a href="#" class="editar-form-indicadores icon-cliente editar-color"><i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Editar"></i></a>
+                                                            <a href="#" data-valor="True" class="salvar-form-indicadores icon-cliente"><i class="fa fa-check  ativo-color" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Ativar"></i></a>
+                                                            <a href="#" class="excluir-form-indicadores icon-cliente trash-color"><i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Excluir"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+
             <!-- Formulario RECURSOS -->
             <form id="form-emissao-documento-recursos">
                 <div class="panel panel-default" id="panel-form-recursos">

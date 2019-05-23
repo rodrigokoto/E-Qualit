@@ -20,5 +20,6 @@ namespace Dominio.Entidade
         public static String LicencaTemplate { get { return "L"; } }
         public static String DocExternoTemplate { get { return "DE"; } }
         public static String ResiduoTemplate { get { return "RES"; } }
+        public static String IndicadoresTemplate { get { return "IN"; } }
     }
 }

@@ -8,7 +8,7 @@
 APP.controller.ControlDocController = {
 
     init: function () {
-               
+
 
         var page = APP.component.Util.getPage();
 
@@ -67,18 +67,18 @@ APP.controller.ControlDocController = {
         }
 
         function orderItems(origin, orderUp) {
-            debugger;
+            
             $(origin).find(':selected').appendTo(dest);
         }
 
         $('#add').click(function () {
-            debugger;
+            
             if ($('#form-cadastro-verificadorBase').find(':selected').length + $('#form-cadastro-verificador').find('option').length > 3) {
                 bootbox.alert("Numero máximo de verificadores 3.");
             } else {
                 moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
             }
-            //debugger;
+            
             //moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
         });
 
@@ -172,7 +172,6 @@ APP.controller.ControlDocController = {
         //Control Doc - REGISTROS
         this.buttonAddNovoRegistroFormRegistro = $('.form-registros-add-registro');
         this.buttonSaveNovoRegistroFormRegistro = $('.salvar-form-registros');
-        //[aqui]
         this.buttonEditNovoRegistroFormRegistro = $('.editar-form-registros');
         this.buttonDelNovoRegistroFormRegistro = $('.excluir-form-registros');
 
@@ -181,6 +180,13 @@ APP.controller.ControlDocController = {
         this.buttonSaveNovaRotinaFormRotina = $('.salvar-form-rotina');
         this.buttonEditNovaRotinaFormRotina = $('.editar-form-rotina');
         this.buttonDelNovaRotinaFormRotina = $('.excluir-form-rotina');
+
+        //Control Doc - INDICADORES
+        this.buttonAddNovaIndicadoresFormIndicadores = $('.form-rotina-add-indicadores');
+        this.buttonDelNovaIndicadoresFormIndicadores = $('.excluir-form-indicadores');
+        this.buttonSaveNovaIndicadoresFormIndicadores = $('.salvar-form-indicadores');
+        this.buttonEditNovaIndicadoresFormIndicadores = $('.editar-form-indicadores');
+
 
         //Control Doc - UPLOAD
         this.buttonAddUploadFormUpload = $('.form-upload-add-upload');
@@ -407,6 +413,7 @@ APP.controller.ControlDocController = {
         this.formTexto();
         this.formFluxo();
         this.formRegistro();
+        this.formIndicadores();
         this.formRotina();
         this.formRecursos();
         this.formUpload();
@@ -440,6 +447,7 @@ APP.controller.ControlDocController = {
         this.formFluxo();
         this.formRegistro();
         this.formRotina();
+        this.formIndicadores();
         this.formRecursos();
         this.formUpload();
         this.formRiscos();
@@ -541,7 +549,7 @@ APP.controller.ControlDocController = {
 
         $('[id^=form-cadastro-escolha]').unbind('click');
         $('[id^=form-cadastro-escolha]').on('click', function () {
-
+            
             $(".menu-one").show();
 
             var panel = $(this).attr('id').split('-');
@@ -682,6 +690,11 @@ APP.controller.ControlDocController = {
         var formEmissaoDocumentoAssuntos = $('#form-emissao-documento-assuntos');
         var formEmissaoDocumentoComentarios = $('#form-emissao-documento-comentarios');
         var formEmissaoDocumentoCargos = $('#form-emissao-documento-cargos');
+
+        var formEmissaoDocumentoIndicadores = $('#form-emissao-documento-indicadores');
+
+
+
         var emissaoDocumentoObj = {};
 
         var ConteudoDocumento = {};
@@ -722,6 +735,9 @@ APP.controller.ControlDocController = {
                     case "docsexternos":
                         emissaoDocumentoObj.DocExterno = APP.controller.ControlDocController.getObjFormDocsExternos();
                         break;
+                    case "indicadores":
+                        emissaoDocumentoObj.Indicadores = APP.controller.ControlDocController.getObjFormIndicadores();
+                        break;
                 }
             }
         });
@@ -734,7 +750,7 @@ APP.controller.ControlDocController = {
 
     aux: { IdDocumento: '' },
 
-    saveFormEmissaoDocumento: function (emissaoDocumento, _statusEtapa) {        
+    saveFormEmissaoDocumento: function (emissaoDocumento, _statusEtapa) {
         var url = "/ControlDoc/Salvar/";
         var eEdicao = false;
 
@@ -1488,7 +1504,7 @@ APP.controller.ControlDocController = {
 
         // Carrega o arquivo de Configuracao utilizado pelo MxGraph
         var config = mxUtils.load('/Content/assets_src/js/vendor/mxGraph/javascript/src/config/diagrameditor.xml').getDocumentElement();
-        
+
         // Carrega o editor
         editor = new mxEditor(config);
 
@@ -1595,7 +1611,7 @@ APP.controller.ControlDocController = {
                     $("#toolbar").hide();
                 }
             }
-         
+
             // Enables rotation handle
             mxVertexHandler.prototype.rotationEnabled = enabled;
 
@@ -1796,11 +1812,279 @@ APP.controller.ControlDocController = {
 
     },
 
+    //------------------------------
+
+    //Formulario INDICADORES
+    formIndicadores: function () {
+
+        this.setHideAndShowFormIndicadores();
+        // -- nao this.setNovaRotinaFormRotina();
+        this.setNovaIndicadoresFormIndicadores();
+        this.getResponsavelImplementarIndicadores();
+        this.setSaveNovaIndicadoresFormIndicadores();
+        this.setEditNovaIndicadoresFormIndicadores();
+        this.delNovaIndicadoresFormIndicadores();
+
+    },
+
+    setHideAndShowFormIndicadores: function () {
+        //$('[name=formRotinaItem]').prop('disabled', true);
+    },
+
+    //setContNumberRotina: function () {
+    //    $('[name=formRotinaItem]').each(function (i) {
+    //        $(this).val(i + 1);
+    //    });
+    //},
+
+
+    setNovaIndicadoresFormIndicadores: function () {
+        this.buttonAddNovaIndicadoresFormIndicadores.unbind('click');
+        this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
+            event.preventDefault();
+            
+
+            var TraducaoDropNameSelect = 'Selecione';
+
+            var html = '';
+            html += '<tr>';
+            //html += '<td style="width: 5%;">';
+            html += '<td>';
+            html += '<textarea type="text" name="formIndicadoresObjetivo" maxlength="8000" rows="5" if="form-indicadores-objetivo" class="form-control"></textarea>';
+            html += '</td>';
+
+            //html += '<td>';
+            //html += '<textarea type="text" name="formIndicadoresResponsavel" if="form-indicadores-responsavel" class="form-control"></textarea>';
+            //html += '</td>';
+            html += '<td>';
+
+            html += '<select id="form-indicadores-responsavel" name="formIndicadoresResponsavel" class="form-control" ';
+            html += 'data-msg-required="">';
+            html += '<option value="">' + TraducaoDropNameSelect + '</option>';
+            html += '</select>';
+            html += '</td>';
+
+
+            html += '<td>';
+            html += '<input type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control">';
+            html += '</td>';
+
+            html += '<td>';
+            html += '<input type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" >';
+            html += '</td>';
+
+            html += '<td>';
+            html += '<textarea type="text" name="formIndicadoresIndicadores" maxlength="8000" rows="5" if="form-indicadores-indicadores" class="form-control"></textarea>';
+            html += '</td>';
+
+            html += '<td>';
+            html += '<input type="text" name="formIndicadoresUnidadeMeta" if="form-indicadores-UnidadeMeta" class="form-control">';
+            html += '</td>';
+
+
+
+
+
+            html += '<td class="text-nowrap">';
+            html += '<a href="#" class="editar-form-indicadores icon-cliente editar-color">';
+            html += '<i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonEditar + '" data-original-title="' + _options.labelButtonEditar + '"></i>';
+            html += '</a>';
+            html += '<a href="#" data-valor="True" class="salvar-form-indicadores icon-cliente">';
+            html += '<i class="fa fa-check  ativo-color" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonAtivar + '" data-original-title="' + _options.labelButtonAtivar + '"></i>';
+            html += '</a>';
+            html += '<a href="#" class="excluir-form-indicadores icon-cliente trash-color">';
+            html += '<i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '"></i>';
+            html += '</a>';
+            html += '</td>';
+            html += '</tr>';
+
+            $('#tb-form-indicadores tbody').append(html);
+
+
+
+            APP.controller.ControlDocController.setup();
+            APP.controller.ControlDocController.bindFormIndicadores();
+
+        });
+    },
+
+    setSaveNovaIndicadoresFormIndicadores: function () {
+
+        this.buttonSaveNovaIndicadoresFormIndicadores.unbind('click');
+        this.buttonSaveNovaIndicadoresFormIndicadores.on('click', function () {
+            event.preventDefault();
+            $(this).closest('tr').find('[name=formIndicadoresResponsavel]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formIndicadoresObjetivo]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formIndicadoresResponsavel]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formIndicadoresMeta]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formIndicadoresMetaMaximaMinima]').prop('disabled', true);
+            editor.graph.setEnabled(false);
+
+
+            //var itemAtual = $(this).closest('tr').find('[name=formRotinaItem]').val();
+            //var total = $('#tb-form-rotina tbody tr').length;
+            //var IdItemAtual = $(this).closest('tr').find('[name=formRotinaIdRotina]').val();
+
+            //if (total > itemAtual && (IdItemAtual == null || IdItemAtual == undefined)) {
+
+            //    var quantidadeLoop = total - itemAtual;
+
+            //    for (var i = 0; i < quantidadeLoop; i++) {
+            //        var $parent = $(this).parents('#tb-form-rotina tbody tr');
+            //        $parent.insertBefore($parent.prev());
+            //    }
+
+            //    APP.controller.ControlDocController.setContNumberRotina();
+            //}
+
+        });
+
+    },
+
+
+
+
+    setEditNovaIndicadoresFormIndicadores: function () {
+        
+        this.buttonEditNovaIndicadoresFormIndicadores.unbind('click');
+        this.buttonEditNovaIndicadoresFormIndicadores.on('click', function () {
+            event.preventDefault();
+            $(this).closest('tr').find('[name=formIndicadoresResponsavel]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formIndicadoresObjetivo]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formIndicadoresResponsavel]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formIndicadoresMeta]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formIndicadoresMetaMaximaMinima]').prop('disabled', false);
+            editor.graph.setEnabled(true);
+        });
+
+    },
+
+
+
+
+
+    getResponsavelImplementarIndicadores: function () {
+        
+        var idSite = $('#emissao-documento-site').val();
+        var idFuncao = 23; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
+        var idProcesso = $('[name=IdProcesso]').val();
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + ' &idSite=' + idSite + '&idFuncao=' + idFuncao + '',
+            //beforeSend: function () {
+            //    $('.add-acao-imediata').removeClass('show').addClass('hide');
+            //},
+            success: function (result) {
+                if (result.StatusCode == 200) {
+                    //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
+                    APP.component.SelectListCompare.selectList(result.Lista, $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"] option'), $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"]'), 'IdUsuario', 'NmCompleto');
+                }
+            },
+            error: function (result) {
+                bootbox.alert(_options.MsgOcorreuErro);
+            },
+            complete: function (result) {
+                //$('.add-acao-imediata').removeClass('hide').addClass('show');
+            }
+        });
+
+    },
+
+
+
+
+    delNovaIndicadoresFormIndicadores: function () {
+
+        this.buttonDelNovaIndicadoresFormIndicadores.unbind('click');
+        this.buttonDelNovaIndicadoresFormIndicadores.on('click', function (event) {
+            event.preventDefault();
+
+            var itemExcluir = $(this).closest('tr');
+
+            bootbox.confirm(_options.MsgDesejaExcluirRegistro, function (result) {
+                if (result) {
+                    itemExcluir.remove();
+                    APP.controller.ControlDocController.setContNumberRotina();
+                }
+            });
+
+        });
+
+    },
+
+
+    getObjFormIndicadores: function () {
+
+        var table = $('#tb-form-indicadores tbody');
+        var arrayFormIndicadoresObj = [];
+        var indicadores = {};
+
+        table.find('tr').each(function () {
+            indicadores = {
+                IdIndicadores: $(this).find('[name=formIndicadoresIdIndicadores]').val(),
+                Objetivo: $(this).find('[name=formIndicadoresObjetivo]').val(),
+                IdResponsavel: $(this).find('[name=formIndicadoresResponsavel]').val(),
+                IndicadoresMeta: $(this).find('[name=formIndicadoresMeta]').val(),
+                Indicadores: $(this).find('[name=formIndicadoresIndicadores]').val(),
+                IndicadoresUnidadeMeta: $(this).find('[name=formIndicadoresUnidadeMeta]').val(),
+                IndicadoresMetaMaximaMinima: $(this).find('[name=formIndicadoresMetaMaximaMinima]').val(),
+            };
+            arrayFormIndicadoresObj.push(indicadores);
+
+        });
+        
+        return arrayFormIndicadoresObj;
+
+    },
+
+
+
+    bindFormIndicadores: function () {
+        APP.controller.ControlDocController.getResponsavelImplementarIndicadores();
+        APP.controller.ControlDocController.setNovaIndicadoresFormIndicadores();
+        APP.controller.ControlDocController.setSaveNovaIndicadoresFormIndicadores();
+        APP.controller.ControlDocController.setEditNovaIndicadoresFormIndicadores();
+        APP.controller.ControlDocController.delNovaIndicadoresFormIndicadores();
+        //APP.controller.ControlDocController.getResponsavelImplementarAcaoImediata();
+        
+        //APP.controller.ControlDocController.setHideAndShowFormRotina();
+        
+
+        //APP.controller.ControlDocController.setContNumberRotina();
+
+    },
+
+
+
+    //------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Formulario ROTINA
     formRotina: function () {
 
         this.setHideAndShowFormRotina();
         this.setNovaRotinaFormRotina();
+        //this.setNovaRotinaFormIndicadores();
         this.setSaveNovaRotinaFormRotina();
         this.setEditNovaRotinaFormRotina();
         this.delNovaRotinaFormRotina();
@@ -1861,6 +2145,7 @@ APP.controller.ControlDocController = {
 
         });
     },
+
 
     setSaveNovaRotinaFormRotina: function () {
 
@@ -1959,6 +2244,8 @@ APP.controller.ControlDocController = {
 
         APP.controller.ControlDocController.setHideAndShowFormRotina();
         APP.controller.ControlDocController.setNovaRotinaFormRotina();
+        //APP.controller.ControlDocController.setNovaIndicadoresFormIndicadores();
+
         APP.controller.ControlDocController.setSaveNovaRotinaFormRotina();
         APP.controller.ControlDocController.setEditNovaRotinaFormRotina();
         APP.controller.ControlDocController.delNovaRotinaFormRotina();

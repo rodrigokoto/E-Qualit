@@ -20,6 +20,7 @@ namespace Dominio.Entidade
             Rotinas = new List<DocRotina>();
             Registros = new List<DocRegistro>();
             StatusRegistro = 0;
+
         }
 
         public int IdDocumento { get; set; }
@@ -88,6 +89,7 @@ namespace Dominio.Entidade
         public virtual DocExterno DocExterno { get; set; }
 
         //novo
+        public virtual List<DocIndicadores> Indicadores { get; set; }
         public virtual List<DocRotina> Rotinas { get; set; }
         public virtual List<DocRegistro> Registros { get; set; }
 
