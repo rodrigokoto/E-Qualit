@@ -1,8 +1,10 @@
 ﻿@using ApplicationService.Entidade
 @using ApplicationService.Enum
 @{
-    var listaPermissoes = new List<PermissoesApp>();
-    listaPermissoes.AddRange(ViewBag.Permissoes);
+                /**/
+
+                var listaPermissoes = new List<PermissoesApp>();
+                listaPermissoes.AddRange(ViewBag.Permissoes);
 }
 <!DOCTYPE html>
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7 ie6" lang="pt-BR"><![endif]-->
@@ -212,7 +214,7 @@
                                 <i class="fa fa-cog fa-2x" aria-hidden="true"></i><span>Coordenador</span>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="@Url.Action("Index", "Site/Index")"> Lista Site</a></li>                                
+                                <li><a href="@Url.Action("Index", "Site/Index")"> Lista Site</a></li>
                             </ul>
                         </li>
 
@@ -278,27 +280,40 @@
                                             <li>
                                                 <div id="@(processo.Nome)" class="subPages collapse class">
                                                     <ul class="nav">
-                                                        <li>
-                                                            <a href="#subPages@(processo.Nome)Categoria" id="hrefDocs" class="hrefDocs active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@processo.Nome</span> <i style="float: right" class="fa fa-bars"></i></a>
-                                                            <div id="subPages@(processo.Nome)Categoria" class="subPages2 class collapse" style="height: 0px;">
+                                                        <li style="border-bottom: 2px solid #e7e7e7;">
+                                                            <a href="#subPages@(processo.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria"
+                                                               id="hrefDocs"
+                                                               class="hrefDocs active collapsed"
+                                                               style="padding-left:0px; text-align:center; display: inline-flex"
+                                                               data-toggle="collapse"
+                                                               aria-expanded="false">
+                                                                <i class="lnr lnr-file-empty"></i>
+                                                                <div style="width: 190px">
+                                                                    <span>@processo.Nome</span>
+                                                                </div>
+                                                                <i style="float: right" class="fa fa-bars"></i>
+
+                                                            </a>
+
+                                                            <div id="subPages@(processo.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria" class="subPages2 class collapse" style="height: 0px;">
                                                                 <ul class="nav">
                                                                     @{ var item = 0; }
                                                                     @foreach (var categoria in ViewBag.Categorias)
                                                                     {
                                                                         <li class="liDocs" style="display: none;">
-                                                                            @Html.ActionLink((string)categoria.Descricao, "DocumentosAprovados", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, null)
+                                                                            @Html.ActionLink((string)categoria.Descricao, "DocumentosAprovados", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, new { @style = "padding-left:10px;" })
 
                                                                         </li>
 
                                                                         @*if (item == (ViewBag.Categorias.Count - 1))
-                                        {
-                                            <li>
-                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) || ViewBag.IdPerfil != 4)
-                                                {
-                                                    @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, null)
-                                                }
-                                            </li>
-                                        }*@
+                                                                            {
+                                                                                <li>
+                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) || ViewBag.IdPerfil != 4)
+                                                                                    {
+                                                                                        @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, null)
+                                                                                    }
+                                                                                </li>
+                                                                            }*@
                                                                         item++;
                                                                     }
                                                                 </ul>
@@ -309,7 +324,7 @@
                                             </li>
                                         }
 
-                                       
+
 
                                     </ul>
                                 </div>
@@ -371,39 +386,39 @@
                                         @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) || ViewBag.IdPerfil != 4)
                                         {
                                             <li>
-                                                @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", null, null)                                                
+                                                @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", null, null)
                                             </li>
                                         }
-                                        </ul>
+                                    </ul>
                                 </div>
                             </li>
 
                             @*<li>
-                                <a href="#" class="active" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuAjuda</span></a>
-                                <div id="ajuda" class="subPages class in" style="height: auto;">
-                                    <ul class="nav">
-                                        <li>
-                                            <a href="#subPages2" class="active collapsed" data-toggle="collapse"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuManualDoUsuario</span> <i style="float: right" class="fa fa-bars"></i></a>
-                                            <div id="subPages2" class="subPages2 class collapse" style="height: 0px;">
-                                                <ul class="nav">
-                                                    <li><a href="@Url.Action("../Ajuda/ManualDoUsuarioEscrito/")" class="">@Traducao.Resource.MenuManualDoUsuarioEscrito</a></li>
-                                                    <li><a href="@Url.Action("../Ajuda/ManualDoUsuarioVideo/")" class="">@Traducao.Resource.MenuManualDoUsuarioVideo</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                                    <a href="#" class="active" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuAjuda</span></a>
+                                    <div id="ajuda" class="subPages class in" style="height: auto;">
+                                        <ul class="nav">
+                                            <li>
+                                                <a href="#subPages2" class="active collapsed" data-toggle="collapse"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuManualDoUsuario</span> <i style="float: right" class="fa fa-bars"></i></a>
+                                                <div id="subPages2" class="subPages2 class collapse" style="height: 0px;">
+                                                    <ul class="nav">
+                                                        <li><a href="@Url.Action("../Ajuda/ManualDoUsuarioEscrito/")" class="">@Traducao.Resource.MenuManualDoUsuarioEscrito</a></li>
+                                                        <li><a href="@Url.Action("../Ajuda/ManualDoUsuarioVideo/")" class="">@Traducao.Resource.MenuManualDoUsuarioVideo</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
 
-                            <li>
-                                <a href="#treinamentos" class="active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i><span>@Traducao.Resource.MenuTreinamento</span> <i style="float: right" class="fa fa-bars"></i></a>
-                                <div id="treinamentos" class="subPages class collapse" style="height: 0px;">
-                                    <ul class="nav">
-                                        <li><a href="@Url.Action("../Treinamento/Gratuito/")" class="">@Traducao.Resource.MenuTreinamentoGratuito</a></li>
-                                        <li><a href="@Url.Action("../Treinamento/Pago/")" class="">@Traducao.Resource.MenuTreinamentoPago</a></li>
-                                    </ul>
-                                </div>
-                            </li>*@
+                                <li>
+                                    <a href="#treinamentos" class="active collapsed" data-toggle="collapse" aria-expanded="false"><i class="lnr lnr-file-empty"></i><span>@Traducao.Resource.MenuTreinamento</span> <i style="float: right" class="fa fa-bars"></i></a>
+                                    <div id="treinamentos" class="subPages class collapse" style="height: 0px;">
+                                        <ul class="nav">
+                                            <li><a href="@Url.Action("../Treinamento/Gratuito/")" class="">@Traducao.Resource.MenuTreinamentoGratuito</a></li>
+                                            <li><a href="@Url.Action("../Treinamento/Pago/")" class="">@Traducao.Resource.MenuTreinamentoPago</a></li>
+                                        </ul>
+                                    </div>
+                                </li>*@
 
                         </ul>
                     </nav>
@@ -438,7 +453,7 @@
         };
     </script>
 
-    
+
 
     <script src="@Url.Content("~/Content/assets/js/jquery.min.js")"></script>
 
