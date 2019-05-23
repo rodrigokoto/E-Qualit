@@ -21,7 +21,7 @@ namespace Dominio.Entidade
             Rotinas = new List<DocRotina>();
             Registros = new List<DocRegistro>();
             StatusRegistro = 0;
-
+            Indicadores = new List<DocIndicadores>();
         }
 
         public int IdDocumento { get; set; }
