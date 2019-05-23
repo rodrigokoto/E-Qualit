@@ -16,6 +16,7 @@
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GerarPdfDocumento.js")"></script>
 }
 
 
@@ -104,18 +105,18 @@
                                                     @item.Elaborador.NmCompleto
                                                 </td>
                                                 <td>
-                                                    <p> @(item.Assuntos.Count > 0 ? item.Assuntos.Max(x=> Convert.ToInt32(x.Revisao)) : (item.NuRevisao == null ? 0 : Convert.ToInt32(item.NuRevisao))) </p>
+                                                    <p> @(item.Assuntos.Count > 0 ? item.Assuntos.Max(x => Convert.ToInt32(x.Revisao)) : (item.NuRevisao == null ? 0 : Convert.ToInt32(item.NuRevisao))) </p>
                                                 </td>
                                                 <td class="text-nowrap">
 
                                                     @if (item.FlStatus == (int)StatusDocumento.Aprovado)
                                                     {
-                                                            if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4)
-                                                            {
+                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4)
+                                                        {
                                                             <a href="#" data-IdDocumento="@item.IdDocumento" data-Perfil="@ViewBag.IdPerfil" title="@Traducao.Resource.Imprimir" class="imprimir-documento icon-cliente view-color">
                                                                 <i class="fa fa-print" aria-hidden="true" data-toggle="tooltip" data-original-title="Imprimir"></i>
                                                             </a>
-                                                            }
+                                                        }
                                                     }
 
                                                     @if (item.FlStatus != (int)StatusDocumento.Aprovado || ViewBag.Revisao)
@@ -237,11 +238,11 @@
                     <select class="form-control" id="ddlCopiaControlada" name="ddlCopiaControlada" placeholder="Selecione">
                         @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.CopiaControlada) || ViewBag.IdPerfil != 4)
                         {
-                        <option value="true">@Traducao.Resource.Sim</option>
+                            <option value="true">@Traducao.Resource.Sim</option>
                         }
                         @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.CopiaNaoControlada) || ViewBag.IdPerfil != 4)
                         {
-                        <option value="false">@Traducao.Resource.Nao</option>
+                            <option value="false">@Traducao.Resource.Nao</option>
                         }
                     </select>
                 </div>
