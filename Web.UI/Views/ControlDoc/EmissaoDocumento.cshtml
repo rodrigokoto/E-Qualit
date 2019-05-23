@@ -103,6 +103,7 @@
         <input type="hidden" name="IdProcesso" id="emissao-documento-processo" value="@(Model.IdProcesso == 0 ? ViewBag.IdProcesso : Model.IdProcesso)" />
         <input type="hidden" name="IdDocumento" id="emissao-documento-IdDocumento" value="@Model.IdDocumento" />
         <input type="hidden" name="NmUsuarioLogado" id="emissao-documento-NmUsuarioLogado" value="@ViewBag.NmUsuarioLogado" />
+        <input type="hidden" name="ValidarAssunto" id="emissao-documento-ValidarAssunto" value="@ViewBag.ValidarAssunto" />
         <div class="content-painel">
             <!-- Formulario CADASTRO -->
             <form id="form-emissao-documento-cadastro" name="formTest">
@@ -169,28 +170,6 @@
                                             <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
                                         }
                                     </select>
-                                    @*@if (ViewBag.IdPerfil != 4)
-                                        {
-
-
-                                            <select id="form-cadastro-processo" name="formCadastroProcesso" class="form-control" data-msg-required=@Traducao.Resource.MsgProcessoPreenchido>
-                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                                @if (Model.Processo != null)
-                                                {
-                                                    <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
-                                                }
-                                            </select>
-                                        }
-                                        else
-                                        {
-                                            <select id="form-cadastro-processo" disabled name="formCadastroProcesso" class="form-control" data-msg-required=@Traducao.Resource.MsgProcessoPreenchido>
-                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
-
-                                                <option value="@Model.IdProcesso" selected>@ViewBag.NomeProcesso</option>
-
-                                            </select>
-                                        }*@
-
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -235,7 +214,6 @@
                                             <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-rotina" class="form-control" value="RO" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "RO").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "RO") != null ? "checked" : "")>
                                             <label for="form-cadastro-escolha-rotina">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina</label>
                                         </div>
-                                        @*@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina*@
                                         <!-- Indicadores -->
                                         <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
                                             <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="form-control" value="IN" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
@@ -254,14 +232,6 @@
                                             <label for="form-cadastro-escolha-riscos">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Riscos</label>
                                         </div>
 
-
-
-
-                                        <!-- Licenca -->
-                                        @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                                <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="form-control" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
-                                                <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
-                                            </div>*@
                                         <!-- Docs Externos -->
                                         <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
                                             <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-docsexternos" class="form-control" value="DE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "DE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? "checked" : "")>
@@ -660,10 +630,6 @@
                                                             <input type="hidden" name="formIndicadoresIdIndicadores" value="@rotina.IdIndicadores" />
                                                             <textarea type="text" name="formIndicadoresObjetivo" maxlength="8000" rows="5" if="form-indicadores-objetivo" class="form-control" disabled="">@rotina.Objetivo</textarea>
                                                         </td>
-                                                        @*<td>
-                                                                <textarea type="text" name="formIndicadoresResponsavel" if="form-indicadores-responsavel" class="form-control" disabled>@rotina.IdResponsavel</textarea>
-                                                            </td>*@
-
 
                                                         <td>
                                                             <select id="form-indicadores-responsavel" name="formIndicadoresResponsavel" class="form-control" disabled
@@ -675,9 +641,6 @@
                                                                 }
                                                             </select>
                                                         </td>
-
-
-
 
                                                         <td>
                                                             <textarea type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control" disabled>@rotina.IndicadoresMeta</textarea>
@@ -1054,7 +1017,6 @@
                                                         <a href="#" data-valor="True" class="salvar-form-assuntos icon-cliente">
                                                             <i class="fa fa-check  ativo-color" aria-hidden="true" data-toggle="tooltip" data-original-title="Ativar"></i>
                                                         </a>
-                                                        @*<a href="#" class="excluir-form-assuntos icon-cliente trash-color"><i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="Excluir"></i></a>*@
                                                     </td>
                                                 </tr>
                                             }
@@ -1361,7 +1323,7 @@
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Revisar) || ViewBag.IdPerfil != 4)
             {
                 <li class="botoes-button">
-                    <button type="button" class="btn btn-primary btn-enviar-aprovacao" style="display: none;">@Traducao.Resource.EnviarAprovacao</button>
+                    <button type="button" class="btn btn-primary btn-enviar-aprovacao" style="display: none;">@Traducao.Resource.MarcarVerificado</button>
                 </li>
             }
             <li class="botoes-button">

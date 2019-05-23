@@ -385,7 +385,7 @@ APP.controller.ControlDocController = {
                 },
                 success: function (result) {
                     if (result.StatusCode == 200) {
-                        window.location.href = "/ControlDoc/Editar/?id=" + result.IdRevisao;
+                        window.location.href = "/ControlDoc/Editar/?id=" + result.IdRevisao + '&validarAssunto=true';
                     }
                     else if (result.StatusCode == 505) {
                         erro = APP.component.ResultErros.init(result.Erro);
@@ -767,9 +767,12 @@ APP.controller.ControlDocController = {
             eEdicao = true;
         }
 
+        var validarAssunto = $("#emissao-documento-ValidarAssunto").val();
+
         $.ajax({
             type: "POST",
-            data: { "doc": emissaoDocumento, "status": _statusEtapa },
+            data: {
+                "doc": emissaoDocumento, "status": _statusEtapa, "validarAssunto": validarAssunto},
             dataType: 'json',
             url: url,
             beforeSend: function () {
@@ -828,10 +831,12 @@ APP.controller.ControlDocController = {
     saveFormEmissaoDocumentoEtapaVerificacao: function (emissaoDocumento) {
 
         var erro = "";
+        var validarAssunto = $("#emissao-documento-ValidarAssunto").val();
 
         $.ajax({
             type: "POST",
-            data: emissaoDocumento,
+            data: {
+                "documento": emissaoDocumento, "assuntoObrigatorio": validarAssunto },
             dataType: 'json',
             url: '/ControlDoc/EnviarDocumentoParaVerificacao',
             beforeSend: function () {
@@ -2975,7 +2980,7 @@ APP.controller.ControlDocController = {
                 case 2:
                     APP.controller.ControlDocController.setDisableVerificacao(statusEtapa);
                     $('.btn-aprovar').show();
-                    $('.btn-voltar-elaboracao').skjhgeds
+                    $('.btn-voltar-elaboracao').show();
                     $("input").attr("disabled", "disabled");
                     $("#form-cargos-escolha-all").removeAttr("disabled");
                     $(".closeCargos").removeAttr("disabled");
