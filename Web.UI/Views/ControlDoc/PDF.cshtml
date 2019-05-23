@@ -413,34 +413,33 @@
                                                                 <th class="w5 with-input">Unidade</th>
 
 
-                                                                <th class="w5 text-nowrap"></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @if (Model.Documento.DocTemplate.Find(t => t.TpTemplate == "IN") != null)
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.Documento.DocTemplate.Find(t => t.TpTemplate == "IN") != null)
+                                                        {
+                                                            foreach (var indicador in Model.Documento.Indicadores)
                                                             {
-                                                                foreach (var indicador in Model.Documento.Indicadores)
-                                                                {
-                                                                    <tr>
-                                                                        <td>
-                                                                            <input type="hidden" name="formIndicadoresIdIndicadores" value="@indicador.IdIndicadores" />
-                                                                            @indicador.Objetivo
-                                                                        </td>
-                                                                        <td>
-                                                                            indicador.ResponsavelNomeCompleto
-                                                                        </td>
-                                                                        <td>
-                                                                            @indicador.IndicadoresMeta
-                                                                        </td>
-                                                                        <td>
-                                                                            @indicador.IndicadoresMetaMaximaMinima
-                                                                        </td>
-                                                                        <td>
-                                                                            @indicador.Indicadores
-                                                                        </td>
-                                                                        <td>
-                                                                            @indicador.IndicadoresUnidadeMeta
-                                                                        </td>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="hidden" name="formIndicadoresIdIndicadores" value="@indicador.IdIndicadores" />
+                                                                @indicador.Objetivo
+                                                            </td>
+                                                            <td>
+                                                                indicador.ResponsavelNomeCompleto
+                                                            </td>
+                                                            <td>
+                                                                @indicador.IndicadoresMeta
+                                                            </td>
+                                                            <td>
+                                                                @indicador.IndicadoresMetaMaximaMinima
+                                                            </td>
+                                                            <td>
+                                                                @indicador.Indicadores
+                                                            </td>
+                                                            <td>
+                                                                @indicador.IndicadoresUnidadeMeta
+                                                            </td>
 
                                                                     </tr>
                                                                 }
