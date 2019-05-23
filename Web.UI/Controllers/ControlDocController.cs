@@ -1277,13 +1277,22 @@ namespace Web.UI.Controllers
                 AtualizarAssuntos(documento);
                 AdicionaComentario(documento);
 
+                var listaAprovaVerifi = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento).ToList();
+                listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlVerificou = true;
+                _docUsuarioVerificaAprovaAppServico.AlterarUsuariosDoDocumento(listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado() && x.TpEtapa == "V").ToList());
 
-                if (_documentoAppServico.VerificadoPorTodos(documento))
+
+                if (_documentoAppServico.VerificadoPorTodos(listaAprovaVerifi))
                 {
                     _documentoAppServico.EnviarDocumentoParaAprovacao(documento);
                     _documentoAppServico.NotificacaoAprovadoresEmail(documento, documento.IdSite, documento.Aprovadores);
                 }
+                else
+                {
+                    documento.FlStatus = (byte)StatusDocumento.Verificacao;
+                }
 
+                _documentoAppServico.Update(documento);
             }
             catch (Exception ex)
             {
@@ -1307,27 +1316,15 @@ namespace Web.UI.Controllers
             {
                 try
                 {
-                    Editar(documento);
+                    Editar(documento, false);
 
                     documento = _documentoAppServico.GetById(documento.IdDocumento);
 
                     _documentoAppServico.AprovarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
                     AdicionaComentario(documento);
 
-
-
                     if (_documentoAppServico.AprovadoPorTodos(documento))
-                    {
                         _documentoAppServico.AprovarDocumento(documento);
-
-                        foreach (var cargo in documento.DocCargo)
-                        {
-                            var usuarios = _usuarioAppServico.ObterUsuariosPorCargo(cargo.IdCargo);
-
-                            _documentoAppServico.NotificacaoColaboradores(documento.NumeroDocumento, usuarios, documento.IdSite);
-                        }
-                    }
-
                 }
                 catch (Exception ex)
                 {
@@ -1506,10 +1503,7 @@ namespace Web.UI.Controllers
         }
 
         private void AtualizarUsuarioCargosETemplatesDoDocumento(DocDocumento documento)
-        {
-            //_docUsuarioVerificaAprovaAppServico
-            //            .AlterarUsuariosDoDocumento(documento.IdDocumento, documento.DocUsuarioVerificaAprova);
-
+        {            
             _docCargoAppServico
                         .AlterarCargosDoDocumento(documento.IdDocumento, documento.DocCargo);
 

@@ -125,9 +125,9 @@ namespace ApplicationService.Servico
             return false;
         }
 
-        public bool VerificadoPorTodos(DocDocumento documento)
+        public bool VerificadoPorTodos(List<DocUsuarioVerificaAprova> verificadores)
         {
-            if (DocumentoFoiVerificadoPortodos(documento.DocUsuarioVerificaAprova))
+            if (DocumentoFoiVerificadoPortodos(verificadores))
                 return true;
 
             return false;
@@ -242,8 +242,8 @@ namespace ApplicationService.Servico
 
 
             var notificacao = new Notificacao(textoEmail,
-                documento.DtVencimento,
-                documento.DtVencimento.Value,
+                DateTime.Now,
+                DateTime.Now,
                 (int)Funcionalidades.ControlDoc,
                 documento.IdProcesso,
                 1,
@@ -577,7 +577,7 @@ namespace ApplicationService.Servico
         private bool DocumentoFoiAprovadoPortodos(List<DocUsuarioVerificaAprova> aprovados)
         {
             foreach (var aprovador in aprovados)
-                if (aprovador.FlAprovou == false)
+                if (aprovador.FlAprovou == false || aprovador.FlAprovou == null)
                     return false;
 
             return true;
@@ -586,7 +586,7 @@ namespace ApplicationService.Servico
         private bool DocumentoFoiVerificadoPortodos(List<DocUsuarioVerificaAprova> verificadores)
         {
             foreach (var verificador in verificadores.Where(x => x.TpEtapa == _statusVerificacao))
-                if (verificador.FlVerificou != true)
+                if (verificador.FlVerificou != true || verificador.FlVerificou == null)
                     return false;
 
             return true;

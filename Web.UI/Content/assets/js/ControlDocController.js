@@ -831,7 +831,10 @@ APP.controller.ControlDocController = {
     saveFormEmissaoDocumentoEtapaVerificacao: function (emissaoDocumento) {
 
         var erro = "";
-        var validarAssunto = $("#emissao-documento-ValidarAssunto").val();
+        var validarAssunto = false;
+
+        if ($("#emissao-documento-ValidarAssunto").val().length > 0)
+            validarAssunto = $("#emissao-documento-ValidarAssunto").val();
 
         $.ajax({
             type: "POST",
