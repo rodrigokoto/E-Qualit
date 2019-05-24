@@ -5342,6 +5342,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Marcar como Verificado.
+        /// </summary>
+        public static string MarcarVerificado {
+            get {
+                return ResourceManager.GetString("MarcarVerificado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Março.
         /// </summary>
         public static string Marco {

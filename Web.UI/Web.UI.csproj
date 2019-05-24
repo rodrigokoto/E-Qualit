@@ -903,6 +903,7 @@
     <Content Include="Content\assets\js\FornecedoresController.js" />
     <Content Include="Content\assets\js\FuncionarioController.js" />
     <Content Include="Content\assets\js\GeneralController.js" />
+    <Content Include="Content\assets\js\GerarPdfDocumento.js" />
     <Content Include="Content\assets\js\GestaoDeRiscoController.js" />
     <Content Include="Content\assets\js\GraficoNaoConformidade.js" />
     <Content Include="Content\assets\js\HomeController.js" />
@@ -1730,15 +1731,13 @@
     <Content Include="Scripts\flot\jquery.flot.time.js" />
     <Content Include="Scripts\flot\jquery.flot.time.min.js" />
     <Content Include="Scripts\Fornecedor.js" />
-    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
-    <Content Include="Scripts\jquery-1.12.4.js" />
-    <Content Include="Scripts\jquery-1.12.4.min.js" />
-    <Content Include="Scripts\jquery-ui-1.12.1.js" />
-    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Templates\NotificacaoElaboracaoDocumento-pt-BR.html" />
     <Content Include="Templates\NotificacaoDocumento-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusGestaoDeRisco-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusAcaoCorretiva-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusNaoConformidade-pt-BR.html" />
+    <Content Include="Templates\NotificacaoAprovacaoDocumento-pt-BR.html" />
+    <Content Include="Templates\NotificacaoVerificacaoDocumento-pt-BR.html" />
     <Content Include="Templates\NovoUsuario-pt-BR.html" />
     <Content Include="Templates\ReenvioSenha-pt-BR.html" />
     <Content Include="Views\AnaliseCritica\Criar.cshtml" />
