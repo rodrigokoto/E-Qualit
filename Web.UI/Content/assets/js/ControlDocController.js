@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
 |--------------------------------------------------------------------------
 | Control Doc
 |--------------------------------------------------------------------------
@@ -73,18 +72,17 @@ APP.controller.ControlDocController = {
         }
 
         function orderItems(origin, orderUp) {
-            
+
             $(origin).find(':selected').appendTo(dest);
         }
 
         $('#add').click(function () {
-            
             if ($('#form-cadastro-verificadorBase').find(':selected').length + $('#form-cadastro-verificador').find('option').length > 3) {
                 bootbox.alert("Numero máximo de verificadores 3.");
             } else {
                 moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
             }
-            
+
             //moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
         });
 
@@ -338,7 +336,7 @@ APP.controller.ControlDocController = {
 
         };
 
-        xhr.send(JSON.stringify({ "id": idDocumento, "controlada": isControlada, "usuarioDest": idUsuarioDestino, "fluxoBase64": fluxoBase64 })); 
+        xhr.send(JSON.stringify({ "id": idDocumento, "controlada": isControlada, "usuarioDest": idUsuarioDestino, "fluxoBase64": fluxoBase64 }));
     },
 
     setExcluirDocumento: function () {
@@ -386,7 +384,7 @@ APP.controller.ControlDocController = {
                 },
                 success: function (result) {
                     if (result.StatusCode == 200) {
-                        window.location.href = "/ControlDoc/Editar/?id=" + result.IdRevisao;
+                        window.location.href = "/ControlDoc/Editar/?id=" + result.IdRevisao + '&validarAssunto=true';
                     }
                     else if (result.StatusCode == 505) {
                         erro = APP.component.ResultErros.init(result.Erro);
@@ -561,7 +559,7 @@ APP.controller.ControlDocController = {
 
         $('[id^=form-cadastro-escolha]').unbind('click');
         $('[id^=form-cadastro-escolha]').on('click', function () {
-            
+
             $(".menu-one").show();
 
             var panel = $(this).attr('id').split('-');
@@ -770,9 +768,13 @@ APP.controller.ControlDocController = {
             eEdicao = true;
         }
 
+        var validarAssunto = $("#emissao-documento-ValidarAssunto").val();
+
         $.ajax({
             type: "POST",
-            data: { "doc": emissaoDocumento, "status": _statusEtapa },
+            data: {
+                "doc": emissaoDocumento, "status": _statusEtapa, "validarAssunto": validarAssunto
+            },
             dataType: 'json',
             url: url,
             beforeSend: function () {
@@ -831,10 +833,16 @@ APP.controller.ControlDocController = {
     saveFormEmissaoDocumentoEtapaVerificacao: function (emissaoDocumento) {
 
         var erro = "";
+        var validarAssunto = false;
+
+        if ($("#emissao-documento-ValidarAssunto").val().length > 0)
+            validarAssunto = $("#emissao-documento-ValidarAssunto").val();
 
         $.ajax({
             type: "POST",
-            data: emissaoDocumento,
+            data: {
+                "documento": emissaoDocumento, "assuntoObrigatorio": validarAssunto
+            },
             dataType: 'json',
             url: '/ControlDoc/EnviarDocumentoParaVerificacao',
             beforeSend: function () {
@@ -1964,7 +1972,7 @@ APP.controller.ControlDocController = {
 
 
     setEditNovaIndicadoresFormIndicadores: function () {
-        
+
         this.buttonEditNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonEditNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
@@ -1985,7 +1993,7 @@ APP.controller.ControlDocController = {
 
 
     getResponsavelImplementarIndicadores: function () {
-        
+
         var idSite = $('#emissao-documento-site').val();
         var idFuncao = 23; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
         var idProcesso = $('[name=IdProcesso]').val();
@@ -2057,7 +2065,7 @@ APP.controller.ControlDocController = {
             arrayFormIndicadoresObj.push(indicadores);
 
         });
-        
+
         return arrayFormIndicadoresObj;
 
     },
@@ -2073,9 +2081,9 @@ APP.controller.ControlDocController = {
 
         APP.component.Mascaras.init();
         //APP.controller.ControlDocController.getResponsavelImplementarAcaoImediata();
-        
+
         //APP.controller.ControlDocController.setHideAndShowFormRotina();
-        
+
 
         //APP.controller.ControlDocController.setContNumberRotina();
 
@@ -2987,7 +2995,7 @@ APP.controller.ControlDocController = {
                 case 2:
                     APP.controller.ControlDocController.setDisableVerificacao(statusEtapa);
                     $('.btn-aprovar').show();
-                    $('.btn-voltar-elaboracao').skjhgeds
+                    $('.btn-voltar-elaboracao').show();
                     $("input").attr("disabled", "disabled");
                     $("#form-cargos-escolha-all").removeAttr("disabled");
                     $(".closeCargos").removeAttr("disabled");
@@ -3015,7 +3023,7 @@ APP.controller.ControlDocController = {
         $('.btn-salvar').hide();
 
 
-        if (_statusEtapa == 1) {
+        if (_statusEtapa == 1 || _statusEtapa == 2) {
             $("#form-emissao-documento-comentarios :input").prop("disabled", false);
         } else if (_statusEtapa == 3) {
             $("#form-emissao-documento-assuntos :input").prop("disabled", false);

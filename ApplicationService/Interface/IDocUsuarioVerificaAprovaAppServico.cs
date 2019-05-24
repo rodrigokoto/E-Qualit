@@ -5,7 +5,7 @@ namespace ApplicationService.Interface
 {
     public interface IDocUsuarioVerificaAprovaAppServico : IBaseServico<DocUsuarioVerificaAprova>
     {
-        void AlterarUsuariosDoDocumento(int idDocumento, List<DocUsuarioVerificaAprova> lista);
+        void AlterarUsuariosDoDocumento(List<DocUsuarioVerificaAprova> lista);
         void AtualizarParaEstadoInicialDoDocumento(List<DocUsuarioVerificaAprova> lista);
     }
 }

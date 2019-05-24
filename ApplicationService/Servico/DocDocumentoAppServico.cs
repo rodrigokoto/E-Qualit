@@ -52,12 +52,12 @@ namespace ApplicationService.Servico
 
         public void VerificarDocumentoPorUsuario(DocDocumento documento, int idUsuarioLogado)
         {
-           var alguemVerificou = documento.DocUsuarioVerificaAprova.FirstOrDefault(x => x.IdUsuario == idUsuarioLogado && x.TpEtapa == _statusVerificacao);
-            var docmentoCtx = _documentoRepositorio.GetById(documento.IdDocumento);
+            var alguemVerificou = documento.DocUsuarioVerificaAprova.FirstOrDefault(x => x.IdUsuario == idUsuarioLogado && x.TpEtapa == _statusVerificacao);
+            //var docmentoCtx = _documentoRepositorio.GetById(documento.IdDocumento);
             if (alguemVerificou != null)
             {
 
-                docmentoCtx.DocUsuarioVerificaAprova
+                documento.DocUsuarioVerificaAprova
                     .FirstOrDefault(x => x.IdDocUsuarioVerificaAprova == alguemVerificou.IdDocUsuarioVerificaAprova)
                     .FlVerificou = true;
             }
@@ -65,7 +65,7 @@ namespace ApplicationService.Servico
             {
                 documento.Licenca = null;
             }
-          
+
 
             if (documento.IdDocExterno == null)
             {
@@ -73,11 +73,7 @@ namespace ApplicationService.Servico
             }
 
 
-            if (VerificadoPorTodos(documento))
-                docmentoCtx.FlStatus = (int)StatusDocumento.Aprovacao;
-                
-
-            _documentoRepositorio.Update(docmentoCtx);
+            _documentoRepositorio.Update(documento);
         }
 
         public void AprovarDocumento(DocDocumento documento, int idUsuarioLogado)
@@ -92,13 +88,14 @@ namespace ApplicationService.Servico
 
         public void EnviarDocumentoParaElaboracao(DocDocumento doc)
         {
-            doc.FlStatus = (int)StatusDocumento.Elaboracao;
-            if(doc.GestaoDeRisco != null)
+            var docBase = _documentoRepositorio.Get(x => x.IdDocumento == doc.IdDocumento).FirstOrDefault();
+            docBase.FlStatus = (int)StatusDocumento.Elaboracao;
+            if (doc.GestaoDeRisco != null)
             {
-                doc.IdGestaoDeRisco = doc.GestaoDeRisco.IdRegistroConformidade;
+                docBase.IdGestaoDeRisco = doc.GestaoDeRisco.IdRegistroConformidade;
             }
-            
-            _documentoRepositorio.Update(doc);
+
+            _documentoRepositorio.Update(docBase);
         }
 
 
@@ -129,9 +126,9 @@ namespace ApplicationService.Servico
             return false;
         }
 
-        public bool VerificadoPorTodos(DocDocumento documento)
+        public bool VerificadoPorTodos(List<DocUsuarioVerificaAprova> verificadores)
         {
-            if (DocumentoFoiVerificadoPortodos(documento.DocUsuarioVerificaAprova))
+            if (DocumentoFoiVerificadoPortodos(verificadores))
                 return true;
 
             return false;
@@ -168,78 +165,114 @@ namespace ApplicationService.Servico
             return false;
         }
 
-        public void NotificacaoAprovadoresEmail(decimal NuDocumento, int idSite, List<DocUsuarioVerificaAprova> aprovadores, int? idProcesso = null)
+        public void NotificacaoAprovadoresEmail(DocDocumento documento, int idSite, List<DocUsuarioVerificaAprova> aprovadores, int? idProcesso = null)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NotificacaoAprovacaoDocumento-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+
+            template = template.Replace("#nroDoc#", documento.NumeroDocumento.ToString());
+            template = template.Replace("#titulo#", documento.Titulo);
+            var textoEmail = template.Replace("#linkAcesso#", GerarLinkEdicaoDocumento(documento));
+
             foreach (var aprovador in aprovadores)
             {
-                var notificacao = new Notificacao("Você está recebendo uma notificação do sistema de gestão e-Qualit," +
-                    "existe uma não conformidade no sistema a qual necessita sua intervenção.<br>" +
-                    "Por favor, acesse seu sistema de gestão, no menu – Registros – módulo – Não Conformidade," +
-                    "vá ao registro número " + NuDocumento + ".",
-                    DateTime.Now,
-                    DateTime.Now,
-                    (int)Funcionalidades.ControlDoc,
-                    idProcesso,
-                    1,
-                    idSite,
-                    5,
-                    "E", aprovador.IdUsuario);
 
+                var notificacao = new Notificacao(textoEmail,
+                        DateTime.Now,
+                        DateTime.Now,
+                        (int)Funcionalidades.ControlDoc,
+                        idProcesso,
+                        1,
+                        idSite,
+                        5,
+                        "E", aprovador.IdUsuario);
 
-                _notificacaoServico.Add(notificacao);
                 var usuario = _usuarioAppServico.GetById(aprovador.IdUsuario);
-                notificacao.Usuario = usuario;
-                EnviaEmail(notificacao);
-            }
-        }
-
-        public void NotificacaoVerificadoresEmail(decimal NuDocumento, int idSite, List<DocUsuarioVerificaAprova> aprovadores, int? idProcesso = null)
-        {
-            foreach (var aprovador in aprovadores)
-            {
-                var notificacao = new Notificacao("Você está recebendo uma notificação do sistema de gestão e-Qualit," +
-                    "existe uma não conformidade no sistema a qual necessita sua verificação.<br>" +
-                    "Por favor, acesse seu sistema de gestão, no menu – Registros – módulo – Não Conformidade," +
-                    "vá ao registro número " + NuDocumento + ".",
-                    DateTime.Now,
-                    DateTime.Now,
-                    (int)Funcionalidades.ControlDoc,
-                    idProcesso,
-                    1,
-                    idSite,
-                    5,
-                    "E", aprovador.IdUsuario);
-
                 _notificacaoServico.Add(notificacao);
-                var usuario = _usuarioAppServico.GetById(aprovador.IdUsuario);
-                notificacao.Usuario = usuario;
-                EnviaEmail(notificacao);
+
+                EnviaEmailSemTemplate(notificacao, usuario);
             }
+
+
         }
 
-        public void NotificacaoElaboradorEmail(decimal NuDocumento, int idSite, int idElaborador, DateTime dataVencimento, int? idProcesso = null)
+        public void NotificacaoVerificadoresEmail(DocDocumento documento, int idSite, List<DocUsuarioVerificaAprova> verificadores, int? idProcesso = null)
         {
-            {
-                var notificacao = new Notificacao("Você está recebendo uma notificação do sistema de gestão e-Qualit," +
-                    "existe uma não conformidade no sistema a qual necessita sua intervenção.<br>" +
-                    "Por favor, acesse seu sistema de gestão, no menu – Registros – módulo – Não Conformidade," +
-                    "vá ao registro número " + NuDocumento + ".",
-                    dataVencimento,
-                    dataVencimento,
-                    (int)Funcionalidades.ControlDoc,
-                    idProcesso,
-                    1,
-                    idSite,
-                    NuMeroDiasDispatoComAntecedencia,
-                    "E",
-                    idElaborador);
 
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NotificacaoVerificacaoDocumento-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+
+            template = template.Replace("#nroDoc#", documento.NumeroDocumento.ToString());
+            template = template.Replace("#titulo#", documento.Titulo);
+            var textoEmail = template.Replace("#linkAcesso#", GerarLinkEdicaoDocumento(documento));
+
+            foreach (var verificador in verificadores)
+            {
+
+                var notificacao = new Notificacao(textoEmail,
+                        DateTime.Now,
+                        DateTime.Now,
+                        (int)Funcionalidades.ControlDoc,
+                        idProcesso,
+                        1,
+                        idSite,
+                        5,
+                        "E", verificador.IdUsuario);
+
+                var usuario = _usuarioAppServico.GetById(verificador.IdUsuario);
                 _notificacaoServico.Add(notificacao);
-                var usuario = _usuarioAppServico.GetById(idElaborador);
-                notificacao.Usuario = usuario;
-                EnviaEmail(notificacao);
+
+                EnviaEmailSemTemplate(notificacao, usuario);
             }
         }
+
+        private string GerarLinkEdicaoDocumento(DocDocumento documento)
+        {
+            var prefixo = "http://" + ConfigurationManager.AppSettings["Dominio"].ToString();
+            return prefixo + "ControlDoc/Editar/" + documento.IdDocumento.ToString();
+        }
+
+        public void NotificacaoElaboradorEmail(DocDocumento documento)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NotificacaoElaboracaoDocumento-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+
+            template = template.Replace("#nroDoc#", documento.NumeroDocumento.ToString());
+            template = template.Replace("#titulo#", documento.Titulo);
+            var textoEmail = template.Replace("#linkAcesso#", GerarLinkEdicaoDocumento(documento));
+
+
+            var notificacao = new Notificacao(textoEmail,
+                DateTime.Now,
+                DateTime.Now,
+                (int)Funcionalidades.ControlDoc,
+                documento.IdProcesso,
+                1,
+                documento.IdSite,
+                NuMeroDiasDispatoComAntecedencia,
+                "E",
+                documento.IdElaborador);
+
+            var usuario = _usuarioAppServico.GetById(documento.IdElaborador);
+            _notificacaoServico.Add(notificacao);
+
+            EnviaEmailSemTemplate(notificacao, usuario);
+        }
+
+        private void EnviaEmailSemTemplate(Notificacao notificacao, Usuario usuario)
+        {
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoControlDoc;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = usuario.CdIdentificacao;
+            _email.Conteudo = notificacao.Descricao;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
+        }
+
 
         private void EnviaEmail(Notificacao notificacao)
         {
@@ -247,23 +280,14 @@ namespace ApplicationService.Servico
             string template = System.IO.File.ReadAllText(path);
             string conteudo = template;
 
-            conteudo = conteudo.Replace("#Corpo#", notificacao.Descricao);
-           
-            Email _email = new Email();
+            notificacao.Descricao = conteudo.Replace("#Corpo#", notificacao.Descricao);
 
-            _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoControlDoc;
-            _email.De = ConfigurationManager.AppSettings["EmailDE"];
-            _email.Para = notificacao.Usuario.CdIdentificacao;
-            _email.Conteudo = conteudo;
-            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
-            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
-            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
-            _email.Enviar();
+            this.EnviaEmailSemTemplate(notificacao, notificacao.Usuario);
         }
 
         public void NotificacaoColaboradores(decimal NuDocumento, List<Usuario> usuarios, int idSite, int? idProcesso)
         {
-            
+
 
             foreach (var usuario in usuarios)
             {
@@ -299,9 +323,8 @@ namespace ApplicationService.Servico
 
         public void EnviarDocumentoParaAprovacao(DocDocumento documentoAprovacao)
         {
-            var docCtx = _documentoRepositorio.GetById(documentoAprovacao.IdDocumento);
-            docCtx.FlStatus = (int)StatusDocumento.Aprovacao;
-            _documentoRepositorio.Update(docCtx);
+            documentoAprovacao.FlStatus = (int)StatusDocumento.Aprovacao;
+            _documentoRepositorio.Update(documentoAprovacao);
         }
 
         public void EnviarDocumentoParaAprovado(DocDocumento documentoAprovacao)
@@ -326,10 +349,10 @@ namespace ApplicationService.Servico
             }
             if (idUsuarioLogado == 1)
             {
-                if(documento.DocUsuarioVerificaAprova.FirstOrDefault() != null)
+                if (documento.DocUsuarioVerificaAprova.FirstOrDefault() != null)
                 {
                     documento.DocUsuarioVerificaAprova.FirstOrDefault().FlAprovou = true;
-                }                
+                }
             }
 
             if (documento.IdDocumentoPai != null)
@@ -337,17 +360,17 @@ namespace ApplicationService.Servico
                 var documentoPai = _documentoRepositorio.Get(x => x.IdDocumento == documento.IdDocumentoPai).First();
 
                 if (documentoPai != null)
-                {                    
+                {
                     AtualizaParaObsoleto(documentoPai);
                 }
             }
-            
+
             _documentoRepositorio.Update(documento);
         }
 
 
 
-        public DocDocumento ObterMaiorRevisao(int ? idProcesso = null)
+        public DocDocumento ObterMaiorRevisao(int? idProcesso = null)
         {
             var documentos = _documentoRepositorio.Get(x => x.IdProcesso == idProcesso);
 
@@ -378,7 +401,7 @@ namespace ApplicationService.Servico
         }
 
 
-        public IEnumerable<DocDocumento> ListaTodosDocumentosProcessoSite(int idSite, int ? idProcesso = null)
+        public IEnumerable<DocDocumento> ListaTodosDocumentosProcessoSite(int idSite, int? idProcesso = null)
         {
             var lista = _documentoRepositorio.Get(x => x.IdSite == idSite &&
                                            (x.IdProcesso == idProcesso || x.IdProcesso == null || idProcesso == null));
@@ -555,7 +578,7 @@ namespace ApplicationService.Servico
         private bool DocumentoFoiAprovadoPortodos(List<DocUsuarioVerificaAprova> aprovados)
         {
             foreach (var aprovador in aprovados)
-                if (aprovador.FlAprovou == false)
+                if (aprovador.FlAprovou == false || aprovador.FlAprovou == null)
                     return false;
 
             return true;
@@ -563,16 +586,16 @@ namespace ApplicationService.Servico
 
         private bool DocumentoFoiVerificadoPortodos(List<DocUsuarioVerificaAprova> verificadores)
         {
-            foreach (var verificador in verificadores)
-                if (verificador.FlVerificou == false)
+            foreach (var verificador in verificadores.Where(x => x.TpEtapa == _statusVerificacao))
+                if (verificador.FlVerificou != true || verificador.FlVerificou == null)
                     return false;
 
             return true;
         }
 
-        private bool UsuarioEAprovadorDocumento(List<DocUsuarioVerificaAprova> doc, int idUsuario)
+        private bool UsuarioEAprovadorDocumento(List<DocUsuarioVerificaAprova> aprovadores, int idUsuario)
         {
-            int usuarioAprova = doc.Where(s => s.IdUsuario == idUsuario
+            int usuarioAprova = aprovadores.Where(s => s.IdUsuario == idUsuario
                                             && s.TpEtapa == _statusAprovacao).Count();
 
             if (usuarioAprova > 0)
@@ -583,9 +606,9 @@ namespace ApplicationService.Servico
 
         private DocDocumento ObterDocumentoComMaiorRevisao(int documento)
         {
-            return _documentoRepositorio.Get(x => x.IdDocumento == documento).Select(x=> { x.NuRevisao = Convert.ToByte(x.Assuntos.Max(y => y.Revisao)); return x; }).FirstOrDefault();
+            return _documentoRepositorio.Get(x => x.IdDocumento == documento).Select(x => { x.NuRevisao = Convert.ToByte(x.Assuntos.Max(y => y.Revisao)); return x; }).FirstOrDefault();
 
-            
+
         }
 
         private DocDocumento NovaVersao(DocDocumento old)
