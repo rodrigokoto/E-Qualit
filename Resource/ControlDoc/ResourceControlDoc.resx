@@ -280,7 +280,7 @@
     <value>Documento Aprovado com sucesso.</value>
   </data>
   <data name="ControlDoc_msg_Success_Eleboracao" xml:space="preserve">
-    <value>Documetno enviado para Elaboração.</value>
+    <value>Documento enviado para Elaboração.</value>
   </data>
   <data name="ControlDoc_msg_Success_Verificacao" xml:space="preserve">
     <value>Documento enviado para Verificação.</value>
@@ -302,5 +302,14 @@
   </data>
   <data name="ControlDoc_lbl_Responsavel_Risco" xml:space="preserve">
     <value>Responsável</value>
+  </data>
+  <data name="ControlDoc_msg_Success_Aprovacao_Falha_Email" xml:space="preserve">
+    <value>Documento enviado para Aprovação, porém ocorreu falha no envio da notificação.</value>
+  </data>
+  <data name="ControlDoc_msg_Success_Eleboracao_Falha_Email" xml:space="preserve">
+    <value>Documento enviado para Elaboração, porém ocorreu falha no envio da notificação.</value>
+  </data>
+  <data name="ControlDoc_msg_Success_Verificacao_Falha_Email" xml:space="preserve">
+    <value>Documento enviado para Verificação, porém ocorreu falha no envio da notificação.</value>
   </data>
 </root>

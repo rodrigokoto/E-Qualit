@@ -987,7 +987,7 @@ namespace Web.UI.Controllers
 
             try
             {
-                if(validaAssunto)
+                if (validaAssunto)
                     _documentoServico.AssuntoObrigatorioEditarRevisao(documentoEditado, ref erros);
 
                 TrataEdicaoDoc(documentoEditado, ref erros);
@@ -1142,7 +1142,7 @@ namespace Web.UI.Controllers
 
 
             //Indicadores
-            if(source.Indicadores != null)
+            if (source.Indicadores != null)
                 dest.Indicadores.AddRange(source.Indicadores.Where(s => s.IdIndicadores == 0));
             List<DocIndicadores> indicadores = dest.Indicadores.Where(s => !source.Indicadores.Any(a => s.IdIndicadores == a.IdIndicadores)).ToList();
             indicadores.ForEach(f => _documentoAppServico.RemoverGenerico(f));
@@ -1192,7 +1192,7 @@ namespace Web.UI.Controllers
 
                 documento.DtAlteracao = DateTime.Now;
 
-                if(assuntoObrigatorio)
+                if (assuntoObrigatorio)
                     _documentoServico.AssuntoObrigatorioEditarRevisao(documento, ref erros);
 
 
@@ -1214,9 +1214,14 @@ namespace Web.UI.Controllers
 
                     Editar(documento, false);
 
-
-                    _documentoAppServico.NotificacaoVerificadoresEmail(documento, documento.IdSite, documento.Verificadores);
-
+                    try
+                    {
+                        _documentoAppServico.NotificacaoVerificadoresEmail(documento, documento.IdSite, documento.Verificadores);
+                    }
+                    catch
+                    {
+                        return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Verificacao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 else
                 {
@@ -1251,7 +1256,14 @@ namespace Web.UI.Controllers
 
                 _documentoAppServico.EnviarDocumentoParaElaboracao(documento);
 
-                _documentoAppServico.NotificacaoElaboradorEmail(documento);
+                try
+                {
+                    _documentoAppServico.NotificacaoElaboradorEmail(documento);
+                }
+                catch
+                {
+                    return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Eleboracao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                }
 
             }
             catch (Exception ex)
@@ -1259,6 +1271,7 @@ namespace Web.UI.Controllers
                 GravaLog(ex);
                 return Json(new { StatusCode = (int)HttpStatusCode.BadRequest }, JsonRequestBehavior.AllowGet);
             }
+
             return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Eleboracao, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
         }
 
@@ -1285,7 +1298,15 @@ namespace Web.UI.Controllers
                 if (_documentoAppServico.VerificadoPorTodos(listaAprovaVerifi))
                 {
                     _documentoAppServico.EnviarDocumentoParaAprovacao(documento);
-                    _documentoAppServico.NotificacaoAprovadoresEmail(documento, documento.IdSite, documento.Aprovadores);
+
+                    try
+                    {
+                        _documentoAppServico.NotificacaoAprovadoresEmail(documento, documento.IdSite, documento.Aprovadores);
+                    }
+                    catch
+                    {
+                        return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Aprovacao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 else
                 {
@@ -1325,6 +1346,10 @@ namespace Web.UI.Controllers
 
                     if (_documentoAppServico.AprovadoPorTodos(documento))
                         _documentoAppServico.AprovarDocumento(documento);
+                    else
+                        documento.FlStatus = (byte)StatusDocumento.Aprovacao;
+
+                    _documentoAppServico.Update(documento);
                 }
                 catch (Exception ex)
                 {
@@ -1434,7 +1459,7 @@ namespace Web.UI.Controllers
             }
             else
             {
-                
+
                 if (doc.DocUsuarioVerificaAprova.Count == 0)
                 {
                     doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
@@ -1503,7 +1528,7 @@ namespace Web.UI.Controllers
         }
 
         private void AtualizarUsuarioCargosETemplatesDoDocumento(DocDocumento documento)
-        {            
+        {
             _docCargoAppServico
                         .AlterarCargosDoDocumento(documento.IdDocumento, documento.DocCargo);
 

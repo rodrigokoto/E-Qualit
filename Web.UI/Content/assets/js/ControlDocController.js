@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
 |--------------------------------------------------------------------------
 | Control Doc
 |--------------------------------------------------------------------------
@@ -73,7 +72,7 @@ APP.controller.ControlDocController = {
         }
 
         function orderItems(origin, orderUp) {
-            
+
             $(origin).find(':selected').appendTo(dest);
         }
 
@@ -83,7 +82,7 @@ APP.controller.ControlDocController = {
             } else {
                 moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
             }
-            
+
             //moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
         });
 
@@ -337,7 +336,7 @@ APP.controller.ControlDocController = {
 
         };
 
-        xhr.send(JSON.stringify({ "id": idDocumento, "controlada": isControlada, "usuarioDest": idUsuarioDestino, "fluxoBase64": fluxoBase64 })); 
+        xhr.send(JSON.stringify({ "id": idDocumento, "controlada": isControlada, "usuarioDest": idUsuarioDestino, "fluxoBase64": fluxoBase64 }));
     },
 
     setExcluirDocumento: function () {
@@ -558,7 +557,7 @@ APP.controller.ControlDocController = {
 
         $('[id^=form-cadastro-escolha]').unbind('click');
         $('[id^=form-cadastro-escolha]').on('click', function () {
-            
+
             $(".menu-one").show();
 
             var panel = $(this).attr('id').split('-');
@@ -772,7 +771,8 @@ APP.controller.ControlDocController = {
         $.ajax({
             type: "POST",
             data: {
-                "doc": emissaoDocumento, "status": _statusEtapa, "validarAssunto": validarAssunto},
+                "doc": emissaoDocumento, "status": _statusEtapa, "validarAssunto": validarAssunto
+            },
             dataType: 'json',
             url: url,
             beforeSend: function () {
@@ -839,7 +839,8 @@ APP.controller.ControlDocController = {
         $.ajax({
             type: "POST",
             data: {
-                "documento": emissaoDocumento, "assuntoObrigatorio": validarAssunto },
+                "documento": emissaoDocumento, "assuntoObrigatorio": validarAssunto
+            },
             dataType: 'json',
             url: '/ControlDoc/EnviarDocumentoParaVerificacao',
             beforeSend: function () {
@@ -1860,7 +1861,7 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
-            
+
 
             var TraducaoDropNameSelect = 'Selecione';
 
@@ -1965,7 +1966,7 @@ APP.controller.ControlDocController = {
 
 
     setEditNovaIndicadoresFormIndicadores: function () {
-        
+
         this.buttonEditNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonEditNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
@@ -1986,7 +1987,7 @@ APP.controller.ControlDocController = {
 
 
     getResponsavelImplementarIndicadores: function () {
-        
+
         var idSite = $('#emissao-documento-site').val();
         var idFuncao = 23; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
         var idProcesso = $('[name=IdProcesso]').val();
@@ -2055,7 +2056,7 @@ APP.controller.ControlDocController = {
             arrayFormIndicadoresObj.push(indicadores);
 
         });
-        
+
         return arrayFormIndicadoresObj;
 
     },
@@ -2069,9 +2070,9 @@ APP.controller.ControlDocController = {
         APP.controller.ControlDocController.setEditNovaIndicadoresFormIndicadores();
         APP.controller.ControlDocController.delNovaIndicadoresFormIndicadores();
         //APP.controller.ControlDocController.getResponsavelImplementarAcaoImediata();
-        
+
         //APP.controller.ControlDocController.setHideAndShowFormRotina();
-        
+
 
         //APP.controller.ControlDocController.setContNumberRotina();
 
@@ -3011,7 +3012,7 @@ APP.controller.ControlDocController = {
         $('.btn-salvar').hide();
 
 
-        if (_statusEtapa == 1) {
+        if (_statusEtapa == 1 || _statusEtapa == 2) {
             $("#form-emissao-documento-comentarios :input").prop("disabled", false);
         } else if (_statusEtapa == 3) {
             $("#form-emissao-documento-assuntos :input").prop("disabled", false);
