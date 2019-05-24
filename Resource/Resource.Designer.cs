@@ -2995,7 +2995,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to É necessário escrever um assunto..
+        ///   Looks up a localized string similar to A descrição do assunto deve ser preenchida.
         /// </summary>
         public static string DocDocumento_msg_erro_required_DocAssunto {
             get {

@@ -1991,7 +1991,7 @@ www.e-qualit.com.br
     <value>Muito Pequena</value>
   </data>
   <data name="DocDocumento_msg_erro_required_DocAssunto" xml:space="preserve">
-    <value>É necessário escrever um assunto.</value>
+    <value>A descrição do assunto deve ser preenchida</value>
   </data>
   <data name="MessageDelete" xml:space="preserve">
     <value>Confirma a exclusão do projeto &lt;strong&gt;{{0}}}&lt;/strong&gt;?</value>
