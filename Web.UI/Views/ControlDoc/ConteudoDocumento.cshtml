@@ -61,12 +61,17 @@
 <script type="text/javascript">
     var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
     mxDefaultLanguage = 'pt';
+
+
+    
 </script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 
 
 <script type="text/javascript">
@@ -497,8 +502,8 @@
                                                     <tr>
                                                         <th class="w10 with-input">Objetivo</th>
                                                         <th class="w5 with-input">Responsável</th>
-                                                        <th class="w5 with-input">Meta Max</th>
-                                                        <th class="w10 with-input">Meta Min</th>
+                                                        <th class="w5 with-input">Meta</th>
+                                                        <th class="w10 with-input">Meta Max/Min</th>
                                                         <th class="w10 with-input">Indicador</th>
                                                         <th class="w5 with-input">Unidade</th>
 
@@ -537,7 +542,9 @@
                                                                     <label type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="" disabled>@rotina.IndicadoresMeta</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="" disabled>@rotina.IndicadoresMetaMaximaMinima</label>
+                                                                   @*view*@
+                                                                    <label type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="" disabled >@(rotina.IndicadoresMetaMaximaMinima ? "Max" : "Min" )</label>
+                                                                    @*<label type="radio" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="" disabled value="false">@(rotina.IndicadoresMetaMaximaMinima ? "" : "Min" ) </label>*@
                                                                 </td>
                                                                 <td>
                                                                     <label type="text" name="formIndicadoresIndicadores" maxlength="8000" rows="5" if="form-indicadores-indicadores" class="" disabled>@rotina.Indicadores</label>

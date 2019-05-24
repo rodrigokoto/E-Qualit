@@ -407,8 +407,8 @@
 
                                                                 <th class="w10 with-input">Objetivo</th>
                                                                 <th class="w5 with-input">Responsável</th>
-                                                                <th class="w5 with-input">Meta Max</th>
-                                                                <th class="w10 with-input">Meta Min</th>
+                                                                <th class="w5 with-input">Meta</th>
+                                                                <th class="w10 with-input">Meta Max/Min</th>
                                                                 <th class="w10 with-input">Indicador</th>
                                                                 <th class="w5 with-input">Unidade</th>
 
@@ -432,7 +432,8 @@
                                                                 @indicador.IndicadoresMeta
                                                             </td>
                                                             <td>
-                                                                @indicador.IndicadoresMetaMaximaMinima
+                                                                @(indicador.IndicadoresMetaMaximaMinima ? "Max" : "Min" )
+                                                                
                                                             </td>
                                                             <td>
                                                                 @indicador.Indicadores

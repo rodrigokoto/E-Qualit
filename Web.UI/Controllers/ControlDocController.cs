@@ -972,8 +972,10 @@ namespace Web.UI.Controllers
         {
             for (int i = 0; i < documentoAtual.Indicadores.Count; i++)
             {
+
                 var usuarioResponsavel = _usuarioAppServico.GetById((int)documentoAtual.Indicadores[i].IdResponsavel);
-                documentoAtual.Indicadores[i].ResponsavelNomeCompleto = usuarioResponsavel.NmCompleto;
+                if (usuarioResponsavel != null)
+                    documentoAtual.Indicadores[i].ResponsavelNomeCompleto = usuarioResponsavel.NmCompleto;
             }
             return documentoAtual;
         }
@@ -1439,7 +1441,7 @@ namespace Web.UI.Controllers
             }
             else
             {
-                
+
                 if (doc.DocUsuarioVerificaAprova.Count == 0)
                 {
                     doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);

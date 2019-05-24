@@ -415,6 +415,7 @@ APP.controller.ControlDocController = {
         APP.component.AtivaLobiPanel.init();
         APP.component.Datapicker.init();
         APP.component.FileUpload.init();
+        APP.component.Mascaras.init();
         this.setValidateForms();
         this.setHideAndShow();
         this.getTabs();
@@ -445,10 +446,11 @@ APP.controller.ControlDocController = {
     },
 
     emissaoDocumentoEdicao: function () {
-
+        debugger;
         APP.component.AtivaLobiPanel.init();
         APP.component.Datapicker.init();
         APP.component.FileUpload.init();
+        APP.component.Mascaras.init();
         this.formCadastro();
         this.setHideAndShowEdit();
         this.getTabs();
@@ -1853,8 +1855,10 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
-            
-
+            //APP.component.Mascaras.init();
+            debugger;
+            //$(this).find('input[name=formIndicadoresMetaMaximaMinima]:checked').val()
+            var contadorAtual =  ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
             var TraducaoDropNameSelect = 'Selecione';
 
             var html = '';
@@ -1877,11 +1881,13 @@ APP.controller.ControlDocController = {
 
 
             html += '<td>';
-            html += '<input type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control">';
+            html += '<input type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control input-metrica">';
             html += '</td>';
 
             html += '<td>';
-            html += '<input type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" >';
+            html += '<input type="radio" name="formIndicadoresMetaMaximaMinima' + contadorAtual + '" if="form-indicadores-MetaMaximaMinima"  value="true">&nbsp;Max';
+
+            html += '&nbsp;&nbsp;<input type="radio" name="formIndicadoresMetaMaximaMinima' + contadorAtual + '" if="form-indicadores-MetaMaximaMinima"  value="false">&nbsp;Min';
             html += '</td>';
 
             html += '<td>';
@@ -1930,7 +1936,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formIndicadoresMeta]').prop('disabled', true);
             $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', true);
             $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', true);
-            $(this).closest('tr').find('[name=formIndicadoresMetaMaximaMinima]').prop('disabled', true);
+            $(this).closest('tr').find('[name^=formIndicadoresMetaMaximaMinima]').prop('disabled', true);
             editor.graph.setEnabled(false);
 
 
@@ -1968,7 +1974,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formIndicadoresMeta]').prop('disabled', false);
             $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', false);
             $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', false);
-            $(this).closest('tr').find('[name=formIndicadoresMetaMaximaMinima]').prop('disabled', false);
+            $(this).closest('tr').find('[name^=formIndicadoresMetaMaximaMinima]').prop('disabled', false);
             editor.graph.setEnabled(true);
         });
 
@@ -2043,7 +2049,10 @@ APP.controller.ControlDocController = {
                 IndicadoresMeta: $(this).find('[name=formIndicadoresMeta]').val(),
                 Indicadores: $(this).find('[name=formIndicadoresIndicadores]').val(),
                 IndicadoresUnidadeMeta: $(this).find('[name=formIndicadoresUnidadeMeta]').val(),
-                IndicadoresMetaMaximaMinima: $(this).find('[name=formIndicadoresMetaMaximaMinima]').val(),
+                // Colocar formIndicadoresMetaMaximaMinima + 1 e pegar somente o inicio
+                IndicadoresMetaMaximaMinima: $(this).find('input[name^=formIndicadoresMetaMaximaMinima]:checked').val()
+                //$('input[name^=formIndicadoresMetaMaximaMinima]')
+                //IndicadoresMetaMaximaMinima: $(this).find('[name=formIndicadoresMetaMaximaMinima] :selected').val()
             };
             arrayFormIndicadoresObj.push(indicadores);
 
@@ -2061,6 +2070,8 @@ APP.controller.ControlDocController = {
         APP.controller.ControlDocController.setSaveNovaIndicadoresFormIndicadores();
         APP.controller.ControlDocController.setEditNovaIndicadoresFormIndicadores();
         APP.controller.ControlDocController.delNovaIndicadoresFormIndicadores();
+
+        APP.component.Mascaras.init();
         //APP.controller.ControlDocController.getResponsavelImplementarAcaoImediata();
         
         //APP.controller.ControlDocController.setHideAndShowFormRotina();
