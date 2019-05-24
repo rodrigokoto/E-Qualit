@@ -2914,6 +2914,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A descrição do assunto deve ser preenchida..
+        /// </summary>
+        public static string DocDocumento_msg_erro_assunto_sem_descricao {
+            get {
+                return ResourceManager.GetString("DocDocumento_msg_erro_assunto_sem_descricao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Necessario incluir um comentário !.
         /// </summary>
         public static string DocDocumento_msg_erro_ComentarioNecessario {
@@ -2995,7 +3004,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A descrição do assunto deve ser preenchida.
+        ///   Looks up a localized string similar to O assunto deve ser informado.
         /// </summary>
         public static string DocDocumento_msg_erro_required_DocAssunto {
             get {

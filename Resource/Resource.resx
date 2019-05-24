@@ -1991,7 +1991,7 @@ www.e-qualit.com.br
     <value>Muito Pequena</value>
   </data>
   <data name="DocDocumento_msg_erro_required_DocAssunto" xml:space="preserve">
-    <value>A descrição do assunto deve ser preenchida</value>
+    <value>O assunto deve ser informado</value>
   </data>
   <data name="MessageDelete" xml:space="preserve">
     <value>Confirma a exclusão do projeto &lt;strong&gt;{{0}}}&lt;/strong&gt;?</value>
@@ -3435,5 +3435,8 @@ www.e-qualit.com.br
   </data>
   <data name="MarcarVerificado" xml:space="preserve">
     <value>Marcar como Verificado</value>
+  </data>
+  <data name="DocDocumento_msg_erro_assunto_sem_descricao" xml:space="preserve">
+    <value>A descrição do assunto deve ser preenchida.</value>
   </data>
 </root>
