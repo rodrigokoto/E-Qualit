@@ -655,11 +655,11 @@
                                                         </td>
 
                                                         <td>
-                                                            <textarea type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control" disabled>@rotina.IndicadoresMeta</textarea>
+                                                            <input type="text" name="formIndicadoresMeta" if="form-indicadores-meta input-metrica" class="form-control input-metrica" disabled value="@rotina.IndicadoresMeta">
                                                         </td>
 
                                                         <td>
-                                                            <input type="radio" name="@nome" if="form-indicadores-MetaMaximaMinima" disabled value="true" @(rotina.IndicadoresMetaMaximaMinima ? "checked" : "" ) /> &nbsp;Max
+                                                            <input type="radio" name="@nome" if="form-indicadores-MetaMaximaMinima" disabled value="true"  @(rotina.IndicadoresMetaMaximaMinima ? "checked" : "" ) /> &nbsp;Max
                                                             &nbsp;&nbsp;
                                                             <input type="radio" name="@nome" if="form-indicadores-MetaMaximaMinima" disabled value="false" @(rotina.IndicadoresMetaMaximaMinima ? "" : "checked" ) />&nbsp;Min
                                                         </td>

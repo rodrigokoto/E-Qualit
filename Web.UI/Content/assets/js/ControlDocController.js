@@ -1777,6 +1777,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRegistrosRetencao]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRegistrosDisposicao]').prop('disabled', false);
             editor.graph.setEnabled(true);
+            APP.component.Mascaras.init();
         });
 
     },
