@@ -4703,7 +4703,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo Identificação de Risco deve ter no minimo 4 caracteres.
+        ///   Looks up a localized string similar to O campo Identificação de Risco deve ter no minimo 4 caracteres e no máximo 1000 caracteres.
         /// </summary>
         public static string GestaoDeRisco_msg_erro_min_e_max_DescricaoRegistro {
             get {
@@ -6602,7 +6602,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo recursos deve conter no máximo 500 caracteres..
+        ///   Looks up a localized string similar to O campo recursos deve conter no máximo 1000 caracteres..
         /// </summary>
         public static string MsgMaxRecursos500Caracteres {
             get {
@@ -6665,7 +6665,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo Como das rotinas deve possuir no máximo 500 caracteres..
+        ///   Looks up a localized string similar to O campo Como das rotinas deve possuir no máximo 1000 caracteres..
         /// </summary>
         public static string MsgMaxRotinasComo {
             get {
