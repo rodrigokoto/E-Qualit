@@ -9,6 +9,8 @@ namespace DAL.EntityConfig
         {
             HasKey(x => x.IdIndicadores);
 
+            Property(x => x.IndicadoresMeta).HasPrecision(18, 3);
+
             //Property(x => x.ResponsavelNomeCompleto)
             //    .IsOptional();
 

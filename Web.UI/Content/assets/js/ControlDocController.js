@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
 |--------------------------------------------------------------------------
 | Control Doc
 |--------------------------------------------------------------------------
@@ -73,7 +72,7 @@ APP.controller.ControlDocController = {
         }
 
         function orderItems(origin, orderUp) {
-            
+
             $(origin).find(':selected').appendTo(dest);
         }
 
@@ -83,7 +82,7 @@ APP.controller.ControlDocController = {
             } else {
                 moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
             }
-            
+
             //moveItems('#form-cadastro-verificadorBase', '#form-cadastro-verificador');
         });
 
@@ -337,7 +336,7 @@ APP.controller.ControlDocController = {
 
         };
 
-        xhr.send(JSON.stringify({ "id": idDocumento, "controlada": isControlada, "usuarioDest": idUsuarioDestino, "fluxoBase64": fluxoBase64 })); 
+        xhr.send(JSON.stringify({ "id": idDocumento, "controlada": isControlada, "usuarioDest": idUsuarioDestino, "fluxoBase64": fluxoBase64 }));
     },
 
     setExcluirDocumento: function () {
@@ -414,6 +413,7 @@ APP.controller.ControlDocController = {
         APP.component.AtivaLobiPanel.init();
         APP.component.Datapicker.init();
         APP.component.FileUpload.init();
+        APP.component.Mascaras.init();
         this.setValidateForms();
         this.setHideAndShow();
         this.getTabs();
@@ -444,10 +444,11 @@ APP.controller.ControlDocController = {
     },
 
     emissaoDocumentoEdicao: function () {
-
+        debugger;
         APP.component.AtivaLobiPanel.init();
         APP.component.Datapicker.init();
         APP.component.FileUpload.init();
+        APP.component.Mascaras.init();
         this.formCadastro();
         this.setHideAndShowEdit();
         this.getTabs();
@@ -558,7 +559,7 @@ APP.controller.ControlDocController = {
 
         $('[id^=form-cadastro-escolha]').unbind('click');
         $('[id^=form-cadastro-escolha]').on('click', function () {
-            
+
             $(".menu-one").show();
 
             var panel = $(this).attr('id').split('-');
@@ -772,7 +773,8 @@ APP.controller.ControlDocController = {
         $.ajax({
             type: "POST",
             data: {
-                "doc": emissaoDocumento, "status": _statusEtapa, "validarAssunto": validarAssunto},
+                "doc": emissaoDocumento, "status": _statusEtapa, "validarAssunto": validarAssunto
+            },
             dataType: 'json',
             url: url,
             beforeSend: function () {
@@ -839,7 +841,8 @@ APP.controller.ControlDocController = {
         $.ajax({
             type: "POST",
             data: {
-                "documento": emissaoDocumento, "assuntoObrigatorio": validarAssunto },
+                "documento": emissaoDocumento, "assuntoObrigatorio": validarAssunto
+            },
             dataType: 'json',
             url: '/ControlDoc/EnviarDocumentoParaVerificacao',
             beforeSend: function () {
@@ -1774,6 +1777,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRegistrosRetencao]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRegistrosDisposicao]').prop('disabled', false);
             editor.graph.setEnabled(true);
+            APP.component.Mascaras.init();
         });
 
     },
@@ -1860,8 +1864,10 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
-            
-
+            //APP.component.Mascaras.init();
+            debugger;
+            //$(this).find('input[name=formIndicadoresMetaMaximaMinima]:checked').val()
+            var contadorAtual =  ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
             var TraducaoDropNameSelect = 'Selecione';
 
             var html = '';
@@ -1884,11 +1890,13 @@ APP.controller.ControlDocController = {
 
 
             html += '<td>';
-            html += '<input type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control">';
+            html += '<input type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control input-metrica">';
             html += '</td>';
 
             html += '<td>';
-            html += '<input type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" >';
+            html += '<input type="radio" name="formIndicadoresMetaMaximaMinima' + contadorAtual + '" if="form-indicadores-MetaMaximaMinima"  value="true">&nbsp;Max';
+
+            html += '&nbsp;&nbsp;<input type="radio" name="formIndicadoresMetaMaximaMinima' + contadorAtual + '" if="form-indicadores-MetaMaximaMinima"  value="false">&nbsp;Min';
             html += '</td>';
 
             html += '<td>';
@@ -1937,7 +1945,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formIndicadoresMeta]').prop('disabled', true);
             $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', true);
             $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', true);
-            $(this).closest('tr').find('[name=formIndicadoresMetaMaximaMinima]').prop('disabled', true);
+            $(this).closest('tr').find('[name^=formIndicadoresMetaMaximaMinima]').prop('disabled', true);
             editor.graph.setEnabled(false);
 
 
@@ -1965,7 +1973,7 @@ APP.controller.ControlDocController = {
 
 
     setEditNovaIndicadoresFormIndicadores: function () {
-        
+
         this.buttonEditNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonEditNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
@@ -1975,7 +1983,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formIndicadoresMeta]').prop('disabled', false);
             $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', false);
             $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', false);
-            $(this).closest('tr').find('[name=formIndicadoresMetaMaximaMinima]').prop('disabled', false);
+            $(this).closest('tr').find('[name^=formIndicadoresMetaMaximaMinima]').prop('disabled', false);
             editor.graph.setEnabled(true);
         });
 
@@ -1986,7 +1994,7 @@ APP.controller.ControlDocController = {
 
 
     getResponsavelImplementarIndicadores: function () {
-        
+
         var idSite = $('#emissao-documento-site').val();
         var idFuncao = 23; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
         var idProcesso = $('[name=IdProcesso]').val();
@@ -2050,12 +2058,15 @@ APP.controller.ControlDocController = {
                 IndicadoresMeta: $(this).find('[name=formIndicadoresMeta]').val(),
                 Indicadores: $(this).find('[name=formIndicadoresIndicadores]').val(),
                 IndicadoresUnidadeMeta: $(this).find('[name=formIndicadoresUnidadeMeta]').val(),
-                IndicadoresMetaMaximaMinima: $(this).find('[name=formIndicadoresMetaMaximaMinima]').val(),
+                // Colocar formIndicadoresMetaMaximaMinima + 1 e pegar somente o inicio
+                IndicadoresMetaMaximaMinima: $(this).find('input[name^=formIndicadoresMetaMaximaMinima]:checked').val()
+                //$('input[name^=formIndicadoresMetaMaximaMinima]')
+                //IndicadoresMetaMaximaMinima: $(this).find('[name=formIndicadoresMetaMaximaMinima] :selected').val()
             };
             arrayFormIndicadoresObj.push(indicadores);
 
         });
-        
+
         return arrayFormIndicadoresObj;
 
     },
@@ -2068,10 +2079,12 @@ APP.controller.ControlDocController = {
         APP.controller.ControlDocController.setSaveNovaIndicadoresFormIndicadores();
         APP.controller.ControlDocController.setEditNovaIndicadoresFormIndicadores();
         APP.controller.ControlDocController.delNovaIndicadoresFormIndicadores();
+
+        APP.component.Mascaras.init();
         //APP.controller.ControlDocController.getResponsavelImplementarAcaoImediata();
-        
+
         //APP.controller.ControlDocController.setHideAndShowFormRotina();
-        
+
 
         //APP.controller.ControlDocController.setContNumberRotina();
 
@@ -3011,7 +3024,7 @@ APP.controller.ControlDocController = {
         $('.btn-salvar').hide();
 
 
-        if (_statusEtapa == 1) {
+        if (_statusEtapa == 1 || _statusEtapa == 2) {
             $("#form-emissao-documento-comentarios :input").prop("disabled", false);
         } else if (_statusEtapa == 3) {
             $("#form-emissao-documento-assuntos :input").prop("disabled", false);

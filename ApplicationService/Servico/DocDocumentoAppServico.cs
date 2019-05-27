@@ -88,13 +88,14 @@ namespace ApplicationService.Servico
 
         public void EnviarDocumentoParaElaboracao(DocDocumento doc)
         {
-            doc.FlStatus = (int)StatusDocumento.Elaboracao;
+            var docBase = _documentoRepositorio.Get(x => x.IdDocumento == doc.IdDocumento).FirstOrDefault();
+            docBase.FlStatus = (int)StatusDocumento.Elaboracao;
             if (doc.GestaoDeRisco != null)
             {
-                doc.IdGestaoDeRisco = doc.GestaoDeRisco.IdRegistroConformidade;
+                docBase.IdGestaoDeRisco = doc.GestaoDeRisco.IdRegistroConformidade;
             }
 
-            _documentoRepositorio.Update(doc);
+            _documentoRepositorio.Update(docBase);
         }
 
 
@@ -254,7 +255,7 @@ namespace ApplicationService.Servico
 
             var usuario = _usuarioAppServico.GetById(documento.IdElaborador);
             _notificacaoServico.Add(notificacao);
-            
+
             EnviaEmailSemTemplate(notificacao, usuario);
         }
 

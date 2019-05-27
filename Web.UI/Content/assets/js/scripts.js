@@ -23415,7 +23415,7 @@ APP.component.Mascaras = {
         $('.input-cep').mask('00000-000');
         $('.input-data').mask('00/00/0000');
         $('.input-cnpj').mask('00.000.000/0000-00');
-
+        $('.input-metrica').mask('000.000.000.000,000');
     },
 
     mascaraCelular: function () {

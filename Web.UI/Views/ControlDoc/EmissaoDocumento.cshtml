@@ -31,6 +31,15 @@
 </script>
 
 
+@*[aqui]*@
+@*<script src="~/Content/assets_src/js/vendor/jquery.inputmask.js"></script>
+<script type="text/javascript">
+
+    debugger;
+
+    $(".input-money").inputmask('Regex', { regex: "^[0-9]{1,6}(\\.\\d{1,2})?$" });
+
+</script>*@
 @*<script>
         $(function () {
             $(".datepicker").datepicker();
@@ -612,8 +621,8 @@
                                             <tr>
                                                 <th class="w10 with-input">Objetivo</th>
                                                 <th class="w5 with-input">Responsável</th>
-                                                <th class="w5 with-input">Meta Max</th>
-                                                <th class="w10 with-input">Meta Min</th>
+                                                <th class="w5 with-input">Meta</th>
+                                                <th class="w10 with-input">Meta Max/Min</th>
                                                 <th class="w10 with-input">Indicador</th>
                                                 <th class="w5 with-input">Unidade</th>
 
@@ -623,8 +632,11 @@
                                         <tbody>
                                             @if (Model.DocTemplate.Find(t => t.TpTemplate == "IN") != null)
                                             {
+                                                int contador = 0;
                                                 foreach (var rotina in Model.Indicadores)
                                                 {
+                                                    contador++;
+                                                    string nome = "formIndicadoresMetaMaximaMinima" + contador.ToString();
                                                     <tr>
                                                         <td>
                                                             <input type="hidden" name="formIndicadoresIdIndicadores" value="@rotina.IdIndicadores" />
@@ -643,11 +655,13 @@
                                                         </td>
 
                                                         <td>
-                                                            <textarea type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="form-control" disabled>@rotina.IndicadoresMeta</textarea>
+                                                            <input type="text" name="formIndicadoresMeta" if="form-indicadores-meta input-metrica" class="form-control input-metrica" disabled value="@rotina.IndicadoresMeta">
                                                         </td>
 
                                                         <td>
-                                                            <textarea type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="form-control" disabled>@rotina.IndicadoresMetaMaximaMinima</textarea>
+                                                            <input type="radio" name="@nome" if="form-indicadores-MetaMaximaMinima" disabled value="true"  @(rotina.IndicadoresMetaMaximaMinima ? "checked" : "" ) /> &nbsp;Max
+                                                            &nbsp;&nbsp;
+                                                            <input type="radio" name="@nome" if="form-indicadores-MetaMaximaMinima" disabled value="false" @(rotina.IndicadoresMetaMaximaMinima ? "" : "checked" ) />&nbsp;Min
                                                         </td>
 
                                                         <td>
@@ -663,6 +677,7 @@
                                                             <a href="#" class="excluir-form-indicadores icon-cliente trash-color"><i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Excluir"></i></a>
                                                         </td>
                                                     </tr>
+
                                                 }
                                             }
                                         </tbody>
