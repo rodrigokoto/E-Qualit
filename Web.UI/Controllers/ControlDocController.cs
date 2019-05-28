@@ -1587,6 +1587,7 @@ namespace Web.UI.Controllers
 
                 novosComentarios.ForEach(comentario =>
                 {
+                    comentario.Documento = null;
                     comentario.DataComentario = DateTime.Now;
                     comentario.IdDocumento = documento.IdDocumento;
                     comentario.IdUsuario = Util.ObterCodigoUsuarioLogado();
