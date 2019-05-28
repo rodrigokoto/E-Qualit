@@ -1284,7 +1284,6 @@ APP.controller.ControlDocController = {
                 if (result.StatusCode == 200) {
                     //var retorno = result.Lista.pop();
                     //retorno = result.Lista.pop();
-                    debugger;
                     var retultado = result.Lista;
                     var lista = $('[name=formCadastroVerificador] option');
                     for (var i = 0; i < lista.length; i++) {
@@ -1474,7 +1473,6 @@ APP.controller.ControlDocController = {
     },
 
     getObjFormCadastro: function (_statusEmissaoDocumento) {
-        debugger;
         var idSite = $('#emissao-documento-site').val();
         var idProcesso = $('[name=formCadastroProcesso] option:selected').val();
         var FlRevisaoPeriodica = APP.component.Radio.init('formCadastroRevisaoPeriodica') == "sim" ? true : false;
@@ -2061,7 +2059,6 @@ APP.controller.ControlDocController = {
     },
 
     getResponsavelImplementarIndicadoresLocal: function (atual) {
-        debugger;
         var idSite = $('#emissao-documento-site').val();
         var idFuncao = 23; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
         var idProcesso = $('[name=IdProcesso]').val();
