@@ -30333,7 +30333,6 @@ APP.controller.ControlDocController = {
 
 
     setEditNovaIndicadoresFormIndicadores: function () {
-        debugger;
         this.buttonEditNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonEditNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
@@ -30389,7 +30388,6 @@ APP.controller.ControlDocController = {
             arrayFormIndicadoresObj.push(indicadores);
 
         });
-        debugger;
         return arrayFormIndicadoresObj;
 
     },

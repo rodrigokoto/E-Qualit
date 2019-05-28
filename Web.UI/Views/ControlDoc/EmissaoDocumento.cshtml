@@ -305,10 +305,10 @@
                                         {
                                             <option value="@Model.IdElaborador" selected>@Model.Elaborador.NmCompleto</option>
                                         }
-                                        @*@if (ViewBag.IdPerfil >= 3)
+                                        @if (ViewBag.IdPerfil >= 3)
                                         {
                                             <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-                                        }*@
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -353,12 +353,12 @@
                                                 }
                                             </select>
                                         </div>
-                                        <div class="col-md-1 text-sm-center">
+                                        @*<div class="col-md-1 text-sm-center">
                                             <div class="btn-group-vertical m-b">
                                                 <button id="up" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp; </button>
                                                 <button id="down" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
                                             </div>
-                                        </div>
+                                        </div>*@
 
                                     </div>
 
@@ -399,12 +399,12 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-1 text-sm-center">
+                                        @*<div class="col-md-1 text-sm-center">
                                             <div class="btn-group-vertical m-b">
                                                 <button id="upAprovador" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp;</button>
                                                 <button id="downAprovador" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
                                             </div>
-                                        </div>
+                                        </div>*@
                                     </div>
 
                                 </div>
