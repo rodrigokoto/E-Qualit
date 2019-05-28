@@ -358,9 +358,10 @@ namespace Web.UI.Controllers
                     if (naoConformidade.EProcedente == true)
                         erros = EnviarNotificacao(naoConformidade, erros);
 
-                    if(naoConformidade.AcoesImediatas.Any(x => x.Aprovado == false))
+                    var acoesIneficazes = naoConformidade.AcoesImediatas.Where(x => x.Aprovado == false).ToList();
+                    if (acoesIneficazes.Count > 0)
                     {
-                        //EnviarEmailAcaoIneficaz()
+                        EnviarEmailAcaoIneficaz(naoConformidade, acoesIneficazes);
                     }
 
 
@@ -378,6 +379,11 @@ namespace Web.UI.Controllers
             }
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_save_valid }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        private void EnviarEmailAcaoIneficaz(RegistroConformidade naoConformidade, List<RegistroAcaoImediata> acoesIneficazes)
+        {
 
         }
 
