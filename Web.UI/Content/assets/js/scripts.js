@@ -30242,7 +30242,6 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
-            debugger;
             var html = '';
             html += '<tr>';
             //html += '<td style="width: 5%;">';

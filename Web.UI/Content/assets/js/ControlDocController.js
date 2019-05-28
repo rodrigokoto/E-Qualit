@@ -444,7 +444,7 @@ APP.controller.ControlDocController = {
     },
 
     emissaoDocumentoEdicao: function () {
-        debugger;
+        
         APP.component.AtivaLobiPanel.init();
         APP.component.Datapicker.init();
         APP.component.FileUpload.init();
@@ -1249,10 +1249,11 @@ APP.controller.ControlDocController = {
 
             },
             success: function (result) {
+                
                 if (result.StatusCode == 200) {
                     //var retorno = result.Lista.pop();
                     //retorno = result.Lista.pop();
-
+                    debugger;
                     var retultado = result.Lista;
                     var lista = $('[name=formCadastroVerificador] option');
                     for (var i = 0; i < lista.length; i++) {
@@ -1377,7 +1378,7 @@ APP.controller.ControlDocController = {
     getFormCadastroVerificadores: function () {
 
         var objVerificadores = [];
-
+        var ordem = 0;
         // Objeto Verificadores
         //$('[name=formCadastroVerificador] :selected').each(function () {
         $('[name=formCadastroVerificador]').find('option').each(function () {
@@ -1386,9 +1387,11 @@ APP.controller.ControlDocController = {
                 TpEtapa: "V",
                 FlVerificou: "0",
                 IdDocUsuarioVerificaAprova: $(this).data("iddocusuarioverificaaprova"),
-                IdDocumento: $("#emissao-documento-IdDocumento").val()
+                IdDocumento: $("#emissao-documento-IdDocumento").val(),
+                ordem: ordem
             };
             objVerificadores.push(verificador);
+            ordem++;
         });
 
         return objVerificadores;
@@ -1398,7 +1401,7 @@ APP.controller.ControlDocController = {
     getFormCadastroAprovadores: function () {
 
         var objAprovadores = [];
-
+        var ordem = 0;
         // Objeto Aprovadores
         //$('[name=formCadastroAprovador] :selected').each(function () {
         $('[name=formCadastroAprovador]').find('option').each(function () {
@@ -1407,9 +1410,11 @@ APP.controller.ControlDocController = {
                 TpEtapa: "A",
                 FlAprovou: "0",
                 IdDocUsuarioVerificaAprova: $(this).data("iddocusuarioverificaaprova"),
-                IdDocumento: $("#emissao-documento-IdDocumento").val()
+                IdDocumento: $("#emissao-documento-IdDocumento").val(),
+                ordem: ordem
             };
             objAprovadores.push(aprovador);
+            ordem++;
         });
 
         return objAprovadores;
@@ -1438,7 +1443,7 @@ APP.controller.ControlDocController = {
     },
 
     getObjFormCadastro: function (_statusEmissaoDocumento) {
-
+        debugger;
         var idSite = $('#emissao-documento-site').val();
         var idProcesso = $('[name=formCadastroProcesso] option:selected').val();
         var FlRevisaoPeriodica = APP.component.Radio.init('formCadastroRevisaoPeriodica') == "sim" ? true : false;
@@ -1865,7 +1870,7 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
             //APP.component.Mascaras.init();
-            debugger;
+            
             //$(this).find('input[name=formIndicadoresMetaMaximaMinima]:checked').val()
             var contadorAtual =  ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
             var TraducaoDropNameSelect = 'Selecione';
@@ -1984,6 +1989,8 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', false);
             $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', false);
             $(this).closest('tr').find('[name^=formIndicadoresMetaMaximaMinima]').prop('disabled', false);
+            
+            APP.controller.ControlDocController.getResponsavelImplementarIndicadoresLocal($(this).closest('tr').find('[name=formIndicadoresResponsavel]'));
             editor.graph.setEnabled(true);
         });
 
@@ -2006,6 +2013,7 @@ APP.controller.ControlDocController = {
             //    $('.add-acao-imediata').removeClass('show').addClass('hide');
             //},
             success: function (result) {
+                
                 if (result.StatusCode == 200) {
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
                     APP.component.SelectListCompare.selectList(result.Lista, $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"] option'), $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"]'), 'IdUsuario', 'NmCompleto');
@@ -2021,7 +2029,38 @@ APP.controller.ControlDocController = {
 
     },
 
+    getResponsavelImplementarIndicadoresLocal: function (atual) {
+        debugger;
+        var idSite = $('#emissao-documento-site').val();
+        var idFuncao = 23; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
+        var idProcesso = $('[name=IdProcesso]').val();
+        var atualLocal = atual;
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + ' &idSite=' + idSite + '&idFuncao=' + idFuncao + '',
+            //beforeSend: function () {
+            //    $('.add-acao-imediata').removeClass('show').addClass('hide');
+            //},
+            success: function (result) {
 
+                if (result.StatusCode == 200) {
+                    //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
+                    //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"] option'), $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"]'), 'IdUsuario', 'NmCompleto');
+                    $('[name="formIndicadoresResponsavel"]').each(function () {
+                        APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
+                    });  
+                }
+            },
+            error: function (result) {
+                bootbox.alert(_options.MsgOcorreuErro);
+            },
+            complete: function (result) {
+                //$('.add-acao-imediata').removeClass('hide').addClass('show');
+            }
+        });
+
+    },
 
 
     delNovaIndicadoresFormIndicadores: function () {

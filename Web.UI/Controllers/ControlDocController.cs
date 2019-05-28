@@ -34,6 +34,7 @@ namespace Web.UI.Controllers
 
         private readonly IRegistroConformidadesAppServico _registroConformidadeAppServico;
         private readonly IRegistroConformidadesServico _registroConformidadeServico;
+        private readonly IDocUsuarioVerificaAprovaServico _docUsuarioVerificaAprovaServico;
 
         private readonly ICargoAppServico _cargoAppServico;
 
@@ -74,6 +75,7 @@ namespace Web.UI.Controllers
                                     IRegistroConformidadesServico registroConformidadeServico,
                                     IUsuarioClienteSiteAppServico usuarioClienteAppServico,
                                     IProcessoAppServico processoAppServico,
+                                    IDocUsuarioVerificaAprovaServico docUsuarioVerificaAprovaServico,
             IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _documentoAppServico = docDocumentoAppServico;
@@ -94,6 +96,7 @@ namespace Web.UI.Controllers
             _usuarioClienteAppServico = usuarioClienteAppServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _docUsuarioVerificaAprovaServico = docUsuarioVerificaAprovaServico;
         }
 
         public ActionResult Index(string Mensagem = "")
@@ -962,6 +965,8 @@ namespace Web.UI.Controllers
 
 
             documento.Rotinas = documento.Rotinas.OrderBy(x => x.Item).ToList();
+            documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Ordem).ToList();
+            documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Ordem).ToList();
             return View("EmissaoDocumento", documento);
         }
 
@@ -1025,6 +1030,8 @@ namespace Web.UI.Controllers
 
                 if (baseDocumento.FlWorkFlow)
                 {
+                    _docUsuarioVerificaAprovaServico.RemoveAllById(baseDocumento.IdDocumento);
+                    
                     _documentoAppServico.Update(baseDocumento);
                 }
                 else
@@ -1109,6 +1116,14 @@ namespace Web.UI.Controllers
                     dest.GestaoDeRisco.NuRegistro = numeroUltimoRegistro;
                 }
             }
+
+            // Verifica Aprova
+            if (source.DocUsuarioVerificaAprova.Count > 0)
+            {
+                //source.DocUsuarioVerificaAprova.Reverse();
+                dest.DocUsuarioVerificaAprova = source.DocUsuarioVerificaAprova;
+            }
+                
 
             //Rotinas
             dest.Rotinas.AddRange(source.Rotinas.Where(s => s.IdDocRotina == 0));

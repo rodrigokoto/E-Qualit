@@ -1,5 +1,6 @@
 ﻿using Dominio.Entidade;
 using Dominio.Interface.Repositorio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,5 +21,27 @@ namespace DAL.Repository
                                                             x.IdDocumento == docDocumento.IdDocumento &&
                                                             x.TpEtapa == "V").ToList();
         }
+
+        public void RemoveAllById(int id)
+        {
+            try
+            {
+                var usuarioVerificaAprova = Db.DocUsuarioVerificaAprova
+                                    .Where(x => x.IdDocumento == id).ToList();//.FirstOrDefault();
+                foreach (var item in usuarioVerificaAprova)
+                {
+                    Db.DocUsuarioVerificaAprova.Remove(item);
+                    Db.SaveChanges();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        
+
     }
 }
