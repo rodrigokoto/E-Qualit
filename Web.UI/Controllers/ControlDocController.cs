@@ -1298,6 +1298,7 @@ namespace Web.UI.Controllers
         {
             try
             {
+
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
                 documento.XmlMetadata = Util.EscreveXML(documento.ConteudoDocumento);
@@ -1329,6 +1330,11 @@ namespace Web.UI.Controllers
                 {
                     documento.FlStatus = (byte)StatusDocumento.Verificacao;
                 }
+
+                //Não permite alterar o elaborador
+                var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
+                documento.Elaborador = elaborador;
+                documento.IdElaborador = elaborador.IdUsuario;
 
                 _documentoAppServico.Update(documento);
             }

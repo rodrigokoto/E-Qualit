@@ -305,10 +305,10 @@
                                         {
                                             <option value="@Model.IdElaborador" selected>@Model.Elaborador.NmCompleto</option>
                                         }
-                                        @if (ViewBag.IdPerfil >= 3)
+                                        @*@if (ViewBag.IdPerfil >= 3)
                                         {
-                                        <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-                                        }
+                                            <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                        }*@
                                     </select>
                                 </div>
                             </div>
@@ -1341,18 +1341,24 @@
             }
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Revisar) || ViewBag.IdPerfil != 4)
             {
-                <li class="botoes-button">
-                    <button type="button" class="btn btn-primary btn-enviar-aprovacao" style="display: none;">@Traducao.Resource.MarcarVerificado</button>
-                </li>
+                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4)
+                {
+                    <li class="botoes-button">
+                        <button type="button" class="btn btn-primary btn-enviar-aprovacao" style="display: none;">@Traducao.Resource.MarcarVerificado</button>
+                    </li>
+                }
             }
             <li class="botoes-button">
                 <button type="button" class="btn btn-primary btn-voltar-elaboracao" style="display: none;">@Traducao.Resource.VoltarElaboracao</button>
             </li>
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Aprovar) || ViewBag.IdPerfil != 4)
             {
-                <li class="botoes-button">
-                    <button type="button" class="btn btn-primary btn-aprovar" style="display: none;">Aprovar</button>
-                </li>
+                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4)
+                {
+                    <li class="botoes-button">
+                        <button type="button" class="btn btn-primary btn-aprovar" style="display: none;">Aprovar</button>
+                    </li>
+                }
             }
             <li>
                 <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "DocumentosElaboracao", "ControlDoc/")</button>
