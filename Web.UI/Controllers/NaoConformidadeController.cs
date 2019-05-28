@@ -382,10 +382,7 @@ namespace Web.UI.Controllers
 
         }
 
-        private void EnviarEmailAcaoIneficaz(RegistroConformidade naoConformidade, List<RegistroAcaoImediata> acoesIneficazes)
-        {
-
-        }
+       
 
         [HttpGet]
         public ActionResult ObterNaoConformidade(int id)
@@ -581,6 +578,42 @@ namespace Web.UI.Controllers
 
             return erros;
 
+        }
+
+        private void EnviarEmailAcaoIneficaz(RegistroConformidade naoConformidade, List<RegistroAcaoImediata> acoesIneficazes)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcesso(naoConformidade.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeAcaoIneficaz-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            foreach (var acao in acoesIneficazes)
+            {
+                try
+                {
+                    string template = System.IO.File.ReadAllText(path);
+                    string conteudo = template;
+
+                    conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+                    conteudo = conteudo.Replace("#NuNaoConformidade#", naoConformidade.NuRegistro.ToString());
+                    conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                    Email _email = new Email();
+
+                    _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
+                    _email.De = ConfigurationManager.AppSettings["EmailDE"];
+                    _email.Para = acao.ResponsavelImplementar.CdIdentificacao;
+                    _email.Conteudo = conteudo;
+                    _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+                    _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+                    _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+                    _email.Enviar();
+                }
+                catch (Exception ex)
+                {
+                    GravaLog(ex);
+                }
+            }
         }
 
         private void EnviarEmailImplementacao(RegistroConformidade naoConformidade, Usuario usuario)
