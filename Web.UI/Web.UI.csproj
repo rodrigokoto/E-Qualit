@@ -1731,6 +1731,8 @@
     <Content Include="Scripts\flot\jquery.flot.time.js" />
     <Content Include="Scripts\flot\jquery.flot.time.min.js" />
     <Content Include="Scripts\Fornecedor.js" />
+    <Content Include="Templates\NaoConformidadeResponsavel-pt-BR.html" />
+    <Content Include="Templates\NaoConformidadeImplementacao-pt-BR.html" />
     <Content Include="Templates\NotificacaoElaboracaoDocumento-pt-BR.html" />
     <Content Include="Templates\NotificacaoDocumento-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusGestaoDeRisco-pt-BR.html" />

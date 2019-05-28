@@ -592,6 +592,15 @@ namespace Traducao.ControlDoc {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documento enviado para Aprovação, porém ocorreu falha no envio da notificação..
+        /// </summary>
+        public static string ControlDoc_msg_Success_Aprovacao_Falha_Email {
+            get {
+                return ResourceManager.GetString("ControlDoc_msg_Success_Aprovacao_Falha_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documento Aprovado com sucesso..
         /// </summary>
         public static string ControlDoc_msg_Success_Aprovado {
@@ -601,11 +610,20 @@ namespace Traducao.ControlDoc {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Documetno enviado para Elaboração..
+        ///   Looks up a localized string similar to Documento enviado para Elaboração..
         /// </summary>
         public static string ControlDoc_msg_Success_Eleboracao {
             get {
                 return ResourceManager.GetString("ControlDoc_msg_Success_Eleboracao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documento enviado para Elaboração, porém ocorreu falha no envio da notificação..
+        /// </summary>
+        public static string ControlDoc_msg_Success_Eleboracao_Falha_Email {
+            get {
+                return ResourceManager.GetString("ControlDoc_msg_Success_Eleboracao_Falha_Email", resourceCulture);
             }
         }
         
@@ -615,6 +633,15 @@ namespace Traducao.ControlDoc {
         public static string ControlDoc_msg_Success_Verificacao {
             get {
                 return ResourceManager.GetString("ControlDoc_msg_Success_Verificacao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documento enviado para Verificação, porém ocorreu falha no envio da notificação..
+        /// </summary>
+        public static string ControlDoc_msg_Success_Verificacao_Falha_Email {
+            get {
+                return ResourceManager.GetString("ControlDoc_msg_Success_Verificacao_Falha_Email", resourceCulture);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Web.UI.Controllers
 {
     //[SitePossuiModulo((int)Funcionalidades.ControlDoc)]
     //[ProcessoSelecionado]
-    //[VerificaIntegridadeLogin]
+    [VerificaIntegridadeLogin]
     public class ControlDocController : BaseController
     {
         private int _funcaoImprimir = 8;
@@ -34,6 +34,7 @@ namespace Web.UI.Controllers
 
         private readonly IRegistroConformidadesAppServico _registroConformidadeAppServico;
         private readonly IRegistroConformidadesServico _registroConformidadeServico;
+        private readonly IDocUsuarioVerificaAprovaServico _docUsuarioVerificaAprovaServico;
 
         private readonly ICargoAppServico _cargoAppServico;
 
@@ -74,6 +75,7 @@ namespace Web.UI.Controllers
                                     IRegistroConformidadesServico registroConformidadeServico,
                                     IUsuarioClienteSiteAppServico usuarioClienteAppServico,
                                     IProcessoAppServico processoAppServico,
+                                    IDocUsuarioVerificaAprovaServico docUsuarioVerificaAprovaServico,
             IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _documentoAppServico = docDocumentoAppServico;
@@ -94,6 +96,7 @@ namespace Web.UI.Controllers
             _usuarioClienteAppServico = usuarioClienteAppServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _docUsuarioVerificaAprovaServico = docUsuarioVerificaAprovaServico;
         }
 
         public ActionResult Index(string Mensagem = "")
@@ -962,6 +965,8 @@ namespace Web.UI.Controllers
 
 
             documento.Rotinas = documento.Rotinas.OrderBy(x => x.Item).ToList();
+            documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Ordem).ToList();
+            documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Ordem).ToList();
             return View("EmissaoDocumento", documento);
         }
 
@@ -969,8 +974,10 @@ namespace Web.UI.Controllers
         {
             for (int i = 0; i < documentoAtual.Indicadores.Count; i++)
             {
+
                 var usuarioResponsavel = _usuarioAppServico.GetById((int)documentoAtual.Indicadores[i].IdResponsavel);
-                documentoAtual.Indicadores[i].ResponsavelNomeCompleto = usuarioResponsavel.NmCompleto;
+                if (usuarioResponsavel != null)
+                    documentoAtual.Indicadores[i].ResponsavelNomeCompleto = usuarioResponsavel.NmCompleto;
             }
             return documentoAtual;
         }
@@ -987,7 +994,7 @@ namespace Web.UI.Controllers
 
             try
             {
-                if(validaAssunto)
+                if (validaAssunto)
                     _documentoServico.AssuntoObrigatorioEditarRevisao(documentoEditado, ref erros);
 
                 TrataEdicaoDoc(documentoEditado, ref erros);
@@ -1023,6 +1030,8 @@ namespace Web.UI.Controllers
 
                 if (baseDocumento.FlWorkFlow)
                 {
+                    _docUsuarioVerificaAprovaServico.RemoveAllById(baseDocumento.IdDocumento);
+                    
                     _documentoAppServico.Update(baseDocumento);
                 }
                 else
@@ -1108,6 +1117,14 @@ namespace Web.UI.Controllers
                 }
             }
 
+            // Verifica Aprova
+            if (source.DocUsuarioVerificaAprova.Count > 0)
+            {
+                //source.DocUsuarioVerificaAprova.Reverse();
+                dest.DocUsuarioVerificaAprova = source.DocUsuarioVerificaAprova;
+            }
+                
+
             //Rotinas
             dest.Rotinas.AddRange(source.Rotinas.Where(s => s.IdDocRotina == 0));
             List<DocRotina> rotinas = dest.Rotinas.Where(s => !source.Rotinas.Any(a => s.IdDocRotina == a.IdDocRotina)).ToList();
@@ -1142,7 +1159,7 @@ namespace Web.UI.Controllers
 
 
             //Indicadores
-            if(source.Indicadores != null)
+            if (source.Indicadores != null)
                 dest.Indicadores.AddRange(source.Indicadores.Where(s => s.IdIndicadores == 0));
             List<DocIndicadores> indicadores = dest.Indicadores.Where(s => !source.Indicadores.Any(a => s.IdIndicadores == a.IdIndicadores)).ToList();
             indicadores.ForEach(f => _documentoAppServico.RemoverGenerico(f));
@@ -1192,7 +1209,7 @@ namespace Web.UI.Controllers
 
                 documento.DtAlteracao = DateTime.Now;
 
-                if(assuntoObrigatorio)
+                if (assuntoObrigatorio)
                     _documentoServico.AssuntoObrigatorioEditarRevisao(documento, ref erros);
 
 
@@ -1214,9 +1231,14 @@ namespace Web.UI.Controllers
 
                     Editar(documento, false);
 
-
-                    _documentoAppServico.NotificacaoVerificadoresEmail(documento, documento.IdSite, documento.Verificadores);
-
+                    try
+                    {
+                        _documentoAppServico.NotificacaoVerificadoresEmail(documento, documento.IdSite, documento.Verificadores);
+                    }
+                    catch
+                    {
+                        return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Verificacao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 else
                 {
@@ -1251,7 +1273,14 @@ namespace Web.UI.Controllers
 
                 _documentoAppServico.EnviarDocumentoParaElaboracao(documento);
 
-                _documentoAppServico.NotificacaoElaboradorEmail(documento);
+                try
+                {
+                    _documentoAppServico.NotificacaoElaboradorEmail(documento);
+                }
+                catch
+                {
+                    return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Eleboracao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                }
 
             }
             catch (Exception ex)
@@ -1259,6 +1288,7 @@ namespace Web.UI.Controllers
                 GravaLog(ex);
                 return Json(new { StatusCode = (int)HttpStatusCode.BadRequest }, JsonRequestBehavior.AllowGet);
             }
+
             return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Eleboracao, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
         }
 
@@ -1268,6 +1298,7 @@ namespace Web.UI.Controllers
         {
             try
             {
+
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
                 documento.XmlMetadata = Util.EscreveXML(documento.ConteudoDocumento);
@@ -1284,13 +1315,27 @@ namespace Web.UI.Controllers
 
                 if (_documentoAppServico.VerificadoPorTodos(listaAprovaVerifi))
                 {
-                    _documentoAppServico.EnviarDocumentoParaAprovacao(documento);
-                    _documentoAppServico.NotificacaoAprovadoresEmail(documento, documento.IdSite, documento.Aprovadores);
+                    documento.FlStatus = (int)StatusDocumento.Aprovacao;
+                    //_documentoAppServico.EnviarDocumentoParaAprovacao(documento);
+
+                    try
+                    {
+                        _documentoAppServico.NotificacaoAprovadoresEmail(documento, documento.IdSite, documento.Aprovadores);
+                    }
+                    catch
+                    {
+                        return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Aprovacao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 else
                 {
                     documento.FlStatus = (byte)StatusDocumento.Verificacao;
                 }
+
+                //Não permite alterar o elaborador
+                //var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
+                //documento.Elaborador = elaborador;
+                //documento.IdElaborador = elaborador.IdUsuario;
 
                 _documentoAppServico.Update(documento);
             }
@@ -1325,6 +1370,10 @@ namespace Web.UI.Controllers
 
                     if (_documentoAppServico.AprovadoPorTodos(documento))
                         _documentoAppServico.AprovarDocumento(documento);
+                    else
+                        documento.FlStatus = (byte)StatusDocumento.Aprovacao;
+
+                    _documentoAppServico.Update(documento);
                 }
                 catch (Exception ex)
                 {
@@ -1344,6 +1393,16 @@ namespace Web.UI.Controllers
         public ActionResult SalvaPDF(int id)
         {
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult RetornarXmlFluxo(int documentoId)
+        {
+            var documento = _documentoAppServico.GetById(documentoId);
+
+            var xmlFluxo = documento.FluxoDoc;
+
+            return Json(new { xmlFluxo = xmlFluxo });
         }
 
         //public ActionResult PDF(int id, int? idUsuarioDestino)
@@ -1434,7 +1493,7 @@ namespace Web.UI.Controllers
             }
             else
             {
-                
+
                 if (doc.DocUsuarioVerificaAprova.Count == 0)
                 {
                     doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
@@ -1503,7 +1562,7 @@ namespace Web.UI.Controllers
         }
 
         private void AtualizarUsuarioCargosETemplatesDoDocumento(DocDocumento documento)
-        {            
+        {
             _docCargoAppServico
                         .AlterarCargosDoDocumento(documento.IdDocumento, documento.DocCargo);
 

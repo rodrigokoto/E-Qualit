@@ -9,7 +9,7 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoDeRiscos
         public CamposObrigatoriosGestaoDeRiscoEtapa1Validation()
         {
             RuleFor(x => x.DescricaoRegistro)                
-                .Length(4, 500).WithMessage(Traducao.Resource.GestaoDeRisco_msg_erro_min_e_max_DescricaoRegistro);
+                .Length(4, 1000).WithMessage(Traducao.Resource.GestaoDeRisco_msg_erro_min_e_max_DescricaoRegistro);
 
             RuleFor(x => x.StatusEtapa)
                 .Must(x => x.Equals((byte)EtapasRegistroConformidade.AcaoImediata))

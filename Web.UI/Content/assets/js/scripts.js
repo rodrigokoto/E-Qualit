@@ -23415,7 +23415,7 @@ APP.component.Mascaras = {
         $('.input-cep').mask('00000-000');
         $('.input-data').mask('00/00/0000');
         $('.input-cnpj').mask('00.000.000/0000-00');
-
+        $('.input-metrica').mask('000.000.000.000,000');
     },
 
     mascaraCelular: function () {
@@ -30242,7 +30242,6 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
-            debugger;
             var html = '';
             html += '<tr>';
             //html += '<td style="width: 5%;">';
@@ -30334,7 +30333,6 @@ APP.controller.ControlDocController = {
 
 
     setEditNovaIndicadoresFormIndicadores: function () {
-        debugger;
         this.buttonEditNovaIndicadoresFormIndicadores.unbind('click');
         this.buttonEditNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
@@ -30390,7 +30388,6 @@ APP.controller.ControlDocController = {
             arrayFormIndicadoresObj.push(indicadores);
 
         });
-        debugger;
         return arrayFormIndicadoresObj;
 
     },

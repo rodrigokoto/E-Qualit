@@ -316,6 +316,15 @@ namespace Web.UI.Controllers
                     naoConformidade = _registroConformidadesAppServico.SalvarPrimeiraEtapa(naoConformidade);
                     naoConformidade.Site = _siteService.GetById(naoConformidade.IdSite);
 
+                    try
+                    {
+                        EnviarEmailResponsavel(naoConformidade);
+                    }
+                    catch (Exception ex)
+                    {
+                        GravaLog(ex);
+                    }
+
                     erros = EnviarNotificacao(naoConformidade, erros);
                 }
             }
@@ -329,6 +338,33 @@ namespace Web.UI.Controllers
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_criar_valid }, JsonRequestBehavior.AllowGet);
 
         }
+
+        private void EnviarEmailResponsavel(RegistroConformidade naoConformidade)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcesso(naoConformidade.IdRegistroConformidade);
+
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeResponsavel-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+            string conteudo = template;
+
+            conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+            conteudo = conteudo.Replace("#NuNaoConformidade#", naoConformidade.NuRegistro.ToString());
+            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = naoConformidade.ResponsavelInicarAcaoImediata.CdIdentificacao;
+            _email.Conteudo = conteudo;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
+        }
+       
 
         private void SalvarArquivoEvidencia(RegistroConformidade nc)
         {
@@ -408,6 +444,13 @@ namespace Web.UI.Controllers
 
                     if (naoConformidade.EProcedente == true)
                         erros = EnviarNotificacao(naoConformidade, erros);
+
+                    if(naoConformidade.AcoesImediatas.Any(x => x.Aprovado == false))
+                    {
+                        //EnviarEmailAcaoIneficaz()
+                    }
+
+
                 }
                 else
                 {
@@ -588,6 +631,16 @@ namespace Web.UI.Controllers
                         notificacao.IdUsuario = acaoImediata.IdResponsavelImplementar.Value;
                         notificacao.FlEtapa = naoConformidade.StatusEtapa.ToString();
                         _notificacaoAppServico.Add(notificacao);
+
+                        try
+                        {
+                            EnviarEmailImplementacao(naoConformidade, acaoImediata.ResponsavelImplementar);
+                        }
+                        catch (Exception ex)
+                        {
+                            GravaLog(ex);
+                        }
+
                     });
 
                 }
@@ -598,9 +651,8 @@ namespace Web.UI.Controllers
                     notificacao.FlEtapa = naoConformidade.StatusEtapa.ToString();
                     _notificacaoAppServico.Add(notificacao);
                 }
-
-                EnviaEmail(naoConformidade);
-
+                
+                //EnviaEmail(naoConformidade);
             }
             catch
             {
@@ -612,6 +664,39 @@ namespace Web.UI.Controllers
 
         }
 
+        private void EnviarEmailImplementacao(RegistroConformidade naoConformidade, Usuario usuario)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            //var usuarioNotificacao = _usuarioAppServico.GetById(naoConformidade.IdResponsavelEtapa.Value);
+            var urlAcesso = MontarUrlAcesso(naoConformidade.IdRegistroConformidade);
+
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+            string conteudo = template;
+
+            conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+            conteudo = conteudo.Replace("#NuNaoConformidade#", naoConformidade.NuRegistro.ToString());
+            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = usuario.CdIdentificacao;
+            _email.Conteudo = conteudo;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
+        }
+
+        private string MontarUrlAcesso(int idRegistroConformidade)
+        {
+            var dominio = ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "/NaoConformidade/Editar/" + idRegistroConformidade.ToString();
+        }
 
         private void EnviaEmail(RegistroConformidade nc)
         {

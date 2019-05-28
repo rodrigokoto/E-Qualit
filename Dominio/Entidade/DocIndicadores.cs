@@ -17,7 +17,7 @@ namespace Dominio.Entidade
         public decimal IndicadoresMeta { get; set; }
         public string Indicadores { get; set; }
         public string IndicadoresUnidadeMeta { get; set; }
-        public decimal IndicadoresMetaMaximaMinima { get; set; }
+        public bool IndicadoresMetaMaximaMinima { get; set; }
         [NotMapped]
         public string ResponsavelNomeCompleto { get; set; }
 

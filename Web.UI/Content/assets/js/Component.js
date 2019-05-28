@@ -1379,13 +1379,13 @@ APP.component.AtivaLobiPanel = {
 | Máscaras
 |--------------------------------------------------------------------------
 */
-
 APP.component.Mascaras = {
 
     init: function () {
 
         this.mascara();
         this.mascaraCelular();
+        
 
     },
 
@@ -1396,7 +1396,8 @@ APP.component.Mascaras = {
         $('.input-cep').mask('00000-000');
         $('.input-data').mask('00/00/0000');
         $('.input-cnpj').mask('00.000.000/0000-00');
-
+        //".mask").inputmask('Regex', { regex: "^[0-9]{1,6}(\\.\\d{1,2})?$" });
+        $('.input-metrica').mask("#.##0,000", { reverse: true });
     },
 
     mascaraCelular: function () {
@@ -1427,6 +1428,8 @@ APP.component.Mascaras = {
         });
 
     }
+
+ 
 
 
 };
