@@ -293,10 +293,8 @@ APP.controller.ControlDocController = {
                 }
                 else {
                     APP.controller.ControlDocController.models.iscontrolada = null;
-                    APP.controller.ControlDocController.models.idusuariodestino = null;
-                    $(".containerGraph").show();
-                    APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);
-                    $(".containerGraph").hide();
+                    APP.controller.ControlDocController.models.idusuariodestino = null;                    
+                    APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);                    
                 }
 
             },
@@ -344,8 +342,9 @@ APP.controller.ControlDocController = {
                 isControlada = false;
                 idUsuarioDestino = "";
             }
-
+            $(".containerGraph").show();
             gerarPdf(idDocumento, isControlada, idUsuarioDestino);
+            $(".containerGraph").hide();
 
         }
     },
