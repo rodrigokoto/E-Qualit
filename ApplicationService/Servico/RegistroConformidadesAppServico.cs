@@ -387,8 +387,7 @@ namespace ApplicationService.Servico
 
             if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4)
             {
-                AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);
-                //AtualizaAcoesImediatas(registroConformidade.AcoesImediatas.ToList(), objCtx);              
+                AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);           
             }
 
             if (registroConformidade.EProcedente == false)
