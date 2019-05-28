@@ -12,12 +12,23 @@
 }
 
 @section scripts {
-
+    <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxClient.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxApplication.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/util/mxImageExport.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/util/mxUtils.js")"></script>
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/GerarPdfDocumento.js")"></script>
 }
+
+<script type="text/javascript">
+    var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
+    mxDefaultLanguage = 'pt';
+
+
+
+</script>
 
 
 <div id="main">
@@ -25,6 +36,17 @@
         @*@Html.Partial("_Menu")*@
         <!-- Formulario ControlDoc -->
         <form id="form-controldoc">
+            <div class="row containerGraph" style="display:none">
+                <div class="col-md-1 col-xs-2 tollbarGraph">
+                    <div id="toolbar" valign="top"></div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                    <input type="hidden" id="form-emissao-documento-fluxo-conteudo" />
+                    <div id="graphContainer"></div>
+                </div>
+                <img id="imgCanvas" />
+            </div>
+
             <div class="panel panel-default" id="panel-controldoc">
                 <div class="panel-body" id="panel-form-controldoc">
                     <div class="row">

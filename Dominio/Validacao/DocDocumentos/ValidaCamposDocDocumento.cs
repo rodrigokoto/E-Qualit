@@ -133,7 +133,7 @@ namespace Dominio.Validacao.DocDocumentos
         protected void ValidaQuantidadeCaracteresCampos()
         {
             RuleFor(documento => documento.RecursoDoc)
-                .Length(0, 500).WithMessage(Traducao.Resource.MsgMaxRecursos500Caracteres);
+                .Length(0, 1000).WithMessage(Traducao.Resource.MsgMaxRecursos500Caracteres);
                         
         }
     }

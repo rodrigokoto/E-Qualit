@@ -4,6 +4,7 @@
 |--------------------------------------------------------------------------
 */
 
+
 APP.controller.ControlDocController = {
 
     init: function () {
@@ -245,51 +246,81 @@ APP.controller.ControlDocController = {
 
     },
 
+    solicitarImpressao: function (perfil, idDocumento) {
+
+        $.ajax({
+            type: "POST",
+            url: '/ControlDoc/RetornarXmlFluxo',
+            data: JSON.stringify({ 'documentoId': idDocumento }),
+            cache: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            error: function (data) {
+                bootbox.alert("Ocorreu um erro inesperado durante a solicitação. Tente Novamente.");
+            },
+            success: function (data) {
+
+                $("#form-emissao-documento-fluxo-conteudo").val(data.xmlFluxo);
+                APP.controller.ControlDocController.setEditorFormFluxo();
+                
+                if (perfil == "4" || perfil == "2") {
+
+                    var modal = bootbox.dialog({
+                        title: "Impressão de Documentos",
+                        message: $(".modal-impressao").html(),
+                        buttons: [
+                            {
+                                label: _options.BtnImprimir,
+                                className: "btn btn-primary pull-right",
+                                callback: function () {
+                                    APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, true);
+                                }
+                            },
+                            {
+                                label: _options.botao_cancelar,
+                                className: "btn btn-default pull-right",
+                                callback: function () {
+                                    modal.modal("hide");
+                                }
+                            }
+                        ],
+                        show: false,
+                        onEscape: function () {
+                            modal.modal("hide");
+                        }
+                    });
+                    modal.modal("show");
+                }
+                else {
+                    APP.controller.ControlDocController.models.iscontrolada = null;
+                    APP.controller.ControlDocController.models.idusuariodestino = null;                    
+                    APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);                    
+                }
+
+            },
+            beforeSend: function () {
+
+            }
+        });
+
+
+        
+    },
     setImprimirDocumento: function () {
 
         var tabela = $("#tb-list-documentos").DataTable();
 
         this.buttonImprimirDocumento.unbind('click');
         this.buttonImprimirDocumento.bind('click', function () {
+
             $(".usuarioDestinoCopiaControlada").show();
             event.preventDefault();
             APP.controller.ControlDocController.models.idDocumento = $(this).data("iddocumento");
             var perfil = $(this).data("perfil");
             var $rowAtual = $(this).parents("tr");
 
-            if (perfil == "1" || perfil == "3") {
-
-                var modal = bootbox.dialog({
-                    title: "Impressão de Documentos",
-                    message: $(".modal-impressao").html(),
-                    buttons: [
-                        {
-                            label: _options.BtnImprimir,
-                            className: "btn btn-primary pull-right",
-                            callback: function () {
-                                APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, true);
-                            }
-                        },
-                        {
-                            label: _options.botao_cancelar,
-                            className: "btn btn-default pull-right",
-                            callback: function () {
-                                modal.modal("hide");
-                            }
-                        }
-                    ],
-                    show: false,
-                    onEscape: function () {
-                        modal.modal("hide");
-                    }
-                });
-                modal.modal("show");
-            }
-            else {
-                APP.controller.ControlDocController.models.iscontrolada = null;
-                APP.controller.ControlDocController.models.idusuariodestino = null;
-                APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);
-            }
+            APP.controller.ControlDocController.solicitarImpressao(perfil, APP.controller.ControlDocController.models.idDocumento);
+            
         });
     },
 
@@ -311,8 +342,9 @@ APP.controller.ControlDocController = {
                 isControlada = false;
                 idUsuarioDestino = "";
             }
-
+            $(".containerGraph").show();
             gerarPdf(idDocumento, isControlada, idUsuarioDestino);
+            $(".containerGraph").hide();
 
         }
     },
@@ -444,7 +476,6 @@ APP.controller.ControlDocController = {
     },
 
     emissaoDocumentoEdicao: function () {
-        
         APP.component.AtivaLobiPanel.init();
         APP.component.Datapicker.init();
         APP.component.FileUpload.init();

@@ -419,7 +419,7 @@ namespace Dominio.Servico
                     errosRotina.Add(Traducao.Resource.MsgMaxRotinasRegistro);
                 }
 
-                if (x.Como.Length > 500)
+                if (x.Como.Length > 1000)
                 {
                     errosRotina.Add(Traducao.Resource.MsgMaxRotinasComo);
                 }

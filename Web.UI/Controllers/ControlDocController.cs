@@ -20,7 +20,7 @@ namespace Web.UI.Controllers
 {
     //[SitePossuiModulo((int)Funcionalidades.ControlDoc)]
     //[ProcessoSelecionado]
-    //[VerificaIntegridadeLogin]
+    [VerificaIntegridadeLogin]
     public class ControlDocController : BaseController
     {
         private int _funcaoImprimir = 8;
@@ -1386,6 +1386,16 @@ namespace Web.UI.Controllers
         public ActionResult SalvaPDF(int id)
         {
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult RetornarXmlFluxo(int documentoId)
+        {
+            var documento = _documentoAppServico.GetById(documentoId);
+
+            var xmlFluxo = documento.FluxoDoc;
+
+            return Json(new { xmlFluxo = xmlFluxo });
         }
 
         //public ActionResult PDF(int id, int? idUsuarioDestino)
