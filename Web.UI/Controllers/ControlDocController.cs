@@ -1298,6 +1298,7 @@ namespace Web.UI.Controllers
         {
             try
             {
+                //var docBase = _documentoAppServico.GetById(documento.IdDocumento);
 
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);

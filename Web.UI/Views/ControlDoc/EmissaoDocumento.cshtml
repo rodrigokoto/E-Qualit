@@ -299,7 +299,7 @@
                                 <!-- Elaborador -->
                                 <div class="form-group">
                                     <label for="form-cadastro-elaborador">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador</label>
-                                    <select id="form-cadastro-elaborador" name="formCadastroElaborador" class="form-control" required data-msg-required="@Traducao.Resource.CampoObrigatorio" @(ViewBag.IdPerfil >= 3 ? "disabled" : "" ) >
+                                    <select id="form-cadastro-elaborador" name="formCadastroElaborador" class="form-control" required data-msg-required="@Traducao.Resource.CampoObrigatorio" @(ViewBag.IdPerfil >= 3 ? "disabled" : "" )>
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Elaborador != null)
                                         {
@@ -354,11 +354,11 @@
                                             </select>
                                         </div>
                                         @*<div class="col-md-1 text-sm-center">
-                                            <div class="btn-group-vertical m-b">
-                                                <button id="up" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp; </button>
-                                                <button id="down" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
-                                            </div>
-                                        </div>*@
+                                                <div class="btn-group-vertical m-b">
+                                                    <button id="up" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp; </button>
+                                                    <button id="down" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
+                                                </div>
+                                            </div>*@
 
                                     </div>
 
@@ -400,11 +400,11 @@
                                         </div>
 
                                         @*<div class="col-md-1 text-sm-center">
-                                            <div class="btn-group-vertical m-b">
-                                                <button id="upAprovador" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp;</button>
-                                                <button id="downAprovador" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
-                                            </div>
-                                        </div>*@
+                                                <div class="btn-group-vertical m-b">
+                                                    <button id="upAprovador" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp;</button>
+                                                    <button id="downAprovador" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
+                                                </div>
+                                            </div>*@
                                     </div>
 
                                 </div>
@@ -1290,14 +1290,18 @@
                     <a href="#" data-toggle="modal" data-target="#modal-panel-form-assuntos">@Traducao.Resource.Assunto</a>
                 </p>
             </div>
-            <div class="dois">
-                <div class="ico-dois">
-                    <span class="fa fa-comments" aria-hidden="true"></span>
+            @if (Model.IdDocumento > 0)
+            {
+                <div class="dois">
+                    <div class="ico-dois">
+                        <span class="fa fa-comments" aria-hidden="true"></span>
+                    </div>
+                    <p>
+
+                        <a href="#" data-toggle="modal" data-target="#modal-panel-form-comentarios">@Traducao.Resource.Comentarios</a>
+                    </p>
                 </div>
-                <p>
-                    <a href="#" data-toggle="modal" data-target="#modal-panel-form-comentarios">@Traducao.Resource.Comentarios</a>
-                </p>
-            </div>
+            }
             <div class="tres">
                 <div class="ico-tres">
                     <span class="fa fa-users" aria-hidden="true"></span>
