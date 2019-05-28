@@ -1315,7 +1315,8 @@ namespace Web.UI.Controllers
 
                 if (_documentoAppServico.VerificadoPorTodos(listaAprovaVerifi))
                 {
-                    _documentoAppServico.EnviarDocumentoParaAprovacao(documento);
+                    documento.FlStatus = (int)StatusDocumento.Aprovacao;
+                    //_documentoAppServico.EnviarDocumentoParaAprovacao(documento);
 
                     try
                     {
@@ -1332,9 +1333,9 @@ namespace Web.UI.Controllers
                 }
 
                 //Não permite alterar o elaborador
-                var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
-                documento.Elaborador = elaborador;
-                documento.IdElaborador = elaborador.IdUsuario;
+                //var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
+                //documento.Elaborador = elaborador;
+                //documento.IdElaborador = elaborador.IdUsuario;
 
                 _documentoAppServico.Update(documento);
             }
