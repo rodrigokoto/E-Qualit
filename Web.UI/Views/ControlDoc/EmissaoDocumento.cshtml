@@ -33,13 +33,13 @@
 
 @*[aqui]*@
 @*<script src="~/Content/assets_src/js/vendor/jquery.inputmask.js"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    debugger;
+        debugger;
 
-    $(".input-money").inputmask('Regex', { regex: "^[0-9]{1,6}(\\.\\d{1,2})?$" });
+        $(".input-money").inputmask('Regex', { regex: "^[0-9]{1,6}(\\.\\d{1,2})?$" });
 
-</script>*@
+    </script>*@
 @*<script>
         $(function () {
             $(".datepicker").datepicker();
@@ -299,16 +299,16 @@
                                 <!-- Elaborador -->
                                 <div class="form-group">
                                     <label for="form-cadastro-elaborador">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador</label>
-                                    <select id="form-cadastro-elaborador" name="formCadastroElaborador" class="form-control" required data-msg-required="@Traducao.Resource.CampoObrigatorio">
+                                    <select id="form-cadastro-elaborador" name="formCadastroElaborador" class="form-control" required data-msg-required="@Traducao.Resource.CampoObrigatorio" @(ViewBag.IdPerfil >= 3 ? "disabled" : "" ) >
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Elaborador != null)
                                         {
                                             <option value="@Model.IdElaborador" selected>@Model.Elaborador.NmCompleto</option>
                                         }
-                                        @if (ViewBag.IdPerfil >= 3)
+                                        @*@if (ViewBag.IdPerfil >= 3)
                                         {
                                             <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-                                        }
+                                        }*@
                                     </select>
                                 </div>
                             </div>
@@ -659,7 +659,7 @@
                                                         </td>
 
                                                         <td>
-                                                            <input type="radio" name="@nome" if="form-indicadores-MetaMaximaMinima" disabled value="true"  @(rotina.IndicadoresMetaMaximaMinima ? "checked" : "" ) /> &nbsp;Max
+                                                            <input type="radio" name="@nome" if="form-indicadores-MetaMaximaMinima" disabled value="true" @(rotina.IndicadoresMetaMaximaMinima ? "checked" : "" ) /> &nbsp;Max
                                                             &nbsp;&nbsp;
                                                             <input type="radio" name="@nome" if="form-indicadores-MetaMaximaMinima" disabled value="false" @(rotina.IndicadoresMetaMaximaMinima ? "" : "checked" ) />&nbsp;Min
                                                         </td>
@@ -1200,6 +1200,10 @@
                         <div class="form-group">
                             <label for="form-participantes-elaboradores" class="form-control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador:</label>
                             <ul name="formParticipantesElaboradores" class="" id="form-participantes-elaboradores"></ul>
+                            @if (Model.Elaborador != null)
+                            {
+                                @Model.Elaborador.NmCompleto
+                            }
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -1337,18 +1341,24 @@
             }
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Revisar) || ViewBag.IdPerfil != 4)
             {
-                <li class="botoes-button">
-                    <button type="button" class="btn btn-primary btn-enviar-aprovacao" style="display: none;">@Traducao.Resource.MarcarVerificado</button>
-                </li>
+                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4)
+                {
+                    <li class="botoes-button">
+                        <button type="button" class="btn btn-primary btn-enviar-aprovacao" style="display: none;">@Traducao.Resource.MarcarVerificado</button>
+                    </li>
+                }
             }
             <li class="botoes-button">
                 <button type="button" class="btn btn-primary btn-voltar-elaboracao" style="display: none;">@Traducao.Resource.VoltarElaboracao</button>
             </li>
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Aprovar) || ViewBag.IdPerfil != 4)
             {
-                <li class="botoes-button">
-                    <button type="button" class="btn btn-primary btn-aprovar" style="display: none;">Aprovar</button>
-                </li>
+                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4)
+                {
+                    <li class="botoes-button">
+                        <button type="button" class="btn btn-primary btn-aprovar" style="display: none;">Aprovar</button>
+                    </li>
+                }
             }
             <li>
                 <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "DocumentosElaboracao", "ControlDoc/")</button>

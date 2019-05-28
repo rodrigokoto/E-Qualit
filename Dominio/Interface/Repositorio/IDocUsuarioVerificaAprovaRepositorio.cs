@@ -9,6 +9,7 @@ namespace Dominio.Interface.Repositorio
         List<DocUsuarioVerificaAprova> VerificaDuplicidadeAprovador(DocDocumento docDocumento);
 
         List<DocUsuarioVerificaAprova> VerificaDuplicidadeVerificador(DocDocumento docDocumento);
+        void RemoveAllById(int id);
     }
 
 }

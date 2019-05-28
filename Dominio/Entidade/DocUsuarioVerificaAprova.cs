@@ -12,5 +12,6 @@ namespace Dominio.Entidade
         public virtual Usuario Usuario { get; set; }
         public virtual DocDocumento DocDocumento { get; set; }
         public bool? deletar { get; set; }
+        public int? Ordem { get; set; }
     }
 }
