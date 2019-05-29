@@ -1298,6 +1298,7 @@ namespace Web.UI.Controllers
         {
             try
             {
+                //var docBase = _documentoAppServico.GetById(documento.IdDocumento);
 
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
@@ -1315,7 +1316,8 @@ namespace Web.UI.Controllers
 
                 if (_documentoAppServico.VerificadoPorTodos(listaAprovaVerifi))
                 {
-                    _documentoAppServico.EnviarDocumentoParaAprovacao(documento);
+                    documento.FlStatus = (int)StatusDocumento.Aprovacao;
+                    //_documentoAppServico.EnviarDocumentoParaAprovacao(documento);
 
                     try
                     {
@@ -1332,9 +1334,9 @@ namespace Web.UI.Controllers
                 }
 
                 //Não permite alterar o elaborador
-                var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
-                documento.Elaborador = elaborador;
-                documento.IdElaborador = elaborador.IdUsuario;
+                //var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
+                //documento.Elaborador = elaborador;
+                //documento.IdElaborador = elaborador.IdUsuario;
 
                 _documentoAppServico.Update(documento);
             }
@@ -1360,18 +1362,27 @@ namespace Web.UI.Controllers
             {
                 try
                 {
-                    Editar(documento, false);
 
-                    documento = _documentoAppServico.GetById(documento.IdDocumento);
+                    documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
+                    documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
+                    //documento.XmlMetadata = Util.EscreveXML(documento.ConteudoDocumento);
+                    //_documentoAppServico.VerificarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
+                    //_documentoAppServico.AprovarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
 
-                    _documentoAppServico.AprovarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
+                    //Editar(documento, false);
+
                     AdicionaComentario(documento);
+                    AtualizarUsuarioCargosETemplatesDoDocumento(documento);
 
-                    if (_documentoAppServico.AprovadoPorTodos(documento))
+                    var listaAprova = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento && x.TpEtapa == "A").ToList();
+                    listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlAprovou = true;
+
+                    if (_documentoAppServico.AprovadoPorTodos(listaAprova))
                         _documentoAppServico.AprovarDocumento(documento);
                     else
                         documento.FlStatus = (byte)StatusDocumento.Aprovacao;
 
+                    _docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
                     _documentoAppServico.Update(documento);
                 }
                 catch (Exception ex)
@@ -1586,6 +1597,7 @@ namespace Web.UI.Controllers
 
                 novosComentarios.ForEach(comentario =>
                 {
+                    comentario.Documento = null;
                     comentario.DataComentario = DateTime.Now;
                     comentario.IdDocumento = documento.IdDocumento;
                     comentario.IdUsuario = Util.ObterCodigoUsuarioLogado();

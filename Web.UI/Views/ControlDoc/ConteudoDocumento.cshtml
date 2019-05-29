@@ -63,7 +63,7 @@
     mxDefaultLanguage = 'pt';
 
 
-    
+
 </script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -226,7 +226,7 @@
                                         </label>
                                         <br />
 
-                                        
+
                                         @Model.Elaborador.NmCompleto
                                     </div>
                                 </div>
@@ -544,8 +544,8 @@
                                                                     <label type="text" name="formIndicadoresMeta" if="form-indicadores-meta" class="" disabled>@rotina.IndicadoresMeta</label>
                                                                 </td>
                                                                 <td>
-                                                                   @*view*@
-                                                                    <label type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="" disabled >@(rotina.IndicadoresMetaMaximaMinima ? "Max" : "Min" )</label>
+                                                                    @*view*@
+                                                                    <label type="text" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="" disabled>@(rotina.IndicadoresMetaMaximaMinima ? "Max" : "Min" )</label>
                                                                     @*<label type="radio" name="formIndicadoresMetaMaximaMinima" if="form-indicadores-MetaMaximaMinima" class="" disabled value="false">@(rotina.IndicadoresMetaMaximaMinima ? "" : "Min" ) </label>*@
                                                                 </td>
                                                                 <td>
@@ -897,7 +897,7 @@
                     <button type="button" class="close" data-dismiss="modal">
                         <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="Fechar"></i>
                     </button>
-                    <h4 class="modal-title">Traducao.Resource.Comentarios</h4>
+                    <h4 class="modal-title">@Traducao.Resource.Comentarios</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -1045,14 +1045,17 @@
                     <a href="#" data-toggle="modal" data-target="#modal-panel-form-participantes">@Traducao.Resource.Participantes</a>
                 </p>
             </div>
-            <div class="quatro">
-                <div class="ico-quatro">
-                    <span class="fa fa-users" aria-hidden="true"></span>
+            @if (Model.FlStatus != 3) //Aprovado
+            {
+                <div class="quatro">
+                    <div class="ico-quatro">
+                        <span class="fa fa-users" aria-hidden="true"></span>
+                    </div>
+                    <p>
+                        <a href="#" data-toggle="modal" data-target="#modal-panel-form-cargos">@Traducao.Resource.Cargos</a>
+                    </p>
                 </div>
-                <p>
-                    <a href="#" data-toggle="modal" data-target="#modal-panel-form-cargos">@Traducao.Resource.Cargos</a>
-                </p>
-            </div>
+            }
         </div>
         <ul class="nav navbar-nav navbar-right ">
 

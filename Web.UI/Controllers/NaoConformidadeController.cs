@@ -14,6 +14,8 @@ using Rotativa;
 using Rotativa.Options;
 using System.Configuration;
 using ApplicationService.Entidade;
+using Web.UI.Models;
+using System.Data;
 
 namespace Web.UI.Controllers
 {
@@ -68,6 +70,7 @@ namespace Web.UI.Controllers
             ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
+            ViewBag.TiposNaoConformidade = RetornarTiposNaoConformidade();
 
             var numeroUltimoRegistro = 0;
             //var idProcesso = Util.ObterProcessoSelecionado();            //var idProcesso = Util.ObterProcessoSelecionado();
@@ -104,9 +107,93 @@ namespace Web.UI.Controllers
             return View(naoConformidade);
         }
 
-        
+        public ActionResult FiltroGrafico()
+        {
+            return PartialView();
+        }
 
-            
+
+        public ActionResult Grafico(int tipoGrafico, int tipoNaoConformidade, string dtDe, string dtAte, int estiloGrafico)
+        {
+            var diaDe = 1;
+            var mesDe = Convert.ToInt32(dtDe.Substring(0, 2));
+            var anoDe = Convert.ToInt32(dtDe.Substring(2, 4));
+
+            var mesAte = Convert.ToInt32(dtAte.Substring(0, 2));
+            var anoAte = Convert.ToInt32(dtAte.Substring(2, 4));
+            var diaAte = DateTime.DaysInMonth(anoAte, mesAte);
+
+            var dataDe = new DateTime(anoDe, mesDe, diaDe);
+            var dataAte = new DateTime(anoAte, mesAte, diaAte);
+
+            ViewBag.Title = ObterNomeGrafico(tipoGrafico);
+
+
+            var parametros = new Dictionary<string, string>();
+            parametros.Add("Tipo não conformidade", (tipoNaoConformidade > 0 ? _controladorCategoriasServico.GetById(tipoNaoConformidade).Descricao : "Todos"));
+            parametros.Add("De", dataDe.ToString("MM/yyyy"));
+            parametros.Add("Até", dataAte.ToString("MM/yyyy"));
+
+            return View(new GraficoNaoConformidadeViewModel { EstiloGrafico = estiloGrafico, DtDe = dataDe, DtAte = dataAte, IdTipoGrafico = tipoGrafico, IdTipoNaoConformidade = tipoNaoConformidade, Parametros = parametros });
+        }
+
+        private string ObterNomeGrafico(int tipoGrafico)
+        {
+            string retorno = "";
+
+
+            switch (tipoGrafico)
+            {
+                case 1:
+                    retorno = "Total de NCs geradas x Mês";
+                    break;
+                case 2:
+                    retorno = "Total de NCs geradas x NCs abertas x NCs fechadas";
+                    break;
+                case 3:
+                    retorno = "Total de NCs geradas x Tipo de NC";
+                    break;
+                case 4:
+                    retorno = "Total de NCs geradas x Total de NC com AC";
+                    break;
+                case 5:
+                    retorno = "Total de NCs geradas x Departamento";
+                    break;
+                case 6:
+                    retorno = "Total de NCs geradas x Unidade";
+                    break;
+                case 7:
+                    retorno = "Comparativo do total de NCs gerado mês a mês x ano a ano";
+                    break;
+                default:
+                    break;
+            }
+
+            return retorno;
+        }
+
+        private SelectList RetornarTiposNaoConformidade()
+        {
+            var idSite = Util.ObterSiteSelecionado();
+            var listaAtivos = _controladorCategoriasServico.ListaAtivos("tnc", idSite);
+
+            if (!listaAtivos.Select(x => x.Descricao).Contains("Auditoria"))
+            {
+                _controladorCategoriasServico.Add(new ControladorCategoria
+                {
+                    IdSite = idSite,
+                    Descricao = "Auditoria",
+                    TipoTabela = "tnc",
+                    Ativo = true
+                });
+
+                listaAtivos = _controladorCategoriasServico.ListaAtivos("tnc", idSite);
+            }
+
+            return new SelectList(listaAtivos.OrderBy(x => x.Descricao).ToList(), "IdControladorCategoria", "Descricao");
+
+        }
+
         public ActionResult PDF(int id)
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
@@ -289,7 +376,16 @@ namespace Web.UI.Controllers
                     naoConformidade.StatusRegistro = 1;
                     naoConformidade = _registroConformidadesAppServico.SalvarPrimeiraEtapa(naoConformidade);
                     naoConformidade.Site = _siteService.GetById(naoConformidade.IdSite);
-                    
+
+                    try
+                    {
+                        EnviarEmailResponsavel(naoConformidade);
+                    }
+                    catch (Exception ex)
+                    {
+                        GravaLog(ex);
+                    }
+
                     erros = EnviarNotificacao(naoConformidade, erros);
                 }
             }
@@ -303,6 +399,33 @@ namespace Web.UI.Controllers
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_criar_valid }, JsonRequestBehavior.AllowGet);
 
         }
+
+        private void EnviarEmailResponsavel(RegistroConformidade naoConformidade)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcesso(naoConformidade.IdRegistroConformidade);
+
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeResponsavel-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+            string conteudo = template;
+
+            conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+            conteudo = conteudo.Replace("#NuNaoConformidade#", naoConformidade.NuRegistro.ToString());
+            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = naoConformidade.ResponsavelInicarAcaoImediata.CdIdentificacao;
+            _email.Conteudo = conteudo;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
+        }
+       
 
         private void SalvarArquivoEvidencia(RegistroConformidade nc)
         {
@@ -371,7 +494,7 @@ namespace Web.UI.Controllers
 
                 _registroConformidadesServico.ValidaNaoConformidade(naoConformidade, Util.ObterCodigoUsuarioLogado(), ref erros);
 
-                if(naoConformidade.EProcedente == null)
+                if (naoConformidade.EProcedente == null)
                 {
                     erros.Add(Traducao.Resource.MsgCampoProcedente);
                 }
@@ -382,6 +505,13 @@ namespace Web.UI.Controllers
 
                     if (naoConformidade.EProcedente == true)
                         erros = EnviarNotificacao(naoConformidade, erros);
+
+                    if(naoConformidade.AcoesImediatas.Any(x => x.Aprovado == false))
+                    {
+                        //EnviarEmailAcaoIneficaz()
+                    }
+
+
                 }
                 else
                 {
@@ -562,6 +692,16 @@ namespace Web.UI.Controllers
                         notificacao.IdUsuario = acaoImediata.IdResponsavelImplementar.Value;
                         notificacao.FlEtapa = naoConformidade.StatusEtapa.ToString();
                         _notificacaoAppServico.Add(notificacao);
+
+                        try
+                        {
+                            EnviarEmailImplementacao(naoConformidade, acaoImediata.ResponsavelImplementar);
+                        }
+                        catch (Exception ex)
+                        {
+                            GravaLog(ex);
+                        }
+
                     });
 
                 }
@@ -572,9 +712,8 @@ namespace Web.UI.Controllers
                     notificacao.FlEtapa = naoConformidade.StatusEtapa.ToString();
                     _notificacaoAppServico.Add(notificacao);
                 }
-
-                EnviaEmail(naoConformidade);
-
+                
+                //EnviaEmail(naoConformidade);
             }
             catch
             {
@@ -586,6 +725,39 @@ namespace Web.UI.Controllers
 
         }
 
+        private void EnviarEmailImplementacao(RegistroConformidade naoConformidade, Usuario usuario)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            //var usuarioNotificacao = _usuarioAppServico.GetById(naoConformidade.IdResponsavelEtapa.Value);
+            var urlAcesso = MontarUrlAcesso(naoConformidade.IdRegistroConformidade);
+
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+            string conteudo = template;
+
+            conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+            conteudo = conteudo.Replace("#NuNaoConformidade#", naoConformidade.NuRegistro.ToString());
+            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = usuario.CdIdentificacao;
+            _email.Conteudo = conteudo;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
+        }
+
+        private string MontarUrlAcesso(int idRegistroConformidade)
+        {
+            var dominio = ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "/NaoConformidade/Editar/" + idRegistroConformidade.ToString();
+        }
 
         private void EnviaEmail(RegistroConformidade nc)
         {
@@ -637,5 +809,73 @@ namespace Web.UI.Controllers
 
 
         }
+
+        [HttpPost]
+        public JsonResult ObterDadosGraficosBarra(int tipoGrafico, DateTime dtDe, DateTime dtAte, int? tipoNaoConformidade)
+        {
+            List<object[]> dataPoints = null;
+            var dtDados = new DataTable();
+            int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
+
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);                       
+
+            dataPoints = GerarDataPointsBarra(dtDados);
+
+            return Json(dataPoints);
+        }
+
+        [HttpPost]
+        public JsonResult ObterDadosGraficosPizza(int tipoGrafico, DateTime dtDe, DateTime dtAte, int? tipoNaoConformidade)
+        {
+            var dtDados = new DataTable();
+            List<object> dataPoints = null;
+            int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
+
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);
+
+            dataPoints = GerarDataPointsPizza(dtDados);
+
+            return Json(dataPoints);
+        }
+
+               
+
+        private List<object[]> GerarDataPointsBarra(DataTable dtDados)
+        {
+            List<object[]> dataPoints = new List<object[]>();
+
+
+            bool barraUnica = dtDados.Rows.Count == 1;
+
+            foreach (DataRow item in dtDados.Rows)
+            {
+                var data = new object[] { item["Rotulo"], item["Valor"] };
+
+                dataPoints.Add(data);
+            }
+
+            if (barraUnica)
+                dataPoints.Add(new object[] { "", 0 });
+
+            return dataPoints;
+        }
+
+
+        private List<object> GerarDataPointsPizza(DataTable dtDados)
+        {
+            List<object> dataPoints = new List<object>();
+
+            foreach (DataRow item in dtDados.Rows)
+            {
+                var data = new { label = item["Rotulo"].ToString(), data = Convert.ToDecimal(item["Valor"]) };
+
+                dataPoints.Add(data);
+            }
+
+            return dataPoints;
+        }
+
+
+
     }
 }
