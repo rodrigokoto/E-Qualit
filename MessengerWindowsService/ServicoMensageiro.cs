@@ -20,6 +20,8 @@ namespace MessengerWindowsService
     {
         private readonly IFilaEnvioRepositorio _filaEnvioRepositorio;
         private readonly ILogRepositorio _logRepositorio;
+        //private ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         public ServicoMensageiro()
         {
@@ -32,6 +34,8 @@ namespace MessengerWindowsService
         {
             try
             {
+                logger.Info("teste");
+
                 var diasCorte = Convert.ToInt32(ConfigurationManager.AppSettings["diasCorte"]);
                 var dataCorte = DateTime.Now.AddDays(diasCorte*-1);
 
