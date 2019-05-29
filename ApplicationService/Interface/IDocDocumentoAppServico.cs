@@ -26,7 +26,7 @@ namespace ApplicationService.Interface
         void EnviarDocumentoParaElaboracao(DocDocumento doc);
 
         bool VerificadoPorTodos(List<DocUsuarioVerificaAprova> documento);
-        bool AprovadoPorTodos(DocDocumento documento);
+        bool AprovadoPorTodos(List<DocUsuarioVerificaAprova> aprovadores);
 
         DocDocumento DocumentoPerfilEtapaIdDocumento(int idUsuario, int etapaDocumento, int idSite, int idPerfilUsuario, int idDocumento);
         DocDocumento ObterMaiorRevisao(int ? IdPocesso = null);

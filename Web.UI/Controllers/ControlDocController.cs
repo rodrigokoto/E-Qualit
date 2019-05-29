@@ -1362,14 +1362,24 @@ namespace Web.UI.Controllers
             {
                 try
                 {
-                    Editar(documento, false);
 
-                    documento = _documentoAppServico.GetById(documento.IdDocumento);
-
+                    documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
+                    documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
+                    //documento.XmlMetadata = Util.EscreveXML(documento.ConteudoDocumento);
+                    //_documentoAppServico.VerificarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
                     _documentoAppServico.AprovarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
-                    AdicionaComentario(documento);
 
-                    if (_documentoAppServico.AprovadoPorTodos(documento))
+                    //Editar(documento, false);
+
+                    AdicionaComentario(documento);
+                    AtualizarUsuarioCargosETemplatesDoDocumento(documento);
+
+                    //documento = _documentoAppServico.GetById(documento.IdDocumento);                                        
+
+                    var listaAprovaVerifi = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento).ToList();
+                    listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlVerificou = true;
+
+                    if (_documentoAppServico.AprovadoPorTodos(listaAprovaVerifi))
                         _documentoAppServico.AprovarDocumento(documento);
                     else
                         documento.FlStatus = (byte)StatusDocumento.Aprovacao;
