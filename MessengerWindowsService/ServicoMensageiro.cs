@@ -55,8 +55,6 @@ namespace MessengerWindowsService
 
                 FileLogger.Log("Processamento de envioS NÃO AGENDADOS realizado");
 
-                throw new Exception("ERRO HAHAHAH");
-
                 FileLogger.Log("Buscando envios AGENDADOS");
 
                 var enviosAgendados = _filaEnvioRepositorio.Get(x => x.DataAgendado <= DateTime.Now && x.Enviado == false).ToList();

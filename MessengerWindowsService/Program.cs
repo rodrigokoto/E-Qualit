@@ -14,18 +14,19 @@ namespace MessengerWindowsService
         /// </summary>
         static void Main()
         {
-
-        #if (DEBUG)
             new ServicoMensageiro().Processar();
-            return;
-        #else
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new ServicoMensageiro()
-            };
-            ServiceBase.Run(ServicesToRun);
-        #endif
+
+            //#if (DEBUG)
+            //    new ServicoMensageiro().Processar();
+            //    return;
+            //#else
+            //    ServiceBase[] ServicesToRun;
+            //    ServicesToRun = new ServiceBase[]
+            //    {
+            //        new ServicoMensageiro()
+            //    };
+            //    ServiceBase.Run(ServicesToRun);
+            //#endif
         }
     }
 }

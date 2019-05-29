@@ -18,11 +18,11 @@ namespace MessengerWindowsService
             {
                 var fileName = "Log_{0}.log";
                 fileName = string.Format(fileName, DateTime.Now.ToString("yyyyMMddHH"));
-                fileStream = new FileStream("./" + fileName, FileMode.Append, FileAccess.Write);
-                var streamWriter = new StreamWriter(fileStream);
-                streamWriter.AutoFlush = true;
-                Console.SetOut(streamWriter);
-                Console.SetError(streamWriter);
+                //fileStream = new FileStream("./" + fileName, FileMode.Append, FileAccess.Write);
+                //var streamWriter = new StreamWriter(fileStream);
+                //streamWriter.AutoFlush = true;
+                var dualOutput = new ConsoleDualOutput(fileName, Console.Out);
+                Console.SetOut(dualOutput);
             }
 
             Console.WriteLine(MontarMensagem(message, ex));
