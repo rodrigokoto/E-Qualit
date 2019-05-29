@@ -1298,6 +1298,7 @@ namespace Web.UI.Controllers
         {
             try
             {
+                //var docBase = _documentoAppServico.GetById(documento.IdDocumento);
 
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
@@ -1587,6 +1588,7 @@ namespace Web.UI.Controllers
 
                 novosComentarios.ForEach(comentario =>
                 {
+                    comentario.Documento = null;
                     comentario.DataComentario = DateTime.Now;
                     comentario.IdDocumento = documento.IdDocumento;
                     comentario.IdUsuario = Util.ObterCodigoUsuarioLogado();

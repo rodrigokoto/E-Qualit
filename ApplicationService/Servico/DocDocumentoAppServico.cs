@@ -73,7 +73,7 @@ namespace ApplicationService.Servico
             }
 
 
-            _documentoRepositorio.Update(documento);
+            //_documentoRepositorio.Update(documento);
         }
 
         public void AprovarDocumento(DocDocumento documento, int idUsuarioLogado)
