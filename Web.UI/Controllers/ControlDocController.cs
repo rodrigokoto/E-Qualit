@@ -1298,6 +1298,7 @@ namespace Web.UI.Controllers
         {
             try
             {
+                //var docBase = _documentoAppServico.GetById(documento.IdDocumento);
 
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
@@ -1315,7 +1316,8 @@ namespace Web.UI.Controllers
 
                 if (_documentoAppServico.VerificadoPorTodos(listaAprovaVerifi))
                 {
-                    _documentoAppServico.EnviarDocumentoParaAprovacao(documento);
+                    documento.FlStatus = (int)StatusDocumento.Aprovacao;
+                    //_documentoAppServico.EnviarDocumentoParaAprovacao(documento);
 
                     try
                     {
@@ -1332,9 +1334,9 @@ namespace Web.UI.Controllers
                 }
 
                 //Não permite alterar o elaborador
-                var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
-                documento.Elaborador = elaborador;
-                documento.IdElaborador = elaborador.IdUsuario;
+                //var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
+                //documento.Elaborador = elaborador;
+                //documento.IdElaborador = elaborador.IdUsuario;
 
                 _documentoAppServico.Update(documento);
             }
@@ -1586,6 +1588,7 @@ namespace Web.UI.Controllers
 
                 novosComentarios.ForEach(comentario =>
                 {
+                    comentario.Documento = null;
                     comentario.DataComentario = DateTime.Now;
                     comentario.IdDocumento = documento.IdDocumento;
                     comentario.IdUsuario = Util.ObterCodigoUsuarioLogado();
