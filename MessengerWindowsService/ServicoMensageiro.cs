@@ -20,8 +20,6 @@ namespace MessengerWindowsService
     {
         private readonly IFilaEnvioRepositorio _filaEnvioRepositorio;
         private readonly ILogRepositorio _logRepositorio;
-        //private ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         public ServicoMensageiro()
         {
@@ -34,27 +32,50 @@ namespace MessengerWindowsService
         {
             try
             {
-                logger.Info("teste");
+                FileLogger.Log("Início processamento");
 
                 var diasCorte = Convert.ToInt32(ConfigurationManager.AppSettings["diasCorte"]);
                 var dataCorte = DateTime.Now.AddDays(diasCorte*-1);
+
+                FileLogger.Log("Parâmetro diasCorte: " + diasCorte);
+
+
+                FileLogger.Log("Buscando envios não agendados");
 
                 var enviosNaoAgedados = _filaEnvioRepositorio.Get(
                     x => x.DataAgendado == null
                     && x.Enviado == false
                     && (x.DataInclusao >= dataCorte || diasCorte == 0) /*SE O PARÂMETRO FOR DEFINIDO COMO ZERO, IGNORA A VALIDAÇÃO DE DATAINCLUSAO*/
                     ).ToList();
+
+
+                FileLogger.Log(enviosNaoAgedados.Count.ToString() + " - envios NÃO AGENDADOS encontrados");
+
                 this.Enviar(enviosNaoAgedados);
 
+                FileLogger.Log("Processamento de envioS NÃO AGENDADOS realizado");
+
+                throw new Exception("ERRO HAHAHAH");
+
+                FileLogger.Log("Buscando envios AGENDADOS");
 
                 var enviosAgendados = _filaEnvioRepositorio.Get(x => x.DataAgendado <= DateTime.Now && x.Enviado == false).ToList();
+
+                FileLogger.Log(enviosAgendados.Count.ToString() + " - envios AGENDADOS encontrados");
+
                 this.Enviar(enviosAgendados);
+
+                FileLogger.Log("Processamento de envioS AGENDADOS realizado");
+
+                FileLogger.Log("##########################################");
+                FileLogger.Log("############ Final processamento #########");
+                FileLogger.Log("##########################################");
             }
             catch (Exception ex)
             {
+                FileLogger.Log("Erro durante o processamento ", ex);
                 GravaLog(ex);
             }
-
 
         }
 
@@ -92,6 +113,7 @@ namespace MessengerWindowsService
                 }
                 catch (Exception ex)
                 {
+                    FileLogger.Log("Erro ao enviar e-mail id: " + item.Id.ToString(), ex);
                     GravaLog(ex);
                 }
             }
