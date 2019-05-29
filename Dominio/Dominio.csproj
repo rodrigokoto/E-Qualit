@@ -80,6 +80,7 @@
     <Compile Include="Entidade\CriterioAceitacao.cs" />
     <Compile Include="Entidade\CriterioQualificacao.cs" />
     <Compile Include="Entidade\DocExterno.cs" />
+    <Compile Include="Entidade\FilaEnvio.cs" />
     <Compile Include="Entidade\Fornecedor.cs" />
     <Compile Include="Entidade\HistoricoCriterioAvaliacao.cs" />
     <Compile Include="Entidade\Indicador.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Interface\Repositorio\ICriterioAceitacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\ICriterioQualificacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IDocCargoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IFilaEnvioRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IFornecedorRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IFuncaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IHistoricoCriterioAvaliacaoRepositorio.cs" />
@@ -295,6 +297,7 @@
     <Compile Include="Interface\Servico\IDocumentoComentarioServico.cs" />
     <Compile Include="Interface\Servico\IDocUsuarioVerificaAprovaServico.cs" />
     <Compile Include="Interface\Servico\IEmailPlaiServico.cs" />
+    <Compile Include="Interface\Servico\IFIlaEnvioServico.cs" />
     <Compile Include="Interface\Servico\IFornecedorServico.cs" />
     <Compile Include="Interface\Servico\IHistoricoCriterioAvaliacaoServico.cs" />
     <Compile Include="Interface\Servico\IIndicadorServico.cs" />
@@ -344,6 +347,7 @@
     <Compile Include="Servico\DocumentoAssuntoServico.cs" />
     <Compile Include="Servico\DocumentoComentarioServico.cs" />
     <Compile Include="Servico\DocUsuarioVerificaAprovaServico.cs" />
+    <Compile Include="Servico\FilaEnvioServico.cs" />
     <Compile Include="Servico\FornecedorServico.cs" />
     <Compile Include="Servico\UsuarioSenhaServico.cs" />
     <Compile Include="Validacao\AnaliseCriticas\GestaoDeRiscoDeveTerCriticidadeMediaOuAltaValidation.cs" />

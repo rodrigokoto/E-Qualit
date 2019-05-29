@@ -208,6 +208,7 @@
     <Compile Include="Repository\DocDocumentoRepositorio.cs" />
     <Compile Include="Repository\DocTemplateRepositorio.cs" />
     <Compile Include="Repository\DocUsuarioVerificaAprovaRepositorio.cs" />
+    <Compile Include="Repository\FilaEnvioRepositorio.cs" />
     <Compile Include="Repository\FornecedorRepositorio.cs" />
     <Compile Include="Repository\FuncaoRepositorio.cs" />
     <Compile Include="Repository\FuncionalidadeRepositorio.cs" />

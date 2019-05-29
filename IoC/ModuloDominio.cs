@@ -54,6 +54,7 @@ namespace IoC
             //RH
             Bind<IFuncionarioServico>().To<FuncionarioServico>();
             Bind<IUsuarioSenhaServico>().To<UsuarioSenhaServico>();
+            Bind<IFilaEnvioServico>().To<FilaEnvioServico>();
         }
     }
 }
