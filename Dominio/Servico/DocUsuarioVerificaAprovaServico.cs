@@ -4,6 +4,7 @@ using Dominio.Interface.Repositorio;
 using Dominio.Interface.Servico;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -102,6 +103,11 @@ namespace Dominio.Servico
         }
 
         public DocUsuarioVerificaAprova GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DataTable GetDataTable(string sql, CommandType commandType, Dictionary<string, object> parameters)
         {
             throw new NotImplementedException();
         }

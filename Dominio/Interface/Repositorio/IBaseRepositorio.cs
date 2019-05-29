@@ -1,6 +1,7 @@
 ﻿using Dominio.Enumerado;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -20,5 +21,6 @@ namespace Dominio.Interface.Repositorio
                                               IOrderedQueryable<TEntity>> orderBy = null,
                                                string includeProperties = "");
         void Dispose();
+        DataTable GetDataTable(string sql, CommandType commandType, Dictionary<string, Object> parameters);
     }
 }

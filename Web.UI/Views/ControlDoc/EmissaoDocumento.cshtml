@@ -1345,7 +1345,7 @@
             }
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Revisar) || ViewBag.IdPerfil != 4)
             {
-                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4)
+                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4 || Model.Verificadores.Any(x => x.IdUsuario == @ViewBag.IdUsuarioLogado))
                 {
                     <li class="botoes-button">
                         <button type="button" class="btn btn-primary btn-enviar-aprovacao" style="display: none;">@Traducao.Resource.MarcarVerificado</button>

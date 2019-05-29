@@ -232,6 +232,15 @@ namespace Traducao.NaoConformidade {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gerar gráfico.
+        /// </summary>
+        public static string NC_lbl_grafico {
+            get {
+                return ResourceManager.GetString("NC_lbl_grafico", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Justificativa.
         /// </summary>
         public static string NC_lbl_Justificativa {
@@ -471,6 +480,15 @@ namespace Traducao.NaoConformidade {
         public static string NC_lbl_Tipo {
             get {
                 return ResourceManager.GetString("NC_lbl_Tipo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de Gráfico.
+        /// </summary>
+        public static string NC_lbl_tipo_grafico {
+            get {
+                return ResourceManager.GetString("NC_lbl_tipo_grafico", resourceCulture);
             }
         }
         

@@ -78,12 +78,7 @@ namespace ApplicationService.Servico
 
         public void AprovarDocumento(DocDocumento documento, int idUsuarioLogado)
         {
-            documento.DocUsuarioVerificaAprova.Where(x => x.IdUsuario == idUsuarioLogado && x.TpEtapa == _statusAprovacao).FirstOrDefault().FlAprovou = true;
-
-            if (AprovadoPorTodos(documento))
-                documento.FlStatus = (int)StatusDocumento.Aprovado;
-
-            _documentoRepositorio.Update(documento);
+            documento.FlStatus = (int)StatusDocumento.Aprovado;
         }
 
         public void EnviarDocumentoParaElaboracao(DocDocumento doc)
@@ -134,13 +129,13 @@ namespace ApplicationService.Servico
             return false;
         }
 
-        public bool AprovadoPorTodos(DocDocumento documento)
+        public bool AprovadoPorTodos(List<DocUsuarioVerificaAprova> aprovadores)
         {
-            var apenasAprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").ToList();
-            if (DocumentoFoiAprovadoPortodos(apenasAprovadores))
-                return true;
+            foreach (var aprovador in aprovadores)
+                if (aprovador.FlAprovou == false || aprovador.FlAprovou == null)
+                    return false;
 
-            return false;
+            return true;
         }
 
         public bool EnviarDocumentoParaAprovado(int idDocumento, int idUsuarioLogado)
@@ -152,13 +147,10 @@ namespace ApplicationService.Servico
             {
                 if (UsuarioEAprovadorDocumento(doc.DocUsuarioVerificaAprova, idUsuarioLogado))
                 {
-                    if (DocumentoFoiAprovadoPortodos(doc.DocUsuarioVerificaAprova))
-                    {
-                        doc.FlStatus = (int)StatusDocumento.Aprovado;
-                        _documentoRepositorio.Update(doc);
+                    doc.FlStatus = (int)StatusDocumento.Aprovado;
+                    _documentoRepositorio.Update(doc);
 
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -341,19 +333,20 @@ namespace ApplicationService.Servico
 
         public void AprovarDocumentoPorUsuario(DocDocumento documento, int idUsuarioLogado)
         {
+            var aprovacao = _docUsuarioVerificaAprovaRepositorio.Get(x => x.IdDocumento == documento.IdDocumento && x.IdUsuario == idUsuarioLogado).FirstOrDefault();
+            aprovacao.FlAprovou = true;
+            _docUsuarioVerificaAprovaRepositorio.Update(aprovacao);
 
-            var usuarioValido = documento.DocUsuarioVerificaAprova.FirstOrDefault(x => x.IdUsuario == idUsuarioLogado && x.TpEtapa == _statusAprovacao);
-            if (usuarioValido != null)
+            if (documento.IdLicenca == null)
             {
-                documento.DocUsuarioVerificaAprova.FirstOrDefault(x => x.IdUsuario == idUsuarioLogado && x.TpEtapa == _statusAprovacao).FlAprovou = true;
+                documento.Licenca = null;
             }
-            if (idUsuarioLogado == 1)
+
+            if (documento.IdDocExterno == null)
             {
-                if (documento.DocUsuarioVerificaAprova.FirstOrDefault() != null)
-                {
-                    documento.DocUsuarioVerificaAprova.FirstOrDefault().FlAprovou = true;
-                }
+                documento.DocExterno = null;
             }
+
 
             if (documento.IdDocumentoPai != null)
             {
@@ -365,7 +358,7 @@ namespace ApplicationService.Servico
                 }
             }
 
-            _documentoRepositorio.Update(documento);
+            //_documentoRepositorio.Update(documento);
         }
 
 
@@ -435,7 +428,7 @@ namespace ApplicationService.Servico
                                                     x.IdSite == site &&
                                                     x.FlStatus == (int)StatusDocumento.Aprovacao);
 
-            listaDocumentosAprovacao = listaDocumentosAprovacao.Where(x => x.DocUsuarioVerificaAprova.Any(y => y.Usuario.IdUsuario == usuarioAprovador)).ToList();
+            listaDocumentosAprovacao = listaDocumentosAprovacao.Where(x => x.DocUsuarioVerificaAprova.Any(y => y.Usuario.IdUsuario == usuarioAprovador && (y.FlAprovou == false || y.FlAprovou == null))).ToList();
 
             return listaDocumentosAprovacao;
         }
@@ -573,15 +566,6 @@ namespace ApplicationService.Servico
                 return true;
 
             return false;
-        }
-
-        private bool DocumentoFoiAprovadoPortodos(List<DocUsuarioVerificaAprova> aprovados)
-        {
-            foreach (var aprovador in aprovados)
-                if (aprovador.FlAprovou == false || aprovador.FlAprovou == null)
-                    return false;
-
-            return true;
         }
 
         private bool DocumentoFoiVerificadoPortodos(List<DocUsuarioVerificaAprova> verificadores)
