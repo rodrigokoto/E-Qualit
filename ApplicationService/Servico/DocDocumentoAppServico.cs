@@ -129,13 +129,13 @@ namespace ApplicationService.Servico
             return false;
         }
 
-        public bool AprovadoPorTodos(List<DocUsuarioVerificaAprova> listaAprovadores)
+        public bool AprovadoPorTodos(List<DocUsuarioVerificaAprova> aprovadores)
         {
-            var apenasAprovadores = listaAprovadores.Where(x => x.TpEtapa == "A").ToList();
-            if (DocumentoFoiAprovadoPortodos(apenasAprovadores))
-                return true;
+            foreach (var aprovador in aprovadores)
+                if (aprovador.FlAprovou == false || aprovador.FlAprovou == null)
+                    return false;
 
-            return false;
+            return true;
         }
 
         public bool EnviarDocumentoParaAprovado(int idDocumento, int idUsuarioLogado)
@@ -147,13 +147,10 @@ namespace ApplicationService.Servico
             {
                 if (UsuarioEAprovadorDocumento(doc.DocUsuarioVerificaAprova, idUsuarioLogado))
                 {
-                    if (DocumentoFoiAprovadoPortodos(doc.DocUsuarioVerificaAprova))
-                    {
-                        doc.FlStatus = (int)StatusDocumento.Aprovado;
-                        _documentoRepositorio.Update(doc);
+                    doc.FlStatus = (int)StatusDocumento.Aprovado;
+                    _documentoRepositorio.Update(doc);
 
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -569,15 +566,6 @@ namespace ApplicationService.Servico
                 return true;
 
             return false;
-        }
-
-        private bool DocumentoFoiAprovadoPortodos(List<DocUsuarioVerificaAprova> aprovados)
-        {
-            foreach (var aprovador in aprovados)
-                if (aprovador.FlAprovou == false || aprovador.FlAprovou == null)
-                    return false;
-
-            return true;
         }
 
         private bool DocumentoFoiVerificadoPortodos(List<DocUsuarioVerificaAprova> verificadores)
