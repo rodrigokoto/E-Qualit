@@ -1678,6 +1678,7 @@
     <Content Include="Views\GestaoDeRisco\PDF.cshtml" />
     <Content Include="Views\Instrumento\PDF.cshtml" />
     <Content Include="Views\AnaliseCritica\Visualizar.cshtml" />
+    <Content Include="Views\NaoConformidade\Exibir.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
