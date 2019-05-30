@@ -316,6 +316,7 @@
     <Compile Include="Interface\Servico\IProdutoFornecedorServico.cs" />
     <Compile Include="Interface\Servico\IProdutoServico.cs" />
     <Compile Include="Interface\Servico\ICriterioAvaliacaoServico.cs" />
+    <Compile Include="Interface\Servico\IRegistroAcaoImediataServico.cs" />
     <Compile Include="Interface\Servico\IUsuarioSenhaServico.cs" />
     <Compile Include="Interface\Servico\IUsuarioServico.cs" />
     <Compile Include="Interface\Servico\IDocDocumentoServico.cs" />
@@ -349,6 +350,7 @@
     <Compile Include="Servico\DocUsuarioVerificaAprovaServico.cs" />
     <Compile Include="Servico\FilaEnvioServico.cs" />
     <Compile Include="Servico\FornecedorServico.cs" />
+    <Compile Include="Servico\RegistroAcaoImediataServico.cs" />
     <Compile Include="Servico\UsuarioSenhaServico.cs" />
     <Compile Include="Validacao\AnaliseCriticas\GestaoDeRiscoDeveTerCriticidadeMediaOuAltaValidation.cs" />
     <Compile Include="Servico\FuncionalidadeServico.cs" />

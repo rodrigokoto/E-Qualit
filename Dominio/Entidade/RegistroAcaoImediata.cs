@@ -35,6 +35,9 @@ namespace Dominio.Entidade
 
         public Anexo ArquivoEvidenciaAux { get; set; }
 
+        public long? IdFilaEnvio { get; set; }
+
+
         public virtual ICollection<ArquivoDeEvidenciaAcaoImediata> ArquivoEvidencia { get; set; }
 
         public virtual Usuario ResponsavelImplementar { get; set; }

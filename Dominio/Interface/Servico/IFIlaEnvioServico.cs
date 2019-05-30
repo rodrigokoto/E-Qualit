@@ -10,5 +10,7 @@ namespace Dominio.Interface.Servico
     public interface IFilaEnvioServico
     {
         void Enfileirar(FilaEnvio filaEnvio);
+        FilaEnvio ObterPorId(long id);
+        void Apagar(FilaEnvio filaEnvio);
     }
 }

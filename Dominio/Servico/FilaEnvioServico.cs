@@ -24,5 +24,15 @@ namespace Dominio.Servico
             _filaEnvioRepositorio.Add(filaEnvio);
         }
 
+        public FilaEnvio ObterPorId(long id)
+        {
+            return _filaEnvioRepositorio.Get(x => x.Id == id).FirstOrDefault();
+        }
+
+        public void Apagar(FilaEnvio filaEnvio)
+        {
+            _filaEnvioRepositorio.Remove(filaEnvio);
+        }
+
     }
 }

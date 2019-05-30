@@ -59,10 +59,10 @@ namespace ApplicationService.Servico
                 x.Registro = registroConformidade;
                 x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
             });
-
+                                   
+            _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
 
             _registroConformidadesRepositorio.Update(registroConformidade);
-            _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
 
             return registroConformidade;
         }

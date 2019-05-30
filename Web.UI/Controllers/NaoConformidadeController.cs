@@ -24,9 +24,9 @@ namespace Web.UI.Controllers
     public class NaoConformidadeController : BaseController
     {
         private readonly IRegistroConformidadesAppServico _registroConformidadesAppServico;
+        private readonly IRegistroAcaoImediataServico _registroRegistroAcaoImediataServico;
         private readonly IRegistroConformidadesServico _registroConformidadesServico;
         private readonly IProcessoServico _processoServico;
-
         private readonly INotificacaoAppServico _notificacaoAppServico;
 
         private readonly ILogAppServico _logAppServico;
@@ -52,7 +52,8 @@ namespace Web.UI.Controllers
             IProcessoAppServico processoAppServico,
             IClienteAppServico clienteServico,
             IControladorCategoriasAppServico controladorCategoriasServico,
-            IFilaEnvioServico filaEnvioServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IFilaEnvioServico filaEnvioServico,
+           IRegistroAcaoImediataServico  registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
             _notificacaoAppServico = notificacaoAppServico;
@@ -66,6 +67,7 @@ namespace Web.UI.Controllers
             _clienteServico = clienteServico;
             _controladorCategoriasServico = controladorCategoriasServico;
             _filaEnvioServico = filaEnvioServico;
+            _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
         }
 
         // GET: NaoConformidade
@@ -445,6 +447,16 @@ namespace Web.UI.Controllers
                 if (erros.Count == 0)
                 {
                     var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+
+                    var acoesEfetivadas = naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
+
+                    RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
+
+                    if (acoesImediatasNova.Count > 0)
+                    {
+                        EnfileirarEmailsAcaoImediata(acoesImediatasNova, naoConformidade);
+                    }
+
                     naoConformidade = _registroConformidadesAppServico.SalvarSegundaEtapa(naoConformidade, Funcionalidades.NaoConformidade);
 
                     if (naoConformidade.EProcedente == true)
@@ -456,10 +468,8 @@ namespace Web.UI.Controllers
                         EnviarEmailAcaoIneficaz(naoConformidade, acoesIneficazes);
                     }
 
-                    if(acoesImediatasNova.Count > 0)
-                    {
-                        EnfileirarEmailsAcaoImediata(acoesImediatasNova, naoConformidade);
-                    }
+                 
+                   
                 }
                 else
                 {
@@ -475,6 +485,20 @@ namespace Web.UI.Controllers
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_save_valid }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        private void RemoverFilaEnvioAcoesEfetivadas(List<RegistroAcaoImediata> acoesEfetivadas)
+        {
+            foreach (var acao in acoesEfetivadas)
+            {
+                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+                if (!filaEnvio.Enviado)
+                {
+                    acao.IdFilaEnvio = null;
+                    _registroRegistroAcaoImediataServico.Update(acao);
+                    _filaEnvioServico.Apagar(filaEnvio);
+                }
+            }            
         }
 
         private void EnfileirarEmailsAcaoImediata(List<RegistroAcaoImediata> acoesImediatasNova, RegistroConformidade naoConformidade)
@@ -505,6 +529,8 @@ namespace Web.UI.Controllers
                     filaEnvio.Mensagem = conteudo;
 
                     _filaEnvioServico.Enfileirar(filaEnvio);
+
+                    acao.IdFilaEnvio = filaEnvio.Id;
                 }
                 catch (Exception ex)
                 {
