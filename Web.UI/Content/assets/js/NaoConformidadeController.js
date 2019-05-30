@@ -1428,10 +1428,12 @@ APP.controller.NaoConformidadeController = {
 
         $('#tb-acao-imediata tbody tr').each(function (index, tr) {
             if (statusEtapa == 2) {
+                debugger;
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),

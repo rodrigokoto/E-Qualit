@@ -251,19 +251,58 @@ namespace Web.UI.Controllers
 
         public ActionResult Exibir(int id)
         {
-            var analiseCritica = _registroConformidadesAppServico.GetById(id);
+            //var analiseCritica = _registroConformidadesAppServico.GetById(id);
 
-            //var pdf = new ViewAsPdf
+            ////var pdf = new ViewAsPdf
+            ////{
+            ////    ViewName = "Criar",
+            ////    Model = analiseCritica,
+            ////    PageOrientation = Orientation.Portrait,
+            ////    PageSize = Size.A4,
+            ////    PageMargins = new Margins(10, 15, 10, 15),
+            ////    FileName = "NaoConformidade.pdf"
+            ////};
+
+            //return View("Exibir", analiseCritica);
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.UsuarioLogado = Util.ObterUsuario();
+            ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
+            ViewBag.IdCliente = Util.ObterClienteSelecionado();
+            ViewBag.NomeUsuario = Util.ObterUsuario().Nome;
+            //ViewBag.NomeProcesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).Nome;
+            ViewBag.IdDocumento = id;
+
+            var naoConformidade = _registroConformidadesAppServico.GetById(id);
+
+            naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosDeEvidencia.Select(x => x.Anexo));
+
+            if (naoConformidade.AcoesImediatas.Count > 0)
+            {
+                if (naoConformidade.AcoesImediatas.Any(x => x.ArquivoEvidencia.Count > 0))
+                {
+                    var listaAnexo = naoConformidade.AcoesImediatas.Where(x => x.ArquivoEvidencia.Count > 0);
+
+                    listaAnexo.ToList().ForEach(x =>
+                    {
+                        x.ArquivoEvidenciaAux = x.ArquivoEvidencia.FirstOrDefault().Anexo;
+                    });
+                }
+            }
+
+            if (naoConformidade.IdNuRegistroFilho != null)
+            {
+                ViewBag.AcaoCorretiva = _registroConformidadesAppServico.GetAll()
+                    .FirstOrDefault(x => x.IdSite == naoConformidade.IdSite && x.TipoRegistro == "ac" && x.NuRegistro == naoConformidade.IdNuRegistroFilho);
+            }
+            ViewBag.IdProcesso = naoConformidade.IdProcesso;
+            ViewBag.StatusEtapa = naoConformidade.StatusEtapa;
+
+            //if ((naoConformidade.StatusRegistro == 0) && (naoConformidade.IdEmissor == Util.ObterCodigoUsuarioLogado()))
             //{
-            //    ViewName = "Criar",
-            //    Model = analiseCritica,
-            //    PageOrientation = Orientation.Portrait,
-            //    PageSize = Size.A4,
-            //    PageMargins = new Margins(10, 15, 10, 15),
-            //    FileName = "NaoConformidade.pdf"
-            //};
+            //    ViewBag.ScriptCall = "sim";
+            //}
 
-            return View("Exibir", analiseCritica);
+            return View("Exibir", naoConformidade);
         }
 
 
