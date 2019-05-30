@@ -21,7 +21,7 @@ namespace Dominio.Servico
 
         public void Enfileirar(FilaEnvio filaEnvio)
         {
-
+            _filaEnvioRepositorio.Add(filaEnvio);
         }
 
     }

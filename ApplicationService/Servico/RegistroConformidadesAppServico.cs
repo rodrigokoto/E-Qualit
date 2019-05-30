@@ -67,6 +67,11 @@ namespace ApplicationService.Servico
             return registroConformidade;
         }
 
+        private void GerarFilaEmailNotificacao(RegistroAcaoImediata x)
+        {
+            
+        }
+
         private RegistroConformidade TrataAC(RegistroConformidade acaoCorretiva)
         {
             var objCtx = _registroConformidadesRepositorio.GetById(acaoCorretiva.IdRegistroConformidade);
