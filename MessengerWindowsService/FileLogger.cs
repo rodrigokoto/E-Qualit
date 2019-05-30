@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,12 +17,13 @@ namespace MessengerWindowsService
         {
             if (fileStream == null)
             {
+                var dirLog = ConfigurationManager.AppSettings["DiretorioLog"];
                 var fileName = "Log_{0}.log";
                 fileName = string.Format(fileName, DateTime.Now.ToString("yyyyMMddHH"));
-                //fileStream = new FileStream("./" + fileName, FileMode.Append, FileAccess.Write);
-                //var streamWriter = new StreamWriter(fileStream);
-                //streamWriter.AutoFlush = true;
-                var dualOutput = new ConsoleDualOutput(fileName, Console.Out);
+                fileStream = new FileStream(dirLog + fileName, FileMode.Append, FileAccess.Write);
+                var streamWriter = new StreamWriter(fileStream);
+                streamWriter.AutoFlush = true;
+                var dualOutput = new ConsoleDualOutput(streamWriter, Console.Out);
                 Console.SetOut(dualOutput);
             }
 

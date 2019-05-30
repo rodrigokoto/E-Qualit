@@ -27,16 +27,15 @@ namespace MessengerWindowsService
         #endregion
 
         #region Constructors  
-        public ConsoleDualOutput(string filePath, TextWriter console, Encoding encoding = null)
+        public ConsoleDualOutput(StreamWriter swFile, TextWriter console, Encoding encoding = null)
         {
             if (encoding != null)
             {
                 this.encoding = encoding;
             }
             this.console = console;            
-            var sw = new StreamWriter(filePath, true, this.encoding);
-            sw.AutoFlush = true;
-            this.writer = sw;
+            swFile.AutoFlush = true;
+            this.writer = swFile;
             this.writer.AutoFlush = true;
         }
         #endregion
