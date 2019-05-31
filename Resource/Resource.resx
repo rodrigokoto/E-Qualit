@@ -1360,7 +1360,7 @@ URl @URL</value>
     <value>O campo Site é obrigatório</value>
   </data>
   <data name="GestaoDeRisco_msg_erro_min_e_max_DescricaoRegistro" xml:space="preserve">
-    <value>O campo Identificação de Risco deve ter no minimo 4 caracteres</value>
+    <value>O campo Identificação de Risco deve ter no minimo 4 caracteres e no máximo 1000 caracteres</value>
   </data>
   <data name="GestaoDeRisco_msg_erro_required_DescricaoRegistro" xml:space="preserve">
     <value>O campo Identificação do Risco é obrigatório</value>
@@ -1991,7 +1991,7 @@ www.e-qualit.com.br
     <value>Muito Pequena</value>
   </data>
   <data name="DocDocumento_msg_erro_required_DocAssunto" xml:space="preserve">
-    <value>É necessário escrever um assunto.</value>
+    <value>O assunto deve ser informado</value>
   </data>
   <data name="MessageDelete" xml:space="preserve">
     <value>Confirma a exclusão do projeto &lt;strong&gt;{{0}}}&lt;/strong&gt;?</value>
@@ -3266,7 +3266,7 @@ www.e-qualit.com.br
     <value>O campo descrição do assunto deve possuir no máximo 1000 caracteres.</value>
   </data>
   <data name="MsgMaxRecursos500Caracteres" xml:space="preserve">
-    <value>O campo recursos deve conter no máximo 500 caracteres.</value>
+    <value>O campo recursos deve conter no máximo 1000 caracteres.</value>
   </data>
   <data name="MsgMaxRegistrosArmazenar" xml:space="preserve">
     <value>O campo armazenar dos registros deve possuir no máximo 300 caracteres.</value>
@@ -3287,7 +3287,7 @@ www.e-qualit.com.br
     <value>O campo retenção dos registros deve possuir no máximo 300 caracteres.</value>
   </data>
   <data name="MsgMaxRotinasComo" xml:space="preserve">
-    <value>O campo Como das rotinas deve possuir no máximo 500 caracteres.</value>
+    <value>O campo Como das rotinas deve possuir no máximo 1000 caracteres.</value>
   </data>
   <data name="MsgMaxRotinasOQue" xml:space="preserve">
     <value>O campo O Que das rotinas deve possuir no máximo 500 caracteres.</value>
@@ -3432,5 +3432,11 @@ www.e-qualit.com.br
   </data>
   <data name="VoltarElaboracao" xml:space="preserve">
     <value>Voltar para elaboração</value>
+  </data>
+  <data name="MarcarVerificado" xml:space="preserve">
+    <value>Marcar como Verificado</value>
+  </data>
+  <data name="DocDocumento_msg_erro_assunto_sem_descricao" xml:space="preserve">
+    <value>A descrição do assunto deve ser preenchida.</value>
   </data>
 </root>

@@ -2,6 +2,7 @@
 using Dominio.Enumerado;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Dominio.Interface.Servico
 {
@@ -34,6 +35,8 @@ namespace Dominio.Interface.Servico
         void ValidaDestravamento(int idPerfil, ref List<string> erros);
         void ValidaUsuarioPorSegundaEtapa(RegistroConformidade naoConformidade, Usuario usuarioLogado, ref List<string> erros);
 
-         Int64 GeraProximoNumeroRegistro(string tipoRegistro, int idSite, int ? idProcesso = null);
+        Int64 GeraProximoNumeroRegistro(string tipoRegistro, int idSite, int ? idProcesso = null);
+
+        DataTable RetornarDadosGrafico(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite, int tipoGrafico);        
     }
 }

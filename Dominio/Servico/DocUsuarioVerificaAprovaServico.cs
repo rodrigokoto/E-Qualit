@@ -1,8 +1,12 @@
 ﻿using Dominio.Entidade;
+using Dominio.Enumerado;
 using Dominio.Interface.Repositorio;
 using Dominio.Interface.Servico;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Dominio.Servico
 {
@@ -13,6 +17,16 @@ namespace Dominio.Servico
         public DocUsuarioVerificaAprovaServico(IDocUsuarioVerificaAprovaRepositorio docUsuarioVerificaAprovaRepositorio) 
         {
             _docUsuarioVerificaAprovaRepositorio = docUsuarioVerificaAprovaRepositorio;
+        }
+
+        public void Add(DocUsuarioVerificaAprova obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AlteraEstado(DocUsuarioVerificaAprova obj, EstadoObjetoEF estado)
+        {
+            throw new NotImplementedException();
         }
 
         public void AlterarUsuariosDoDocumento(int idDocumento, List<DocUsuarioVerificaAprova> lista)
@@ -66,6 +80,52 @@ namespace Dominio.Servico
 
             foreach (var usuario in lista)
                 _docUsuarioVerificaAprovaRepositorio.Update(usuario);
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DocUsuarioVerificaAprova> Get(Expression<Func<DocUsuarioVerificaAprova, bool>> filter = null, Func<IQueryable<DocUsuarioVerificaAprova>, IOrderedQueryable<DocUsuarioVerificaAprova>> orderBy = null, string includeProperties = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DocUsuarioVerificaAprova> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DocUsuarioVerificaAprova> GetAllAsNoTracking()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DocUsuarioVerificaAprova GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DataTable GetDataTable(string sql, CommandType commandType, Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(DocUsuarioVerificaAprova obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAllById(int id)
+        {
+            _docUsuarioVerificaAprovaRepositorio.RemoveAllById(id);
+
+        }
+
+        public void Update(DocUsuarioVerificaAprova obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

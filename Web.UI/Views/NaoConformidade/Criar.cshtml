@@ -106,6 +106,7 @@
                     <div class="barra-busca">
                         <div class="row">
                             <!-- Numero Registro -->
+                            
                             <div class="col-lg-offset-5 col-lg-2 col-md-offset-4 col-md-4 col-sm-12 col-xs-12 ">
                                 <div class="form-group" id="numeroRegistro">
                                     <label for="form-criar-nao-conformidade-nm-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro</label>
@@ -218,7 +219,7 @@
                                         <select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
                                                 data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Emissor">
 
-                                            <option value="@ViewBag.IdPerfil" selected>@ViewBag.NomeUsuario</option>
+                                            <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
 
                                         </select>
 
@@ -394,6 +395,7 @@
                                                               data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Descricao">@acaoImediata.Descricao</textarea>
                                                     <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
                                                     <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
+                                                    <input type="hidden" name="formAcaoImediataIdFilaEnvio" value="@acaoImediata.IdFilaEnvio" />
                                                 </td>
                                                 <!-- Prazo Implementacao -->
                                                 <td>

@@ -291,12 +291,12 @@ namespace Web.UI.Controllers
             ViewBag.IdProcesso = gestaoDeRisco.IdProcesso;
             ViewBag.StatusEtapa = gestaoDeRisco.StatusEtapa;
             //ViewBag.NomeProcesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).Nome;
-
+            //int idPprocesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).IdProcesso;
             //if ((gestaoDeRisco.StatusRegistro == 0) && (gestaoDeRisco.IdEmissor == Util.ObterCodigoUsuarioLogado()))
             //{
             //    ViewBag.ScriptCall = "sim";
             //}
-
+            //gestaoDeRisco.IdProcesso = idPprocesso;
 
             return View("Criar", gestaoDeRisco);
         }

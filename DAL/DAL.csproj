@@ -73,6 +73,7 @@
     <Compile Include="EntityConfig\AvaliaCriterioQualificacaoMap.cs" />
     <Compile Include="EntityConfig\DocExternoMap.cs" />
     <Compile Include="EntityConfig\DocLicencaMap.cs" />
+    <Compile Include="EntityConfig\DocIndicadoresMap.cs" />
     <Compile Include="EntityConfig\DocumentoAssuntoMap.cs" />
     <Compile Include="EntityConfig\AvaliacaoCriticidadeMap.cs" />
     <Compile Include="EntityConfig\AvaliaCriterioAvaliacaoMap.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Repository\DocDocumentoRepositorio.cs" />
     <Compile Include="Repository\DocTemplateRepositorio.cs" />
     <Compile Include="Repository\DocUsuarioVerificaAprovaRepositorio.cs" />
+    <Compile Include="Repository\FilaEnvioRepositorio.cs" />
     <Compile Include="Repository\FornecedorRepositorio.cs" />
     <Compile Include="Repository\FuncaoRepositorio.cs" />
     <Compile Include="Repository\FuncionalidadeRepositorio.cs" />

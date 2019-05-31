@@ -73,7 +73,7 @@ namespace Dominio.Servico
                 objCtx.IdUsuarioAlterou = acaoCorretiva.IdUsuarioAlterou;
                 objCtx.Causa = acaoCorretiva.Causa;
                 objCtx.StatusRegistro = acaoCorretiva.StatusRegistro;
-                
+
 
                 acaoCorretiva.AcoesImediatas.ToList().ForEach(acaoImediata =>
                 {
@@ -440,7 +440,7 @@ namespace Dominio.Servico
             {
                 erros.AddRange(UtilsServico.PopularErros(validaCampos.Errors));
             }
-                       
+
             if (acaoCorretiva.AcoesImediatas.Count > 0 && acaoCorretiva.StatusEtapa != (byte)EtapasRegistroConformidade.Reverificacao)
             {
                 var erroAux = new List<string>();
@@ -483,16 +483,16 @@ namespace Dominio.Servico
 
             var acaoImediataUpdateIsValid = naoConformidade.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
 
-            
+
 
             try
             {
 
                 var validaCampos = DefineFluxoValidacaoNC(naoConformidade).Validate(naoConformidade);
                 if (!validaCampos.IsValid && validaCampos != null)
-            {
-                erros.AddRange(UtilsServico.PopularErros(validaCampos.Errors));
-            }
+                {
+                    erros.AddRange(UtilsServico.PopularErros(validaCampos.Errors));
+                }
 
                 if (naoConformidade.AcoesImediatas.Count > 0 && naoConformidade.StatusEtapa != (byte)EtapasRegistroConformidade.Reverificacao)
                 {
@@ -506,15 +506,15 @@ namespace Dominio.Servico
 
                 }
 
-                }
-            catch 
+            }
+            catch
             {
             }
         }
 
         private List<string> TrataAcaoImediata(RegistroAcaoImediata acaoImediata, RegistroConformidade registro, int idUsuarioLogado, List<string> erroAux)
         {
-            
+
 
             acaoImediata.IdUsuarioIncluiu = idUsuarioLogado;
             acaoImediata.IdRegistroConformidade = registro.IdRegistroConformidade;
@@ -540,7 +540,7 @@ namespace Dominio.Servico
                 dataNula = true;
                 acaoImediata.DtEfetivaImplementacao = DateTime.Now;
             }
-            
+
 
             var CamposObrigatoriosAcaoImediata = new CamposObrigatoriosAcaoImediata()
                                             .Validate(acaoImediata);
@@ -555,7 +555,7 @@ namespace Dominio.Servico
                 acaoImediata.DtPrazoImplementacao = null;
                 CamposObrigatoriosAcaoImediata.Errors.Add(new FluentValidation.Results.ValidationFailure("DtPrazoImplementacao", Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_DtrPrazoImplementacao_required));
             }
-            
+
 
             if (!CamposObrigatoriosAcaoImediata.IsValid)
             {
@@ -644,7 +644,7 @@ namespace Dominio.Servico
                 Causa = naoConformidade.Causa,
                 StatusRegistro = naoConformidade.StatusRegistro
                 //,DsJustificativa = naoConformidade.DsJustificativa
-                
+
             };
         }
 
@@ -842,11 +842,61 @@ namespace Dominio.Servico
             return registroConformidade;
         }
 
-        public Int64 GeraProximoNumeroRegistro(string tipoRegistro, int idSite, int ? idProcesso = null)
+        public Int64 GeraProximoNumeroRegistro(string tipoRegistro, int idSite, int? idProcesso = null)
         {
             RegistroConformidade registroConformidade = _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(new RegistroConformidade { TipoRegistro = tipoRegistro, IdSite = idSite, IdProcesso = idProcesso });
             return registroConformidade.NuRegistro;
         }
+
+
+        public DataTable RetornarDadosGrafico(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite, int tipoGrafico)
+        {
+            var dtDados = new DataTable();
+
+            switch (tipoGrafico)
+            {
+                case 1:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsMes(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 2:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsAbertasFechadas(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 3:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsTipo(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 4:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsAcaoCorretiva(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 5:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsProcesso(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 6:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsSite(dtDe, dtAte, idTipoNaoConformidade);
+                    break;
+
+                default:
+                    break;
+            }
+
+            return dtDados;
+        }
+
+
+        private DataTable RetornarDadosGraficoNcsMes(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsMes(dtDe, dtAte, idTipoNaoConformidade, idSite);
+
+            return dtDados;
+        }
+
+        private DataTable RetornarDadosGraficoNcsTipo(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsTipo(dtDe, dtAte, idTipoNaoConformidade, idSite);
+
+            return dtDados;
+        }
+
+
 
     }
 }

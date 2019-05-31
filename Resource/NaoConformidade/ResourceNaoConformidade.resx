@@ -372,4 +372,13 @@
   <data name="ResponsavelPorDefinirAcao" xml:space="preserve">
     <value>Responsável por Análise e definição da ação</value>
   </data>
+  <data name="NC_lbl_grafico" xml:space="preserve">
+    <value>Gerar gráfico</value>
+  </data>
+  <data name="NC_lbl_tipo_grafico" xml:space="preserve">
+    <value>Tipo de Gráfico</value>
+  </data>
+  <data name="NC_lbl_JustificativaControle" xml:space="preserve">
+    <value>Justificativa / Controle</value>
+  </data>
 </root>

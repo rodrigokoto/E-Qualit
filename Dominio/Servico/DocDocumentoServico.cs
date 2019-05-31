@@ -184,7 +184,7 @@ namespace Dominio.Servico
             //documentoAtual.Registros.ForEach(x => x.IdDocumento = 0);
             //documentoAtual.Rotinas.ForEach(x => x.IdDocumento = 0);
             //documentoAtual.DocTemplate.ForEach(x => x.IdDocumento = 0);
-           
+
 
             var documentoNovo = new DocDocumento
             {
@@ -219,19 +219,21 @@ namespace Dominio.Servico
                 IdGestaoDeRisco = documentoAtual.IdGestaoDeRisco,
                 IdLicenca = documentoAtual.IdLicenca,
                 IdDocExterno = documentoAtual.IdDocExterno,
-                
+
                 TextoDoc = documentoAtual.TextoDoc,
                 FluxoDoc = documentoAtual.FluxoDoc,
-                RecursoDoc = documentoAtual.RecursoDoc,               
+                RecursoDoc = documentoAtual.RecursoDoc,
             };
 
-            documentoAtual.DocCargo.ForEach(x => {
+            documentoAtual.DocCargo.ForEach(x =>
+            {
                 DocumentoCargo docCargo = new DocumentoCargo();
-                docCargo.IdCargo = x.IdCargo;                
+                docCargo.IdCargo = x.IdCargo;
                 documentoNovo.DocCargo.Add(docCargo);
             });
 
-            documentoAtual.DocUsuarioVerificaAprova.ForEach(x => {
+            documentoAtual.DocUsuarioVerificaAprova.ForEach(x =>
+            {
                 DocUsuarioVerificaAprova docUsuarioVerificaAprova = new DocUsuarioVerificaAprova();
                 docUsuarioVerificaAprova.Ativo = x.Ativo;
                 docUsuarioVerificaAprova.FlAprovou = x.FlAprovou;
@@ -239,39 +241,43 @@ namespace Dominio.Servico
                 docUsuarioVerificaAprova.deletar = x.deletar;
                 docUsuarioVerificaAprova.IdDocUsuarioVerificaAprova = x.IdDocUsuarioVerificaAprova;
                 docUsuarioVerificaAprova.IdUsuario = x.IdUsuario;
-                docUsuarioVerificaAprova.TpEtapa = x.TpEtapa;                
+                docUsuarioVerificaAprova.TpEtapa = x.TpEtapa;
                 documentoNovo.DocUsuarioVerificaAprova.Add(docUsuarioVerificaAprova);
             });
 
-            documentoAtual.Assuntos.ForEach(x => {
+            documentoAtual.Assuntos.ForEach(x =>
+            {
                 DocumentoAssunto assunto = new DocumentoAssunto();
                 assunto.DataAssunto = x.DataAssunto;
                 assunto.Descricao = x.Descricao;
                 assunto.Id = x.Id;
-                assunto.Revisao = x.Revisao;                
+                assunto.Revisao = x.Revisao;
                 documentoNovo.Assuntos.Add(assunto);
             });
 
-            documentoAtual.Comentarios.ForEach(x => {
+            documentoAtual.Comentarios.ForEach(x =>
+            {
                 DocumentoComentario docComentario = new DocumentoComentario();
                 docComentario.IdUsuario = x.IdUsuario;
                 docComentario.DataComentario = x.DataComentario;
-                docComentario.Descricao = x.Descricao;                
+                docComentario.Descricao = x.Descricao;
                 documentoNovo.Comentarios.Add(docComentario);
             });
 
-            documentoAtual.Registros.ForEach(x => {
+            documentoAtual.Registros.ForEach(x =>
+            {
                 DocRegistro docRegistro = new DocRegistro();
                 docRegistro.Armazenar = x.Armazenar;
                 docRegistro.Disposicao = x.Disposicao;
                 docRegistro.Identificar = x.Identificar;
                 docRegistro.Proteger = x.Proteger;
                 docRegistro.Recuperar = x.Recuperar;
-                docRegistro.Retencao = x.Retencao;                
+                docRegistro.Retencao = x.Retencao;
                 documentoNovo.Registros.Add(docRegistro);
             });
 
-            documentoAtual.Rotinas.ForEach(x => {
+            documentoAtual.Rotinas.ForEach(x =>
+            {
                 DocRotina docRotina = new DocRotina();
                 docRotina.Como = x.Como;
                 docRotina.Item = x.Item;
@@ -281,22 +287,23 @@ namespace Dominio.Servico
                 documentoNovo.Rotinas.Add(docRotina);
             });
 
-            documentoAtual.DocTemplate.ForEach(x => {
+            documentoAtual.DocTemplate.ForEach(x =>
+            {
                 DocTemplate docTemplate = new DocTemplate();
                 docTemplate.Ativo = x.Ativo;
-                docTemplate.TpTemplate = x.TpTemplate;                
+                docTemplate.TpTemplate = x.TpTemplate;
                 documentoNovo.DocTemplate.Add(docTemplate);
             });
-            
+
             var revisao = documentoNovo.Assuntos.Max(x => Convert.ToInt32(x.Revisao));
 
             documentoAtual.NuRevisao = Convert.ToByte(revisao);
-            
+
             if (PossuiRevisao(documentoAtual.NuRevisao))
             {
                 documentoNovo.NuRevisao = documentoAtual.NuRevisao;
                 documentoNovo.NuRevisao += 1;
-                
+
             }
             else
             {
@@ -340,7 +347,8 @@ namespace Dominio.Servico
 
             List<string> errosAssuntos = new List<string>();
 
-            documento.Assuntos.ForEach(x => {
+            documento.Assuntos.ForEach(x =>
+            {
                 if (x.Descricao != null && x.Descricao.Length > 1000)
                 {
                     errosAssuntos.Add(Traducao.Resource.MsgMaxAssuntosDescricao);
@@ -352,9 +360,10 @@ namespace Dominio.Servico
 
             List<string> errosRegistro = new List<string>();
 
-            documento.Registros.ForEach(x => {
+            documento.Registros.ForEach(x =>
+            {
 
-                
+
 
                 if (x.Identificar.Length > 300)
                 {
@@ -389,10 +398,11 @@ namespace Dominio.Servico
             });
 
             erros.AddRange(errosRegistro);
-            
+
             List<string> errosRotina = new List<string>();
 
-            documento.Rotinas.ForEach(x => {
+            documento.Rotinas.ForEach(x =>
+            {
 
                 if (x.OQue.Length > 500)
                 {
@@ -409,13 +419,13 @@ namespace Dominio.Servico
                     errosRotina.Add(Traducao.Resource.MsgMaxRotinasRegistro);
                 }
 
-                if (x.Como.Length > 500)
+                if (x.Como.Length > 1000)
                 {
                     errosRotina.Add(Traducao.Resource.MsgMaxRotinasComo);
                 }
 
             });
-                        
+
             erros.AddRange(errosRotina);
 
             if (!validacao.IsValid)
@@ -443,7 +453,8 @@ namespace Dominio.Servico
 
         public void AssuntoObrigatorioEditarRevisao(DocDocumento documento, ref List<string> erros)
         {
-            foreach(DocumentoAssunto item in documento.Assuntos)
+
+            foreach (DocumentoAssunto item in documento.Assuntos)
             {
                 var AssuntoObrigatorio = new CampoAssuntoObrigatorioRevisaoValidation()
                                     .Validate(item);
@@ -452,7 +463,8 @@ namespace Dominio.Servico
                 {
                     erros.AddRange(UtilsServico.PopularErros(AssuntoObrigatorio.Errors));
                 }
-            }            
+            }
+          
         }
 
         public void ValidoParaRevisao(DocDocumento documento, ref List<string> erros)
@@ -808,16 +820,16 @@ namespace Dominio.Servico
         }
 
 
-        public decimal GeraProximoNumeroRegistro(int idSite, int ? idProcesso = null, int ? idSigla = null)
+        public decimal GeraProximoNumeroRegistro(int idSite, int? idProcesso = null, int? idSigla = null)
         {
-           decimal saida = 0;
+            decimal saida = 0;
 
             var item = _documentoRepositorio.GetAll()
                 .Where(x => x.IdSite == idSite &&
                         (x.IdProcesso == idProcesso || idProcesso == null) &&
                         (x.IdSigla == idSigla || idSigla == null)
                 )
-                .OrderByDescending(x=> x.NumeroDocumento).FirstOrDefault();
+                .OrderByDescending(x => x.NumeroDocumento).FirstOrDefault();
             if (item != null)
             {
                 if (item.NumeroDocumento != 0)
@@ -835,7 +847,7 @@ namespace Dominio.Servico
             return saida;
         }
 
-       
+
 
     }
 }

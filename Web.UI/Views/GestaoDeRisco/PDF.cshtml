@@ -262,7 +262,10 @@
                                         <div class="form-group">
                                             <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Responsavel_definir_AC</label>
                                             <br />
+                                            @if (@Model.ResponsavelInicarAcaoImediata != null)
+                                            {
                                             @Model.ResponsavelInicarAcaoImediata.NmCompleto
+                                            }
                                         </div>
                                     </div>
 
@@ -279,7 +282,7 @@
                                             }
                                             else
                                             {
-                                                <label for="form-criar-nao-conformidade-ds-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Justificativa</label>
+                                                <label for="form-criar-nao-conformidade-ds-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_JustificativaControle</label>
                                                 <br />
                                                 @Model.DsJustificativa
                                             }
@@ -397,7 +400,10 @@
                                         <div class="form-group">
                                             <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Responsavel_reverificacao</label>
                                             <br />
+                                            @if (Model.ResponsavelReverificador != null)
+                                            {
                                             @Model.ResponsavelReverificador.NmCompleto
+                                            }
                                         </div>
                                     </div>
                                     <!-- Foi Eficaz -->

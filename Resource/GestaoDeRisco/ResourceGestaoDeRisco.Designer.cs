@@ -779,5 +779,14 @@ namespace Traducao.GestaoDeRisco {
                 return ResourceManager.GetString("GR_msg_save_valid", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Justificativa/Controle.
+        /// </summary>
+        public static string NC_lbl_JustificativaControle {
+            get {
+                return ResourceManager.GetString("NC_lbl_JustificativaControle", resourceCulture);
+            }
+        }
     }
 }

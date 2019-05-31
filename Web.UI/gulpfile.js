@@ -1,3 +1,5 @@
+/// <reference path="content/assets_src/js/vendor/jquery.maskmoney.js" />
+/// <reference path="content/assets_src/js/vendor/jquery.maskmoney.js" />
 /*
 |--------------------------------------------------------------------------
 | Gulpfile
@@ -81,7 +83,7 @@ var paths = {
                 'content/assets_src/js/vendor/jquery-1.12.4.min.js',
                 'content/assets_src/js/vendor/jquery-ui-1.12.1.min.js',
                 'content/assets_src/js/vendor/jquery.serializeToJSON.min.js',
-
+                
                 ////jquery.validate
                 'content/assets_src/js/vendor/jquery.validate.min.js',
                 //'content/assets_src/js/vendor/jquery.validate.additional-methods.js',

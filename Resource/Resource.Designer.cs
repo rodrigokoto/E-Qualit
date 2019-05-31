@@ -2914,6 +2914,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A descrição do assunto deve ser preenchida..
+        /// </summary>
+        public static string DocDocumento_msg_erro_assunto_sem_descricao {
+            get {
+                return ResourceManager.GetString("DocDocumento_msg_erro_assunto_sem_descricao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Necessario incluir um comentário !.
         /// </summary>
         public static string DocDocumento_msg_erro_ComentarioNecessario {
@@ -2995,7 +3004,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to É necessário escrever um assunto..
+        ///   Looks up a localized string similar to O assunto deve ser informado.
         /// </summary>
         public static string DocDocumento_msg_erro_required_DocAssunto {
             get {
@@ -4703,7 +4712,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo Identificação de Risco deve ter no minimo 4 caracteres.
+        ///   Looks up a localized string similar to O campo Identificação de Risco deve ter no minimo 4 caracteres e no máximo 1000 caracteres.
         /// </summary>
         public static string GestaoDeRisco_msg_erro_min_e_max_DescricaoRegistro {
             get {
@@ -5338,6 +5347,15 @@ namespace Traducao {
         public static string MaioResumido {
             get {
                 return ResourceManager.GetString("MaioResumido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marcar como Verificado.
+        /// </summary>
+        public static string MarcarVerificado {
+            get {
+                return ResourceManager.GetString("MarcarVerificado", resourceCulture);
             }
         }
         
@@ -6593,7 +6611,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo recursos deve conter no máximo 500 caracteres..
+        ///   Looks up a localized string similar to O campo recursos deve conter no máximo 1000 caracteres..
         /// </summary>
         public static string MsgMaxRecursos500Caracteres {
             get {
@@ -6656,7 +6674,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo Como das rotinas deve possuir no máximo 500 caracteres..
+        ///   Looks up a localized string similar to O campo Como das rotinas deve possuir no máximo 1000 caracteres..
         /// </summary>
         public static string MsgMaxRotinasComo {
             get {

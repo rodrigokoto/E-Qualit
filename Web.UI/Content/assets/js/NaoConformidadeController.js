@@ -5,6 +5,91 @@
 |--------------------------------------------------------------------------
 */
 
+soNumeros = function (valor) {
+
+    return valor.replace(/[^\d.-]/g, '');
+};
+
+removeNoNumerics = (function (el) {
+    el.value = soNumeros(el.value);
+});
+
+dateFormat = (function (el) {
+    value = el.value;
+
+    var month = value.substring(0, 2);
+    if (month < 1 || month > 12) {
+        el.value = '';
+        return;
+    }
+
+    var year = value.substring(2, 6);
+    if (year <= 1900 || year >= 2500) {
+        el.value = '';
+        return;
+    }
+
+    el.value = month + '/' + year;
+});
+
+abrirModalGrafico = (function () {
+    $('#dtDe').datepicker({
+        dateFormat: "mm/yy",
+        startView: "months",
+        minViewMode: "months"
+    })
+        .datepicker("option", "changeMonth", true)
+        .datepicker("option", "changeYear", true)
+        .datepicker("option", "showButtonPanel", true);
+
+
+    $('#dtAte').datepicker({
+        dateFormat: "mm/yy",
+        startView: "months",
+        minViewMode: "months"
+    })
+        .datepicker("option", "changeMonth", true)
+        .datepicker("option", "changeYear", true)
+        .datepicker("option", "showButtonPanel", true);
+
+
+    $("#modalGrafico").modal();
+});
+
+abrirGrafico = (function (url) {
+
+    var idTipoGrafico = $("#ddlTipoGrafico").val();
+    var idTipoNaoConformidade = $("#ddlTipoNaoConformidade").val();
+    var dtDe = soNumeros($("#dtDe").val());
+    var dtAte = soNumeros($("#dtAte").val());
+    var estiloGrafico = $('input[name=estiloGrafico]:checked').val();
+    var msg = '';
+
+    if (dtDe.length == 0) {
+        msg += 'De<br>';
+    }
+
+
+    if (dtAte.length == 0) {
+        msg += 'Até<br>';
+    }
+
+
+    if (msg.length > 0) {
+        bootbox.alert('Os seguintes campos são obrigatórios:<br><br>' + msg);
+    }
+    else {
+
+        var parametros = '?tipoGrafico=' + idTipoGrafico;
+        parametros += '&dtDe=' + dtDe;
+        parametros += '&dtAte=' + dtAte;
+        parametros += '&estiloGrafico=' + estiloGrafico;
+        parametros += '&tipoNaoConformidade=' + idTipoNaoConformidade;
+
+        window.open(url + parametros, '_blank');
+    }
+});
+
 APP.controller.NaoConformidadeController = {
 
     init: function () {
@@ -56,8 +141,7 @@ APP.controller.NaoConformidadeController = {
 
             var EhAuditoria = $(this).val();
 
-            if (EhAuditoria == "true")
-            {  
+            if (EhAuditoria == "true") {
                 var idCategoria = $('[name=formCriarNaoConformidadeTipo] option:contains("Auditoria")').val();
 
                 $('[name=formCriarNaoConformidadeTipo]').val(idCategoria);
@@ -246,7 +330,7 @@ APP.controller.NaoConformidadeController = {
     setDisabledStatusEtapa1: function (_disabled) {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
-        $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);        
+        $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -321,7 +405,7 @@ APP.controller.NaoConformidadeController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -410,7 +494,7 @@ APP.controller.NaoConformidadeController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -559,7 +643,7 @@ APP.controller.NaoConformidadeController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -646,7 +730,7 @@ APP.controller.NaoConformidadeController = {
         } else if ((_EProcedente == undefined || _EProcedente == null) && _checkTbAcaoCorretiva == 0) {
 
             $('[name=formAcaoImadiataJustificativa]').closest('[class^=col]').hide();
-            
+
         }
         else {
             $('[name=formAcaoImadiataJustificativa]').closest('[class^=col]').show();
@@ -879,7 +963,7 @@ APP.controller.NaoConformidadeController = {
             var idSite = $('#nao-conformidade-site').val();
             processoSelecionado = $(this).find(':selected').val();
             var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
-            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado +'&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
+            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
                 if (result.StatusCode == 200) {
                     $('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
                     APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
@@ -1155,7 +1239,7 @@ APP.controller.NaoConformidadeController = {
 
         this.buttonAddAcaoImediata.unbind('click');
         this.buttonAddAcaoImediata.bind('click', function () {
-            
+
             var TraducaoDropNameSelect = 'Selecione';
             var index = $('#tb-acao-imediata tbody tr').size();
 
@@ -1348,7 +1432,9 @@ APP.controller.NaoConformidadeController = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
@@ -1362,6 +1448,7 @@ APP.controller.NaoConformidadeController = {
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val()
                 };
             } else {
                 acoesNaoConformidadeFormAcaoImediataObj = {
@@ -1372,6 +1459,7 @@ APP.controller.NaoConformidadeController = {
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val(),
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
@@ -1557,7 +1645,7 @@ APP.controller.NaoConformidadeController = {
 
     HabilitaCamposNaoConformidade: function (perfil) {
         if (perfil == '4') {
-         
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $("#form-criar-nao-conformidade-processo").attr("disabled", true);
@@ -1565,10 +1653,10 @@ APP.controller.NaoConformidadeController = {
 
         }
         else {
-          
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true); 
+            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
         }
     },
 
@@ -1619,11 +1707,11 @@ APP.controller.NaoConformidadeController = {
                 $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
             }
             else {
-                
+
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true); 
-                     
+                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
+
             }
 
 
@@ -1665,4 +1753,5 @@ APP.controller.NaoConformidadeController = {
 
         });
     },
+
 };

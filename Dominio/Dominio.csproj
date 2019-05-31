@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Entidade\ArquivosEvidenciaCriterioQualificacao.cs" />
     <Compile Include="Entidade\AvaliaCriterioQualificacao.cs" />
+    <Compile Include="Entidade\DocIndicadores.cs" />
     <Compile Include="Entidade\DocLicenca.cs" />
     <Compile Include="Entidade\Anexo.cs" />
     <Compile Include="Entidade\ArquivoCertificadoAnexo.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Entidade\CriterioAceitacao.cs" />
     <Compile Include="Entidade\CriterioQualificacao.cs" />
     <Compile Include="Entidade\DocExterno.cs" />
+    <Compile Include="Entidade\FilaEnvio.cs" />
     <Compile Include="Entidade\Fornecedor.cs" />
     <Compile Include="Entidade\HistoricoCriterioAvaliacao.cs" />
     <Compile Include="Entidade\Indicador.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="Interface\Repositorio\ICriterioAceitacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\ICriterioQualificacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IDocCargoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IFilaEnvioRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IFornecedorRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IFuncaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IHistoricoCriterioAvaliacaoRepositorio.cs" />
@@ -294,6 +297,7 @@
     <Compile Include="Interface\Servico\IDocumentoComentarioServico.cs" />
     <Compile Include="Interface\Servico\IDocUsuarioVerificaAprovaServico.cs" />
     <Compile Include="Interface\Servico\IEmailPlaiServico.cs" />
+    <Compile Include="Interface\Servico\IFIlaEnvioServico.cs" />
     <Compile Include="Interface\Servico\IFornecedorServico.cs" />
     <Compile Include="Interface\Servico\IHistoricoCriterioAvaliacaoServico.cs" />
     <Compile Include="Interface\Servico\IIndicadorServico.cs" />
@@ -312,6 +316,7 @@
     <Compile Include="Interface\Servico\IProdutoFornecedorServico.cs" />
     <Compile Include="Interface\Servico\IProdutoServico.cs" />
     <Compile Include="Interface\Servico\ICriterioAvaliacaoServico.cs" />
+    <Compile Include="Interface\Servico\IRegistroAcaoImediataServico.cs" />
     <Compile Include="Interface\Servico\IUsuarioSenhaServico.cs" />
     <Compile Include="Interface\Servico\IUsuarioServico.cs" />
     <Compile Include="Interface\Servico\IDocDocumentoServico.cs" />
@@ -343,7 +348,9 @@
     <Compile Include="Servico\DocumentoAssuntoServico.cs" />
     <Compile Include="Servico\DocumentoComentarioServico.cs" />
     <Compile Include="Servico\DocUsuarioVerificaAprovaServico.cs" />
+    <Compile Include="Servico\FilaEnvioServico.cs" />
     <Compile Include="Servico\FornecedorServico.cs" />
+    <Compile Include="Servico\RegistroAcaoImediataServico.cs" />
     <Compile Include="Servico\UsuarioSenhaServico.cs" />
     <Compile Include="Validacao\AnaliseCriticas\GestaoDeRiscoDeveTerCriticidadeMediaOuAltaValidation.cs" />
     <Compile Include="Servico\FuncionalidadeServico.cs" />

@@ -59,12 +59,17 @@ namespace ApplicationService.Servico
                 x.Registro = registroConformidade;
                 x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
             });
-
-
-            _registroConformidadesRepositorio.Update(registroConformidade);
+                                   
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
 
+            _registroConformidadesRepositorio.Update(registroConformidade);
+
             return registroConformidade;
+        }
+
+        private void GerarFilaEmailNotificacao(RegistroAcaoImediata x)
+        {
+            
         }
 
         private RegistroConformidade TrataAC(RegistroConformidade acaoCorretiva)
@@ -387,7 +392,7 @@ namespace ApplicationService.Servico
 
             if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4)
             {
-                AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);
+                AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);           
             }
 
             if (registroConformidade.EProcedente == false)
