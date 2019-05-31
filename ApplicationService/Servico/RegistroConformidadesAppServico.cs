@@ -60,6 +60,7 @@ namespace ApplicationService.Servico
                 x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
             });
 
+            registroConformidade.AcoesImediatas.Clear();
 
             _registroConformidadesRepositorio.Update(registroConformidade);
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
@@ -118,6 +119,13 @@ namespace ApplicationService.Servico
             var objCtx = _registroConformidadesRepositorio.GetById(naoConformidade.IdRegistroConformidade);
 
             var listaAcaoImediataUpdate = naoConformidade.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
+            listaAcaoImediataUpdate.ToList().ForEach(x =>
+            {
+                x.Registro = naoConformidade;
+                x.IdRegistroConformidade = naoConformidade.IdRegistroConformidade;
+            });
+
+
             var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
 
             if (naoConformidade.OStatusEEncerrada() && naoConformidade.EProcedente == false)
@@ -229,6 +237,7 @@ namespace ApplicationService.Servico
 
                 var listaAcaoImediataNaoImplementadas = naoConformidade.AcoesImediatas.FirstOrDefault(x => x.DtEfetivaImplementacao == null) != null;
 
+                objCtx.AcoesImediatas = listaAcaoImediataUpdate.ToList();
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
 
                 objCtx.EProcedente = naoConformidade.EProcedente != null ? naoConformidade.EProcedente : objCtx.EProcedente;
@@ -358,7 +367,8 @@ namespace ApplicationService.Servico
             objCtx.AcoesImediatas.ToList().ForEach(acaoImediata =>
             {
 
-                RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).FirstOrDefault();
+                //RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).FirstOrDefault();
+                RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata && x.IdAcaoImediata > 0).FirstOrDefault();
                 acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
                 acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
                 acaoImediata.ArquivoEvidencia = acaoUpdate != null ? acaoUpdate.ArquivoEvidencia : null;
@@ -385,7 +395,7 @@ namespace ApplicationService.Servico
 
             var primeiraAcaoImdediata = objCtx.AcoesImediatas.FirstOrDefault();
 
-            if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4)
+            if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4 || objCtx.StatusEtapa == 2)
             {
                 AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);           
             }

@@ -16,6 +16,7 @@ using System.Configuration;
 using ApplicationService.Entidade;
 using Web.UI.Models;
 using System.Data;
+using System.Diagnostics;
 
 namespace Web.UI.Controllers
 {
@@ -459,6 +460,11 @@ namespace Web.UI.Controllers
             }
             catch (Exception ex)
             {
+                foreach (var acaoImediata in naoConformidade.AcoesImediatas)
+                {
+                    Debug.WriteLine($"acaoImediata: {acaoImediata.IdAcaoImediata} - idRegistro: {acaoImediata.IdRegistroConformidade}");
+                }
+
                 GravaLog(ex);
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);

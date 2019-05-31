@@ -17,7 +17,7 @@ namespace DAL.EntityConfig
 
             Property(x => x.IdAcaoImediata)
                 .HasColumnName("IdRegistroAcaoImediata");
-                
+            
 
 
             Property(t => t.IdRegistroConformidade)
