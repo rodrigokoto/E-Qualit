@@ -1428,7 +1428,6 @@ APP.controller.NaoConformidadeController = {
 
         $('#tb-acao-imediata tbody tr').each(function (index, tr) {
             if (statusEtapa == 2) {
-                debugger;
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),

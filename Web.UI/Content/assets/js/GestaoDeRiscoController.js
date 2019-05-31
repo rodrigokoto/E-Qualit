@@ -51,40 +51,40 @@ APP.controller.GestaoDeRiscoController = {
     },
 
     delGestaoDeRisco: function () {
-        
+
         var tabelaGestaoRisco = $('#tb-index-gestao-de-risco').DataTable();
 
         this.buttonDelGestaoDeRisco.on('click', function (event) {
             event.preventDefault();
 
-            
+
 
             var IdRegistroConformidade = $(this).data('idGestaoDeRisco');
             var $AtualRow = $(this).parents('tr');
-                    
+
             console.log("IdRegistroConformidade:= ", IdRegistroConformidade);
 
             bootbox.confirm(_options.MsgDesejaExcluirRegistro, function (result) {
                 if (result) {
 
-                        APP.component.Loading.showLoading();
+                    APP.component.Loading.showLoading();
 
-                        $.get('/GestaoDeRisco/Excluir?idGestaoDeRisco=' + IdRegistroConformidade, function (data, status) {
-                        }).done(function (data) {
-                            if (data.StatusCode == "200") {
-                                tabelaGestaoRisco.row($AtualRow).remove().draw();
-                                bootbox.alert(data.Success, function (result) {
-                                    window.location.href = "/GestaoDeRisco/Index";
-                                });
-                                
-                            }
+                    $.get('/GestaoDeRisco/Excluir?idGestaoDeRisco=' + IdRegistroConformidade, function (data, status) {
+                    }).done(function (data) {
+                        if (data.StatusCode == "200") {
+                            tabelaGestaoRisco.row($AtualRow).remove().draw();
+                            bootbox.alert(data.Success, function (result) {
+                                window.location.href = "/GestaoDeRisco/Index";
+                            });
 
-                            APP.component.Loading.hideLoading();
+                        }
 
-                        });
-                    }
-                });
+                        APP.component.Loading.hideLoading();
+
+                    });
+                }
             });
+        });
 
         //    var msgIconeDeleteNC = $('[name=msgIconeDeleteGR]').val();
 
@@ -147,7 +147,10 @@ APP.controller.GestaoDeRiscoController = {
         APP.component.FileUpload.init();
         APP.component.Mascaras.init();
         APP.component.BarRating.setBarRating('[name=formCriarNaoConformidadeCriticidade]', 'bars-1to10');
+
+        if ($('[name=formCriarNaoConformidadeProcesso] option') == null || $('[name=formCriarNaoConformidadeProcesso] option').length == 2) {
         this.getProcessosPorSite();
+        }
         if ($('[name=IdRegistroConformidade]').val() > 0) {
             APP.controller.GestaoDeRiscoController.getTemasCores();
         }
@@ -206,17 +209,17 @@ APP.controller.GestaoDeRiscoController = {
     },
 
     getProcessosPorSite: function () {
-
         var idSite = $('#nao-conformidade-site').val();
-        $.get('/Processo/ListaProcessosPorSite?idSite=' + idSite, function (result) {
-            $.each(result.Lista, (key, val) => {
-                var $option = $('<option></option>');
-                $('[name=formCriarNaoConformidadeProcesso]').append(
-                    $option.val(val.IdProcesso).text(val.Nome)
-                );
+        
+            $.get('/Processo/ListaProcessosPorSite?idSite=' + idSite, function (result) {
+                $.each(result.Lista, (key, val) => {
+                    var $option = $('<option></option>');
+                    $('[name=formCriarNaoConformidadeProcesso]').append(
+                        $option.val(val.IdProcesso).text(val.Nome)
+                    );
+                });
             });
-        });
-
+        
     },
 
     setAndHide: function () {
@@ -261,10 +264,10 @@ APP.controller.GestaoDeRiscoController = {
         $('#panel-acaoimediata').hide();
         $('[name=formCriarNaoConformidadeNmRegistro]').closest('div').hide();
         $('#lblformCriarNaoConformidadeNmRegistro').closest('div').hide();
-        $('[name=formCriarNaoConformidadeResponsavel]').closest('div').hide();        
+        $('[name=formCriarNaoConformidadeResponsavel]').closest('div').hide();
         $('[name=formCriarNaoConformidadeCausa]').closest('div').hide();
 
-        
+
 
     },
 
@@ -280,7 +283,7 @@ APP.controller.GestaoDeRiscoController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -348,7 +351,7 @@ APP.controller.GestaoDeRiscoController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -420,7 +423,7 @@ APP.controller.GestaoDeRiscoController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -555,7 +558,7 @@ APP.controller.GestaoDeRiscoController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -636,7 +639,7 @@ APP.controller.GestaoDeRiscoController = {
             $('[name=formCriarNaoConformidadeResponsavel]').closest('[class^=col]').hide();
             $('[name=formCriarNaoConformidadeNmRegistro]').closest('[class^=col]').hide();
             $('#lblformCriarNaoConformidadeNmRegistro').closest('div').hide();
-            
+
             $('[name=formCriarNaoConformidadeCausa]').closest('div').hide();
             $('#form-acaoimediata').hide();
             $("#painel-acao-corretiva-nao").show();
@@ -645,12 +648,12 @@ APP.controller.GestaoDeRiscoController = {
             $('[name=formCriarNaoConformidadeResponsavel]').closest('[class^=col]').show();
             $('[name=formCriarNaoConformidadeNmRegistro]').closest('[class^=col]').show();
             $('#lblformCriarNaoConformidadeNmRegistro').closest('div').show();
-            
+
             $('[name=formCriarNaoConformidadeCausa]').closest('div').show();
             $('#form-acaoimediata').show();
             $('#painel-acao-corretiva-sim').show();
             $("#painel-acao-corretiva-nao").hide();
-            
+
         }
 
     },
@@ -691,19 +694,19 @@ APP.controller.GestaoDeRiscoController = {
 
     },
 
-    getProcessosPorSite: function () {
+    //getProcessosPorSite: function () {
+    //    debugger;
+    //    var idSite = $('#nao-conformidade-site').val();
+    //    $.get('/Processo/ListaProcessosPorSite?idSite=' + idSite, function (result) {
+    //        $.each(result.Lista, (key, val) => {
+    //            var $option = $('<option></option>');
+    //            $('[name=formCriarNaoConformidadeProcesso]').append(
+    //                $option.val(val.IdProcesso).text(val.Nome)
+    //            );
+    //        });
+    //    });
 
-        var idSite = $('#nao-conformidade-site').val();
-        $.get('/Processo/ListaProcessosPorSite?idSite=' + idSite, function (result) {
-            $.each(result.Lista, (key, val) => {
-                var $option = $('<option></option>');
-                $('[name=formCriarNaoConformidadeProcesso]').append(
-                    $option.val(val.IdProcesso).text(val.Nome)
-                );
-            });
-        });
-
-    },
+    //},
 
     getEmissorPorSite: function () {
 
@@ -787,17 +790,17 @@ APP.controller.GestaoDeRiscoController = {
 
     getObjObjFormCriarNaoConformidadeValidate: function () {
 
-         
+
         var AcaoImadiataEProcedente = $('[name=formAcaoImadiataEProcedente]:checked').val();
 
         var acoesNaoConformidadeoFormCriarNaoConformidadeObj = {
             //formCriarNaoConformidadeNmRegistro: 'required',
-            formCriarNaoConformidadeDsRegistro: { 'required': true, 'minlength': 4,},
+            formCriarNaoConformidadeDsRegistro: { 'required': true, 'minlength': 4, },
             formCriarNaoConformidadeDtEmissao: { 'required': true },
             formCriarNaoConformidadeProcesso: { 'required': true },
             formCriarNaoConformidadeEmissor: { 'required': true },
             //formCriarNaoConformidadeResponsavel: { 'required': true },            
-            formAcaoImadiataEProcedente: { 'required': true },            
+            formAcaoImadiataEProcedente: { 'required': true },
 
             //Form Acao Imediata                
             // formAcaoImadiataDtDescricaoAcao: {'required': true},
@@ -815,7 +818,7 @@ APP.controller.GestaoDeRiscoController = {
             // formAcaoImadiataNumeroAC: {'required': true},
             // formAcaoImadiataAnaliseCausa: {'required': true},
         };
-       
+
 
         return acoesNaoConformidadeoFormCriarNaoConformidadeObj;
 
@@ -857,21 +860,21 @@ APP.controller.GestaoDeRiscoController = {
                     ECorrecao: $('[name=formAcaoImadiataECorrecao]:checked').val(),
                     NecessitaAcaoCorretiva: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
-                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(), 
+                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
                     CriticidadeGestaoDeRisco: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
-                    DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(), 'required': true, 'minlength': 1, 'maxlength': 500, 
+                    DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                     DsJustificativa: $('[name=formCriarNaoConformidadeDsJustificativa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
-                    EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),                  
+                    EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                 };
@@ -907,7 +910,7 @@ APP.controller.GestaoDeRiscoController = {
             case "fluxo-04":
                 //Obj enviado no fluxo 04 de edicao
                 acoesNaoConformidadeFormCriarNaoConformidadeObj = {
-                    StatusEtapa: 4,                    
+                    StatusEtapa: 4,
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                     AcoesImediatas: APP.controller.GestaoDeRiscoController.getObjFormAcaoImediata(),
@@ -929,7 +932,7 @@ APP.controller.GestaoDeRiscoController = {
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
-                    FlEficaz: APP.controller.GestaoDeRiscoController.getFoiEficaz(),                    
+                    FlEficaz: APP.controller.GestaoDeRiscoController.getFoiEficaz(),
                 };
                 break;
             case "fluxo-05":
@@ -957,7 +960,7 @@ APP.controller.GestaoDeRiscoController = {
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
-                    FlEficaz: APP.controller.GestaoDeRiscoController.getFoiEficaz(),                    
+                    FlEficaz: APP.controller.GestaoDeRiscoController.getFoiEficaz(),
                 };
                 break;
         }
@@ -1027,7 +1030,7 @@ APP.controller.GestaoDeRiscoController = {
             html += '<tr role="row" class="odd">';
             html += '<td>';
             html += '<textarea type="text" id="form-acaoimediata-tb-descricao' + _options.NumeroAcaoImediataGrid + '" name="formAcaoImadiataTbDescricao" class="form-control" ';
-            html += 'placeholder="' +_options.Descricao + '" ';
+            html += 'placeholder="' + _options.Descricao + '" ';
             html += 'data-msg-required="" ';
             html += 'value=""';
             html += 'rows="3"></textarea>';
@@ -1198,7 +1201,7 @@ APP.controller.GestaoDeRiscoController = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-                    DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),                   
+                    DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                 };
@@ -1393,25 +1396,25 @@ APP.controller.GestaoDeRiscoController = {
 
 
     HabilitaCamposGestaoRisco: function (perfil) {
-       
+
         if (perfil == '4') {
-            
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             //$("#form-criar-nao-conformidade-processo").attr("disabled", true);
             $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $('.br-widget').removeClass('barRating-disabled');
 
-     
+
         }
         else {
-           
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);            
+            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
             $('.br-widget').removeClass('barRating-disabled');
 
-   
+
 
         }
     },
@@ -1451,31 +1454,31 @@ APP.controller.GestaoDeRiscoController = {
 
 
     setDestravarCamposGestaoRisco: function () {
-    
+
         this.buttonDestravar.on('click', function () {
-            
-            
+
+
             if (perfil == '4') {
-                
+
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 //$("#form-criar-nao-conformidade-processo").attr("disabled", true);
                 $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
 
-   
+
 
             }
             else {
-            
+                
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true); 
+                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
-
+                $("[name=formCriarNaoConformidadeEmissor]").attr("disabled", true);
             }
 
-            var idGestaoDeRisco = $("[name=IdRegistroConformidade]").val();     
+            var idGestaoDeRisco = $("[name=IdRegistroConformidade]").val();
             var data = { "idGestaoDeRisco": idGestaoDeRisco };
 
             $.ajax({

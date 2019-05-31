@@ -209,18 +209,22 @@
                                         @if (ViewBag.IdPerfil != 4)
                                         {
 
-                                            <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
-                                                    data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
-                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                                @if (Model.IdEmissor != 0)
-                                                {
-                                                    <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
-                                                }
-                                                @*@if (ViewBag.IdPerfil == 4 && Model.IdRegistroConformidade == 0)
-                                                    {
-                                                        <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-                                                    }*@
-                                            </select>
+                                        <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
+                                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor" disabled>
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            @if (Model.IdEmissor != 0)
+                                            {
+                                                <option value="@Model.IdEmissor" selected disabled>@Model.Emissor.NmCompleto</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                            }
+                                            @*@if (ViewBag.IdPerfil == 4 && Model.IdRegistroConformidade == 0)
+        {
+            <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+        }*@
+                                        </select>
                                         }
                                         else
                                         {
@@ -386,7 +390,7 @@
                             <!-- Justificativa -->
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="painel-acao-corretiva-nao" style="display: none">
                                 <div class="form-group">
-                                    <label for="form-criar-nao-conformidade-ds-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Justificativa</label>
+                                    <label for="form-criar-nao-conformidade-ds-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_JustificativaControle</label>
                                     <textarea id="form-criar-nao-conformidade-ds-justificativa" name="formCriarNaoConformidadeDsJustificativa" class="form-control"
                                               placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Justificativa"
                                               data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Justificativa"

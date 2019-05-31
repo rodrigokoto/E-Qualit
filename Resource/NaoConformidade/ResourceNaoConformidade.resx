@@ -378,4 +378,7 @@
   <data name="NC_lbl_tipo_grafico" xml:space="preserve">
     <value>Tipo de Gráfico</value>
   </data>
+  <data name="NC_lbl_JustificativaControle" xml:space="preserve">
+    <value>Justificativa / Controle</value>
+  </data>
 </root>

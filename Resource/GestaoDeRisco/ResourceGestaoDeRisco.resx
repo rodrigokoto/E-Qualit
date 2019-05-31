@@ -357,4 +357,7 @@
   <data name="DescricaoDaAcaoEhObrigatoria" xml:space="preserve">
     <value>A descrição da ação @Acao@ é obrigatória.</value>
   </data>
+  <data name="NC_lbl_JustificativaControle" xml:space="preserve">
+    <value>Justificativa/Controle</value>
+  </data>
 </root>
