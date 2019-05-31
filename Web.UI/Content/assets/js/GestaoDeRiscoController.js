@@ -1465,9 +1465,17 @@ APP.controller.GestaoDeRiscoController = {
                 $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
+                $("[name=formCriarNaoConformidadeEmissor]").attr("disabled", true);
 
 
+            }
+            else if (perfil == '1') {
 
+                $('#main').find('input, textarea, button, select').removeAttr('disabled');
+                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
+                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
+                $('.br-widget').removeClass('barRating-disabled');
+                
             }
             else {
                 
@@ -1476,6 +1484,7 @@ APP.controller.GestaoDeRiscoController = {
                 $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
                 $("[name=formCriarNaoConformidadeEmissor]").attr("disabled", true);
+                
             }
 
             var idGestaoDeRisco = $("[name=IdRegistroConformidade]").val();
