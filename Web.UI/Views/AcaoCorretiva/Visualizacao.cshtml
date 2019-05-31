@@ -113,6 +113,10 @@ else
         background-color: transparent !important;
     }
 
+    .upload-arq {
+        border: none !important;
+        background-color: transparent !important;
+    }
     /*
     .tabela-check {
         background-color: white !important;
@@ -252,6 +256,8 @@ else
                                                     <th class="w7">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_AI_Prazo_implementacao</th>
                                                     <th class="w15">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_AI_Responsavel_implementar</th>
                                                     <th class="w7">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_AI_Efetiva_implementacao</th>
+                                                    <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Arquivo_evidencia</th>
+                                                    <th class="w2"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -286,12 +292,55 @@ else
                                                                 @(acaoImediata.DtEfetivaImplementacao != null ? acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat) : null)
                                                             </div>
                                                         </td>
+                                                        <!-- Anexo -->
+                                                        <td>
+                                                            @{
+                                                                var base64 = "";
+                                                                var nomeAnexo = "";
+                                                                var extensao = "";
+                                                                var idAnexo = 0;
+                                                                if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                {
+                                                                    idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                                    extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                                    nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
+                                                                    base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                    base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+
+                                                                }
+                                                            }
+
+                                                            <div class="upload-arq form-control">
+                                                                <ul>
+                                                                    <li>
+                                                                        <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
+                                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                                    </li>
+                                                                </ul>
+                                                                <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
+                                                                       class=""
+                                                                       data-msg-required=""
+                                                                       data-b64="@base64">
+                                                            </div>
+                                                        </td>
+                                                        <!-- Aprovado -->
+                                                        <td>
+                                                            @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value)
+                                                            {
+                                                                <i class="fa fa-check" style="color:green" aria-hidden="true"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fa fa-times" style="color:red" aria-hidden="true"></i>
+                                                            }
+                                                        </td>
                                                     </tr>
                                                 }
                                             </tbody>
-                                        </table>                                        
+                                        </table>
                                     </div>
-                               
+
                                 </div>
                                 <div class="row">
                                     <!-- Responsavel Reverificacao -->
@@ -337,8 +386,8 @@ else
                                     }
 
                                 </div>
-                              
-                               
+
+
                             </div>
                         </div>
                     </div>
