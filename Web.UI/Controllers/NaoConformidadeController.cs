@@ -24,9 +24,9 @@ namespace Web.UI.Controllers
     public class NaoConformidadeController : BaseController
     {
         private readonly IRegistroConformidadesAppServico _registroConformidadesAppServico;
+        private readonly IRegistroAcaoImediataServico _registroRegistroAcaoImediataServico;
         private readonly IRegistroConformidadesServico _registroConformidadesServico;
         private readonly IProcessoServico _processoServico;
-
         private readonly INotificacaoAppServico _notificacaoAppServico;
 
         private readonly ILogAppServico _logAppServico;
@@ -40,6 +40,8 @@ namespace Web.UI.Controllers
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IProcessoAppServico _processoAppServico;
 
+        private readonly IFilaEnvioServico _filaEnvioServico;
+
         public NaoConformidadeController(IRegistroConformidadesAppServico registroConformidadesAppServico,
             INotificacaoAppServico notificacaoAppServico,
             ISiteAppServico siteService,
@@ -49,7 +51,9 @@ namespace Web.UI.Controllers
             IProcessoServico processoServico,
             IProcessoAppServico processoAppServico,
             IClienteAppServico clienteServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IControladorCategoriasAppServico controladorCategoriasServico,
+            IFilaEnvioServico filaEnvioServico,
+           IRegistroAcaoImediataServico  registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
             _notificacaoAppServico = notificacaoAppServico;
@@ -62,6 +66,8 @@ namespace Web.UI.Controllers
             _processoAppServico = processoAppServico;
             _clienteServico = clienteServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _filaEnvioServico = filaEnvioServico;
+            _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
         }
 
         // GET: NaoConformidade
@@ -452,12 +458,12 @@ namespace Web.UI.Controllers
             conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
             conteudo = conteudo.Replace("#NuNaoConformidade#", naoConformidade.NuRegistro.ToString());
             conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
-
+            var responsavelAcaoImediata = _usuarioAppServico.GetById(naoConformidade.IdResponsavelInicarAcaoImediata.Value);
             Email _email = new Email();
 
             _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
             _email.De = ConfigurationManager.AppSettings["EmailDE"];
-            _email.Para = naoConformidade.ResponsavelInicarAcaoImediata.CdIdentificacao;
+            _email.Para = responsavelAcaoImediata.CdIdentificacao;
             _email.Conteudo = conteudo;
             _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
             _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
@@ -540,17 +546,30 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
+                    var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+
+                    var acoesEfetivadas = naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
+
+                    RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
+
+                    if (acoesImediatasNova.Count > 0)
+                    {
+                        EnfileirarEmailsAcaoImediata(acoesImediatasNova, naoConformidade);
+                    }
+
                     naoConformidade = _registroConformidadesAppServico.SalvarSegundaEtapa(naoConformidade, Funcionalidades.NaoConformidade);
 
                     if (naoConformidade.EProcedente == true)
                         erros = EnviarNotificacao(naoConformidade, erros);
 
-                    if(naoConformidade.AcoesImediatas.Any(x => x.Aprovado == false))
+                    var acoesIneficazes = naoConformidade.AcoesImediatas.Where(x => x.Aprovado == false).ToList();
+                    if (acoesIneficazes.Count > 0)
                     {
-                        //EnviarEmailAcaoIneficaz()
+                        EnviarEmailAcaoIneficaz(naoConformidade, acoesIneficazes);
                     }
 
-
+                 
+                   
                 }
                 else
                 {
@@ -566,6 +585,58 @@ namespace Web.UI.Controllers
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_save_valid }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        private void RemoverFilaEnvioAcoesEfetivadas(List<RegistroAcaoImediata> acoesEfetivadas)
+        {
+            foreach (var acao in acoesEfetivadas)
+            {
+                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+                if (!filaEnvio.Enviado)
+                {
+                    acao.IdFilaEnvio = null;
+                    _registroRegistroAcaoImediataServico.Update(acao);
+                    _filaEnvioServico.Apagar(filaEnvio);
+                }
+            }            
+        }
+
+        private void EnfileirarEmailsAcaoImediata(List<RegistroAcaoImediata> acoesImediatasNova, RegistroConformidade naoConformidade)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcesso(naoConformidade.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeAcaoDataImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            foreach (var acao in acoesImediatasNova)
+            {
+                try
+                {
+                    var destinatario = _usuarioAppServico.GetById(acao.IdResponsavelImplementar.Value).CdIdentificacao;
+                    string template = System.IO.File.ReadAllText(path);
+                    string conteudo = template;
+
+                    conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+                    conteudo = conteudo.Replace("#NuNaoConformidade#", naoConformidade.NuRegistro.ToString());
+                    conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                    var filaEnvio = new FilaEnvio();
+                    filaEnvio.Assunto = "Notificação de Não Conformidade";
+                    filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
+                    filaEnvio.DataInclusao = DateTime.Now;
+                    filaEnvio.Destinatario = destinatario;
+                    filaEnvio.Enviado = false;
+                    filaEnvio.Mensagem = conteudo;
+
+                    _filaEnvioServico.Enfileirar(filaEnvio);
+
+                    acao.IdFilaEnvio = filaEnvio.Id;
+                }
+                catch (Exception ex)
+                {
+                    GravaLog(ex);
+                }
+            }
         }
 
         [HttpGet]
@@ -751,8 +822,6 @@ namespace Web.UI.Controllers
                     notificacao.FlEtapa = naoConformidade.StatusEtapa.ToString();
                     _notificacaoAppServico.Add(notificacao);
                 }
-                
-                //EnviaEmail(naoConformidade);
             }
             catch
             {
@@ -762,6 +831,42 @@ namespace Web.UI.Controllers
 
             return erros;
 
+        }
+
+        private void EnviarEmailAcaoIneficaz(RegistroConformidade naoConformidade, List<RegistroAcaoImediata> acoesIneficazes)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcesso(naoConformidade.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeAcaoIneficaz-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            foreach (var acao in acoesIneficazes)
+            {
+                try
+                {
+                    string template = System.IO.File.ReadAllText(path);
+                    string conteudo = template;
+
+                    conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+                    conteudo = conteudo.Replace("#NuNaoConformidade#", naoConformidade.NuRegistro.ToString());
+                    conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                    Email _email = new Email();
+
+                    _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
+                    _email.De = ConfigurationManager.AppSettings["EmailDE"];
+                    _email.Para = acao.ResponsavelImplementar.CdIdentificacao;
+                    _email.Conteudo = conteudo;
+                    _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+                    _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+                    _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+                    _email.Enviar();
+                }
+                catch (Exception ex)
+                {
+                    GravaLog(ex);
+                }
+            }
         }
 
         private void EnviarEmailImplementacao(RegistroConformidade naoConformidade, Usuario usuario)
@@ -793,9 +898,9 @@ namespace Web.UI.Controllers
 
         private string MontarUrlAcesso(int idRegistroConformidade)
         {
-            var dominio = ConfigurationManager.AppSettings["Dominio"];
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
 
-            return dominio + "/NaoConformidade/Editar/" + idRegistroConformidade.ToString();
+            return dominio + "NaoConformidade/Editar/" + idRegistroConformidade.ToString();
         }
 
         private void EnviaEmail(RegistroConformidade nc)

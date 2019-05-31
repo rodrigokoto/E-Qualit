@@ -59,12 +59,17 @@ namespace ApplicationService.Servico
                 x.Registro = registroConformidade;
                 x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
             });
-
-
-            _registroConformidadesRepositorio.Update(registroConformidade);
+                                   
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
 
+            _registroConformidadesRepositorio.Update(registroConformidade);
+
             return registroConformidade;
+        }
+
+        private void GerarFilaEmailNotificacao(RegistroAcaoImediata x)
+        {
+            
         }
 
         private RegistroConformidade TrataAC(RegistroConformidade acaoCorretiva)

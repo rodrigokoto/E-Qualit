@@ -1434,6 +1434,7 @@ APP.controller.NaoConformidadeController = {
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
@@ -1447,6 +1448,7 @@ APP.controller.NaoConformidadeController = {
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val()
                 };
             } else {
                 acoesNaoConformidadeFormAcaoImediataObj = {
@@ -1457,6 +1459,7 @@ APP.controller.NaoConformidadeController = {
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val(),
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),

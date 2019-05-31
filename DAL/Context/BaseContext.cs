@@ -88,7 +88,7 @@ namespace DAL.Context
         public DbSet<DocRegistro> RegistroDoc { get; set; }
 
         public DbSet<DocIndicadores> DocIndicadores { get; set; }
-
+        public DbSet<FilaEnvio> FilaEnvio { get; set; }
 
         #region RH
 
