@@ -453,7 +453,6 @@ namespace Dominio.Servico
 
         public void AssuntoObrigatorioEditarRevisao(DocDocumento documento, ref List<string> erros)
         {
-            bool hasNew = false;
 
             foreach (DocumentoAssunto item in documento.Assuntos)
             {
@@ -464,14 +463,8 @@ namespace Dominio.Servico
                 {
                     erros.AddRange(UtilsServico.PopularErros(AssuntoObrigatorio.Errors));
                 }
-
-                hasNew = item.Id == 0 && !hasNew;
             }
-
-            if(!hasNew)
-            {
-                erros.Add(Traducao.Resource.DocDocumento_msg_erro_required_DocAssunto);
-            }
+          
         }
 
         public void ValidoParaRevisao(DocDocumento documento, ref List<string> erros)

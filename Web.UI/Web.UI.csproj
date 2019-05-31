@@ -1760,6 +1760,7 @@
     <Content Include="Views\GestaoDeRisco\PDF.cshtml" />
     <Content Include="Views\Instrumento\PDF.cshtml" />
     <Content Include="Views\AnaliseCritica\Visualizar.cshtml" />
+    <Content Include="Views\NaoConformidade\Exibir.cshtml" />
     <Content Include="Views\NaoConformidade\FiltroGrafico.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\NaoConformidade\Grafico.cshtml" />

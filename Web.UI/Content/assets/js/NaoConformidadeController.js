@@ -1432,6 +1432,7 @@ APP.controller.NaoConformidadeController = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(

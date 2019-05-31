@@ -3,11 +3,25 @@
 @using Dominio.Entidade
 @model Dominio.Entidade.RegistroConformidade
 
+@section Metas {
+    <meta name="page" content="CriarNaoConformidade" />
+}
 
+
+@section scripts {
+
+
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js")"></script>
+    @*<script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>*@
+    @*<script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>*@
+
+
+}
 
 @{
     ViewBag.Title = "Não Conformidade";
-    Layout = null;
+    //Layout = null;
 
 
     var listaEvidencias = new List<Anexo>();
@@ -44,40 +58,23 @@
     var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
     var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
     var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
+    
+    
 }
 <html>
 <head>
-    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @Styles.Render("~/Content/assets/css")
     @Scripts.Render("~/bundles/bootstrap")
-
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
 </head>
 <body style="background:white !important">
-    <div class="container">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <div class="container" style="width:100%;padding-left: 0px;padding-right: 0px;">
+        
 
 
 
         <style>
-            body {
-                font-size: 10px;
-            }
-
-            .ui-timepicker {
-                width: 119px !important;
-            }
-
-            .ui-timepicker-container {
-                width: 128px !important;
-                /*overflow: auto;*/
-            }
-
-            .ui-timepicker-viewport {
-                width: 75px !important;
-            }
-
-                .ui-timepicker-viewport li {
-                    width: 85px !important;
-                }
 
             .caixa {
                 font-family: 'Abel-Regular', sans-serif !important;
@@ -90,7 +87,6 @@
 
             .form-group {
                 margin-bottom: 20px;
-                font-size: medium;
             }
 
             .tabela-check {
@@ -98,14 +94,36 @@
             }
 
             #main {
-                max-height: 700px !important;
+                padding-bottom: 120px !important;
+                max-height: 90vh !important;
+                overflow: auto !important;
             }
+
+            #menu-graph {
+                /*padding-top: 4px;*/
+                padding-left: 0px;
+            }
+
+            /*.ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }*/
         </style>
 
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        
-
+        @*Inicio -----*@
         <div class="top3" id="main1" style="top: 140px; ">
             <div id="main">
                 <div class="content-painel">
@@ -121,7 +139,7 @@
                     <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
                     <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
                     <input type="hidden" name="IdNaoConformidade" class="IdNaoConformidade" value="@Model.IdRegistroConformidade" />
-                    <div class="row" style="background-color: white;padding-left: 20px;">
+                    <div class="row" style="background-color: white;padding-left: 20px;width:100%">
                         <!-- Formulario Nao Conformidade -->
                         <form id="form-criar-naoconformidade">
                             <div id="panel-naoconformidade">
@@ -134,7 +152,7 @@
                                 <div class="caixa">
 
                                     <div class="row">
-                                        <div class="col-xs-2">
+                                        <div class="col-sm-2">
                                             <!-- Numero Registro -->
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-nm-registro">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro</label>
@@ -146,7 +164,7 @@
 
 
 
-                                        <div class="col-xs-2">
+                                        <div class="col-sm-2">
                                             <!-- Data de Emissao -->
                                             <div>
                                                 <div class="form-group">
@@ -157,7 +175,7 @@
                                             </div>
                                         </div>
                                         <!-- Processo -->
-                                        <div class="col-xs-2">
+                                        <div class="col-sm-2">
                                             <div>
                                                 <div class="form-group">
                                                     <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Processo</label>
@@ -166,7 +184,7 @@
                                             </div>
                                         </div>
                                         <!-- Emissor -->
-                                        <div class="col-xs-2">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdEmissor</label>
                                                 <br />
@@ -174,7 +192,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-2">
+                                        <div class="col-sm-2">
                                             <!-- E Auditoria -->
                                             <div>
                                                 <div class="form-group">
@@ -188,7 +206,7 @@
                                     </div>
                                     <div class="row">
                                         <!-- Tipo Nao Conformidade -->
-                                        <div class="col-xs-2">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-tipo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tipo</label>
                                                 <br />
@@ -199,7 +217,7 @@
 
 
                                         <!-- Responsavel -->
-                                        <div class="col-xs-4">
+                                        <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_definir_AC</label>
                                                 <br />
@@ -208,7 +226,7 @@
                                         </div>
 
                                         <!-- Tags -->
-                                        <div class="col-xs-2">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags</label>
                                                 <br />
@@ -218,7 +236,7 @@
 
 
                                         <!-- Descricao Registro -->
-                                        <div class="col-xs-2">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DsRegistro</label>
                                                 <br />
@@ -230,7 +248,7 @@
                                     <div class="row">
                                         <!-- Arquivo de Evidencia -->
                                         @*<div class="col-lg-10 col-md-8 col-sm-12 col-xs-12">*@
-                                        <div class="col-xs-12">
+                                        <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="form-cria-cliente-contrato" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Arquivo_evidencia</label>
                                                 <br />
@@ -276,7 +294,7 @@
                                         <div>
                                             <div class="row">
                                                 <!-- E Procedente -->
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_EProcedente</label>
                                                         <div class="">
@@ -285,7 +303,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- Data Descricao Acao -->
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label for="form-acaoimediata-dt-descricao-acao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtDescricaoAcao</label>
                                                         <br />
@@ -299,9 +317,9 @@
 
                                                     <!-- Justificativa -->
                                                     <div>
-                                                        <div class="col-xs-2">
+                                                        <div class="col-sm-2">
                                                             <div class="form-group">
-                                                                <label for="form-acaoimediata-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Justificativa</label>
+                                                                <label for="form-acaoimediata-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_JustificativaControle</label>
                                                                 <br />
                                                                 @Model.DescricaoAcao
                                                             </div>
@@ -404,7 +422,7 @@
 
 
 
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_ECorrecao</label>
                                                         <br />
@@ -414,7 +432,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- Necessita Acao corretiva -->
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Necessita_AC</label>
                                                         <br />
@@ -424,7 +442,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- Responsavel Reverificacao -->
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_reverificacao</label>
                                                         <br />
@@ -432,7 +450,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- Foi Eficaz -->
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Foi_eficaz</label>
                                                         <br />
@@ -441,7 +459,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- Responsavel Tratativa -->
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label for="form-acaoimediata-responsavel-tratativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_tratativa</label>
                                                         <br />
@@ -452,7 +470,7 @@
                                             </div>
                                             <div class="row">
                                                 <!-- Numero Acao Corretiva -->
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label for="form-acaoimediata-numero-ac" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Nm_acao_corretiva</label>
                                                         <br />
@@ -461,7 +479,7 @@
                                                 </div>
 
                                                 <!-- Analise da Causa -->
-                                                <div class="col-xs-2">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Analise_causa</label>
                                                         <br />
@@ -475,11 +493,20 @@
                                 </div>
                             </div>
                         </form>
+                        <div>
+                            <ul class="nav navbar-nav navbar-right ">
 
+                                <li class="botoes-button">
+                                    <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+                                </li>
+
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        @*Fim -------*@
-    </body>
+        @*Fim ----*@
+    </div>
+</body>
 </html>

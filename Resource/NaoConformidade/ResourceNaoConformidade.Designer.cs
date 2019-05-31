@@ -250,6 +250,15 @@ namespace Traducao.NaoConformidade {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Justificativa / Controle.
+        /// </summary>
+        public static string NC_lbl_JustificativaControle {
+            get {
+                return ResourceManager.GetString("NC_lbl_JustificativaControle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Necessita ação correção?.
         /// </summary>
         public static string NC_lbl_Necessita_AC {

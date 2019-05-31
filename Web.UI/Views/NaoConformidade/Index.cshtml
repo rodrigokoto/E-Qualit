@@ -33,6 +33,7 @@
             <div class="panel panel-default" id="panel-naoconformidade">
                 <div class="panel-body" id="panel-form-naoconformidade">
                     <div class="row">
+
                         <div class="barra-busca">
                             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.Cadastrar) || ViewBag.IdPerfil != 4)
                             {
@@ -153,9 +154,21 @@
                                                         || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Reverificacao)
                                                         || ViewBag.IdPerfil != 4)
                                                     {
-                                                        <a href="@Url.Action("Editar", "NaoConformidade", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
-                                                            <i class="fa @(item.StatusEtapa == 4 ? "fa-search" : "fa-pencil")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
-                                                        </a>
+                                                        @*<a href="@Url.Action("Editar", "NaoConformidade", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
+                                                                <i class="fa @(item.StatusEtapa == 4 ? "fa-search" : "fa-pencil")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                            </a>*@
+                                                        if (item.StatusEtapa == 4)
+                                                        {
+                                                            <a href="@Url.Action("Exibir", "NaoConformidade", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
+                                                                <i class="fa fa-search")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                            </a>
+                                                        }
+                                                        if (item.StatusEtapa != 4)
+                                                        {
+                                                            <a href="@Url.Action("Editar", "NaoConformidade", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
+                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                            </a>
+                                                        }
                                                     }
                                                     @if (ViewBag.UltimoRegistro == item.NuRegistro && (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.Excluir) || ViewBag.IdPerfil != 4))
                                                     {
