@@ -1765,6 +1765,7 @@
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\NaoConformidade\Grafico.cshtml" />
     <Content Include="Views\Shared\_BlankLayout.cshtml" />
+    <Content Include="Views\AcaoCorretiva\Visualizacao.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

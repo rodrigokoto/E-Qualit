@@ -249,7 +249,14 @@ namespace Web.UI.Controllers
             //    ViewBag.ScriptCall = "sim";
             //}
 
-            return View("Criar", acaoCorretiva);
+            if(acaoCorretiva.StatusEtapa== (byte)EtapasRegistroConformidade.Encerrada)
+            {
+                return View("Visualizacao", acaoCorretiva);
+            }
+            else
+            {
+                return View("Criar", acaoCorretiva);
+            }
 
         }
 
