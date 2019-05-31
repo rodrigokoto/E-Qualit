@@ -1484,21 +1484,21 @@ setDestravarCamposGestaoRisco: function () {
 
 
         }
-        else if (perfil == '1') {
-            $('#main').find('input, textarea, button, select').removeAttr('disabled');
-            $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
-            $('.br-widget').removeClass('barRating-disabled');
+        //else if (perfil == '3') {
+        //    $('#main').find('input, textarea, button, select').removeAttr('disabled');
+        //    $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
+        //    $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
+        //    $('.br-widget').removeClass('barRating-disabled');
 
 
-        }
+        //}
         else {
 
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
             $('.br-widget').removeClass('barRating-disabled');
-            $("[name=formCriarNaoConformidadeEmissor]").attr("disabled", true);
+            $("[name=formCriarNaoConformidadeEmissor]").attr("disabled", false);
 
         }
 
