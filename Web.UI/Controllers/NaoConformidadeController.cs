@@ -35,7 +35,7 @@ namespace Web.UI.Controllers
         private readonly IClienteAppServico _clienteServico;
 
         private string _tipoRegistro = "nc";
-
+        private readonly IUsuarioClienteSiteAppServico _usuarioClienteAppServico;
         private readonly ISiteAppServico _siteService;
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IProcessoAppServico _processoAppServico;
@@ -51,9 +51,10 @@ namespace Web.UI.Controllers
             IProcessoServico processoServico,
             IProcessoAppServico processoAppServico,
             IClienteAppServico clienteServico,
+            IUsuarioClienteSiteAppServico usuarioClienteAppServico,
             IControladorCategoriasAppServico controladorCategoriasServico,
             IFilaEnvioServico filaEnvioServico,
-           IRegistroAcaoImediataServico  registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+           IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
             _notificacaoAppServico = notificacaoAppServico;
@@ -65,6 +66,7 @@ namespace Web.UI.Controllers
             //ViewBag.ProcessoSelecionado = Util.ObterProcessoSelecionado();
             _processoAppServico = processoAppServico;
             _clienteServico = clienteServico;
+            _usuarioClienteAppServico = usuarioClienteAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
             _filaEnvioServico = filaEnvioServico;
             _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
@@ -202,14 +204,15 @@ namespace Web.UI.Controllers
 
         public ActionResult PDF(int id)
         {
-            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            var idSite = Util.ObterSiteSelecionado();
+            ViewBag.IdSite = idSite;
             ViewBag.UsuarioLogado = Util.ObterUsuario();
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
             ViewBag.IdCliente = Util.ObterClienteSelecionado();
             ViewBag.NomeUsuario = Util.ObterUsuario().Nome;
             //ViewBag.NomeProcesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).Nome;
 
-
+            
             var naoConformidade = _registroConformidadesAppServico.GetById(id);
 
             naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosDeEvidencia.Select(x => x.Anexo));
@@ -240,6 +243,19 @@ namespace Web.UI.Controllers
             //    ViewBag.ScriptCall = "sim";
             //}
 
+            var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == idSite);
+            var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
+
+            ViewBag.LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo);
+
+            //LayoutImpressaoViewModel model = new LayoutImpressaoViewModel()
+            //{
+            //    LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo),
+            //    Documento = documento,
+            //    IsImpressaoControlada = controlada
+            //};
+
+
             var pdf = new ViewAsPdf
             {
                 ViewName = "PDF",
@@ -249,7 +265,7 @@ namespace Web.UI.Controllers
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Não Conformidade " + naoConformidade.IdRegistroConformidade + ".pdf"
             };
-
+            
             return pdf;
 
             //return View("PDF", naoConformidade);
@@ -470,7 +486,7 @@ namespace Web.UI.Controllers
             _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
             _email.Enviar();
         }
-       
+
 
         private void SalvarArquivoEvidencia(RegistroConformidade nc)
         {
@@ -532,6 +548,9 @@ namespace Web.UI.Controllers
 
             try
             {
+                var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
+                var idResponsavelAcaoCorrecao = (responsavelAcaoCorrecao != null ? responsavelAcaoCorrecao.IdResponsavelInicarAcaoImediata : 0);
+
                 naoConformidade.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 naoConformidade.FlDesbloqueado = naoConformidade.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 naoConformidade.TipoRegistro = _tipoRegistro;
@@ -568,8 +587,15 @@ namespace Web.UI.Controllers
                         EnviarEmailAcaoIneficaz(naoConformidade, acoesIneficazes);
                     }
 
-                 
-                   
+
+                    if (naoConformidade.NecessitaAcaoCorretiva != null && naoConformidade.NecessitaAcaoCorretiva.Value)
+                    {
+                        if (idResponsavelAcaoCorrecao != naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva)
+                        {
+                            var acaoCorretiva = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.NuRegistro == naoConformidade.IdNuRegistroFilho.Value).FirstOrDefault();
+                            EnviarEmailAcaoCorretivaResponsavel(naoConformidade, acaoCorretiva);
+                        }
+                    }
                 }
                 else
                 {
@@ -587,18 +613,54 @@ namespace Web.UI.Controllers
 
         }
 
+        private void EnviarEmailAcaoCorretivaResponsavel(RegistroConformidade naoConformidade, RegistroConformidade acaoCorretiva)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(acaoCorretiva.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaResponsavel-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            try
+            {
+                var usuario = _usuarioAppServico.GetById(naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva);
+                string template = System.IO.File.ReadAllText(path);
+                string conteudo = template;
+
+                conteudo = conteudo.Replace("#NuRegistro#", naoConformidade.IdNuRegistroFilho.ToString());
+                conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                Email _email = new Email();
+
+                _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoAcaoCorretiva;
+                _email.De = ConfigurationManager.AppSettings["EmailDE"];
+                _email.Para = usuario.CdIdentificacao;
+                _email.Conteudo = conteudo;
+                _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+                _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+                _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+                _email.Enviar();
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+            }
+        }
+
         private void RemoverFilaEnvioAcoesEfetivadas(List<RegistroAcaoImediata> acoesEfetivadas)
         {
             foreach (var acao in acoesEfetivadas)
             {
-                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-                if (!filaEnvio.Enviado)
+                if (acao.IdFilaEnvio != null)
                 {
-                    acao.IdFilaEnvio = null;
-                    _registroRegistroAcaoImediataServico.Update(acao);
-                    _filaEnvioServico.Apagar(filaEnvio);
+                    var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+                    if (!filaEnvio.Enviado)
+                    {
+                        acao.IdFilaEnvio = null;
+                        _registroRegistroAcaoImediataServico.Update(acao);
+                        _filaEnvioServico.Apagar(filaEnvio);
+                    }
                 }
-            }            
+            }
         }
 
         private void EnfileirarEmailsAcaoImediata(List<RegistroAcaoImediata> acoesImediatasNova, RegistroConformidade naoConformidade)
@@ -939,6 +1001,14 @@ namespace Web.UI.Controllers
             return dominio + "NaoConformidade/Editar/" + idRegistroConformidade.ToString();
         }
 
+        private string MontarUrlAcessoAcaoCorretiva(int idRegistro)
+        {
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "AcaoCorretiva/Editar/" + idRegistro.ToString();
+        }
+
+
         private void EnviaEmail(RegistroConformidade nc)
         {
             var idCliente = Util.ObterClienteSelecionado();
@@ -997,7 +1067,7 @@ namespace Web.UI.Controllers
             var dtDados = new DataTable();
             int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);                       
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsBarra(dtDados);
 
@@ -1018,7 +1088,7 @@ namespace Web.UI.Controllers
             return Json(dataPoints);
         }
 
-               
+
 
         private List<object[]> GerarDataPointsBarra(DataTable dtDados)
         {
