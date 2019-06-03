@@ -43,8 +43,7 @@ namespace Web.UI.Controllers
             IUsuarioAppServico usuarioAppServico,
             IClienteAppServico clienteServico,
             IControladorCategoriasAppServico controladorCategoriasServico,
-            IUsuarioClienteSiteAppServico usuarioClienteAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
-            IControladorCategoriasAppServico controladorCategoriasServico,
+            IUsuarioClienteSiteAppServico usuarioClienteAppServico,
             IFilaEnvioServico filaEnvioServico,
             IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
@@ -67,7 +66,7 @@ namespace Web.UI.Controllers
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
             var numeroUltimoRegistro = 0;
-            
+
             var listaAC = _registroConformidadesAppServico.ObtemListaRegistroConformidadePorSite(ViewBag.IdSite, _tipoRegistro, ref numeroUltimoRegistro);
             ViewBag.UltimoRegistro = numeroUltimoRegistro;
 
@@ -185,7 +184,7 @@ namespace Web.UI.Controllers
             conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
             conteudo = conteudo.Replace("#NuAcaoCorretiva#", nc.NuRegistro.ToString());
             conteudo = conteudo.Replace("#NuRegistroConformidade#", nc.IdRegistroConformidade.ToString());
-            
+
 
 
             Email _email = new Email();
@@ -208,7 +207,7 @@ namespace Web.UI.Controllers
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
             ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
             ViewBag.IdCliente = Util.ObterClienteSelecionado();
-          
+
 
             //.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
             var acaoCorretiva = _registroConformidadesAppServico.GetById(id);
@@ -302,7 +301,7 @@ namespace Web.UI.Controllers
             //    ViewBag.ScriptCall = "sim";
             //}
 
-            if(acaoCorretiva.StatusEtapa== (byte)EtapasRegistroConformidade.Encerrada)
+            if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada)
             {
                 return View("Visualizacao", acaoCorretiva);
             }
@@ -405,7 +404,7 @@ namespace Web.UI.Controllers
             var urlAcesso = MontarUrlAcessoAcaoCorretiva(acaoCorretiva.IdRegistroConformidade);
             var usuario = _usuarioAppServico.GetById(acaoCorretiva.IdResponsavelReverificador.Value);
 
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaReverificador-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
             string template = System.IO.File.ReadAllText(path);
             string conteudo = template;
 
@@ -465,12 +464,15 @@ namespace Web.UI.Controllers
         {
             foreach (var acao in acoesEfetivadas)
             {
-                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-                if (!filaEnvio.Enviado)
+                if (acao.IdFilaEnvio != null)
                 {
-                    acao.IdFilaEnvio = null;
-                    _registroRegistroAcaoImediataServico.Update(acao);
-                    _filaEnvioServico.Apagar(filaEnvio);
+                    var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+                    if (!filaEnvio.Enviado)
+                    {
+                        acao.IdFilaEnvio = null;
+                        _registroRegistroAcaoImediataServico.Update(acao);
+                        _filaEnvioServico.Apagar(filaEnvio);
+                    }
                 }
             }
         }
@@ -555,7 +557,7 @@ namespace Web.UI.Controllers
         [HttpPost]
         public JsonResult RemoverComAcaoConformidade(int idAcaoCorretiva)
         {
-            
+
             var erros = new List<string>();
 
             try
@@ -575,7 +577,7 @@ namespace Web.UI.Controllers
 
                     _notificacaoAppServico.RemovePorFuncionalidade(Funcionalidades.AcaoCorretiva, naoConformidade.IdRegistroConformidade);
                     _registroConformidadesAppServico.Remove(naoConformidade);
-                    
+
                 }
                 else
                 {
@@ -589,7 +591,7 @@ namespace Web.UI.Controllers
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.AcaoCorretiva.ResourceAcaoCorretiva .AC_msg_delete_valid }, JsonRequestBehavior.AllowGet);
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_delete_valid }, JsonRequestBehavior.AllowGet);
 
 
         }

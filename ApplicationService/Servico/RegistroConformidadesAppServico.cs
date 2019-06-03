@@ -377,7 +377,7 @@ namespace ApplicationService.Servico
             objCtx.AcoesImediatas.ToList().ForEach(acaoImediata =>
             {
 
-                RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).FirstOrDefault();
+                RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata && acaoImediata.IdAcaoImediata > 0).FirstOrDefault();
                 acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
                 acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
                 acaoImediata.ArquivoEvidencia = acaoUpdate != null ? acaoUpdate.ArquivoEvidencia : null;
