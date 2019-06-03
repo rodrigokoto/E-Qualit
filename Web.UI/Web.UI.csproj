@@ -242,6 +242,7 @@
     <Compile Include="Models\AlterarSenhaUsuarioViewModels.cs" />
     <Compile Include="Models\GraficoNaoConformidadeViewModel.cs" />
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
+    <Compile Include="Models\PdfAcaoCorreticaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocator\Interface\IServiceLocator.cs" />
     <Compile Include="ServiceLocator\ServiceLocator.cs" />
@@ -1765,6 +1766,7 @@
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\NaoConformidade\Grafico.cshtml" />
     <Content Include="Views\Shared\_BlankLayout.cshtml" />
+    <Content Include="Views\AcaoCorretiva\Visualizacao.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

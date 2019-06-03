@@ -607,24 +607,22 @@ namespace Dominio.Servico
         private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoNC(RegistroConformidade naoConformidade)
         {
             var acaoImediataUpdateIsValid = naoConformidade.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
-            if (naoConformidade.EProcedente == false && naoConformidade.OStatusEEncerrada() && acaoImediataUpdateIsValid == false)
+            if (!naoConformidade.EProcedente.Value && naoConformidade.OStatusEEncerrada() && acaoImediataUpdateIsValid == false)
             {
                 return new NCEProcedenteFalseViewValidation();
             }
-            else if (naoConformidade.EProcedente == true && naoConformidade.OStatusEImplementacao() && acaoImediataUpdateIsValid == false)
+            else if (naoConformidade.EProcedente.Value && naoConformidade.OStatusEImplementacao() && acaoImediataUpdateIsValid == false)
             {
                 return new NCEProcedenteTrueViewValidation();
             }
-            else if (naoConformidade.EProcedente == true && naoConformidade.OStatusEImplementacao() && acaoImediataUpdateIsValid == true)
+            else if (naoConformidade.EProcedente.Value && naoConformidade.OStatusEImplementacao() && acaoImediataUpdateIsValid == true)
             {
                 return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
             }
-            else if (naoConformidade.OStatusEReverificacao())
+            else if (naoConformidade.OStatusEReverificacao() && naoConformidade.EProcedente.Value)
             {
                 return new CamposObrigatoriosNaoConformidadeReverificacao();
             }
-
-
             return null;
         }
 

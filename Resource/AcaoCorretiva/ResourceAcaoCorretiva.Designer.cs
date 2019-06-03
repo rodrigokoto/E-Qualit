@@ -61,6 +61,15 @@ namespace Traducao.AcaoCorretiva {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nenhuma ação encontrada.
+        /// </summary>
+        public static string AC_lbl_acao_nao_encontrada {
+            get {
+                return ResourceManager.GetString("AC_lbl_acao_nao_encontrada", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ações.
         /// </summary>
         public static string AC_lbl_Acoes {
