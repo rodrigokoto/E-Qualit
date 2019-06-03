@@ -65,15 +65,14 @@ abrirGrafico = (function (url) {
     var estiloGrafico = $('input[name=estiloGrafico]:checked').val();
     var msg = '';
 
-    if (dtDe.length == 0) {
-        msg += 'De<br>';
-    }
+    if (idTipoGrafico.length == 0)
+        msg += '- Tipo de Gráfico<br>';
 
+    if (dtDe.length == 0) 
+        msg += '- De<br>';
 
-    if (dtAte.length == 0) {
-        msg += 'Até<br>';
-    }
-
+    if (dtAte.length == 0) 
+        msg += '- Até<br>';
 
     if (msg.length > 0) {
         bootbox.alert('Os seguintes campos são obrigatórios:<br><br>' + msg);
@@ -89,6 +88,21 @@ abrirGrafico = (function (url) {
         window.open(url + parametros, '_blank');
     }
 });
+
+$("#ddlTipoGrafico").change(function myFunction() {
+    var idTipoGrafico = $("#ddlTipoGrafico").val();
+
+    if (idTipoGrafico == 2 || idTipoGrafico == 4) {
+        $('#graficoPizza').hide().next().hide();
+        $('#graficoPizza').prop('checked', false);
+        $('#graficoBarra').prop('checked', true);
+    }
+    else {
+        $('#graficoPizza').show().next().show();
+    }
+        
+});
+
 
 APP.controller.NaoConformidadeController = {
 
