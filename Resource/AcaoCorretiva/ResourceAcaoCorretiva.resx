@@ -351,4 +351,7 @@
   <data name="ResponsavelPorDefinirAcao" xml:space="preserve">
     <value>Responsavel por definir ação</value>
   </data>
+  <data name="AC_lbl_acao_nao_encontrada" xml:space="preserve">
+    <value>Nenhuma ação encontrada</value>
+  </data>
 </root>

@@ -242,6 +242,7 @@
     <Compile Include="Models\AlterarSenhaUsuarioViewModels.cs" />
     <Compile Include="Models\GraficoNaoConformidadeViewModel.cs" />
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
+    <Compile Include="Models\PdfAcaoCorreticaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocator\Interface\IServiceLocator.cs" />
     <Compile Include="ServiceLocator\ServiceLocator.cs" />
