@@ -532,6 +532,9 @@ namespace Web.UI.Controllers
 
             try
             {
+                var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
+                var idResponsavelAcaoCorrecao = (responsavelAcaoCorrecao != null ? responsavelAcaoCorrecao.IdResponsavelInicarAcaoImediata : 0);
+
                 naoConformidade.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 naoConformidade.FlDesbloqueado = naoConformidade.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 naoConformidade.TipoRegistro = _tipoRegistro;
@@ -568,8 +571,12 @@ namespace Web.UI.Controllers
                         EnviarEmailAcaoIneficaz(naoConformidade, acoesIneficazes);
                     }
 
-                 
-                   
+
+                    if(naoConformidade.NecessitaAcaoCorretiva != null && naoConformidade.NecessitaAcaoCorretiva.Value)
+                    {
+                        if(idResponsavelAcaoCorrecao != naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva)
+                            EnviarEmailAcaoCorretivaResponsavel(naoConformidade);
+                    }
                 }
                 else
                 {
@@ -585,6 +592,39 @@ namespace Web.UI.Controllers
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_save_valid }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        private void EnviarEmailAcaoCorretivaResponsavel(RegistroConformidade naoConformidade)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(naoConformidade.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaResponsavel-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            try
+            {
+                var usuario = _usuarioAppServico.GetById(naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva);
+                string template = System.IO.File.ReadAllText(path);
+                string conteudo = template;
+
+                conteudo = conteudo.Replace("#NuRegistro#", naoConformidade.NuRegistro.ToString());
+                conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                Email _email = new Email();
+
+                _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoAcaoCorretiva;
+                _email.De = ConfigurationManager.AppSettings["EmailDE"];
+                _email.Para = usuario.CdIdentificacao;
+                _email.Conteudo = conteudo;
+                _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+                _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+                _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+                _email.Enviar();
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+            }
         }
 
         private void RemoverFilaEnvioAcoesEfetivadas(List<RegistroAcaoImediata> acoesEfetivadas)
@@ -902,6 +942,14 @@ namespace Web.UI.Controllers
 
             return dominio + "NaoConformidade/Editar/" + idRegistroConformidade.ToString();
         }
+
+        private string MontarUrlAcessoAcaoCorretiva(int idRegistro)
+        {
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "AcaoCorretiva/Editar/" + idRegistro.ToString();
+        }
+
 
         private void EnviaEmail(RegistroConformidade nc)
         {

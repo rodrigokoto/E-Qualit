@@ -22,6 +22,7 @@ namespace Web.UI.Controllers
     {
         private readonly IRegistroConformidadesAppServico _registroConformidadesAppServico;
         private readonly IRegistroConformidadesServico _registroConformidadesServico;
+        private readonly IRegistroAcaoImediataServico _registroRegistroAcaoImediataServico;
         private readonly IClienteAppServico _clienteServico;
         private readonly INotificacaoAppServico _notificacaoAppServico;
         private readonly IUsuarioAppServico _usuarioAppServico;
@@ -29,6 +30,7 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private string _tipoRegistro = "ac";
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IFilaEnvioServico _filaEnvioServico;
 
         public AcaoCorretivaController(
             IRegistroConformidadesAppServico registroConformidadesAppServico,
@@ -38,7 +40,9 @@ namespace Web.UI.Controllers
             IProcessoAppServico processoAppServico,
             IUsuarioAppServico usuarioAppServico,
             IClienteAppServico clienteServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IControladorCategoriasAppServico controladorCategoriasServico,
+            IFilaEnvioServico filaEnvioServico,
+            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
             _registroConformidadesServico = registroConformidadesServico;
@@ -48,6 +52,8 @@ namespace Web.UI.Controllers
             _processoAppServico = processoAppServico;
             _clienteServico = clienteServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _filaEnvioServico = filaEnvioServico;
+            _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
         }
 
         // GET: AcaoCorretiva
@@ -100,6 +106,16 @@ namespace Web.UI.Controllers
                         notificacao.IdUsuario = acaoImediata.IdResponsavelImplementar.Value;
                         notificacao.FlEtapa = naoConformidade.StatusEtapa.ToString();
                         _notificacaoAppServico.Add(notificacao);
+
+                        try
+                        {
+                            EnviarEmailImplementacao(naoConformidade, acaoImediata.ResponsavelImplementar);
+                        }
+                        catch (Exception ex)
+                        {
+                            GravaLog(ex);
+                        }
+
                     });
 
                 }
@@ -122,6 +138,32 @@ namespace Web.UI.Controllers
 
             return erros;
 
+        }
+
+        private void EnviarEmailImplementacao(RegistroConformidade acaoCorretiva, Usuario usuario)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(acaoCorretiva.IdRegistroConformidade);
+
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+            string conteudo = template;
+
+            conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+            conteudo = conteudo.Replace("#NuRegistro#", acaoCorretiva.NuRegistro.ToString());
+            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoAcaoCorretiva;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = usuario.CdIdentificacao;
+            _email.Conteudo = conteudo;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
         }
 
         private void EnviaEmail(RegistroConformidade nc)
@@ -303,8 +345,32 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
+                    var acoesNova = acaoCorretiva.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+
+                    var acoesEfetivadas = acaoCorretiva.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
+
+                    RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
+
+                    if (acoesNova.Count > 0)
+                    {
+                        EnfileirarEmailsAcaoImediata(acoesNova, acaoCorretiva);
+                    }
+
+                    if (acoesEfetivadas.Count == acaoCorretiva.AcoesImediatas.Count)
+                    {
+                        EnviarEmailResponsavelReverificacao(acaoCorretiva);
+                    }
+
+
                     acaoCorretiva = _registroConformidadesAppServico.SalvarSegundaEtapa(acaoCorretiva, Funcionalidades.AcaoCorretiva);
                     erros = EnviarNotificacao(acaoCorretiva, erros);
+
+
+                    var acoesIneficazes = acaoCorretiva.AcoesImediatas.Where(x => x.Aprovado == false).ToList();
+                    if (acoesIneficazes.Count > 0)
+                    {
+                        EnviarEmailAcaoIneficaz(acaoCorretiva, acoesIneficazes);
+                    }
                 }
                 else
                 {
@@ -319,6 +385,129 @@ namespace Web.UI.Controllers
             }
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_save_valid }, JsonRequestBehavior.AllowGet);
+        }
+
+        private void EnviarEmailResponsavelReverificacao(RegistroConformidade acaoCorretiva)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(acaoCorretiva.IdRegistroConformidade);
+            var usuario = _usuarioAppServico.GetById(acaoCorretiva.IdResponsavelReverificador.Value);
+
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+            string conteudo = template;
+
+            conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+            conteudo = conteudo.Replace("#NuRegistro#", acaoCorretiva.NuRegistro.ToString());
+            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoAcaoCorretiva;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = usuario.CdIdentificacao;
+            _email.Conteudo = conteudo;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
+        }
+
+        private void EnviarEmailAcaoIneficaz(RegistroConformidade acaoCorretiva, List<RegistroAcaoImediata> acoesIneficazes)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(acaoCorretiva.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaAcaoIneficaz-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            foreach (var acao in acoesIneficazes)
+            {
+                try
+                {
+                    string template = System.IO.File.ReadAllText(path);
+                    string conteudo = template;
+
+                    conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+                    conteudo = conteudo.Replace("#NuRegistro#", acaoCorretiva.NuRegistro.ToString());
+                    conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                    Email _email = new Email();
+
+                    _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoAcaoCorretiva;
+                    _email.De = ConfigurationManager.AppSettings["EmailDE"];
+                    _email.Para = acao.ResponsavelImplementar.CdIdentificacao;
+                    _email.Conteudo = conteudo;
+                    _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+                    _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+                    _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+                    _email.Enviar();
+                }
+                catch (Exception ex)
+                {
+                    GravaLog(ex);
+                }
+            }
+        }
+
+        private void RemoverFilaEnvioAcoesEfetivadas(List<RegistroAcaoImediata> acoesEfetivadas)
+        {
+            foreach (var acao in acoesEfetivadas)
+            {
+                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+                if (!filaEnvio.Enviado)
+                {
+                    acao.IdFilaEnvio = null;
+                    _registroRegistroAcaoImediataServico.Update(acao);
+                    _filaEnvioServico.Apagar(filaEnvio);
+                }
+            }
+        }
+
+
+        private string MontarUrlAcessoAcaoCorretiva(int idRegistro)
+        {
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "AcaoCorretiva/Editar/" + idRegistro.ToString();
+        }
+
+        private void EnfileirarEmailsAcaoImediata(List<RegistroAcaoImediata> acoesNova, RegistroConformidade acaoImediata)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(acaoImediata.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaAcaoDataImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            foreach (var acao in acoesNova)
+            {
+                try
+                {
+                    var destinatario = _usuarioAppServico.GetById(acao.IdResponsavelImplementar.Value).CdIdentificacao;
+                    string template = System.IO.File.ReadAllText(path);
+                    string conteudo = template;
+
+                    conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+                    conteudo = conteudo.Replace("#NuRegistro#", acaoImediata.NuRegistro.ToString());
+                    conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                    var filaEnvio = new FilaEnvio();
+                    filaEnvio.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoAcaoCorretiva;
+                    filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
+                    filaEnvio.DataInclusao = DateTime.Now;
+                    filaEnvio.Destinatario = destinatario;
+                    filaEnvio.Enviado = false;
+                    filaEnvio.Mensagem = conteudo;
+
+                    _filaEnvioServico.Enfileirar(filaEnvio);
+
+                    acao.IdFilaEnvio = filaEnvio.Id;
+                }
+                catch (Exception ex)
+                {
+                    GravaLog(ex);
+                }
+            }
         }
 
         [HttpPost]

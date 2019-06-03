@@ -1117,14 +1117,16 @@ APP.controller.NaoConformidadeController = {
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
-                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
+                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),                    
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
                     IdTipoNaoConformidade: $('[name=formCriarNaoConformidadeTipo] :selected').val(),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
+                    IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
+                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     Causa: $('[name=formCausa]').val(),
-                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val()                    
                 };
                 break;
             case "fluxo-04":
