@@ -13,6 +13,7 @@ using Rotativa;
 using Rotativa.Options;
 using ApplicationService.Entidade;
 using System.Configuration;
+using Web.UI.Models;
 
 namespace Web.UI.Controllers
 {
@@ -29,6 +30,7 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private string _tipoRegistro = "ac";
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IUsuarioClienteSiteAppServico _usuarioClienteAppServico;
 
         public AcaoCorretivaController(
             IRegistroConformidadesAppServico registroConformidadesAppServico,
@@ -38,7 +40,8 @@ namespace Web.UI.Controllers
             IProcessoAppServico processoAppServico,
             IUsuarioAppServico usuarioAppServico,
             IClienteAppServico clienteServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IControladorCategoriasAppServico controladorCategoriasServico,
+            IUsuarioClienteSiteAppServico usuarioClienteAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
             _registroConformidadesServico = registroConformidadesServico;
@@ -48,6 +51,7 @@ namespace Web.UI.Controllers
             _processoAppServico = processoAppServico;
             _clienteServico = clienteServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _usuarioClienteAppServico = usuarioClienteAppServico;
         }
 
         // GET: AcaoCorretiva
@@ -161,8 +165,14 @@ namespace Web.UI.Controllers
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
             ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
             ViewBag.IdCliente = Util.ObterClienteSelecionado();
+          
 
+            //.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
             var acaoCorretiva = _registroConformidadesAppServico.GetById(id);
+
+            var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == acaoCorretiva.IdSite);
+
+            var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
 
             acaoCorretiva.ArquivosDeEvidenciaAux.AddRange(acaoCorretiva.ArquivosDeEvidencia.Select(x => x.Anexo));
 
@@ -196,7 +206,7 @@ namespace Web.UI.Controllers
             var pdf = new ViewAsPdf
             {
                 ViewName = "PDF",
-                Model = acaoCorretiva,
+                Model = new PdfAcaoCorreticaViewModel { AcaoCorretiva = acaoCorretiva, LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo) },
                 PageOrientation = Orientation.Portrait,
                 PageSize = Size.A4,
                 PageMargins = new Margins(10, 15, 10, 15),
