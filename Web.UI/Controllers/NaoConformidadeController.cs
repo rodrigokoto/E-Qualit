@@ -35,7 +35,7 @@ namespace Web.UI.Controllers
         private readonly IClienteAppServico _clienteServico;
 
         private string _tipoRegistro = "nc";
-
+        private readonly IUsuarioClienteSiteAppServico _usuarioClienteAppServico;
         private readonly ISiteAppServico _siteService;
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IProcessoAppServico _processoAppServico;
@@ -51,6 +51,7 @@ namespace Web.UI.Controllers
             IProcessoServico processoServico,
             IProcessoAppServico processoAppServico,
             IClienteAppServico clienteServico,
+            IUsuarioClienteSiteAppServico usuarioClienteAppServico,
             IControladorCategoriasAppServico controladorCategoriasServico,
             IFilaEnvioServico filaEnvioServico,
            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
@@ -65,6 +66,7 @@ namespace Web.UI.Controllers
             //ViewBag.ProcessoSelecionado = Util.ObterProcessoSelecionado();
             _processoAppServico = processoAppServico;
             _clienteServico = clienteServico;
+            _usuarioClienteAppServico = usuarioClienteAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
             _filaEnvioServico = filaEnvioServico;
             _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
@@ -202,14 +204,15 @@ namespace Web.UI.Controllers
 
         public ActionResult PDF(int id)
         {
-            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            var idSite = Util.ObterSiteSelecionado();
+            ViewBag.IdSite = idSite;
             ViewBag.UsuarioLogado = Util.ObterUsuario();
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
             ViewBag.IdCliente = Util.ObterClienteSelecionado();
             ViewBag.NomeUsuario = Util.ObterUsuario().Nome;
             //ViewBag.NomeProcesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).Nome;
 
-
+            
             var naoConformidade = _registroConformidadesAppServico.GetById(id);
 
             naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosDeEvidencia.Select(x => x.Anexo));
@@ -240,6 +243,19 @@ namespace Web.UI.Controllers
             //    ViewBag.ScriptCall = "sim";
             //}
 
+            var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == idSite);
+            var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
+
+            ViewBag.LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo);
+
+            //LayoutImpressaoViewModel model = new LayoutImpressaoViewModel()
+            //{
+            //    LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo),
+            //    Documento = documento,
+            //    IsImpressaoControlada = controlada
+            //};
+
+
             var pdf = new ViewAsPdf
             {
                 ViewName = "PDF",
@@ -249,7 +265,7 @@ namespace Web.UI.Controllers
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Não Conformidade " + naoConformidade.IdRegistroConformidade + ".pdf"
             };
-
+            
             return pdf;
 
             //return View("PDF", naoConformidade);
