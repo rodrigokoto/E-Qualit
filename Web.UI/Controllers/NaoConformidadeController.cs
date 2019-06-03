@@ -1049,7 +1049,9 @@ namespace Web.UI.Controllers
             {
                 var data = new { label = item["Rotulo"].ToString(), data = Convert.ToDecimal(item["Valor"]) };
 
-                dataPoints.Add(data);
+                //Ajuste para gráfico 
+                //if (item["Rotulo"].ToString() != "Total NCs")
+                    dataPoints.Add(data);
             }
 
             return dataPoints;
