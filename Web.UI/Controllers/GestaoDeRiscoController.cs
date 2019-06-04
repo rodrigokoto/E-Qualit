@@ -14,6 +14,7 @@ using Rotativa.Options;
 using Rotativa;
 using System.Configuration;
 using ApplicationService.Entidade;
+using Web.UI.Models;
 
 namespace Web.UI.Controllers
 {
@@ -71,13 +72,81 @@ namespace Web.UI.Controllers
             ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
             var numeroUltimoRegistro = 0;
             ViewBag.IdSite = Util.ObterSiteSelecionado();
-            
+
             var listaGR = _registroConformidadesAppServico.ObtemListaRegistroConformidadePorSite(ViewBag.IdSite, _tipoRegistro, ref numeroUltimoRegistro);
 
+            var model = GerarListaViewModel(listaGR);
+
             ViewBag.UltimoRegistro = numeroUltimoRegistro;
-            
-            return View(listaGR);
+
+            return View(model);
         }
+
+        private IList<GestaoRiscoViewModel> GerarListaViewModel(IList<RegistroConformidade> listaGR)
+        {
+            var retorno = new List<GestaoRiscoViewModel>();
+
+            foreach (var item in listaGR)
+            {
+                retorno.Add(
+                    new GestaoRiscoViewModel
+                    {
+                        IdRegistro = item.IdRegistroConformidade,
+                        NuRegistro = item.NuRegistro,
+                        DtEmissao = item.DtEmissao,
+                        DtEncerramento = item.DtEnceramento,
+                        NomeEmissor = item.Emissor.NmCompleto,
+                        Responsavel = IdentificarResponsaveis(item),
+                        StatusEtapa = item.StatusEtapa,
+                        Tags = item.Tags
+                    }
+                    );
+            }
+
+            return retorno;
+        }
+
+        private string IdentificarResponsaveis(RegistroConformidade item)
+        {
+            string retorno = string.Empty;
+
+            //            -Status Ação = Exibir o nome da responsável por definir as ações
+            //- Status Implementação = Exibir os nomes de todos que estão listados nas ações como responsável separados por vírgula(se for apenas uma pessoa, exibir apenas uma vez o nome).
+            //- Status Reverificação = Exibir o nome do responsável por reverificar a gestão de risco após concluídas as etapas de implementação. 
+            //-Status Encerrada = Exibir o nome da responsável por definir as ações.
+
+            if (item.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata)
+            {
+                retorno = item.ResponsavelInicarAcaoImediata?.NmCompleto;
+            }
+            else if (item.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao)
+            {
+                foreach (var acao in item.AcoesImediatas)
+                {
+                    if (!retorno.Contains(acao.ResponsavelImplementar.NmCompleto))
+                    {
+                        retorno += acao.ResponsavelImplementar.NmCompleto + ", ";
+                    }
+                }
+
+                retorno = retorno.Substring(0, retorno.Length - 2);
+            }
+            else if (item.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
+            {
+                var totalAcoesEfetivadas = item.AcoesImediatas.Count(x => x.DtEfetivaImplementacao != null);
+                if (totalAcoesEfetivadas == item.AcoesImediatas.Count())
+                {
+                    retorno = item.ResponsavelReverificador?.NmCompleto;
+                }   
+            }
+            else if (item.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada)
+            {
+                retorno = item.ResponsavelInicarAcaoImediata?.NmCompleto;
+            }
+
+            return retorno;
+        }
+
         private List<string> EnviarNotificacao(RegistroConformidade gestaoDeRisco, List<string> erros)
         {
 
@@ -164,6 +233,7 @@ namespace Web.UI.Controllers
             _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
             _email.Enviar();
         }
+
         [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.Registro, (int)Funcionalidades.GestaoDeRiscos)]
         public ActionResult Criar()
         {
@@ -245,7 +315,7 @@ namespace Web.UI.Controllers
                 PageOrientation = Orientation.Portrait,
                 PageSize = Size.A4,
                 PageMargins = new Margins(10, 15, 10, 15),
-                FileName = "Gestão de Risco " + gestaoDeRisco.IdRegistroConformidade +".pdf"
+                FileName = "Gestão de Risco " + gestaoDeRisco.IdRegistroConformidade + ".pdf"
             };
 
             return pdf;
@@ -267,7 +337,7 @@ namespace Web.UI.Controllers
             ViewBag.IdGestaoDeRisco = id;
 
             var gestaoDeRisco = _registroConformidadesAppServico.GetById(id);
-            
+
             gestaoDeRisco.ArquivosDeEvidenciaAux.AddRange(gestaoDeRisco.ArquivosDeEvidencia.Select(x => x.Anexo));
 
             if (gestaoDeRisco.AcoesImediatas.Count > 0)
@@ -291,12 +361,12 @@ namespace Web.UI.Controllers
             ViewBag.IdProcesso = gestaoDeRisco.IdProcesso;
             ViewBag.StatusEtapa = gestaoDeRisco.StatusEtapa;
             //ViewBag.NomeProcesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).Nome;
-
+            //int idPprocesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).IdProcesso;
             //if ((gestaoDeRisco.StatusRegistro == 0) && (gestaoDeRisco.IdEmissor == Util.ObterCodigoUsuarioLogado()))
             //{
             //    ViewBag.ScriptCall = "sim";
             //}
-
+            //gestaoDeRisco.IdProcesso = idPprocesso;
 
             return View("Criar", gestaoDeRisco);
         }
@@ -360,7 +430,7 @@ namespace Web.UI.Controllers
 
         private List<string> ValidaCampoPrimarios(RegistroConformidade gestaoDeRisco, List<string> erros)
         {
-            if(gestaoDeRisco.EProcedente.Value)
+            if (gestaoDeRisco.EProcedente.Value)
             {
                 if (gestaoDeRisco.IdResponsavelInicarAcaoImediata == null || gestaoDeRisco.IdResponsavelInicarAcaoImediata == 0)
                 {
@@ -372,7 +442,7 @@ namespace Web.UI.Controllers
                     erros.Add(Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Analise_causa);
                 }
             }
-            else if(!gestaoDeRisco.EProcedente.Value && string.IsNullOrEmpty(gestaoDeRisco.DsJustificativa))
+            else if (!gestaoDeRisco.EProcedente.Value && string.IsNullOrEmpty(gestaoDeRisco.DsJustificativa))
             {
                 erros.Add(Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Justificativa);
             }
@@ -399,7 +469,7 @@ namespace Web.UI.Controllers
 
                     gestaoDeRisco.AcoesImediatas.ToList().ForEach(x =>
                     {
-                        if(string.IsNullOrEmpty(x.Descricao))
+                        if (string.IsNullOrEmpty(x.Descricao))
                         {
                             erros.Add(Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_AI_Descricao);
                         }
@@ -414,7 +484,7 @@ namespace Web.UI.Controllers
                             erros.Add(Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_AI_Responsavel_implementar);
                         }
 
-                        
+
                     });
 
                     if (gestaoDeRisco.IdResponsavelReverificador == null || gestaoDeRisco.IdResponsavelReverificador == 0)
@@ -426,7 +496,7 @@ namespace Web.UI.Controllers
 
                 if (gestaoDeRisco.StatusEtapa == 3)
                 {
-                    
+
                     gestaoDeRisco.AcoesImediatas.ToList().ForEach(x =>
                     {
                         if (string.IsNullOrEmpty(x.Descricao))
@@ -446,12 +516,12 @@ namespace Web.UI.Controllers
 
                     });
 
-                    
+
                 }
 
                 if (gestaoDeRisco.StatusEtapa == 4)
                 {
-                    if(gestaoDeRisco.FlEficaz == null)
+                    if (gestaoDeRisco.FlEficaz == null)
                     {
                         erros.Add(Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Foi_eficaz);
                     }
@@ -519,15 +589,15 @@ namespace Web.UI.Controllers
         public JsonResult SalvarSegundaEtapa(RegistroConformidade gestaoDeRisco)
         {
             var erros = new List<string>();
-            
+
             try
             {
-    
-                
+
+
                 gestaoDeRisco.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 gestaoDeRisco.FlDesbloqueado = gestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 gestaoDeRisco.TipoRegistro = _tipoRegistro;
-               
+
 
                 _registroConformidadesServico.ValidaGestaoDeRisco(gestaoDeRisco, Util.ObterCodigoUsuarioLogado(), ref erros);
 
@@ -548,7 +618,7 @@ namespace Web.UI.Controllers
             catch (Exception ex)
             {
                 GravaLog(ex);
-               
+
                 if (ex != null)
                 {
                     erros.Add(ex.Message);
@@ -558,7 +628,7 @@ namespace Web.UI.Controllers
                     erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 }
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
-                
+
             }
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_save_valid }, JsonRequestBehavior.AllowGet);
@@ -568,7 +638,7 @@ namespace Web.UI.Controllers
 
         [HttpGet]
         //[ValidateAntiForgeryToken]
-        public JsonResult Excluir(int idGestaoDeRisco)   
+        public JsonResult Excluir(int idGestaoDeRisco)
         {
             var conformidade = _registroConformidadesAppServico.GetById(idGestaoDeRisco);
 
@@ -659,7 +729,7 @@ namespace Web.UI.Controllers
 
             return pdf;
         }
-        
+
         [HttpPost]
         public JsonResult DestravarDocumento(string idGestaoDeRisco)
         {

@@ -240,8 +240,10 @@
     <Compile Include="Helpers\VerificaIntegridadeLoginAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AlterarSenhaUsuarioViewModels.cs" />
+    <Compile Include="Models\GestaoRiscoViewModel.cs" />
     <Compile Include="Models\GraficoNaoConformidadeViewModel.cs" />
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
+    <Compile Include="Models\PdfAcaoCorreticaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocator\Interface\IServiceLocator.cs" />
     <Compile Include="ServiceLocator\ServiceLocator.cs" />
@@ -1700,6 +1702,7 @@
     <Content Include="Scripts\flot\excanvas.min.js" />
     <Content Include="Scripts\flot\jquery.colorhelpers.js" />
     <Content Include="Scripts\flot\jquery.colorhelpers.min.js" />
+    <Content Include="Scripts\flot\jquery.flot.barlabels.js" />
     <Content Include="Scripts\flot\jquery.flot.canvas.js" />
     <Content Include="Scripts\flot\jquery.flot.canvas.min.js" />
     <Content Include="Scripts\flot\jquery.flot.categories.js" />
@@ -1731,8 +1734,16 @@
     <Content Include="Scripts\flot\jquery.flot.time.js" />
     <Content Include="Scripts\flot\jquery.flot.time.min.js" />
     <Content Include="Scripts\Fornecedor.js" />
+    <Content Include="Templates\AcaoCorretivaResponsavel-pt-BR.html" />
+    <Content Include="Templates\AcaoCorretivaAcaoDataImplementacao-pt-BR.html" />
+    <Content Include="Templates\NaoConformidadeAcaoDataImplementacao-pt-BR.html" />
+    <Content Include="Templates\AcaoCorretivaAcaoIneficaz-pt-BR.html" />
+    <Content Include="Templates\NaoConformidadeAcaoIneficaz-pt-BR.html" />
+    <Content Include="Templates\AcaoCorretivaImplementacao-pt-BR.html" />
+    <Content Include="Templates\AcaoCorretivaReverificador-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeResponsavel-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeImplementacao-pt-BR.html" />
+    <Content Include="Templates\NaoConformidadeVerificacao-pt-BR.html" />
     <Content Include="Templates\NotificacaoElaboracaoDocumento-pt-BR.html" />
     <Content Include="Templates\NotificacaoDocumento-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusGestaoDeRisco-pt-BR.html" />
@@ -1758,10 +1769,12 @@
     <Content Include="Views\GestaoDeRisco\PDF.cshtml" />
     <Content Include="Views\Instrumento\PDF.cshtml" />
     <Content Include="Views\AnaliseCritica\Visualizar.cshtml" />
+    <Content Include="Views\NaoConformidade\Exibir.cshtml" />
     <Content Include="Views\NaoConformidade\FiltroGrafico.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\NaoConformidade\Grafico.cshtml" />
     <Content Include="Views\Shared\_BlankLayout.cshtml" />
+    <Content Include="Views\AcaoCorretiva\Visualizacao.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -65,15 +65,14 @@ abrirGrafico = (function (url) {
     var estiloGrafico = $('input[name=estiloGrafico]:checked').val();
     var msg = '';
 
-    if (dtDe.length == 0) {
-        msg += 'De<br>';
-    }
+    if (idTipoGrafico.length == 0)
+        msg += '- Tipo de Gráfico<br>';
 
+    if (dtDe.length == 0) 
+        msg += '- De<br>';
 
-    if (dtAte.length == 0) {
-        msg += 'Até<br>';
-    }
-
+    if (dtAte.length == 0) 
+        msg += '- Até<br>';
 
     if (msg.length > 0) {
         bootbox.alert('Os seguintes campos são obrigatórios:<br><br>' + msg);
@@ -89,6 +88,21 @@ abrirGrafico = (function (url) {
         window.open(url + parametros, '_blank');
     }
 });
+
+$("#ddlTipoGrafico").change(function myFunction() {
+    var idTipoGrafico = $("#ddlTipoGrafico").val();
+
+    if (idTipoGrafico == 2 || idTipoGrafico == 4) {
+        $('#graficoPizza').hide().next().hide();
+        $('#graficoPizza').prop('checked', false);
+        $('#graficoBarra').prop('checked', true);
+    }
+    else {
+        $('#graficoPizza').show().next().show();
+    }
+        
+});
+
 
 APP.controller.NaoConformidadeController = {
 
@@ -1117,14 +1131,16 @@ APP.controller.NaoConformidadeController = {
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
-                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
+                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),                    
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
                     IdTipoNaoConformidade: $('[name=formCriarNaoConformidadeTipo] :selected').val(),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
+                    IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
+                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     Causa: $('[name=formCausa]').val(),
-                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val()                    
                 };
                 break;
             case "fluxo-04":
@@ -1432,7 +1448,9 @@ APP.controller.NaoConformidadeController = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
@@ -1446,6 +1464,7 @@ APP.controller.NaoConformidadeController = {
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val()
                 };
             } else {
                 acoesNaoConformidadeFormAcaoImediataObj = {
@@ -1456,6 +1475,7 @@ APP.controller.NaoConformidadeController = {
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val(),
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),

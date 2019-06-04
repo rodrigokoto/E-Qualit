@@ -59,12 +59,17 @@ namespace ApplicationService.Servico
                 x.Registro = registroConformidade;
                 x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
             });
-
-
-            _registroConformidadesRepositorio.Update(registroConformidade);
+                                   
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
 
+            _registroConformidadesRepositorio.Update(registroConformidade);
+
             return registroConformidade;
+        }
+
+        private void GerarFilaEmailNotificacao(RegistroAcaoImediata x)
+        {
+            
         }
 
         private RegistroConformidade TrataAC(RegistroConformidade acaoCorretiva)
@@ -247,11 +252,22 @@ namespace ApplicationService.Servico
                 objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
                 objCtx.DescricaoRegistro = naoConformidade.DescricaoRegistro;
 
-                //if (listaAcaoImediataNaoImplementadas == false && objCtx.ECorrecao == false)
-                //{
-                //    objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
-                //    objCtx.DtEnceramento = DateTime.Now;
-                //}
+                if (naoConformidade.NecessitaAcaoCorretiva.Value)
+                {
+                    var acaoImediata = naoConformidade.AcoesImediatas.FirstOrDefault();
+
+                    var novaAc = CriarAcaoCorretivaApartirDeNaoConformidade(objCtx);
+
+                    novaAc.DescricaoRegistro += $"\n\n Referênte a Não Conformidade({objCtx.NuRegistro})";
+                    novaAc.DescricaoAcao = acaoImediata.Descricao;
+                    novaAc.DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao;
+
+                    _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaAc);
+                    _registroConformidadesRepositorio.Add(novaAc);
+
+                    objCtx.IdNuRegistroFilho = novaAc.NuRegistro;
+                }
+
                 if (listaAcaoImediataNaoImplementadas == false)
                 {
                     objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Reverificacao;

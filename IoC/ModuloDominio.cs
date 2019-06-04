@@ -1,4 +1,5 @@
-﻿using Dominio.Interface.Servico;
+﻿using ApplicationService.Servico;
+using Dominio.Interface.Servico;
 using Dominio.Interface.Servico.RH;
 using Dominio.Servico;
 using Dominio.Servico.RH;
@@ -54,6 +55,8 @@ namespace IoC
             //RH
             Bind<IFuncionarioServico>().To<FuncionarioServico>();
             Bind<IUsuarioSenhaServico>().To<UsuarioSenhaServico>();
+            Bind<IFilaEnvioServico>().To<FilaEnvioServico>();
+            Bind<IRegistroAcaoImediataServico>().To<RegistroAcaoImediataServico>();
         }
     }
 }

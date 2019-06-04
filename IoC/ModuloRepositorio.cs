@@ -67,6 +67,7 @@ namespace IoC
             Bind<IArquivoCertificadoAnexoRepositorio>().To<ArquivoCertificadoAnexoRepositorio>();
             Bind<IClienteLogoRepositorio>().To<ClienteLogoRepositorio>();
             Bind<ISiteAnexoRepositorio>().To<SiteAnexoRepositorio>();
+            Bind<IFilaEnvioRepositorio>().To<FilaEnvioRepositorio>();
 
             //RH
             Bind<IFuncionarioRepositorio>().To<FuncionarioRepositorio>();

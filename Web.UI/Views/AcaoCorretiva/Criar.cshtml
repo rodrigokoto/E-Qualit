@@ -263,6 +263,7 @@ else
                                                               data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Descricao">@acaoImediata.Descricao</textarea>
                                                     <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
                                                     <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
+                                                    <input type="hidden" name="formAcaoImediataIdFilaEnvio" value="@acaoImediata.IdFilaEnvio" />
                                                 </td>
                                                 <!-- Prazo Implementacao -->
                                                 <td>
@@ -355,7 +356,7 @@ else
                                                         <i class="fa fa-check " aria-hidden="true"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-denied-acao-imediata trash-color">
-                                                        <i class="fa fa-check " aria-hidden="true"></i>
+                                                        <i class="fa fa-times" aria-hidden="true"></i>
                                                     </button>
                                                     @if (acaoImediata.Aprovado.HasValue)
                                                     {

@@ -412,6 +412,15 @@ namespace Traducao.GestaoDeRisco {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsável.
+        /// </summary>
+        public static string GR_lbl_Responsavel {
+            get {
+                return ResourceManager.GetString("GR_lbl_Responsavel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Responsável por análise e definição de ação:.
         /// </summary>
         public static string GR_lbl_Responsavel_definir_AC {
@@ -777,6 +786,15 @@ namespace Traducao.GestaoDeRisco {
         public static string GR_msg_save_valid {
             get {
                 return ResourceManager.GetString("GR_msg_save_valid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Justificativa/Controle.
+        /// </summary>
+        public static string NC_lbl_JustificativaControle {
+            get {
+                return ResourceManager.GetString("NC_lbl_JustificativaControle", resourceCulture);
             }
         }
     }

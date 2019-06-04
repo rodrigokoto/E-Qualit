@@ -18,5 +18,7 @@ namespace Dominio.Enumerado
         RemoverAnaliseCritica = 6,
         [Description("Lista Processos Por Usuario")]
         ListaProcessosPorUsuario = 7,
+        [Description("Servico Mensageiro")]
+        ServicoMensageiro = 8,
     }
 }

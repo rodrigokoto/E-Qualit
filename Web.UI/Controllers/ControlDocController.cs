@@ -1362,18 +1362,27 @@ namespace Web.UI.Controllers
             {
                 try
                 {
-                    Editar(documento, false);
 
-                    documento = _documentoAppServico.GetById(documento.IdDocumento);
+                    documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
+                    documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
+                    //documento.XmlMetadata = Util.EscreveXML(documento.ConteudoDocumento);
+                    //_documentoAppServico.VerificarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
+                    //_documentoAppServico.AprovarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
 
-                    _documentoAppServico.AprovarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
+                    //Editar(documento, false);
+
                     AdicionaComentario(documento);
+                    AtualizarUsuarioCargosETemplatesDoDocumento(documento);
 
-                    if (_documentoAppServico.AprovadoPorTodos(documento))
+                    var listaAprova = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento && x.TpEtapa == "A").ToList();
+                    listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlAprovou = true;
+
+                    if (_documentoAppServico.AprovadoPorTodos(listaAprova))
                         _documentoAppServico.AprovarDocumento(documento);
                     else
                         documento.FlStatus = (byte)StatusDocumento.Aprovacao;
 
+                    _docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
                     _documentoAppServico.Update(documento);
                 }
                 catch (Exception ex)
