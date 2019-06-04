@@ -240,6 +240,7 @@
     <Compile Include="Helpers\VerificaIntegridadeLoginAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AlterarSenhaUsuarioViewModels.cs" />
+    <Compile Include="Models\GestaoRiscoViewModel.cs" />
     <Compile Include="Models\GraficoNaoConformidadeViewModel.cs" />
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
     <Compile Include="Models\PdfAcaoCorreticaViewModel.cs" />
