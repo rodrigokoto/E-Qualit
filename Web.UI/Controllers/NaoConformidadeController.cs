@@ -548,6 +548,9 @@ namespace Web.UI.Controllers
 
             try
             {
+                var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
+                var idResponsavelAcaoCorrecao = (responsavelAcaoCorrecao != null ? responsavelAcaoCorrecao.IdResponsavelInicarAcaoImediata : 0);
+
                 naoConformidade.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 naoConformidade.FlDesbloqueado = naoConformidade.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 naoConformidade.TipoRegistro = _tipoRegistro;
@@ -585,7 +588,14 @@ namespace Web.UI.Controllers
                     }
 
 
-
+                    if (naoConformidade.NecessitaAcaoCorretiva != null && naoConformidade.NecessitaAcaoCorretiva.Value)
+                    {
+                        if (idResponsavelAcaoCorrecao != naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva)
+                        {
+                            var acaoCorretiva = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.NuRegistro == naoConformidade.IdNuRegistroFilho.Value).FirstOrDefault();
+                            EnviarEmailAcaoCorretivaResponsavel(naoConformidade, acaoCorretiva);
+                        }
+                    }
                 }
                 else
                 {
@@ -603,16 +613,52 @@ namespace Web.UI.Controllers
 
         }
 
+        private void EnviarEmailAcaoCorretivaResponsavel(RegistroConformidade naoConformidade, RegistroConformidade acaoCorretiva)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(acaoCorretiva.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaResponsavel-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            try
+            {
+                var usuario = _usuarioAppServico.GetById(naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva);
+                string template = System.IO.File.ReadAllText(path);
+                string conteudo = template;
+
+                conteudo = conteudo.Replace("#NuRegistro#", naoConformidade.IdNuRegistroFilho.ToString());
+                conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                Email _email = new Email();
+
+                _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoAcaoCorretiva;
+                _email.De = ConfigurationManager.AppSettings["EmailDE"];
+                _email.Para = usuario.CdIdentificacao;
+                _email.Conteudo = conteudo;
+                _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+                _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+                _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+                _email.Enviar();
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+            }
+        }
+
         private void RemoverFilaEnvioAcoesEfetivadas(List<RegistroAcaoImediata> acoesEfetivadas)
         {
             foreach (var acao in acoesEfetivadas)
             {
-                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-                if (!filaEnvio.Enviado)
+                if (acao.IdFilaEnvio != null)
                 {
-                    acao.IdFilaEnvio = null;
-                    _registroRegistroAcaoImediataServico.Update(acao);
-                    _filaEnvioServico.Apagar(filaEnvio);
+                    var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+                    if (!filaEnvio.Enviado)
+                    {
+                        acao.IdFilaEnvio = null;
+                        _registroRegistroAcaoImediataServico.Update(acao);
+                        _filaEnvioServico.Apagar(filaEnvio);
+                    }
                 }
             }
         }
@@ -955,6 +1001,14 @@ namespace Web.UI.Controllers
             return dominio + "NaoConformidade/Editar/" + idRegistroConformidade.ToString();
         }
 
+        private string MontarUrlAcessoAcaoCorretiva(int idRegistro)
+        {
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "AcaoCorretiva/Editar/" + idRegistro.ToString();
+        }
+
+
         private void EnviaEmail(RegistroConformidade nc)
         {
             var idCliente = Util.ObterClienteSelecionado();
@@ -1065,7 +1119,9 @@ namespace Web.UI.Controllers
             {
                 var data = new { label = item["Rotulo"].ToString(), data = Convert.ToDecimal(item["Valor"]) };
 
-                dataPoints.Add(data);
+                //Ajuste para gráfico 
+                //if (item["Rotulo"].ToString() != "Total NCs")
+                    dataPoints.Add(data);
             }
 
             return dataPoints;

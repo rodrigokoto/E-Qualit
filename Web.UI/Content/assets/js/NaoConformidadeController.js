@@ -65,15 +65,14 @@ abrirGrafico = (function (url) {
     var estiloGrafico = $('input[name=estiloGrafico]:checked').val();
     var msg = '';
 
-    if (dtDe.length == 0) {
-        msg += 'De<br>';
-    }
+    if (idTipoGrafico.length == 0)
+        msg += '- Tipo de Gráfico<br>';
 
+    if (dtDe.length == 0) 
+        msg += '- De<br>';
 
-    if (dtAte.length == 0) {
-        msg += 'Até<br>';
-    }
-
+    if (dtAte.length == 0) 
+        msg += '- Até<br>';
 
     if (msg.length > 0) {
         bootbox.alert('Os seguintes campos são obrigatórios:<br><br>' + msg);
@@ -89,6 +88,21 @@ abrirGrafico = (function (url) {
         window.open(url + parametros, '_blank');
     }
 });
+
+$("#ddlTipoGrafico").change(function myFunction() {
+    var idTipoGrafico = $("#ddlTipoGrafico").val();
+
+    if (idTipoGrafico == 2 || idTipoGrafico == 4) {
+        $('#graficoPizza').hide().next().hide();
+        $('#graficoPizza').prop('checked', false);
+        $('#graficoBarra').prop('checked', true);
+    }
+    else {
+        $('#graficoPizza').show().next().show();
+    }
+        
+});
+
 
 APP.controller.NaoConformidadeController = {
 
@@ -1117,14 +1131,16 @@ APP.controller.NaoConformidadeController = {
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
-                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
+                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),                    
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
                     IdTipoNaoConformidade: $('[name=formCriarNaoConformidadeTipo] :selected').val(),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
+                    IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
+                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     Causa: $('[name=formCausa]').val(),
-                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val()                    
                 };
                 break;
             case "fluxo-04":

@@ -64,10 +64,14 @@ CarregarGraficoPizza = (function (dataPoints) {
                     label: {
                         show: true,
                         radius: 3 / 4,
+                        formatter: function (label, series) {
+                            return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">' /*+ label + '<br/>'*/ + Math.round(series.percent) + '% (' + series.data[0][1] +  ')</div>';
+                        },
                         background: {
                             opacity: 0.5,
                             color: '#000'
                         }
+                        
                     }
                 }
             }
