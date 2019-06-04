@@ -1,6 +1,6 @@
 ﻿@using ApplicationService.Entidade
 @using ApplicationService.Enum
-@model IEnumerable<Dominio.Entidade.RegistroConformidade>
+@model IEnumerable<Web.UI.Models.GestaoRiscoViewModel>
 @{
     ViewBag.Title = "Gestão de Risco";
 
@@ -10,6 +10,7 @@
 
 
 }
+
 @section Metas {
     <meta name="page" content="IndexGestaoDeRisco" />
 }
@@ -100,15 +101,15 @@
                                                 </td>
                                                 <td>
 
-                                                    @Html.DisplayFor(modelItem => item.Emissor.NmCompleto)
+                                                    @Html.DisplayFor(modelItem => item.NomeEmissor)
                                                 </td>
                                                 <td>
                                                     @item.DtEmissao.ToString(@Traducao.Resource.dateFormat)
                                                 </td>
                                                 <td>
-                                                    @if (item.DtEnceramento != null)
+                                                    @if (item.DtEncerramento != null)
                                                     {
-                                                        @item.DtEnceramento.Value.ToString(@Traducao.Resource.dateFormat)
+                                                        @item.DtEncerramento.Value.ToString(@Traducao.Resource.dateFormat)
                                                     }
                                                 </td>
                                                 <td>
@@ -130,7 +131,7 @@
                                                     }
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.ResponsavelEtapa.NmCompleto)
+                                                    @Html.DisplayFor(modelItem => item.Responsavel)
                                                 </td>
                                                 <td class="">
                                                     @Html.DisplayFor(modelItem => item.Tags)
@@ -146,14 +147,14 @@
                                                         || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoDeRisco.Reverificacao)
                                                         || ViewBag.IdPerfil != 4)
                                                     {
-                                                        <a href="@Url.Action("Editar", "GestaoDeRisco", new { id = item.IdRegistroConformidade })" class="edit icon-cliente editar-color">
+                                                        <a href="@Url.Action("Editar", "GestaoDeRisco", new { id = item.IdRegistro})" class="edit icon-cliente editar-color">
                                                             <i class="fa @(item.StatusEtapa == 4 ? "fa-search" : "fa-pencil")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                         </a>
                                                     }
 
                                                     @if (ViewBag.UltimoRegistro == item.NuRegistro  && (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoDeRisco.Excluir) || ViewBag.IdPerfil != 4))
                                                     {
-                                                        <a href="#" class="icon-cliente trash-color del-gestao-de-risco" data-id-gestao-de-risco="@item.IdRegistroConformidade">
+                                                        <a href="#" class="icon-cliente trash-color del-gestao-de-risco" data-id-gestao-de-risco="@item.IdRegistro">
                                                             <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                         </a>
                                                     }
