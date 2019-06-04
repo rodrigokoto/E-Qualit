@@ -1743,6 +1743,7 @@
     <Content Include="Templates\AcaoCorretivaReverificador-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeResponsavel-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeImplementacao-pt-BR.html" />
+    <Content Include="Templates\NaoConformidadeVerificacao-pt-BR.html" />
     <Content Include="Templates\NotificacaoElaboracaoDocumento-pt-BR.html" />
     <Content Include="Templates\NotificacaoDocumento-pt-BR.html" />
     <Content Include="Templates\AteracaoStatusGestaoDeRisco-pt-BR.html" />
