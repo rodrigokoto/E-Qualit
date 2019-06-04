@@ -64,9 +64,6 @@ namespace ApplicationService.Servico
 
             _registroConformidadesRepositorio.Update(registroConformidade);
 
-            //if(registroConformidade.NecessitaAcaoCorretiva)
-
-
             return registroConformidade;
         }
 
