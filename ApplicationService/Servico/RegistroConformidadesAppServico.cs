@@ -60,7 +60,6 @@ namespace ApplicationService.Servico
                 x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
             });
 
-            registroConformidade.AcoesImediatas.Clear();
 
             _registroConformidadesRepositorio.Update(registroConformidade);
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
@@ -237,7 +236,6 @@ namespace ApplicationService.Servico
 
                 var listaAcaoImediataNaoImplementadas = naoConformidade.AcoesImediatas.FirstOrDefault(x => x.DtEfetivaImplementacao == null) != null;
 
-                objCtx.AcoesImediatas = listaAcaoImediataUpdate.ToList();
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
 
                 objCtx.EProcedente = naoConformidade.EProcedente != null ? naoConformidade.EProcedente : objCtx.EProcedente;
@@ -397,7 +395,7 @@ namespace ApplicationService.Servico
 
             if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4 || objCtx.StatusEtapa == 2)
             {
-                AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);           
+                AtualizaAcoesImediatas(registroConformidade.AcoesImediatas.ToList(), objCtx);
             }
 
             if (registroConformidade.EProcedente == false)
