@@ -9,5 +9,6 @@ namespace Dominio.Interface.Servico
     {
        void Add(RegistroAcaoImediata registroAcaoImediata);
        void Update(RegistroAcaoImediata registroAcaoImediata);
+        RegistroAcaoImediata GetById(int idRegistroAcaoImediata);
     }
 }

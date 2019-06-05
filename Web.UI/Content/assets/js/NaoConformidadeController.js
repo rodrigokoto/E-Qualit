@@ -1,4 +1,5 @@
 ﻿
+
 /*
 |--------------------------------------------------------------------------
 | Controlador Nao Conformidade
@@ -386,7 +387,7 @@ APP.controller.NaoConformidadeController = {
         this.setTriggerRadioButtonsEtapa2('change');
         this.setDisabledStatusEtapa2(true);
         this.setShowInputsEtapa2();
-
+        this.setCheckHistorico();
     },
 
     setHideStatusEtapa2: function () {
@@ -454,7 +455,15 @@ APP.controller.NaoConformidadeController = {
         $('#tb-acao-imediata tbody tr').each(function () {
             var idResponsavelImplementar = $(this).find('[name=formAcaoImadiataTbResponsavelImplementar]').val();
             if ((idResponsavelImplementar == idUsuarioLogado) || idPerfil != 4) {
-                $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+
+                //[novo]
+                if ($(this).find('[name=desabilitaData]').val() == "true") {
+                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
+                }
+                else {
+                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val("");
+                }
                 $(this).find('[name=formAcaoImadiataTbEvidencia]').prop('disabled', false);
                 $(this).find('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', false);
                 $(this).find('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', false);
@@ -474,6 +483,9 @@ APP.controller.NaoConformidadeController = {
         this.setShowInputsEtapa3();
         this.setCheckAcaoImediataOk();
         this.setCheckAcaoImediataNotOk();
+        //[novo]
+        this.setCheckHistorico();
+        this.setIncluirComentario();
         this.setBackChecksOnPage();
 
     },
@@ -566,14 +578,130 @@ APP.controller.NaoConformidadeController = {
 
     },
 
+    setIncluirComentario: function () {
+        $('#btn-new-comentario').on('click', function () {
+            var motivo = $('[name=formNaoConformidadeComentarioMotivo]').val();
+            var orientacao = $('[name=formNaoConformidadeComentarioOrientacao]').val();
+            $('#' + $('#acaoImediataAtual').val()).closest('tr').find('[name=formAcaoImediataComentarioMotivo]').val(motivo);
+            $('#' + $('#acaoImediataAtual').val()).closest('tr').find('[name=formAcaoImediataComentarioOrientacao]').val(orientacao);
+            //alert($('#acaoImediataAtual').val());
+        });
+    },
+
     setCheckAcaoImediataNotOk: function () {
 
         $('.btn-denied-acao-imediata').on('click', function () {
+            debugger;
             $(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
             $(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
             $(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeIn(300);
             $(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val(false);
             APP.controller.NaoConformidadeController.getChecksAcaoImediata();
+            //modal - panel - form - cargos
+            var atual = $($(this).closest('tr')[0]).find('[name=formAcaoImadiataTbDescricao]').attr('id');
+            $('#acaoImediataAtual').val(atual);
+            $('#modal-panel-form-cargos').modal("show");
+            //alert(atual);
+        });
+
+    },
+
+
+    setCheckHistorico: function () {
+
+        $('.btn-historico').on('click', function () {
+
+            debugger;
+            //$(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
+            //$(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
+            //$(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeIn(300);
+            //var idAcaoImediata = $(this).closest('td').find('[name=formAcaoImadiataTbIdAcaoImediata]').val();
+            var idAcaoImediata = $($(this).closest('tr')[0]).find('[name=formAcaoImadiataTbIdAcaoImediata]').val();
+            //APP.controller.NaoConformidadeController.getChecksAcaoImediata();
+            //var atual = $($(this).closest('tr')[0]).find('[name=formAcaoImadiataTbDescricao]').attr('id');
+            //$('#acaoImediataAtual').val(atual);
+            var data = {
+                "idAcaoImediata": idAcaoImediata
+            };
+
+
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                data: data,
+                url: "/NaoConformidade/ListarAcaoImediataComentarios",
+                success: function (result) {
+                    var teste = result;
+
+
+                    debugger;
+                    var html = "";
+                    $('#painelComentarios').html("");
+
+                    $(result.Comentarios).each(function () {
+
+
+                        html += '<div class="row tabela-cargo-check" >';
+                        html += '    <div class="col-md-12 ">';
+                        html += '        <div class="form-group" style="margin-bottom: 10px;">';
+                        html += '            <label for="form-naoconformidade-comentario-motivo">Motivo</label>';
+                        html += '            <textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value="" disabled>' + this.Motivo + '</textarea>';
+                        html += '        </div>';
+                        html += '    </div>';
+                        html += '    <div class="col-md-12 ">';
+                        html += '        <div class="form-group">';
+                        html += '            <label for="form-naoconformidade-comentario-orientacao">Orientação</label>';
+                        html += '            <textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value="" disabled>' + this.Orientacao + '</textarea>';
+                        html += '        </div>';
+                        html += '    </div>';
+                        html += '</div>';
+
+                        $('#painelComentarios').html(html);
+
+                        //var hasItem = APP.controller.AuditoriaController.getProcessoMesAno(this);
+
+                        //if (hasItem) {
+
+                        //    var formAuditoriaAnoObj = {
+                        //        formAuditoriaAno: $(this).find('.pai-ano span').text(),
+                        //        formAuditoriaMeses: APP.controller.AuditoriaController.getObjFormAuditoriaMeses(this),
+                        //    };
+
+                        //    arrayFormAuditoriaAnoObj.push(formAuditoriaAnoObj);
+                        //}
+                    });
+
+
+
+
+
+
+
+                    //alert('foi');
+                    //if (result.StatusCode == 200) {
+                    //    window.location.reload([true]);
+                    //} else if (result.StatusCode == 505) {
+                    //    erro = APP.component.ResultErros.init(result.Erro);
+                    //    bootbox.alert(erro);
+                    //} else if (result.StatusCode == 500) {
+                    //    erro = APP.component.ResultErros.init(result.Erro);
+                    //    bootbox.alert(erro);
+                    //}
+
+                },
+                error: function (result) {
+                    var erro = result;
+                    //erro = APP.component.ResultErros.init(result.Erro);
+                    //bootbox.alert(erro);
+                },
+                //complete: function (result) {
+                //    APP.component.Loading.hideLoading();
+            });
+
+
+
+            $('#modal-panel-form-cargos2').modal("show");
+
         });
 
     },
@@ -684,6 +812,10 @@ APP.controller.NaoConformidadeController = {
     },
 
     setShowInputsEtapa4: function () {
+
+
+
+
 
 
         $('#tb-acao-imediata tbody tr').each(function () {
@@ -1423,8 +1555,10 @@ APP.controller.NaoConformidadeController = {
 
         var getObjFormAcaoImediataArray = [];
         var acoesNaoConformidadeFormAcaoImediataObj = {};
+        var acoesImediatasComentarios = {};
 
         var anexoEvidenciaModel = APP.controller.ClienteController.models.AnexoModel;
+
 
         $('#tb-acao-imediata tbody tr').each(function (index, tr) {
             if (statusEtapa == 2) {
@@ -1432,7 +1566,7 @@ APP.controller.NaoConformidadeController = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-                    
+
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
@@ -1444,13 +1578,24 @@ APP.controller.NaoConformidadeController = {
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                 };
             } else if (statusEtapa == 3) {
+
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
-                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val()
+                    IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
+                    Motivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
+                    Orientacao: $(tr).find('[name=formAcaoImediataComentarioOrientacao]').val()
+
+                    //ComentariosAcaoImediata: acoesImediatasComentarios = {
+                    //    Motivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
+                    //    Orientacao: $(tr).find('[name=formAcaoImediataComentarioOrientacao]').val()
+                    //}
+
                 };
+
             } else {
+
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
@@ -1465,6 +1610,10 @@ APP.controller.NaoConformidadeController = {
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
                         $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
                     ),
+
+                    //ComentarioMotivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
+                    //ComentarioOrientacao: $(tr).find('[nameformAcaoImediataComentarioOrientacaoformAcaoImadiataTbIdAcaoImediata]').val()
+
                 };
             }
 
@@ -1752,6 +1901,6 @@ APP.controller.NaoConformidadeController = {
             //this.DestravaDocumento();
 
         });
-    },
+    }
 
 };

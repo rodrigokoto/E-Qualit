@@ -29,6 +29,7 @@ namespace Web.UI.Controllers
         private readonly IProcessoServico _processoServico;
         private readonly INotificacaoAppServico _notificacaoAppServico;
 
+
         private readonly ILogAppServico _logAppServico;
 
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
@@ -212,7 +213,7 @@ namespace Web.UI.Controllers
             ViewBag.NomeUsuario = Util.ObterUsuario().Nome;
             //ViewBag.NomeProcesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).Nome;
 
-            
+
             var naoConformidade = _registroConformidadesAppServico.GetById(id);
 
             naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosDeEvidencia.Select(x => x.Anexo));
@@ -265,7 +266,7 @@ namespace Web.UI.Controllers
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Não Conformidade " + naoConformidade.IdRegistroConformidade + ".pdf"
             };
-            
+
             return pdf;
 
             //return View("PDF", naoConformidade);
@@ -560,6 +561,33 @@ namespace Web.UI.Controllers
                     erros.Add(Traducao.Resource.MsgCampoProcedente);
                 }
 
+
+
+
+                for (int i = 0; i < naoConformidade.AcoesImediatas.Count; i++)
+                {
+                    if (naoConformidade.AcoesImediatas[i].Motivo != null || naoConformidade.AcoesImediatas[i].Orientacao != null)
+                    {
+                        ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                        ca.Motivo = naoConformidade.AcoesImediatas[i].Motivo;
+                        ca.Orientacao = naoConformidade.AcoesImediatas[i].Orientacao;
+
+                        naoConformidade.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
+                    }
+                }
+                //int count = 0;
+                //RegistroAcaoImediata acaoImediata = new RegistroAcaoImediata();
+                //foreach (var item in naoConformidade.AcoesImediatas)
+                //{
+                //    count++;
+                //    ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                //    acaoImediata = item;
+                //    ca.Motivo = item.Motivo;
+                //    ca.Orientacao = item.Orientacao;
+                //    acaoImediata.ComentariosAcaoImediata.Add(ca);
+                //}
+                //naoConformidade.AcoesImediatas = acaoImediata;
+
                 if (erros.Count == 0)
                 {
                     var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
@@ -607,12 +635,16 @@ namespace Web.UI.Controllers
         {
             foreach (var acao in acoesEfetivadas)
             {
-                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-                if (!filaEnvio.Enviado)
+
+                if (acao.IdFilaEnvio != null)
                 {
-                    acao.IdFilaEnvio = null;
-                    _registroRegistroAcaoImediataServico.Update(acao);
-                    _filaEnvioServico.Apagar(filaEnvio);
+                    var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+                    if (!filaEnvio.Enviado)
+                    {
+                        acao.IdFilaEnvio = null;
+                        _registroRegistroAcaoImediataServico.Update(acao);
+                        _filaEnvioServico.Apagar(filaEnvio);
+                    }
                 }
             }
         }
@@ -654,6 +686,30 @@ namespace Web.UI.Controllers
                 }
             }
         }
+        [HttpPost]
+        public JsonResult ListarAcaoImediataComentarios(int idAcaoImediata)
+        {
+            var teste = _registroRegistroAcaoImediataServico.GetById(idAcaoImediata);
+
+            //var ultimaDataEmissao = _registroRegistroAcaoImediataServico.Update//ObtemUltimaDataEmissao(site, _tipoRegistro).ToString(Traducao.Resource.dateFormat);
+
+            List<ComentarioAcaoImediata> lista = new List<ComentarioAcaoImediata>();
+            foreach (var item in teste.ComentariosAcaoImediata)
+            {
+                ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                ca.Motivo = item.Motivo;
+                ca.Orientacao = item.Orientacao;
+                lista.Add(ca);
+            }
+
+
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Comentarios = lista }, JsonRequestBehavior.AllowGet);
+            //return null;
+        }
+
+
+
+
 
         [HttpGet]
         public ActionResult ObterNaoConformidade(int id)

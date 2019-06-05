@@ -93,7 +93,7 @@ namespace Dominio.Entidade
         public virtual Usuario Emissor { get; set; }
         public virtual Usuario ResponsavelImplementar { get; set; }
         public virtual Usuario ResponsavelEtapa { get; set; }
-        public virtual ICollection<RegistroAcaoImediata> AcoesImediatas { get; set; }
+        public virtual List<RegistroAcaoImediata> AcoesImediatas { get; set; }
         public virtual Site Site { get; set; }
         public virtual ControladorCategoria TipoNaoConformidade { get; set; }
         public virtual Usuario ResponsavelInicarAcaoImediata { get; set; }
