@@ -1073,7 +1073,7 @@ namespace Web.UI.Controllers
             var dtDados = new DataTable();
             int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterClienteSelecionado(),  Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsBarra(dtDados);
 
@@ -1087,7 +1087,7 @@ namespace Web.UI.Controllers
             List<object> dataPoints = null;
             int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterClienteSelecionado(), Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsPizza(dtDados);
 
@@ -1110,8 +1110,8 @@ namespace Web.UI.Controllers
                 dataPoints.Add(data);
             }
 
-            if (barraUnica)
-                dataPoints.Add(new object[] { "", 0 });
+            //if (barraUnica)
+            //    dataPoints.Add(new object[] { "", 0 });
 
             return dataPoints;
         }

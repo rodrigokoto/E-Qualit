@@ -37,6 +37,6 @@ namespace Dominio.Interface.Servico
 
         Int64 GeraProximoNumeroRegistro(string tipoRegistro, int idSite, int ? idProcesso = null);
 
-        DataTable RetornarDadosGrafico(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite, int tipoGrafico);        
+        DataTable RetornarDadosGrafico(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int? idCliente, int idSite, int tipoGrafico);        
     }
 }

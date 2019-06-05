@@ -50,13 +50,14 @@
                 <h3>@ViewBag.Title</h3>
             </div>
         </div>
+        <br />
         <div class="row">
             <div class="col-xs-4">
                 @foreach (var parametro in Model.Parametros)
                 {
                     <label>@parametro.Key: </label>
                     <label style="font-weight:normal">@parametro.Value</label>
-                <br />
+                    <br />
                 }
             </div>
         </div>
