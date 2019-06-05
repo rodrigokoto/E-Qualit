@@ -10,25 +10,28 @@ namespace DAL.Repository
     {
         public void AtualizaAcaoImediataComAnexos(RegistroAcaoImediata obj)
         {
-            using (var context = new BaseContext())
-            {
+            //using (var context = new BaseContext())
+            //{
                 try
                 {
                     if (obj.ArquivoEvidencia.Any(x => x.IdArquivoDeEvidenciaAcaoImediata == 0))
                     {
-                        context.Set<ArquivoDeEvidenciaAcaoImediata>().Add(obj.ArquivoEvidencia.FirstOrDefault());
+                        Db.Set<ArquivoDeEvidenciaAcaoImediata>().Add(obj.ArquivoEvidencia.FirstOrDefault());
+                        //context.Set<ArquivoDeEvidenciaAcaoImediata>().Add(obj.ArquivoEvidencia.FirstOrDefault());
                     }
 
-                    context.Entry(obj).State = EntityState.Modified;
+                    //context.Entry(obj).State = EntityState.Modified;
+                    Db.Entry(obj).State = EntityState.Modified;
 
-                    context.SaveChanges();
+                    //context.SaveChanges();
+                    Db.SaveChanges();
                 }
                 catch (System.Exception ex)
                 {
 
                 }
                
-            }
+            //}
         }
     }
 }

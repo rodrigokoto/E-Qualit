@@ -124,6 +124,13 @@ namespace ApplicationService.Servico
             var objCtx = _registroConformidadesRepositorio.GetById(naoConformidade.IdRegistroConformidade);
 
             var listaAcaoImediataUpdate = naoConformidade.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
+            listaAcaoImediataUpdate.ToList().ForEach(x =>
+            {
+                x.Registro = naoConformidade;
+                x.IdRegistroConformidade = naoConformidade.IdRegistroConformidade;
+            });
+
+
             var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
 
             if (naoConformidade.OStatusEEncerrada() && naoConformidade.EProcedente == false)
@@ -246,11 +253,22 @@ namespace ApplicationService.Servico
                 objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
                 objCtx.DescricaoRegistro = naoConformidade.DescricaoRegistro;
 
-                //if (listaAcaoImediataNaoImplementadas == false && objCtx.ECorrecao == false)
-                //{
-                //    objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
-                //    objCtx.DtEnceramento = DateTime.Now;
-                //}
+                if (naoConformidade.NecessitaAcaoCorretiva.Value)
+                {
+                    var acaoImediata = naoConformidade.AcoesImediatas.FirstOrDefault();
+
+                    var novaAc = CriarAcaoCorretivaApartirDeNaoConformidade(objCtx);
+
+                    novaAc.DescricaoRegistro += $"\n\n Referênte a Não Conformidade({objCtx.NuRegistro})";
+                    novaAc.DescricaoAcao = acaoImediata.Descricao;
+                    novaAc.DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao;
+
+                    _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaAc);
+                    _registroConformidadesRepositorio.Add(novaAc);
+
+                    objCtx.IdNuRegistroFilho = novaAc.NuRegistro;
+                }
+
                 if (listaAcaoImediataNaoImplementadas == false)
                 {
                     objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Reverificacao;
@@ -364,7 +382,8 @@ namespace ApplicationService.Servico
             objCtx.AcoesImediatas.ToList().ForEach(acaoImediata =>
             {
 
-                RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).FirstOrDefault();
+                //RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).FirstOrDefault();
+                RegistroAcaoImediata acaoUpdate = registroConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata && x.IdAcaoImediata > 0).FirstOrDefault();
                 acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
                 acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
                 acaoImediata.ArquivoEvidencia = acaoUpdate != null ? acaoUpdate.ArquivoEvidencia : null;
@@ -391,9 +410,9 @@ namespace ApplicationService.Servico
 
             var primeiraAcaoImdediata = objCtx.AcoesImediatas.FirstOrDefault();
 
-            if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4)
+            if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4 || objCtx.StatusEtapa == 2)
             {
-                AtualizaAcoesImediatas(objCtx.AcoesImediatas.ToList(), objCtx);           
+                AtualizaAcoesImediatas(registroConformidade.AcoesImediatas.ToList(), objCtx);
             }
 
             if (registroConformidade.EProcedente == false)

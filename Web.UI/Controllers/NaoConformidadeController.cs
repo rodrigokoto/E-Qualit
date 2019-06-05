@@ -16,6 +16,7 @@ using System.Configuration;
 using ApplicationService.Entidade;
 using Web.UI.Models;
 using System.Data;
+using System.Diagnostics;
 
 namespace Web.UI.Controllers
 {
@@ -549,6 +550,9 @@ namespace Web.UI.Controllers
 
             try
             {
+                var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
+                var idResponsavelAcaoCorrecao = (responsavelAcaoCorrecao != null ? responsavelAcaoCorrecao.IdResponsavelInicarAcaoImediata : 0);
+
                 naoConformidade.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 naoConformidade.FlDesbloqueado = naoConformidade.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 naoConformidade.TipoRegistro = _tipoRegistro;
@@ -613,7 +617,14 @@ namespace Web.UI.Controllers
                     }
 
 
-
+                    if (naoConformidade.NecessitaAcaoCorretiva != null && naoConformidade.NecessitaAcaoCorretiva.Value)
+                    {
+                        if (idResponsavelAcaoCorrecao != naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva)
+                        {
+                            var acaoCorretiva = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.NuRegistro == naoConformidade.IdNuRegistroFilho.Value).FirstOrDefault();
+                            EnviarEmailAcaoCorretivaResponsavel(naoConformidade, acaoCorretiva);
+                        }
+                    }
                 }
                 else
                 {
@@ -622,6 +633,11 @@ namespace Web.UI.Controllers
             }
             catch (Exception ex)
             {
+                foreach (var acaoImediata in naoConformidade.AcoesImediatas)
+                {
+                    Debug.WriteLine($"acaoImediata: {acaoImediata.IdAcaoImediata} - idRegistro: {acaoImediata.IdRegistroConformidade}");
+                }
+
                 GravaLog(ex);
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
@@ -629,6 +645,39 @@ namespace Web.UI.Controllers
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_save_valid }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        private void EnviarEmailAcaoCorretivaResponsavel(RegistroConformidade naoConformidade, RegistroConformidade acaoCorretiva)
+        {
+            var idCliente = Util.ObterClienteSelecionado();
+            Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(acaoCorretiva.IdRegistroConformidade);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AcaoCorretivaResponsavel-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+            try
+            {
+                var usuario = _usuarioAppServico.GetById(naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva);
+                string template = System.IO.File.ReadAllText(path);
+                string conteudo = template;
+
+                conteudo = conteudo.Replace("#NuRegistro#", naoConformidade.IdNuRegistroFilho.ToString());
+                conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                Email _email = new Email();
+
+                _email.Assunto = Traducao.ResourceNotificacaoMensagem.msgNotificacaoAcaoCorretiva;
+                _email.De = ConfigurationManager.AppSettings["EmailDE"];
+                _email.Para = usuario.CdIdentificacao;
+                _email.Conteudo = conteudo;
+                _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+                _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+                _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+                _email.Enviar();
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+            }
         }
 
         private void RemoverFilaEnvioAcoesEfetivadas(List<RegistroAcaoImediata> acoesEfetivadas)
@@ -1011,6 +1060,14 @@ namespace Web.UI.Controllers
             return dominio + "NaoConformidade/Editar/" + idRegistroConformidade.ToString();
         }
 
+        private string MontarUrlAcessoAcaoCorretiva(int idRegistro)
+        {
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "AcaoCorretiva/Editar/" + idRegistro.ToString();
+        }
+
+
         private void EnviaEmail(RegistroConformidade nc)
         {
             var idCliente = Util.ObterClienteSelecionado();
@@ -1069,7 +1126,7 @@ namespace Web.UI.Controllers
             var dtDados = new DataTable();
             int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterClienteSelecionado(),  Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsBarra(dtDados);
 
@@ -1083,7 +1140,7 @@ namespace Web.UI.Controllers
             List<object> dataPoints = null;
             int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterSiteSelecionado(), tipoGrafico);
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterClienteSelecionado(), Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsPizza(dtDados);
 
@@ -1106,8 +1163,8 @@ namespace Web.UI.Controllers
                 dataPoints.Add(data);
             }
 
-            if (barraUnica)
-                dataPoints.Add(new object[] { "", 0 });
+            //if (barraUnica)
+            //    dataPoints.Add(new object[] { "", 0 });
 
             return dataPoints;
         }
@@ -1121,7 +1178,9 @@ namespace Web.UI.Controllers
             {
                 var data = new { label = item["Rotulo"].ToString(), data = Convert.ToDecimal(item["Valor"]) };
 
-                dataPoints.Add(data);
+                //Ajuste para gráfico 
+                //if (item["Rotulo"].ToString() != "Total NCs")
+                    dataPoints.Add(data);
             }
 
             return dataPoints;

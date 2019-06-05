@@ -849,7 +849,7 @@ namespace Dominio.Servico
         }
 
 
-        public DataTable RetornarDadosGrafico(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite, int tipoGrafico)
+        public DataTable RetornarDadosGrafico(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int? idCliente, int idSite, int tipoGrafico)
         {
             var dtDados = new DataTable();
 
@@ -871,7 +871,7 @@ namespace Dominio.Servico
                     dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsProcesso(dtDe, dtAte, idTipoNaoConformidade, idSite);
                     break;
                 case 6:
-                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsSite(dtDe, dtAte, idTipoNaoConformidade);
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoNcsSite(dtDe, dtAte, idTipoNaoConformidade, idCliente.Value);
                     break;
 
                 default:

@@ -412,6 +412,15 @@ namespace Traducao.GestaoDeRisco {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsável.
+        /// </summary>
+        public static string GR_lbl_Responsavel {
+            get {
+                return ResourceManager.GetString("GR_lbl_Responsavel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Responsável por análise e definição de ação:.
         /// </summary>
         public static string GR_lbl_Responsavel_definir_AC {

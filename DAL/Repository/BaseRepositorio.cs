@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -17,6 +18,10 @@ namespace DAL.Repository
         public BaseRepositorio()
         {
             Db = new BaseContext();
+            if (Debugger.IsAttached)
+            {
+                Db.Database.Log = (s) => Debug.Write(s);
+            }
         }
 
 
@@ -87,6 +92,11 @@ namespace DAL.Repository
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
                 throw ex;
+            }
+            catch (Exception ex)
+            {
+                Db.Entry(obj).State = EntityState.Detached;
+                throw;
             }
         }
 

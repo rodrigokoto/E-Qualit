@@ -165,11 +165,12 @@ namespace DAL.Repository
 
         }
 
-        public DataTable RetornarDadosGraficoNcsSite(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade)
+        public DataTable RetornarDadosGraficoNcsSite(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idCliente)
         {
             var parametros = new Dictionary<string, object>();
             parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
             parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
+            parametros.Add("IdCliente", idCliente);
 
             if (idTipoNaoConformidade.HasValue)
                 parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);

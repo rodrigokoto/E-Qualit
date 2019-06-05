@@ -360,4 +360,7 @@
   <data name="NC_lbl_JustificativaControle" xml:space="preserve">
     <value>Justificativa/Controle</value>
   </data>
+  <data name="GR_lbl_Responsavel" xml:space="preserve">
+    <value>Responsável</value>
+  </data>
 </root>
