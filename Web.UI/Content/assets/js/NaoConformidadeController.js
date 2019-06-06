@@ -508,7 +508,6 @@ APP.controller.NaoConformidadeController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            debugger;
             $(this).find('td').last().hide();
             //$(this).find('td')[6].hide();
         });
@@ -598,8 +597,6 @@ APP.controller.NaoConformidadeController = {
 
 
         $('.btn-confirm-acao-imediata').on('click', function () {
-            debugger;
-
 
             $(this).closest('td').find('.btn-confirm-acao-imediata').delay(400).fadeOut(300);
             $(this).closest('td').find('.btn-denied-acao-imediata').delay(400).fadeOut(300);
@@ -626,7 +623,7 @@ APP.controller.NaoConformidadeController = {
     setCheckAcaoImediataNotOk: function () {
 
         $('.btn-denied-acao-imediata').on('click', function () {
-            debugger;
+
             $(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
             $(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
             $(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeIn(300);
@@ -653,7 +650,6 @@ APP.controller.NaoConformidadeController = {
 
         $('.btn-historico').on('click', function () {
 
-            debugger;
             //$(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
             //$(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
             //$(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeIn(300);
@@ -676,7 +672,6 @@ APP.controller.NaoConformidadeController = {
                     var teste = result;
 
 
-                    debugger;
                     var html = "";
                     $('#painelComentarios').html("");
 
