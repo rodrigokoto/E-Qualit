@@ -437,6 +437,8 @@ namespace ApplicationService.Servico
             listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
             {
                 objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+
             });
 
             objCtx.Tags = registroConformidade.Tags;
@@ -496,15 +498,17 @@ namespace ApplicationService.Servico
                 }
                 else if (novaRegistro.TipoRegistro == "ac")
                 {
-                    novaRegistro.DescricaoRegistro += $"\n \n Referênte a Ação Corretiva({objCtx.NuRegistro})";
+                    //novaRegistro.DescricaoRegistro += $"\n \n Referênte a Ação Corretiva({objCtx.NuRegistro})";
 
-                    _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaRegistro);
-                    _registroConformidadesRepositorio.Add(novaRegistro);
+                    //_registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaRegistro);
+                    //_registroConformidadesRepositorio.Add(novaRegistro);
 
                     if (objCtx.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
                     {
-                        objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
-                        objCtx.DtEnceramento = DateTime.Now;
+                        //objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                        //objCtx.DtEnceramento = DateTime.Now;
+
+                        objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
                     }
 
                 }
