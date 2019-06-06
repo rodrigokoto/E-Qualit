@@ -26,6 +26,13 @@ namespace ApplicationService.Servico
         public void Update(RegistroAcaoImediata registroAcaoImediata)
         {
             _repositorio.Update(registroAcaoImediata);
+            
         }
+        public RegistroAcaoImediata GetById(int idRegistroAcaoImediata)
+        {
+            return _repositorio.GetById(idRegistroAcaoImediata);
+
+        }
+
     }
 }

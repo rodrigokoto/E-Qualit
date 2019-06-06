@@ -101,6 +101,7 @@
     <Compile Include="Entidade\ProdutoCriterioQualificacao.cs" />
     <Compile Include="Entidade\ProdutoFornecedor.cs" />
     <Compile Include="Entidade\CriterioAvaliacao.cs" />
+    <Compile Include="Entidade\ComentarioAcaoImediata.cs" />
     <Compile Include="Entidade\RegistroAcaoImediata.cs" />
     <Compile Include="Entidade\AnaliseCritica.cs" />
     <Compile Include="Entidade\Cargo.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="Interface\Repositorio\IFornecedorRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IFuncaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IHistoricoCriterioAvaliacaoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IComentarioAcaoImediataRepostorio.cs" />
     <Compile Include="Interface\Repositorio\IIndicadorRepostorio.cs" />
     <Compile Include="Interface\Repositorio\IInstrumentoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\ILoginRepositorio.cs" />

@@ -81,7 +81,7 @@ namespace DAL.Context
         public DbSet<ArquivoDeEvidenciaAcaoImediata> ArquivoDeEvidenciaAcaoImediata { get; set; }
         public DbSet<ArquivoCertificadoAnexo> ArquivoCertificadoAnexo { get; set; }
         //public DbSet<DocLicenca> DocLicenca { get; set; }
-
+        public DbSet<ComentarioAcaoImediata> ComentarioAcaoImediata { get; set; }
         public DbSet<Licenca> Licenca { get; set; }
         public DbSet<DocExterno> DocExterno { get; set; }
         public DbSet<DocRotina> RotinaDoc { get; set; }
@@ -207,10 +207,11 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new DocIndicadoresMap());
 
             modelBuilder.Configurations.Add(new DocRegistroMap());
+            modelBuilder.Configurations.Add(new ComentarioAcaoImediataMap());
 
-            
 
-        #region RH
+
+            #region RH
             modelBuilder.Configurations.Add(new AdvertenciaMap());
             modelBuilder.Configurations.Add(new TipoAdvertenciaMap());
             modelBuilder.Configurations.Add(new AtribuicaoMap());

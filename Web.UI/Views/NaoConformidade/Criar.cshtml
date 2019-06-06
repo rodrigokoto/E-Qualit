@@ -93,6 +93,7 @@
         <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
         <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
         <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+        <input type="hidden" id="acaoImediataAtual" />
 
         <!-- Formulario Nao Conformidade -->
         <form id="form-criar-naoconformidade">
@@ -106,7 +107,7 @@
                     <div class="barra-busca">
                         <div class="row">
                             <!-- Numero Registro -->
-                            
+
                             <div class="col-lg-offset-5 col-lg-2 col-md-offset-4 col-md-4 col-sm-12 col-xs-12 ">
                                 <div class="form-group" id="numeroRegistro">
                                     <label for="form-criar-nao-conformidade-nm-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro</label>
@@ -208,6 +209,10 @@
                                             {
                                                 <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
                                             }
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
+                                            }
                                             @*@if (ViewBag.IdPerfil == 4 && Model.IdRegistroConformidade == 0)
                                                 {
                                                     <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
@@ -218,9 +223,14 @@
                                     {
                                         <select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
                                                 data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Emissor">
-
-                                            <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
-
+                                            @if (Model.IdEmissor != 0)
+                                            {
+                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
+                                            }
                                         </select>
 
 
@@ -378,6 +388,7 @@
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Efetiva_implementacao</th>
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Arquivo_evidencia</th>
                                             <th class="w7"></th>
+                                            <th class="w7"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -385,6 +396,7 @@
                                         @foreach (var acaoImediata in Model.AcoesImediatas)
                                         {
                                             count++;
+                                            var aprovadoAux = acaoImediata.Aprovado == true ? "true" : "false";
                                             <tr role="row" class="odd">
                                                 <!-- Descricao -->
                                                 <td>
@@ -396,6 +408,19 @@
                                                     <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
                                                     <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
                                                     <input type="hidden" name="formAcaoImediataIdFilaEnvio" value="@acaoImediata.IdFilaEnvio" />
+                                                    @*value="@acaoImediata.IdFilaEnvio" />*@
+                                                    <input type="hidden" name="formAcaoImediataIdComentario" id="" value="" />
+                                                    <input type="hidden" name="formAcaoImediataComentarioMotivo" value="" />
+                                                    <input type="hidden" name="formAcaoImediataComentarioOrientacao" value="" />
+
+                                                    @if (acaoImediata.Aprovado.HasValue)
+                                                    {
+                                                        if (acaoImediata.Aprovado.Value == true)
+                                                        {
+                                                            <input type="hidden" name="desabilitaData" value="true" />
+                                                        }
+                                                    }
+
                                                 </td>
                                                 <!-- Prazo Implementacao -->
                                                 <td>
@@ -425,7 +450,11 @@
                                                 <!-- Data Efetiva Implementacao -->
                                                 <td>
                                                     <div class='input-group input-group-datepicker'>
-                                                        @{ var formAcaoImadiataTbDtEfetivaImplementacao = "formAcaoImadiataTbDtEfetivaImplementacao" + count; }
+                                                        @{ var formAcaoImadiataTbDtEfetivaImplementacao = "formAcaoImadiataTbDtEfetivaImplementacao" + count;
+
+                                                        }
+
+
                                                         <input type='text' name="formAcaoImadiataTbDtEfetivaImplementacao" id="@formAcaoImadiataTbDtEfetivaImplementacao" class="form-control data datepicker largura-calendario dataEfetivaImplementacaoDatePicker"
                                                                placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Efetiva_implementacao"
                                                                data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Efetiva_implementacao"
@@ -481,8 +510,25 @@
 
                                                 </td>
                                                 <!-- Acoes -->
+                                                
                                                 <td>
-                                                    <input type="hidden" name="formAcaoImadiataTbAprovado" value="" />
+                                                    @if (ViewBag.StatusEtapa == 3 || ViewBag.StatusEtapa == 2)
+                                                    {
+                                                        <button type="button" class="btn btn-historico">
+                                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                                        </button>
+                                                    }
+                                                    @if (ViewBag.StatusEtapa == 2)
+                                                    {
+                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                    }
+                                                </td>
+                                                <td nome="botoesTd">
+                                                    @if (ViewBag.StatusEtapa != 2)
+                                                    {
+                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                    }
+                                                    @*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
                                                     <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
                                                         <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                     </a>
@@ -494,6 +540,9 @@
                                                         <button type="button" class="btn btn-denied-acao-imediata trash-color">
                                                             <i class="fa fa-check " aria-hidden="true"></i>
                                                         </button>
+
+
+
                                                     }
                                                     @if (acaoImediata.Aprovado.HasValue)
                                                     {
@@ -503,13 +552,22 @@
                                                                 <i class="fa fa-check-circle " aria-hidden="true"></i>
                                                             </button>
 
+                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
+                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                            </button>
+
                                                         }
                                                         else
                                                         {
                                                             <button type="button" class="btn btn-notok-acao-imediata trash-color">
                                                                 <i class="fa fa-times-circle " aria-hidden="true"></i>
                                                             </button>
+
+                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
+                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                            </button>
                                                         }
+
 
                                                     }
                                                     else
@@ -523,6 +581,7 @@
 
                                                     }
                                                 </td>
+
                                             </tr>
                                         }
                                     </tbody>
@@ -692,8 +751,114 @@
         </div>
     </div>
 </div>
+
+
+
+<form id="form-emissao-documento-cargos2">
+    <div id="modal-panel-form-cargos2" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos2" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Histórico</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca">
+                            <div class="form-group" id="painelComentarios">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+<form id="form-emissao-documento-cargos">
+    <div id="modal-panel-form-cargos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Comentários</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca">
+                            <div class="form-group">
+
+                                <div class="row tabela-cargo-check">
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="form-naoconformidade-comentario-motivo">Motivo</label>
+                                            <textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="form-naoconformidade-comentario-orientacao">Orientação</label>
+                                            <textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btn-new-comentario" class="btn btn-primary btnControladorCategoria">Salvar</button>
+                    <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+@*<form id="form-emissao-documento-cargos">
+    <div id="modal-panel-form-cargos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Cargos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca">
+                            <div class="form-group">*@
+
+
+
+
 <script>
-                                //$(".fa-calendar").click(function () {
-                                //    $(this).parent().parent().find("input").datepicker("show");
-                                //});
+                                                                                                            //$(".fa-calendar").click(function () {
+                                                                                                            //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                            //});
 </script>
+
