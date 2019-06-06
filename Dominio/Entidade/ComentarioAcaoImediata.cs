@@ -16,6 +16,8 @@ namespace Dominio.Entidade
         public int IdAcaoImediata { get; set; }
         public string Motivo { get; set; }
         public string Orientacao { get; set; }
+        public string UsuarioComentario { get; set; }
+        public string DataComentario { get; set; }
         //public virtual DocDocumento Documento { get; set; }
         public virtual RegistroAcaoImediata RegistroAcaoImediata { get; set; }
 

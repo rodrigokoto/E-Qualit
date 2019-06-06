@@ -388,6 +388,7 @@
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Efetiva_implementacao</th>
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Arquivo_evidencia</th>
                                             <th class="w7"></th>
+                                            <th class="w7"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -395,6 +396,7 @@
                                         @foreach (var acaoImediata in Model.AcoesImediatas)
                                         {
                                             count++;
+                                            var aprovadoAux = acaoImediata.Aprovado == true ? "true" : "false";
                                             <tr role="row" class="odd">
                                                 <!-- Descricao -->
                                                 <td>
@@ -508,9 +510,25 @@
 
                                                 </td>
                                                 <!-- Acoes -->
+                                                
                                                 <td>
-                                                    
-                                                    <input type="hidden" name="formAcaoImadiataTbAprovado" value="" />
+                                                    @if (ViewBag.StatusEtapa == 3 || ViewBag.StatusEtapa == 2)
+                                                    {
+                                                        <button type="button" class="btn btn-historico">
+                                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                                        </button>
+                                                    }
+                                                    @if (ViewBag.StatusEtapa == 2)
+                                                    {
+                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                    }
+                                                </td>
+                                                <td nome="botoesTd">
+                                                    @if (ViewBag.StatusEtapa != 2)
+                                                    {
+                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                    }
+                                                    @*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
                                                     <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
                                                         <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                     </a>
@@ -523,13 +541,8 @@
                                                             <i class="fa fa-check " aria-hidden="true"></i>
                                                         </button>
 
-                                                        @*<button type="button" class="btn btn-denied-acao-imediata trash-color">
-                <i class="fa fa-check " aria-hidden="true"></i>
-            </button>*@
-                                                        //[novo]
-                                                        <button type="button" class="btn btn-historico">
-                                                            <i class="fa fa-angle-up " aria-hidden="true"></i>
-                                                        </button>
+
+
                                                     }
                                                     @if (acaoImediata.Aprovado.HasValue)
                                                     {
@@ -539,11 +552,19 @@
                                                                 <i class="fa fa-check-circle " aria-hidden="true"></i>
                                                             </button>
 
+                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
+                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                            </button>
+
                                                         }
                                                         else
                                                         {
                                                             <button type="button" class="btn btn-notok-acao-imediata trash-color">
                                                                 <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                            </button>
+
+                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
+                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
                                                             </button>
                                                         }
 
@@ -560,6 +581,7 @@
 
                                                     }
                                                 </td>
+
                                             </tr>
                                         }
                                     </tbody>
@@ -835,8 +857,8 @@
 
 
 <script>
-                                                                                                //$(".fa-calendar").click(function () {
-                                                                                                //    $(this).parent().parent().find("input").datepicker("show");
-                                                                                                //});
+                                                                                                            //$(".fa-calendar").click(function () {
+                                                                                                            //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                            //});
 </script>
 

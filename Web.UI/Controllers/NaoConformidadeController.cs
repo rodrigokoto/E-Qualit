@@ -566,7 +566,8 @@ namespace Web.UI.Controllers
                 }
 
 
-
+                var usuario = Util.ObterUsuario();
+                
 
                 for (int i = 0; i < naoConformidade.AcoesImediatas.Count; i++)
                 {
@@ -575,6 +576,9 @@ namespace Web.UI.Controllers
                         ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
                         ca.Motivo = naoConformidade.AcoesImediatas[i].Motivo;
                         ca.Orientacao = naoConformidade.AcoesImediatas[i].Orientacao;
+                        ca.DataComentario = DateTime.Now.ToString();
+                        ca.UsuarioComentario = usuario.Nome;
+
 
                         naoConformidade.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
                     }
@@ -748,6 +752,9 @@ namespace Web.UI.Controllers
                 ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
                 ca.Motivo = item.Motivo;
                 ca.Orientacao = item.Orientacao;
+                ca.DataComentario = item.DataComentario;
+                ca.UsuarioComentario = item.UsuarioComentario;
+
                 lista.Add(ca);
             }
 

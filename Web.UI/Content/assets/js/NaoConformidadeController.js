@@ -508,7 +508,9 @@ APP.controller.NaoConformidadeController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
+            debugger;
             $(this).find('td').last().hide();
+            //$(this).find('td')[6].hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
@@ -581,11 +583,29 @@ APP.controller.NaoConformidadeController = {
     },
 
     setCheckAcaoImediataOk: function () {
+        
+        //$('.btn-confirm-acao-imediata').on('click', function () {
+        //    debugger;
+
+        //    $(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
+        //    $(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
+
+        //    $(this).closest('td').find('.btn-ok-acao-imediata').delay(400).fadeIn(300);
+        //    $(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val(true);
+        //    APP.controller.NaoConformidadeController.getChecksAcaoImediata();
+        //});
+
+
 
         $('.btn-confirm-acao-imediata').on('click', function () {
-            $(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
-            $(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
+            debugger;
+
+
+            $(this).closest('td').find('.btn-confirm-acao-imediata').delay(400).fadeOut(300);
+            $(this).closest('td').find('.btn-denied-acao-imediata').delay(400).fadeOut(300);
             $(this).closest('td').find('.btn-ok-acao-imediata').delay(400).fadeIn(300);
+            $(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeOut(300);
+
             $(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val(true);
             APP.controller.NaoConformidadeController.getChecksAcaoImediata();
         });
@@ -599,6 +619,7 @@ APP.controller.NaoConformidadeController = {
             $('#' + $('#acaoImediataAtual').val()).closest('tr').find('[name=formAcaoImediataComentarioMotivo]').val(motivo);
             $('#' + $('#acaoImediataAtual').val()).closest('tr').find('[name=formAcaoImediataComentarioOrientacao]').val(orientacao);
             //alert($('#acaoImediataAtual').val());
+            $('#modal-panel-form-cargos').modal("hide");
         });
     },
 
@@ -609,11 +630,18 @@ APP.controller.NaoConformidadeController = {
             $(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
             $(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
             $(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeIn(300);
+            $(this).closest('td').find('.btn-ok-acao-imediata').delay(400).fadeOut(300);
+
+
             $(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val(false);
             APP.controller.NaoConformidadeController.getChecksAcaoImediata();
             //modal - panel - form - cargos
             var atual = $($(this).closest('tr')[0]).find('[name=formAcaoImadiataTbDescricao]').attr('id');
             $('#acaoImediataAtual').val(atual);
+            $('[name=formNaoConformidadeComentarioMotivo').val("");
+            $('[name=formNaoConformidadeComentarioOrientacao').val("");
+            
+            
             $('#modal-panel-form-cargos').modal("show");
             //alert(atual);
         });
@@ -654,8 +682,15 @@ APP.controller.NaoConformidadeController = {
 
                     $(result.Comentarios).each(function () {
 
-
-                        html += '<div class="row tabela-cargo-check" >';
+                        //APP.component.Datatoday.getCompareDate(dtEmissao, result.UltimaDataEmissao);
+                        html += '<div class="row" >';
+                        html += '    <div class="col-md-12 ">';
+                        html += '        <div class="form-group" style="margin-bottom: 3px;">';
+                        html += '            <label class=".input-data">Data/Horario: ' + this.DataComentario + '</label>';
+                        html += '   <br>';
+                        html += '            <label>Autor: ' + this.UsuarioComentario + '</label>';
+                        html += '        </div>';
+                        html += '    </div>';
                         html += '    <div class="col-md-12 ">';
                         html += '        <div class="form-group" style="margin-bottom: 10px;">';
                         html += '            <label for="form-naoconformidade-comentario-motivo">Motivo</label>';
@@ -1579,6 +1614,7 @@ APP.controller.NaoConformidadeController = {
         $('#tb-acao-imediata tbody tr').each(function (index, tr) {
             if (statusEtapa == 2) {
                 acoesNaoConformidadeFormAcaoImediataObj = {
+                    Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
