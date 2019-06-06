@@ -371,6 +371,7 @@ namespace Web.UI.Controllers
                         EnviarEmailResponsavelReverificacao(acaoCorretiva);
                     }
 
+                    AtualizarDatasAgendadas(acaoCorretiva);
 
                     acaoCorretiva = _registroConformidadesAppServico.SalvarSegundaEtapa(acaoCorretiva, Funcionalidades.AcaoCorretiva);
                     erros = EnviarNotificacao(acaoCorretiva, erros);
@@ -395,6 +396,35 @@ namespace Web.UI.Controllers
             }
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_save_valid }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        private void AtualizarDatasAgendadas(RegistroConformidade acaoCorretiva)
+        {
+            var acoes = acaoCorretiva.AcoesImediatas.Where(x => x.DtEfetivaImplementacao == null && x.IdAcaoImediata > 0 && x.IdFilaEnvio != null).ToList();
+            var acoesEnfileirar = new List<RegistroAcaoImediata>();
+
+            foreach (var acao in acoes)
+            {
+                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+
+                if (filaEnvio != null)
+                {
+                    if (!filaEnvio.Enviado)
+                    {
+                        filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
+                    }
+                    else
+                    {
+                        acoesEnfileirar.Add(acao);
+                    }
+                }
+
+                _filaEnvioServico.Atualizar(filaEnvio);
+            }
+
+            EnfileirarEmailsAcaoImediata(acoesEnfileirar, acaoCorretiva);
+
         }
 
         private void EnviarEmailResponsavelReverificacao(RegistroConformidade acaoCorretiva)

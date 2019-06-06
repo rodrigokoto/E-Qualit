@@ -243,7 +243,7 @@ namespace ApplicationService.Servico
                 var listaAcaoImediataNaoImplementadas = naoConformidade.AcoesImediatas.FirstOrDefault(x => x.DtEfetivaImplementacao == null) != null;
 
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
-
+                
                 objCtx.EProcedente = naoConformidade.EProcedente != null ? naoConformidade.EProcedente : objCtx.EProcedente;
                 objCtx.ECorrecao = naoConformidade.ECorrecao != null ? naoConformidade.ECorrecao : objCtx.ECorrecao;
                 objCtx.NecessitaAcaoCorretiva = naoConformidade.NecessitaAcaoCorretiva != null ? naoConformidade.NecessitaAcaoCorretiva : objCtx.NecessitaAcaoCorretiva;
@@ -405,6 +405,7 @@ namespace ApplicationService.Servico
 
                 acaoImediata.IdResponsavelImplementar = acaoUpdate != null && acaoUpdate.IdResponsavelImplementar != null ? acaoUpdate.IdResponsavelImplementar : acaoImediata.IdResponsavelImplementar;
                 acaoImediata.DtEfetivaImplementacao = acaoUpdate != null && acaoUpdate.DtEfetivaImplementacao != null ? acaoUpdate.DtEfetivaImplementacao : acaoImediata.DtEfetivaImplementacao;
+                acaoImediata.DtPrazoImplementacao= acaoUpdate != null && acaoUpdate.DtPrazoImplementacao != null ? acaoUpdate.DtPrazoImplementacao : acaoImediata.DtPrazoImplementacao;
                 if (acaoUpdate != null && acaoUpdate.ComentariosAcaoImediata != null)
                 acaoImediata.ComentariosAcaoImediata = acaoUpdate.ComentariosAcaoImediata;
             });

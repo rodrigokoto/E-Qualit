@@ -609,6 +609,8 @@ namespace Web.UI.Controllers
                         EnfileirarEmailsAcaoImediata(acoesImediatasNova, naoConformidade);
                     }
 
+                    AtualizarDatasAgendadas(naoConformidade);
+
                     naoConformidade = _registroConformidadesAppServico.SalvarSegundaEtapa(naoConformidade, Funcionalidades.NaoConformidade);
 
                     if (naoConformidade.EProcedente == true)
@@ -648,6 +650,34 @@ namespace Web.UI.Controllers
             }
 
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_save_valid }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        private void AtualizarDatasAgendadas(RegistroConformidade naoConformidade)
+        {
+            var acoes = naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao == null && x.IdAcaoImediata > 0 && x.IdFilaEnvio != null).ToList();
+            var acoesEnfileirar = new List<RegistroAcaoImediata>();
+
+            foreach (var acao in acoes)
+            {
+                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+
+                if(filaEnvio != null)
+                {
+                    if(!filaEnvio.Enviado)
+                    {
+                        filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
+                    }
+                    else
+                    {
+                        acoesEnfileirar.Add(acao);
+                    }
+                }
+
+                _filaEnvioServico.Atualizar(filaEnvio);
+            }
+
+            EnfileirarEmailsAcaoImediata(acoesEnfileirar, naoConformidade);
 
         }
 
