@@ -20,6 +20,7 @@ namespace ApplicationService.Servico
         private readonly IRegistroAcaoImediataRepositorio _registroAcaoImediataRepositorio;
         private readonly IAnexoRepositorio _anexoRepositorio;
         private readonly IArquivoDeEvidenciaAcaoImediataRepositorio _arquivoDeEvidenciaAcaoImediataRepositorio;
+        private readonly IArquivoDeEvidenciaRegistroConformidadeRepositorio _arquivoDeEvidenciaRegistroConformidadeRepositorio;
 
         private readonly INotificacaoAppServico _notificacaoServico;
 
@@ -29,12 +30,14 @@ namespace ApplicationService.Servico
             INotificacaoAppServico notificacaoServico,
             IAnexoRepositorio anexoRepositorio,
             IArquivoDeEvidenciaAcaoImediataRepositorio arquivoDeEvidenciaAcaoImediataRepositorio,
+            IArquivoDeEvidenciaRegistroConformidadeRepositorio arquivoDeEvidenciaRegistroConformidadeRepositorio,
             IUsuarioRepositorio usuarioRepositorio)
             : base(registroConformidadesRepositorio)
         {
             _registroConformidadesRepositorio = registroConformidadesRepositorio;
             _registroAcaoImediataRepositorio = registroAcaoImediataRepositorio;
             _arquivoDeEvidenciaAcaoImediataRepositorio = arquivoDeEvidenciaAcaoImediataRepositorio;
+            _arquivoDeEvidenciaRegistroConformidadeRepositorio = arquivoDeEvidenciaRegistroConformidadeRepositorio;
             _notificacaoServico = notificacaoServico;
             _anexoRepositorio = anexoRepositorio;
         }
@@ -59,7 +62,7 @@ namespace ApplicationService.Servico
                 x.Registro = registroConformidade;
                 x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
             });
-                                   
+
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
 
             _registroConformidadesRepositorio.Update(registroConformidade);
@@ -69,7 +72,7 @@ namespace ApplicationService.Servico
 
         private void GerarFilaEmailNotificacao(RegistroAcaoImediata x)
         {
-            
+
         }
 
         private RegistroConformidade TrataAC(RegistroConformidade acaoCorretiva)
@@ -312,8 +315,6 @@ namespace ApplicationService.Servico
             }
 
             return objCtx;
-
-
         }
 
         private RegistroConformidade TrataRegistroConformidadeParaSerAtualizada(RegistroConformidade registroConformidade)
@@ -345,6 +346,12 @@ namespace ApplicationService.Servico
 
         private void TrataRegistroQuandoEntraEmFaseDeImplementacao(RegistroConformidade registroConformidade, RegistroConformidade objCtx)
         {
+            //limpando tabela para atualização
+            //objCtx.ArquivosDeEvidencia.ToList().ForEach(arquivo =>
+            //{
+            //    _arquivoDeEvidenciaRegistroConformidadeRepositorio.Remove(arquivo);
+            //});
+
             objCtx.IdResponsavelImplementar = registroConformidade.IdResponsavelImplementar;
             objCtx.IdResponsavelReverificador = registroConformidade.IdResponsavelReverificador != null ? registroConformidade.IdResponsavelReverificador : objCtx.IdResponsavelReverificador;
             objCtx.DtPrazoImplementacao = registroConformidade.DtPrazoImplementacao != null ? registroConformidade.DtPrazoImplementacao : objCtx.DtPrazoImplementacao;
@@ -362,10 +369,20 @@ namespace ApplicationService.Servico
             objCtx.DescricaoRegistro = registroConformidade.DescricaoRegistro;
             objCtx.IdEmissor = registroConformidade.IdEmissor;
             objCtx.IdProcesso = registroConformidade.IdProcesso != null ? registroConformidade.IdProcesso : objCtx.IdProcesso;
+            objCtx.ENaoConformidadeAuditoria = registroConformidade.ENaoConformidadeAuditoria != null ? registroConformidade.ENaoConformidadeAuditoria : objCtx.ENaoConformidadeAuditoria;
+            objCtx.IdTipoNaoConformidade = registroConformidade.IdTipoNaoConformidade != null ? registroConformidade.IdTipoNaoConformidade : objCtx.IdTipoNaoConformidade;
             objCtx.NecessitaAcaoCorretiva = registroConformidade.NecessitaAcaoCorretiva != null ? registroConformidade.NecessitaAcaoCorretiva : objCtx.NecessitaAcaoCorretiva;
             objCtx.IdResponsavelInicarAcaoImediata = registroConformidade.IdResponsavelInicarAcaoImediata != null ? registroConformidade.IdResponsavelInicarAcaoImediata : objCtx.IdResponsavelInicarAcaoImediata;
             objCtx.CriticidadeGestaoDeRisco = registroConformidade.CriticidadeGestaoDeRisco != null ? registroConformidade.CriticidadeGestaoDeRisco : objCtx.CriticidadeGestaoDeRisco;
             objCtx.DtEmissao = registroConformidade.DtEmissao != null ? registroConformidade.DtEmissao : objCtx.DtEmissao;
+            objCtx.ArquivosDeEvidenciaAux = registroConformidade.ArquivosDeEvidenciaAux.ToList();
+            objCtx.ArquivosDeEvidencia = registroConformidade.ArquivosDeEvidencia.ToList();
+            objCtx.ArquivosDeEvidencia.ToList().ForEach(arquivo =>
+            {
+                arquivo.RegistroConformidade = null;
+                
+            });
+
             objCtx.FlEficaz = registroConformidade.FlEficaz != null ? registroConformidade.FlEficaz : objCtx.FlEficaz;
             objCtx.EProcedente = registroConformidade.EProcedente != null ? registroConformidade.EProcedente : objCtx.EProcedente;
             objCtx.IdRegistroConformidade = registroConformidade.IdRegistroConformidade != 0 ? registroConformidade.IdRegistroConformidade : objCtx.IdRegistroConformidade;
@@ -407,11 +424,12 @@ namespace ApplicationService.Servico
 
             });
 
+
             var primeiraAcaoImdediata = objCtx.AcoesImediatas.FirstOrDefault();
 
             if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4 || objCtx.StatusEtapa == 2)
             {
-                AtualizaAcoesImediatas(registroConformidade.AcoesImediatas.ToList(), objCtx);
+                //AtualizaAcoesImediatas(registroConformidade.AcoesImediatas.ToList(), objCtx);
             }
 
             if (registroConformidade.EProcedente == false)

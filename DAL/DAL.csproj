@@ -185,6 +185,7 @@
     <Compile Include="Repository\AnaliseCriticaFuncionarioRepositorio.cs" />
     <Compile Include="Repository\AnaliseCriticaRepositorio.cs" />
     <Compile Include="Repository\AnexoRepositorio.cs" />
+    <Compile Include="Repository\ArquivoDeEvidenciaRegistroConformidadeRepositorio.cs" />
     <Compile Include="Repository\ArquivosEvidenciaCriterioQualificacaoRepositorio.cs" />
     <Compile Include="Repository\ArquivoCertificadoAnexoRepositorio.cs" />
     <Compile Include="Repository\ArquivoDeEvidenciaAcaoImediataRepositorio.cs" />
