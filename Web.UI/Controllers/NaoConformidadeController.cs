@@ -533,6 +533,19 @@ namespace Web.UI.Controllers
             }
         }
 
+        private void TrataDadosParaCriacao_Edicao(RegistroConformidade nc)
+        {
+            nc.TipoRegistro = _tipoRegistro;
+            nc.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
+            nc.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
+            nc.FlDesbloqueado = nc.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
+
+            if (nc.ArquivosDeEvidenciaAux.Count > 0)
+            {
+                nc.ArquivosDeEvidenciaAux.ForEach(arquivoEvidencia => arquivoEvidencia.Tratar());
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult DestravarEtapa(int idNaoConformidade)
@@ -572,7 +585,7 @@ namespace Web.UI.Controllers
                 naoConformidade.StatusRegistro = 1;
 
                 _registroConformidadesServico.ValidaNaoConformidade(naoConformidade, Util.ObterCodigoUsuarioLogado(), ref erros);
-
+                
                 if (naoConformidade.EProcedente == null)
                 {
                     erros.Add(Traducao.Resource.MsgCampoProcedente);
@@ -627,6 +640,8 @@ namespace Web.UI.Controllers
                     {
                         EnfileirarEmailsAcaoImediata(acoesImediatasNova, naoConformidade);
                     }
+                    TrataDadosParaCriacao_Edicao(naoConformidade);
+                    SalvarArquivoEvidencia(naoConformidade);
 
                     AtualizarDatasAgendadas(naoConformidade);
 
