@@ -295,7 +295,16 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataTbDescricao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtPrazoImplementacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbResponsavelImplementar]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
+
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
+        $('.upload-arq').prop('disabled', _disabled);
+        if (_disabled) {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+        } else {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "visible");
+        }
+
         $('.upload-arq form-control').prop('disabled', _disabled);
         //Upload Changes
         $('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#eee');
@@ -315,12 +324,35 @@ APP.controller.AcaoCorretivaController = {
                 //[novo]
                 if ($(this).find('[name=desabilitaData]').val() == "true") {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
+                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
+                    $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', true);
+                    //$('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+                    $(this).find('[name=anxFile]').find('a').css("pointer-events", "none");
+                    $(this).find('[name=anxFile]').find('a').prop('disabled', true);
+
+                    ///$(this).find('[name=Ianexo]').show();
+                    ///$(this).find('[name=IanexoAnexar]').show();
+                    //$(this).find('[name=IanexoLi]').hide();
                 }
                 else {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
-                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val("");
+                    $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', false);
+
+                    //$(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val("");
+                    //$('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+                    //$(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+
+                    $(this).find('[name=anxFile]').find('a').prop('disabled', false);
+                    $(this).find('[name=anxFile]').find('a').css("pointer-events", "visible");
+
+                    ///$(this).find('[name=Ianexo]').hide();
+                    //if ($(this).find('[name=Ianexo]').val() == "") {
+                    ///$(this).find('[name=IanexoAnexar]').show();
+                    //}
+                    //$(this).find('[name=IanexoLi]').hide();
+
                 }
-                $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+
                 $(this).find('[name=formAcaoImadiataTbEvidencia]').prop('disabled', false);
                 $(this).find('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#fff');
             }
@@ -376,8 +408,15 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataTbDescricao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtPrazoImplementacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbResponsavelImplementar]').prop('disabled', _disabled);
+
+        $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
-        $('.upload-arq form-control').prop('disabled', _disabled);
+        $('.upload-arq').prop('disabled', _disabled);
+        if (_disabled) {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+        } else {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "visible");
+        }
         //Upload Changes
         $('[name^=formCriarNaoConformidadeEvidencia]').closest('div').css('background-color', '#eee');
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
@@ -487,48 +526,50 @@ APP.controller.AcaoCorretivaController = {
                     debugger;
                     var html = "";
                     $('#painelComentarios').html("");
+                    if (result.Comentarios.length > 0) {
+                        $(result.Comentarios).each(function () {
 
-                    $(result.Comentarios).each(function () {
+                            //APP.component.Datatoday.getCompareDate(dtEmissao, result.UltimaDataEmissao);
+                            html += '<div class="row" >';
+                            html += '    <div class="col-md-12 ">';
+                            html += '        <div class="form-group" style="margin-bottom: 3px;">';
+                            html += '            <label class=".input-data">Data/Horario: ' + this.DataComentario + '</label>';
+                            html += '   <br>';
+                            html += '            <label>Autor: ' + this.UsuarioComentario + '</label>';
+                            html += '        </div>';
+                            html += '    </div>';
+                            html += '    <div class="col-md-12 ">';
+                            html += '        <div class="form-group" style="margin-bottom: 10px;">';
+                            html += '            <label for="form-naoconformidade-comentario-motivo">Motivo</label>';
+                            html += '            <textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value="" disabled>' + this.Motivo + '</textarea>';
+                            html += '        </div>';
+                            html += '    </div>';
+                            html += '    <div class="col-md-12 ">';
+                            html += '        <div class="form-group">';
+                            html += '            <label for="form-naoconformidade-comentario-orientacao">Orientação</label>';
+                            html += '            <textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value="" disabled>' + this.Orientacao + '</textarea>';
+                            html += '        </div>';
+                            html += '    </div>';
+                            html += '</div>';
 
-                        //APP.component.Datatoday.getCompareDate(dtEmissao, result.UltimaDataEmissao);
-                        html += '<div class="row" >';
-                        html += '    <div class="col-md-12 ">';
-                        html += '        <div class="form-group" style="margin-bottom: 3px;">';
-                        html += '            <label class=".input-data">Data/Horario: ' + this.DataComentario + '</label>';
-                        html += '   <br>';
-                        html += '            <label>Autor: ' + this.UsuarioComentario + '</label>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12 ">';
-                        html += '        <div class="form-group" style="margin-bottom: 10px;">';
-                        html += '            <label for="form-naoconformidade-comentario-motivo">Motivo</label>';
-                        html += '            <textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value="" disabled>' + this.Motivo + '</textarea>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12 ">';
-                        html += '        <div class="form-group">';
-                        html += '            <label for="form-naoconformidade-comentario-orientacao">Orientação</label>';
-                        html += '            <textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value="" disabled>' + this.Orientacao + '</textarea>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '</div>';
+                            $('#painelComentarios').html(html);
 
-                        $('#painelComentarios').html(html);
+                            //var hasItem = APP.controller.AuditoriaController.getProcessoMesAno(this);
 
-                        //var hasItem = APP.controller.AuditoriaController.getProcessoMesAno(this);
+                            //if (hasItem) {
 
-                        //if (hasItem) {
+                            //    var formAuditoriaAnoObj = {
+                            //        formAuditoriaAno: $(this).find('.pai-ano span').text(),
+                            //        formAuditoriaMeses: APP.controller.AuditoriaController.getObjFormAuditoriaMeses(this),
+                            //    };
 
-                        //    var formAuditoriaAnoObj = {
-                        //        formAuditoriaAno: $(this).find('.pai-ano span').text(),
-                        //        formAuditoriaMeses: APP.controller.AuditoriaController.getObjFormAuditoriaMeses(this),
-                        //    };
+                            //    arrayFormAuditoriaAnoObj.push(formAuditoriaAnoObj);
+                            //}
+                        });
 
-                        //    arrayFormAuditoriaAnoObj.push(formAuditoriaAnoObj);
-                        //}
-                    });
-
-
+                    } else {
+                        $('#painelComentarios').html("Sem registros no histórico.");
+                    }
 
 
 
@@ -653,8 +694,14 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataTbDescricao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtPrazoImplementacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbResponsavelImplementar]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
-        $('.upload-arq form-control').prop('disabled', _disabled);
+        //$('.upload-arq form-control').prop('disabled', _disabled);
+        if (_disabled) {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+        } else {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "visible");
+        }
         //Upload Changes
         $('[name^=formCriarNaoConformidadeEvidencia]').closest('div').css('background-color', '#eee');
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
@@ -827,7 +874,7 @@ APP.controller.AcaoCorretivaController = {
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
                     CriticidadeAcaoCorretiva: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
-                    DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(), 
+                    DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formCriarNaoConformidadeDsJustificativa]').val(),
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
@@ -859,6 +906,7 @@ APP.controller.AcaoCorretivaController = {
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
@@ -886,6 +934,7 @@ APP.controller.AcaoCorretivaController = {
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
@@ -942,6 +991,12 @@ APP.controller.AcaoCorretivaController = {
             html += '<input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" class="form-control input-data" value="0"/>';
             html += '<input type="hidden" name="formAcaoImadiataTbEstado" value="4"/>';
             html += '</td>';
+
+            html += '<td>';
+            html += '<textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control"></textarea>';
+            html += '</td>';
+
+
             html += '<td>';
             html += '<div class="input-group  input-group-datepicker">';
             html += '<input type="text" name="formAcaoImadiataTbDtPrazoImplementacao" id="form-acaoimediata-tb-dt-prazo-implementacao' + _options.NumeroAcaoImediataGrid + '" class="form-control data datepicker largura-calendario " ';
@@ -1087,6 +1142,7 @@ APP.controller.AcaoCorretivaController = {
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
+                    Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
@@ -1112,6 +1168,7 @@ APP.controller.AcaoCorretivaController = {
             } else {
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
+                    Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),

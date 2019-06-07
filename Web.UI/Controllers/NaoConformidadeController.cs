@@ -399,7 +399,20 @@ namespace Web.UI.Controllers
                         x.ArquivoEvidenciaAux = x.ArquivoEvidencia.FirstOrDefault().Anexo;
                     });
                 }
+                //// Remove anexos para não confirmados
+                //if (naoConformidade.StatusEtapa == 2)
+                //    foreach (var item in naoConformidade.AcoesImediatas)
+                //    {
+                //        if (item.Aprovado == false)
+                //        {
+                //            naoConformidade.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux = null;
+                //            naoConformidade.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
+                //        }
+                //    }
+
             }
+
+
 
             if (naoConformidade.IdNuRegistroFilho != null)
             {
@@ -567,10 +580,15 @@ namespace Web.UI.Controllers
 
 
                 var usuario = Util.ObterUsuario();
-                
+
 
                 for (int i = 0; i < naoConformidade.AcoesImediatas.Count; i++)
                 {
+
+                    if (naoConformidade.StatusEtapa == 3 && naoConformidade.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Orientacao)))
+                    {
+                        erros.Add("Favor preencher Motivo e Orientação.");
+                    }
                     if (naoConformidade.AcoesImediatas[i].Motivo != null || naoConformidade.AcoesImediatas[i].Orientacao != null)
                     {
                         ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
@@ -578,6 +596,7 @@ namespace Web.UI.Controllers
                         ca.Orientacao = naoConformidade.AcoesImediatas[i].Orientacao;
                         ca.DataComentario = DateTime.Now.ToString();
                         ca.UsuarioComentario = usuario.Nome;
+
 
 
                         naoConformidade.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
@@ -1133,7 +1152,7 @@ namespace Web.UI.Controllers
             var dtDados = new DataTable();
             int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterClienteSelecionado(),  Util.ObterSiteSelecionado(), tipoGrafico);
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterClienteSelecionado(), Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsBarra(dtDados);
 
@@ -1187,7 +1206,7 @@ namespace Web.UI.Controllers
 
                 //Ajuste para gráfico 
                 //if (item["Rotulo"].ToString() != "Total NCs")
-                    dataPoints.Add(data);
+                dataPoints.Add(data);
             }
 
             return dataPoints;

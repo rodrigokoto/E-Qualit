@@ -72,6 +72,8 @@ namespace Dominio.Entidade
         public string JustificativaAnulacao { get; set; }
 
         public string DescricaoAcao { get; set; }
+        
+
         public bool? NecessitaAcaoCorretiva { get; set; }
         public bool? ENaoConformidadeAuditoria { get; set; }
 
@@ -83,6 +85,8 @@ namespace Dominio.Entidade
         public int? IdRegistroPai { get; set; } 
 
         public string Tags { get; set; }
+
+
 
         #region Relacionamentos
 

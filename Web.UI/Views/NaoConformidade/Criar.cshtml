@@ -383,7 +383,8 @@
                                 <table id="tb-acao-imediata" class="display dataTable no-footer dtr-inline table-bordered table" style="" name="formAcaoImadiata">
                                     <thead class="titulo-tabela">
                                         <tr class="bg" role="row">
-                                            <th class="w20">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Acao_descricao</th>
+                                            <th class="w13">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Acao_descricao</th>
+                                            <th class="w7">Observação</th>
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Prazo_implementacao</th>
                                             <th class="w15">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Responsavel_implementar</th>
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Efetiva_implementacao</th>
@@ -398,192 +399,199 @@
                                         {
                                             count++;
                                             var aprovadoAux = acaoImediata.Aprovado == true ? "true" : "false";
-                                            <tr role="row" class="odd">
-                                                <!-- Descricao -->
-                                                <td>
+                                        <tr role="row" class="odd">
+                                            <!-- Descricao -->
+                                            <td>
 
-                                                    @{ var formAcaoImadiataTbDescricao = "formAcaoImadiataTbDescricao" + count; }
-                                                    <textarea type="text" id="@formAcaoImadiataTbDescricao" name="formAcaoImadiataTbDescricao" class="form-control"
-                                                              placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Descricao"
-                                                              data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Descricao">@acaoImediata.Descricao</textarea>
-                                                    <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
-                                                    <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
-                                                    <input type="hidden" name="formAcaoImediataIdFilaEnvio" value="@acaoImediata.IdFilaEnvio" />
-                                                    @*value="@acaoImediata.IdFilaEnvio" />*@
-                                                    <input type="hidden" name="formAcaoImediataIdComentario" id="" value="" />
-                                                    <input type="hidden" name="formAcaoImediataComentarioMotivo" value="" />
-                                                    <input type="hidden" name="formAcaoImediataComentarioOrientacao" value="" />
+                                                @{ var formAcaoImadiataTbDescricao = "formAcaoImadiataTbDescricao" + count; }
+                                                <textarea type="text" id="@formAcaoImadiataTbDescricao" name="formAcaoImadiataTbDescricao" class="form-control"
+                                                          placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Descricao"
+                                                          data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Descricao">@acaoImediata.Descricao</textarea>
+                                                <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
+                                                <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
+                                                <input type="hidden" name="formAcaoImediataIdFilaEnvio" value="@acaoImediata.IdFilaEnvio" />
+                                                @*value="@acaoImediata.IdFilaEnvio" />*@
+                                                <input type="hidden" name="formAcaoImediataIdComentario" id="" value="" />
+                                                <input type="hidden" name="formAcaoImediataComentarioMotivo" value="" />
+                                                <input type="hidden" name="formAcaoImediataComentarioOrientacao" value="" />
 
-                                                    @if (acaoImediata.Aprovado.HasValue)
+                                                @if (acaoImediata.Aprovado.HasValue)
+                                                {
+                                                    if (acaoImediata.Aprovado.Value == true)
                                                     {
-                                                        if (acaoImediata.Aprovado.Value == true)
-                                                        {
-                                                            <input type="hidden" name="desabilitaData" value="true" />
-                                                        }
+                                                        <input type="hidden" name="desabilitaData" value="true" />
+                                                    }
+                                                }
+
+                                            </td>
+                                            <!-- Prazo Observacao -->
+                                            <td>
+                                                <textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control">@acaoImediata.Observacao</textarea>
+                                            </td>
+                                            <!-- Prazo Implementacao -->
+                                            <td>
+                                                <div class='input-group input-group-datepicker'>
+                                                    @{ var formAcaoImadiataTbDtPrazoImplementacao = "formAcaoImadiataTbDtPrazoImplementacao" + count; }
+                                                    <input type='text' name="formAcaoImadiataTbDtPrazoImplementacao" id="@formAcaoImadiataTbDtPrazoImplementacao" class="form-control data datepicker largura-calendario"
+                                                           placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Prazo_implementacao"
+                                                           data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Prazo_implementacao"
+                                                           value="@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)" />
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar" teste="" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <!-- Responsavel Implementar -->
+                                            <td>
+                                                @{ var formAcaoImadiataTbResponsavelImplementar = "formAcaoImadiataTbResponsavelImplementar" + count; }
+                                                <select id="@formAcaoImadiataTbResponsavelImplementar" name="formAcaoImadiataTbResponsavelImplementar" class="form-control"
+                                                        data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Responsavel_implementar">
+                                                    <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                    @if (acaoImediata.ResponsavelImplementar.IdUsuario != 0)
+                                                    {
+                                                        <option value="@acaoImediata.ResponsavelImplementar.IdUsuario" selected>@acaoImediata.ResponsavelImplementar.NmCompleto</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <!-- Data Efetiva Implementacao -->
+                                            <td>
+                                                <div class='input-group input-group-datepicker'>
+                                                    @{ var formAcaoImadiataTbDtEfetivaImplementacao = "formAcaoImadiataTbDtEfetivaImplementacao" + count;
+
                                                     }
 
-                                                </td>
-                                                <!-- Prazo Implementacao -->
-                                                <td>
-                                                    <div class='input-group input-group-datepicker'>
-                                                        @{ var formAcaoImadiataTbDtPrazoImplementacao = "formAcaoImadiataTbDtPrazoImplementacao" + count; }
-                                                        <input type='text' name="formAcaoImadiataTbDtPrazoImplementacao" id="@formAcaoImadiataTbDtPrazoImplementacao" class="form-control data datepicker largura-calendario"
-                                                               placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Prazo_implementacao"
-                                                               data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Prazo_implementacao"
-                                                               value="@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)" />
-                                                        <span class="input-group-addon">
-                                                            <i class="fa fa-calendar" teste="" aria-hidden="true"></i>
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <!-- Responsavel Implementar -->
-                                                <td>
-                                                    @{ var formAcaoImadiataTbResponsavelImplementar = "formAcaoImadiataTbResponsavelImplementar" + count; }
-                                                    <select id="@formAcaoImadiataTbResponsavelImplementar" name="formAcaoImadiataTbResponsavelImplementar" class="form-control"
-                                                            data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Responsavel_implementar">
-                                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                                        @if (acaoImediata.ResponsavelImplementar.IdUsuario != 0)
-                                                        {
-                                                            <option value="@acaoImediata.ResponsavelImplementar.IdUsuario" selected>@acaoImediata.ResponsavelImplementar.NmCompleto</option>
-                                                        }
-                                                    </select>
-                                                </td>
-                                                <!-- Data Efetiva Implementacao -->
-                                                <td>
-                                                    <div class='input-group input-group-datepicker'>
-                                                        @{ var formAcaoImadiataTbDtEfetivaImplementacao = "formAcaoImadiataTbDtEfetivaImplementacao" + count;
 
-                                                        }
-
-
-                                                        <input type='text' name="formAcaoImadiataTbDtEfetivaImplementacao" id="@formAcaoImadiataTbDtEfetivaImplementacao" class="form-control data datepicker largura-calendario dataEfetivaImplementacaoDatePicker"
-                                                               placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Efetiva_implementacao"
-                                                               data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Efetiva_implementacao"
-                                                               value="@(acaoImediata.DtEfetivaImplementacao != null?acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
-                                                        <span class="input-group-addon">
-                                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <!-- Arquivo de Evidencia -->
-                                                <td>
-                                                    @{
-                                                        var base64 = "";
-                                                        var dataB64 = "";
-                                                        var nomeAnexo = "";
-                                                        var extensao = "";
-                                                        var idAnexo = 0;
-                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
-                                                        {
-                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
-                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                            dataB64 = base64;
-                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
-
-                                                        }
-                                                    }
-
-                                                    <div class="upload-arq form-control" style="height: 40px !important">
-                                                        @if (acaoImediata.ArquivoEvidencia.Count == 0)
-                                                        {
-                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata">
-                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                                            </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="hide">@nomeAnexo</i>
-                                                        }
-                                                        <ul>
-                                                            <li>
-                                                                <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
-                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
-                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
-                                                            </li>
-                                                        </ul>
-                                                        <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
-                                                               class=""
-                                                               data-msg-required=""
-                                                               data-b64="@dataB64">
-                                                    </div>
-
-                                                </td>
-                                                <!-- Acoes -->
-                                                
-                                                <td>
-                                                    @if (ViewBag.StatusEtapa == 3 || ViewBag.StatusEtapa == 2)
+                                                    <input type='text' name="formAcaoImadiataTbDtEfetivaImplementacao" id="@formAcaoImadiataTbDtEfetivaImplementacao" class="form-control data datepicker largura-calendario dataEfetivaImplementacaoDatePicker"
+                                                           placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Efetiva_implementacao"
+                                                           data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Efetiva_implementacao"
+                                                           value="@(acaoImediata.DtEfetivaImplementacao != null?acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <!-- Arquivo de Evidencia -->
+                                            <td>
+                                                @{
+                                                    var base64 = "";
+                                                    var dataB64 = "";
+                                                    var nomeAnexo = "";
+                                                    var extensao = "";
+                                                    var idAnexo = 0;
+                                                    if (acaoImediata.ArquivoEvidencia.Count > 0)
                                                     {
-                                                        <button type="button" class="btn btn-historico">
-                                                            <i class="fa fa-history" aria-hidden="true"></i>
-                                                        </button>
-                                                    }
-                                                    @if (ViewBag.StatusEtapa == 2)
-                                                    {
-                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
-                                                    }
-                                                </td>
-                                                <td nome="botoesTd">
-                                                    @if (ViewBag.StatusEtapa != 2)
-                                                    {
-                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
-                                                    }
-                                                    @*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
-                                                    <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
-                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                    </a>
-                                                    @if (ViewBag.StatusEtapa == 3)
-                                                    {
-                                                        <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
-                                                            <i class="fa fa-check " aria-hidden="true"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-denied-acao-imediata trash-color">
-                                                            <i class="fa fa-check " aria-hidden="true"></i>
-                                                        </button>
-
-
+                                                        idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                        extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                        nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
+                                                        base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                        dataB64 = base64;
+                                                        base64 = String.Format("data:application/" + extensao + ";base64," + base64);
 
                                                     }
-                                                    @if (acaoImediata.Aprovado.HasValue)
+                                                }
+
+                                                <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
+                                                    @if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                     {
-                                                        if (acaoImediata.Aprovado.Value == true)
-                                                        {
-                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color">
-                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
-                                                            </button>
 
-                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
-                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
-                                                            </button>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color">
-                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
-                                                            </button>
-
-                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
-                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
-                                                            </button>
-                                                        }
-
-
+                                                        <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
+                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                                        </a>
+                                                        <i class="hide" name="Ianexo" style="display:none">@nomeAnexo</i>
                                                     }
                                                     else
                                                     {
-                                                        <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
+                                                        <i class="hide" name="Ianexo" style="display:block">@nomeAnexo</i>
+                                                        <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:none">
+                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                                        </a>
+                                                    }
+                                                    <ul>
+                                                        <li>
+                                                            <a href="@base64" target="_blank" download="@nomeAnexo" name="IanexoLi">@nomeAnexo</a>
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                        </li>
+                                                    </ul>
+                                                    <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
+                                                           class=""
+                                                           data-msg-required=""
+                                                           data-b64="@dataB64">
+                                                </div>
+
+                                            </td>
+                                            <!-- Acoes -->
+
+                                            <td>
+                                                @if (ViewBag.StatusEtapa == 3 || ViewBag.StatusEtapa == 2)
+                                                {
+                                                    <button type="button" class="btn btn-historico">
+                                                        <i class="fa fa-history" aria-hidden="true"></i>
+                                                    </button>
+                                                }
+                                                @if (ViewBag.StatusEtapa == 2)
+                                                {
+                                                    <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                }
+                                            </td>
+                                            <td nome="botoesTd">
+                                                @if (ViewBag.StatusEtapa != 2)
+                                                {
+                                                    <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                }
+                                                @*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
+                                                <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
+                                                    <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                </a>
+                                                @if (ViewBag.StatusEtapa == 3)
+                                                {
+                                                    <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
+                                                        <i class="fa fa-check " aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-denied-acao-imediata trash-color">
+                                                        <i class="fa fa-check " aria-hidden="true"></i>
+                                                    </button>
+
+                                                }
+                                                @if (acaoImediata.Aprovado.HasValue)
+                                                {
+                                                    if (acaoImediata.Aprovado.Value == true)
+                                                    {
+                                                        <button type="button" class="btn btn-ok-acao-imediata ativo-color">
                                                             <i class="fa fa-check-circle " aria-hidden="true"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
+
+                                                        <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
                                                             <i class="fa fa-times-circle " aria-hidden="true"></i>
                                                         </button>
 
                                                     }
-                                                </td>
+                                                    else
+                                                    {
+                                                        <button type="button" class="btn btn-notok-acao-imediata trash-color">
+                                                            <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                        </button>
 
-                                            </tr>
+                                                        <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
+                                                            <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                        </button>
+                                                    }
+
+
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
+                                                        <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
+                                                        <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                    </button>
+
+                                                }
+                                            </td>
+
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -769,7 +777,7 @@
 
                 <div class="modal-body">
                     <div class="panel">
-                        <div class="barra-busca">
+                        <div class="barra-busca" style="box-shadow: none">
                             <div class="form-group" id="painelComentarios">
 
                             </div>
@@ -800,9 +808,9 @@
                     </button>
                     <h4 class="modal-title">Comentários</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" >
                     <div class="panel">
-                        <div class="barra-busca">
+                        <div class="barra-busca" style="box-shadow: none">
                             <div class="form-group">
 
                                 <div class="row tabela-cargo-check">

@@ -384,6 +384,11 @@ namespace Web.UI.Controllers
 
                 for (int i = 0; i < acaoCorretiva.AcoesImediatas.Count; i++)
                 {
+
+                    if (acaoCorretiva.StatusEtapa == 3 && acaoCorretiva.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(acaoCorretiva.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(acaoCorretiva.AcoesImediatas[i].Orientacao)))
+                    {
+                        erros.Add("Favor preencher Motivo e Orientação.");
+                    }
                     if (acaoCorretiva.AcoesImediatas[i].Motivo != null || acaoCorretiva.AcoesImediatas[i].Orientacao != null)
                     {
                         ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
