@@ -244,7 +244,7 @@
 
                                                 <option value="">@Traducao.Resource.Dropdown_name_select</option>
 
-                                                <option value="@ViewBag.IdPerfil" selected>@ViewBag.NomeUsuario</option>
+                                                <option value="@Model.IdEmissor" selected>@ViewBag.NomeUsuario</option>
 
                                             </select>
 
@@ -466,6 +466,7 @@
                                                               data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_AI_Descricao">@acaoImediata.Descricao</textarea>
                                                     <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
                                                     <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
+                                                    <input type="hidden" name="formAcaoImediataIdFilaEnvio" value="@acaoImediata.IdFilaEnvio" />
                                                 </td>
                                                 <!-- Prazo Implementacao -->
                                                 <td>

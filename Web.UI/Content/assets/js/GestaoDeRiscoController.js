@@ -870,6 +870,7 @@ getObjFormCriarNaoConformidade: function (_fluxo) {
             acoesNaoConformidadeFormCriarNaoConformidadeObj = {
                 StatusEtapa: 2,
                 IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                NuRegistro : $("#form-criar-nao-conformidade-nm-registro").val(),
                 DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                 AcoesImediatas: APP.controller.GestaoDeRiscoController.getObjFormAcaoImediata(),
                 ECorrecao: $('[name=formAcaoImadiataECorrecao]:checked').val(),
@@ -900,6 +901,7 @@ getObjFormCriarNaoConformidade: function (_fluxo) {
             acoesNaoConformidadeFormCriarNaoConformidadeObj = {
                 StatusEtapa: 2,
                 IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                NuRegistro: $("#form-criar-nao-conformidade-nm-registro").val(),
                 DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                 AcoesImediatas: APP.controller.GestaoDeRiscoController.getObjFormAcaoImediata(),
                 Tags: $('[name=formCriarNaoConformidadeTags]').val(),
@@ -927,6 +929,7 @@ getObjFormCriarNaoConformidade: function (_fluxo) {
             acoesNaoConformidadeFormCriarNaoConformidadeObj = {
                 StatusEtapa: 4,
                 IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                NuRegistro: $("#form-criar-nao-conformidade-nm-registro").val(),
                 DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                 AcoesImediatas: APP.controller.GestaoDeRiscoController.getObjFormAcaoImediata(),
                 Tags: $('[name=formCriarNaoConformidadeTags]').val(),
@@ -955,6 +958,7 @@ getObjFormCriarNaoConformidade: function (_fluxo) {
             acoesNaoConformidadeFormCriarNaoConformidadeObj = {
                 StatusEtapa: 4,
                 IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                NuRegistro: $("#form-criar-nao-conformidade-nm-registro").val(),
                 DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                 AcoesImediatas: APP.controller.GestaoDeRiscoController.getObjFormAcaoImediata(),
                 Tags: $('[name=formCriarNaoConformidadeTags]').val(),
@@ -1200,6 +1204,7 @@ getObjFormAcaoImediata: function () {
                 DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                 IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                 DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                 ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
                     $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
                     $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
