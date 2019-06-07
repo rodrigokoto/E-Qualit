@@ -33,6 +33,11 @@ namespace DAL.EntityConfig
                 .HasColumnName("DsAcao")
                 .IsRequired();
 
+            //Property(t => t.Observacao)
+            //    .HasColumnName("Observacao")
+            //    .IsRequired();
+
+
             Property(t => t.IdResponsavelImplementar)
                 .HasColumnName("IdReponsavelImplementar")
                 .IsRequired();

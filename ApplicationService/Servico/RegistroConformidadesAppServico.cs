@@ -58,9 +58,9 @@ namespace ApplicationService.Servico
             {
                 x.Registro = registroConformidade;
                 x.IdRegistroConformidade = registroConformidade.IdRegistroConformidade;
-                
+
             });
-                                   
+
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
 
             _registroConformidadesRepositorio.Update(registroConformidade);
@@ -70,7 +70,7 @@ namespace ApplicationService.Servico
 
         private void GerarFilaEmailNotificacao(RegistroAcaoImediata x)
         {
-            
+
         }
 
         private RegistroConformidade TrataAC(RegistroConformidade acaoCorretiva)
@@ -295,7 +295,7 @@ namespace ApplicationService.Servico
                 objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
                 objCtx.DescricaoRegistro = naoConformidade.DescricaoRegistro;
 
-                
+
                 TrataRegistroAprovacaoReverificador(naoConformidade, listaAcaoImediataUpdate.ToList(), objCtx);
             }
             else
@@ -407,7 +407,7 @@ namespace ApplicationService.Servico
                 acaoImediata.DtEfetivaImplementacao = acaoUpdate != null && acaoUpdate.DtEfetivaImplementacao != null ? acaoUpdate.DtEfetivaImplementacao : acaoImediata.DtEfetivaImplementacao;
                 acaoImediata.DtPrazoImplementacao= acaoUpdate != null && acaoUpdate.DtPrazoImplementacao != null ? acaoUpdate.DtPrazoImplementacao : acaoImediata.DtPrazoImplementacao;
                 if (acaoUpdate != null && acaoUpdate.ComentariosAcaoImediata != null)
-                acaoImediata.ComentariosAcaoImediata = acaoUpdate.ComentariosAcaoImediata;
+                    acaoImediata.ComentariosAcaoImediata = acaoUpdate.ComentariosAcaoImediata;
             });
 
             var primeiraAcaoImdediata = objCtx.AcoesImediatas.FirstOrDefault();
@@ -438,7 +438,53 @@ namespace ApplicationService.Servico
             listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
             {
                 objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+
             });
+            //List<RegistroAcaoImediata> lista = new List<RegistroAcaoImediata>();
+            foreach (var item in listaAcaoImediataUpdate)
+            {
+                if (item.Aprovado == false)
+                {
+                    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).DtEfetivaImplementacao = null;
+
+                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
+                    //foreach (var itemLocal in item.ArquivoEvidencia)
+                    //{
+                    //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.FirstOrDefault(x => x.IdAcaoImediata == itemLocal.IdAcaoImediata).Anexo = null;
+                    //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.FirstOrDefault(x => x.IdAcaoImediata == itemLocal.IdAcaoImediata).AcaoImediata = null;
+
+                        
+                    //}
+
+                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.();
+
+                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux = null;
+
+                    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).Observacao = string.Empty;
+
+                    //_anexoRepositorio.Remove(objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux);
+                }
+                
+                //RegistroAcaoImediata local = new RegistroAcaoImediata();
+                //local = item;
+                //if (item.Aprovado != null && item.Aprovado == false)
+                //{
+                //local.DtEfetivaImplementacao = null;
+                ////local.ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
+                ////local.ArquivoEvidenciaAux = new Anexo();
+                //}
+                //lista.Add(local);
+            }
+            //objCtx.AcoesImediatas = lista;
+
+
+            //listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
+            //{
+            //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata && acaoImediata.Aprovado == false).DtEfetivaImplementacao = null;
+            //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata && acaoImediata.Aprovado == false).ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
+            //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata && acaoImediata.Aprovado == false).ArquivoEvidenciaAux = null;
+            //});
 
             objCtx.Tags = registroConformidade.Tags;
             objCtx.DescricaoRegistro = registroConformidade.DescricaoRegistro;
@@ -458,18 +504,18 @@ namespace ApplicationService.Servico
             objCtx.DsAcao = registroConformidade.DsAcao;
             objCtx.StatusRegistro = registroConformidade.StatusRegistro;
 
-            
+
 
             registroConformidade.AcoesImediatas.ToList().ForEach(acaoImediata =>
-            {
-                acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
-                acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
-                
-                //acaoImediata.Descricao = objCtx.DsAcao;
-                //acaoImediata.DtPrazoImplementacao = objCtx.DtPrazoImplementacao;
-                //acaoImediata.IdResponsavelImplementar = objCtx.IdResponsavelImplementar;
-                //acaoImediata.DtEfetivaImplementacao = objCtx.DtEfetivaImplementacao;
-            });
+                    {
+                        acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
+                        acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
+
+                        //acaoImediata.Descricao = objCtx.DsAcao;
+                        //acaoImediata.DtPrazoImplementacao = objCtx.DtPrazoImplementacao;
+                        //acaoImediata.IdResponsavelImplementar = objCtx.IdResponsavelImplementar;
+                        //acaoImediata.DtEfetivaImplementacao = objCtx.DtEfetivaImplementacao;
+                    });
 
             if (registroConformidade.EProcedente == false)
             {
@@ -497,15 +543,17 @@ namespace ApplicationService.Servico
                 }
                 else if (novaRegistro.TipoRegistro == "ac")
                 {
-                    novaRegistro.DescricaoRegistro += $"\n \n Referênte a Ação Corretiva({objCtx.NuRegistro})";
+                    //novaRegistro.DescricaoRegistro += $"\n \n Referênte a Ação Corretiva({objCtx.NuRegistro})";
 
-                    _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaRegistro);
-                    _registroConformidadesRepositorio.Add(novaRegistro);
+                    //_registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaRegistro);
+                    //_registroConformidadesRepositorio.Add(novaRegistro);
 
                     if (objCtx.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
                     {
-                        objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
-                        objCtx.DtEnceramento = DateTime.Now;
+                        //objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                        //objCtx.DtEnceramento = DateTime.Now;
+
+                        objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
                     }
 
                 }
@@ -526,7 +574,7 @@ namespace ApplicationService.Servico
                     }
 
                 }
-                
+
             }
             else if (objCtx.FlEficaz == true)
             {

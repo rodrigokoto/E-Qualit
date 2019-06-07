@@ -22,6 +22,8 @@ namespace Dominio.Entidade
 
         public string Descricao { get; set; }
 
+        public string Observacao { get; set; }
+
 
         public int? IdResponsavelImplementar { get; set; }
 
