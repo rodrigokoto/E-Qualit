@@ -12,5 +12,6 @@ namespace Dominio.Interface.Servico
         void Enfileirar(FilaEnvio filaEnvio);
         FilaEnvio ObterPorId(long id);
         void Apagar(FilaEnvio filaEnvio);
+        void Atualizar(FilaEnvio filaEnvio);
     }
 }

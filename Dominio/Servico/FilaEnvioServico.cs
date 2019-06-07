@@ -13,7 +13,6 @@ namespace Dominio.Servico
     {
         private readonly IFilaEnvioRepositorio _filaEnvioRepositorio;
 
-
         public FilaEnvioServico(IFilaEnvioRepositorio filaEnvioRepositorio)
         {
             _filaEnvioRepositorio = filaEnvioRepositorio;           
@@ -34,5 +33,10 @@ namespace Dominio.Servico
             _filaEnvioRepositorio.Remove(filaEnvio);
         }
 
+
+        public void Atualizar(FilaEnvio filaEnvio)
+        {
+            _filaEnvioRepositorio.Update(filaEnvio);
+        }
     }
 }

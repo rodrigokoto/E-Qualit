@@ -69,6 +69,9 @@ namespace DAL.EntityConfig
                 .WithMany(t => t.AcoesImediatas)
                 .HasForeignKey(d => d.IdRegistroConformidade)
                 .WillCascadeOnDelete(true);
+
+
+
                         
             #endregion
 
