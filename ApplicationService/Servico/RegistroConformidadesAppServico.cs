@@ -448,16 +448,17 @@ namespace ApplicationService.Servico
                     objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).DtEfetivaImplementacao = null;
 
                     //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
-                    foreach (var itemLocal in item.ArquivoEvidencia)
-                    {
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.FirstOrDefault(x => x.IdAcaoImediata == itemLocal.IdAcaoImediata).Anexo = null;
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.FirstOrDefault(x => x.IdAcaoImediata == itemLocal.IdAcaoImediata).AcaoImediata = null;
+                    //foreach (var itemLocal in item.ArquivoEvidencia)
+                    //{
+                    //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.FirstOrDefault(x => x.IdAcaoImediata == itemLocal.IdAcaoImediata).Anexo = null;
+                    //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.FirstOrDefault(x => x.IdAcaoImediata == itemLocal.IdAcaoImediata).AcaoImediata = null;
 
-                        //itemLocal.Anexo = null;
-                        //itemLocal.AcaoImediata = null;
-                    }
+                        
+                    //}
 
-                    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux = null;
+                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.();
+
+                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux = null;
 
                     objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).Observacao = string.Empty;
 
