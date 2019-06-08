@@ -436,7 +436,7 @@ namespace ApplicationService.Servico
 
             if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4 || objCtx.StatusEtapa == 2)
             {
-                //AtualizaAcoesImediatas(registroConformidade.AcoesImediatas.ToList(), objCtx);
+                AtualizaAcoesImediatas(registroConformidade.AcoesImediatas.ToList(), objCtx);
             }
 
             if (registroConformidade.EProcedente == false)
@@ -574,7 +574,7 @@ namespace ApplicationService.Servico
                     {
                         //objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
                         //objCtx.DtEnceramento = DateTime.Now;
-
+                        
                         objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
                     }
 
