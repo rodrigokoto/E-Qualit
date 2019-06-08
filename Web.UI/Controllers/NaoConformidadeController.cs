@@ -598,7 +598,7 @@ namespace Web.UI.Controllers
                 for (int i = 0; i < naoConformidade.AcoesImediatas.Count; i++)
                 {
 
-                    if (naoConformidade.StatusEtapa == 3 && naoConformidade.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Orientacao)))
+                    if (naoConformidade.EProcedente == true && naoConformidade.StatusEtapa == 3 && naoConformidade.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Orientacao)))
                     {
                         erros.Add("Favor preencher Motivo e Orientação.");
                     }
@@ -640,11 +640,14 @@ namespace Web.UI.Controllers
                     {
                         EnfileirarEmailsAcaoImediata(acoesImediatasNova, naoConformidade);
                     }
-                    TrataDadosParaCriacao_Edicao(naoConformidade);
-                    SalvarArquivoEvidencia(naoConformidade);
 
+                    if (1 == 0)
+                    {
+                        TrataDadosParaCriacao_Edicao(naoConformidade);
+                        SalvarArquivoEvidencia(naoConformidade);
+                    }
                     AtualizarDatasAgendadas(naoConformidade);
-
+                    
                     naoConformidade = _registroConformidadesAppServico.SalvarSegundaEtapa(naoConformidade, Funcionalidades.NaoConformidade);
 
                     if (naoConformidade.EProcedente == true)

@@ -232,7 +232,10 @@ namespace ApplicationService.Servico
                 }
 
             }
-            else if (naoConformidade.OStatusEImplementacao() && temAcoesImediataParaAtualizar == true)
+            else 
+            
+            
+            if (naoConformidade.OStatusEImplementacao() && temAcoesImediataParaAtualizar == true)
             {
 
                 var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
@@ -280,7 +283,22 @@ namespace ApplicationService.Servico
                 {
                     objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Reverificacao;
                 }
-
+                bool acoesImediatasIncolpletas = false;
+                foreach (var item in naoConformidade.AcoesImediatas)
+                {
+                    if (item.DtEfetivaImplementacao == null)
+                    {
+                        acoesImediatasIncolpletas = true;
+                        break;
+                    }
+                }
+                //naoConformidade.EProcedente 
+                if (naoConformidade.ECorrecao == false || naoConformidade.ECorrecao  == null && !acoesImediatasIncolpletas)
+                {
+                    objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+                    objCtx.DtEnceramento = DateTime.Now;
+                }
+                      
             }
             else if (naoConformidade.OStatusEReverificacao() && temAcoesImediataParaAtualizar == true)
             {
