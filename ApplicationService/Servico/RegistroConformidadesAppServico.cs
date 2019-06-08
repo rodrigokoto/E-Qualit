@@ -258,18 +258,22 @@ namespace ApplicationService.Servico
 
                 if (naoConformidade.NecessitaAcaoCorretiva.Value)
                 {
-                    var acaoImediata = naoConformidade.AcoesImediatas.FirstOrDefault();
+                    if (objCtx.IdNuRegistroFilho == 0 || objCtx.IdNuRegistroFilho == null ) 
+                    {
+                        var acaoImediata = naoConformidade.AcoesImediatas.FirstOrDefault();
 
-                    var novaAc = CriarAcaoCorretivaApartirDeNaoConformidade(objCtx);
+                        var novaAc = CriarAcaoCorretivaApartirDeNaoConformidade(objCtx);
 
-                    novaAc.DescricaoRegistro += $"\n\n Referênte a Não Conformidade({objCtx.NuRegistro})";
-                    novaAc.DescricaoAcao = acaoImediata.Descricao;
-                    novaAc.DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao;
+                        novaAc.DescricaoRegistro += $"\n\n Referênte a Não Conformidade({objCtx.NuRegistro})";
+                        novaAc.DescricaoAcao = acaoImediata.Descricao;
+                        novaAc.DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao;
+                        //IdNuRegistroFilho
 
-                    _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaAc);
-                    _registroConformidadesRepositorio.Add(novaAc);
+                        _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaAc);
+                        _registroConformidadesRepositorio.Add(novaAc);
 
-                    objCtx.IdNuRegistroFilho = novaAc.NuRegistro;
+                        objCtx.IdNuRegistroFilho = novaAc.NuRegistro;
+                    }
                 }
 
                 if (listaAcaoImediataNaoImplementadas == false)

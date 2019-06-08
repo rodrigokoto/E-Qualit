@@ -393,6 +393,7 @@ APP.controller.NaoConformidadeController = {
     setHideRowAcaoImediata: function () {
 
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
+        $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
 
     },
@@ -1273,7 +1274,7 @@ APP.controller.NaoConformidadeController = {
     getObjFormCriarNaoConformidade: function (_fluxo) {
 
         var acoesNaoConformidadeFormCriarNaoConformidadeObj = {};
-
+        debugger;
         switch (_fluxo) {
             case "fluxo-00":
                 //Obj enviado no fluxo de criacao
@@ -1356,6 +1357,7 @@ APP.controller.NaoConformidadeController = {
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                     EProcedente: APP.component.Radio.init('formAcaoImadiataEProcedente'),
                     AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
@@ -1380,6 +1382,7 @@ APP.controller.NaoConformidadeController = {
                     StatusEtapa: $('[name=StatusEtapa]').val(),
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                     FlEficaz: APP.controller.NaoConformidadeController.getFoiEficaz(),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
@@ -1508,9 +1511,7 @@ APP.controller.NaoConformidadeController = {
             html += '<input type="hidden" name="formAcaoImadiataTbEstado" value="4"/>';
             html += '</td>';
 
-            html += '<td>';
-            html += '<textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control"></textarea>';
-            html += '</td>';
+        
 
 
             html += '<td>';
@@ -1540,6 +1541,13 @@ APP.controller.NaoConformidadeController = {
             html += '</span>';
             html += '</div>';
             html += '</td>';
+
+
+            //html += '<td>';
+            //html += '<textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control"></textarea>';
+            //html += '</td>';
+
+
             html += '   <td>';
 
 
@@ -1592,7 +1600,10 @@ APP.controller.NaoConformidadeController = {
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
-                    APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
+                    //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
+                    $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
+                        APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
+                    });  
                 }
             },
             error: function (result) {
@@ -1949,6 +1960,8 @@ APP.controller.NaoConformidadeController = {
         var idNaoConformidade = $('[name=IdRegistroConformidade]').val();  // $('#form-criar-nao-conformidade-nm-registro').val();
         var data = { "idNaoConformidade": idNaoConformidade };
 
+        APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+
         $.ajax({
             type: "POST",
             dataType: 'json',
@@ -1980,8 +1993,8 @@ APP.controller.NaoConformidadeController = {
     setDestravarCamposNaoConformidade: function () {
 
         this.buttonDestravar.on('click', function () {
-
-
+            
+            
             if (perfil == '4') {
 
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
@@ -1997,35 +2010,46 @@ APP.controller.NaoConformidadeController = {
 
             }
 
+            $("#form-acaoimediata-numero-ac").attr("disabled", true);
+
 
             var idNaoConformidade = $('[name=IdRegistroConformidade]').val();  //$('#form-criar-nao-conformidade-nm-registro').val();
             var data = { "idNaoConformidade": idNaoConformidade };
 
-            $.ajax({
-                type: "POST",
-                dataType: 'json',
-                data: data,
-                url: "/NaoConformidade/DestravarDocumento",
-                success: function (result) {
-                    //alert('foi');
-                    //if (result.StatusCode == 200) {
-                    //    window.location.reload([true]);
-                    //} else if (result.StatusCode == 505) {
-                    //    erro = APP.component.ResultErros.init(result.Erro);
-                    //    bootbox.alert(erro);
-                    //} else if (result.StatusCode == 500) {
-                    //    erro = APP.component.ResultErros.init(result.Erro);
-                    //    bootbox.alert(erro);
-                    //}
 
-                },
-                error: function (result) {
-                    //erro = APP.component.ResultErros.init(result.Erro);
-                    //bootbox.alert(erro);
-                },
-                //complete: function (result) {
-                //    APP.component.Loading.hideLoading();
-            });
+            APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+            //$.ajax({
+            //    type: "POST",
+            //    dataType: 'json',
+            //    data: data,
+            //    url: "/NaoConformidade/DestravarDocumento",
+            //    success: function (result) {
+            //        debugger;
+
+            //        $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
+            //            APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
+            //        });  
+
+
+            //        //alert('foi');
+            //        //if (result.StatusCode == 200) {
+            //        //    window.location.reload([true]);
+            //        //} else if (result.StatusCode == 505) {
+            //        //    erro = APP.component.ResultErros.init(result.Erro);
+            //        //    bootbox.alert(erro);
+            //        //} else if (result.StatusCode == 500) {
+            //        //    erro = APP.component.ResultErros.init(result.Erro);
+            //        //    bootbox.alert(erro);
+            //        //}
+
+            //    },
+            //    error: function (result) {
+            //        //erro = APP.component.ResultErros.init(result.Erro);
+            //        //bootbox.alert(erro);
+            //    }
+            //    //complete: function (result) {
+            //    //    APP.component.Loading.hideLoading();
+            //});
 
 
 

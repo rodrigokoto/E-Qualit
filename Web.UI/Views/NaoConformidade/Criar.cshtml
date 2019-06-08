@@ -384,10 +384,10 @@
                                     <thead class="titulo-tabela">
                                         <tr class="bg" role="row">
                                             <th class="w13">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Acao_descricao</th>
-                                            <th class="w7">Observação</th>
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Prazo_implementacao</th>
                                             <th class="w15">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Responsavel_implementar</th>
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Efetiva_implementacao</th>
+                                            <th class="w7">Observação</th>
                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Arquivo_evidencia</th>
                                             <th class="w7"></th>
                                             <th class="w7"></th>
@@ -424,10 +424,7 @@
                                                 }
 
                                             </td>
-                                            <!-- Prazo Observacao -->
-                                            <td>
-                                                <textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control">@acaoImediata.Observacao</textarea>
-                                            </td>
+
                                             <!-- Prazo Implementacao -->
                                             <td>
                                                 <div class='input-group input-group-datepicker'>
@@ -470,6 +467,12 @@
                                                     </span>
                                                 </div>
                                             </td>
+
+                                            <!-- Prazo Observacao -->
+                                            <td>
+                                                <textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control">@acaoImediata.Observacao</textarea>
+                                            </td>
+
                                             <!-- Arquivo de Evidencia -->
                                             <td>
                                                 @{

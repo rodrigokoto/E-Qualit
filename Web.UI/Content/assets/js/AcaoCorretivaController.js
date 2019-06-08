@@ -237,6 +237,7 @@ APP.controller.AcaoCorretivaController = {
     setHideRowAcaoImediata: function () {
 
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
+        $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
 
     },
@@ -996,9 +997,7 @@ APP.controller.AcaoCorretivaController = {
             html += '<input type="hidden" name="formAcaoImadiataTbEstado" value="4"/>';
             html += '</td>';
 
-            html += '<td>';
-            html += '<textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control"></textarea>';
-            html += '</td>';
+
 
 
             html += '<td>';
@@ -1027,6 +1026,12 @@ APP.controller.AcaoCorretivaController = {
             html += '</span>';
             html += '</div>';
             html += '</td>';
+
+            //html += '<td>';
+            //html += '<textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control"></textarea>';
+            //html += '</td>';
+
+
             html += '<td>';
             html += '<div class="upload-arq form-control">';
             html += '<a class="btn-upload-form-acaoimediata-tb-evidencia-' + index + '">';
