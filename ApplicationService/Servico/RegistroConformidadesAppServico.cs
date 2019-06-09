@@ -139,14 +139,15 @@ namespace ApplicationService.Servico
             if (naoConformidade.OStatusEEncerrada() && naoConformidade.EProcedente == false)
             {
 
-                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
-                if (registroAcaoCorretiva != null)
-                {
-                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
-                    registroAcaoCorretiva.StatusEtapa = 4;
-                    registroAcaoCorretiva.DtEnceramento = DateTime.Now;
-                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
-                }
+                //var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+                //if (registroAcaoCorretiva != null)
+                //{
+                //    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                //    registroAcaoCorretiva.StatusEtapa = 4;
+                //    registroAcaoCorretiva.DtEnceramento = DateTime.Now;
+                //    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                //}
+                VerificaAtualizaAcaoCorretiva(objCtx, naoConformidade);
 
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
 
@@ -161,12 +162,7 @@ namespace ApplicationService.Servico
             else if (naoConformidade.OStatusEAcaoImediata() && naoConformidade.EProcedente == false)
             {
 
-                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
-                if (registroAcaoCorretiva != null)
-                {
-                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
-                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
-                }
+                VerificaAtualizaAcaoCorretiva(objCtx, naoConformidade);
 
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
 
@@ -181,14 +177,15 @@ namespace ApplicationService.Servico
             else if (naoConformidade.OStatusEImplementacao() && naoConformidade.EProcedente == false)
             {
 
-                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
-                if (registroAcaoCorretiva != null)
-                {
-                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
-                    registroAcaoCorretiva.StatusEtapa = 4;
-                    registroAcaoCorretiva.DtEnceramento = DateTime.Now;
-                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
-                }
+                //var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+                //if (registroAcaoCorretiva != null)
+                //{
+                //    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                //    registroAcaoCorretiva.StatusEtapa = 4;
+                //    registroAcaoCorretiva.DtEnceramento = DateTime.Now;
+                //    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                //}
+                VerificaAtualizaAcaoCorretiva(objCtx, naoConformidade);
 
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
 
@@ -238,13 +235,7 @@ namespace ApplicationService.Servico
             if (naoConformidade.OStatusEImplementacao() && temAcoesImediataParaAtualizar == true)
             {
 
-                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
-
-                if (registroAcaoCorretiva != null)
-                {
-                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
-                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
-                }
+                VerificaAtualizaAcaoCorretiva(objCtx, naoConformidade);
 
                 var listaAcaoImediataNaoImplementadas = naoConformidade.AcoesImediatas.FirstOrDefault(x => x.DtEfetivaImplementacao == null) != null;
 
@@ -302,12 +293,7 @@ namespace ApplicationService.Servico
             }
             else if (naoConformidade.OStatusEReverificacao() && temAcoesImediataParaAtualizar == true)
             {
-                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
-                if (registroAcaoCorretiva != null)
-                {
-                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
-                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
-                }
+                VerificaAtualizaAcaoCorretiva(objCtx, naoConformidade);
 
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(naoConformidade, objCtx);
 
@@ -325,12 +311,7 @@ namespace ApplicationService.Servico
             }
             else
             {
-                var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
-                if (registroAcaoCorretiva != null)
-                {
-                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
-                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
-                }
+                VerificaAtualizaAcaoCorretiva(objCtx, naoConformidade);
 
                 AtualizaAcoesImediatas(listaAcaoImediataUpdate.ToList(), objCtx);
 
@@ -918,6 +899,28 @@ namespace ApplicationService.Servico
                 IdProcesso = naoConformidade.IdProcesso,
                 IdRegistroPai = naoConformidade.IdRegistroConformidade
             };
+        }
+
+        public void VerificaAtualizaAcaoCorretiva(RegistroConformidade objCtx, RegistroConformidade naoConformidade)
+        {
+            var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
+            if (registroAcaoCorretiva != null)
+            {
+                if (!naoConformidade.NecessitaAcaoCorretiva.Value || !naoConformidade.EProcedente.Value)
+                {
+                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    registroAcaoCorretiva.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada; ;
+                    registroAcaoCorretiva.DtEnceramento = DateTime.Now;
+                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                }
+                else
+                {
+                    registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
+                    registroAcaoCorretiva.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata; ;
+                    registroAcaoCorretiva.DtEnceramento = null;
+                    _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
+                }
+            }
         }
 
 
