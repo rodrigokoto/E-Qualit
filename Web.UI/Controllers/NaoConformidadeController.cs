@@ -633,6 +633,10 @@ namespace Web.UI.Controllers
                     var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
                     var acoesEfetivadas = naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
+                    acoesEfetivadas.ToList().ForEach(acao =>
+                    {
+                        acao.IdRegistroConformidade = naoConformidade.IdRegistroConformidade;
+                    });
 
                     RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
 
@@ -759,7 +763,7 @@ namespace Web.UI.Controllers
                 if (acao.IdFilaEnvio != null)
                 {
                     var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-                    if (!filaEnvio.Enviado)
+                    if (filaEnvio != null && !filaEnvio.Enviado)
                     {
                         acao.IdFilaEnvio = null;
                         _registroRegistroAcaoImediataServico.Update(acao);

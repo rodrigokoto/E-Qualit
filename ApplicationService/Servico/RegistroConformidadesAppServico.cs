@@ -728,7 +728,7 @@ namespace ApplicationService.Servico
                         _anexoRepositorio.Update(anexoCtx);
                     }
                 }
-                _registroAcaoImediataRepositorio.AtualizaAcaoImediataComAnexos(acaoImediata);
+                //_registroAcaoImediataRepositorio.AtualizaAcaoImediataComAnexos(acaoImediata);
             });
         }
 
