@@ -69,10 +69,10 @@ abrirGrafico = (function (url) {
     if (idTipoGrafico.length == 0)
         msg += '- Tipo de Gráfico<br>';
 
-    if (dtDe.length == 0) 
+    if (dtDe.length == 0)
         msg += '- De<br>';
 
-    if (dtAte.length == 0) 
+    if (dtAte.length == 0)
         msg += '- Até<br>';
 
     if (msg.length > 0) {
@@ -101,7 +101,7 @@ $("#ddlTipoGrafico").change(function myFunction() {
     else {
         $('#graficoPizza').show().next().show();
     }
-        
+
 });
 
 
@@ -297,15 +297,18 @@ APP.controller.NaoConformidadeController = {
                 break;
             case 1:
                 this.setShowAndHideStatusEtapa1();
+                this.formEditarNaoConformidade();
                 this.formAcaoImediata();
                 this.setEProcedenteInicializacao();
                 break;
             case 2:
                 this.setShowAndHideStatusEtapa2();
+                this.formEditarNaoConformidade();
                 this.formAcaoImediata();
                 break;
             case 3:
                 this.setShowAndHideStatusEtapa3();
+                this.formEditarNaoConformidade();
                 this.formAcaoImediata();
                 break;
             case 4:
@@ -390,6 +393,7 @@ APP.controller.NaoConformidadeController = {
     setHideRowAcaoImediata: function () {
 
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
+        $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
 
     },
@@ -408,7 +412,8 @@ APP.controller.NaoConformidadeController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            $(this).find('td').last().hide();
+            //$(this).find('td').last().hide();
+            $('#botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
@@ -441,8 +446,14 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataTbDescricao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtPrazoImplementacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbResponsavelImplementar]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
-        $('.upload-arq form-control').prop('disabled', _disabled);
+        $('.upload-arq').prop('disabled', _disabled);
+        if (_disabled) {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+        } else {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "visible");
+        }
         //Upload Changes
         $('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#eee');
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
@@ -473,10 +484,33 @@ APP.controller.NaoConformidadeController = {
                 //[novo]
                 if ($(this).find('[name=desabilitaData]').val() == "true") {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
+                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
+                    $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', true);
+                    //$('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+                    $(this).find('[name=anxFile]').find('a').css("pointer-events", "none");
+                    $(this).find('[name=anxFile]').find('a').prop('disabled', true);
+
+                    ///$(this).find('[name=Ianexo]').show();
+                    ///$(this).find('[name=IanexoAnexar]').show();
+                    //$(this).find('[name=IanexoLi]').hide();
                 }
                 else {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
-                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val("");
+                    $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', false);
+
+                    //$(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val("");
+                    //$('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+                    //$(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+                    
+                    $(this).find('[name=anxFile]').find('a').prop('disabled', false);
+                    $(this).find('[name=anxFile]').find('a').css("pointer-events", "visible");
+
+                    ///$(this).find('[name=Ianexo]').hide();
+                    //if ($(this).find('[name=Ianexo]').val() == "") {
+                        ///$(this).find('[name=IanexoAnexar]').show();
+                    //}
+                    //$(this).find('[name=IanexoLi]').hide();
+                    
                 }
                 $(this).find('[name=formAcaoImadiataTbEvidencia]').prop('disabled', false);
                 $(this).find('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', false);
@@ -508,7 +542,9 @@ APP.controller.NaoConformidadeController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            $(this).find('td').last().hide();
+            //$(this).find('td').last().hide();
+            $('#botoesTd').hide();
+
             //$(this).find('td')[6].hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
@@ -542,8 +578,15 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataTbDescricao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtPrazoImplementacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbResponsavelImplementar]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
-        $('.upload-arq form-control').prop('disabled', _disabled);
+        $('.upload-arq').prop('disabled', _disabled);
+        if (_disabled) {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+        } else {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "visible");
+        }
+
         //Upload Changes
         $('[name^=formCriarNaoConformidadeEvidencia]').closest('div').css('background-color', '#eee');
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
@@ -571,7 +614,8 @@ APP.controller.NaoConformidadeController = {
         var idResponsavelReverificacao = $('[name=formAcaoImadiataResponsavelReverificacao]').val();
         if ((idResponsavelReverificacao == idUsuarioLogado) || idPerfil != 4) {
             $('#tb-acao-imediata tbody tr').each(function () {
-                $(this).find('td').last().show();
+                //$(this).find('td').last().show();
+                $('#botoesTd').show();
                 $(this).find('.btn-delete-acao-imediata').hide();
             });
 
@@ -582,7 +626,7 @@ APP.controller.NaoConformidadeController = {
     },
 
     setCheckAcaoImediataOk: function () {
-        
+
         //$('.btn-confirm-acao-imediata').on('click', function () {
         //    debugger;
 
@@ -637,8 +681,8 @@ APP.controller.NaoConformidadeController = {
             $('#acaoImediataAtual').val(atual);
             $('[name=formNaoConformidadeComentarioMotivo').val("");
             $('[name=formNaoConformidadeComentarioOrientacao').val("");
-            
-            
+
+
             $('#modal-panel-form-cargos').modal("show");
             //alert(atual);
         });
@@ -674,50 +718,50 @@ APP.controller.NaoConformidadeController = {
 
                     var html = "";
                     $('#painelComentarios').html("");
+                    if (result.Comentarios.length > 0) {
+                        $(result.Comentarios).each(function () {
 
-                    $(result.Comentarios).each(function () {
+                            //APP.component.Datatoday.getCompareDate(dtEmissao, result.UltimaDataEmissao);
+                            html += '<div class="row" >';
+                            html += '    <div class="col-md-12 ">';
+                            html += '        <div class="form-group" style="margin-bottom: 3px;">';
+                            html += '            <label class=".input-data">Data/Horario: ' + this.DataComentario + '</label>';
+                            html += '   <br>';
+                            html += '            <label>Autor: ' + this.UsuarioComentario + '</label>';
+                            html += '        </div>';
+                            html += '    </div>';
+                            html += '    <div class="col-md-12 ">';
+                            html += '        <div class="form-group" style="margin-bottom: 10px;">';
+                            html += '            <label for="form-naoconformidade-comentario-motivo">Motivo</label>';
+                            html += '            <textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value="" disabled>' + this.Motivo + '</textarea>';
+                            html += '        </div>';
+                            html += '    </div>';
+                            html += '    <div class="col-md-12 ">';
+                            html += '        <div class="form-group">';
+                            html += '            <label for="form-naoconformidade-comentario-orientacao">Orientação</label>';
+                            html += '            <textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value="" disabled>' + this.Orientacao + '</textarea>';
+                            html += '        </div>';
+                            html += '    </div>';
+                            html += '</div>';
 
-                        //APP.component.Datatoday.getCompareDate(dtEmissao, result.UltimaDataEmissao);
-                        html += '<div class="row" >';
-                        html += '    <div class="col-md-12 ">';
-                        html += '        <div class="form-group" style="margin-bottom: 3px;">';
-                        html += '            <label class=".input-data">Data/Horario: ' + this.DataComentario + '</label>';
-                        html += '   <br>';
-                        html += '            <label>Autor: ' + this.UsuarioComentario + '</label>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12 ">';
-                        html += '        <div class="form-group" style="margin-bottom: 10px;">';
-                        html += '            <label for="form-naoconformidade-comentario-motivo">Motivo</label>';
-                        html += '            <textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value="" disabled>' + this.Motivo + '</textarea>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '    <div class="col-md-12 ">';
-                        html += '        <div class="form-group">';
-                        html += '            <label for="form-naoconformidade-comentario-orientacao">Orientação</label>';
-                        html += '            <textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value="" disabled>' + this.Orientacao + '</textarea>';
-                        html += '        </div>';
-                        html += '    </div>';
-                        html += '</div>';
+                            $('#painelComentarios').html(html);
 
-                        $('#painelComentarios').html(html);
+                            //var hasItem = APP.controller.AuditoriaController.getProcessoMesAno(this);
 
-                        //var hasItem = APP.controller.AuditoriaController.getProcessoMesAno(this);
+                            //if (hasItem) {
 
-                        //if (hasItem) {
+                            //    var formAuditoriaAnoObj = {
+                            //        formAuditoriaAno: $(this).find('.pai-ano span').text(),
+                            //        formAuditoriaMeses: APP.controller.AuditoriaController.getObjFormAuditoriaMeses(this),
+                            //    };
 
-                        //    var formAuditoriaAnoObj = {
-                        //        formAuditoriaAno: $(this).find('.pai-ano span').text(),
-                        //        formAuditoriaMeses: APP.controller.AuditoriaController.getObjFormAuditoriaMeses(this),
-                        //    };
-
-                        //    arrayFormAuditoriaAnoObj.push(formAuditoriaAnoObj);
-                        //}
-                    });
-
-
-
-
+                            //    arrayFormAuditoriaAnoObj.push(formAuditoriaAnoObj);
+                            //}
+                        });
+                    } else
+                    {
+                        $('#painelComentarios').html("Sem registros no histórico.");
+                    }
 
 
 
@@ -836,8 +880,14 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataTbDescricao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtPrazoImplementacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbResponsavelImplementar]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
         $('.upload-arq form-control').prop('disabled', _disabled);
+        if (_disabled) {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+        } else {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "visible");
+        }
         //Upload Changes
         $('[name^=formCriarNaoConformidadeEvidencia]').closest('div').css('background-color', '#eee');
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
@@ -1057,6 +1107,20 @@ APP.controller.NaoConformidadeController = {
 
     },
 
+    //Formulario Editar Nao Conformidade
+    formEditarNaoConformidade: function () {
+
+        this.setAndHideEditarNaoConformidade();
+        //this.getformCriarNaoConformidadeDtEmissao();
+        this.getProcessosPorSite();
+        this.getEmissorPorSite();
+        this.getTipoNaoConformidade();
+        this.setAddTipoNaoConformidade();
+
+        this.setResponsavelAnaliseDefinicaoAC();
+
+    },
+
     //Formulario Criar Nao Conformidade
     formCriarNaoConformidade: function () {
 
@@ -1071,10 +1135,16 @@ APP.controller.NaoConformidadeController = {
 
     },
 
+    setAndHideEditarNaoConformidade: function () {
+        var idPerfil = $('[name=IdPerfil]').val();
+        if (idPerfil == 4)
+            this.buttonDestravar.hide();
+        else
+            this.buttonDestravar.show();
+    },
+
     setAndHideCriarNaoConformidade: function () {
         $('#numeroRegistro').hide();
-        //
-
     },
 
     getformCriarNaoConformidadeDtEmissao: function () {
@@ -1208,7 +1278,6 @@ APP.controller.NaoConformidadeController = {
     getObjFormCriarNaoConformidade: function (_fluxo) {
 
         var acoesNaoConformidadeFormCriarNaoConformidadeObj = {};
-
         switch (_fluxo) {
             case "fluxo-00":
                 //Obj enviado no fluxo de criacao
@@ -1242,6 +1311,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
+                    ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
@@ -1270,6 +1340,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
+                    ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
@@ -1289,10 +1360,13 @@ APP.controller.NaoConformidadeController = {
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                     EProcedente: APP.component.Radio.init('formAcaoImadiataEProcedente'),
                     AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
+                    ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),                    
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
                     IdTipoNaoConformidade: $('[name=formCriarNaoConformidadeTipo] :selected').val(),
@@ -1302,7 +1376,7 @@ APP.controller.NaoConformidadeController = {
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     Causa: $('[name=formCausa]').val(),
-                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val()                    
+                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val()
                 };
                 break;
             case "fluxo-04":
@@ -1311,12 +1385,15 @@ APP.controller.NaoConformidadeController = {
                     StatusEtapa: $('[name=StatusEtapa]').val(),
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                     FlEficaz: APP.controller.NaoConformidadeController.getFoiEficaz(),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarNaoConformidadeTipo] :selected').val(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
+                    ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
                     CriticidadeGestaoDeRisco: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
@@ -1326,6 +1403,7 @@ APP.controller.NaoConformidadeController = {
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
@@ -1344,7 +1422,9 @@ APP.controller.NaoConformidadeController = {
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarNaoConformidadeTipo] :selected').val(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
+                    ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
                     CriticidadeGestaoDeRisco: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
@@ -1354,6 +1434,7 @@ APP.controller.NaoConformidadeController = {
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
@@ -1432,6 +1513,10 @@ APP.controller.NaoConformidadeController = {
             html += '<input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" class="form-control input-data" value="0"/>';
             html += '<input type="hidden" name="formAcaoImadiataTbEstado" value="4"/>';
             html += '</td>';
+
+        
+
+
             html += '<td>';
             html += '<div class="input-group input-group-datepicker">';
             html += '<input type="text" name="formAcaoImadiataTbDtPrazoImplementacao" id="form-acaoimediata-tb-dt-prazo-implementacao' + _options.NumeroAcaoImediataGrid + '" class="form-control data datepicker largura-calendario" ';
@@ -1448,7 +1533,8 @@ APP.controller.NaoConformidadeController = {
             html += '<option value="">' + TraducaoDropNameSelect + '</option>';
             html += '</select>';
             html += '</td>';
-            html += '<td>';
+
+            html += '   <td>';
             html += '<div class="input-group input-group-datepicker">';
             html += '<input type="text" name="formAcaoImadiataTbDtEfetivaImplementacao" id="form-acaoimediata-tb-dt-efetiva-implementacao' + _options.NumeroAcaoImediataGrid + '" class="form-control data datepicker dataEfetivaImplementacaoDatePicker" ';
             html += 'data-msg-required="" ';
@@ -1458,7 +1544,17 @@ APP.controller.NaoConformidadeController = {
             html += '</span>';
             html += '</div>';
             html += '</td>';
-            html += '<td>';
+
+
+            //html += '<td>';
+            //html += '<textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control"></textarea>';
+            //html += '</td>';
+
+
+            html += '   <td>';
+
+
+
             html += '<div class="upload-arq form-control">';
             html += '<a class="btn-upload-form-acaoimediata-tb-evidencia-' + index + '">';
             html += '<i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br>Anexar';
@@ -1466,6 +1562,10 @@ APP.controller.NaoConformidadeController = {
             html += '<input type="file" name="formAcaoImadiataTbEvidencia" id="form-acaoimediata-tb-evidencia-' + index + '" class="" data-msg-required="" data-b64="">';
             html += '</div>';
             html += '<ul></ul>';
+            html += '</td>';
+            html += '<td>';
+            html += '</td>';
+            html += '<td>';
             html += '</td>';
             html += '<td>';
             html += '<a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">';
@@ -1507,7 +1607,10 @@ APP.controller.NaoConformidadeController = {
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
-                    APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
+                    //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
+                    $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
+                        APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
+                    });  
                 }
             },
             error: function (result) {
@@ -1611,6 +1714,7 @@ APP.controller.NaoConformidadeController = {
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
+                    Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
 
@@ -1645,6 +1749,7 @@ APP.controller.NaoConformidadeController = {
 
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
+                    Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
@@ -1862,6 +1967,8 @@ APP.controller.NaoConformidadeController = {
         var idNaoConformidade = $('[name=IdRegistroConformidade]').val();  // $('#form-criar-nao-conformidade-nm-registro').val();
         var data = { "idNaoConformidade": idNaoConformidade };
 
+        APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+
         $.ajax({
             type: "POST",
             dataType: 'json',
@@ -1893,8 +2000,8 @@ APP.controller.NaoConformidadeController = {
     setDestravarCamposNaoConformidade: function () {
 
         this.buttonDestravar.on('click', function () {
-
-
+            
+            
             if (perfil == '4') {
 
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
@@ -1910,35 +2017,46 @@ APP.controller.NaoConformidadeController = {
 
             }
 
+            $("#form-acaoimediata-numero-ac").attr("disabled", true);
+
 
             var idNaoConformidade = $('[name=IdRegistroConformidade]').val();  //$('#form-criar-nao-conformidade-nm-registro').val();
             var data = { "idNaoConformidade": idNaoConformidade };
 
-            $.ajax({
-                type: "POST",
-                dataType: 'json',
-                data: data,
-                url: "/NaoConformidade/DestravarDocumento",
-                success: function (result) {
-                    //alert('foi');
-                    //if (result.StatusCode == 200) {
-                    //    window.location.reload([true]);
-                    //} else if (result.StatusCode == 505) {
-                    //    erro = APP.component.ResultErros.init(result.Erro);
-                    //    bootbox.alert(erro);
-                    //} else if (result.StatusCode == 500) {
-                    //    erro = APP.component.ResultErros.init(result.Erro);
-                    //    bootbox.alert(erro);
-                    //}
 
-                },
-                error: function (result) {
-                    //erro = APP.component.ResultErros.init(result.Erro);
-                    //bootbox.alert(erro);
-                },
-                //complete: function (result) {
-                //    APP.component.Loading.hideLoading();
-            });
+            APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+            //$.ajax({
+            //    type: "POST",
+            //    dataType: 'json',
+            //    data: data,
+            //    url: "/NaoConformidade/DestravarDocumento",
+            //    success: function (result) {
+            //        debugger;
+
+            //        $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
+            //            APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
+            //        });  
+
+
+            //        //alert('foi');
+            //        //if (result.StatusCode == 200) {
+            //        //    window.location.reload([true]);
+            //        //} else if (result.StatusCode == 505) {
+            //        //    erro = APP.component.ResultErros.init(result.Erro);
+            //        //    bootbox.alert(erro);
+            //        //} else if (result.StatusCode == 500) {
+            //        //    erro = APP.component.ResultErros.init(result.Erro);
+            //        //    bootbox.alert(erro);
+            //        //}
+
+            //    },
+            //    error: function (result) {
+            //        //erro = APP.component.ResultErros.init(result.Erro);
+            //        //bootbox.alert(erro);
+            //    }
+            //    //complete: function (result) {
+            //    //    APP.component.Loading.hideLoading();
+            //});
 
 
 

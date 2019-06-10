@@ -62,6 +62,7 @@ namespace IoC
             Bind<IUsuarioAnexoRepositorio>().To<UsuarioAnexoRepositorio>();
             Bind<IClienteContratoRepositorio>().To<ClienteContratoRepositorio>();
             Bind<IArquivoDeEvidenciaAcaoImediataRepositorio>().To<ArquivoDeEvidenciaAcaoImediataRepositorio>();
+            Bind<IArquivoDeEvidenciaRegistroConformidadeRepositorio>().To<ArquivoDeEvidenciaRegistroConformidadeRepositorio>();
             Bind<IArquivosEvidenciaCriterioQualificacaoRepositorio>().To<ArquivosEvidenciaCriterioQualificacaoRepositorio>();
             
             Bind<IArquivoCertificadoAnexoRepositorio>().To<ArquivoCertificadoAnexoRepositorio>();
