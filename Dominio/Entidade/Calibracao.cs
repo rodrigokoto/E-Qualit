@@ -16,7 +16,7 @@ namespace Dominio.Entidade
         public string Certificado { get; set; }
         public string OrgaoCalibrador { get; set; }
         public Byte Aprovado { get; set; }
-
+        public long? IdFilaEnvio { get; set; }
         public int Aprovador { get; set; }
         public virtual Usuario  UsuarioAprovador{ get; set; }
 

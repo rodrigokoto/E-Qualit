@@ -534,8 +534,11 @@ APP.controller.InstrumentosController = {
             $("[name=EdicaoCalibracao]").val("1");
 
             var IdCalibracao = $(this).data("id");
+            var IdFilaEnvio = $(this).data("idFilaEnvio");
 
             $("#IdCalibracao").val(IdCalibracao);
+            $("#IdFilaEnvio").val(IdFilaEnvio);
+
 
 
             $.ajax({

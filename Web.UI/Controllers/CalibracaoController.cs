@@ -24,6 +24,8 @@ namespace Web.UI.Controllers
         private readonly ILogAppServico _logAppServico;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IFilaEnvioServico _filaEnvioServico;
+        private readonly IInstrumentoAppServico _instrumentoServico;
 
         public CalibracaoController(ICalibracaoAppServico calibracaoAppServico,
                                     ICalibracaoServico calibracaoServico,
@@ -32,8 +34,10 @@ namespace Web.UI.Controllers
                                     ICriterioAceitacaoAppServico criterioAceitacaoAppServico,
                                     ILogAppServico logAppServico,
                                     IUsuarioAppServico usuarioAppServico,
-            IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                    IProcessoAppServico processoAppServico,
+                                    IControladorCategoriasAppServico controladorCategoriasServico,
+                                    IFilaEnvioServico filaEnvioServico,
+                                    IInstrumentoAppServico instrumentoServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _calibracaoAppServico = calibracaoAppServico;
             _calibracaoServico = calibracaoServico;
@@ -44,6 +48,8 @@ namespace Web.UI.Controllers
             _usuarioAppServico = usuarioAppServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _filaEnvioServico = filaEnvioServico;
+            _instrumentoServico = instrumentoServico;
         }
 
         // GET: Calibracao
@@ -106,6 +112,8 @@ namespace Web.UI.Controllers
                             anexoCtx.DtAlteracao = anexo.DtAlteracao;
                         }
                     });
+
+                    EnfileirarEmailCalibracao(calibracao);
 
 
                     if (calibracao.CriterioAceitacao != null)
@@ -172,6 +180,22 @@ namespace Web.UI.Controllers
                 calibracao.DataAlteracao = DateTime.Now;
                 calibracao.DataCalibracao = DateTime.Now;
                 calibracao.DataCriacao = DateTime.Now;
+
+                if (calibracao.IdFilaEnvio != null)
+                {
+                    var filaEnvio = _filaEnvioServico.ObterPorId(calibracao.IdFilaEnvio.Value);
+
+                    if (filaEnvio.Enviado)
+                        EnfileirarEmailCalibracao(calibracao);
+                    else
+                        filaEnvio.DataAgendado = calibracao.DataCalibracao;
+                    _filaEnvioServico.Atualizar(filaEnvio);
+                }
+                else
+                {
+                    EnfileirarEmailCalibracao(calibracao);
+                }
+
 
                 if (calibracao.CriterioAceitacao != null)
                 {
@@ -326,5 +350,45 @@ namespace Web.UI.Controllers
             }
 
         }
+
+
+        private string MontarUrlAcessoInstrumento(int idInstrumento)
+        {
+            return string.Empty;
+        }
+
+        private void EnfileirarEmailCalibracao(Calibracao calibracao)
+        {
+            try
+            {
+                var instrumento = _instrumentoServico.GetById(calibracao.IdInstrumento);
+                var urlAcesso = MontarUrlAcessoInstrumento(instrumento.IdInstrumento);
+                string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\InstrumentoCalibracao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+                string destinatario = _usuarioAppServico.GetById(instrumento.IdResponsavel.Value).CdIdentificacao;
+
+                string template = System.IO.File.ReadAllText(path);
+                string conteudo = template;
+
+                conteudo = conteudo.Replace("#NuRegistro#", instrumento.Numero);
+                conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                var filaEnvio = new FilaEnvio();
+                filaEnvio.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
+                filaEnvio.DataAgendado = calibracao.DataProximaCalibracao;
+                filaEnvio.DataInclusao = DateTime.Now;
+                filaEnvio.Destinatario = destinatario;
+                filaEnvio.Enviado = false;
+                filaEnvio.Mensagem = conteudo;
+
+                _filaEnvioServico.Enfileirar(filaEnvio);
+
+                calibracao.IdFilaEnvio = filaEnvio.Id;
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+            }
+        }
+       
     }
 }
