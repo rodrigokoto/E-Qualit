@@ -7,6 +7,7 @@ using Rotativa;
 using Rotativa.Options;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,6 +31,7 @@ namespace Web.UI.Controllers
         private readonly ILogAppServico _logAppServico;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IFilaEnvioServico _filaEnvioServico;
 
         public AnaliseCriticaController(IAnaliseCriticaAppServico analiseCriticaAppServico,
                                         IAnaliseCriticaServico analiseCriticaServico,
@@ -40,7 +42,8 @@ namespace Web.UI.Controllers
                                         ILogAppServico logAppServico,
                                         IRegistroConformidadesServico registroConformidadesServico,
                                         IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                        IControladorCategoriasAppServico controladorCategoriasServico,
+                                        IFilaEnvioServico filaEnvioServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _analiseCriticaAppServico = analiseCriticaAppServico;
             _analiseCriticaServico = analiseCriticaServico;
@@ -52,6 +55,7 @@ namespace Web.UI.Controllers
             _registroConformidadesServico = registroConformidadesServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _filaEnvioServico = filaEnvioServico;
         }
 
         [AutorizacaoUsuario((int)FuncoesAnaliseCritica.RegistroDaAta, (int)Funcionalidades.AnaliseCritica)]
@@ -120,7 +124,7 @@ namespace Web.UI.Controllers
                     tema.GestaoDeRisco.Emissor = new Usuario();
                     tema.GestaoDeRisco.Processo = new Processo();
                     tema.GestaoDeRisco.Site = new Site();
-                  
+
                 }
             }
             );
@@ -185,7 +189,6 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
-
                     if (EAtualizacao(analiseCritica.IdAnaliseCritica))
                     {
                         analiseCritica.Temas.ForEach(x =>
@@ -196,13 +199,16 @@ namespace Web.UI.Controllers
                         {
                             x.IdAnaliseCritica = analiseCritica.IdAnaliseCritica;
                         });
+
                         _analiseCriticaAppServico.AtualizaAnaliseCritica(analiseCritica);
 
                     }
                     else
                     {
-                        analiseCritica.DataCadastro = DateTime.Now;
+                        analiseCritica.DataCadastro = DateTime.Now;                        
                         _analiseCriticaAppServico.SalvarAnaliseCritica(analiseCritica);
+                        EnfileirarEmailsAnaliseCritica(analiseCritica);
+                        _analiseCriticaAppServico.AtualizaAnaliseCritica(analiseCritica);
                     }
                 }
                 else
@@ -220,6 +226,47 @@ namespace Web.UI.Controllers
             return Json(new { StatusCode = 200, Success = Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_save_valid }, JsonRequestBehavior.AllowGet);
         }
 
+        private void EnfileirarEmailsAnaliseCritica(AnaliseCritica analiseCritica)
+        {
+            var urlAcesso = MontarUrlAnaliseCritica(analiseCritica.IdAnaliseCritica);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AnaliseCriticaDataProximaAta-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+
+            try
+            {
+                var destinatario = _usuarioAppServico.GetById(analiseCritica.IdResponsavel).CdIdentificacao;
+                string template = System.IO.File.ReadAllText(path);
+                string conteudo = template;
+
+                conteudo = conteudo.Replace("#NomeAnaliseCritica#", analiseCritica.Ata);
+                conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                var filaEnvio = new FilaEnvio();
+                filaEnvio.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
+                filaEnvio.DataAgendado = analiseCritica.DataProximaAnalise;
+                filaEnvio.DataInclusao = DateTime.Now;
+                filaEnvio.Destinatario = destinatario;
+                filaEnvio.Enviado = false;
+                filaEnvio.Mensagem = conteudo;
+
+                _filaEnvioServico.Enfileirar(filaEnvio);
+
+                analiseCritica.IdFilaEnvio = filaEnvio.Id;
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+            }
+
+        }
+
+        private string MontarUrlAnaliseCritica(int idRegistro)
+        {
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "AnaliseCritica/Editar/" + idRegistro.ToString();
+        }
+
         private void TrataTemasGestaoDeRisco(List<AnaliseCriticaTema> temas, int IdResponsavelPorCriacaoDaNova, ref List<string> erros)
         {
             foreach (var tema in temas)
@@ -230,11 +277,11 @@ namespace Web.UI.Controllers
                 tema.GestaoDeRisco.StatusEtapa = tema.PossuiGestaoRisco == true ? (byte)EtapasRegistroConformidade.AcaoImediata : (byte)EtapasRegistroConformidade.Encerrada;
                 tema.GestaoDeRisco.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
                 tema.GestaoDeRisco.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
-                if(tema.PossuiGestaoRisco == true)
+                if (tema.PossuiGestaoRisco == true)
                 {
                     tema.GestaoDeRisco.IdResponsavelEtapa = tema.GestaoDeRisco.IdResponsavelInicarAcaoImediata.Value;
                 }
-                
+
                 tema.GestaoDeRisco.TipoRegistro = "gr";
                 tema.GestaoDeRisco.FlDesbloqueado = tema.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 tema.GestaoDeRisco.EProcedente = tema.PossuiGestaoRisco;
@@ -296,7 +343,7 @@ namespace Web.UI.Controllers
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.Tema = "tema";
-            
+
             analiseCritica.Temas.ForEach(tema =>
             {
                 if (tema.PossuiGestaoRisco)
@@ -334,11 +381,11 @@ namespace Web.UI.Controllers
                 {
                     analiseCritica.Temas.ForEach(x =>
                     {
-                        if(x.GestaoDeRisco != null)
+                        if (x.GestaoDeRisco != null)
                         {
                             x.GestaoDeRisco.JustificativaAnulacao = "Anulado";
                             x.GestaoDeRisco.StatusEtapa = 0;
-                        }                        
+                        }
                     });
                 }
 

@@ -14,7 +14,11 @@
         </li>
 
         <li><a href="/Home/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Home</a></li>
-
+        if (controller == "norma")
+        {
+            <li><a href="/Auditoria/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_auditoria</a></li>
+            @*<li><a href="/Norma/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_norma</a></li>*@
+        }
         if (controller == "usuario")
         {
             <li><a href="/Cliente/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_cliente</a></li>
