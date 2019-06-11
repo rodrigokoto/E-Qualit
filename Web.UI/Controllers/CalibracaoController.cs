@@ -3,6 +3,7 @@ using Dominio.Entidade;
 using Dominio.Interface.Servico;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -367,7 +368,9 @@ namespace Web.UI.Controllers
 
         private string MontarUrlAcessoInstrumento(int idInstrumento)
         {
-            return string.Empty;
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "Instrumento/Editar/" + idInstrumento.ToString();
         }
 
         private void EnfileirarEmailCalibracao(Calibracao calibracao)
