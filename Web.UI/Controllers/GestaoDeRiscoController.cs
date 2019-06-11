@@ -25,6 +25,7 @@ namespace Web.UI.Controllers
         private readonly IAnaliseCriticaTemaAppServico _analiseCriticaTemaAppServico;
         private readonly IRegistroConformidadesAppServico _registroConformidadesAppServico;
         private readonly IRegistroConformidadesServico _registroConformidadesServico;
+        private readonly IRegistroAcaoImediataServico _registroRegistroAcaoImediataServico;
         private readonly IProcessoServico _processoServico;
         private readonly IClienteAppServico _clienteServico;
         private readonly INotificacaoAppServico _notificacaoAppServico;
@@ -50,7 +51,8 @@ namespace Web.UI.Controllers
                         ILogAppServico logAppServico,
                         IProcessoServico processoServico,
                         IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IControladorCategoriasAppServico controladorCategoriasServico,
+            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _analiseCriticaTemaAppServico = analiseCriticaTemaAppServico;
             _registroConformidadesAppServico = registroConformidadesAppServico;
@@ -63,6 +65,8 @@ namespace Web.UI.Controllers
             _processoServico = processoServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
+
         }
 
         // GET: GestaoDeRisco
@@ -592,7 +596,8 @@ namespace Web.UI.Controllers
 
             try
             {
-
+                var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == gestaoDeRisco.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
+                var idResponsavelAcaoCorrecao = (responsavelAcaoCorrecao != null ? responsavelAcaoCorrecao.IdResponsavelInicarAcaoImediata : 0);
 
                 gestaoDeRisco.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 gestaoDeRisco.FlDesbloqueado = gestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
@@ -601,7 +606,30 @@ namespace Web.UI.Controllers
 
                 _registroConformidadesServico.ValidaGestaoDeRisco(gestaoDeRisco, Util.ObterCodigoUsuarioLogado(), ref erros);
 
+
                 erros = ValidaCampoSegundaEtapa(gestaoDeRisco, erros);
+
+                var usuario = Util.ObterUsuario();
+
+
+                for (int i = 0; i < gestaoDeRisco.AcoesImediatas.Count; i++)
+                {
+
+                    if (gestaoDeRisco.StatusEtapa == 3 && gestaoDeRisco.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(gestaoDeRisco.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(gestaoDeRisco.AcoesImediatas[i].Orientacao)))
+                    {
+                        erros.Add("Favor preencher Motivo e Orientação.");
+                    }
+                    if (gestaoDeRisco.AcoesImediatas[i].Motivo != null || gestaoDeRisco.AcoesImediatas[i].Orientacao != null)
+                    {
+                        ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                        ca.Motivo = gestaoDeRisco.AcoesImediatas[i].Motivo;
+                        ca.Orientacao = gestaoDeRisco.AcoesImediatas[i].Orientacao;
+                        ca.DataComentario = DateTime.Now.ToString();
+                        ca.UsuarioComentario = usuario.Nome;
+
+                        gestaoDeRisco.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
+                    }
+                }
 
                 if (erros.Count == 0)
                 {
@@ -634,6 +662,30 @@ namespace Web.UI.Controllers
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_save_valid }, JsonRequestBehavior.AllowGet);
 
 
+        }
+
+        [HttpPost]
+        public JsonResult ListarAcaoImediataComentarios(int idAcaoImediata)
+        {
+            var teste = _registroRegistroAcaoImediataServico.GetById(idAcaoImediata);
+
+            //var ultimaDataEmissao = _registroRegistroAcaoImediataServico.Update//ObtemUltimaDataEmissao(site, _tipoRegistro).ToString(Traducao.Resource.dateFormat);
+
+            List<ComentarioAcaoImediata> lista = new List<ComentarioAcaoImediata>();
+            foreach (var item in teste.ComentariosAcaoImediata)
+            {
+                ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                ca.Motivo = item.Motivo;
+                ca.Orientacao = item.Orientacao;
+                ca.DataComentario = item.DataComentario;
+                ca.UsuarioComentario = item.UsuarioComentario;
+
+                lista.Add(ca);
+            }
+
+
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Comentarios = lista }, JsonRequestBehavior.AllowGet);
+            //return null;
         }
 
         [HttpGet]
