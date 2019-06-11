@@ -88,6 +88,7 @@ namespace DAL.Context
         public DbSet<DocRegistro> RegistroDoc { get; set; }
 
         public DbSet<DocIndicadores> DocIndicadores { get; set; }
+        public DbSet<DocRisco> DocRisco { get; set; }
         public DbSet<FilaEnvio> FilaEnvio { get; set; }
 
         #region RH
@@ -205,6 +206,7 @@ namespace DAL.Context
 
             modelBuilder.Configurations.Add(new DocRotinaMap());
             modelBuilder.Configurations.Add(new DocIndicadoresMap());
+            modelBuilder.Configurations.Add(new DocRiscoMap());
 
             modelBuilder.Configurations.Add(new DocRegistroMap());
             modelBuilder.Configurations.Add(new ComentarioAcaoImediataMap());
