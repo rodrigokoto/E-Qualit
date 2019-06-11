@@ -252,6 +252,7 @@ APP.controller.InstrumentosController = {
 
         var PosCalibracao = {
             IdCalibracao: $("#IdCalibracao").val(),
+            IdFilaEnvio: $("#IdFilaEnvio").val(),
             IdInstrumento: $('#IdInstrumento').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
             DataRegistro: $('#form-pos-calibracao').find('[name=DtRegistro]').val(),
             DataNotificacao: $('#form-pos-calibracao').find('[name=DtNotificacao]').val(),
@@ -324,6 +325,7 @@ APP.controller.InstrumentosController = {
 
         $('#form-pos-calibracao').find("[name=EdicaoCalibracao]").val("1");
         $('#IdInstrumento').val(result.IdInstrumento);
+        $('#IdFilaEnvio').val(result.IdFilaEnvio);
         $('#form-pos-calibracao').find('[name=DtRegistro]').val(result.DataRegistro);
         $('#form-pos-calibracao').find('[name=DtNotificacao]').val(result.DataNotificacao);
         $('#form-pos-calibracao').find('[name=DataProximaCalibracao]').val(result.DataProximaCalibracao);

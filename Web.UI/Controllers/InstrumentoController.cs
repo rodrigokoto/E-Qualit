@@ -230,27 +230,9 @@ namespace Web.UI.Controllers
                 {
                     calibracao.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
                     calibracao.DataCriacao = DateTime.Now;
-                    EnfileirarEmailCalibracao(instrumento, calibracao);
                 }
                 else
-                {
                     calibracao.DataAlteracao = DateTime.Now;
-
-                    if (calibracao.IdFilaEnvio != null)
-                    {
-                        var filaEnvio = _filaEnvioServico.ObterPorId(calibracao.IdFilaEnvio.Value);
-
-                        if (filaEnvio.Enviado)
-                            EnfileirarEmailCalibracao(instrumento, calibracao);
-                        else
-                            filaEnvio.DataAgendado = calibracao.DataCalibracao;
-                            _filaEnvioServico.Atualizar(filaEnvio);
-                    }
-                    else
-                    {
-                        EnfileirarEmailCalibracao(instrumento, calibracao);
-                    }
-                }
             });
         }
 

@@ -164,7 +164,7 @@ namespace Web.UI.Controllers
             var calibracao = _calibracaoAppServico.GetById(id);
 
             var calibracaoJson = CalibracaoObjSemReferenciaCircular(calibracao);
-                       
+
             return Json(new { StatusCode = 200, Calibracao = calibracaoJson }, JsonRequestBehavior.AllowGet);
         }
 
@@ -188,7 +188,7 @@ namespace Web.UI.Controllers
                     if (filaEnvio.Enviado)
                         EnfileirarEmailCalibracao(calibracao);
                     else
-                        filaEnvio.DataAgendado = calibracao.DataCalibracao;
+                        filaEnvio.DataAgendado = calibracao.DataNotificacao;
                     _filaEnvioServico.Atualizar(filaEnvio);
                 }
                 else
@@ -213,10 +213,10 @@ namespace Web.UI.Controllers
                                 _criterioAceitacaoAppServico.Update(criterioaceitacao);
                             }
                             catch
-                            {   
+                            {
                             }
                         }
-                            
+
                     }
                 }
 
@@ -254,6 +254,12 @@ namespace Web.UI.Controllers
             {
                 if (objetoParaRemover != null)
                 {
+
+                    long idFilaEnvio = 0;
+
+                    if (objetoParaRemover.IdFilaEnvio != null)
+                        idFilaEnvio = objetoParaRemover.IdFilaEnvio.Value;
+
                     List<int> idsCriterio = new List<int>();
 
                     foreach (var criterio in objetoParaRemover.CriterioAceitacao)
@@ -263,6 +269,12 @@ namespace Web.UI.Controllers
 
                     for (int i = 0; i < idsCriterio.Count; i++)
                         _criterioAceitacaoAppServico.Remove(new CriterioAceitacao() { IdCriterioAceitacao = idsCriterio[i] });
+
+                    if (idFilaEnvio > 0)
+                    {
+                        var filaEnvio = _filaEnvioServico.ObterPorId(objetoParaRemover.IdFilaEnvio.Value);
+                        _filaEnvioServico.Apagar(filaEnvio);
+                    }
                 }
             }
             catch (Exception ex)
@@ -311,6 +323,7 @@ namespace Web.UI.Controllers
             {
                 IdCalibracao = calibracao.IdCalibracao,
                 IdInstrumento = calibracao.IdInstrumento,
+                IdFilaEnvio = calibracao.IdFilaEnvio,
                 Certificado = calibracao.Certificado,
                 OrgaoCalibrador = calibracao.OrgaoCalibrador,
                 Aprovado = calibracao.Aprovado,
@@ -333,13 +346,13 @@ namespace Web.UI.Controllers
         private List<Anexo> RetornaArquivosCertificado(Calibracao calibracao)
         {
 
-            if(calibracao.ArquivoCertificado.Count > 0)
+            if (calibracao.ArquivoCertificado.Count > 0)
             {
                 calibracao.ArquivoCertificado.Select(x => x.Anexo).ToList().ForEach(x =>
                 {
                     x.ArquivoB64 = String.Format("data:application/" + x.Extensao + ";base64," + Convert.ToBase64String(x.Arquivo));
                     x.Arquivo = null;
-                    x.ArquivoCertificadoAnexo = null;                    
+                    x.ArquivoCertificadoAnexo = null;
                 });
 
                 return calibracao.ArquivoCertificado.Select(x => x.Anexo).ToList();
@@ -374,7 +387,7 @@ namespace Web.UI.Controllers
 
                 var filaEnvio = new FilaEnvio();
                 filaEnvio.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
-                filaEnvio.DataAgendado = calibracao.DataProximaCalibracao;
+                filaEnvio.DataAgendado = calibracao.DataNotificacao;
                 filaEnvio.DataInclusao = DateTime.Now;
                 filaEnvio.Destinatario = destinatario;
                 filaEnvio.Enviado = false;
@@ -389,6 +402,6 @@ namespace Web.UI.Controllers
                 GravaLog(ex);
             }
         }
-       
+
     }
 }
