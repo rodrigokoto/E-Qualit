@@ -13,7 +13,7 @@ namespace Dominio.Entidade
             Temas = new List<AnaliseCriticaTema>();
         }
 
-        public int IdAnaliseCritica { get; set; } 
+        public int IdAnaliseCritica { get; set; }
         public string Ata { get; set; }
         public DateTime DataCriacao { get; set; }
         public DateTime DataProximaAnalise { get; set; }
@@ -23,6 +23,8 @@ namespace Dominio.Entidade
         public virtual Site Site { get; set; }
 
         public int IdResponsavel { get; set; }
+
+        public long? IdFilaEnvio { get; set; }
         public virtual Usuario Responsavel { get; set; }
 
         public virtual List<AnaliseCriticaFuncionario> Funcionarios { get; set; }

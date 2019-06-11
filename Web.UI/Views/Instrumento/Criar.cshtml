@@ -229,6 +229,7 @@
                             <thead>
                                 <tr class="bg" role="row">
                                     <th class="w12 sorting_asc hidden" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_calibracao</th>
+                                    <th class="w12 hidden" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">IdFilaEnvio</th>
                                     <th class="w12 sorting_asc" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_numero_certificado</th>
                                     <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_dt_calibracao</th>
                                     <th class="w12 sorting" tabindex="0" aria-controls="tbCliente" rowspan="1" colspan="1">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_proxima_calibracao</th>
@@ -246,57 +247,58 @@
                                     foreach (var calibracao in Model.Calibracao)
                                     {
                                         <!-- Campo Tabela -->
-                                        <tr role="row" class="odd campos-tabela-calibracao">
-                                            <td class="id-calibracao hidden">@calibracao.IdCalibracao</td>
-                                            <td>@calibracao.Certificado</td>
-                                            <td>@(calibracao.DataCalibracao != null ? calibracao.DataCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
-                                            <td>@(calibracao.DataProximaCalibracao != null ? calibracao.DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
-                                            <td>@calibracao.OrgaoCalibrador</td>
-                                            <td>@calibracao.UsuarioAprovador.NmCompleto</td>
-                                            <td>
-                                                @if (calibracao.Aprovado == 0)
-                                                {
-                                                    <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
-                                                }
-                                                else if (calibracao.Aprovado == 1)
-                                                {
-                                                    <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
-                                                }
-                                                else if (calibracao.Aprovado == 2)
-                                                {
-                                                    <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
-                                                }
-                                                else if (calibracao.Aprovado == 3)
-                                                {
-                                                    <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
-                                                }
+                                <tr role="row" class="odd campos-tabela-calibracao">
+                                    <td class="id-calibracao hidden">@calibracao.IdCalibracao</td>
+                                    <td class="id-fila-envio hidden">@calibracao.IdFilaEnvio</td>
+                                    <td>@calibracao.Certificado</td>
+                                    <td>@(calibracao.DataCalibracao != null ? calibracao.DataCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
+                                    <td>@(calibracao.DataProximaCalibracao != null ? calibracao.DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
+                                    <td>@calibracao.OrgaoCalibrador</td>
+                                    <td>@calibracao.UsuarioAprovador.NmCompleto</td>
+                                    <td>
+                                        @if (calibracao.Aprovado == 0)
+                                        {
+                                            <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                        }
+                                        else if (calibracao.Aprovado == 1)
+                                        {
+                                            <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
+                                        }
+                                        else if (calibracao.Aprovado == 2)
+                                        {
+                                            <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
+                                        }
+                                        else if (calibracao.Aprovado == 3)
+                                        {
+                                            <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
+                                        }
 
-                                            </td>
-                                            <td>@calibracao.Observacoes</td>
-                                            <td class="text-nowrap">
-                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.EditarCalibracao) || ViewBag.IdPerfil != 4)
-                                                {
-                                                    <a class="edit icon-cliente editar-color tb-calibracao-editar" data-id="@calibracao.IdCalibracao" style="cursor:pointer">
-                                                        <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
-                                                    </a>
-                                                }
-                                                @if (calibracao.ArquivoCertificado.Count > 0)
-                                                {
-                                                    var anexoTratado = calibracao.ArquivoCertificado.FirstOrDefault().Anexo.TrataAnexoVindoBanco();
+                                    </td>
+                                    <td>@calibracao.Observacoes</td>
+                                    <td class="text-nowrap">
+                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.EditarCalibracao) || ViewBag.IdPerfil != 4)
+                                        {
+                                            <a class="edit icon-cliente editar-color tb-calibracao-editar" data-id="@calibracao.IdCalibracao" style="cursor:pointer">
+                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                            </a>
+                                        }
+                                        @if (calibracao.ArquivoCertificado.Count > 0)
+                                        {
+                                            var anexoTratado = calibracao.ArquivoCertificado.FirstOrDefault().Anexo.TrataAnexoVindoBanco();
 
-                                                    <a href="@anexoTratado" class="icon-cliente view-color" target="_blank" download="@calibracao.ArquivoCertificado.FirstOrDefault().Anexo.Nome">
-                                                        <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
-                                                    </a>
-                                                }
+                                            <a href="@anexoTratado" class="icon-cliente view-color" target="_blank" download="@calibracao.ArquivoCertificado.FirstOrDefault().Anexo.Nome">
+                                                <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
+                                            </a>
+                                        }
 
-                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.ExcluirCalibracao) || ViewBag.IdPerfil != 4)
-                                                {
-                                                    <a href="" class="tb-calibracao-excluir icon-cliente trash-color" data-id="@calibracao.IdCalibracao">
-                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
+                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.ExcluirCalibracao) || ViewBag.IdPerfil != 4)
+                                        {
+                                            <a href="" class="tb-calibracao-excluir icon-cliente trash-color" data-id="@calibracao.IdCalibracao">
+                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
                                     }
                                 }
                             </tbody>
@@ -310,6 +312,7 @@
         <form id="form-pos-calibracao" class="hide">
             <input name="EdicaoCalibracao" value="0" type="hidden" />
             <input id="IdCalibracao" value="0" type="hidden" />
+            <input id="IdFilaEnvio" value="0" type="hidden" />
             <input name="IdAprovadorCalibracao" type="hidden" id="IdAprovadorCalibracao" value="@ViewBag.IdAprovadorCalibracao" />
             <!-- Parametros do Instrumento -->
             <div class="content-painel">

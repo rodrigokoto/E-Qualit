@@ -399,7 +399,20 @@ namespace Web.UI.Controllers
                         x.ArquivoEvidenciaAux = x.ArquivoEvidencia.FirstOrDefault().Anexo;
                     });
                 }
+                //// Remove anexos para não confirmados
+                //if (naoConformidade.StatusEtapa == 2)
+                //    foreach (var item in naoConformidade.AcoesImediatas)
+                //    {
+                //        if (item.Aprovado == false)
+                //        {
+                //            naoConformidade.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux = null;
+                //            naoConformidade.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
+                //        }
+                //    }
+
             }
+
+
 
             if (naoConformidade.IdNuRegistroFilho != null)
             {
@@ -580,10 +593,15 @@ namespace Web.UI.Controllers
 
 
                 var usuario = Util.ObterUsuario();
-                
+
 
                 for (int i = 0; i < naoConformidade.AcoesImediatas.Count; i++)
                 {
+
+                    if (naoConformidade.EProcedente == true && naoConformidade.StatusEtapa == 3 && naoConformidade.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Orientacao)))
+                    {
+                        erros.Add("Favor preencher Motivo e Orientação.");
+                    }
                     if (naoConformidade.AcoesImediatas[i].Motivo != null || naoConformidade.AcoesImediatas[i].Orientacao != null)
                     {
                         ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
@@ -591,6 +609,7 @@ namespace Web.UI.Controllers
                         ca.Orientacao = naoConformidade.AcoesImediatas[i].Orientacao;
                         ca.DataComentario = DateTime.Now.ToString();
                         ca.UsuarioComentario = usuario.Nome;
+
 
 
                         naoConformidade.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
@@ -614,6 +633,10 @@ namespace Web.UI.Controllers
                     var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
                     var acoesEfetivadas = naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
+                    acoesEfetivadas.ToList().ForEach(acao =>
+                    {
+                        acao.IdRegistroConformidade = naoConformidade.IdRegistroConformidade;
+                    });
 
                     RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
 
@@ -621,11 +644,14 @@ namespace Web.UI.Controllers
                     {
                         EnfileirarEmailsAcaoImediata(acoesImediatasNova, naoConformidade);
                     }
-                    TrataDadosParaCriacao_Edicao(naoConformidade);
-                    SalvarArquivoEvidencia(naoConformidade);
 
+                    if (1 == 0)
+                    {
+                        TrataDadosParaCriacao_Edicao(naoConformidade);
+                        SalvarArquivoEvidencia(naoConformidade);
+                    }
                     AtualizarDatasAgendadas(naoConformidade);
-
+                    
                     naoConformidade = _registroConformidadesAppServico.SalvarSegundaEtapa(naoConformidade, Funcionalidades.NaoConformidade);
 
                     if (naoConformidade.EProcedente == true)
@@ -737,7 +763,7 @@ namespace Web.UI.Controllers
                 if (acao.IdFilaEnvio != null)
                 {
                     var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-                    if (!filaEnvio.Enviado)
+                    if (filaEnvio != null && !filaEnvio.Enviado)
                     {
                         acao.IdFilaEnvio = null;
                         _registroRegistroAcaoImediataServico.Update(acao);
@@ -1178,7 +1204,7 @@ namespace Web.UI.Controllers
             var dtDados = new DataTable();
             int? idTipoNaoConformidade = (tipoNaoConformidade == 0 ? null : tipoNaoConformidade);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterClienteSelecionado(),  Util.ObterSiteSelecionado(), tipoGrafico);
+            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoNaoConformidade, Util.ObterClienteSelecionado(), Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsBarra(dtDados);
 
@@ -1232,7 +1258,7 @@ namespace Web.UI.Controllers
 
                 //Ajuste para gráfico 
                 //if (item["Rotulo"].ToString() != "Total NCs")
-                    dataPoints.Add(data);
+                dataPoints.Add(data);
             }
 
             return dataPoints;

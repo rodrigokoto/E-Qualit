@@ -312,6 +312,32 @@ namespace Web.UI.Controllers
 
         }
 
+
+        [HttpPost]
+        public JsonResult ListarAcaoImediataComentarios(int idAcaoImediata)
+        {
+            var teste = _registroRegistroAcaoImediataServico.GetById(idAcaoImediata);
+
+            //var ultimaDataEmissao = _registroRegistroAcaoImediataServico.Update//ObtemUltimaDataEmissao(site, _tipoRegistro).ToString(Traducao.Resource.dateFormat);
+
+            List<ComentarioAcaoImediata> lista = new List<ComentarioAcaoImediata>();
+            foreach (var item in teste.ComentariosAcaoImediata)
+            {
+                ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                ca.Motivo = item.Motivo;
+                ca.Orientacao = item.Orientacao;
+                ca.DataComentario = item.DataComentario;
+                ca.UsuarioComentario = item.UsuarioComentario;
+
+                lista.Add(ca);
+            }
+
+
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Comentarios = lista }, JsonRequestBehavior.AllowGet);
+            //return null;
+        }
+
+
         [HttpPost]
         public JsonResult DestravarEtapa(int idAcaoCorretiva, int etapa)
         {
@@ -352,6 +378,31 @@ namespace Web.UI.Controllers
 
 
                 _registroConformidadesServico.ValidaAcaoCorretiva(acaoCorretiva, Util.ObterCodigoUsuarioLogado(), ref erros);
+
+                var usuario = Util.ObterUsuario();
+
+
+                for (int i = 0; i < acaoCorretiva.AcoesImediatas.Count; i++)
+                {
+
+                    if (acaoCorretiva.StatusEtapa == 3 && acaoCorretiva.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(acaoCorretiva.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(acaoCorretiva.AcoesImediatas[i].Orientacao)))
+                    {
+                        erros.Add("Favor preencher Motivo e Orientação.");
+                    }
+                    if (acaoCorretiva.AcoesImediatas[i].Motivo != null || acaoCorretiva.AcoesImediatas[i].Orientacao != null)
+                    {
+                        ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                        ca.Motivo = acaoCorretiva.AcoesImediatas[i].Motivo;
+                        ca.Orientacao = acaoCorretiva.AcoesImediatas[i].Orientacao;
+                        ca.DataComentario = DateTime.Now.ToString();
+                        ca.UsuarioComentario = usuario.Nome;
+
+
+                        acaoCorretiva.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
+                    }
+                }
+
+
 
                 if (erros.Count == 0)
                 {
