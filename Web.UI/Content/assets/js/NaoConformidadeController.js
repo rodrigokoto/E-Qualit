@@ -413,7 +413,7 @@ APP.controller.NaoConformidadeController = {
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
             //$(this).find('td').last().hide();
-            $('#botoesTd').hide();
+            $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
@@ -543,7 +543,7 @@ APP.controller.NaoConformidadeController = {
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
             //$(this).find('td').last().hide();
-            $('#botoesTd').hide();
+            $('.botoesTd').hide();
 
             //$(this).find('td')[6].hide();
         });
@@ -615,7 +615,7 @@ APP.controller.NaoConformidadeController = {
         if ((idResponsavelReverificacao == idUsuarioLogado) || idPerfil != 4) {
             $('#tb-acao-imediata tbody tr').each(function () {
                 //$(this).find('td').last().show();
-                $('#botoesTd').show();
+                $('.botoesTd').show();
                 $(this).find('.btn-delete-acao-imediata').hide();
             });
 
