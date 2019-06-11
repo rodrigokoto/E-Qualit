@@ -25,10 +25,10 @@ namespace Web.UI.Controllers
         private readonly IAnaliseCriticaTemaAppServico _analiseCriticaTemaAppServico;
         private readonly IRegistroConformidadesAppServico _registroConformidadesAppServico;
         private readonly IRegistroConformidadesServico _registroConformidadesServico;
+        private readonly IRegistroAcaoImediataServico _registroRegistroAcaoImediataServico;
         private readonly IProcessoServico _processoServico;
         private readonly IClienteAppServico _clienteServico;
         private readonly INotificacaoAppServico _notificacaoAppServico;
-        private readonly IRegistroAcaoImediataServico _registroRegistroAcaoImediataServico;
 
         private readonly ILogAppServico _logAppServico;
 
@@ -39,7 +39,6 @@ namespace Web.UI.Controllers
         private readonly ISiteAppServico _siteService;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
-        private readonly IFilaEnvioServico _filaEnvioServico;
 
         public GestaoDeRiscoController(
                         IAnaliseCriticaTemaAppServico analiseCriticaTemaAppServico,
@@ -52,9 +51,8 @@ namespace Web.UI.Controllers
                         ILogAppServico logAppServico,
                         IProcessoServico processoServico,
                         IProcessoAppServico processoAppServico,
-                        IFilaEnvioServico filaEnvioServico,
-                        IControladorCategoriasAppServico controladorCategoriasServico,
-                        IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IControladorCategoriasAppServico controladorCategoriasServico,
+            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _analiseCriticaTemaAppServico = analiseCriticaTemaAppServico;
             _registroConformidadesAppServico = registroConformidadesAppServico;
@@ -67,8 +65,8 @@ namespace Web.UI.Controllers
             _processoServico = processoServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
-            _filaEnvioServico = filaEnvioServico;
             _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
+
         }
 
         // GET: GestaoDeRisco
@@ -173,9 +171,6 @@ namespace Web.UI.Controllers
                     notificacao.IdUsuario = gestaoDeRisco.IdResponsavelInicarAcaoImediata.Value;
                     notificacao.FlEtapa = gestaoDeRisco.StatusEtapa.ToString();
                     _notificacaoAppServico.Add(notificacao);
-
-
-                    EnviarEmailRiscoDefinirPlanoAcao(gestaoDeRisco);
                 }
                 else if (gestaoDeRisco.OStatusEImplementacao() && acoesImediataSaoAtualizacao == false)
                 {
@@ -202,6 +197,9 @@ namespace Web.UI.Controllers
                     notificacao.FlEtapa = gestaoDeRisco.StatusEtapa.ToString();
                     _notificacaoAppServico.Add(notificacao);
                 }
+
+                EnviaEmail(gestaoDeRisco);
+
             }
             catch
             {
@@ -214,44 +212,30 @@ namespace Web.UI.Controllers
 
         }
 
-        private string MontarUrlAcessoGestaoRisco(int idRegistro)
-        {
-            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
-
-            return dominio + "GestaoDeRisco/Editar/" + idRegistro.ToString();
-        }
-
-        private void EnviarEmailRiscoDefinirPlanoAcao(RegistroConformidade registro)
+        private void EnviaEmail(RegistroConformidade nc)
         {
             var idCliente = Util.ObterClienteSelecionado();
             Cliente cliente = _clienteServico.GetById(idCliente);
-            var urlAcesso = MontarUrlAcessoGestaoRisco(registro.IdRegistroConformidade);
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\GestaoRiscoDefinirPlanoAcao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
 
-            try
-            {
-                string template = System.IO.File.ReadAllText(path);
-                string conteudo = template;
+            var usuarioNotificacao = _usuarioAppServico.GetById(nc.IdResponsavelEtapa.Value);
 
-                conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
-                conteudo = conteudo.Replace("#NuRegistro#", registro.NuRegistro.ToString());
-                conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\AteracaoStatusGestaoDeRisco-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string template = System.IO.File.ReadAllText(path);
+            string conteudo = template;
 
-                Email _email = new Email();
+            conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
+            conteudo = conteudo.Replace("#NuGestaoDeRisco#", nc.NuRegistro.ToString());
 
-                _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
-                _email.De = ConfigurationManager.AppSettings["EmailDE"];
-                _email.Para = registro.ResponsavelInicarAcaoImediata.CdIdentificacao;
-                _email.Conteudo = conteudo;
-                _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
-                _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
-                _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
-                _email.Enviar();
-            }
-            catch (Exception ex)
-            {
-                GravaLog(ex);
-            }
+            Email _email = new Email();
+
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
+            _email.De = ConfigurationManager.AppSettings["EmailDE"];
+            _email.Para = usuarioNotificacao.CdIdentificacao;
+            _email.Conteudo = conteudo;
+            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
+            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
+            _email.Enviar();
         }
 
         [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.Registro, (int)Funcionalidades.GestaoDeRiscos)]
@@ -612,7 +596,8 @@ namespace Web.UI.Controllers
 
             try
             {
-
+                var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == gestaoDeRisco.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
+                var idResponsavelAcaoCorrecao = (responsavelAcaoCorrecao != null ? responsavelAcaoCorrecao.IdResponsavelInicarAcaoImediata : 0);
 
                 gestaoDeRisco.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 gestaoDeRisco.FlDesbloqueado = gestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
@@ -621,44 +606,36 @@ namespace Web.UI.Controllers
 
                 _registroConformidadesServico.ValidaGestaoDeRisco(gestaoDeRisco, Util.ObterCodigoUsuarioLogado(), ref erros);
 
+
                 erros = ValidaCampoSegundaEtapa(gestaoDeRisco, erros);
+
+                var usuario = Util.ObterUsuario();
+
+
+                for (int i = 0; i < gestaoDeRisco.AcoesImediatas.Count; i++)
+                {
+
+                    if (gestaoDeRisco.StatusEtapa == 3 && gestaoDeRisco.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(gestaoDeRisco.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(gestaoDeRisco.AcoesImediatas[i].Orientacao)))
+                    {
+                        erros.Add("Favor preencher Motivo e Orientação.");
+                    }
+                    if (gestaoDeRisco.AcoesImediatas[i].Motivo != null || gestaoDeRisco.AcoesImediatas[i].Orientacao != null)
+                    {
+                        ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                        ca.Motivo = gestaoDeRisco.AcoesImediatas[i].Motivo;
+                        ca.Orientacao = gestaoDeRisco.AcoesImediatas[i].Orientacao;
+                        ca.DataComentario = DateTime.Now.ToString();
+                        ca.UsuarioComentario = usuario.Nome;
+
+                        gestaoDeRisco.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
+                    }
+                }
 
                 if (erros.Count == 0)
                 {
-                    var acoesNova = gestaoDeRisco.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
-
-                    var acoesEfetivadas = gestaoDeRisco.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
-
-
-                    RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
-
-                    if (acoesNova.Count > 0)
-                    {
-                        EnviarEmailsImplementacao(acoesNova, gestaoDeRisco);
-                        EnfileirarEmailsAcaoImediata(acoesNova, gestaoDeRisco);
-                    }
-
-                    if (acoesEfetivadas.Count == gestaoDeRisco.AcoesImediatas.Count)
-                    {
-                        EnviarEmailResponsavelReverificacao(gestaoDeRisco);
-                    }
-
-                    AtualizarDatasAgendadas(gestaoDeRisco);
-
-
                     gestaoDeRisco.StatusRegistro = 1;
                     gestaoDeRisco = _registroConformidadesAppServico.SalvarSegundaEtapa(gestaoDeRisco, Funcionalidades.GestaoDeRiscos);
                     erros = EnviarNotificacao(gestaoDeRisco, erros);
-
-
-                    var acoesIneficazes = gestaoDeRisco.AcoesImediatas.Where(x => x.Aprovado == false).ToList();
-                    if (acoesIneficazes.Count > 0)
-                    {
-                        EnviarEmailAcaoIneficaz(gestaoDeRisco, acoesIneficazes);
-                    }
-
-
-                 
 
                 }
                 else
@@ -687,190 +664,28 @@ namespace Web.UI.Controllers
 
         }
 
-        private void RemoverFilaEnvioAcoesEfetivadas(List<RegistroAcaoImediata> acoesEfetivadas)
+        [HttpPost]
+        public JsonResult ListarAcaoImediataComentarios(int idAcaoImediata)
         {
-            foreach (var acao in acoesEfetivadas)
+            var teste = _registroRegistroAcaoImediataServico.GetById(idAcaoImediata);
+
+            //var ultimaDataEmissao = _registroRegistroAcaoImediataServico.Update//ObtemUltimaDataEmissao(site, _tipoRegistro).ToString(Traducao.Resource.dateFormat);
+
+            List<ComentarioAcaoImediata> lista = new List<ComentarioAcaoImediata>();
+            foreach (var item in teste.ComentariosAcaoImediata)
             {
+                ComentarioAcaoImediata ca = new ComentarioAcaoImediata();
+                ca.Motivo = item.Motivo;
+                ca.Orientacao = item.Orientacao;
+                ca.DataComentario = item.DataComentario;
+                ca.UsuarioComentario = item.UsuarioComentario;
 
-                if (acao.IdFilaEnvio != null)
-                {
-                    var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-                    if (!filaEnvio.Enviado)
-                    {
-                        acao.IdFilaEnvio = null;
-                        _registroRegistroAcaoImediataServico.Update(acao);
-                        _filaEnvioServico.Apagar(filaEnvio);
-                    }
-                }
-            }
-        }
-
-
-        private void AtualizarDatasAgendadas(RegistroConformidade gestaoRisco)
-        {
-            var acoes = gestaoRisco.AcoesImediatas.Where(x => x.DtEfetivaImplementacao == null && x.IdAcaoImediata > 0 && x.IdFilaEnvio != null).ToList();
-            var acoesEnfileirar = new List<RegistroAcaoImediata>();
-
-            foreach (var acao in acoes)
-            {
-                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-
-                if (filaEnvio != null)
-                {
-                    if (!filaEnvio.Enviado)
-                    {
-                        filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
-                    }
-                    else
-                    {
-                        acoesEnfileirar.Add(acao);
-                    }
-                }
-
-                _filaEnvioServico.Atualizar(filaEnvio);
+                lista.Add(ca);
             }
 
-            EnfileirarEmailsAcaoImediata(acoesEnfileirar, gestaoRisco);
 
-        }
-
-        private void EnviarEmailResponsavelReverificacao(RegistroConformidade gestaoRisco)
-        {
-            var idCliente = Util.ObterClienteSelecionado();
-            Cliente cliente = _clienteServico.GetById(idCliente);
-            var urlAcesso = MontarUrlAcessoGestaoRisco(gestaoRisco.IdRegistroConformidade);
-            var usuario = _usuarioAppServico.GetById(gestaoRisco.IdResponsavelReverificador.Value);
-
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\GestaoRiscoReverificador-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
-            string template = System.IO.File.ReadAllText(path);
-            string conteudo = template;
-
-            conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
-            conteudo = conteudo.Replace("#NuRegistro#", gestaoRisco.NuRegistro.ToString());
-            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
-
-            Email _email = new Email();
-
-            _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
-            _email.De = ConfigurationManager.AppSettings["EmailDE"];
-            _email.Para = usuario.CdIdentificacao;
-            _email.Conteudo = conteudo;
-            _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
-            _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
-            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
-            _email.Enviar();
-        }
-
-        private void EnviarEmailAcaoIneficaz(RegistroConformidade gestaoRisco, List<RegistroAcaoImediata> acoesIneficazes)
-        {
-            var idCliente = Util.ObterClienteSelecionado();
-            Cliente cliente = _clienteServico.GetById(idCliente);
-            var urlAcesso = MontarUrlAcessoGestaoRisco(gestaoRisco.IdRegistroConformidade);
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\GestaoRiscoAcaoIneficaz-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
-
-            foreach (var acao in acoesIneficazes)
-            {
-                try
-                {
-                    string template = System.IO.File.ReadAllText(path);
-                    string conteudo = template;
-
-                    conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
-                    conteudo = conteudo.Replace("#NuRegistro#", gestaoRisco.NuRegistro.ToString());
-                    conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
-
-                    Email _email = new Email();
-
-                    _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
-                    _email.De = ConfigurationManager.AppSettings["EmailDE"];
-                    _email.Para = acao.ResponsavelImplementar.CdIdentificacao;
-                    _email.Conteudo = conteudo;
-                    _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
-                    _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
-                    _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
-                    _email.Enviar();
-                }
-                catch (Exception ex)
-                {
-                    GravaLog(ex);
-                }
-            }
-        }
-
-        private void EnfileirarEmailsAcaoImediata(List<RegistroAcaoImediata> acoesNova, RegistroConformidade gestaoDeRisco)
-        {
-            var idCliente = Util.ObterClienteSelecionado();
-            Cliente cliente = _clienteServico.GetById(idCliente);
-            var urlAcesso = MontarUrlAcessoGestaoRisco(gestaoDeRisco.IdRegistroConformidade);
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\GestaoRiscoAcaoDataImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
-
-            foreach (var acao in acoesNova)
-            {
-                try
-                {
-                    var destinatario = _usuarioAppServico.GetById(acao.IdResponsavelImplementar.Value).CdIdentificacao;
-                    string template = System.IO.File.ReadAllText(path);
-                    string conteudo = template;
-
-                    conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
-                    conteudo = conteudo.Replace("#NuRegistro#", gestaoDeRisco.NuRegistro.ToString());
-                    conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
-
-                    var filaEnvio = new FilaEnvio();
-                    filaEnvio.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
-                    filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
-                    filaEnvio.DataInclusao = DateTime.Now;
-                    filaEnvio.Destinatario = destinatario;
-                    filaEnvio.Enviado = false;
-                    filaEnvio.Mensagem = conteudo;
-
-                    _filaEnvioServico.Enfileirar(filaEnvio);
-
-                    acao.IdFilaEnvio = filaEnvio.Id;
-                }
-                catch (Exception ex)
-                {
-                    GravaLog(ex);
-                }
-            }
-        }
-
-
-        private void EnviarEmailsImplementacao(List<RegistroAcaoImediata> acoesNova, RegistroConformidade gestaoDeRisco)
-        {
-            var idCliente = Util.ObterClienteSelecionado();
-            Cliente cliente = _clienteServico.GetById(idCliente);
-            var urlAcesso = MontarUrlAcessoGestaoRisco(gestaoDeRisco.IdRegistroConformidade);
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\GestaoRiscoImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
-
-            foreach (var acao in acoesNova)
-            {
-                try
-                {
-                    var destinatario = _usuarioAppServico.GetById(acao.IdResponsavelImplementar.Value).CdIdentificacao;
-                    string template = System.IO.File.ReadAllText(path);
-                    string conteudo = template;
-
-                    conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
-                    conteudo = conteudo.Replace("#NuRegistro#", gestaoDeRisco.NuRegistro.ToString());
-                    conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
-
-                    Email _email = new Email();
-
-                    _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
-                    _email.De = ConfigurationManager.AppSettings["EmailDE"];
-                    _email.Para = destinatario;
-                    _email.Conteudo = conteudo;
-                    _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
-                    _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
-                    _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
-                    _email.Enviar();
-                }
-                catch (Exception ex)
-                {
-                    GravaLog(ex);
-                }
-            }
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Comentarios = lista }, JsonRequestBehavior.AllowGet);
+            //return null;
         }
 
         [HttpGet]

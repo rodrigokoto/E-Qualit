@@ -106,6 +106,7 @@
         <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
         <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
         <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+        <input type="hidden" id="acaoImediataAtual" />
 
         <!-- Formulario Gestão de Risco -->
 
@@ -244,7 +245,7 @@
 
                                                 <option value="">@Traducao.Resource.Dropdown_name_select</option>
 
-                                                <option value="@Model.IdEmissor" selected>@ViewBag.NomeUsuario</option>
+                                                <option value="@ViewBag.IdPerfil" selected>@ViewBag.NomeUsuario</option>
 
                                             </select>
 
@@ -457,6 +458,7 @@
                                         @foreach (var acaoImediata in Model.AcoesImediatas)
                                         {
                                             Count++;
+                                            var aprovadoAux = acaoImediata.Aprovado == true ? "true" : "false";
                                             <tr role="row" class="odd">
                                                 <!-- Descricao -->
                                                 <td>
@@ -466,7 +468,17 @@
                                                               data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_AI_Descricao">@acaoImediata.Descricao</textarea>
                                                     <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
                                                     <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
-                                                    <input type="hidden" name="formAcaoImediataIdFilaEnvio" value="@acaoImediata.IdFilaEnvio" />
+                                                    <input type="hidden" name="formAcaoImediataIdComentario" id="" value="" />
+                                                    <input type="hidden" name="formAcaoImediataComentarioMotivo" value="" />
+                                                    <input type="hidden" name="formAcaoImediataComentarioOrientacao" value="" />
+
+                                                    @if (acaoImediata.Aprovado.HasValue)
+                                                    {
+                                                        if (acaoImediata.Aprovado.Value == true)
+                                                        {
+                                                            <input type="hidden" name="desabilitaData" value="true" />
+                                                        }
+                                                    }
                                                 </td>
                                                 <!-- Prazo Implementacao -->
                                                 <td>
@@ -553,6 +565,23 @@
                                                 </td>
                                                 <!-- Acoes -->
                                                 <td>
+                                                    @if (ViewBag.StatusEtapa == 3 || ViewBag.StatusEtapa == 2)
+                                                    {
+                                                        <button type="button" class="btn btn-historico">
+                                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                                        </button>
+                                                    }
+                                                    @if (ViewBag.StatusEtapa == 2)
+                                                    {
+                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                    }
+                                                </td>
+                                                <td nome="botoesTd">
+                                                    @if (ViewBag.StatusEtapa != 2)
+                                                    {
+                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                    }
+
                                                     <input type="hidden" name="formAcaoImadiataTbAprovado" value="" />
                                                     <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
                                                         <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
@@ -561,7 +590,7 @@
                                                         <i class="fa fa-check " aria-hidden="true"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-denied-acao-imediata trash-color">
-                                                        <i class="fa fa-times " aria-hidden="true"></i>
+                                                        <i class="fa fa-check " aria-hidden="true"></i>
                                                     </button>
                                                     @if (acaoImediata.Aprovado.HasValue)
                                                     {
@@ -569,6 +598,10 @@
                                                         {
                                                             <button type="button" class="btn btn-ok-acao-imediata ativo-color">
                                                                 <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                            </button>
+
+                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
+                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
                                                             </button>
 
                                                         }
@@ -683,3 +716,82 @@
         </div>
     </div>
 </div>
+
+
+
+<form id="form-emissao-documento-cargos2">
+    <div id="modal-panel-form-cargos2" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos2" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Histórico</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca" style="box-shadow: none">
+                            <div class="form-group" id="painelComentarios">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form id="form-emissao-documento-cargos">
+    <div id="modal-panel-form-cargos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Comentários</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca" style="box-shadow: none">
+                            <div class="form-group">
+
+                                <div class="row tabela-cargo-check">
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="form-naoconformidade-comentario-motivo">Motivo</label>
+                                            <textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="form-naoconformidade-comentario-orientacao">Orientação</label>
+                                            <textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btn-new-comentario" class="btn btn-primary btnControladorCategoria">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
