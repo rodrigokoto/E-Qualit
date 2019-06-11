@@ -597,7 +597,6 @@ namespace Web.UI.Controllers
 
                 for (int i = 0; i < naoConformidade.AcoesImediatas.Count; i++)
                 {
-
                     if (naoConformidade.EProcedente == true && naoConformidade.StatusEtapa == 3 && naoConformidade.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(naoConformidade.AcoesImediatas[i].Orientacao)))
                     {
                         erros.Add("Favor preencher Motivo e Orientação.");
@@ -614,6 +613,10 @@ namespace Web.UI.Controllers
 
                         naoConformidade.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
                     }
+                    //if(naoConformidade.AcoesImediatas[i].ArquivoEvidenciaAux.ArquivoB64 == null || naoConformidade.AcoesImediatas[i].ArquivoEvidenciaAux.ArquivoB64 == "undefined")
+                    //{
+                    //    erros.Add("Não é possível incluir um arquivo vazio como anexo.");
+                    //}
                 }
                 //int count = 0;
                 //RegistroAcaoImediata acaoImediata = new RegistroAcaoImediata();
