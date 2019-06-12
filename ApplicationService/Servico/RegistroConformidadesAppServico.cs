@@ -647,6 +647,8 @@ namespace ApplicationService.Servico
                 objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux = item.ArquivoEvidenciaAux;
                 objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia = item.ArquivoEvidencia;
 
+                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).Observacao = item.Observacao;
+                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).DtEfetivaImplementacao = item.DtEfetivaImplementacao;
                 //item.ArquivoEvidencia.ToList().ForEach(arquivo =>
                 //{
                 //    arquivo.AcaoImediata = null;
