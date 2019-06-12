@@ -30,6 +30,7 @@ namespace Web.UI.Controllers
         private readonly ICargoProcessoAppServico _cargoProcessoAppServico;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IFilaEnvioServico _filaEnvioServico;
 
         public InstrumentoController(IInstrumentoAppServico instrumentoAppServico,
                                       IInstrumentoServico instrumentoServico,
@@ -39,7 +40,8 @@ namespace Web.UI.Controllers
                                       IUsuarioAppServico usuarioAppServico,
                                       ICargoProcessoAppServico cargoProcessoAppServico,
                                       IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                      IControladorCategoriasAppServico controladorCategoriasServico,
+                                      IFilaEnvioServico filaEnvioServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _instrumentoAppServico = instrumentoAppServico;
             _instrumentoServico = instrumentoServico;
@@ -50,6 +52,7 @@ namespace Web.UI.Controllers
             _cargoProcessoAppServico = cargoProcessoAppServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _filaEnvioServico = filaEnvioServico;
         }
 
         // GET: Instrumentos
@@ -229,11 +232,13 @@ namespace Web.UI.Controllers
                     calibracao.DataCriacao = DateTime.Now;
                 }
                 else
-                {
                     calibracao.DataAlteracao = DateTime.Now;
-                }
             });
         }
+
+
+        
+
 
         public JsonResult Excluir(int id)
         {

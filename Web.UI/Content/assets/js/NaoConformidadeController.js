@@ -412,7 +412,8 @@ APP.controller.NaoConformidadeController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            $(this).find('td').last().hide();
+            //$(this).find('td').last().hide();
+            $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
@@ -541,7 +542,9 @@ APP.controller.NaoConformidadeController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            $(this).find('td').last().hide();
+            //$(this).find('td').last().hide();
+            $('.botoesTd').hide();
+
             //$(this).find('td')[6].hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
@@ -611,7 +614,8 @@ APP.controller.NaoConformidadeController = {
         var idResponsavelReverificacao = $('[name=formAcaoImadiataResponsavelReverificacao]').val();
         if ((idResponsavelReverificacao == idUsuarioLogado) || idPerfil != 4) {
             $('#tb-acao-imediata tbody tr').each(function () {
-                $(this).find('td').last().show();
+                //$(this).find('td').last().show();
+                $('.botoesTd').show();
                 $(this).find('.btn-delete-acao-imediata').hide();
             });
 
@@ -1274,7 +1278,6 @@ APP.controller.NaoConformidadeController = {
     getObjFormCriarNaoConformidade: function (_fluxo) {
 
         var acoesNaoConformidadeFormCriarNaoConformidadeObj = {};
-        debugger;
         switch (_fluxo) {
             case "fluxo-00":
                 //Obj enviado no fluxo de criacao
@@ -1309,6 +1312,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
@@ -1338,6 +1342,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
@@ -1357,12 +1362,13 @@ APP.controller.NaoConformidadeController = {
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                     EProcedente: APP.component.Radio.init('formAcaoImadiataEProcedente'),
                     AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
-                    //ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),                    
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
@@ -1382,7 +1388,7 @@ APP.controller.NaoConformidadeController = {
                     StatusEtapa: $('[name=StatusEtapa]').val(),
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
-                    //ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
                     FlEficaz: APP.controller.NaoConformidadeController.getFoiEficaz(),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
@@ -1486,7 +1492,9 @@ APP.controller.NaoConformidadeController = {
     },
 
     getformCriarNaoConformidadeDtDescricaoAcao: function () {
+        var statusEtapa = parseInt($('[name=StatusEtapa]').val());
 
+        if (statusEtapa <=1)
         $('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
 
     },
@@ -1559,6 +1567,10 @@ APP.controller.NaoConformidadeController = {
             html += '<input type="file" name="formAcaoImadiataTbEvidencia" id="form-acaoimediata-tb-evidencia-' + index + '" class="" data-msg-required="" data-b64="">';
             html += '</div>';
             html += '<ul></ul>';
+            html += '</td>';
+            html += '<td>';
+            html += '</td>';
+            html += '<td>';
             html += '</td>';
             html += '<td>';
             html += '<a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">';

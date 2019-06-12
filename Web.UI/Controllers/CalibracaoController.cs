@@ -3,6 +3,7 @@ using Dominio.Entidade;
 using Dominio.Interface.Servico;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -24,6 +25,8 @@ namespace Web.UI.Controllers
         private readonly ILogAppServico _logAppServico;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IFilaEnvioServico _filaEnvioServico;
+        private readonly IInstrumentoAppServico _instrumentoServico;
 
         public CalibracaoController(ICalibracaoAppServico calibracaoAppServico,
                                     ICalibracaoServico calibracaoServico,
@@ -32,8 +35,10 @@ namespace Web.UI.Controllers
                                     ICriterioAceitacaoAppServico criterioAceitacaoAppServico,
                                     ILogAppServico logAppServico,
                                     IUsuarioAppServico usuarioAppServico,
-            IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                    IProcessoAppServico processoAppServico,
+                                    IControladorCategoriasAppServico controladorCategoriasServico,
+                                    IFilaEnvioServico filaEnvioServico,
+                                    IInstrumentoAppServico instrumentoServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _calibracaoAppServico = calibracaoAppServico;
             _calibracaoServico = calibracaoServico;
@@ -44,6 +49,8 @@ namespace Web.UI.Controllers
             _usuarioAppServico = usuarioAppServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _filaEnvioServico = filaEnvioServico;
+            _instrumentoServico = instrumentoServico;
         }
 
         // GET: Calibracao
@@ -107,6 +114,8 @@ namespace Web.UI.Controllers
                         }
                     });
 
+                    EnfileirarEmailCalibracao(calibracao);
+
 
                     if (calibracao.CriterioAceitacao != null)
                     {
@@ -156,7 +165,7 @@ namespace Web.UI.Controllers
             var calibracao = _calibracaoAppServico.GetById(id);
 
             var calibracaoJson = CalibracaoObjSemReferenciaCircular(calibracao);
-                       
+
             return Json(new { StatusCode = 200, Calibracao = calibracaoJson }, JsonRequestBehavior.AllowGet);
         }
 
@@ -172,6 +181,22 @@ namespace Web.UI.Controllers
                 calibracao.DataAlteracao = DateTime.Now;
                 calibracao.DataCalibracao = DateTime.Now;
                 calibracao.DataCriacao = DateTime.Now;
+
+                if (calibracao.IdFilaEnvio != null)
+                {
+                    var filaEnvio = _filaEnvioServico.ObterPorId(calibracao.IdFilaEnvio.Value);
+
+                    if (filaEnvio.Enviado)
+                        EnfileirarEmailCalibracao(calibracao);
+                    else
+                        filaEnvio.DataAgendado = calibracao.DataNotificacao;
+                    _filaEnvioServico.Atualizar(filaEnvio);
+                }
+                else
+                {
+                    EnfileirarEmailCalibracao(calibracao);
+                }
+
 
                 if (calibracao.CriterioAceitacao != null)
                 {
@@ -189,10 +214,10 @@ namespace Web.UI.Controllers
                                 _criterioAceitacaoAppServico.Update(criterioaceitacao);
                             }
                             catch
-                            {   
+                            {
                             }
                         }
-                            
+
                     }
                 }
 
@@ -230,6 +255,12 @@ namespace Web.UI.Controllers
             {
                 if (objetoParaRemover != null)
                 {
+
+                    long idFilaEnvio = 0;
+
+                    if (objetoParaRemover.IdFilaEnvio != null)
+                        idFilaEnvio = objetoParaRemover.IdFilaEnvio.Value;
+
                     List<int> idsCriterio = new List<int>();
 
                     foreach (var criterio in objetoParaRemover.CriterioAceitacao)
@@ -239,6 +270,12 @@ namespace Web.UI.Controllers
 
                     for (int i = 0; i < idsCriterio.Count; i++)
                         _criterioAceitacaoAppServico.Remove(new CriterioAceitacao() { IdCriterioAceitacao = idsCriterio[i] });
+
+                    if (idFilaEnvio > 0)
+                    {
+                        var filaEnvio = _filaEnvioServico.ObterPorId(objetoParaRemover.IdFilaEnvio.Value);
+                        _filaEnvioServico.Apagar(filaEnvio);
+                    }
                 }
             }
             catch (Exception ex)
@@ -287,6 +324,7 @@ namespace Web.UI.Controllers
             {
                 IdCalibracao = calibracao.IdCalibracao,
                 IdInstrumento = calibracao.IdInstrumento,
+                IdFilaEnvio = calibracao.IdFilaEnvio,
                 Certificado = calibracao.Certificado,
                 OrgaoCalibrador = calibracao.OrgaoCalibrador,
                 Aprovado = calibracao.Aprovado,
@@ -309,13 +347,13 @@ namespace Web.UI.Controllers
         private List<Anexo> RetornaArquivosCertificado(Calibracao calibracao)
         {
 
-            if(calibracao.ArquivoCertificado.Count > 0)
+            if (calibracao.ArquivoCertificado.Count > 0)
             {
                 calibracao.ArquivoCertificado.Select(x => x.Anexo).ToList().ForEach(x =>
                 {
                     x.ArquivoB64 = String.Format("data:application/" + x.Extensao + ";base64," + Convert.ToBase64String(x.Arquivo));
                     x.Arquivo = null;
-                    x.ArquivoCertificadoAnexo = null;                    
+                    x.ArquivoCertificadoAnexo = null;
                 });
 
                 return calibracao.ArquivoCertificado.Select(x => x.Anexo).ToList();
@@ -326,5 +364,47 @@ namespace Web.UI.Controllers
             }
 
         }
+
+
+        private string MontarUrlAcessoInstrumento(int idInstrumento)
+        {
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "Instrumento/Editar/" + idInstrumento.ToString();
+        }
+
+        private void EnfileirarEmailCalibracao(Calibracao calibracao)
+        {
+            try
+            {
+                var instrumento = _instrumentoServico.GetById(calibracao.IdInstrumento);
+                var urlAcesso = MontarUrlAcessoInstrumento(instrumento.IdInstrumento);
+                string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\InstrumentoCalibracao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+                string destinatario = _usuarioAppServico.GetById(instrumento.IdResponsavel.Value).CdIdentificacao;
+
+                string template = System.IO.File.ReadAllText(path);
+                string conteudo = template;
+
+                conteudo = conteudo.Replace("#NuRegistro#", instrumento.Numero);
+                conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
+
+                var filaEnvio = new FilaEnvio();
+                filaEnvio.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoDeRiscos;
+                filaEnvio.DataAgendado = calibracao.DataNotificacao;
+                filaEnvio.DataInclusao = DateTime.Now;
+                filaEnvio.Destinatario = destinatario;
+                filaEnvio.Enviado = false;
+                filaEnvio.Mensagem = conteudo;
+
+                _filaEnvioServico.Enfileirar(filaEnvio);
+
+                calibracao.IdFilaEnvio = filaEnvio.Id;
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+            }
+        }
+
     }
 }

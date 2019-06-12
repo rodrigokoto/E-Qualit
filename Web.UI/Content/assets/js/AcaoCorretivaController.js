@@ -267,7 +267,8 @@ APP.controller.AcaoCorretivaController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            $(this).find('td').last().hide();
+            $('.botoesTd').hide();
+            //$(this).find('td').last().hide();
         });
 
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
@@ -310,7 +311,7 @@ APP.controller.AcaoCorretivaController = {
         //Upload Changes
         $('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#eee');
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
-        //$('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
 
     },
 
@@ -381,7 +382,8 @@ APP.controller.AcaoCorretivaController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            $(this).find('td').last().hide();
+            //$(this).find('td').last().hide();
+            $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
@@ -433,7 +435,8 @@ APP.controller.AcaoCorretivaController = {
         var idResponsavelReverificacao = $('[name=formAcaoImadiataResponsavelReverificacao]').val();
         if ((idResponsavelReverificacao == idUsuarioLogado) || idPerfil != 4) {
             $('#tb-acao-imediata tbody tr').each(function () {
-                $(this).find('td').last().show();
+                //$(this).find('td').last().show();
+                $('.botoesTd').show();
                 $(this).find('.btn-delete-acao-imediata').hide();
             });
 
@@ -870,6 +873,7 @@ APP.controller.AcaoCorretivaController = {
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     NuRegistro: $("#form-criar-nao-conformidade-nm-registro").val(),
                     AcoesImediatas: APP.controller.AcaoCorretivaController.getObjFormAcaoImediata(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
@@ -897,6 +901,7 @@ APP.controller.AcaoCorretivaController = {
                     IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
                     NuRegistro: $("#form-criar-nao-conformidade-nm-registro").val(),
                     AcoesImediatas: APP.controller.AcaoCorretivaController.getObjFormAcaoImediata(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     FlEficaz: APP.controller.AcaoCorretivaController.getFoiEficaz(),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
@@ -1040,6 +1045,10 @@ APP.controller.AcaoCorretivaController = {
             html += '<input type="file" name="formAcaoImadiataTbEvidencia" id="form-acaoimediata-tb-evidencia-' + index + '" class="" data-msg-required="" data-b64="">';
             html += '</div>';
             html += '<ul></ul>';
+            html += '</td>';
+            html += '<td>';
+            html += '</td>';
+            html += '<td>';
             html += '</td>';
             html += '<td>';
             html += '<a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">';
@@ -1350,8 +1359,11 @@ APP.controller.AcaoCorretivaController = {
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
+            //$("#form-acaoimediata-responsavel-reverificacao").attr("disabled", true);
+            
             $('.br-widget').removeClass('barRating-disabled');
         }
+
     },
 
 
@@ -1406,6 +1418,7 @@ APP.controller.AcaoCorretivaController = {
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
+                //$("#form-acaoimediata-responsavel-reverificacao").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
             }
 
