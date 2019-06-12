@@ -413,7 +413,7 @@ APP.controller.NaoConformidadeController = {
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
             //$(this).find('td').last().hide();
-            $('#botoesTd').hide();
+            $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
@@ -543,7 +543,7 @@ APP.controller.NaoConformidadeController = {
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
             //$(this).find('td').last().hide();
-            $('#botoesTd').hide();
+            $('.botoesTd').hide();
 
             //$(this).find('td')[6].hide();
         });
@@ -615,7 +615,7 @@ APP.controller.NaoConformidadeController = {
         if ((idResponsavelReverificacao == idUsuarioLogado) || idPerfil != 4) {
             $('#tb-acao-imediata tbody tr').each(function () {
                 //$(this).find('td').last().show();
-                $('#botoesTd').show();
+                $('.botoesTd').show();
                 $(this).find('.btn-delete-acao-imediata').hide();
             });
 
@@ -1312,6 +1312,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
@@ -1341,6 +1342,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
@@ -1366,6 +1368,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),                    
                     ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
@@ -1489,7 +1492,9 @@ APP.controller.NaoConformidadeController = {
     },
 
     getformCriarNaoConformidadeDtDescricaoAcao: function () {
+        var statusEtapa = parseInt($('[name=StatusEtapa]').val());
 
+        if (statusEtapa <=1)
         $('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
 
     },
