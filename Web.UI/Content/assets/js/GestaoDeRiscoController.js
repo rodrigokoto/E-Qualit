@@ -348,6 +348,7 @@ APP.controller.GestaoDeRiscoController = {
         this.setDisabledStatusEtapa2(true);
         this.setShowInputsEtapa2();
 
+        this.setCheckHistorico();
     },
 
     setHideStatusEtapa2: function () {

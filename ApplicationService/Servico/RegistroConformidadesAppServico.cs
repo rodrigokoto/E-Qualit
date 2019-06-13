@@ -549,34 +549,17 @@ namespace ApplicationService.Servico
                 var novaRegistro = CriarNovoCasoEficaciaForFalsa(objCtx, objCtx.TipoRegistro);
                 if (novaRegistro.TipoRegistro == "gr")
                 {
-                    novaRegistro.DescricaoRegistro += $"\n \n Referênte a Gestão de Risco({objCtx.NuRegistro})";
-                    novaRegistro.CriticidadeGestaoDeRisco = objCtx.CriticidadeGestaoDeRisco;
-
-                    _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaRegistro);
-                    _registroConformidadesRepositorio.Add(novaRegistro);
-
                     if (objCtx.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
                     {
-                        objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
-                        objCtx.DtEnceramento = DateTime.Now;
+                        objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
                     }
-
                 }
                 else if (novaRegistro.TipoRegistro == "ac")
                 {
-                    //novaRegistro.DescricaoRegistro += $"\n \n Referênte a Ação Corretiva({objCtx.NuRegistro})";
-
-                    //_registroConformidadesRepositorio.GerarNumeroSequencialPorSite(novaRegistro);
-                    //_registroConformidadesRepositorio.Add(novaRegistro);
-
                     if (objCtx.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
                     {
-                        //objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
-                        //objCtx.DtEnceramento = DateTime.Now;
-
                         objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
                     }
-
                 }
                 else if (novaRegistro.TipoRegistro == "nc")
                 {
@@ -593,9 +576,7 @@ namespace ApplicationService.Servico
                         objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
 
                     }
-
                 }
-
             }
             else if (objCtx.FlEficaz == true)
             {
@@ -611,7 +592,6 @@ namespace ApplicationService.Servico
             {
                 objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Reverificacao;
             }
-
         }
 
         private void TrataQuandoResponsavelPorAcaoImediataAtualizaADataDeImplementacao(RegistroConformidade registroConformidade, IEnumerable<RegistroAcaoImediata> listaAcaoImediataUpdate, RegistroConformidade objCtx)
