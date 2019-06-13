@@ -689,7 +689,7 @@ namespace Web.UI.Controllers
         }
 
         [HttpGet]
-        //[ValidateAntiForgeryToken]
+        ///[ValidateAntiForgeryToken]
         public JsonResult Excluir(int idGestaoDeRisco)
         {
             var conformidade = _registroConformidadesAppServico.GetById(idGestaoDeRisco);
