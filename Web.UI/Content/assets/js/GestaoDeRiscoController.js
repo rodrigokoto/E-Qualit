@@ -784,8 +784,8 @@ APP.controller.GestaoDeRiscoController = {
 
 
         $('#tb-acao-imediata tbody tr').each(function () {
-            //var aprovado = $(this).find('[name=formAcaoImadiataTbAprovado]');
-            var aprovado = $(this).find('.formAcaoImadiataTbAprovado');
+            var aprovado = $(this).find('[name=formAcaoImadiataTbAprovado]');
+            //var aprovado = $(this).find('.formAcaoImadiataTbAprovado');
             if (aprovado == "true") {
                 $(this).find('.btn-ok-acao-imediata').show();
             }
@@ -1261,6 +1261,10 @@ APP.controller.GestaoDeRiscoController = {
             html += '<input type="file" name="formAcaoImadiataTbEvidencia" id="form-acaoimediata-tb-evidencia-' + index + '" class="" data-msg-required="" data-b64="">';
             html += '</div>';
             html += '<ul></ul>';
+            html += '</td>';
+            html += '<td>';
+            html += '</td>';
+            html += '<td>';
             html += '</td>';
             html += '<td>';
             html += '<a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">';
