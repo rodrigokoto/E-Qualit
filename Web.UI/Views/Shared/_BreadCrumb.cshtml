@@ -14,12 +14,20 @@
         </li>
 
         <li><a href="/Home/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Home</a></li>
+
         if (controller == "norma")
         {
             <li><a href="/Auditoria/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_auditoria</a></li>
             @*<li><a href="/Norma/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_norma</a></li>*@
         }
-        if (controller == "usuario")
+
+        if (controller == "plai")
+        {
+            <li><a href="/Auditoria/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_auditoria</a></li>
+            <li><a href="" class="active" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_plai</a></li>
+            @*<li><a href="/Norma/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_norma</a></li>*@
+        }
+        else if (controller == "usuario")
         {
             <li><a href="/Cliente/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_cliente</a></li>
             <li><a href="/Site/Index/@HttpContext.Current.Request.Cookies["clienteSelecionado"].Value" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_site</a></li>
