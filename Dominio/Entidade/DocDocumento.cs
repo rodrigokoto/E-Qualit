@@ -22,7 +22,8 @@ namespace Dominio.Entidade
             Registros = new List<DocRegistro>();
             StatusRegistro = 0;
             Indicadores = new List<DocIndicadores>();
-            DocRisco = new List<DocRisco>(); 
+            DocRisco = new List<DocRisco>();
+            //GestaoDeRisco = new List<RegistroConformidade>();
         }
 
         public int IdDocumento { get; set; }

@@ -9,11 +9,8 @@ namespace DAL.EntityConfig
         {
             HasKey(x => x.IdDocRisco);
 
-
-
-            Property(t => t.DescricaoRegistro)
+            Property(x => x.DescricaoRegistro)
     .HasColumnName("DsOqueTexto");
-
 
             HasRequired(x => x.Documento)
                 .WithMany(z => z.DocRisco)

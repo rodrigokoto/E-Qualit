@@ -680,7 +680,7 @@
                                             <!-- Identificacao -->
                                             <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
                                             <br />
-                                            @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro : "")
+                                            @*@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro : "")*@
                                         </div>
                                     </div>
 
@@ -691,7 +691,7 @@
                                             @{
                                                 var Criticidade = "";
                                             }
-                                            @if (Model.GestaoDeRisco != null)
+                                            @*@if (Model.GestaoDeRisco != null)
                                             {
                                                 if (Model.GestaoDeRisco.CriticidadeGestaoDeRisco <= 5)
                                                 {
@@ -705,7 +705,7 @@
                                                 {
                                                     Criticidade = Traducao.Resource.Auto;
                                                 }
-                                            }
+                                            }*@
 
                                             <br />@Criticidade
                                         </div>
@@ -723,27 +723,27 @@
 
 
                                     <div class="col-sm-2">
-                                        @if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.Causa))
-                                        {
+                                        @*@if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.Causa))
+                                        {*@
                                             <div class="form-group">
                                                 <!-- Causa -->
                                                 <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
                                                 <br />
-                                                @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa : "" )
+                                                @*@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa : "" )*@
                                             </div>
                                         }
-                                    </div>
-                                    @if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.DsJustificativa))
-                                    {
+                                    @*</div>*@
+                                    @*@if (Model.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.GestaoDeRisco.DsJustificativa))
+                                    {*@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <!-- Justificativa -->
                                                 <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
                                                 <br />
-                                                @(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa : "")
+                                                @*@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa : "")*@
                                             </div>
                                         </div>
-                                    }
+                                    @*}*@
 
                                     <div class="col-sm-2">
 
@@ -751,7 +751,8 @@
                                             <!-- Responsável -->
                                             <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Responsavel_Risco</label>
                                             <br />
-                                            @((Model.GestaoDeRisco != null && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null) ? Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto : "" )
+                                            @*[cargo]*@
+                                            @*@((Model.GestaoDeRisco != null && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null) ? Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto : "" )*@
                                         </div>
                                     </div>
                                 </div>

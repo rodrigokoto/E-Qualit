@@ -871,17 +871,17 @@ namespace Web.UI.Controllers
                 TrataCriacaoDoc(doc, ref erros);
 
                 _documentoServico.Valido(doc, ref erros);
-
-                if (doc.GestaoDeRisco != null && !string.IsNullOrEmpty(doc.GestaoDeRisco.DescricaoRegistro))
-                {
-                    //doc.GestaoDeRisco.EProcedente = doc.PossuiGestaoRisco;
-                    doc.GestaoDeRisco.EProcedente = true;
-                    doc.GestaoDeRisco.StatusEtapa = 1;
-                    doc.GestaoDeRisco.TipoRegistro = "gr";
-                    doc.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
-                    doc.GestaoDeRisco.IdEmissor = Util.ObterCodigoUsuarioLogado();
-                    _registroConformidadeServico.ValidarCampos(doc.GestaoDeRisco, ref erros);
-                }
+                //[cargo]
+                //if (doc.GestaoDeRisco != null && !string.IsNullOrEmpty(doc.GestaoDeRisco.DescricaoRegistro))
+                //{
+                //    //doc.GestaoDeRisco.EProcedente = doc.PossuiGestaoRisco;
+                //    doc.GestaoDeRisco.EProcedente = true;
+                //    doc.GestaoDeRisco.StatusEtapa = 1;
+                //    doc.GestaoDeRisco.TipoRegistro = "gr";
+                //    doc.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
+                //    doc.GestaoDeRisco.IdEmissor = Util.ObterCodigoUsuarioLogado();
+                //    _registroConformidadeServico.ValidarCampos(doc.GestaoDeRisco, ref erros);
+                //}
 
                 if (erros.Count > 0)
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
@@ -933,10 +933,11 @@ namespace Web.UI.Controllers
                 documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").ToList();
                 documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").ToList();
             }
-            if (documento.IdGestaoDeRisco > 0)
-            {
-                documento.GestaoDeRisco = _registroConformidadeAppServico.GetById(documento.IdGestaoDeRisco.Value);
-            }
+            //[cargo]
+            //if (documento.IdGestaoDeRisco > 0)
+            //{
+            //    documento.GestaoDeRisco = _registroConformidadeAppServico.GetById(documento.IdGestaoDeRisco.Value);
+            //}
 
             ViewBag.NmUsuarioLogado = Util.ObterUsuario().Nome;
             ViewBag.IdUsuarioLogado = usuarioLogado;
@@ -957,7 +958,8 @@ namespace Web.UI.Controllers
 
 
             }
-            ViewBag.NumeroRisco = documento.GestaoDeRisco != null ? documento.GestaoDeRisco.NuRegistro : 0;
+            //[cargo]
+            //ViewBag.NumeroRisco = documento.GestaoDeRisco != null ? documento.GestaoDeRisco.NuRegistro : 0;
             ViewBag.IsEdicao = true;
             CarregarDropDownUsuarios();
 
@@ -967,6 +969,20 @@ namespace Web.UI.Controllers
             documento.Rotinas = documento.Rotinas.OrderBy(x => x.Item).ToList();
             documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Ordem).ToList();
             documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Ordem).ToList();
+
+
+            if (documento.DocRisco.Count > 0)
+            {
+                var lista = documento.DocRisco.ToList();
+                foreach (var acaoImediata in lista)
+                {
+                    int idLocal = acaoImediata.IdResponsavelInicarAcaoImediata.Value;
+                    var cliente = _usuarioClienteAppServico.GetAll().FirstOrDefault(x => x.IdUsuario == idLocal).Usuario.NmCompleto;
+                    documento.DocRisco
+                            .FirstOrDefault(x => x.IdDocRisco == acaoImediata.IdDocRisco)
+                            .ResponsavelInicarAcaoImediataNomeCompleto = cliente.Usuario.NmCompleto;
+                }
+            }
             return View("EmissaoDocumento", documento);
         }
 
@@ -986,8 +1002,9 @@ namespace Web.UI.Controllers
         [ValidateInput(false)]
         public JsonResult Editar(DocDocumento documentoEditado, bool validaAssunto = true)
         {
-            if (documentoEditado.GestaoDeRisco != null)
-                documentoEditado.IdGestaoDeRisco = documentoEditado.GestaoDeRisco.IdRegistroConformidade;
+            //[cargo]
+            //if (documentoEditado.GestaoDeRisco != null)
+            //    documentoEditado.IdGestaoDeRisco = documentoEditado.GestaoDeRisco.IdRegistroConformidade;
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var erros = new List<string>();
@@ -998,17 +1015,17 @@ namespace Web.UI.Controllers
                     _documentoServico.AssuntoObrigatorioEditarRevisao(documentoEditado, ref erros);
 
                 TrataEdicaoDoc(documentoEditado, ref erros);
-
-                if (documentoEditado.GestaoDeRisco != null && !string.IsNullOrEmpty(documentoEditado.GestaoDeRisco.DescricaoRegistro))
-                {
-                    //documentoEditado.GestaoDeRisco.EProcedente = documentoEditado.PossuiGestaoRisco;
-                    documentoEditado.GestaoDeRisco.EProcedente = true;
-                    documentoEditado.GestaoDeRisco.StatusEtapa = 1;
-                    documentoEditado.GestaoDeRisco.TipoRegistro = "gr";
-                    documentoEditado.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
-                    documentoEditado.GestaoDeRisco.IdEmissor = Util.ObterCodigoUsuarioLogado();
-                    _registroConformidadeServico.ValidarCampos(documentoEditado.GestaoDeRisco, ref erros);
-                }
+                //[cargo]
+                //if (documentoEditado.GestaoDeRisco != null && !string.IsNullOrEmpty(documentoEditado.GestaoDeRisco.DescricaoRegistro))
+                //{
+                //    //documentoEditado.GestaoDeRisco.EProcedente = documentoEditado.PossuiGestaoRisco;
+                //    documentoEditado.GestaoDeRisco.EProcedente = true;
+                //    documentoEditado.GestaoDeRisco.StatusEtapa = 1;
+                //    documentoEditado.GestaoDeRisco.TipoRegistro = "gr";
+                //    documentoEditado.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
+                //    documentoEditado.GestaoDeRisco.IdEmissor = Util.ObterCodigoUsuarioLogado();
+                //    _registroConformidadeServico.ValidarCampos(documentoEditado.GestaoDeRisco, ref erros);
+                //}
 
                 _documentoServico.Valido(documentoEditado, ref erros);
 
@@ -1031,7 +1048,7 @@ namespace Web.UI.Controllers
                 if (baseDocumento.FlWorkFlow)
                 {
                     _docUsuarioVerificaAprovaServico.RemoveAllById(baseDocumento.IdDocumento);
-                    
+
                     _documentoAppServico.Update(baseDocumento);
                 }
                 else
@@ -1095,15 +1112,16 @@ namespace Web.UI.Controllers
 
             if (dest.GestaoDeRisco != null)
             {
-                if (source.GestaoDeRisco != null)
-                {
-                    dest.GestaoDeRisco.Causa = source.GestaoDeRisco.Causa;
-                    dest.GestaoDeRisco.DsJustificativa = source.GestaoDeRisco.DsJustificativa;
-                    dest.GestaoDeRisco.CriticidadeGestaoDeRisco = source.GestaoDeRisco.CriticidadeGestaoDeRisco;
-                    dest.GestaoDeRisco.ResponsavelImplementar = source.GestaoDeRisco.ResponsavelImplementar;
-                    dest.GestaoDeRisco.DescricaoRegistro = source.GestaoDeRisco.DescricaoRegistro;
-                    dest.GestaoDeRisco.IdResponsavelInicarAcaoImediata = source.GestaoDeRisco.IdResponsavelInicarAcaoImediata;
-                }
+                //[cargo]
+                //if (source.GestaoDeRisco != null)
+                //{
+                //    dest.GestaoDeRisco.Causa = source.GestaoDeRisco.Causa;
+                //    dest.GestaoDeRisco.DsJustificativa = source.GestaoDeRisco.DsJustificativa;
+                //    dest.GestaoDeRisco.CriticidadeGestaoDeRisco = source.GestaoDeRisco.CriticidadeGestaoDeRisco;
+                //    dest.GestaoDeRisco.ResponsavelImplementar = source.GestaoDeRisco.ResponsavelImplementar;
+                //    dest.GestaoDeRisco.DescricaoRegistro = source.GestaoDeRisco.DescricaoRegistro;
+                //    dest.GestaoDeRisco.IdResponsavelInicarAcaoImediata = source.GestaoDeRisco.IdResponsavelInicarAcaoImediata;
+                //}
             }
             else
             {
@@ -1111,10 +1129,11 @@ namespace Web.UI.Controllers
                 var listaGR = _registroConformidadeAppServico.ObtemListaRegistroConformidadePorSite(ViewBag.IdSite, "gr", ref numeroUltimoRegistro);
                 numeroUltimoRegistro = numeroUltimoRegistro + 1;
                 dest.GestaoDeRisco = source.GestaoDeRisco;
-                if (dest.GestaoDeRisco != null)
-                {
-                    dest.GestaoDeRisco.NuRegistro = numeroUltimoRegistro;
-                }
+                //[cargo]
+                //if (dest.GestaoDeRisco != null)
+                //{
+                //    dest.GestaoDeRisco.NuRegistro = numeroUltimoRegistro;
+                //}
             }
 
             // Verifica Aprova
@@ -1123,7 +1142,7 @@ namespace Web.UI.Controllers
                 //source.DocUsuarioVerificaAprova.Reverse();
                 dest.DocUsuarioVerificaAprova = source.DocUsuarioVerificaAprova;
             }
-                
+
 
             //Rotinas
             dest.Rotinas.AddRange(source.Rotinas.Where(s => s.IdDocRotina == 0));
@@ -1174,6 +1193,34 @@ namespace Web.UI.Controllers
                 x.IndicadoresUnidadeMeta = itemAtualizar.IndicadoresUnidadeMeta;
                 x.Objetivo = itemAtualizar.Objetivo;
             });
+
+
+
+            //Riscos
+            if (source.DocRisco != null)
+                dest.DocRisco.AddRange(source.DocRisco.Where(s => s.IdDocRisco == 0));
+            List<DocRisco> riscos = dest.DocRisco.Where(s => !source.DocRisco.Any(a => s.IdDocRisco == a.IdDocRisco)).ToList();
+            riscos.ForEach(f => _documentoAppServico.RemoverGenerico(f));
+
+            dest.DocRisco.ForEach(x =>
+            {
+                var itemAtualizar = source.DocRisco.Where(y => y.IdDocRisco == x.IdDocRisco).FirstOrDefault();
+
+                x.Causa = itemAtualizar.Causa;
+                x.CriticidadeGestaoDeRisco = itemAtualizar.CriticidadeGestaoDeRisco;
+                x.DescricaoRegistro = itemAtualizar.DescricaoRegistro;
+
+                //x.Documento = itemAtualizar.Documento;
+                //x.IdDocumento = itemAtualizar.IdDocumento;
+
+                x.DsJustificativa = itemAtualizar.DsJustificativa;
+                x.IdDocRisco = itemAtualizar.IdDocRisco;
+                x.IdDocumento = source.IdDocumento;
+                x.IdResponsavelInicarAcaoImediata = itemAtualizar.IdResponsavelInicarAcaoImediata;
+                x.PossuiGestaoRisco = itemAtualizar.PossuiGestaoRisco;
+
+            });
+
 
 
 
@@ -1337,7 +1384,19 @@ namespace Web.UI.Controllers
                 //var elaborador = _documentoAppServico.GetById(documento.IdDocumento).Elaborador;
                 //documento.Elaborador = elaborador;
                 //documento.IdElaborador = elaborador.IdUsuario;
+                //[cargo]
+                documento.DocRisco.ToList().ForEach(acaoImediata =>
 
+                {
+                    documento.DocRisco.FirstOrDefault(x => x.IdDocRisco == acaoImediata.IdDocRisco).IdDocumento = documento.IdDocumento;
+                    //documento.DocRisco.FirstOrDefault(x => x.IdDocRisco == acaoImediata.IdDocRisco).IdDocumento = documento.IdDocumento;
+
+                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+
+                });
+
+
+                documento.GestaoDeRisco = null;
                 _documentoAppServico.Update(documento);
             }
             catch (Exception ex)
@@ -1355,7 +1414,7 @@ namespace Web.UI.Controllers
         public JsonResult EnviarParaAprovado(DocDocumento documento)
         {
             List<string> erros = new List<string>();
-
+            //[cargo]
             _documentoServico.ValidoParaEtapaDeVerificacao(documento, ref erros);
 
             if (erros.Count == 0)
@@ -1371,19 +1430,116 @@ namespace Web.UI.Controllers
 
                     //Editar(documento, false);
 
+
+
                     AdicionaComentario(documento);
                     AtualizarUsuarioCargosETemplatesDoDocumento(documento);
 
                     var listaAprova = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento && x.TpEtapa == "A").ToList();
                     listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlAprovou = true;
 
+                    //[cargo]
+                    documento.GestaoDeRisco = null;
+
+
+                    documento.DocRisco.ToList().ForEach(documentoLocal =>
+                    {
+                        documento.DocRisco.FirstOrDefault(x => x.IdDocRisco == documentoLocal.IdDocRisco).IdDocumento = documento.IdDocumento;
+                    });
+
+
                     if (_documentoAppServico.AprovadoPorTodos(listaAprova))
                         _documentoAppServico.AprovarDocumento(documento);
                     else
                         documento.FlStatus = (byte)StatusDocumento.Aprovacao;
 
+                    int numeroUltimoRegistro = 0;
+
                     _docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
-                    _documentoAppServico.Update(documento);
+
+                    List<RegistroConformidade> listaRegistro = new List<RegistroConformidade>();
+                    foreach (var item in documento.DocRisco)
+                    {
+
+                        RegistroConformidade registro = new RegistroConformidade();
+
+                        //registro.TipoRegistro = "gr";
+                        //registro.IdEmissor = documento.IdUsuarioIncluiu.Value;
+                        //registro.IdUsuarioIncluiu = documento.IdUsuarioIncluiu.Value;
+                        //registro.IdUsuarioAlterou = documento.IdUsuarioAlteracao.Value;
+                        //registro.IdSite = documento.IdSite;
+                        //registro.EProcedente = true;
+                        //registro.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
+                        ////registro.FlDesbloqueado = doc.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
+                        //registro.IdResponsavelEtapa = documento.IdUsuarioIncluiu.Value; // doc.GestaoDeRisco.IdResponsavelInicarAcaoImediata;
+                        //registro.DescricaoRegistro = doc.GestaoDeRisco.DescricaoRegistro == null
+
+
+
+
+
+                        //registro.IdUsuarioIncluiu = documento.IdUsuarioIncluiu.Value;
+                        //registro.IdUsuarioAlterou = documento.IdUsuarioAlteracao.Value;
+                        //registro.NuRegistro = 99;
+                        //registro.DtEmissao = documento.DtEmissao.Value;
+                        //registro.DtEnceramento = DateTime.Now;
+                        // Ver aqui
+                        //registro.DtPrazoImplementacao
+
+
+
+
+                        registro.TipoRegistro = "gr";
+
+                        registro.IdEmissor = Util.ObterCodigoUsuarioLogado(); ;
+                        
+                        registro.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado(); ;
+                        registro.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado(); ;
+
+                        registro.IdSite = documento.IdSite;
+                        //registro.IdProcesso = documento.IdProcesso;
+
+                        registro.EProcedente = true;
+                        registro.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
+
+                        // Tem no original
+                        //doc.GestaoDeRisco.FlDesbloqueado = doc.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
+
+                        registro.IdResponsavelEtapa = item.IdResponsavelInicarAcaoImediata;
+
+                        registro.DescricaoRegistro = item.DescricaoRegistro == null ? string.Empty : item.DescricaoRegistro;
+
+                        // Novo
+                        registro.Causa = item.Causa;
+                        registro.DsJustificativa = item.DsJustificativa;
+                        
+                        
+
+                        // Utilizar a data de alteração ??
+                        //registro.DtInclusao = documento.DtInclusao.Value;
+                        //registro.DtAlteracao = documento.DtAlteracao;
+                        registro.CriticidadeGestaoDeRisco = item.CriticidadeGestaoDeRisco;
+                        // ------ AQUI
+
+                        var listaGR = _registroConformidadeAppServico.ObtemListaRegistroConformidadePorSite(documento.IdSite, "gr", ref numeroUltimoRegistro);
+                        numeroUltimoRegistro = numeroUltimoRegistro + 1;
+
+                        registro.NuRegistro = numeroUltimoRegistro;
+                        //registro.IdRegistroConformidade = null;
+
+
+                        //listaRegistro.Add(registro);
+
+                        documento.GestaoDeRisco = registro;
+
+                        _documentoAppServico.Update(documento);
+                    }
+
+                    //documento.GestaoDeRisco = listaRegistro;
+
+                    
+
+                   
                 }
                 catch (Exception ex)
                 {
@@ -1491,7 +1647,8 @@ namespace Web.UI.Controllers
         private void TrataObjetoApartirDoTipoTemplate(DocDocumento doc, int idUsuarioLogado, ref List<string> erros)
         {
             TrataAnexos(doc);
-            TrataCriacaoGr(doc, idUsuarioLogado, ref erros);
+            //[cargo]
+            //TrataCriacaoGr(doc, idUsuarioLogado, ref erros);
         }
 
         private void DefineStatus(DocDocumento doc)
@@ -1546,24 +1703,26 @@ namespace Web.UI.Controllers
 
         private void TrataCriacaoGr(DocDocumento doc, int idUsuarioLogado, ref List<string> erros)
         {
-            if (doc.DocTemplate.Any(x => x.TpTemplate == "RI"))
-            {
-                if (doc.GestaoDeRisco == null)
-                {
-                    doc.GestaoDeRisco = new RegistroConformidade();
-                }
+            //[cargo]
+            //if (doc.DocTemplate.Any(x => x.TpTemplate == "RI"))
+            //{
+            //    if (doc.GestaoDeRisco == null)
+            //    {
+            //        doc.GestaoDeRisco = new RegistroConformidade();
+            //    }
 
-                doc.GestaoDeRisco.TipoRegistro = "gr";
-                doc.GestaoDeRisco.IdEmissor = idUsuarioLogado;
-                doc.GestaoDeRisco.IdUsuarioIncluiu = idUsuarioLogado;
-                doc.GestaoDeRisco.IdUsuarioAlterou = idUsuarioLogado;
-                doc.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
-                doc.GestaoDeRisco.EProcedente = false;
-                doc.GestaoDeRisco.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
-                doc.GestaoDeRisco.FlDesbloqueado = doc.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
-                doc.GestaoDeRisco.IdResponsavelEtapa = doc.GestaoDeRisco.IdResponsavelInicarAcaoImediata;
-                _registroConformidadeAppServico.GestaoDeRiscoValida(doc.GestaoDeRisco, ref erros);
-            }
+            //    doc.GestaoDeRisco.TipoRegistro = "gr";
+            //    doc.GestaoDeRisco.IdEmissor = idUsuarioLogado;
+            //    doc.GestaoDeRisco.IdUsuarioIncluiu = idUsuarioLogado;
+            //    doc.GestaoDeRisco.IdUsuarioAlterou = idUsuarioLogado;
+            //    doc.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
+            //    doc.GestaoDeRisco.EProcedente = false;
+            //    doc.GestaoDeRisco.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
+            //    doc.GestaoDeRisco.FlDesbloqueado = doc.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
+            //    doc.GestaoDeRisco.IdResponsavelEtapa = doc.GestaoDeRisco.IdResponsavelInicarAcaoImediata;
+            //    doc.GestaoDeRisco.DescricaoRegistro = doc.GestaoDeRisco.DescricaoRegistro == null ? string.Empty : doc.GestaoDeRisco.DescricaoRegistro;
+            //    _registroConformidadeAppServico.GestaoDeRiscoValida(doc.GestaoDeRisco, ref erros);
+            //}
         }
 
         private bool ECoordenadorOuAdministrador(int perfil)
