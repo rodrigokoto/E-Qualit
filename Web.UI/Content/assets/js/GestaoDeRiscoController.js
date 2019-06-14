@@ -325,6 +325,7 @@ APP.controller.GestaoDeRiscoController = {
     setHideRowAcaoImediata: function () {
 
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
+        $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
 
     },
@@ -355,7 +356,8 @@ APP.controller.GestaoDeRiscoController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            $(this).find('td').last().hide();
+            //$(this).find('td').last().hide();
+            $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
@@ -403,8 +405,24 @@ APP.controller.GestaoDeRiscoController = {
         $('#tb-acao-imediata tbody tr').each(function () {
             var idResponsavelImplementar = $(this).find('[name=formAcaoImadiataTbResponsavelImplementar]').val();
             if ((idResponsavelImplementar == idUsuarioLogado) || idPerfil != 4) {
-                $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+                if ($(this).find('[name=desabilitaData]').val() == "true") {
+                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+                    $(this).find('[name=formAcaoImadiataTbEvidencia]').prop('disabled', false);
+                    $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', true);
+                    $(this).find('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#fff');
+                    $(this).find('[name=anxFile]').find('a').css("pointer-events", "none");
+                    $(this).find('[name=anxFile]').find('a').prop('disabled', true);
+                }
+                else {
+                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+                    $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', false);
+                    $(this).find('[name=anxFile]').find('a').prop('disabled', false);
+                    $(this).find('[name=anxFile]').find('a').css("pointer-events", "visible");
+                }
                 $(this).find('[name=formAcaoImadiataTbEvidencia]').prop('disabled', false);
+                $(this).find('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', false);
+                $(this).find('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', false);
+                $(this).find('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', false);
                 $(this).find('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#fff');
             }
         });
@@ -430,7 +448,8 @@ APP.controller.GestaoDeRiscoController = {
 
         //Botoes Acoes
         $('#tb-acao-imediata tbody tr').each(function () {
-            $(this).find('td').last().hide();
+            //$(this).find('td').last().hide();
+            $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
@@ -460,6 +479,7 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataTbDescricao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtPrazoImplementacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbResponsavelImplementar]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
         $('.upload-arq form-control').prop('disabled', _disabled);
         //Upload Changes
@@ -477,7 +497,8 @@ APP.controller.GestaoDeRiscoController = {
         var idResponsavelReverificacao = $('[name=formAcaoImadiataResponsavelReverificacao]').val();
         if ((idResponsavelReverificacao == idUsuarioLogado) || idPerfil != 4) {
             $('#tb-acao-imediata tbody tr').each(function () {
-                $(this).find('td').last().show();
+                //$(this).find('td').last().show();
+                $('.botoesTd').show();
                 $(this).find('.btn-delete-acao-imediata').hide();
             });
 
@@ -489,13 +510,23 @@ APP.controller.GestaoDeRiscoController = {
 
     setCheckAcaoImediataOk: function () {
 
+        //$('.btn-confirm-acao-imediata').on('click', function () {
+        //    $(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
+        //    $(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
+        //    $(this).closest('td').find('.btn-ok-acao-imediata').delay(400).fadeIn(300);
+        //    $(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeOut(300);
+        //    $(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val(true);
+        //    APP.controller.GestaoDeRiscoController.getChecksAcaoImediata();
+        //});
         $('.btn-confirm-acao-imediata').on('click', function () {
-            $(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
-            $(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
+
+            $(this).closest('td').find('.btn-confirm-acao-imediata').delay(400).fadeOut(300);
+            $(this).closest('td').find('.btn-denied-acao-imediata').delay(400).fadeOut(300);
             $(this).closest('td').find('.btn-ok-acao-imediata').delay(400).fadeIn(300);
             $(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeOut(300);
+
             $(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val(true);
-            APP.controller.GestaoDeRiscoController.getChecksAcaoImediata();
+            APP.controller.NaoConformidadeController.getChecksAcaoImediata();
         });
 
     },
@@ -726,6 +757,11 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
         $('.upload-arq form-control').prop('disabled', _disabled);
+        if (_disabled) {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
+        } else {
+            $('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "visible");
+        }
         //Upload Changes
         $('[name^=formCriarNaoConformidadeEvidencia]').closest('div').css('background-color', '#eee');
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
@@ -748,10 +784,12 @@ APP.controller.GestaoDeRiscoController = {
 
 
         $('#tb-acao-imediata tbody tr').each(function () {
-            var aprovado = $(this).find('[name=formAcaoImadiataTbAprovado]');
+            //var aprovado = $(this).find('[name=formAcaoImadiataTbAprovado]');
+            var aprovado = $(this).find('.formAcaoImadiataTbAprovado');
             if (aprovado == "true") {
                 $(this).find('.btn-ok-acao-imediata').show();
-            } else {
+            }
+            else {
                 $(this).find('.btn-notok-acao-imediata').show();
             }
 
@@ -1185,9 +1223,9 @@ APP.controller.GestaoDeRiscoController = {
             html += '<input type="hidden" name="formAcaoImadiataTbEstado" value="4"/>';
             html += '</td>';
 
-            html += '<td>';
-            html += '<textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control"></textarea>';
-            html += '</td>';
+            //html += '<td>';
+            //html += '<textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control"></textarea>';
+            //html += '</td>';
 
             html += '<td>';
             html += '<div class="input-group input-group-datepicker">';

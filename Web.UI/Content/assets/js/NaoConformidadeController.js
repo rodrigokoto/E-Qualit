@@ -906,12 +906,6 @@ APP.controller.NaoConformidadeController = {
     },
 
     setShowInputsEtapa4: function () {
-
-
-
-
-
-
         $('#tb-acao-imediata tbody tr').each(function () {
             var aprovado = $(this).find('[name=formAcaoImadiataTbAprovado]');
             if (aprovado == "true") {
@@ -919,9 +913,7 @@ APP.controller.NaoConformidadeController = {
             } else {
                 $(this).find('.btn-notok-acao-imediata').show();
             }
-
         });
-
     },
 
     //Rules

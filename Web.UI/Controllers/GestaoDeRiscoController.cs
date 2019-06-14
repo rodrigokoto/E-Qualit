@@ -255,6 +255,36 @@ namespace Web.UI.Controllers
             }
         }
 
+        [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.Registro, (int)Funcionalidades.GestaoDeRiscos)]
+        public ActionResult Criar()
+        {
+            var gestaoDeRisco = new RegistroConformidade();
+            gestaoDeRisco.Processo = new Processo();
+            //gestaoDeRisco.Processo.IdProcesso = Util.ObterProcessoSelecionado(); 
+
+            gestaoDeRisco.Emissor = new Usuario();
+            gestaoDeRisco.ResponsavelInicarAcaoImediata = new Usuario();
+            gestaoDeRisco.TipoNaoConformidade = new ControladorCategoria();
+
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.Arquivos = new List<string>();
+            ViewBag.IdCliente = Util.ObterClienteSelecionado();
+            ViewBag.StatusEtapa = 0;
+
+            ViewBag.TipoRegistro = _tipoRegistro;
+            ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
+            ViewBag.UsuarioLogado = Util.ObterUsuario();
+
+            ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
+            ViewBag.Site = Util.ObterSiteSelecionado();
+            //ViewBag.IdProcesso = Util.ObterProcessoSelecionado();
+
+            //ViewBag.NomeProcesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).Nome;
+            ViewBag.NomeUsuario = Util.ObterUsuario().Nome;
+            ViewBag.NumeroRisco = _registroConformidadesServico.GeraProximoNumeroRegistro(_tipoRegistro, Util.ObterSiteSelecionado());
+
+            return View(gestaoDeRisco);
+        }
 
         public ActionResult PDF(int id)
         {
