@@ -649,7 +649,7 @@ getNecessitaAcao: function () {
 //Rules
 setRulesNecessitaAcao: function () {
 
-    var necessitaAcao = APP.controller.GestaoDeRiscoController.getNecessitaAcao();
+	var necessitaAcao = APP.controller.GestaoDeRiscoController.getNecessitaAcao();
     if (necessitaAcao == "false") {
         $('[name=formCriarNaoConformidadeResponsavel]').closest('[class^=col]').hide();
         $('[name=formCriarNaoConformidadeNmRegistro]').closest('[class^=col]').hide();
@@ -709,19 +709,6 @@ getformCriarNaoConformidadeDtEmissao: function () {
 
 },
 
-//getProcessosPorSite: function () {
-//    debugger;
-//    var idSite = $('#nao-conformidade-site').val();
-//    $.get('/Processo/ListaProcessosPorSite?idSite=' + idSite, function (result) {
-//        $.each(result.Lista, (key, val) => {
-//            var $option = $('<option></option>');
-//            $('[name=formCriarNaoConformidadeProcesso]').append(
-//                $option.val(val.IdProcesso).text(val.Nome)
-//            );
-//        });
-//    });
-
-//},
 
 getEmissorPorSite: function () {
 

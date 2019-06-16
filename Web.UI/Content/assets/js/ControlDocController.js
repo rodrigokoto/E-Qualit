@@ -265,10 +265,10 @@ APP.controller.ControlDocController = {
                 bootbox.alert("Ocorreu um erro inesperado durante a solicitação. Tente Novamente.");
             },
             success: function (data) {
-
-                $("#form-emissao-documento-fluxo-conteudo").val(data.xmlFluxo);
-                APP.controller.ControlDocController.setEditorFormFluxo();
-                
+				if (data.xmlFluxo != null) {
+					$("#form-emissao-documento-fluxo-conteudo").val(data.xmlFluxo);
+					APP.controller.ControlDocController.setEditorFormFluxo();
+				}
                 if (perfil == "4" || perfil == "2") {
 
                     var modal = bootbox.dialog({
@@ -299,8 +299,8 @@ APP.controller.ControlDocController = {
                 }
                 else {
                     APP.controller.ControlDocController.models.iscontrolada = null;
-                    APP.controller.ControlDocController.models.idusuariodestino = null;                    
-                    APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);                    
+                    APP.controller.ControlDocController.models.idusuariodestino = null;
+                    APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);
                 }
 
             },
@@ -310,7 +310,7 @@ APP.controller.ControlDocController = {
         });
 
 
-        
+
     },
     setImprimirDocumento: function () {
 
@@ -318,7 +318,6 @@ APP.controller.ControlDocController = {
 
         this.buttonImprimirDocumento.unbind('click');
         this.buttonImprimirDocumento.bind('click', function () {
-
             $(".usuarioDestinoCopiaControlada").show();
             event.preventDefault();
             APP.controller.ControlDocController.models.idDocumento = $(this).data("iddocumento");
@@ -326,7 +325,7 @@ APP.controller.ControlDocController = {
             var $rowAtual = $(this).parents("tr");
 
             APP.controller.ControlDocController.solicitarImpressao(perfil, APP.controller.ControlDocController.models.idDocumento);
-            
+
         });
     },
 
@@ -517,7 +516,13 @@ APP.controller.ControlDocController = {
         this.setShowTemplatesEmissaoDocumento();
 
         //$("#form-emissao-documento-texto").show();
-        $('[name=formRiscosNecessitaAcao]').trigger('change');
+        //$('[name^=formRiscosNecessitaAcao]').trigger('change');
+        
+        //$('[name^=formRiscosJustificativa]').val("");
+        //$('[name^=formRiscosObjetivo]').val("");
+
+
+
         $('[name=formCadastroWorkflow]').trigger('change');
 
         this.setImprimirDocumento();
@@ -774,7 +779,7 @@ APP.controller.ControlDocController = {
                         break;
                     case "riscos":
                         emissaoDocumentoObj.DocRisco = APP.controller.ControlDocController.getObjFormRiscos();
-                        
+
                         //emissaoDocumentoObj.GestaoDeRisco = APP.controller.ControlDocController.getObjFormRiscos();
                         //emissaoDocumentoObj.CorRisco = $('[name=formRiscosCorDoRisco]:checked').val();
                         //emissaoDocumentoObj.PossuiGestaoRisco = $('[name=formRiscosNecessitaAcao]:checked').val();
@@ -1289,7 +1294,7 @@ APP.controller.ControlDocController = {
 
             },
             success: function (result) {
-                
+
                 if (result.StatusCode == 200) {
                     //var retorno = result.Lista.pop();
                     //retorno = result.Lista.pop();
@@ -1908,9 +1913,9 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
             //APP.component.Mascaras.init();
-            
+
             //$(this).find('input[name=formIndicadoresMetaMaximaMinima]:checked').val()
-            var contadorAtual =  ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
+            var contadorAtual = ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
             var TraducaoDropNameSelect = 'Selecione';
 
             var html = '';
@@ -2027,7 +2032,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', false);
             $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', false);
             $(this).closest('tr').find('[name^=formIndicadoresMetaMaximaMinima]').prop('disabled', false);
-            
+
             APP.controller.ControlDocController.getResponsavelImplementarIndicadoresLocal($(this).closest('tr').find('[name=formIndicadoresResponsavel]'));
             editor.graph.setEnabled(true);
         });
@@ -2051,7 +2056,7 @@ APP.controller.ControlDocController = {
             //    $('.add-acao-imediata').removeClass('show').addClass('hide');
             //},
             success: function (result) {
-                
+
                 if (result.StatusCode == 200) {
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
                     APP.component.SelectListCompare.selectList(result.Lista, $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"] option'), $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"]'), 'IdUsuario', 'NmCompleto');
@@ -2086,7 +2091,7 @@ APP.controller.ControlDocController = {
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"] option'), $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"]'), 'IdUsuario', 'NmCompleto');
                     $('[name="formIndicadoresResponsavel"]').each(function () {
                         APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
-                    });  
+                    });
                 }
             },
             error: function (result) {
@@ -2495,6 +2500,8 @@ APP.controller.ControlDocController = {
 
         this.getResponsavelImplementarRiscosLocal();
 
+        this.setNecessitaAcao();
+
         var IdProcesso = $('[name=formCadastroProcesso]').val();
         if (IdProcesso != "" && IdProcesso != null && IdProcesso != undefined) {
             // -------------------- comentado
@@ -2529,7 +2536,7 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaRiscosFormRiscos.unbind('click');
         this.buttonAddNovaRiscosFormRiscos.on('click', function () {
             event.preventDefault();
-            
+
             var contadorAtual = ($('input[name^=formRiscosNecessitaAcao]').length / 2) + 1;
             //var contadorAtual = ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
             var TraducaoDropNameSelect = 'Selecione';
@@ -2623,7 +2630,9 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRiscosObjetivo]').prop('disabled', true);
             $(this).closest('tr').find('[name=formRiscosJustificativa]').prop('disabled', true);
             //$(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', true);
-            
+
+            //APP.controller.ControlDocController.getNecessitaAcao();
+
             editor.graph.setEnabled(false);
 
 
@@ -2643,8 +2652,10 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRiscosObjetivo]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRiscosJustificativa]').prop('disabled', false);
 
+            APP.controller.ControlDocController.getNecessitaAcao();
+
             APP.controller.ControlDocController.getResponsavelImplementarRiscosLocal($(this).closest('tr').find('[name=formRiscosResponsavel]'));
-            
+
             editor.graph.setEnabled(true);
         });
 
@@ -2723,8 +2734,8 @@ APP.controller.ControlDocController = {
                 //emissaoDocumentoObj.GestaoDeRisco = APP.controller.ControlDocController.getObjFormRiscos();
                 //emissaoDocumentoObj.CorRisco = $('[name=formRiscosCorDoRisco]:checked').val();
                 //emissaoDocumentoObj.PossuiGestaoRisco = $('[name=formRiscosNecessitaAcao]:checked').val();
-               
-      
+
+
             };
             arrayFormRiscosObj.push(DocRisco);
 
@@ -2739,16 +2750,32 @@ APP.controller.ControlDocController = {
         $('[name^=formRiscosNecessitaAcao]').unbind('change');
         $('[name^=formRiscosNecessitaAcao]').on('change', function () {
 
-            $('[name^=formRiscosNecessitaAcao]:checked').each(function () {
-                alert();
-                //var templateUtilizado = $(this).attr("id").split("-")[3];
-                //$("#panel-form-" + templateUtilizado).show();
-            });
+            APP.controller.ControlDocController.getNecessitaAcao();	
 
 
             //var necessitaAcao = APP.controller.ControlDocController.getNecessitaAcao();
             //APP.controller.ControlDocController.setRulesNecessitaAcao(necessitaAcao);
 
+        });
+
+    },
+    
+
+    getNecessitaAcao: function () {
+
+        $('[name^=formRiscosNecessitaAcao]:checked').each(function () {
+            if ($(this).val() == "true") {
+                $(this).closest('tr').find('[name=formRiscosResponsavel]').prop('disabled', false);
+                $(this).closest('tr').find('[name=formRiscosObjetivo]').prop('disabled', false);
+                $(this).closest('tr').find('[name=formRiscosJustificativa]').prop('disabled', true);
+                $(this).closest('tr').find('[name=formRiscosJustificativa]').val("");
+
+            } else {
+                $(this).closest('tr').find('[name=formRiscosResponsavel]').prop('disabled', true);
+                $(this).closest('tr').find('[name=formRiscosObjetivo]').prop('disabled', true);
+                $(this).closest('tr').find('[name=formRiscosObjetivo]').val("");
+                $(this).closest('tr').find('[name=formRiscosJustificativa]').prop('disabled', false);
+            }
         });
 
     },
@@ -2775,7 +2802,7 @@ APP.controller.ControlDocController = {
     //    }
 
     //},
-    
+
     //getObjFormRiscos: function () {
     //    var emissaoDocumentoFormRiscosObj = {
 
@@ -2798,6 +2825,7 @@ APP.controller.ControlDocController = {
         APP.controller.ControlDocController.setEditNovaRiscosFormRiscos();
         APP.controller.ControlDocController.delNovaRiscosFormRiscos();
         APP.controller.ControlDocController.getResponsavelImplementarRiscosLocal();
+        APP.controller.ControlDocController.setNecessitaAcao();
         //APP.controller.ControlDocController.getResponsavelImplementarIndicadores();
         //APP.controller.ControlDocController.setNovaIndicadoresFormIndicadores();
         //APP.controller.ControlDocController.setSaveNovaIndicadoresFormIndicadores();
