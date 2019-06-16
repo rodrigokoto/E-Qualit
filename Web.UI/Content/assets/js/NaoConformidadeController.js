@@ -2022,45 +2022,6 @@ APP.controller.NaoConformidadeController = {
 
 
             APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
-            //$.ajax({
-            //    type: "POST",
-            //    dataType: 'json',
-            //    data: data,
-            //    url: "/NaoConformidade/DestravarDocumento",
-            //    success: function (result) {
-            //        debugger;
-
-            //        $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
-            //            APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
-            //        });  
-
-
-            //        //alert('foi');
-            //        //if (result.StatusCode == 200) {
-            //        //    window.location.reload([true]);
-            //        //} else if (result.StatusCode == 505) {
-            //        //    erro = APP.component.ResultErros.init(result.Erro);
-            //        //    bootbox.alert(erro);
-            //        //} else if (result.StatusCode == 500) {
-            //        //    erro = APP.component.ResultErros.init(result.Erro);
-            //        //    bootbox.alert(erro);
-            //        //}
-
-            //    },
-            //    error: function (result) {
-            //        //erro = APP.component.ResultErros.init(result.Erro);
-            //        //bootbox.alert(erro);
-            //    }
-            //    //complete: function (result) {
-            //    //    APP.component.Loading.hideLoading();
-            //});
-
-
-
-
-            //this.HabilitaCamposGestaoRisco(perfil);
-
-            //this.DestravaDocumento();
 
         });
     }

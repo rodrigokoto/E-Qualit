@@ -85,10 +85,11 @@ namespace ApplicationService.Servico
         {
             var docBase = _documentoRepositorio.Get(x => x.IdDocumento == doc.IdDocumento).FirstOrDefault();
             docBase.FlStatus = (int)StatusDocumento.Elaboracao;
-            if (doc.GestaoDeRisco != null)
-            {
-                docBase.IdGestaoDeRisco = doc.GestaoDeRisco.IdRegistroConformidade;
-            }
+            //[cargo]
+            //if (doc.GestaoDeRisco != null)
+            //{
+            //    docBase.IdGestaoDeRisco = doc.GestaoDeRisco.IdRegistroConformidade;
+            //}
 
             _documentoRepositorio.Update(docBase);
         }

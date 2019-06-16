@@ -205,6 +205,8 @@ namespace DAL.EntityConfig
             HasRequired(t => t.Site)
                 .WithMany(t => t.Registros)
                 .HasForeignKey(d => d.IdSite);
+                //.WillCascadeOnDelete(true);
+
 
             #endregion
 
