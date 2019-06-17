@@ -17,13 +17,13 @@ namespace Dominio.Entidade
             ArquivosDeEvidenciaAux = new List<Anexo>();
             ArquivosDeEvidencia = new List<ArquivosDeEvidencia>();
         }
-        public int IdRegistroConformidade { get; set; }
+        
         public int IdSite { get; set; }
         public int ? IdProcesso { get; set; }
         public int IdEmissor { get; set; }
         public int? IdNaoConformidade { get; set; }
 
-        public int? IdResponsavelInicarAcaoImediata { get; set; } // Por Adicionar Acoes Imediatas
+        
 
         public int? IdResponsavelAcaoCorretiva { get; set; } //
 
@@ -41,7 +41,7 @@ namespace Dominio.Entidade
         public int IdUsuarioIncluiu { get; set; }
         public int IdUsuarioAlterou { get; set; }
 
-        public string DescricaoRegistro { get; set; } //o que falhou?
+        
         public string TipoRegistro { get; set; } // ac, gr, nc
         public int NuRegistro { get; set; }
         public string DsAcao { get; set; }
@@ -53,7 +53,7 @@ namespace Dominio.Entidade
 
 
 
-        public string DsJustificativa { get; set; }
+        
         public DateTime? DtAnalise { get; set; }
         public DateTime? DtDescricaoAcao { get; set; }
         public DateTime? DtEfetivaImplementacao { get; set; }
@@ -76,10 +76,14 @@ namespace Dominio.Entidade
 
         public bool? NecessitaAcaoCorretiva { get; set; }
         public bool? ENaoConformidadeAuditoria { get; set; }
-
+        //risco
         public int? CriticidadeGestaoDeRisco { get; set; } //enum.CriticidadeGestaoDeRisco
-
+        public int? IdResponsavelInicarAcaoImediata { get; set; } // Por Adicionar Acoes Imediatas
+        public string DescricaoRegistro { get; set; } //o que falhou?
         public string Causa { get; set; }
+        public int IdRegistroConformidade { get; set; }
+        public string DsJustificativa { get; set; }
+
 
         public byte StatusRegistro { get; set; }
         public int? IdRegistroPai { get; set; } 

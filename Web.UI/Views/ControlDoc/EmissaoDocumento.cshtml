@@ -585,7 +585,7 @@
                 </div>
             </form>
             <!-- Formulario INDICADORES -->
-            <form id="form-emissao-documento-indicadores">
+            <form id="form-emissao-documento-riscos">
                 <div class="panel panel-default" id="panel-form-indicadores">
                     <div class="panel-heading">
                         <div class="panel-title">
@@ -707,129 +707,227 @@
                             <h2>@Traducao.Resource.Riscos</h2>
                         </div>
                     </div>
+
                     <div class="panel-body">
-                        <div class="barra-busca gestao-de-risco">
-                            <div class="row top-buffer">
-
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                        <div class="form-group">
-                                            @Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                        <div class="form-group">
-                                            <!-- Identificacao -->
-                                            <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
-                                            <textarea name="formRiscosIdentificacao" class="form-control" id="form-riscos-identificacao" rows="7" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro:null)</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- Criticidade -->
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                    <div class="form-group">
-                                        <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
-                                        <input type="hidden" name="formRiscosCriticidade" value="@(Model.GestaoDeRisco != null? Model.GestaoDeRisco.CriticidadeGestaoDeRisco:0)" />
-                                        <select id="risco-1to10" class="barraRating form-control" name="formCriarNaoConformidadeCriticidade" autocomplete="off"
-                                                placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_placeholder_Criticidade"
-                                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Criticidade">
-                                            <option value="1" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                            <option value="2" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 2 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                            <option value="3" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 3 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                            <option value="4" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 4 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                            <option value="5" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 5 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                            <option value="6" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 6 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                            <option value="7" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 7 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                            <option value="8" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 8 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                            <option value="9" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 9 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                            <option value="10" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 10 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                            <option value="11" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 11 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                            <option value="12" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 12 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                            <option value="13" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 13 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                            <option value="14" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 14 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                            <option value="15" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 15 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Necessita Acao -->
-                            <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12 ">
+                        <div class="barra-busca">
+                            <p class="novo">
+                                <a href="#" class="form-riscos-add-riscos"><i class="fa fa-plus-circle" aria-hidden="true"></i>Novo Risco</a>
+                            </p>
+                            <div class="col-md-12" style="margin-top: 40px;">
                                 <div class="form-group">
-                                    <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
-                                    <div class="">
-                                        <label for="form-riscos-necessita-acao-sim">
-                                            <input type="radio" id="form-riscos-necessita-acao-sim" name="formRiscosNecessitaAcao"
-                                                   data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EProcedente"
-                                                   value="true"
-                                                   @(Model.PossuiGestaoRisco == true ? "checked" : null) />
-                                            @Traducao.Shared.ResourceLabel.Label_radio_Sim
-                                        </label>
-                                        <label for="form-riscos-necessita-acao-nao">
-                                            <input type="radio" id="form-riscos-necessita-acao-nao" name="formRiscosNecessitaAcao"
-                                                   data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EProcedente"
-                                                   value="false"
-                                                   @(Model.PossuiGestaoRisco == false ? "checked" : null) />
-                                            @Traducao.Shared.ResourceLabel.Label_radio_Nao
-                                        </label>
-                                    </div>
-                                </div>
+                                    <table id="tb-form-riscos" class="table table-striped table-bordered table-list">
+                                        <thead class="titulo-tabela">
+                                            <tr>
+                                                <th class="w10 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</th>
+                                                <th class="w5 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</th>
+                                                <th class="w5 with-input">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</th>
+                                                <th class="w10 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Responsavel_Risco</th>
 
-                            </div>
+                                                <th class="w5 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</th>
+                                                <th class="w10 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</th>
 
+                                                <th class="w5 text-nowrap"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                            <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
-
-                                <div class="form-group">
-                                    @if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.IdRegistroConformidade > 0)
-                                    {
-                                        <div>
-                                            <label for="form-riscos-numeroAcao" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroAcao</label>
-                                            <br />
-                                            <input type="text" disabled value="@ViewBag.NumeroRisco" />
-                                            <br />
-                                            <br />
-
-                                        </div>
-                                    }
-                                    <label for="form-riscos-responsavel" class="control-label">Responsável</label>
-                                    <select id="form-riscos-responsavel" name="formRiscosResponsavel" class="form-control"
-                                            data-msg-required="" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>
-                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                        @if (Model.GestaoDeRisco != null)
-                                        {
-                                            if (Model.GestaoDeRisco.IdRegistroConformidade > 0 && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
+                                            @if (Model.DocTemplate.Find(t => t.TpTemplate == "RI") != null)
                                             {
-                                                <option value="@Model.GestaoDeRisco.IdResponsavelInicarAcaoImediata" selected>@Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                                                int contador = 0;
+                                                foreach (var risco in Model.DocRisco)
+                                                {
+                                                    //for (int i = 0; i < 1; i++)
+                                                    //{
+
+                                                    contador++;
+                                                    //string nome = "formIndicadoresMetaMaximaMinima" + contador.ToString();
+                                                    string nome = "formRiscosNecessitaAcao" + contador.ToString();
+
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name="formRiscoIdRisco" value="@risco.IdDocRisco" />
+                                                            <textarea type="text" name="formRiscosIdentificacao" maxlength="8000" rows="5" if="form-riscos-identificacao" class="form-control" disabled="">@risco.DescricaoRegistro</textarea>
+                                                        </td>
+
+                                                        <td>
+                                                            <input type="text" name="formRiscosRisco" if="form-riscos-risco" class="form-control" disabled value="@risco.CriticidadeGestaoDeRisco">
+                                                        </td>
+
+                                                        <td>
+
+                                                            <input type="radio" name="@nome" if="form-riscos-necessita-acao" disabled value="true" @(risco.PossuiGestaoRisco ? "checked" : "" ) /> &nbsp;Sim
+                                                            &nbsp;&nbsp;
+                                                            <input type="radio" name="@nome" if="form-riscos-necessita-acao-sim" disabled value="false" @(risco.PossuiGestaoRisco ? "" : "checked" ) />&nbsp;Não
+
+                                                        </td>
+
+                                                        <td>
+                                                            <select id="form-riscos-responsavel" name="formRiscosResponsavel" class="form-control" disabled
+                                                                    data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_AI_Responsavel_implementar">
+                                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                                @if (risco.IdResponsavelInicarAcaoImediata != 0)
+                                                                {
+                                                                    <option value="@risco.IdResponsavelInicarAcaoImediata" selected>@risco.ResponsavelInicarAcaoImediataNomeCompleto</option>
+                                                                }
+                                                            </select>
+                                                        </td>
+
+                                                        <td>
+                                                            <textarea type="text" name="formRiscosObjetivo" maxlength="8000" rows="5" if="form-riscos-objetivo" class="form-control" disabled="">@risco.Causa</textarea>
+                                                        </td>
+                                                        <td>
+                                                            <textarea type="text" name="formRiscosJustificativa" maxlength="8000" rows="5" if="form-riscos-justificativa" class="form-control" disabled="">@risco.DsJustificativa</textarea>
+                                                        </td>
+
+                                                        <td class="text-nowrap">
+                                                            <a href="#" class="editar-form-riscos icon-cliente editar-color"><i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Editar"></i></a>
+                                                            <a href="#" data-valor="True" class="salvar-form-riscos icon-cliente"><i class="fa fa-check  ativo-color" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Ativar"></i></a>
+                                                            <a href="#" class="excluir-form-riscos icon-cliente trash-color"><i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Excluir"></i></a>
+                                                        </td>
+                                                    </tr>
+
+                                                }
                                             }
-                                        }
-                                    </select>
-
-                                </div>
-
-
-                                <div class="form-group">
-                                    <!-- Causa -->
-                                    <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
-                                    <textarea name="formRiscosCausa" class="form-control" id="form-riscos-causa" rows="7">@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa:null)</textarea>
-                                </div>
-
-
-
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
-                                <div class="form-group">
-                                    <!-- Justificativa -->
-                                    <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
-                                    <textarea name="formRiscosJustificativa" class="form-control" id="form-riscos-justificativa" rows="7" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa:null)</textarea>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+
+
+
+
+
+
+
+
+
+                    @*<div class="panel-body">
+                            <div class="barra-busca gestao-de-risco">
+                                <div class="row top-buffer">
+
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                            <div class="form-group">
+                                                @Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                            <div class="form-group">
+                                                <!-- Identificacao -->
+                                                <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
+                                                <textarea name="formRiscosIdentificacao" class="form-control" id="form-riscos-identificacao" rows="7" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro:null)</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Criticidade -->
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
+                                            <input type="hidden" name="formRiscosCriticidade" value="@(Model.GestaoDeRisco != null? Model.GestaoDeRisco.CriticidadeGestaoDeRisco:0)" />
+                                            <select id="risco-1to10" class="barraRating form-control" name="formCriarNaoConformidadeCriticidade" autocomplete="off"
+                                                    placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_placeholder_Criticidade"
+                                                    data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Criticidade">
+                                                <option value="1" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="2" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 2 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="3" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 3 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="4" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 4 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="5" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 5 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="6" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 6 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="7" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 7 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="8" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 8 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="9" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 9 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="10" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 10 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="11" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 11 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                <option value="12" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 12 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                <option value="13" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 13 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                <option value="14" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 14 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                <option value="15" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 15 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Necessita Acao -->
+                                <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12 ">
+                                    <div class="form-group">
+                                        <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
+                                        <div class="">
+                                            <label for="form-riscos-necessita-acao-sim">
+                                                <input type="radio" id="form-riscos-necessita-acao-sim" name="formRiscosNecessitaAcao"
+                                                       data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EProcedente"
+                                                       value="true"
+                                                       @(Model.PossuiGestaoRisco == true ? "checked" : null) />
+                                                @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                                            </label>
+                                            <label for="form-riscos-necessita-acao-nao">
+                                                <input type="radio" id="form-riscos-necessita-acao-nao" name="formRiscosNecessitaAcao"
+                                                       data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EProcedente"
+                                                       value="false"
+                                                       @(Model.PossuiGestaoRisco == false ? "checked" : null) />
+                                                @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
+
+                                    <div class="form-group">
+                                        @if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.IdRegistroConformidade > 0)
+                                        {
+                                            <div>
+                                                <label for="form-riscos-numeroAcao" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroAcao</label>
+                                                <br />
+                                                <input type="text" disabled value="@ViewBag.NumeroRisco" />
+                                                <br />
+                                                <br />
+
+                                            </div>
+                                        }
+                                        <label for="form-riscos-responsavel" class="control-label">Responsável</label>
+                                        <select id="form-riscos-responsavel" name="formRiscosResponsavel" class="form-control"
+                                                data-msg-required="" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            @if (Model.GestaoDeRisco != null)
+                                            {
+                                                if (Model.GestaoDeRisco.IdRegistroConformidade > 0 && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
+                                                {
+                                                    <option value="@Model.GestaoDeRisco.IdResponsavelInicarAcaoImediata" selected>@Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                                                }
+                                            }
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <!-- Causa -->
+                                        <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
+                                        <textarea name="formRiscosCausa" class="form-control" id="form-riscos-causa" rows="7">@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa:null)</textarea>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
+                                    <div class="form-group">
+                                        <!-- Justificativa -->
+                                        <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
+                                        <textarea name="formRiscosJustificativa" class="form-control" id="form-riscos-justificativa" rows="7" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa:null)</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
                 </div>
             </form>
 
@@ -1341,7 +1439,8 @@
             </li>
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Aprovar) || ViewBag.IdPerfil != 4)
             {
-                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4)
+                //[cargo]
+                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4 || ViewBag.IdPerfil == 3)
                 {
                     <li class="botoes-button">
                         <button type="button" class="btn btn-primary btn-aprovar" style="display: none;">Aprovar</button>

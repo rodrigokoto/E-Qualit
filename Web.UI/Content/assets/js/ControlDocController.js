@@ -192,6 +192,12 @@ APP.controller.ControlDocController = {
         this.buttonSaveNovaIndicadoresFormIndicadores = $('.salvar-form-indicadores');
         this.buttonEditNovaIndicadoresFormIndicadores = $('.editar-form-indicadores');
 
+        //Control Doc - Riscos
+        this.buttonAddNovaRiscosFormRiscos = $('.form-riscos-add-riscos');
+        this.buttonDelNovaRiscosFormRiscos = $('.excluir-form-riscos');
+        this.buttonSaveNovaRiscosFormRiscos = $('.salvar-form-riscos');
+        this.buttonEditNovaRiscosFormRiscos = $('.editar-form-riscos');
+
 
         //Control Doc - UPLOAD
         this.buttonAddUploadFormUpload = $('.form-upload-add-upload');
@@ -259,10 +265,10 @@ APP.controller.ControlDocController = {
                 bootbox.alert("Ocorreu um erro inesperado durante a solicitação. Tente Novamente.");
             },
             success: function (data) {
-
-                $("#form-emissao-documento-fluxo-conteudo").val(data.xmlFluxo);
-                APP.controller.ControlDocController.setEditorFormFluxo();
-                
+				if (data.xmlFluxo != null) {
+					$("#form-emissao-documento-fluxo-conteudo").val(data.xmlFluxo);
+					APP.controller.ControlDocController.setEditorFormFluxo();
+				}
                 if (perfil == "4" || perfil == "2") {
 
                     var modal = bootbox.dialog({
@@ -293,8 +299,8 @@ APP.controller.ControlDocController = {
                 }
                 else {
                     APP.controller.ControlDocController.models.iscontrolada = null;
-                    APP.controller.ControlDocController.models.idusuariodestino = null;                    
-                    APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);                    
+                    APP.controller.ControlDocController.models.idusuariodestino = null;
+                    APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);
                 }
 
             },
@@ -304,7 +310,7 @@ APP.controller.ControlDocController = {
         });
 
 
-        
+
     },
     setImprimirDocumento: function () {
 
@@ -312,7 +318,6 @@ APP.controller.ControlDocController = {
 
         this.buttonImprimirDocumento.unbind('click');
         this.buttonImprimirDocumento.bind('click', function () {
-
             $(".usuarioDestinoCopiaControlada").show();
             event.preventDefault();
             APP.controller.ControlDocController.models.idDocumento = $(this).data("iddocumento");
@@ -320,7 +325,7 @@ APP.controller.ControlDocController = {
             var $rowAtual = $(this).parents("tr");
 
             APP.controller.ControlDocController.solicitarImpressao(perfil, APP.controller.ControlDocController.models.idDocumento);
-            
+
         });
     },
 
@@ -511,7 +516,13 @@ APP.controller.ControlDocController = {
         this.setShowTemplatesEmissaoDocumento();
 
         //$("#form-emissao-documento-texto").show();
-        $('[name=formRiscosNecessitaAcao]').trigger('change');
+        //$('[name^=formRiscosNecessitaAcao]').trigger('change');
+        
+        //$('[name^=formRiscosJustificativa]').val("");
+        //$('[name^=formRiscosObjetivo]').val("");
+
+
+
         $('[name=formCadastroWorkflow]').trigger('change');
 
         this.setImprimirDocumento();
@@ -733,6 +744,7 @@ APP.controller.ControlDocController = {
         var formEmissaoDocumentoCargos = $('#form-emissao-documento-cargos');
 
         var formEmissaoDocumentoIndicadores = $('#form-emissao-documento-indicadores');
+        //var formEmissaoDocumentoRiscos = $('#form-emissao-documento-Riscos');
 
 
 
@@ -766,9 +778,11 @@ APP.controller.ControlDocController = {
                         emissaoDocumentoObj.RecursoDoc = APP.controller.ControlDocController.getObjFormRecursos();
                         break;
                     case "riscos":
-                        emissaoDocumentoObj.GestaoDeRisco = APP.controller.ControlDocController.getObjFormRiscos();
-                        emissaoDocumentoObj.CorRisco = $('[name=formRiscosCorDoRisco]:checked').val();
-                        emissaoDocumentoObj.PossuiGestaoRisco = $('[name=formRiscosNecessitaAcao]:checked').val();
+                        emissaoDocumentoObj.DocRisco = APP.controller.ControlDocController.getObjFormRiscos();
+
+                        //emissaoDocumentoObj.GestaoDeRisco = APP.controller.ControlDocController.getObjFormRiscos();
+                        //emissaoDocumentoObj.CorRisco = $('[name=formRiscosCorDoRisco]:checked').val();
+                        //emissaoDocumentoObj.PossuiGestaoRisco = $('[name=formRiscosNecessitaAcao]:checked').val();
                         break;
                     case "licenca":
                         emissaoDocumentoObj.Licenca = APP.controller.ControlDocController.getObjFormLicenca();
@@ -1280,7 +1294,7 @@ APP.controller.ControlDocController = {
 
             },
             success: function (result) {
-                
+
                 if (result.StatusCode == 200) {
                     //var retorno = result.Lista.pop();
                     //retorno = result.Lista.pop();
@@ -1899,9 +1913,9 @@ APP.controller.ControlDocController = {
         this.buttonAddNovaIndicadoresFormIndicadores.on('click', function () {
             event.preventDefault();
             //APP.component.Mascaras.init();
-            
+
             //$(this).find('input[name=formIndicadoresMetaMaximaMinima]:checked').val()
-            var contadorAtual =  ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
+            var contadorAtual = ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
             var TraducaoDropNameSelect = 'Selecione';
 
             var html = '';
@@ -2018,7 +2032,7 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formIndicadoresIndicadores]').prop('disabled', false);
             $(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', false);
             $(this).closest('tr').find('[name^=formIndicadoresMetaMaximaMinima]').prop('disabled', false);
-            
+
             APP.controller.ControlDocController.getResponsavelImplementarIndicadoresLocal($(this).closest('tr').find('[name=formIndicadoresResponsavel]'));
             editor.graph.setEnabled(true);
         });
@@ -2042,7 +2056,7 @@ APP.controller.ControlDocController = {
             //    $('.add-acao-imediata').removeClass('show').addClass('hide');
             //},
             success: function (result) {
-                
+
                 if (result.StatusCode == 200) {
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
                     APP.component.SelectListCompare.selectList(result.Lista, $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"] option'), $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"]'), 'IdUsuario', 'NmCompleto');
@@ -2077,7 +2091,7 @@ APP.controller.ControlDocController = {
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"] option'), $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"]'), 'IdUsuario', 'NmCompleto');
                     $('[name="formIndicadoresResponsavel"]').each(function () {
                         APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
-                    });  
+                    });
                 }
             },
             error: function (result) {
@@ -2473,30 +2487,116 @@ APP.controller.ControlDocController = {
         APP.controller.ControlDocController.delUploadFormUpload();
     },
 
-    //Formulario RISCOS
+    //Formulario RISCOS -------------------------------------------------------------------
     formRiscos: function () {
 
         this.setHideAndShowFormRiscos();
+        // descomentar
+        //this.setNecessitaAcao();
+        this.setNovaRiscoFormRisco();
+        this.setSaveNovaRiscosFormRiscos();
+        this.setEditNovaRiscosFormRiscos();
+        this.delNovaRiscosFormRiscos();
+
+        this.getResponsavelImplementarRiscosLocal();
+
         this.setNecessitaAcao();
 
         var IdProcesso = $('[name=formCadastroProcesso]').val();
         if (IdProcesso != "" && IdProcesso != null && IdProcesso != undefined) {
-            APP.controller.ControlDocController.getResponsavel(IdProcesso);
+            // -------------------- comentado
+            // APP.controller.ControlDocController.getResponsavel(IdProcesso);
         }
 
 
         APP.component.BarRating.init('.barraRating', 'bars-1to10');
 
     },
-
+    // diferente
     setHideAndShowFormRiscos: function () {
+        //[risco] o que fazer com esse numero ??
+        //$('#form-riscos-numero').closest('.form-group').hide();
 
-        $('#form-riscos-numero').closest('.form-group').hide();
-        $('[name=formRiscosResponsavel]').closest('[class^=col]').hide();
-        //$('[name=formRiscosIdentificacao]').closest('[class^=col]').hide();
-        //$('[name=formRiscosCriticidade]').closest('[class^=col]').hide();
-        $('[name=formRiscosJustificativa]').closest('[class^=col]').hide();
+        //$('[name=formRiscosResponsavel]').closest('[class^=col]').hide();
+        // Ja estava comentado
+        ////$('[name=formRiscosIdentificacao]').closest('[class^=col]').hide();
+        ////$('[name=formRiscosCriticidade]').closest('[class^=col]').hide();
+        //$('[name=formRiscosJustificativa]').closest('[class^=col]').hide();
     },
+
+    // Habilitar no delete
+    //setContNumberRotina: function () {
+    //    $('[name=formRotinaItem]').each(function (i) {
+    //        $(this).val(i + 1);
+    //    });
+    //},
+
+
+    setNovaRiscoFormRisco: function () {
+        this.buttonAddNovaRiscosFormRiscos.unbind('click');
+        this.buttonAddNovaRiscosFormRiscos.on('click', function () {
+            event.preventDefault();
+
+            var contadorAtual = ($('input[name^=formRiscosNecessitaAcao]').length / 2) + 1;
+            //var contadorAtual = ($('input[name^=formIndicadoresMetaMaximaMinima]').length / 2) + 1;
+            var TraducaoDropNameSelect = 'Selecione';
+
+            var html = '';
+            html += '<tr>';
+            //html += '<td style="width: 5%;">';
+            html += '<td>';
+            html += '<textarea type="text" name="formRiscosIdentificacao" maxlength="8000" rows="5" if="form-riscos-identificacao" class="form-control"></textarea>';
+            html += '</td>';
+
+            html += '<td>';
+            html += '<input type="text" name="formRiscosRisco" if="form-riscos-risco" class="form-control">';
+            html += '</td>';
+
+            html += '<td>';
+            html += '<input type="radio" name="formRiscosNecessitaAcao' + contadorAtual + '" if="form-riscos-objetivo"  value="true">&nbsp;Sim';
+
+            html += '&nbsp;&nbsp;<input type="radio" name="formRiscosNecessitaAcao' + contadorAtual + '" if="form-riscos-objetivo"  value="false">&nbsp;Não';
+            html += '</td>';
+
+            html += '<td>';
+            html += '<select id="form-riscos-responsavel" name="formRiscosResponsavel" class="form-control" ';
+            html += 'data-msg-required="">';
+            html += '<option value="">' + TraducaoDropNameSelect + '</option>';
+            html += '</select>';
+            html += '</td>';
+
+            html += '<td>';
+            html += '<textarea type="text" name="formRiscosObjetivo" maxlength="8000" rows="5" if="form-riscos-objetivo" class="form-control"></textarea>';
+            html += '</td>';
+
+            html += '<td>';
+            html += '<textarea type="text" name="formRiscosJustificativa" maxlength="8000" rows="5" if="form-riscos-justificativa" class="form-control"></textarea>';
+            html += '</td>';
+
+            html += '<td class="text-nowrap">';
+            html += '<a href="#" class="editar-form-riscos icon-cliente editar-color">';
+            html += '<i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonEditar + '" data-original-title="' + _options.labelButtonEditar + '"></i>';
+            html += '</a>';
+            html += '<a href="#" data-valor="True" class="salvar-form-riscos icon-cliente">';
+            html += '<i class="fa fa-check  ativo-color" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonAtivar + '" data-original-title="' + _options.labelButtonAtivar + '"></i>';
+            html += '</a>';
+            html += '<a href="#" class="excluir-form-riscos icon-cliente trash-color">';
+            html += '<i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '"></i>';
+            html += '</a>';
+            html += '</td>';
+            html += '</tr>';
+
+            $('#tb-form-riscos tbody').append(html);
+
+
+
+            APP.controller.ControlDocController.setup();
+            APP.controller.ControlDocController.bindFormRiscos();
+
+        });
+    },
+
+
 
     getTemasCores: function () {
 
@@ -2516,67 +2616,231 @@ APP.controller.ControlDocController = {
 
     },
 
-    getResponsavel: function (_idProcesso) {
 
-        var idSite = $('[name=IdSite]').val();
-        var idFuncao = 90;
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + _idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
-            if (result.StatusCode == 200) {
-                APP.component.SelectListCompare.selectList(result.Lista, $('[name="formRiscosResponsavel"] option'), $('[name="formRiscosResponsavel"]'), 'IdUsuario', 'NmCompleto');
+
+    setSaveNovaRiscosFormRiscos: function () {
+
+        this.buttonSaveNovaRiscosFormRiscos.unbind('click');
+        this.buttonSaveNovaRiscosFormRiscos.on('click', function () {
+            event.preventDefault();
+            $(this).closest('tr').find('[name=formRiscosIdentificacao]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formRiscosRisco]').prop('disabled', true);
+            $(this).closest('tr').find('[name^=formRiscosNecessitaAcao]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formRiscosResponsavel]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formRiscosObjetivo]').prop('disabled', true);
+            $(this).closest('tr').find('[name=formRiscosJustificativa]').prop('disabled', true);
+            //$(this).closest('tr').find('[name=formIndicadoresUnidadeMeta]').prop('disabled', true);
+
+            //APP.controller.ControlDocController.getNecessitaAcao();
+
+            editor.graph.setEnabled(false);
+
+
+        });
+
+    },
+
+    setEditNovaRiscosFormRiscos: function () {
+
+        this.buttonEditNovaRiscosFormRiscos.unbind('click');
+        this.buttonEditNovaRiscosFormRiscos.on('click', function () {
+            event.preventDefault();
+            $(this).closest('tr').find('[name=formRiscosIdentificacao]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formRiscosRisco]').prop('disabled', false);
+            $(this).closest('tr').find('[name^=formRiscosNecessitaAcao]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formRiscosResponsavel]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formRiscosObjetivo]').prop('disabled', false);
+            $(this).closest('tr').find('[name=formRiscosJustificativa]').prop('disabled', false);
+
+            APP.controller.ControlDocController.getNecessitaAcao();
+
+            APP.controller.ControlDocController.getResponsavelImplementarRiscosLocal($(this).closest('tr').find('[name=formRiscosResponsavel]'));
+
+            editor.graph.setEnabled(true);
+        });
+
+    },
+
+    delNovaRiscosFormRiscos: function () {
+
+        this.buttonDelNovaRiscosFormRiscos.unbind('click');
+        this.buttonDelNovaRiscosFormRiscos.on('click', function (event) {
+            event.preventDefault();
+
+            var itemExcluir = $(this).closest('tr');
+
+            bootbox.confirm(_options.MsgDesejaExcluirRegistro, function (result) {
+                if (result) {
+                    itemExcluir.remove();
+                    //APP.controller.ControlDocController.setContNumberRotina();
+                }
+            });
+
+        });
+
+    },
+
+
+    getResponsavelImplementarRiscosLocal: function (atual) {
+        var idSite = $('#emissao-documento-site').val();
+        var idFuncao = 23; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
+        var idProcesso = $('[name=IdProcesso]').val();
+        var atualLocal = atual;
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + ' &idSite=' + idSite + '&idFuncao=' + idFuncao + '',
+            //beforeSend: function () {
+            //    $('.add-acao-imediata').removeClass('show').addClass('hide');
+            //},
+            success: function (result) {
+
+                if (result.StatusCode == 200) {
+                    //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
+                    //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"] option'), $('#tb-form-indicadores tbody tr:last-child [name="formIndicadoresResponsavel"]'), 'IdUsuario', 'NmCompleto');
+                    $('[name="formRiscosResponsavel"]').each(function () {
+                        APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
+                    });
+                }
+            },
+            error: function (result) {
+                bootbox.alert(_options.MsgOcorreuErro);
+            },
+            complete: function (result) {
+                //$('.add-acao-imediata').removeClass('hide').addClass('show');
             }
         });
-    },
-
-    setNecessitaAcao: function () {
-
-        $('[name=formRiscosNecessitaAcao]').unbind('change');
-        $('[name=formRiscosNecessitaAcao]').on('change', function () {
-
-            var necessitaAcao = APP.controller.ControlDocController.getNecessitaAcao();
-            APP.controller.ControlDocController.setRulesNecessitaAcao(necessitaAcao);
-
-        });
-
-    },
-
-    getNecessitaAcao: function () {
-
-        var necessitaAcao = APP.component.Radio.init('formRiscosNecessitaAcao');
-        return necessitaAcao;
-
-    },
-
-    setRulesNecessitaAcao: function (_necessitaAcao) {
-
-        if (_necessitaAcao == "true") {
-            $('[name=formRiscosResponsavel]').closest('[class^=col]').show();
-            //$('[name=formRiscosIdentificacao]').closest('[class^=col]').show();
-            //$('[name=formRiscosCriticidade]').closest('[class^=col]').show();
-            $('[name=formRiscosJustificativa]').closest('[class^=col]').hide();
-        } else {
-            $('[name=formRiscosResponsavel]').closest('[class^=col]').hide();
-            //$('[name=formRiscosIdentificacao]').closest('[class^=col]').hide();
-            //$('[name=formRiscosCriticidade]').closest('[class^=col]').hide();
-            $('[name=formRiscosJustificativa]').closest('[class^=col]').show();
-        }
 
     },
 
     getObjFormRiscos: function () {
-        var emissaoDocumentoFormRiscosObj = {
 
-            CriticidadeGestaoDeRisco: $('.br-current').data('rating-value'),
-            IdResponsavelInicarAcaoImediata: $('[name=formRiscosResponsavel] :selected').val(),
-            DescricaoRegistro: $('[name=formRiscosIdentificacao]').val(),
-            Causa: $('[name=formRiscosCausa]').val(),
-            IdRegistroConformidade: $('#idgestaorisco').val(),
-            DsJustificativa: $('[name=formRiscosJustificativa]').val()
-        };
+        var table = $('#tb-form-riscos tbody');
+        var arrayFormRiscosObj = [];
+        var indicadores = {};
 
-        return emissaoDocumentoFormRiscosObj;
+        table.find('tr').each(function () {
+            DocRisco = {
+                IdDocRisco: $(this).find('[name=formRiscoIdRisco]').val(),
+                DescricaoRegistro: $(this).find('[name=formRiscosIdentificacao]').val(),
+                CriticidadeGestaoDeRisco: $(this).find('[name=formRiscosRisco]').val(),
+                PossuiGestaoRisco: $(this).find('input[name^=formRiscosNecessitaAcao]:checked').val(),
+                IdResponsavelInicarAcaoImediata: $(this).find('[name=formRiscosResponsavel]').val(),
+                Causa: $(this).find('[name=formRiscosObjetivo]').val(),
+                DsJustificativa: $(this).find('[name=formRiscosJustificativa]').val(),
+                //IndicadoresUnidadeMeta: $(this).find('[name=formIndicadoresUnidadeMeta]').val(),
+
+
+                //emissaoDocumentoObj.GestaoDeRisco = APP.controller.ControlDocController.getObjFormRiscos();
+                //emissaoDocumentoObj.CorRisco = $('[name=formRiscosCorDoRisco]:checked').val();
+                //emissaoDocumentoObj.PossuiGestaoRisco = $('[name=formRiscosNecessitaAcao]:checked').val();
+
+
+            };
+            arrayFormRiscosObj.push(DocRisco);
+
+        });
+
+        return arrayFormRiscosObj;
 
     },
 
+    setNecessitaAcao: function () {
+
+        $('[name^=formRiscosNecessitaAcao]').unbind('change');
+        $('[name^=formRiscosNecessitaAcao]').on('change', function () {
+
+            APP.controller.ControlDocController.getNecessitaAcao();	
+
+
+            //var necessitaAcao = APP.controller.ControlDocController.getNecessitaAcao();
+            //APP.controller.ControlDocController.setRulesNecessitaAcao(necessitaAcao);
+
+        });
+
+    },
+    
+
+    getNecessitaAcao: function () {
+
+        $('[name^=formRiscosNecessitaAcao]:checked').each(function () {
+            if ($(this).val() == "true") {
+                $(this).closest('tr').find('[name=formRiscosResponsavel]').prop('disabled', false);
+                $(this).closest('tr').find('[name=formRiscosObjetivo]').prop('disabled', false);
+                $(this).closest('tr').find('[name=formRiscosJustificativa]').prop('disabled', true);
+                $(this).closest('tr').find('[name=formRiscosJustificativa]').val("");
+
+            } else {
+                $(this).closest('tr').find('[name=formRiscosResponsavel]').prop('disabled', true);
+                $(this).closest('tr').find('[name=formRiscosObjetivo]').prop('disabled', true);
+                $(this).closest('tr').find('[name=formRiscosObjetivo]').val("");
+                $(this).closest('tr').find('[name=formRiscosJustificativa]').prop('disabled', false);
+            }
+        });
+
+    },
+
+    //getNecessitaAcao: function () {
+
+    //    var necessitaAcao = APP.component.Radio.init('formRiscosNecessitaAcao');
+    //    return necessitaAcao;
+
+    //},
+
+    //setRulesNecessitaAcao: function (_necessitaAcao) {
+
+    //    if (_necessitaAcao == "true") {
+    //        $('[name=formRiscosResponsavel]').closest('[class^=col]').show();
+    //        //$('[name=formRiscosIdentificacao]').closest('[class^=col]').show();
+    //        //$('[name=formRiscosCriticidade]').closest('[class^=col]').show();
+    //        $('[name=formRiscosJustificativa]').closest('[class^=col]').hide();
+    //    } else {
+    //        $('[name=formRiscosResponsavel]').closest('[class^=col]').hide();
+    //        //$('[name=formRiscosIdentificacao]').closest('[class^=col]').hide();
+    //        //$('[name=formRiscosCriticidade]').closest('[class^=col]').hide();
+    //        $('[name=formRiscosJustificativa]').closest('[class^=col]').show();
+    //    }
+
+    //},
+
+    //getObjFormRiscos: function () {
+    //    var emissaoDocumentoFormRiscosObj = {
+
+    //        CriticidadeGestaoDeRisco: $('.br-current').data('rating-value'),
+    //        IdResponsavelInicarAcaoImediata: $('[name=formRiscosResponsavel] :selected').val(),
+    //        DescricaoRegistro: $('[name=formRiscosIdentificacao]').val(),
+    //        Causa: $('[name=formRiscosCausa]').val(),
+    //        IdRegistroConformidade: $('#idgestaorisco').val(),
+    //        DsJustificativa: $('[name=formRiscosJustificativa]').val()
+    //    };
+
+    //    return emissaoDocumentoFormRiscosObj;
+
+    //},
+
+    bindFormRiscos: function () {
+        APP.controller.ControlDocController.setNovaRiscoFormRisco();
+
+        APP.controller.ControlDocController.setSaveNovaRiscosFormRiscos();
+        APP.controller.ControlDocController.setEditNovaRiscosFormRiscos();
+        APP.controller.ControlDocController.delNovaRiscosFormRiscos();
+        APP.controller.ControlDocController.getResponsavelImplementarRiscosLocal();
+        APP.controller.ControlDocController.setNecessitaAcao();
+        //APP.controller.ControlDocController.getResponsavelImplementarIndicadores();
+        //APP.controller.ControlDocController.setNovaIndicadoresFormIndicadores();
+        //APP.controller.ControlDocController.setSaveNovaIndicadoresFormIndicadores();
+        //APP.controller.ControlDocController.setEditNovaIndicadoresFormIndicadores();
+        //APP.controller.ControlDocController.delNovaIndicadoresFormIndicadores();
+
+        ////APP.component.Mascaras.init();
+        ////APP.controller.ControlDocController.getResponsavelImplementarAcaoImediata();
+        ////APP.controller.ControlDocController.setHideAndShowFormRotina();
+        ////APP.controller.ControlDocController.setContNumberRotina();
+
+    },
+
+
+    // ---------------------------------------------------------------------------
     //Formulario LICENCA
     formLicenca: function () {
 

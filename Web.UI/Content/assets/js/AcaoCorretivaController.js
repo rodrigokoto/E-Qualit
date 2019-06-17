@@ -504,15 +504,7 @@ APP.controller.AcaoCorretivaController = {
 
         $('.btn-historico').on('click', function () {
 
-            debugger;
-            //$(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
-            //$(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);
-            //$(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeIn(300);
-            //var idAcaoImediata = $(this).closest('td').find('[name=formAcaoImadiataTbIdAcaoImediata]').val();
             var idAcaoImediata = $($(this).closest('tr')[0]).find('[name=formAcaoImadiataTbIdAcaoImediata]').val();
-            //APP.controller.NaoConformidadeController.getChecksAcaoImediata();
-            //var atual = $($(this).closest('tr')[0]).find('[name=formAcaoImadiataTbDescricao]').attr('id');
-            //$('#acaoImediataAtual').val(atual);
             var data = {
                 "idAcaoImediata": idAcaoImediata
             };
@@ -526,8 +518,6 @@ APP.controller.AcaoCorretivaController = {
                 success: function (result) {
                     var teste = result;
 
-
-                    debugger;
                     var html = "";
                     $('#painelComentarios').html("");
                     if (result.Comentarios.length > 0) {

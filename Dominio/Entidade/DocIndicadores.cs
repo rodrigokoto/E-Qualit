@@ -10,8 +10,9 @@ namespace Dominio.Entidade
     public class DocIndicadores
     {
         public int IdIndicadores { get; set; }
-        //public long Id { get; set; }
         public int IdDocumento { get; set; }
+
+
         public string Objetivo { get; set; }
         public long IdResponsavel { get; set; }
         public decimal IndicadoresMeta { get; set; }

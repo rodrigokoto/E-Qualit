@@ -73,6 +73,7 @@
     <Compile Include="EntityConfig\AvaliaCriterioQualificacaoMap.cs" />
     <Compile Include="EntityConfig\DocExternoMap.cs" />
     <Compile Include="EntityConfig\ComentarioAcaoImediataMap.cs" />
+    <Compile Include="EntityConfig\DocRiscoMap.cs" />
     <Compile Include="EntityConfig\DocLicencaMap.cs" />
     <Compile Include="EntityConfig\DocIndicadoresMap.cs" />
     <Compile Include="EntityConfig\DocumentoAssuntoMap.cs" />

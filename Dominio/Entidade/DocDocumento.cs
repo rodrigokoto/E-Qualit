@@ -22,6 +22,8 @@ namespace Dominio.Entidade
             Registros = new List<DocRegistro>();
             StatusRegistro = 0;
             Indicadores = new List<DocIndicadores>();
+            DocRisco = new List<DocRisco>();
+            //GestaoDeRisco = new List<RegistroConformidade>();
         }
 
         public int IdDocumento { get; set; }
@@ -95,6 +97,7 @@ namespace Dominio.Entidade
         public virtual List<DocIndicadores> Indicadores { get; set; }
         public virtual List<DocRotina> Rotinas { get; set; }
         public virtual List<DocRegistro> Registros { get; set; }
+        public virtual List<DocRisco> DocRisco { get; set; }
 
 
 
