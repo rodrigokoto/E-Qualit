@@ -389,6 +389,7 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataTbDtPrazoImplementacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbResponsavelImplementar]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataTbObservacao]').prop('disabled', _disabled);
         $('.upload-arq form-control').prop('disabled', _disabled);
         //Upload Changes
         $('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#eee');
@@ -526,7 +527,7 @@ APP.controller.GestaoDeRiscoController = {
             $(this).closest('td').find('.btn-notok-acao-imediata').delay(400).fadeOut(300);
 
             $(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val(true);
-            APP.controller.NaoConformidadeController.getChecksAcaoImediata();
+            APP.controller.GestaoDeRiscoController.getChecksAcaoImediata();
         });
 
     },
