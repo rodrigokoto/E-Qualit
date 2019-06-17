@@ -691,7 +691,7 @@
 														<th class="w5 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</th>
 														<th class="w10 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</th>
 
-														<th class="w5 text-nowrap"></th>
+														
 													</tr>
 												</thead>
 												<tbody>
@@ -703,7 +703,7 @@
 																<td>
 																	@Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
 																	
-																	@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro : "")
+																	@(Model.GestaoDeRisco != null ? risco.DescricaoRegistro : "")
 																</td>
 
 																
