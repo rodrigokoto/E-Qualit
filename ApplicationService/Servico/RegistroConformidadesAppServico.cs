@@ -665,7 +665,7 @@ namespace ApplicationService.Servico
                 TipoRegistro = tipo,
                 StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata,
                 IdResponsavelInicarAcaoImediata = registroConformidade.IdResponsavelInicarAcaoImediata,
-                IdResponsavelEtapa = registroConformidade.IdResponsavelInicarAcaoImediata.Value,
+                IdResponsavelEtapa = registroConformidade.IdResponsavelInicarAcaoImediata,
                 IdSite = registroConformidade.IdSite,
                 IdProcesso = registroConformidade.IdProcesso,
                 NecessitaAcaoCorretiva = null,

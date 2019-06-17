@@ -18,10 +18,10 @@ namespace DAL.Repository
         public BaseRepositorio()
         {
             Db = new BaseContext();
-            if (Debugger.IsAttached)
-            {
-                Db.Database.Log = (s) => Debug.Write(s);
-            }
+            //if (Debugger.IsAttached)
+            //{
+            //    Db.Database.Log = (s) => Debug.Write(s);
+            //}
         }
 
 

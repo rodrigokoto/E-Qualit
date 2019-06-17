@@ -683,10 +683,10 @@ namespace Web.UI.Controllers
             }
             catch (Exception ex)
             {
-                foreach (var acaoImediata in naoConformidade.AcoesImediatas)
-                {
-                    Debug.WriteLine($"acaoImediata: {acaoImediata.IdAcaoImediata} - idRegistro: {acaoImediata.IdRegistroConformidade}");
-                }
+                //foreach (var acaoImediata in naoConformidade.AcoesImediatas)
+                //{
+                //    Debug.WriteLine($"acaoImediata: {acaoImediata.IdAcaoImediata} - idRegistro: {acaoImediata.IdRegistroConformidade}");
+                //}
 
                 GravaLog(ex);
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
