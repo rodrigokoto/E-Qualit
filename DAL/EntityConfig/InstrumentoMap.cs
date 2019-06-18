@@ -35,6 +35,12 @@ namespace DAL.EntityConfig
             Property(t => t.SistemaDefineStatus).HasColumnName("SistemaDefineStatus");
             Property(t => t.DescricaoCriterio).HasColumnName("DescricaoCriterio");
             Property(t => t.FlagTravado).HasColumnName("FlagTravado");
+            Property(t => t.IdSigla).HasColumnName("IdSigla");
+
+            // Relacionamentos ControladorCategorias
+            HasRequired(t => t.Sigla)
+                .WithMany()
+                .HasForeignKey(d => d.IdSigla);
 
         }
     }
