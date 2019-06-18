@@ -367,7 +367,7 @@ namespace Dominio.Servico
 					errosRisco.Add("Campo identificação do risco obrigatório");
 
 				if (x.CriticidadeGestaoDeRisco == null || x.CriticidadeGestaoDeRisco <= 0)
-					errosRisco.Add("Campo risco obrigatório");
+					errosRisco.Add("Campo risco número deve ser positivo");
 
 				if (x.CriticidadeGestaoDeRisco > 15)
 					errosRisco.Add("Campo risco deve estar entre os valores 1-15");

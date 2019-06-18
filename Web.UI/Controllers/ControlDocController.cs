@@ -923,6 +923,46 @@ namespace Web.UI.Controllers
 
 				_documentoAppServico.SalvarDocumento(doc);
 
+
+
+				doc.GestaoDeRisco = null;
+				doc.DocRisco.ToList().ForEach(documentoLocal =>
+				{
+					doc.DocRisco.FirstOrDefault(x => x.IdDocRisco == documentoLocal.IdDocRisco).IdDocumento = doc.IdDocumento;
+				});
+
+
+
+				//if (_documentoAppServico.AprovadoPorTodos(listaAprova))
+				//	_documentoAppServico.AprovarDocumento(documento);
+				//else
+				//	documento.FlStatus = (byte)StatusDocumento.Aprovacao;
+
+				//_docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
+
+
+
+
+				if (!doc.FlWorkFlow)
+				{
+					doc.FlStatus = (int)StatusDocumento.Aprovado;
+
+					foreach (var item in doc.DocRisco)
+					{
+						
+						var retorno = PrepararDadosAprovar(doc, item);
+						//retorno.IdRegistroConformidade = null;
+						//documento.GestaoDeRisco = registro;
+						doc.GestaoDeRisco = retorno;
+
+						_registroConformidadeAppServico.Add(doc.GestaoDeRisco);
+
+						//_documentoAppServico.Update(doc);
+					}
+
+				}
+
+
 				EnviaNotificacaoPorEmail(doc);
 			}
 			catch (Exception ex)
@@ -1086,12 +1126,34 @@ namespace Web.UI.Controllers
 				if (baseDocumento.FlWorkFlow)
 				{
 					_docUsuarioVerificaAprovaServico.RemoveAllById(baseDocumento.IdDocumento);
-
 					_documentoAppServico.Update(baseDocumento);
 				}
 				else
 				{
+
 					_documentoAppServico.AprovarDocumentoPorUsuario(baseDocumento, Util.ObterCodigoUsuarioLogado());
+					baseDocumento.DtAprovacao = DateTime.Now;
+
+					_documentoAppServico.Update(baseDocumento);
+
+					if (!baseDocumento.FlWorkFlow)
+					{
+						baseDocumento.FlStatus = (int)StatusDocumento.Aprovado;
+
+						foreach (var item in baseDocumento.DocRisco)
+						{
+
+							var retorno = PrepararDadosAprovar(baseDocumento, item);
+							//retorno.IdRegistroConformidade = null;
+							//documento.GestaoDeRisco = registro;
+							baseDocumento.GestaoDeRisco = retorno;
+
+							_registroConformidadeAppServico.Add(baseDocumento.GestaoDeRisco);
+
+							//_documentoAppServico.Update(doc);
+						}
+
+					}
 				}
 
 			}
@@ -1634,7 +1696,7 @@ namespace Web.UI.Controllers
 			registro.IdResponsavelInicarAcaoImediata = item.IdResponsavelInicarAcaoImediata;
 
 			registro.DescricaoRegistro = item.DescricaoRegistro == null ? string.Empty : item.DescricaoRegistro;
-
+			registro.DescricaoRegistro += $"\n Vinculado ao documento: {documento.Titulo}";
 			// Novo
 			registro.Causa = item.Causa;
 			registro.DsJustificativa = item.DsJustificativa;

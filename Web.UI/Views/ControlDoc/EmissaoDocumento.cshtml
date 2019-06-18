@@ -725,7 +725,7 @@
 
 												<th class="w5 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</th>
 												<th class="w10 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</th>
-												@if (Model.FlStatus < 1)
+												@if (Model.FlStatus < 1 || Model.DtAprovacao != null)
 												{
 													<th class="w5 text-nowrap"></th>
 												}
