@@ -106,7 +106,11 @@ namespace Web.UI.Controllers
                 instrumento.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
                 
                 _instrumentoServico.Valido(instrumento, ref erros);
+                var instrumentoByCodSigla = _instrumentoAppServico.Get(s => s.Numero == instrumento.Numero && s.IdSigla == instrumento.IdSigla).FirstOrDefault();
 
+                if (instrumentoByCodSigla != null)
+                    erros.Add("Não foi possível salvar, pois já existe um Instrumento cadastrado com a mesma Sigla e Número.");
+                
                 if (erros.Count > 0)
                 {
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
@@ -147,6 +151,39 @@ namespace Web.UI.Controllers
             ViewBag.Responsavel = _usuarioAppServico.GetById(instrumento.IdResponsavel.Value).NmCompleto;
             
             return View("Criar", instrumento);
+        }
+
+        public bool verificaSeEhInteiro(decimal valor)
+        {
+
+            // O sinal % retorna o resto da divisão. Caso o resto seja 0, você pode considerar que o numero seja inteiro.
+            decimal resultado = valor % 2;
+            if (resultado.Equals(1) || resultado.Equals(0))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public JsonResult RetornaNumeroPorSigla(int id)
+        {
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            try
+            {
+                decimal numeroDocumento = _instrumentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado(), null, id);
+
+                var numeroEhInteiro = verificaSeEhInteiro(numeroDocumento);
+
+                return Json(new { StatusCode = (int)HttpStatusCode.OK, Retorno = (numeroEhInteiro ? numeroDocumento.ToString("000") : numeroDocumento.ToString().Replace(".", ",")) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+                return Json(new { StatusCode = (int)HttpStatusCode.InternalServerError }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult PDF(int id)

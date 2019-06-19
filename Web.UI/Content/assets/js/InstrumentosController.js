@@ -63,6 +63,8 @@ APP.controller.InstrumentosController = {
         this.setCalculaDoSistema();
         this.setParametrosCalibracao();
         this.setResponsavelInstrumento();
+        this.setComboSigla();
+        this.setSigla();
         //DELs
         this.delCalibracao();
         this.delParametroCalibracao();
@@ -86,6 +88,7 @@ APP.controller.InstrumentosController = {
         APP.component.DataTable.init('#tb-calibracao');
         // APP.controller.InstrumentosController.setupUploadArquivoCalibracao();
         //OUTRASfimp
+        this.changeCadastroSigla();
         this.setCalibracaoVisivel();
         this.setValidateForms();
 
@@ -130,6 +133,23 @@ APP.controller.InstrumentosController = {
         }
     },
 
+    changeCadastroSigla: function () {
+
+        $('[name=IdSigla]').change(function () {
+
+            var sigla = $(this).val();
+
+            $.post('/Instrumento/RetornaNumeroPorSigla/' + sigla, function (data, status) { }).done(function (data) {
+                if (data.StatusCode == "200") {
+
+                    $('[name=Numero]').val(data.Retorno);
+
+                }
+            });
+
+        });
+
+    },
 
     setValidateForms: function () {
         
@@ -145,7 +165,8 @@ APP.controller.InstrumentosController = {
         var acoesPadraoFormCriarPadraoObj = {
             //formCriaClienteLogo: {required: true, minFiles: 1},
             Equipamento: { required: true },
-            Numero: { required: true },
+            IdSigla: { required: true },
+            Numero: { required: true, number: true },
             Marca: { required: true },
             Modelo: { required: true },
             IdResponsavel: { required: true },
@@ -254,6 +275,7 @@ APP.controller.InstrumentosController = {
             IdCalibracao: $("#IdCalibracao").val(),
             IdFilaEnvio: $("#IdFilaEnvio").val(),
             IdInstrumento: $('#IdInstrumento').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
+            IdSigla: $('[name=IdSigla]').val(),
             DataRegistro: $('#form-pos-calibracao').find('[name=DtRegistro]').val(),
             DataNotificacao: $('#form-pos-calibracao').find('[name=DtNotificacao]').val(),
             DataProximaCalibracao: $('#form-pos-calibracao').find('[name=DataProximaCalibracao]').val(),
@@ -629,6 +651,49 @@ APP.controller.InstrumentosController = {
             }
 
         });
+    },
+
+    setComboSigla: function () {
+
+        var idSite = $('#emissao-documento-site').val();
+        let idFuncao = 15;
+        var dataTipo = $("#form-cadastro-sigla").closest('div').find('i').data("tipo");
+        var dataSite = $("#form-cadastro-sigla").closest('div').find('i').data("site");
+        var data = {
+            "tipo": dataTipo,
+            "site": dataSite
+        };
+
+        $.ajax({
+            type: "GET",
+            dataType: 'JSON',
+            data: data,
+            url: '/ControladorCategorias/ListaAtivos',
+            success: function (result) {
+                if (result.StatusCode == 202) {
+                    APP.component.SelectListCompare.init(result.Lista, $('[name=IdSigla] option'), '#form-cadastro-sigla', 'IdControladorCategorias', 'Descricao');
+                }
+            },
+            error: function (result) {
+                bootbox.alert(_options.MsgOcorreuErro);
+            },
+        });
+    },
+
+    setSigla: function () {
+
+        $('.add-sigla').on('click', function () {
+
+            APP.component.BootBox.chamaBootBox("Cadastro",
+                "ControladorCategorias",
+                "pnlCadUsu",
+                APP.controller.ControladorCategoriasController.behavior,
+                "Cadastro",
+                APP.controller.InstrumentosController.setComboSigla,
+                ".add-sigla");
+
+        });
+
     },
 
     sendFormParametroInstrumento: function () {

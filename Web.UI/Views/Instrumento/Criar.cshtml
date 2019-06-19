@@ -43,6 +43,8 @@
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/InstrumentosController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+
 }
 
 <div id="main" style="margin: 40px 0 0 0 !important;">
@@ -77,11 +79,28 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <!-- Sigla -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-sigla">
+                                            @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Sigla
+                                            <i id="form-cadastro-sigla-i" class="fa fa-plus-circle trash-color add-sigla" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.AddSigla data-tipo="SIGLAINST" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
+                                        </label>
+                                        <select id="form-cadastro-sigla" name="IdSigla" class="form-control" required data-msg-required="@Traducao.Resource.SiglaObrigatoria">
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            @if (Model.Sigla != null)
+                                            {
+                                                <option value="@Model.IdSigla" selected>@Model.Sigla.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
                                 <!-- Numero -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero</label>
                                         <input name="Numero" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-numero" data-val="true" title="" type="text"
+                                               pattern="[a-z\s]+$"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Numero"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Numero"
                                                value="@Model.Numero">
@@ -97,6 +116,9 @@
                                                value="@Model.Marca">
                                     </div>
                                 </div>
+
+                            </div>
+                            <div class="row">
                                 <!-- Modelo -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
                                     <div class="form-group">
@@ -107,8 +129,6 @@
                                                value="@Model.Modelo">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <!-- Responsavel -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
@@ -130,6 +150,9 @@
                                                value="@Model.LocalDeUso">
                                     </div>
                                 </div>
+
+                            </div>
+                            <div class="row">
                                 <!-- Escala -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
@@ -140,8 +163,6 @@
                                                value="@Model.Escala">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <!-- Menor -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
@@ -163,7 +184,10 @@
                                                value="@Model.valorAceitacao" data-original-title="criteiro">
                                     </div>
                                 </div>
-                                <!-- Campo Critério -->
+
+                            </div>
+                            <div class="row">
+                                <!-- Campo Calculado pelo sistema -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <div class="row">
@@ -247,58 +271,58 @@
                                     foreach (var calibracao in Model.Calibracao)
                                     {
                                         <!-- Campo Tabela -->
-                                <tr role="row" class="odd campos-tabela-calibracao">
-                                    <td class="id-calibracao hidden">@calibracao.IdCalibracao</td>
-                                    <td class="id-fila-envio hidden">@calibracao.IdFilaEnvio</td>
-                                    <td>@calibracao.Certificado</td>
-                                    <td>@(calibracao.DataCalibracao != null ? calibracao.DataCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
-                                    <td>@(calibracao.DataProximaCalibracao != null ? calibracao.DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
-                                    <td>@calibracao.OrgaoCalibrador</td>
-                                    <td>@calibracao.UsuarioAprovador.NmCompleto</td>
-                                    <td>
-                                        @if (calibracao.Aprovado == 0)
-                                        {
-                                            <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
-                                        }
-                                        else if (calibracao.Aprovado == 1)
-                                        {
-                                            <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
-                                        }
-                                        else if (calibracao.Aprovado == 2)
-                                        {
-                                            <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
-                                        }
-                                        else if (calibracao.Aprovado == 3)
-                                        {
-                                            <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
-                                        }
+                                        <tr role="row" class="odd campos-tabela-calibracao">
+                                            <td class="id-calibracao hidden">@calibracao.IdCalibracao</td>
+                                            <td class="id-fila-envio hidden">@calibracao.IdFilaEnvio</td>
+                                            <td>@calibracao.Certificado</td>
+                                            <td>@(calibracao.DataCalibracao != null ? calibracao.DataCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
+                                            <td>@(calibracao.DataProximaCalibracao != null ? calibracao.DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data) : "")</td>
+                                            <td>@calibracao.OrgaoCalibrador</td>
+                                            <td>@calibracao.UsuarioAprovador.NmCompleto</td>
+                                            <td>
+                                                @if (calibracao.Aprovado == 0)
+                                                {
+                                                    <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                                }
+                                                else if (calibracao.Aprovado == 1)
+                                                {
+                                                    <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
+                                                }
+                                                else if (calibracao.Aprovado == 2)
+                                                {
+                                                    <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
+                                                }
+                                                else if (calibracao.Aprovado == 3)
+                                                {
+                                                    <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
+                                                }
 
-                                    </td>
-                                    <td>@calibracao.Observacoes</td>
-                                    <td class="text-nowrap">
-                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.EditarCalibracao) || ViewBag.IdPerfil != 4)
-                                        {
-                                            <a class="edit icon-cliente editar-color tb-calibracao-editar" data-id="@calibracao.IdCalibracao" style="cursor:pointer">
-                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
-                                            </a>
-                                        }
-                                        @if (calibracao.ArquivoCertificado.Count > 0)
-                                        {
-                                            var anexoTratado = calibracao.ArquivoCertificado.FirstOrDefault().Anexo.TrataAnexoVindoBanco();
+                                            </td>
+                                            <td>@calibracao.Observacoes</td>
+                                            <td class="text-nowrap">
+                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.EditarCalibracao) || ViewBag.IdPerfil != 4)
+                                                {
+                                                    <a class="edit icon-cliente editar-color tb-calibracao-editar" data-id="@calibracao.IdCalibracao" style="cursor:pointer">
+                                                        <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                    </a>
+                                                }
+                                                @if (calibracao.ArquivoCertificado.Count > 0)
+                                                {
+                                                    var anexoTratado = calibracao.ArquivoCertificado.FirstOrDefault().Anexo.TrataAnexoVindoBanco();
 
-                                            <a href="@anexoTratado" class="icon-cliente view-color" target="_blank" download="@calibracao.ArquivoCertificado.FirstOrDefault().Anexo.Nome">
-                                                <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
-                                            </a>
-                                        }
+                                                    <a href="@anexoTratado" class="icon-cliente view-color" target="_blank" download="@calibracao.ArquivoCertificado.FirstOrDefault().Anexo.Nome">
+                                                        <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
+                                                    </a>
+                                                }
 
-                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.ExcluirCalibracao) || ViewBag.IdPerfil != 4)
-                                        {
-                                            <a href="" class="tb-calibracao-excluir icon-cliente trash-color" data-id="@calibracao.IdCalibracao">
-                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                            </a>
-                                        }
-                                    </td>
-                                </tr>
+                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesInstrumento.ExcluirCalibracao) || ViewBag.IdPerfil != 4)
+                                                {
+                                                    <a href="" class="tb-calibracao-excluir icon-cliente trash-color" data-id="@calibracao.IdCalibracao">
+                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
                                     }
                                 }
                             </tbody>

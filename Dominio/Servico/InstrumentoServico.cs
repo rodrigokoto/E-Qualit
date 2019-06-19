@@ -28,8 +28,8 @@ namespace Dominio.Servico
         {
             ValidaRegraTela(instrumento, ref erros);
 
-            if (erros.Count == 0)
-                ValidaRegraNegocio(instrumento, ref erros);
+            //if (erros.Count == 0)
+            //    ValidaRegraNegocio(instrumento, ref erros);
 
         }
 
@@ -71,6 +71,33 @@ namespace Dominio.Servico
         public List<Instrumento> ObterPorIdSite(int idSite)
         {
             return _instrumentoRepositorio.Get(x => x.IdSite == idSite).ToList();
+        }
+
+        public decimal GeraProximoNumeroRegistro(int idSite, int? idProcesso = null, int? idSigla = null)
+        {
+            decimal saida = 0;
+
+            var item = _instrumentoRepositorio.GetAll()
+                .Where(x => x.IdSite == idSite &&
+                        (x.IdProcesso == idProcesso || idProcesso == null) &&
+                        (x.IdSigla == idSigla || idSigla == null)
+                )
+                .OrderByDescending(x => x.Numero).FirstOrDefault();
+            if (item != null)
+            {
+                if (Int32.Parse(item.Numero) != 0)
+                {
+                    saida = Int32.Parse(item.Numero) + 1;
+                }
+                else
+                { saida = 1; }
+            }
+            else
+            {
+                saida = 1;
+            }
+
+            return saida;
         }
     }
 }

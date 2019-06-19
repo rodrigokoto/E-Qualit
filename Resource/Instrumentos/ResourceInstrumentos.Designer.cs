@@ -97,6 +97,15 @@ namespace Traducao.Instrumentos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Código.
+        /// </summary>
+        public static string IN_lbl_CdNumero {
+            get {
+                return ResourceManager.GetString("IN_lbl_CdNumero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incluir Certificado.
         /// </summary>
         public static string IN_lbl_certificado {
