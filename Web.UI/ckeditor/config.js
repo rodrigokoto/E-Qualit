@@ -18,7 +18,7 @@ CKEDITOR.editorConfig = function (config) {
 	config.filebrowserWindowHeight = "600";
 	config.resize_enabled = true;
 	config.toolbarCanCollapse = true;
-	config.image_previewText = "1.	Clique na aba buscar imagem.<br>2.	Selecione o procurar.<br>3.	Selecione o arquivo.<br>4.	Clique em upload.<br>Na nova tela será possível: alterar a largura e altura da imagem, incluir uma borda e alterar o alinhamento.";
+	config.image_previewText = "1.	Clique na aba buscar imagem.<br>2.	Selecione o procurar.<br>3.	Selecione o arquivo.<br>4.	Clique em upload.<br>Na nova tela ser&aacute; poss&iacute;vel: alterar a largura e altura da imagem, incluir uma borda e alterar o alinhamento.";
 
 	config.removeDialogTabs = 'image:Link;image:advanced';
 
