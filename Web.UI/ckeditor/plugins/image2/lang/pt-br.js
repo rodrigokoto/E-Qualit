@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'image2', 'pt-br', {
 	btnUpload: 'Upload',
 	captioned: 'Legenda da Imagem',
 	captionPlaceholder: 'Legenda',
-	infoTab: 'Informações da Imagem gggggggggggggg',
+	infoTab: 'Informações da Imagem',
 	lockRatio: 'Travar Proporções',
 	menu: 'Formatar Imagem',
 	pathName: 'Imagem',

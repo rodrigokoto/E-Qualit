@@ -300,7 +300,7 @@ APP.controller.AnaliseCriticaController = {
     },
 
     setTemaBox: function () {
-		debugger;
+		
     $('[name=formCriarAnaliseCriticaTema]').change(function () {
             //Valor zero representa o selecione no combobox
             var temaSelected = $("[name=formCriarAnaliseCriticaTema] option:selected").val();
@@ -376,7 +376,7 @@ APP.controller.AnaliseCriticaController = {
 
     setTemaCombobox: function (idTema, descricaoTema) {
 
-		debugger;
+		
         $('[name=formCriarAnaliseCriticaTema]').append($('<option />').val(idTema).text(descricaoTema));
     },
 
