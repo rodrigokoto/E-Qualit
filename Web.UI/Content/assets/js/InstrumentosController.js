@@ -135,14 +135,14 @@ APP.controller.InstrumentosController = {
 
     changeCadastroSigla: function () {
 
-        $('[name=formCadastroSigla]').change(function () {
+        $('[name=IdSigla]').change(function () {
 
             var sigla = $(this).val();
 
-            $.post('/ControlDoc/RetornaNumeroPorSigla/' + sigla, function (data, status) { }).done(function (data) {
+            $.post('/Instrumento/RetornaNumeroPorSigla/' + sigla, function (data, status) { }).done(function (data) {
                 if (data.StatusCode == "200") {
 
-                    $('[name=formCadastroNmDocumento]').val(data.Retorno);
+                    $('[name=Numero]').val(data.Retorno);
 
                 }
             });
@@ -165,7 +165,7 @@ APP.controller.InstrumentosController = {
         var acoesPadraoFormCriarPadraoObj = {
             //formCriaClienteLogo: {required: true, minFiles: 1},
             Equipamento: { required: true },
-            formCadastroSigla: { required: true},
+            IdSigla: { required: true },
             Numero: { required: true },
             Marca: { required: true },
             Modelo: { required: true },
@@ -275,7 +275,7 @@ APP.controller.InstrumentosController = {
             IdCalibracao: $("#IdCalibracao").val(),
             IdFilaEnvio: $("#IdFilaEnvio").val(),
             IdInstrumento: $('#IdInstrumento').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
-            IdSigla: $('[name=formCadastroSigla]').val(),
+            IdSigla: $('[name=IdSigla]').val(),
             DataRegistro: $('#form-pos-calibracao').find('[name=DtRegistro]').val(),
             DataNotificacao: $('#form-pos-calibracao').find('[name=DtNotificacao]').val(),
             DataProximaCalibracao: $('#form-pos-calibracao').find('[name=DataProximaCalibracao]').val(),
@@ -671,7 +671,7 @@ APP.controller.InstrumentosController = {
             url: '/ControladorCategorias/ListaAtivos',
             success: function (result) {
                 if (result.StatusCode == 202) {
-                    APP.component.SelectListCompare.init(result.Lista, $('[name=formCadastroSigla] option'), '#form-cadastro-sigla', 'IdControladorCategorias', 'Descricao');
+                    APP.component.SelectListCompare.init(result.Lista, $('[name=IdSigla] option'), '#form-cadastro-sigla', 'IdControladorCategorias', 'Descricao');
                 }
             },
             error: function (result) {

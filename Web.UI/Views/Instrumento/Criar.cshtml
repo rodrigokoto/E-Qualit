@@ -84,9 +84,9 @@
                                     <div class="form-group">
                                         <label for="form-cadastro-sigla">
                                             @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Sigla
-                                            <i id="form-cadastro-sigla-i" class="fa fa-plus-circle trash-color add-sigla" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.AddSigla data-tipo="SIGLADOC" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
+                                            <i id="form-cadastro-sigla-i" class="fa fa-plus-circle trash-color add-sigla" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title=@Traducao.Resource.AddSigla data-tipo="SIGLAINST" data-site="@(Model.IdSite == 0 ? ViewBag.IdSite : Model.IdSite)"></i>
                                         </label>
-                                        <select id="form-cadastro-sigla" name="formCadastroSigla" class="form-control" required data-msg-required="@Traducao.Resource.SiglaObrigatoria">
+                                        <select id="form-cadastro-sigla" name="IdSigla" class="form-control" required data-msg-required="@Traducao.Resource.SiglaObrigatoria">
                                             <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                             @if (Model.Sigla != null)
                                             {
