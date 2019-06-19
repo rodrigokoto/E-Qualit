@@ -100,6 +100,7 @@
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero</label>
                                         <input name="Numero" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-numero" data-val="true" title="" type="text"
+                                               pattern="[a-z\s]+$"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Numero"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Numero"
                                                value="@Model.Numero">

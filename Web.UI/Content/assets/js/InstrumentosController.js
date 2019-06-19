@@ -166,7 +166,7 @@ APP.controller.InstrumentosController = {
             //formCriaClienteLogo: {required: true, minFiles: 1},
             Equipamento: { required: true },
             IdSigla: { required: true },
-            Numero: { required: true },
+            Numero: { required: true, number: true },
             Marca: { required: true },
             Modelo: { required: true },
             IdResponsavel: { required: true },
