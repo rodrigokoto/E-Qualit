@@ -949,7 +949,7 @@ namespace Web.UI.Controllers
 
 					foreach (var item in doc.DocRisco)
 					{
-						
+
 						var retorno = PrepararDadosAprovar(doc, item);
 						//retorno.IdRegistroConformidade = null;
 						//documento.GestaoDeRisco = registro;
@@ -1639,7 +1639,7 @@ namespace Web.UI.Controllers
 
 						var retorno = PrepararDadosAprovar(documento, item);
 
-						
+
 						//documento.GestaoDeRisco = registro;
 						documento.GestaoDeRisco = retorno;
 
@@ -1836,11 +1836,17 @@ namespace Web.UI.Controllers
 
 		private void TrataAnexos(DocDocumento doc)
 		{
-			if (doc.DocTemplate.Any(x => x.TpTemplate == "L"))
+
+			if (string.IsNullOrWhiteSpace(doc.DocExterno.Anexo.Extensao))
+			{
+				doc.DocExterno = null;
+			}
+
+			if (doc.DocTemplate.Any(x => x.TpTemplate == "L") )
 			{
 				doc.Licenca.Anexo.Tratar();
 			}
-			if (doc.DocTemplate.Any(x => x.TpTemplate == "DE"))
+			if (doc.DocTemplate.Any(x => x.TpTemplate == "DE") && doc.DocExterno != null)
 			{
 				doc.DocExterno.Anexo.Tratar();
 				doc.DocExterno.LinkDocumentoExterno = "";
