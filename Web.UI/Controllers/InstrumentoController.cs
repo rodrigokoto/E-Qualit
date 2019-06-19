@@ -109,8 +109,8 @@ namespace Web.UI.Controllers
                 var instrumentoByCodSigla = _instrumentoAppServico.Get(s => s.Numero == instrumento.Numero && s.IdSigla == instrumento.IdSigla).FirstOrDefault();
 
                 if (instrumentoByCodSigla != null)
-                    erros.Add("O instrumento deve possuir um único registro com a mesma sigla e o mesmo número.");
-
+                    erros.Add("Não foi possível salvar, pois já existe um Instrumento cadastrado com a mesma Sigla e Número.");
+                
                 if (erros.Count > 0)
                 {
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
