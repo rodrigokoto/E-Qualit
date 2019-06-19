@@ -1837,7 +1837,7 @@ namespace Web.UI.Controllers
 		private void TrataAnexos(DocDocumento doc)
 		{
 
-			if (string.IsNullOrWhiteSpace(doc.DocExterno.Anexo.Extensao))
+			if (doc.DocExterno != null && string.IsNullOrWhiteSpace(doc.DocExterno.Anexo.Extensao))
 			{
 				doc.DocExterno = null;
 			}

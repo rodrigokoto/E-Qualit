@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'image', 'pt-br', {
 	button2Img: 'Deseja transformar o botão de imagem em uma imagem comum?',
 	hSpace: 'HSpace',
 	img2Button: 'Deseja transformar a imagem em um botão de imagem?',
-	infoTab: 'Informações da Imagem',
+	infoTab: 'Detalhes da Imagem',
 	linkTab: 'Link',
 	lockRatio: 'Travar Proporções',
 	menu: 'Formatar Imagem',
