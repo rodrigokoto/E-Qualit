@@ -240,14 +240,24 @@
                                         }
                                         else
                                         {
-                                            <select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
-                                                    data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
+											<select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
+													data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
 
-                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
+												<option value="">@Traducao.Resource.Dropdown_name_select</option>
 
-                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
+												@if (Model.IdEmissor != 0)
+												{
+													<option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+												}
+												else
+												{
+													<option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+												}
 
-                                            </select>
+
+												
+
+											</select>
 
                                         }
 

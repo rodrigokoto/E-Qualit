@@ -334,11 +334,20 @@ namespace ApplicationService.Servico
 
         public void AprovarDocumentoPorUsuario(DocDocumento documento, int idUsuarioLogado)
         {
-            var aprovacao = _docUsuarioVerificaAprovaRepositorio.Get(x => x.IdDocumento == documento.IdDocumento && x.IdUsuario == idUsuarioLogado).FirstOrDefault();
-            aprovacao.FlAprovou = true;
-            _docUsuarioVerificaAprovaRepositorio.Update(aprovacao);
+			var usuarioValido = documento.DocUsuarioVerificaAprova.FirstOrDefault(x => x.IdUsuario == idUsuarioLogado && x.TpEtapa == _statusAprovacao);
+			if (usuarioValido != null)
+			{
+				documento.DocUsuarioVerificaAprova.FirstOrDefault(x => x.IdUsuario == idUsuarioLogado && x.TpEtapa == _statusAprovacao).FlAprovou = true;
+			}
+			if (idUsuarioLogado == 1)
+			{
+				if (documento.DocUsuarioVerificaAprova.FirstOrDefault() != null)
+				{
+					documento.DocUsuarioVerificaAprova.FirstOrDefault().FlAprovou = true;
+				}
+			}
 
-            if (documento.IdLicenca == null)
+			if (documento.IdLicenca == null)
             {
                 documento.Licenca = null;
             }

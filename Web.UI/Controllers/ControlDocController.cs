@@ -923,6 +923,46 @@ namespace Web.UI.Controllers
 
 				_documentoAppServico.SalvarDocumento(doc);
 
+
+
+				doc.GestaoDeRisco = null;
+				doc.DocRisco.ToList().ForEach(documentoLocal =>
+				{
+					doc.DocRisco.FirstOrDefault(x => x.IdDocRisco == documentoLocal.IdDocRisco).IdDocumento = doc.IdDocumento;
+				});
+
+
+
+				//if (_documentoAppServico.AprovadoPorTodos(listaAprova))
+				//	_documentoAppServico.AprovarDocumento(documento);
+				//else
+				//	documento.FlStatus = (byte)StatusDocumento.Aprovacao;
+
+				//_docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
+
+
+
+
+				if (!doc.FlWorkFlow)
+				{
+					doc.FlStatus = (int)StatusDocumento.Aprovado;
+
+					foreach (var item in doc.DocRisco)
+					{
+
+						var retorno = PrepararDadosAprovar(doc, item);
+						//retorno.IdRegistroConformidade = null;
+						//documento.GestaoDeRisco = registro;
+						doc.GestaoDeRisco = retorno;
+
+						_registroConformidadeAppServico.Add(doc.GestaoDeRisco);
+
+						//_documentoAppServico.Update(doc);
+					}
+
+				}
+
+
 				EnviaNotificacaoPorEmail(doc);
 			}
 			catch (Exception ex)
@@ -1086,12 +1126,34 @@ namespace Web.UI.Controllers
 				if (baseDocumento.FlWorkFlow)
 				{
 					_docUsuarioVerificaAprovaServico.RemoveAllById(baseDocumento.IdDocumento);
-
 					_documentoAppServico.Update(baseDocumento);
 				}
 				else
 				{
+
 					_documentoAppServico.AprovarDocumentoPorUsuario(baseDocumento, Util.ObterCodigoUsuarioLogado());
+					baseDocumento.DtAprovacao = DateTime.Now;
+
+					_documentoAppServico.Update(baseDocumento);
+
+					if (!baseDocumento.FlWorkFlow)
+					{
+						baseDocumento.FlStatus = (int)StatusDocumento.Aprovado;
+
+						foreach (var item in baseDocumento.DocRisco)
+						{
+
+							var retorno = PrepararDadosAprovar(baseDocumento, item);
+							//retorno.IdRegistroConformidade = null;
+							//documento.GestaoDeRisco = registro;
+							baseDocumento.GestaoDeRisco = retorno;
+
+							_registroConformidadeAppServico.Add(baseDocumento.GestaoDeRisco);
+
+							//_documentoAppServico.Update(doc);
+						}
+
+					}
 				}
 
 			}
@@ -1314,7 +1376,7 @@ namespace Web.UI.Controllers
 
 					documento.FlStatus = (int)StatusDocumento.Verificacao;
 
-					Editar(documento, false);
+					var retorno = Editar(documento, false);
 
 					try
 					{
@@ -1491,15 +1553,15 @@ namespace Web.UI.Controllers
 					else
 						documento.FlStatus = (byte)StatusDocumento.Aprovacao;
 
-					int numeroUltimoRegistro = 0;
+					//int numeroUltimoRegistro = 0;
 
 					_docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
 
-					List<RegistroConformidade> listaRegistro = new List<RegistroConformidade>();
+					//List<RegistroConformidade> listaRegistro = new List<RegistroConformidade>();
 					foreach (var item in documento.DocRisco)
 					{
 
-						RegistroConformidade registro = new RegistroConformidade();
+						//RegistroConformidade registro = new RegistroConformidade();
 
 						//registro.TipoRegistro = "gr";
 						//registro.IdEmissor = documento.IdUsuarioIncluiu.Value;
@@ -1527,55 +1589,59 @@ namespace Web.UI.Controllers
 
 
 
-						registro.TipoRegistro = "gr";
+						//registro.TipoRegistro = "gr";
 
-						registro.IdEmissor = Util.ObterCodigoUsuarioLogado(); ;
+						//registro.IdEmissor = documento.IdElaborador; ;
 
-						registro.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado(); ;
-						registro.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado(); ;
+						//registro.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado(); ;
+						//registro.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado(); ;
 
-						registro.IdSite = documento.IdSite;
+						//registro.IdSite = documento.IdSite;
+						////registro.IdProcesso = documento.IdProcesso;
+
+						//registro.EProcedente = item.PossuiGestaoRisco;
+						//if (item.PossuiGestaoRisco == true)
+						//	registro.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
+						//else
+						//{
+						//	registro.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+						//	registro.DtEnceramento = DateTime.Now;
+						//}
+						//// Tem no original
+						////doc.GestaoDeRisco.FlDesbloqueado = doc.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
+
+						//registro.IdResponsavelEtapa = item.IdResponsavelInicarAcaoImediata;
+						//registro.IdResponsavelInicarAcaoImediata = item.IdResponsavelInicarAcaoImediata;
+
+						//registro.DescricaoRegistro = item.DescricaoRegistro == null ? string.Empty : item.DescricaoRegistro;
+
+						//// Novo
+						//registro.Causa = item.Causa;
+						//registro.DsJustificativa = item.DsJustificativa;
+
 						//registro.IdProcesso = documento.IdProcesso;
+						////registro.FlProcedente = item.
 
-						registro.EProcedente = item.PossuiGestaoRisco;
-						if (item.PossuiGestaoRisco == true)
-							registro.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
-						else
-						{
-							registro.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
-							registro.DtEnceramento = DateTime.Now;
-						}
-						// Tem no original
-						//doc.GestaoDeRisco.FlDesbloqueado = doc.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
+						//// Utilizar a data de alteração ??
+						////registro.DtInclusao = documento.DtInclusao.Value;
+						////registro.DtAlteracao = documento.DtAlteracao;
+						//registro.CriticidadeGestaoDeRisco = item.CriticidadeGestaoDeRisco;
+						//// ------ AQUI
 
-						registro.IdResponsavelEtapa = item.IdResponsavelInicarAcaoImediata;
-						registro.IdResponsavelInicarAcaoImediata = item.IdResponsavelInicarAcaoImediata;
+						//var listaGR = _registroConformidadeAppServico.ObtemListaRegistroConformidadePorSite(documento.IdSite, "gr", ref numeroUltimoRegistro);
+						//numeroUltimoRegistro = numeroUltimoRegistro + 1;
 
-						registro.DescricaoRegistro = item.DescricaoRegistro == null ? string.Empty : item.DescricaoRegistro;
-
-						// Novo
-						registro.Causa = item.Causa;
-						registro.DsJustificativa = item.DsJustificativa;
-
-						registro.IdProcesso = documento.IdProcesso;
-						//registro.FlProcedente = item.
-
-						// Utilizar a data de alteração ??
-						//registro.DtInclusao = documento.DtInclusao.Value;
-						//registro.DtAlteracao = documento.DtAlteracao;
-						registro.CriticidadeGestaoDeRisco = item.CriticidadeGestaoDeRisco;
-						// ------ AQUI
-
-						var listaGR = _registroConformidadeAppServico.ObtemListaRegistroConformidadePorSite(documento.IdSite, "gr", ref numeroUltimoRegistro);
-						numeroUltimoRegistro = numeroUltimoRegistro + 1;
-
-						registro.NuRegistro = numeroUltimoRegistro;
-						//registro.IdRegistroConformidade = null;
+						//registro.NuRegistro = numeroUltimoRegistro;
+						////registro.IdRegistroConformidade = null;
 
 
-						//listaRegistro.Add(registro);
+						////listaRegistro.Add(registro);
 
-						documento.GestaoDeRisco = registro;
+						var retorno = PrepararDadosAprovar(documento, item);
+
+
+						//documento.GestaoDeRisco = registro;
+						documento.GestaoDeRisco = retorno;
 
 						_documentoAppServico.Update(documento);
 					}
@@ -1600,6 +1666,53 @@ namespace Web.UI.Controllers
 
 			return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Aprovado, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
 		}
+
+
+		public RegistroConformidade PrepararDadosAprovar(DocDocumento documento, DocRisco item)
+		{
+
+			int numeroUltimoRegistro = 0;
+
+			RegistroConformidade registro = new RegistroConformidade();
+			registro.TipoRegistro = "gr";
+
+			registro.IdEmissor = documento.IdElaborador; ;
+
+			registro.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado(); ;
+			registro.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado(); ;
+
+			registro.IdSite = documento.IdSite;
+
+			registro.EProcedente = item.PossuiGestaoRisco;
+			if (item.PossuiGestaoRisco == true)
+				registro.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
+			else
+			{
+				registro.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
+				registro.DtEnceramento = DateTime.Now;
+			}
+
+			registro.IdResponsavelEtapa = item.IdResponsavelInicarAcaoImediata;
+			registro.IdResponsavelInicarAcaoImediata = item.IdResponsavelInicarAcaoImediata;
+
+			registro.DescricaoRegistro = item.DescricaoRegistro == null ? string.Empty : item.DescricaoRegistro;
+			registro.DescricaoRegistro += $"\n Vinculado ao documento: {documento.Titulo}";
+			// Novo
+			registro.Causa = item.Causa;
+			registro.DsJustificativa = item.DsJustificativa;
+
+			registro.IdProcesso = documento.IdProcesso;
+			registro.CriticidadeGestaoDeRisco = item.CriticidadeGestaoDeRisco;
+
+			var listaGR = _registroConformidadeAppServico.ObtemListaRegistroConformidadePorSite(documento.IdSite, "gr", ref numeroUltimoRegistro);
+			numeroUltimoRegistro = numeroUltimoRegistro + 1;
+
+			registro.NuRegistro = numeroUltimoRegistro;
+
+			return registro;
+		}
+
+
 
 		public ActionResult SalvaPDF(int id)
 		{
@@ -1723,11 +1836,17 @@ namespace Web.UI.Controllers
 
 		private void TrataAnexos(DocDocumento doc)
 		{
-			if (doc.DocTemplate.Any(x => x.TpTemplate == "L"))
+
+			if (doc.DocExterno != null && string.IsNullOrWhiteSpace(doc.DocExterno.Anexo.Extensao))
+			{
+				doc.DocExterno = null;
+			}
+
+			if (doc.DocTemplate.Any(x => x.TpTemplate == "L") )
 			{
 				doc.Licenca.Anexo.Tratar();
 			}
-			if (doc.DocTemplate.Any(x => x.TpTemplate == "DE"))
+			if (doc.DocTemplate.Any(x => x.TpTemplate == "DE") && doc.DocExterno != null)
 			{
 				doc.DocExterno.Anexo.Tratar();
 				doc.DocExterno.LinkDocumentoExterno = "";
