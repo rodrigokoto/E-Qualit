@@ -133,6 +133,15 @@ namespace Traducao.Auditoria {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Processo já programado para o mês..
+        /// </summary>
+        public static string Auditoria_ProcessoExisteMes {
+            get {
+                return ResourceManager.GetString("Auditoria_ProcessoExisteMes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Plano de Auditoria Interna (PLAI).
         /// </summary>
         public static string PlanoAuditoriaInterna {
