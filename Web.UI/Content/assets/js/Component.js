@@ -322,10 +322,9 @@ APP.component.Datapicker = {
 
         $('.fa-calendar').on('click', function () {
 
-            if ($(this).closest('div').find('.data').attr("disabled") == undefined)
-            {
+            if ($(this).closest('div').find('.data').attr("disabled") == undefined) {
                 $(this).closest('div').find('.data').trigger("focusin");
-            }          
+            }
 
         });
 
@@ -610,7 +609,7 @@ APP.component.DragAndDrop = {
         if (this.dragged === null)
             return;
         var nodeCopy = this.dragged.cloneNode(true);
-        
+
         var temNovoNode = false;
 
         //target é o UL do topo, estava podnendo arrastar para dentro de item já existente
@@ -619,17 +618,15 @@ APP.component.DragAndDrop = {
             target = target.closest("ul");
 
         target.find("li").each(function () {
-            if ($(this).find("span").text().trim() == $(nodeCopy).find("span").text().trim())
-            {
+            if ($(this).find("span").text().trim() == $(nodeCopy).find("span").text().trim()) {
                 if (!temNovoNode) {
                     bootbox.alert(_options.Auditoria_ProcessoExisteMes);
                 }
                 temNovoNode = true;
-            }            
+            }
         });
-        
-        if(!temNovoNode)
-        {
+
+        if (!temNovoNode) {
             $(nodeCopy).find("span").html($(nodeCopy).find("span").text() + "<a href='#' onclick='ExcluirProcessoAuditoria(this);' style='float: right; margin-right: 10px; color: white'><i class='fa fa-trash'></i></a>")
             target.append(nodeCopy);
             //remover do mes anteriori, se tiver um botão de excluir
@@ -715,6 +712,8 @@ APP.component.FileUpload = {
 
         this.fileUploadRai();
         this.delItemFileUploadRai();
+        this.fileUpload2Rai();
+        this.delItemFileUpload2Rai();
 
     },
 
@@ -727,7 +726,9 @@ APP.component.FileUpload = {
         this.buttonDelFileUpload = $("[class^=btn-delete]");
 
         this.buttonUploadRai = $("[class^=btn-upload-rai]");
+        this.buttonUpload2Rai = $("[class^=btn-upload2-rai]");
         this.buttonDelFileUploadRai = $("[class^=btn-delete-rai]");
+        this.buttonDelFileUpload2Rai = $("[class^=btn-delete2-rai]");
 
     },
 
@@ -892,7 +893,7 @@ APP.component.FileUpload = {
                         var extencao = name.split('.')[1];
 
                         srcImg.children().text(name.substring(0, 8) + "..." + extencao);
-                        
+
                         var html = '<div class="DivExcluirAnexoEvidencia" style="float: left; margin-top: -50px">';
                         html += '<a href="#" class="btn-delete" onclick="DeleteAnexoAcaoImediata(this)">';
                         html += '<i class="fa fa-trash fa-1" aria-hidden="true" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '">';
@@ -967,10 +968,10 @@ APP.component.FileUpload = {
 
                         name = $('#' + idInput + '').prop('files')[0].name;
                         base64 = e.target.result.split(',');
-                        
+
                         NomeAnexo.val(name);
                         srcImg.text('R.A.I');
-                        
+
                         var html = '';
                         html += '<a href="#" class="btn-delete-rai">';
                         html += '<i class="fa fa-trash fa-1" aria-hidden="true" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '">';
@@ -997,31 +998,97 @@ APP.component.FileUpload = {
 
     },
 
+    fileUpload2Rai: function () {
+
+        this.buttonUpload2Rai.unbind('click');
+        this.buttonUpload2Rai.on('click', function () {
+            $(this).closest('div').find('input[type=file]').first().trigger("click");
+
+            //Variaveis de auxilio
+            var fileInput = $(this).closest('div').find('input[type=file]');
+            var topoUpload = $(this).closest('div');
+
+            fileInput.unbind('change');
+            fileInput.on('change', function () {
+
+                var copia = $($(this).closest('div').find('.templatenovoarquivo').find("div")[0].cloneNode(true));
+
+                var _files = this.files;
+
+                if (_files && _files[0]) {
+
+                    var reader = new FileReader();
+                    var name = "";
+
+                    reader.onload = function (e) {
+                        var NomeAnexo = copia.find("input[name='NomeAnexo']");
+                        var NomeAnexo2 = copia.find('.noemarquivo');
+                        var base64 = "";
+                        var ConteudoAnexo = copia.find("input[name='ConteudoAnexo']");
+
+                        name = fileInput.prop('files')[0].name;
+                        base64 = e.target.result.split(',');
+
+                        //Pega somente a String Base64 e coloca da tag data-b64
+                        NomeAnexo.val(name);
+                        NomeAnexo2.text(name);
+                        ConteudoAnexo.data('b64', '' + base64[1] + '');
+
+                        copia.insertBefore(topoUpload);
+
+                        APP.component.FileUpload.bind();
+
+                        $("." + fileInput.data("spannroarquivos")).text(topoUpload.parent().find("div:visible").length - 1);
+                    };
+
+                    reader.readAsDataURL(_files[0]);
+
+                }
+
+            });
+
+
+        });
+
+    },
+
     delItemFileUploadRai: function () {
 
         this.buttonDelFileUploadRai.unbind('click');
         this.buttonDelFileUploadRai.on('click', function (event) {
-            
+
             var id = $(this).parent().find(".download-rai-form-auditoria-mes").attr("id");
 
             event.preventDefault();
             $("#" + id).parent().find('[class^=btn-upload]').text('');
             $(this).parent().find('input[type=file]').data('b64', '');
             $(this).parent().find('input[type=file]').attr('data-b64', '');
-            
+
             $(this).parent().find('.IdAnexo').val('');
-            $(this).parent().find('.NomeAnexo').val('');  
+            $(this).parent().find('.NomeAnexo').val('');
 
             $("#" + id).attr("class", id);
             $("#" + id).removeAttr("href");
             $("#" + id).removeAttr("target");
             $("#" + id).removeAttr("download");
             $("#" + id).attr("onclick", "UploadArquivoRai(this);");
-            
-            
+
+
             $(this).closest('div').find('[class^=btn-upload]').html('<i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar');
             $(this).remove();
 
+        });
+
+    },
+
+    delItemFileUpload2Rai: function () {
+
+        this.buttonDelFileUpload2Rai.unbind('click');
+        this.buttonDelFileUpload2Rai.on('click', function (event) {
+            event.preventDefault();
+            $(this).parent().find("input[name='ApagarAnexo']").val(1);
+            $(this).parent().hide();
+            $("." + $(this).data("spannroarquivos")).text($(this).parent().parent().find("div:visible").length - 1);
         });
 
     },
@@ -1031,6 +1098,7 @@ APP.component.FileUpload = {
         APP.component.FileUpload.setup();
         APP.component.FileUpload.delItemFileUpload();
         APP.component.FileUpload.delItemFileUploadRai();
+        APP.component.FileUpload.delItemFileUpload2Rai();
 
     },
 
@@ -1052,8 +1120,8 @@ APP.component.GestaoDeRiscoPartial = {
         if (page == "CriarAnaliseCritica") {
             this.gestaoDeRiscoCriarAnaliseCritica(_divGestaoDeRisco, _temaSelected);
             //this.gestaoDeRisco(_selector);
-          
-            }
+
+        }
         if (page == "EditarAnaliseCritica") {
             this.gestaoDeRiscoEditAnaliseCritica();
         }
@@ -1068,7 +1136,7 @@ APP.component.GestaoDeRiscoPartial = {
 
     gestaoDeRiscoCriarAnaliseCritica: function (_divGestaoDeRisco, _temaSelected) {
 
-       
+
         this.getPartialGestaoDeRisco(_divGestaoDeRisco, _temaSelected);
         this.setCkeditorGestaoDeRisco(_divGestaoDeRisco, _temaSelected);
         this.setBarRating(_divGestaoDeRisco);
@@ -1077,11 +1145,11 @@ APP.component.GestaoDeRiscoPartial = {
         this.setERisco();
         this.getERisco();
 
-   
+
 
         var numeroRisco = $('[name=numeroAC]').val();
-        var busca = ".gestaoDeRiscoPartial-"+_temaSelected;      
-        $(busca).find($('[name=formGestaoDeRiscoNumero]')).val(numeroRisco); 
+        var busca = ".gestaoDeRiscoPartial-" + _temaSelected;
+        $(busca).find($('[name=formGestaoDeRiscoNumero]')).val(numeroRisco);
         $('[name=numeroAC]').val(parseInt(numeroRisco) + parseInt('1'));
 
 
@@ -1134,10 +1202,10 @@ APP.component.GestaoDeRiscoPartial = {
         //_divGestaoDeRisco.find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
         //_divGestaoDeRisco.find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').hide();
         _divGestaoDeRisco.find('.responsavel-gestao-de-risco').hide();
-        _divGestaoDeRisco.find('.numeroGestaoRisco').hide();   
-        _divGestaoDeRisco.find('.JustificativaGestaoDeRisco').hide(); 
-        
-       _divGestaoDeRisco.find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').hide();
+        _divGestaoDeRisco.find('.numeroGestaoRisco').hide();
+        _divGestaoDeRisco.find('.JustificativaGestaoDeRisco').hide();
+
+        _divGestaoDeRisco.find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').hide();
         _divGestaoDeRisco.find('.numeroGestaoRisco').hide();
         //_divGestaoDeRisco.find('[name=formGestaoDeRiscoIdentificacao]').closest('[class^=col]').hide();
 
@@ -1146,7 +1214,7 @@ APP.component.GestaoDeRiscoPartial = {
     //Changes
     setCriticidade: function (value, text) {
 
-    $('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
+        $('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
 
             //var barRatingSelect = $(this).val();
             //if (barRatingSelect == 2 || barRatingSelect == 3) {
@@ -1197,7 +1265,7 @@ APP.component.GestaoDeRiscoPartial = {
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoIdentificacao]').closest('[class^=col]').show();
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').show();
             $(_this).parent().parent().parent().parent().parent().find('.numeroGestaoRisco').show();
-            $(_this).parent().parent().parent().parent().parent().find('.JustificativaGestaoDeRisco').hide();            
+            $(_this).parent().parent().parent().parent().parent().find('.JustificativaGestaoDeRisco').hide();
             APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(_this);
         } else {
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
@@ -1301,10 +1369,10 @@ APP.component.Calendar = {
                 $(this).parent().parent().find("input").datepicker("show");
             }
 
-            
+
         });
 
-        
+
 
     },
 };
@@ -1394,7 +1462,7 @@ APP.component.Mascaras = {
 
         this.mascara();
         this.mascaraCelular();
-        
+
 
     },
 
@@ -1414,7 +1482,7 @@ APP.component.Mascaras = {
         $('.input-celular').focusout(function () {
 
             var elemento, elementoThis; elementoThis = $(this);
-            elementoThis.unmask(); elemento = elementoThis.val().replace(/\D/g, ""); 
+            elementoThis.unmask(); elemento = elementoThis.val().replace(/\D/g, "");
 
             var mascara = '(00) 0000-00000';
             var placeholder = '(__) ____-_____';
@@ -1438,7 +1506,7 @@ APP.component.Mascaras = {
 
     }
 
- 
+
 
 
 };
@@ -1471,7 +1539,7 @@ APP.component.Menu = {
             $("#main").css("marginLeft", "250px");
         });
 
-        
+
 
     },
 
@@ -1483,7 +1551,7 @@ APP.component.Menu = {
 
         });
 
-        
+
 
     },
 
@@ -1576,7 +1644,7 @@ APP.component.UserMenu = {
     },
 
     user: function () {
-        
+
         this.closeCliente.on('click', function () {
             $('#clientes').slideUp();
         });
@@ -1705,8 +1773,8 @@ APP.component.UserMenu = {
 
                         $('#clientes').slideDown();
                         $("#modal-panel-clientes-sites").modal();
-                        
-                        
+
+
 
 
                     },
@@ -1717,7 +1785,7 @@ APP.component.UserMenu = {
                     },
                     complete: function (result) {
                         APP.component.Loading.hideLoading();
-                        
+
                     }
                 });
 
@@ -1985,8 +2053,7 @@ APP.component.ResultErros = {
                 html += "</li>";
             });
         }
-        else
-        {
+        else {
             html += "<li>";
             html += "- " + _listErros;
             html += "</li>";
@@ -2060,17 +2127,17 @@ APP.component.SelectListCompare = {
             _listPage = [0];
 
         $(_listPage).each(function (key, value) {
-            
+
 
             obj = { [_paramCompare.valueOf()]: parseInt($(value).val()) };
             anotherOne.push(obj);
-            
+
         });
 
         var filteredArray = array.filter(myCallBack);
 
         function myCallBack(el) {
-            return anotherOne.findIndex(x => x[ _paramCompare ] == el[ _paramCompare ]) < 0;
+            return anotherOne.findIndex(x => x[_paramCompare] == el[_paramCompare]) < 0;
         }
 
         this.addSelectOnPage(filteredArray, _idSelect, obj, _paramTexto);

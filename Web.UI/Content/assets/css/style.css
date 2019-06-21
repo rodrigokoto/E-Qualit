@@ -23122,6 +23122,10 @@ input:required:valid
             border-radius: 4px !important;
 }
 
+.upload-arq-rai {
+    border: none !important;
+}
+
 .box-upload-arq
 {
     height: 100% !important;

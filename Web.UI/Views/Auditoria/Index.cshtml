@@ -19,13 +19,28 @@
     <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
 }
 
+<style>
+    .rai-modal-body {
+        max-height: 60vh;
+        overflow: auto;
+    }
+
+    .linksemcor {
+        color: black;
+    }
+
+        .linksemcor:hover {
+            color: black;
+        }
+</style>
+
 @helper SairMes(string labelMes, string nomeMesMaiusc, string nomeMesMinusc, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
         <div class="background-calendar">
             @labelMes
         </div>
-        <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+        <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)" data-divarquivos="#modal-rai@(numeroMes)@(pai.Ano)">
             <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMes@(nomeMesMaiusc)" value="@numeroMes" />
             @{
                 List<string> normas = (pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
@@ -40,7 +55,7 @@
                             @processoNorma
 
                             @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                            || ViewBag.IdPerfil != 4)
+|| ViewBag.IdPerfil != 4)
                             {
                                 <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
                             }
@@ -59,11 +74,82 @@
                 </div>
             }
 
-                <div class="button-pai-anexo">
+            <div class="button-pai-anexo">
+                @{
+                    var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
+
+                    var anexo = new Dominio.Entidade.Anexo()
+                    {
+                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
+                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
+                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
+                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
+                    };
+
+                    int nroArquivos = 0;
+                    if (anexo != null && anexo.IdAnexo > 0)
+                    {
+                        nroArquivos = 1;
+                    }
+                }
+                <button type="button" class="btn btn-primary" onclick="$('#modal-rai@(numeroMes)@(pai.Ano)').modal('show');">R.A.I. (<span class="raiNroArquivos@(numeroMes)@(pai.Ano)">@nroArquivos</span> arquivos)</button>
+
+                <button type="button" class="btn btn-primary">
+                    <div class="upload-arq">
+                        @if (anexo != null && anexo.IdAnexo > 0)
+                        {
+                            <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-@(nomeMesMinusc)-rai-@(pai.Ano)" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
+                            if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
+                                    || ViewBag.IdPerfil != 4)
+                            {
+                                <a href="#" class="btn-delete-rai"><i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i></a>
+                            }
+                        }
+                        else
+                        {
+                            if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
+                                    || ViewBag.IdPerfil != 4)
+                            {
+                                <a class="btn-upload-rai-form-auditoria-mes-@(nomeMesMinusc)-rai-@(pai.Ano)">
+                                    <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> @Traducao.Resource.Anexar
+                                </a>
+                            }
+                        }
+
+                        <input type="hidden" id="IdAnexo@(numeroMes)" name="IdAnexo@(numeroMes)" class="IdAnexo" value="@anexo.IdAnexo" />
+                        <input type="hidden" id="NomeAnexo@(numeroMes)" name="NomeAnexo@(numeroMes)" class="NomeAnexo" value="@anexo.Nome" />
+                        <input type="file" name="formAuditoriaMes@(nomeMesMaiusc)Rai-@(pai.Ano)" class="anexo-plai" id="form-auditoria-mes-@(nomeMesMinusc)-rai-@pai.Ano"
+                               data-msg-required=""
+                               data-b64="@(plai.Arquivo != null && plai.Arquivo.IdAnexo > 0 ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
+                    </div>
+                </button>
+            </div>
+        }
+    </div>
+}
+@helper SairMesRaiModal(string nomeMes, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
+{
+
+    @* dialogo do RAI
+        nao pode estar no meio do HTML principal, tem que estar fora do div main
+    *@
+    <div id="modal-rai@(numeroMes)@(pai.Ano)" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos2" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">R.A.I. - @nomeMes</h4>
+                </div>
+
+                <div class="modal-body rai-modal-body">
+
                     @{
                         var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
 
-                        var anexo = new Dominio.Entidade.Anexo()
+                        var anexo2 = new Dominio.Entidade.Anexo()
                         {
                             IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
                             Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
@@ -71,48 +157,80 @@
                             ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
                         };
 
-                        int nroArquivos = 0;
-                        if (anexo != null && anexo.IdAnexo > 0)
+                        var listaAnexos = new List<Dominio.Entidade.Anexo>();
+                        if (anexo2 != null && anexo2.IdAnexo > 0)
                         {
-                            nroArquivos = 1;
+                            listaAnexos.Add(anexo2);
+                            listaAnexos.Add(anexo2);
+                            listaAnexos.Add(anexo2);
+                            listaAnexos.Add(anexo2);
+                            listaAnexos.Add(anexo2);
+                            listaAnexos.Add(anexo2);
                         }
+
                     }
-                    <button type="button" class="btn btn-primary">R.A.I. (<span class="raiNroArquivos">@nroArquivos</span> arquivos)</button>
 
-                    <button type="button" class="btn btn-primary">
-                        <div class="upload-arq">
-                            @if (anexo != null && anexo.IdAnexo > 0)
+                    @foreach (var anexo in listaAnexos)
+                    {
+                        @*
+                            cada arquivo estara agrupado por classe, para montar os dados precisa ler por classe e depois os itens dentro dessa classe
+                        *@
+                        <div class="upload-arq upload-arq-rai uploadrai@(numeroMes)@(pai.Ano)">
+                            <a href="@anexo.ArquivoB64" class="downrai linksemcor" target="_blank" download="@anexo.Nome">Anexo: @anexo.Nome</a>
+                            @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
                             {
-                                <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-@(nomeMesMinusc)-rai-@(pai.Ano)" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                        || ViewBag.IdPerfil != 4)
-                                {
-                                    <a href="#" class="btn-delete-rai">
-                                        <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                    </a>
-                                }
+                                <a href="#" class="btn-delete2-rai linksemcor" style="float: right;"
+                                   data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"><i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i></a>
                             }
-                            else
-                            {
-                                if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                        || ViewBag.IdPerfil != 4)
-                                {
-                                    <a class="btn-upload-rai-form-auditoria-mes-@(nomeMesMinusc)-rai-@(pai.Ano)">
-                                        <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> @Traducao.Resource.Anexar
-                                    </a>
-                                }
-                            }
-
-                            <input type="hidden" id="IdAnexo@(numeroMes)" name="IdAnexo@(numeroMes)" class="IdAnexo" value="@anexo.IdAnexo" />
-                            <input type="hidden" id="NomeAnexo@(numeroMes)" name="NomeAnexo@(numeroMes)" class="NomeAnexo" value="@anexo.Nome" />
-                            <input type="file" name="formAuditoriaMes@(nomeMesMaiusc)Rai-@(pai.Ano)" class="anexo-plai" id="form-auditoria-mes-@(nomeMesMinusc)-rai-@pai.Ano"
+                            <input type="hidden" name="IdAnexo" value="@anexo.IdAnexo" />
+                            <input type="hidden" name="NomeAnexo" value="@anexo.Nome" />
+                            <input type="hidden" name="ApagarAnexo" value="0" />
+                            <input type="file" class="anexo-plai"
                                    data-msg-required=""
-                                   data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
+                                   data-b64="@(plai.Arquivo != null && plai.Arquivo.IdAnexo > 0 ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
                         </div>
-                    </button>
+                    }
+
+
+                    @* botao upload novo *@
+                    @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
+                    {
+                        <div class="upload-arq upload-arq-rai">
+                            <a class="btn-upload2-rai">
+                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> @Traducao.Resource.Anexar
+                            </a>
+                            <input type="file" class="anexo-plai"
+                                   data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"
+                                   data-msg-required=""
+                                   data-b64="@(plai.Arquivo != null && plai.Arquivo.IdAnexo > 0 ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
+                            
+                            
+                            <div class="templatenovoarquivo" style="display: none">
+                                <div class="upload-arq upload-arq-rai uploadrai@(numeroMes)@(pai.Ano)">
+                                    <span class="downrai linksemcor">Anexo: <span class="noemarquivo"></span></span>
+                                    @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
+                                    {
+                                        <a href="#" class="btn-delete2-rai linksemcor" style="float: right;"
+                                           data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"><i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i></a>
+                                    }
+                                    <input type="hidden" name="IdAnexo" value="0" />
+                                    <input type="hidden" name="NomeAnexo" value="" />
+                                    <input type="hidden" name="ApagarAnexo" value="0" />
+                                    <input type="file" name="ConteudoAnexo" class="anexo-plai" data-msg-required="" data-b64="">
+                                </div>
+
+                            </div>
+                        </div>
+
+                    }
+
                 </div>
-        }
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
     </div>
+
 }
 
 
@@ -669,6 +787,38 @@
     </div>
 </div>
 
+@*
+
+    dialogos do RAI
+*@
+@foreach (Dominio.Entidade.Pai pai in Model)
+{
+    <!-- Janeiro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jan, 1, pai, listaPermissoes)
+    <!-- Fevereiro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Fev, 2, pai, listaPermissoes)
+    <!-- Março -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Mar, 3, pai, listaPermissoes)
+    <!-- Abril -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Abr, 4, pai, listaPermissoes)
+    <!-- Maio -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Mai, 5, pai, listaPermissoes)
+    <!-- Junho -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jun, 6, pai, listaPermissoes)
+    <!-- Julho -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jul, 7, pai, listaPermissoes)
+    <!-- Agosto -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Ago, 8, pai, listaPermissoes)
+    <!-- Setembro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Set, 9, pai, listaPermissoes)
+    <!-- Outubro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Out, 10, pai, listaPermissoes)
+    <!-- Novembro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Nov, 11, pai, listaPermissoes)
+    <!-- Dezembro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Dez, 12, pai, listaPermissoes)
+}
+
 
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
@@ -677,3 +827,4 @@
         </div>
     </div>
 </div>
+
