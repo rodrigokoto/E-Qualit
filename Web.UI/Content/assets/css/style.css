@@ -19195,13 +19195,11 @@ html
 
     float: right;
 }
-.button-pai-anexo button
-{
-    width: 100% !important;
-
-    -webkit-border-radius: 10px 0 10px 0 !important;
-            border-radius: 10px 0 10px 0 !important;
-}
+    .button-pai-anexo button {
+        /* width: 100% !important; */
+        -webkit-border-radius: 10px 0 10px 0 !important;
+        border-radius: 10px 0 10px 0 !important;
+    }
 .button-pai-anexo button .upload-arq
 {
     padding: 0;
