@@ -632,6 +632,8 @@ APP.component.DragAndDrop = {
         {
             $(nodeCopy).find("span").html($(nodeCopy).find("span").text() + "<a href='#' onclick='ExcluirProcessoAuditoria(this);' style='float: right; margin-right: 10px; color: white'><i class='fa fa-trash'></i></a>")
             target.append(nodeCopy);
+            //remover do mes anteriori, se tiver um botão de excluir
+            $(this.dragged).find("a").click();
         }
     },
 
