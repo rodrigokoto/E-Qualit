@@ -596,35 +596,44 @@ APP.component.DragAndDrop = {
         ev.preventDefault();
     },
 
+    //https://developer.mozilla.org/en-US/docs/Web/API/Document/drag_event
+    dragged: null,
+
     drag: function (ev) {
         ev.dataTransfer.setData("text", ev.target.id);
+        this.dragged = event.target;
     },
 
     drop: function (ev) {
 
-        //ev.preventDefault();
-        //var data = ev.dataTransfer.getData("text");
-        //ev.target.appendChild();
-
-
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");        
-        var nodeCopy = document.getElementById(data).cloneNode(true);
-        //nodeCopy.id = nodeCopy.id + "newId"; 
+        if (this.dragged === null)
+            return;
+        var nodeCopy = this.dragged.cloneNode(true);
         
         var temNovoNode = false;
-        
-        $(ev.target).find("li").each(function () {
-            if($(this).find("span").html() == $(nodeCopy).find("span").html())
+
+        //target é o UL do topo, estava podnendo arrastar para dentro de item já existente
+        let target = $(ev.target);
+        if (target.prop("tagName").toLowerCase() != "ul")
+            target = target.closest("ul");
+
+        target.find("li").each(function () {
+            if ($(this).find("span").text().trim() == $(nodeCopy).find("span").text().trim())
             {
+                if (!temNovoNode) {
+                    bootbox.alert(_options.Auditoria_ProcessoExisteMes);
+                }
                 temNovoNode = true;
             }            
         });
         
         if(!temNovoNode)
         {
-            $(nodeCopy).find("span").html($(nodeCopy).find("span").html() + "<a href='#' onclick='ExcluirProcessoAuditoria(this);' style='float: right; margin-right: 10px; color: white'><i class='fa fa-trash'></i></a>")
-            ev.target.appendChild(nodeCopy);
+            $(nodeCopy).find("span").html($(nodeCopy).find("span").text() + "<a href='#' onclick='ExcluirProcessoAuditoria(this);' style='float: right; margin-right: 10px; color: white'><i class='fa fa-trash'></i></a>")
+            target.append(nodeCopy);
+            //remover do mes anteriori, se tiver um botão de excluir
+            $(this.dragged).find("a").click();
         }
     },
 
