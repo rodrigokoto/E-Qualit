@@ -45,7 +45,7 @@
                                 <table id="tb-index-norma" class="display dataTable no-footer dtr-inline " style="width: 100% !important;">
                                     <thead>
                                         <tr id="hr1" class="bg" role="row">
-                                            <th class="w15 with-input">
+                                            <th class="w15 with-input hidden">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Norma.ResourceNorma.Norma_lbl_item" title="">
                                             </th>
                                             <th class="w15 with-input">
@@ -58,7 +58,7 @@
                                             </th>
                                         </tr>
                                         <tr class="bg" role="row">
-                                            <th class="sorting">@Traducao.Norma.ResourceNorma.Norma_lbl_item</th>
+                                            <th class="sorting hidden">@Traducao.Norma.ResourceNorma.Norma_lbl_item</th>
                                             <th class="sorting">@Traducao.Norma.ResourceNorma.Norma_lbl_codigo</th>
                                             <th class="sorting">@Traducao.Norma.ResourceNorma.Norma_lbl_titulo</th>
                                             <th></th>
@@ -71,10 +71,10 @@
                                             {
                                                 <!-- Norma -->
                                                 <tr role="row">
-                                                    <td>
+                                                    <td class="hidden">
                                                         <div class="form-group">
                                                             <input type="hidden" class="form-control" id="form-norma-item" name="formNormaDtCadastro" placeholder="Data Cadastro" data-msg-required="" value="@norma.DataCadastro" disabled />
-                                                            <input type="text" class="form-control" id="form-norma-item" name="formNormaItem"
+                                                            <input type="hidden" class="form-control" id="form-norma-item" name="formNormaItem"
                                                                    placeholder="Item"
                                                                    data-msg-required=""
                                                                    value="@norma.Numero" IdNorma="@norma.IdNorma" disabled />

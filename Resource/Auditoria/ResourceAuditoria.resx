@@ -147,4 +147,7 @@
   <data name="PlanoAuditoriaInterna" xml:space="preserve">
     <value>Plano de Auditoria Interna (PLAI)</value>
   </data>
+  <data name="Auditoria_ProcessoExisteMes" xml:space="preserve">
+    <value>Processo já programado para o mês.</value>
+  </data>
 </root>

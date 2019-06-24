@@ -147,6 +147,9 @@
   <data name="Norma_msg_icone_excluir" xml:space="preserve">
     <value>Deseja mesmo Excluir esta norma?</value>
   </data>
+  <data name="Norma_msg_save_canceled" xml:space="preserve">
+    <value>Não é possivel excluir pois há uma ou mais Plai vinculada a norma.</value>
+  </data>
   <data name="Norma_msg_save_valid" xml:space="preserve">
     <value>Norma Salva com sucesso</value>
   </data>

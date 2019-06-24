@@ -117,12 +117,19 @@ namespace Web.UI.Controllers
             {
                 var ObjNorma = _normaAppServico.GetById(Id);
 
-                _plaiProcessoNormaAppServico.Get(x => x.IdNorma == Id).ToList().ForEach(x =>
-                {
-                    _plaiProcessoNormaAppServico.Remove(x);
-                });
+                var lstPlai = _plaiProcessoNormaAppServico.Get(x => x.IdNorma == Id).ToList();
 
-                _normaAppServico.Remove(ObjNorma);
+                if (lstPlai.Count == 0)
+                {
+                    _normaAppServico.Remove(ObjNorma);
+                }
+                else {
+                    return Json(new { StatusCode = 499, Cancelled = Traducao.Norma.ResourceNorma.Norma_msg_save_canceled }, JsonRequestBehavior.AllowGet);
+                }
+                //_plaiProcessoNormaAppServico.Get(x => x.IdNorma == Id).ToList().ForEach(x =>
+                //{
+                //    _plaiProcessoNormaAppServico.Remove(x);
+                //});
             }
             catch (Exception ex)
             {

@@ -151,6 +151,15 @@ namespace Traducao.Norma {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Não é possivel excluir pois há uma ou mais Plai vinculada a norma..
+        /// </summary>
+        public static string Norma_msg_save_canceled {
+            get {
+                return ResourceManager.GetString("Norma_msg_save_canceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Norma Salva com sucesso.
         /// </summary>
         public static string Norma_msg_save_valid {
