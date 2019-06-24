@@ -42,6 +42,7 @@ namespace Dominio.Entidade
         public bool SistemaDefineStatus { get; set; }
         public string DescricaoCriterio { get; set; }
         public bool FlagTravado { get; set; }
+        public int IdSigla { get; set; }
         public string CorStatus
         {
             get
@@ -100,6 +101,10 @@ namespace Dominio.Entidade
         public virtual Processo Processo { get; set; }
         public virtual Site Site { get; set; }
         public virtual List<Calibracao> Calibracao { get; set; }
+
+        #region Relacionamentos
+        public virtual ControladorCategoria Sigla { get; set; }
+        #endregion
 
         public ValidationResult ValidationResult { get; set; }
 

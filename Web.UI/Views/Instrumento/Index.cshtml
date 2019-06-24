@@ -53,7 +53,7 @@
                                             <th class="w10"></th>
                                         </tr>
                                         <tr class="bg">
-                                            <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero</th>
+                                            <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_CdNumero</th>
                                             <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Local_de_uso</th>
                                             <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Intrumento</th>
                                             <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Dt_proxima_calibracao</th>
@@ -65,7 +65,9 @@
                                         @foreach (var instrumento in Model)
                                         {
                                             <tr class="odd">
-                                                <td>@instrumento.Numero</td>
+                                                <td>
+                                                    @instrumento.Sigla.Descricao - @instrumento.Numero
+                                                </td>
                                                 <td>@instrumento.LocalDeUso</td>
                                                 <td>@instrumento.Equipamento</td>
                                                 @if (instrumento.Calibracao.Count > 0 && instrumento.Calibracao.LastOrDefault() != null && instrumento.Calibracao.LastOrDefault().DataProximaCalibracao != null)
