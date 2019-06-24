@@ -31,7 +31,7 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
 
-        public PlaiController(IPlaiAppServico plaiAppServico, 
+        public PlaiController(IPlaiAppServico plaiAppServico,
                               ILogAppServico logAppServico,
                               IPlaiProcessoNormaAppServico plaiProcessoNormaAppServico,
                               IPlaiGerentesAppServico plaiGerentesAppServico,
@@ -64,7 +64,9 @@ namespace Web.UI.Controllers
 
             ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
 
-            int ? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
+            int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
+
+            var plaiTest = plai.PlaiProcessoNorma.ToList();
 
             plai.PlaiProcessoNorma = plai.PlaiProcessoNorma.Where(x => x.IdNorma == IdPrimeiraNorma).ToList();
 
@@ -89,7 +91,7 @@ namespace Web.UI.Controllers
 
             ViewBag.IdSite = IdSite;
             ViewBag.IdPai = plai.IdPlai;
-            ViewBag.Mes = plai.Mes;            
+            ViewBag.Mes = plai.Mes;
 
             ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
 
@@ -104,7 +106,7 @@ namespace Web.UI.Controllers
             {
                 x.Usuario = _usuarioAppServico.GetById(x.IdUsuario);
             });
-                       
+
             var pdf = new ViewAsPdf
             {
                 ViewName = "PDF",
@@ -140,19 +142,22 @@ namespace Web.UI.Controllers
                 plaiAtual.IdElaborador = plai.IdElaborador;
                 plaiAtual.PlaiGerentes = plai.PlaiGerentes;
 
-
                 _plaiServico.Valido(plaiAtual, ref erros);
 
                 if (erros.Count > 0)
                 {
                     return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
                 }
-                
-                plai.PlaiProcessoNorma.ForEach(plaiProcessoNorma => {
 
-                    var plaiProcessoNormaAcao = _plaiProcessoNormaAppServico.Get(x=> x.IdPlai == plaiProcessoNorma.IdPlai && x.IdProcesso == plaiProcessoNorma.IdProcesso && x.IdNorma == plaiProcessoNorma.IdNorma).FirstOrDefault();
+                plai.PlaiProcessoNorma.ForEach(plaiProcessoNorma =>
+                {
+                    var norma = _normaAppServico.Get(x => x.IdNorma == plaiProcessoNorma.IdNorma).FirstOrDefault();
 
-                    if(plaiProcessoNormaAcao == null)
+                    plaiProcessoNorma.Ativo = norma.Ativo;
+
+                    var plaiProcessoNormaAcao = _plaiProcessoNormaAppServico.Get(x => x.IdPlai == plaiProcessoNorma.IdPlai && x.IdProcesso == plaiProcessoNorma.IdProcesso && x.IdNorma == plaiProcessoNorma.IdNorma).FirstOrDefault();
+
+                    if (plaiProcessoNormaAcao == null)
                     {
                         _plaiProcessoNormaAppServico.Add(plaiProcessoNorma);
                     }
@@ -164,39 +169,47 @@ namespace Web.UI.Controllers
                     }
                 });
 
+                var lstNorma = plai.PlaiProcessoNorma.Where(x => x.Ativo == false).ToList();
 
-                plai.PlaiProcessoNorma.Select(x=> x.IdProcesso).ToList().ForEach(IdProcesso =>
+                if (lstNorma.Count > 0)
                 {
-                    int[] novasNormas = plai.PlaiProcessoNorma.Where(x=> x.IdProcesso == IdProcesso).Select(x => x.IdNorma.Value).ToArray();
-                    int[] normasAtuais = plaiAtual.PlaiProcessoNorma.Where(x => x.IdProcesso == IdProcesso).Select(x => x.IdNorma.Value).ToArray();
-
-                    if (novasNormas != null)
+                    foreach (var itemnorma in lstNorma)
                     {
-                        foreach (int norma in normasAtuais)
-                        {
-                            if (!novasNormas.Contains(norma))
-                            {
-                                List<PlaiProcessoNorma> plaiProcessoNormas = _plaiProcessoNormaAppServico.Get(x => x.IdNorma == norma && x.IdPlai == plai.IdPlai && x.IdProcesso == IdProcesso).ToList();
-
-                                plaiProcessoNormas.ForEach(plaiProcessoNorma =>
-                                {
-                                    _plaiProcessoNormaAppServico.Remove(plaiProcessoNorma);
-                                });
-
-
-                            }
-                        }
+                        var norma = _normaAppServico.Get(x => x.IdNorma == itemnorma.IdNorma).FirstOrDefault();
+                        erros.Add(string.Format("A norma {0} está inativa e não pode ser utilizada na Plai", norma.Codigo));
                     }
+                    return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
+                }
 
+                plai.PlaiProcessoNorma.Select(x => x.IdProcesso).ToList().ForEach(IdProcesso =>
+                 {
 
-                });
+                     int[] novasNormas = plai.PlaiProcessoNorma.Where(x => x.IdProcesso == IdProcesso).Select(x => x.IdNorma.Value).ToArray();
+                     int[] normasAtuais = plaiAtual.PlaiProcessoNorma.Where(x => x.IdProcesso == IdProcesso).Select(x => x.IdNorma.Value).ToArray();
+
+                     if (novasNormas != null)
+                     {
+                         foreach (int norma in normasAtuais)
+                         {
+                             if (!novasNormas.Contains(norma))
+                             {
+                                 List<PlaiProcessoNorma> plaiProcessoNormas = _plaiProcessoNormaAppServico.Get(x => x.IdNorma == norma && x.IdPlai == plai.IdPlai && x.IdProcesso == IdProcesso).ToList();
+
+                                 plaiProcessoNormas.ForEach(plaiProcessoNorma =>
+                                 {
+                                     _plaiProcessoNormaAppServico.Remove(plaiProcessoNorma);
+                                 });
+                             }
+                         }
+                     }
+                 });
 
                 _plaiGerentesAppServico.Get(x => x.IdPlai == plaiAtual.IdPlai).ToList().ForEach(y =>
                 {
                     _plaiGerentesAppServico.Remove(y);
                 });
 
-           
+
 
                 plaiAtual.DataAlteracao = DateTime.Now;
                 _plaiAppServico.Atualizar(plaiAtual);
@@ -210,7 +223,8 @@ namespace Web.UI.Controllers
             }
 
             return Json(
-                new {
+                new
+                {
                     StatusCode = (int)HttpStatusCode.OK,
                     Success = Traducao.Auditoria.ResourceAuditoria.RegistroSalvoComSucesso
                 }, JsonRequestBehavior.AllowGet);

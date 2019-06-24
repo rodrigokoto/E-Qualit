@@ -97,7 +97,7 @@ APP.controller.NormaController = {
             var html = '';
             html += '<!-- Norma -->';
             html += '<tr role="row">';
-            html += '<td>';
+            html += '<td class="hidden">';
             html += '<div class="form-group">';
             html += '<input type="text" class="form-control" id="form-norma-item" name="formNormaItem" placeholder= '+ _options.Item +' data-msg-required="" value="-" disabled/>';
             html += '</div>';
@@ -346,6 +346,8 @@ APP.controller.NormaController = {
                 } else if (result.StatusCode == 500) {
                     erro = APP.component.ResultErros.init(result.Erro);
                     bootbox.alert(erro);
+                } else if (result.StatusCode == 499) {
+                    bootbox.alert(result.Cancelled)
                 }
             },
             error: function (result) {
