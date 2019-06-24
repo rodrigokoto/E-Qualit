@@ -1066,7 +1066,10 @@ APP.component.GestaoDeRiscoPartial = {
 
         this.setCriticidade();
         this.setERisco();
-        this.getERisco();
+		this.getERisco();
+
+		this.setInformarRisco();
+		this.getInformarRisco();
 
    
 
@@ -1091,7 +1094,8 @@ APP.component.GestaoDeRiscoPartial = {
             },
             success: function (result) {
                 _divGestaoDeRisco.html(result);
-                _divGestaoDeRisco.find('[name=formGestaoDeRiscoRisco]').attr('name', 'formGestaoDeRiscoRisco-' + _temaSelected);
+				_divGestaoDeRisco.find('[name=formGestaoDeRiscoRisco]').attr('name', 'formGestaoDeRiscoRisco-' + _temaSelected);
+				_divGestaoDeRisco.find('[name=formInformarGestaoDeRiscoRisco]').attr('name', 'formInformarGestaoDeRiscoRisco-' + _temaSelected);
                 APP.component.GestaoDeRiscoPartial.setHideAndShowGestaodeRisco(_divGestaoDeRisco);
             },
             error: function (result) {
@@ -1154,7 +1158,30 @@ APP.component.GestaoDeRiscoPartial = {
 
         });
 
-    },
+	},
+
+
+	setInformarRisco: function () {
+
+		$('[name^=formInformarGestaoDeRiscoRisco]').unbind('change');
+		$('[name^=formInformarGestaoDeRiscoRisco]').on('change', function () {
+			
+			var ERisco = APP.component.GestaoDeRiscoPartial.getInformarRisco(this);
+			APP.component.GestaoDeRiscoPartial.setRulesInformarRisco(ERisco, this);
+
+		});
+
+	},
+
+
+
+	//Auxiliares
+	getInformarRisco: function (_this) {
+
+		var ERisco = $(_this).val();
+		return ERisco;
+
+	},
 
     setERisco: function () {
 
@@ -1168,7 +1195,29 @@ APP.component.GestaoDeRiscoPartial = {
 
     },
 
+	setRulesInformarRisco: function (_ERisco, _this) {
+		
+		if (_ERisco == "true") {
+			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').show();
+			//$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').show();
+			//$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').show();
+			//$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').prop('disabled', true);
+			//$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoIdentificacao]').closest('[class^=col]').show();
+			//$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').show();
+			//$(_this).parent().parent().parent().parent().parent().find('.numeroGestaoRisco').show();
+			//$(_this).parent().parent().parent().parent().parent().find('.JustificativaGestaoDeRisco').hide();
+			APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(_this);
+		} else {
 
+			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').hide();
+			//$(_this).parent().parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
+			//$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').hide();
+			//$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').hide();
+			//$(_this).parent().parent().parent().parent().parent().find('.JustificativaGestaoDeRisco').show();
+
+		}
+
+	},
 
     //Auxiliares
     getERisco: function (_this) {
@@ -1180,7 +1229,7 @@ APP.component.GestaoDeRiscoPartial = {
 
     //Rules
     setRulesERisco: function (_ERisco, _this) {
-
+		
         if (_ERisco == "true") {
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').show();
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').show();
@@ -1221,7 +1270,8 @@ APP.component.GestaoDeRiscoPartial = {
     getRadioPossuiGestaoDeRisco: function () {
 
         $('[name^=formGestaoDeRiscoRisco]').unbind('change');
-        $('[name^=formGestaoDeRiscoRisco]').bind('change', function () {
+		$('[name^=formGestaoDeRiscoRisco]').bind('change', function () {
+			
             var radioPossuiGestaoDeRisco = APP.component.Radio.init('formGestaoDeRiscoRisco');
             if (radioPossuiGestaoDeRisco == "true") {
                 $(this).closest('#gestaoDeRisco').find('[name=InformacoesGestaoDeRisco]').show();

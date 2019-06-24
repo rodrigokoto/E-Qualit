@@ -122,7 +122,7 @@ APP.component.GestaoDeRiscoPartial = {
             
             $('[name^=formGestaoDeRiscoRisco]').unbind('change');
             $('[name^=formGestaoDeRiscoRisco]').on('change', function (){
-                
+				
                 var ERisco = APP.component.GestaoDeRiscoPartial.getERisco(this);
                 APP.component.GestaoDeRiscoPartial.setRulesERisco(ERisco, this);
     
@@ -179,7 +179,8 @@ APP.component.GestaoDeRiscoPartial = {
         getRadioPossuiGestaoDeRisco : function () {
             
             $('[name^=formGestaoDeRiscoRisco]').unbind('change');
-            $('[name^=formGestaoDeRiscoRisco]').bind('change', function () {
+			$('[name^=formGestaoDeRiscoRisco]').bind('change', function () {
+				
                 var radioPossuiGestaoDeRisco = APP.component.Radio.init('formGestaoDeRiscoRisco');
                 if (radioPossuiGestaoDeRisco == "true") {
                     $(this).closest('#gestaoDeRisco').find('[name=InformacoesGestaoDeRisco]').show();

@@ -23141,7 +23141,7 @@ APP.component.GestaoDeRiscoPartial = {
     },
 
     setHideAndShowGestaodeRisco: function (_divGestaoDeRisco) {
-
+	
         //_divGestaoDeRisco.find('[name^=formGestaoDeRiscoRisco]').closest('[class^=col]').hide();
         //_divGestaoDeRisco.find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
         //_divGestaoDeRisco.find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').hide();

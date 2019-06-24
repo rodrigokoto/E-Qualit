@@ -1782,6 +1782,7 @@
     <Content Include="Views\NaoConformidade\Grafico.cshtml" />
     <Content Include="Views\Shared\_BlankLayout.cshtml" />
     <Content Include="Views\AcaoCorretiva\Visualizacao.cshtml" />
+    <Content Include="Views\Shared\GestaoDeRiscoAnaliseCritica.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

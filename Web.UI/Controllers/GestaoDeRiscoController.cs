@@ -978,7 +978,7 @@ namespace Web.UI.Controllers
             try
             {
 
-                return PartialView("GestaoDeRisco", analiseCriticaTema);
+                return PartialView("GestaoDeRiscoAnaliseCritica", analiseCriticaTema);
 
             }
             catch (Exception)
@@ -989,7 +989,27 @@ namespace Web.UI.Controllers
             return null;
         }
 
-        public ActionResult Imprimir(int id)
+		public ActionResult ObterPartialGestaoDeRiscoAnaliseCritica(int? idRegistro)
+		{
+			var erros = new List<string>();
+			var analiseCriticaTema = new AnaliseCriticaTema();
+
+			try
+			{
+
+				return PartialView("GestaoDeRisco", analiseCriticaTema);
+
+			}
+			catch (Exception)
+			{
+
+				return Json(new { StatusCode = (int)HttpStatusCode.BadRequest, Erros = erros }, JsonRequestBehavior.AllowGet);
+			}
+			return null;
+		}
+
+
+		public ActionResult Imprimir(int id)
         {
             var analiseCritica = _registroConformidadesAppServico.GetById(id);
 

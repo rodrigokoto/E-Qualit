@@ -118,7 +118,7 @@ namespace Web.UI.Controllers
 
             analiseCritica.Temas.ForEach(tema =>
             {
-                if (tema.PossuiGestaoRisco)
+                if (tema.PossuiGestaoRisco && tema.PossuiInformarGestaoRisco)
                 {
                     tema.AnaliseCritica = new AnaliseCritica();
                     tema.GestaoDeRisco.Emissor = new Usuario();
@@ -271,23 +271,31 @@ namespace Web.UI.Controllers
         {
             foreach (var tema in temas)
             {
-                tema.GestaoDeRisco.IdEmissor = IdResponsavelPorCriacaoDaNova;
-                //tema.GestaoDeRisco.IdProcesso = Util.ObterProcessoSelecionado();
-                tema.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
-                tema.GestaoDeRisco.StatusEtapa = tema.PossuiGestaoRisco == true ? (byte)EtapasRegistroConformidade.AcaoImediata : (byte)EtapasRegistroConformidade.Encerrada;
-                tema.GestaoDeRisco.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
-                tema.GestaoDeRisco.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
-                if (tema.PossuiGestaoRisco == true)
-                {
-                    tema.GestaoDeRisco.IdResponsavelEtapa = tema.GestaoDeRisco.IdResponsavelInicarAcaoImediata.Value;
-                }
 
-                tema.GestaoDeRisco.TipoRegistro = "gr";
-                tema.GestaoDeRisco.FlDesbloqueado = tema.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
-                tema.GestaoDeRisco.EProcedente = tema.PossuiGestaoRisco;
+				if (tema.PossuiInformarGestaoRisco == true)
+				{
+					tema.GestaoDeRisco.IdEmissor = IdResponsavelPorCriacaoDaNova;
+					//tema.GestaoDeRisco.IdProcesso = Util.ObterProcessoSelecionado();
+					tema.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
+					tema.GestaoDeRisco.StatusEtapa = tema.PossuiGestaoRisco == true ? (byte)EtapasRegistroConformidade.AcaoImediata : (byte)EtapasRegistroConformidade.Encerrada;
+					tema.GestaoDeRisco.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
+					tema.GestaoDeRisco.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
+					if (tema.PossuiGestaoRisco == true)
+					{
+						tema.GestaoDeRisco.IdResponsavelEtapa = tema.GestaoDeRisco.IdResponsavelInicarAcaoImediata.Value;
+					}
+
+					tema.GestaoDeRisco.TipoRegistro = "gr";
+					tema.GestaoDeRisco.FlDesbloqueado = tema.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
+					tema.GestaoDeRisco.EProcedente = tema.PossuiGestaoRisco;
+					tema.GestaoDeRisco.IdProcesso = tema.IdProcesso;
 
 
-                _registroConformidadeAppServico.GestaoDeRiscoValida(tema.GestaoDeRisco, ref erros);
+					_registroConformidadeAppServico.GestaoDeRiscoValida(tema.GestaoDeRisco, ref erros);
+				}
+				else {
+					tema.GestaoDeRisco = null;
+				}
             }
         }
 
