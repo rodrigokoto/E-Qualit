@@ -118,7 +118,7 @@ namespace Web.UI.Controllers
 
             analiseCritica.Temas.ForEach(tema =>
             {
-                if (tema.PossuiGestaoRisco && tema.PossuiInformarGestaoRisco)
+                if (tema.PossuiGestaoRisco || tema.PossuiInformarGestaoRisco)
                 {
                     tema.AnaliseCritica = new AnaliseCritica();
                     tema.GestaoDeRisco.Emissor = new Usuario();
@@ -289,6 +289,7 @@ namespace Web.UI.Controllers
 					tema.GestaoDeRisco.FlDesbloqueado = tema.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
 					tema.GestaoDeRisco.EProcedente = tema.PossuiGestaoRisco;
 					tema.GestaoDeRisco.IdProcesso = tema.IdProcesso;
+					//tema.GestaoDeRisco.IdProcesso = tema.Processo.IdProcesso;
 
 
 					_registroConformidadeAppServico.GestaoDeRiscoValida(tema.GestaoDeRisco, ref erros);

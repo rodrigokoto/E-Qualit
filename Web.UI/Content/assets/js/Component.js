@@ -1101,7 +1101,7 @@ APP.component.GestaoDeRiscoPartial = {
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },
-            success: function (result) {
+			success: function (result) {
                 _divGestaoDeRisco.html(result);
 				_divGestaoDeRisco.find('[name=formGestaoDeRiscoRisco]').attr('name', 'formGestaoDeRiscoRisco-' + _temaSelected);
 				_divGestaoDeRisco.find('[name=formInformarGestaoDeRiscoRisco]').attr('name', 'formInformarGestaoDeRiscoRisco-' + _temaSelected);
@@ -1205,7 +1205,7 @@ APP.component.GestaoDeRiscoPartial = {
     },
 
 	setRulesInformarRisco: function (_ERisco, _this) {
-		
+		debugger;
 		if (_ERisco == "true") {
 			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').show();
 			//$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').show();
@@ -1238,7 +1238,7 @@ APP.component.GestaoDeRiscoPartial = {
 
     //Rules
     setRulesERisco: function (_ERisco, _this) {
-		
+		debugger;
         if (_ERisco == "true") {
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').show();
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').show();

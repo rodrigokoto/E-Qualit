@@ -104,9 +104,9 @@
 						@(Model.GestaoDeRisco != null ? "disabled" : null)>
 					<option value="">@Traducao.Resource.Dropdown_name_select</option>
 
-					@if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
+					@if (Model.GestaoDeRisco != null)
 					{
-						<option value="@Model.GestaoDeRisco.IdProcesso" selected>@Model.GestaoDeRisco.Processo.Nome</option>
+						<option value="@Model.GestaoDeRisco.IdProcesso" selected>@Model.GestaoDeRisco.IdProcesso</option>
 					}
 				</select>
 			</div>

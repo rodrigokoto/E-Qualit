@@ -57,17 +57,29 @@ APP.controller.AnaliseCriticaController = {
 		this.eventoImprimir();
 
 		this.formCriarAnaliseCritica();
-
 		if ($('[name=IdAnaliseCritica]').val() > 0) {
 			APP.controller.AnaliseCriticaController.getTemasDescricao();
 			APP.controller.AnaliseCriticaController.getTemasCores();
 
-
-
-
 			APP.controller.AnaliseCriticaController.getTemasPossuiGestaoDeRisco();
 			APP.controller.AnaliseCriticaController.setPossuiGestaoDeRisco();
+
+			$('[name^=formGestaoDeRiscoRisco]:checked').each(function () {
+				var teste = this.name;
+				APP.controller.AnaliseCriticaController.getPossuiGestaoDeRiscoInformar(this);
+			});
+			
+			APP.controller.AnaliseCriticaController.setPossuiGestaoDeRiscoInformar();
+			
+
+
+
+
+
+
 			APP.controller.AnaliseCriticaController.setHidePossuiGestaoDeRisco();
+			APP.controller.AnaliseCriticaController.setHidePossuiGestaoDeRiscoInformar();
+			
 			APP.controller.AnaliseCriticaController.bindTemas();
 		}
 		else {
@@ -654,18 +666,18 @@ APP.controller.AnaliseCriticaController = {
 	},
 
 	getTemasPossuiGestaoDeRiscoInformar: function () {
-		$('[name=formGestaoDeRiscoDescricao]').each(function (index, element) {
-			var divContext = $(element).closest('[name=GestaoDeRisco]');
-			var temGestaoDeRisco = divContext.find('[name=formGestaoDeRiscoRisco]').val();
-			divContext.find('[name=formGestaoDeRiscoResponsavelDefinicao][value=' + temGestaoDeRisco + ']').prop('checked', temGestaoDeRisco);
-		});
-	},
+		//$('[name=formGestaoDeRiscoDescricao]').each(function (index, element) {
+		//	var divContext = $(element).closest('[name=GestaoDeRisco]');
+		//	var temGestaoDeRisco = divContext.find('[name=formGestaoDeRiscoDescricao]').val();
+		//	divContext.find('[name=formInformarGestaoDeRiscoRisco][value=' + temGestaoDeRisco + ']').prop('checked', temGestaoDeRisco);
+		//});
+	}, 
 
 
 	setPossuiGestaoDeRisco: function () {
 		$('.formGestaoDeRiscoRisco').change(function () {
 			
-			var possuiGestaoDeRisco = APP.controller.AnaliseCriticaController.getPossuiGestaoDeRisco();
+			var possuiGestaoDeRisco = APP.controller.AnaliseCriticaController.getPossuiGestaoDeRisco(this);
 			APP.controller.AnaliseCriticaController.setRulesPossuiGestaoDeRisco(possuiGestaoDeRisco, this);
 
 		});
@@ -674,26 +686,26 @@ APP.controller.AnaliseCriticaController = {
 
 	setPossuiGestaoDeRiscoInformar: function () {
 		
-		$('.formGestaoDeRiscoRisco').change(function () {
+		$('.formInformarGestaoDeRiscoRisco').change(function () {
 			
-			var possuiGestaoDeRisco = APP.controller.AnaliseCriticaController.getPossuiGestaoDeRisco();
-			APP.controller.AnaliseCriticaController.setRulesPossuiGestaoDeRisco(possuiGestaoDeRisco, this);
+			var possuiGestaoDeRisco = APP.controller.AnaliseCriticaController.getPossuiGestaoDeRiscoInformar(this);
+			APP.controller.AnaliseCriticaController.setRulesPossuiGestaoDeRiscoInformar(possuiGestaoDeRisco, this);
 
 		});
 
 	},
 
-	getPossuiGestaoDeRisco: function () {
+	getPossuiGestaoDeRisco: function (_this) {
 		
-		var possuiGestaoDeRisco = APP.component.Radio.init('formGestaoDeRiscoRisco');
+		var possuiGestaoDeRisco = APP.component.Radio.init(_this.name);
 		return possuiGestaoDeRisco;
 
 	},
 
 
-	getPossuiGestaoDeRiscoInformar: function () {
-		
-		var possuiGestaoDeRisco = APP.component.Radio.init('formGestaoDeRiscoRisco');
+	getPossuiGestaoDeRiscoInformar: function (_this) {
+		debugger;
+		var possuiGestaoDeRisco = APP.component.Radio.init(_this.name);
 		return possuiGestaoDeRisco;
 
 	},
@@ -701,25 +713,82 @@ APP.controller.AnaliseCriticaController = {
 	setRulesPossuiGestaoDeRisco: function (_possuiGestaoDeRisco, _this) {
 		
 		if (_possuiGestaoDeRisco == "true") {
-			$(_this).find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").show();
-			$(_this).find('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").show();
-			$(_this).find('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").show();
-			$(_this).find('.JustificativaGestaoDeRisco').hide();
-			$(_this).find('[name=formGestaoDeRiscoCausa]').closest("[class^=col]").show();
+			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").show();
+			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").show();
+			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").show();
+			$(_this).parent().parent().parent().parent().parent().find('.JustificativaGestaoDeRisco').hide();
+			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoCausa]').closest("[class^=col]").show();
 
 		} else {
-			$(_this).find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").hide();
-			$(_this).find('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").hide();
-			$(_this).find('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").hide();
-			$(_this).find('.JustificativaGestaoDeRisco').show();
-			$(_this).find('[name=formGestaoDeRiscoCausa]').closest("[class^=col]").hide();
+			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").hide();
+			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").hide();
+			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").hide();
+			$(_this).parent().parent().parent().parent().parent().find('.JustificativaGestaoDeRisco').show();
+			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoCausa]').closest("[class^=col]").hide();
+		}
+
+	},
+
+	setRulesPossuiGestaoDeRiscoInformar: function (_possuiGestaoDeRisco, _this) {
+
+		if (_possuiGestaoDeRisco == "true") {
+			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').show();
+			//$(_this).parent().parent().parent().
+			//$(_this).find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").show();
+			//$(_this).find('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").show();
+			//$(_this).find('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").show();
+			//$(_this).find('.JustificativaGestaoDeRisco').hide();
+			//$(_this).find('[name=formGestaoDeRiscoCausa]').closest("[class^=col]").show();
+
+		} else {
+			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').hide();
+			//$(_this).find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").hide();
+			//$(_this).find('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").hide();
+			//$(_this).find('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").hide();
+			//$(_this).find('.JustificativaGestaoDeRisco').show();
+			//$(_this).find('[name=formGestaoDeRiscoCausa]').closest("[class^=col]").hide();
 		}
 
 	},
 
 	setHidePossuiGestaoDeRisco: function () {
+		debugger;
+		
+
+		$('[name^=formGestaoDeRiscoRisco]:checked').each(function () {
+			var teste = this.name;
+			$('[name='+ teste + ']').trigger('change');
+			//var isVisible = $(this).is(':visible');
+			//if (isVisible) {
+			//	var validate = $(this).closest('form').valid();
+			//	if (validate != true) {
+			//		valid = false;
+			//	}
+
+			//}
+		});
 
 		//$('[name^=formGestaoDeRiscoRisco]').trigger('change');
+
+	},
+
+	setHidePossuiGestaoDeRiscoInformar: function () {
+
+		$('[name^=formInformarGestaoDeRiscoRisco]:checked').each(function () {
+			var teste = this.name;
+			$('[name=' + teste + ']').trigger('change');
+			//var isVisible = $(this).is(':visible');
+			//if (isVisible) {
+			//	var validate = $(this).closest('form').valid();
+			//	if (validate != true) {
+			//		valid = false;
+			//	}
+
+			//}
+		});
+
+
+		//$('[name^=formInformarGestaoDeRiscoRisco]').trigger('change');
 
 	},
 
