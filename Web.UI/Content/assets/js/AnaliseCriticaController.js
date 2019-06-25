@@ -68,9 +68,9 @@ APP.controller.AnaliseCriticaController = {
 				var teste = this.name;
 				APP.controller.AnaliseCriticaController.getPossuiGestaoDeRiscoInformar(this);
 			});
-			
+
 			APP.controller.AnaliseCriticaController.setPossuiGestaoDeRiscoInformar();
-			
+
 
 
 
@@ -79,7 +79,7 @@ APP.controller.AnaliseCriticaController = {
 
 			APP.controller.AnaliseCriticaController.setHidePossuiGestaoDeRisco();
 			APP.controller.AnaliseCriticaController.setHidePossuiGestaoDeRiscoInformar();
-			
+
 			APP.controller.AnaliseCriticaController.bindTemas();
 		}
 		else {
@@ -353,13 +353,22 @@ APP.controller.AnaliseCriticaController = {
 				$("#panel-lista-temas").append(tema);
 				$("[name=formCriarAnaliseCriticaTema] option:selected").remove();
 
+				//$(divGestaoDeRisco).find('[name=form-Informargestao-de-risco-risco-nao' + temaSelected + ']').prop('checked', true);
+
+
 				var divGestaoDeRisco = $('.gestaoDeRiscoPartial-' + temaSelected);
 				APP.component.GestaoDeRiscoPartial.init(divGestaoDeRisco, temaSelected);
 
+				
+				
 				APP.controller.AnaliseCriticaController.delTemaCombobox();
 				APP.controller.AnaliseCriticaController.bindTemas();
 
-			}
+				$(divGestaoDeRisco).find('[id^=form-Informargestao-de-risco-risco-nao]').prop('checked', true);
+				$(divGestaoDeRisco).find('[id^=form-Informargestao-de-risco-risco-nao]').trigger("change");
+				//$(divGestaoDeRisco).find('[id=form-Informargestao-de-risco-risco-nao' + temaSelected + ']').trigger("click");
+				
+			} 
 		});
 
 	},
@@ -671,12 +680,12 @@ APP.controller.AnaliseCriticaController = {
 		//	var temGestaoDeRisco = divContext.find('[name=formGestaoDeRiscoDescricao]').val();
 		//	divContext.find('[name=formInformarGestaoDeRiscoRisco][value=' + temGestaoDeRisco + ']').prop('checked', temGestaoDeRisco);
 		//});
-	}, 
+	},
 
 
 	setPossuiGestaoDeRisco: function () {
 		$('.formGestaoDeRiscoRisco').change(function () {
-			
+
 			var possuiGestaoDeRisco = APP.controller.AnaliseCriticaController.getPossuiGestaoDeRisco(this);
 			APP.controller.AnaliseCriticaController.setRulesPossuiGestaoDeRisco(possuiGestaoDeRisco, this);
 
@@ -685,9 +694,9 @@ APP.controller.AnaliseCriticaController = {
 	},
 
 	setPossuiGestaoDeRiscoInformar: function () {
-		
+
 		$('.formInformarGestaoDeRiscoRisco').change(function () {
-			
+
 			var possuiGestaoDeRisco = APP.controller.AnaliseCriticaController.getPossuiGestaoDeRiscoInformar(this);
 			APP.controller.AnaliseCriticaController.setRulesPossuiGestaoDeRiscoInformar(possuiGestaoDeRisco, this);
 
@@ -696,7 +705,7 @@ APP.controller.AnaliseCriticaController = {
 	},
 
 	getPossuiGestaoDeRisco: function (_this) {
-		
+
 		var possuiGestaoDeRisco = APP.component.Radio.init(_this.name);
 		return possuiGestaoDeRisco;
 
@@ -711,7 +720,7 @@ APP.controller.AnaliseCriticaController = {
 	},
 
 	setRulesPossuiGestaoDeRisco: function (_possuiGestaoDeRisco, _this) {
-		
+
 		if (_possuiGestaoDeRisco == "true") {
 			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").show();
 			$(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").show();
@@ -753,11 +762,11 @@ APP.controller.AnaliseCriticaController = {
 
 	setHidePossuiGestaoDeRisco: function () {
 		debugger;
-		
+
 
 		$('[name^=formGestaoDeRiscoRisco]:checked').each(function () {
 			var teste = this.name;
-			$('[name='+ teste + ']').trigger('change');
+			$('[name=' + teste + ']').trigger('change');
 			//var isVisible = $(this).is(':visible');
 			//if (isVisible) {
 			//	var validate = $(this).closest('form').valid();
@@ -828,7 +837,7 @@ APP.controller.AnaliseCriticaController = {
 	},
 
 	getCriarAnaliseCriticaObj: function () {
-		
+
 		var analiseCriticaObj = {};
 
 		$('[id^=panel-form]').each(function () {
@@ -889,7 +898,10 @@ APP.controller.AnaliseCriticaController = {
 								bootbox.alert("Obrigatória escolher um processo");
 								valida = false;
 							}
-
+							else if ((analiseCriticaObj.Temas[0].CorRisco == null || analiseCriticaObj.Temas[0].CorRisco == "" || analiseCriticaObj.Temas[0].CorRisco <= 1) && analiseCriticaObj.Temas[0].PossuiInformarGestaoRisco == "true") {
+								bootbox.alert("Obrigatória classificar o risco");
+								valida = false;
+							}
 
 
 							else if ((analiseCriticaObj.Temas[0].GestaoDeRisco.IdResponsavelInicarAcaoImediata == null || analiseCriticaObj.Temas[0].GestaoDeRisco.IdResponsavelInicarAcaoImediata == "") && analiseCriticaObj.Temas[0].PossuiGestaoRisco == "true" && analiseCriticaObj.Temas[0].PossuiInformarGestaoRisco == "true") {

@@ -36,14 +36,14 @@
 							<input type="radio" class="formInformarGestaoDeRiscoRisco" id="form-informar-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formInformarGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
 								   @*[now]*@
 								   @(Model.PossuiInformarGestaoRisco == true && Model.IdTema != 0 ? "checked" : null)
-								   value="true">
+								   value="true" @(Model.GestaoDeRisco != null ? "disabled" : null)>
 							@Traducao.Shared.ResourceLabel.Label_radio_Sim
 						</label>
 						<label for="form-informar-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
 							<input type="radio" class="formInformarGestaoDeRiscoRisco" id="form-Informargestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formInformarGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
 								   @*[now]*@
 								   @(Model.PossuiInformarGestaoRisco == false && Model.IdTema != 0 ? "checked" : null)
-								   value="false">
+								   value="false" @(Model.GestaoDeRisco != null ? "disabled" : null)>
 							@Traducao.Shared.ResourceLabel.Label_radio_Nao
 						</label>
 					</div>
@@ -126,13 +126,13 @@
 							<label for="form-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
 								<input type="radio" class="formGestaoDeRiscoRisco" id="form-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
 									   @(Model.PossuiGestaoRisco == true && Model.IdTema != 0 ? "checked" : null)
-									   value="true">
+									   value="true" @(Model.GestaoDeRisco != null ? "disabled" : null)>
 								@Traducao.Shared.ResourceLabel.Label_radio_Sim
 							</label>
 							<label for="form-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
 								<input type="radio" class="formGestaoDeRiscoRisco" id="form-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
 									   @(Model.PossuiGestaoRisco == false && Model.IdTema != 0 ? "checked" : null)
-									   value="false">
+									   value="false" @(Model.GestaoDeRisco != null ? "disabled" : null)>
 								@Traducao.Shared.ResourceLabel.Label_radio_Nao
 							</label>
 						</div>
