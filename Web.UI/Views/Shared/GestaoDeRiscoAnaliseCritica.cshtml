@@ -132,7 +132,7 @@
 							<label for="form-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
 								<input type="radio" class="formGestaoDeRiscoRisco" id="form-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
 									   @(Model.PossuiGestaoRisco == false && Model.IdTema != 0 ? "checked" : null)
-									   value="false" @(Model.GestaoDeRisco != null ? "disabled" : null)>
+									   value="false">
 								@Traducao.Shared.ResourceLabel.Label_radio_Nao
 							</label>
 						</div>

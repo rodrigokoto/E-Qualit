@@ -713,7 +713,6 @@ APP.controller.AnaliseCriticaController = {
 
 
 	getPossuiGestaoDeRiscoInformar: function (_this) {
-		debugger;
 		var possuiGestaoDeRisco = APP.component.Radio.init(_this.name);
 		return possuiGestaoDeRisco;
 
@@ -761,7 +760,6 @@ APP.controller.AnaliseCriticaController = {
 	},
 
 	setHidePossuiGestaoDeRisco: function () {
-		debugger;
 
 
 		$('[name^=formGestaoDeRiscoRisco]:checked').each(function () {
