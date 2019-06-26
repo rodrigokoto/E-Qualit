@@ -74,6 +74,7 @@
     <Compile Include="Interface\IAnaliseCriticaAppServico.cs" />
     <Compile Include="Interface\IAnaliseCriticaTemaAppServico.cs" />
     <Compile Include="Interface\IAnexoAppServico.cs" />
+    <Compile Include="Interface\IArquivoPlaiAnexoAppServico.cs" />
     <Compile Include="Interface\IArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
     <Compile Include="Interface\IArquivoCertificadoAnexoAppServico.cs" />
     <Compile Include="Interface\IAvaliacaoCriticidadeAppServico.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Servico\AnaliseCriticaAppServico.cs" />
     <Compile Include="Servico\AnaliseCriticaTemaAppServico.cs" />
     <Compile Include="Servico\AnexoAppServico.cs" />
+    <Compile Include="Servico\ArquivoPlaiAnexoAppServico.cs" />
     <Compile Include="Servico\ArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
     <Compile Include="Servico\ArquivoCertificadoAnexoAppServico.cs" />
     <Compile Include="Servico\AvaliacaoCriticidadeAppServico.cs" />

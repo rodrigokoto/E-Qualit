@@ -106,8 +106,8 @@ namespace Web.UI.Controllers
                 foreach (var pai in pais)
                 {
                     pai.IdSite = Util.ObterSiteSelecionado();
-                    
-                    if(pai.IdPai == 0)
+
+                    if (pai.IdPai == 0)
                     {
                         pai.IdSite = Util.ObterSiteSelecionado();
                         pai.DataCadastro = DateTime.Now;
@@ -124,12 +124,10 @@ namespace Web.UI.Controllers
                     {
 
                         Plai plai = _plaiAppServico.Get(x => x.Mes == plaiNovo.Mes && x.IdPai == pai.IdPai).FirstOrDefault();
-                        
-                        
+
+
                         if (plai != null)
                         {
-                            plai.Arquivo = plaiNovo.Arquivo;
-
                             int[] processosPlaiAtual = plai.PlaiProcessoNorma.Select(x => x.IdProcesso).ToArray();
                             int[] processosPlaiNovo = plaiNovo.PlaiProcessoNorma != null ? plaiNovo.PlaiProcessoNorma.Select(x => RetornaProcessoPorNome(x.NomeProcesso.Trim())).ToArray() : null;
 
@@ -171,7 +169,7 @@ namespace Web.UI.Controllers
                             {
                                 foreach (int processo in processosPlaiAtual)
                                 {
-                                    
+
                                     List<PlaiProcessoNorma> plaiProcessoNormas = _plaiProcessoNormaAppServico.Get(x => x.IdProcesso == processo && x.IdPlai == plai.IdPlai && plai.Pai.Ano == pai.Ano).ToList();
 
                                     plaiProcessoNormas.ForEach(plaiProcessoNorma =>
@@ -216,36 +214,7 @@ namespace Web.UI.Controllers
 
                         }
 
-                        if (plai.Arquivo != null && !string.IsNullOrEmpty(plai.Arquivo.Extensao) && !string.IsNullOrEmpty(plai.Arquivo.ArquivoB64))
-                        {
-                            Anexo anexoAtual = _AnexoAppServico.GetById(plai.Arquivo.IdAnexo);
-
-                            if (anexoAtual != null)
-                            {
-                                if (anexoAtual.Nome != plai.Arquivo.Extensao)
-                                {
-                                    anexoAtual.ArquivoB64 = plai.Arquivo.ArquivoB64;
-                                    anexoAtual.Extensao = plai.Arquivo.Extensao;
-                                    plai.Arquivo = anexoAtual;
-                                    plai.Arquivo.Tratar();
-                                }
-                                else
-                                {
-                                    plai.Arquivo = null;
-                                }
-                            }
-                            else
-                            {
-                                plai.Arquivo.Tratar();
-                            }
-
-                            
-                        }
-                        else
-                        {
-                            plai.Arquivo = null;
-                        }
-
+                        TratarAnexos(plaiNovo, plai);
 
                         if (plai.IdPlai == 0)
                         {
@@ -255,10 +224,6 @@ namespace Web.UI.Controllers
                         {
                             _plaiAppServico.Update(plai);
                         }
-
-                        
-
-
                     });
                 }
 
@@ -277,6 +242,41 @@ namespace Web.UI.Controllers
                     Success = Traducao.Auditoria.ResourceAuditoria.RegistroSalvoComSucesso
                 }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        private void TratarAnexos(Plai plaiNovo, Plai plaiAtual)
+        {
+            if (plaiNovo.ArquivoPlai == null)
+                return;
+            foreach (var esteArquivo in plaiNovo.ArquivoPlai)
+            {
+                if (esteArquivo.ApagarAnexo == 1)
+                {
+                    //apagamos deirtamente do anexo
+                    //ninguem mais pode estar usando esse anexo
+                    _AnexoAppServico.Remove(_AnexoAppServico.GetById(esteArquivo.IdAnexo));
+                    continue;
+                }
+
+                if (esteArquivo == null)
+                    continue;
+                if (esteArquivo.Anexo == null)
+                    continue;
+                if (string.IsNullOrEmpty(esteArquivo.Anexo.Extensao))
+                    continue;
+                if (string.IsNullOrEmpty(esteArquivo.Anexo.ArquivoB64))
+                    continue;
+
+                Anexo anexoAtual = _AnexoAppServico.GetById(esteArquivo.IdAnexo);
+                if (anexoAtual == null)
+                {
+                    esteArquivo.Anexo.Tratar();
+                    plaiAtual.ArquivoPlai.Add(esteArquivo);
+                    continue;
+                }
+
+                //atualização, não pode tter atualização! se trocar, o usuário paga um e insere o outro!
+            }
         }
 
 

@@ -19195,13 +19195,11 @@ html
 
     float: right;
 }
-.button-pai-anexo button
-{
-    width: 100% !important;
-
-    -webkit-border-radius: 10px 0 10px 0 !important;
-            border-radius: 10px 0 10px 0 !important;
-}
+    .button-pai-anexo button {
+        /* width: 100% !important; */
+        -webkit-border-radius: 10px 0 10px 0 !important;
+        border-radius: 10px 0 10px 0 !important;
+    }
 .button-pai-anexo button .upload-arq
 {
     padding: 0;
@@ -23122,6 +23120,10 @@ input:required:valid
     border: 1px solid #ccc !important;
     -webkit-border-radius: 4px !important;
             border-radius: 4px !important;
+}
+
+.upload-arq-rai {
+    border: none !important;
 }
 
 .box-upload-arq
