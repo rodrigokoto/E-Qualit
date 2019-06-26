@@ -1034,7 +1034,7 @@ APP.component.FileUpload = {
                         NomeAnexo2.text(name);
                         ConteudoAnexo.data('b64', '' + base64[1] + '');
 
-                        copia.insertBefore(topoUpload);
+                        copia.insertAfter(topoUpload);
 
                         APP.component.FileUpload.bind();
 

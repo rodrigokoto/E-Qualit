@@ -80,6 +80,7 @@ namespace DAL.Context
         public DbSet<ArquivosEvidenciaCriterioQualificacao> ArquivosEvidenciaCriterioQualificacao { get; set; }
         public DbSet<ArquivoDeEvidenciaAcaoImediata> ArquivoDeEvidenciaAcaoImediata { get; set; }
         public DbSet<ArquivoCertificadoAnexo> ArquivoCertificadoAnexo { get; set; }
+        public DbSet<ArquivoPlaiAnexo> ArquivoPlaiAnexo { get; set; }
         //public DbSet<DocLicenca> DocLicenca { get; set; }
         public DbSet<ComentarioAcaoImediata> ComentarioAcaoImediata { get; set; }
         public DbSet<Licenca> Licenca { get; set; }
@@ -200,6 +201,7 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new ArquivosEvidenciaCriterioQualificacaoMap());
             modelBuilder.Configurations.Add(new ArquivoDeEvidenciaAcaoImediataMap());
             modelBuilder.Configurations.Add(new ArquivoCertificadoAnexoMap());
+            modelBuilder.Configurations.Add(new ArquivoPlaiAnexoMap());
             //modelBuilder.Configurations.Add(new DocLicencaMap());
             modelBuilder.Configurations.Add(new LicencaMap());
             modelBuilder.Configurations.Add(new DocExternoMap());

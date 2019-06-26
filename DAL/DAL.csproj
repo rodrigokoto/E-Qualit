@@ -63,6 +63,7 @@
     <Compile Include="EntityConfig\AnaliseCriticaFuncionarioMap.cs" />
     <Compile Include="EntityConfig\AnaliseCriticaTemaMap.cs" />
     <Compile Include="EntityConfig\AnexoMap.cs" />
+    <Compile Include="EntityConfig\ArquivoPlaiAnexoMap.cs" />
     <Compile Include="EntityConfig\ArquivoCertificadoAnexoMap.cs" />
     <Compile Include="EntityConfig\ArquivoDeEvidenciaAcaoImediataMap.cs" />
     <Compile Include="EntityConfig\ArquivosEvidenciaCriterioQualificacaoMap.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Repository\AnaliseCriticaFuncionarioRepositorio.cs" />
     <Compile Include="Repository\AnaliseCriticaRepositorio.cs" />
     <Compile Include="Repository\AnexoRepositorio.cs" />
+    <Compile Include="Repository\ArquivoPlaiAnexoRepositorio.cs" />
     <Compile Include="Repository\ArquivoDeEvidenciaRegistroConformidadeRepositorio.cs" />
     <Compile Include="Repository\ArquivosEvidenciaCriterioQualificacaoRepositorio.cs" />
     <Compile Include="Repository\ArquivoCertificadoAnexoRepositorio.cs" />
@@ -278,6 +280,9 @@
     <EmbeddedResource Include="Migrations\201801091552345_Plai.resx">
       <DependentUpon>201801091552345_Plai.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Migrations\20190624_ArquivoPlaiAnexo\Script.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

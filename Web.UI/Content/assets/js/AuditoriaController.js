@@ -47,25 +47,6 @@ APP.controller.AuditoriaController = {
 
     },
 
-    //todo: remove eduperez
-    getArquivo: function (_this) {
-
-        var anexoContratoModel = APP.controller.FornecedoresController.models.AnexoModel;
-        var anexoAuditoria = {};
-
-        var nameImg = $(_this).parent().find('.NomeAnexo').val();
-        var id = $(_this).parent().find('.IdAnexo').val() != undefined && $(_this).parent().find('.IdAnexo').val() != null && $(_this).parent().find('.IdAnexo').val() != "" ? $(_this).parent().find('.IdAnexo').val() : "0";
-
-        var anexoAuditoria = anexoContratoModel.constructor(
-            id,
-            nameImg,
-            $(_this).parent().find('.anexo-plai').data('b64'),
-        );
-
-        return anexoAuditoria;
-
-    },
-
     getArrArquivo: function (_this) {
 
         let divArquivosSel = $(_this).data("divarquivos");
@@ -82,11 +63,17 @@ APP.controller.AuditoriaController = {
             var id = arq.find("input[name='IdAnexo']").val();
             if (!id)
                 id = 0;
-
-            let anexoAuditoria = {
+            let ArquivoB64 = arq.find('.anexo-plai').data('b64');
+            let Anexo = {
                 IdAnexo: id,
                 Extensao: nameImg,
-                ArquivoB64: $(_this).parent().find('.anexo-plai').data('b64'),
+                ArquivoB64: ArquivoB64,
+            };
+            let anexoAuditoria = {
+                IdArquivoPlaiAnexo: arq.find("input[name='IdArquivoPlaiAnexo']").val(),
+                IdPlai: arq.find("input[name='IdPlai']").val(),
+                IdAnexo: id,
+                Anexo: Anexo,
                 ApagarAnexo: arq.find("input[name='ApagarAnexo']").val(),
             };
             arrAnexoAuditoria.push(anexoAuditoria);
@@ -165,9 +152,7 @@ APP.controller.AuditoriaController = {
         $(_this).find('.calendar ul').each(function () {
             var formAuditoriaMesesObj = {
                 Mes: $(this).find('[name^=formAuditoriaMes]').val(),
-                //todo: remove eduperez
-                Arquivo: APP.controller.AuditoriaController.getArquivo(this),
-                ArrArquivo: APP.controller.AuditoriaController.getArrArquivo(this),
+                ArquivoPlai: APP.controller.AuditoriaController.getArrArquivo(this),
                 PlaiProcessoNorma: APP.controller.AuditoriaController.getObjFormAuditoriaMesesProcessos(this),
             };
 
