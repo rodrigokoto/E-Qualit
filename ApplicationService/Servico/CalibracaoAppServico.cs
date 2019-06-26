@@ -92,7 +92,7 @@ namespace ApplicationService.Servico
                     AtualizarInstrumento(setaIntrumento);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -115,10 +115,10 @@ namespace ApplicationService.Servico
                 {
                     setaIntrumento.FlagTravado = false;
                 }
-                
+
                 AtualizarInstrumento(setaIntrumento);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -170,7 +170,7 @@ namespace ApplicationService.Servico
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

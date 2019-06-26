@@ -15,7 +15,7 @@ namespace ApplicationService.Servico
         {
             _usuarioClienteSiteRepositorio = usuarioClienteSiteRepositorio;
         }
-        
+
         public List<Usuario> ListarPorEmpresa(int idEmpresa)
         {
             var _usuarios = new List<Usuario>();
@@ -32,11 +32,11 @@ namespace ApplicationService.Servico
                     });
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
-            return  UsuarioAppServico.RetiraDuplicado(_usuarios);
+            return UsuarioAppServico.RetiraDuplicado(_usuarios);
         }
 
         public List<UsuarioClienteSite> ListarPorUsuario(int idUsuario)
@@ -47,7 +47,7 @@ namespace ApplicationService.Servico
                 _usuarios = _usuarioClienteSiteRepositorio.ListarPorUsuario(idUsuario);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 

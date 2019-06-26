@@ -65,9 +65,9 @@ namespace Web.UI.Helpers
                 HttpContext.Current.Response.Cookies.Add(cookieNome);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+
             }
 
             return IdProcesso;
@@ -138,7 +138,7 @@ namespace Web.UI.Helpers
                 {
                     objUsuario.Nome = objUsuario.Nome;
                 }
-                
+
             }
 
             return objUsuario;
@@ -148,7 +148,7 @@ namespace Web.UI.Helpers
 
             List<PermissoesApp> objPermissoes = (List<PermissoesApp>)HttpContext.Current.Session["matrizPermissao"];
 
-            if(objPermissoes == null)
+            if (objPermissoes == null)
             {
                 objPermissoes = new List<PermissoesApp>();
             }

@@ -214,7 +214,7 @@ namespace Web.UI.Controllers
                 {
                     TrataRelacionamentoAnexo(cliente);
 
-                    if(cliente.Site.SiteFuncionalidades.Where(x=> x.IdFuncionalidade == 2).Count() > 0)
+                    if (cliente.Site.SiteFuncionalidades.Where(x => x.IdFuncionalidade == 2).Count() > 0)
                     {
                         cliente.Site.SiteFuncionalidades.Add(cliente.Site.SiteFuncionalidades.Where(x => x.IdFuncionalidade == 2).Select(x => { x.IdFuncionalidade = 13; return x; }).FirstOrDefault());
                     }
@@ -233,16 +233,16 @@ namespace Web.UI.Controllers
 
             try
             {
-                
+
                 _usuarioAppServico.EnviaEmailNovoUsuario(cliente.Usuario);
 
                 return Json(new { StatusCode = 200, Success = Traducao.Cliente.ResourceCliente.Cliente_msg_criar_valid }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception EX)
-            {   
-                return Json(new { StatusCode = 200, Success = Traducao.Shared.ResourceMensagens.Mensagem_erro_AoEnviarEmailNovoUsuario}, JsonRequestBehavior.AllowGet);
+            catch (Exception)
+            {
+                return Json(new { StatusCode = 200, Success = Traducao.Shared.ResourceMensagens.Mensagem_erro_AoEnviarEmailNovoUsuario }, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
 
         [HttpPost]
@@ -255,7 +255,7 @@ namespace Web.UI.Controllers
             {
                 bool returno = _clienteServico.Excluir(id);
 
-                if(!returno)
+                if (!returno)
                 {
                     erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_erro_ExcluirClienteVerifique);
                     return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
@@ -266,7 +266,7 @@ namespace Web.UI.Controllers
                 GravaLog(ex);
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_erro_ExcluirCliente);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
-            }           
+            }
 
             return Json(new { StatusCode = 200, Success = Traducao.Cliente.ResourceCliente.Cliente_msg_exluir }, JsonRequestBehavior.AllowGet);
         }

@@ -65,7 +65,7 @@ namespace DAL.Repository
 
                             foreach (var processo in processos)
                             {
-                                context.Entry(processo).State = EntityState.Deleted;                                
+                                context.Entry(processo).State = EntityState.Deleted;
                             }
 
                             var subModulos = context.SubModulo.Where(x => x.CodigoSite == item.IdSite).ToList();
@@ -145,8 +145,8 @@ namespace DAL.Repository
                         return true;
 
                     }
-                    catch (Exception ex)
-                    {                        
+                    catch (Exception)
+                    {
                         dbContextTransaction.Rollback();
                         return false;
                     }

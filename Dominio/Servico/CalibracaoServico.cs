@@ -10,13 +10,13 @@ using Dominio.Validacao.Calibracoes;
 
 namespace Dominio.Servico
 {
-    public class CalibracaoServico :  ICalibracaoServico
+    public class CalibracaoServico : ICalibracaoServico
     {
         private readonly ICalibracaoRepositorio _calibracaoRepositorio;
         private readonly IInstrumentoRepositorio _instrumentoRepositorio;
 
-        public CalibracaoServico(ICalibracaoRepositorio calibracao, 
-                                 IInstrumentoRepositorio instrumentoRepositorio) 
+        public CalibracaoServico(ICalibracaoRepositorio calibracao,
+                                 IInstrumentoRepositorio instrumentoRepositorio)
         {
             _calibracaoRepositorio = calibracao;
             _instrumentoRepositorio = instrumentoRepositorio;
@@ -104,7 +104,7 @@ namespace Dominio.Servico
                     AtualizarInstrumento(setaIntrumento);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -120,7 +120,7 @@ namespace Dominio.Servico
                 setaIntrumento.Status = calibracao.Aprovado;
                 AtualizarInstrumento(setaIntrumento);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -172,7 +172,7 @@ namespace Dominio.Servico
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

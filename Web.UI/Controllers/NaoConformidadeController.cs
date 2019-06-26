@@ -648,11 +648,15 @@ namespace Web.UI.Controllers
                         EnfileirarEmailsAcaoImediata(acoesImediatasNova, naoConformidade);
                     }
 
+                    /*
+                     * comentado
                     if (1 == 0)
                     {
                         TrataDadosParaCriacao_Edicao(naoConformidade);
                         SalvarArquivoEvidencia(naoConformidade);
                     }
+                    */
+
                     AtualizarDatasAgendadas(naoConformidade);
                     
                     naoConformidade = _registroConformidadesAppServico.SalvarSegundaEtapa(naoConformidade, Funcionalidades.NaoConformidade);

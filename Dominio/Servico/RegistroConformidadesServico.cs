@@ -360,7 +360,7 @@ namespace Dominio.Servico
                                                  x.TipoRegistro == "ac").FirstOrDefault();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -377,7 +377,7 @@ namespace Dominio.Servico
                         && x.TipoRegistro == tipoRegistro
                     ).Max(x => x.DtEmissao);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return DateTime.Now;
             }

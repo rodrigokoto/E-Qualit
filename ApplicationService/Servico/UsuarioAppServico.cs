@@ -95,7 +95,7 @@ namespace ApplicationService.Servico
                 usuarios = RetiraDuplicado(usuarios);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -132,7 +132,7 @@ namespace ApplicationService.Servico
                 usuarios = RetiraDuplicado(usuarios);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -141,11 +141,11 @@ namespace ApplicationService.Servico
             return usuarios;
         }
 
-        public List<Usuario> ObterUsuariosPorFuncao(int ? idProcesso = null, int ? idSite = null, int ? idFuncao = null)
+        public List<Usuario> ObterUsuariosPorFuncao(int? idProcesso = null, int? idSite = null, int? idFuncao = null)
         {
             try
             {
-                var cargoProcessos = _cargoProcessoRepositorio.Get(x => (x.IdProcesso == idProcesso || idProcesso == null)&&
+                var cargoProcessos = _cargoProcessoRepositorio.Get(x => (x.IdProcesso == idProcesso || idProcesso == null) &&
                                                                    (x.IdFuncao == idFuncao.Value || idFuncao == null) &&
                                                                    x.Cargo.IdSite == idSite.Value &&
                                                                    x.Cargo.Ativo == true &&
@@ -167,7 +167,7 @@ namespace ApplicationService.Servico
                 return usuarios;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Adicionar a tratativa para log
             }
@@ -192,7 +192,7 @@ namespace ApplicationService.Servico
 
             foreach (var cargoProcesso in cargoProcessos)
             {
-                foreach (var usuarioCargo in cargoProcesso.Cargo.UsuarioCargos.Where(x=> x.Usuario.FlAtivo == true).ToList())
+                foreach (var usuarioCargo in cargoProcesso.Cargo.UsuarioCargos.Where(x => x.Usuario.FlAtivo == true).ToList())
                 {
                     usuarios.Add(new Usuario
                     {
@@ -239,13 +239,13 @@ namespace ApplicationService.Servico
         public List<Usuario> ObterUsuariosPorPerfilESite(int idSite, int idPerfil, int idPerfilLogado)
         {
             var usuarios = new List<Usuario>();
-            
+
             try
             {
 
-                usuarios = _usuarioRepositorio.Get(x => (x.IdPerfil == idPerfil || (x.IdPerfil == idPerfilLogado && idPerfilLogado == 1)) && x.UsuarioClienteSites.Select(y=>y.IdSite).Contains(idSite) && x.FlAtivo == true).ToList();
+                usuarios = _usuarioRepositorio.Get(x => (x.IdPerfil == idPerfil || (x.IdPerfil == idPerfilLogado && idPerfilLogado == 1)) && x.UsuarioClienteSites.Select(y => y.IdSite).Contains(idSite) && x.FlAtivo == true).ToList();
 
-                
+
 
                 return usuarios;
             }
@@ -286,7 +286,7 @@ namespace ApplicationService.Servico
 
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Adicionar a tratativa para log
             }
@@ -329,7 +329,7 @@ namespace ApplicationService.Servico
                 usuarioAtualizar.CdSenha = UtilsServico.Sha1Hash(novaSenha);
                 _usuarioRepositorio.AtualizaSenha(usuarioAtualizar);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -373,14 +373,14 @@ namespace ApplicationService.Servico
 
             foreach (var usuario in usuarioCargo)
             {
-                foreach (var processo in usuario.Cargo.CargoProcessos.Where(x=> x.Cargo.Ativo == true &&
+                foreach (var processo in usuario.Cargo.CargoProcessos.Where(x => x.Cargo.Ativo == true &&
                                                                    x.Processo.FlAtivo == true).ToList())
                 {
                     funcionalidades.Add(processo.Funcao.Funcionalidade);
                 }
             }
 
-            return funcionalidades.Where(x=> x.IdFuncionalidade != 2 && x.Ativo == true).Distinct().ToList();
+            return funcionalidades.Where(x => x.IdFuncionalidade != 2 && x.Ativo == true).Distinct().ToList();
         }
 
         public List<Funcionalidade> ObterFuncionalidadesPermitidasPorSite(int idSite)
@@ -389,8 +389,8 @@ namespace ApplicationService.Servico
             var idCargosUsuarios = new List<int>();
             var cargosProcesso = new List<CargoProcesso>();
 
-            List<Funcionalidade> funcionalidades = _siteRepositorio.Get(x => x.IdSite == idSite).FirstOrDefault().SiteFuncionalidades.Select(y=> y.Funcionalidade).Where(x => x.CdFormulario == "1").Distinct().ToList();
-            
+            List<Funcionalidade> funcionalidades = _siteRepositorio.Get(x => x.IdSite == idSite).FirstOrDefault().SiteFuncionalidades.Select(y => y.Funcionalidade).Where(x => x.CdFormulario == "1").Distinct().ToList();
+
             return funcionalidades.Where(x => x.IdFuncionalidade != 2 && x.Ativo == true).ToList();
         }
 
@@ -413,7 +413,7 @@ namespace ApplicationService.Servico
             conteudo = conteudo.Replace("#NOME#", usuario.NmCompleto);
             conteudo = conteudo.Replace("#SENHA#", usuario.CdSenha);
             conteudo = conteudo.Replace("#NOMESISTEMA#", "e-Qualit");
-      
+
             switch (templetesDisparoDeEmail)
             {
                 case TempletesDisparoDeEmail.NovoUsuario:
@@ -435,7 +435,7 @@ namespace ApplicationService.Servico
             _email.Conteudo = conteudo;
             _email.Servidor = ConfigurationManager.AppSettings["SMTPServer"];
             _email.Porta = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
-            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]); 
+            _email.EnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["SMTPEnableSSL"]);
             _email.Enviar();
         }
 
@@ -501,10 +501,11 @@ namespace ApplicationService.Servico
                         IdSite = x.IdSite.Value
                     });
                 });
-                usuario.UsuarioCargoes.ToList().ForEach(x => {
+                usuario.UsuarioCargoes.ToList().ForEach(x =>
+                {
 
                     int usuariosCargo = _usuarioCargoRepositorio.Get(uc => uc.IdCargo == x.IdCargo && uc.IdUsuario == usuario.IdUsuario).Count();
-                    if(usuariosCargo == 0)
+                    if (usuariosCargo == 0)
                     {
                         x.IdUsuario = usuario.IdUsuario;
                         _usuarioCargoRepositorio.Add(x);
@@ -513,7 +514,7 @@ namespace ApplicationService.Servico
 
                 _usuarioCargoRepositorio.Get(uc => uc.IdUsuario == usuario.IdUsuario).ToList().ForEach(x =>
                 {
-                    if(!usuario.UsuarioCargoes.Select(y=> y.IdCargo).Contains(x.IdCargo))
+                    if (!usuario.UsuarioCargoes.Select(y => y.IdCargo).Contains(x.IdCargo))
                     {
                         _usuarioCargoRepositorio.Remove(x);
                     }
@@ -556,7 +557,7 @@ namespace ApplicationService.Servico
                 usuario.CdSenha = UtilsServico.Sha1Hash(novaSenha);
                 _usuarioRepositorio.Update(usuario);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

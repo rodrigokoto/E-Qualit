@@ -33,14 +33,14 @@ namespace DAL.Repository
 
                     return registroConformidade;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                     throw;
                 }
             }
 
-            
+
         }
 
         public void DeletarRegistro(int idGestaoDeRisco)
