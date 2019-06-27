@@ -60,26 +60,28 @@ namespace DAL.Repository
                 int count = 0;
                 analiseCritica.Temas.ForEach(tema =>
                 {
-                    if (count == 0)
-                    {
-                        _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(tema.GestaoDeRisco);
-                        count = tema.GestaoDeRisco.NuRegistro;
-                        
-                    }
-                    else
-                    {
 
-                        tema.GestaoDeRisco.NuRegistro = count;
-                    }
+					if (tema.GestaoDeRisco != null) {
+						if (count == 0)
+						{
+							_registroConformidadesRepositorio.GerarNumeroSequencialPorSite(tema.GestaoDeRisco);
+							count = tema.GestaoDeRisco.NuRegistro;
 
-                    if(tema.GestaoDeRisco.StatusEtapa == 4)
-                    {
-                        tema.GestaoDeRisco.DtEnceramento = DateTime.Now;
-                        tema.GestaoDeRisco.IdResponsavelImplementar = tema.GestaoDeRisco.IdEmissor;
-                        tema.GestaoDeRisco.IdResponsavelEtapa = tema.GestaoDeRisco.IdEmissor;
-                    }
-                    
+						}
+						else
+						{
 
+							tema.GestaoDeRisco.NuRegistro = count;
+						}
+
+						if (tema.GestaoDeRisco.StatusEtapa == 4)
+						{
+							tema.GestaoDeRisco.DtEnceramento = DateTime.Now;
+							tema.GestaoDeRisco.IdResponsavelImplementar = tema.GestaoDeRisco.IdEmissor;
+							tema.GestaoDeRisco.IdResponsavelEtapa = tema.GestaoDeRisco.IdEmissor;
+						}
+
+					}
                     context.Set<AnaliseCriticaTema>().Add(tema);
                     count++;
 

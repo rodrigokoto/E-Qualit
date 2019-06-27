@@ -628,7 +628,7 @@ APP.controller.NaoConformidadeController = {
     setCheckAcaoImediataOk: function () {
 
         //$('.btn-confirm-acao-imediata').on('click', function () {
-        //    debugger;
+        //    
 
         //    $(this).closest('td').find('.btn-confirm-acao-imediata').fadeOut(300);
         //    $(this).closest('td').find('.btn-denied-acao-imediata').fadeOut(300);

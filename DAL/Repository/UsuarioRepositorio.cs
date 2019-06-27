@@ -9,7 +9,7 @@ namespace DAL.Repository
 {
     public class UsuarioRepositorio : BaseRepositorio<Usuario>, IUsuarioRepositorio
     {
-        
+
         public bool Excluir(int id, int idUsuarioMigracao)
         {
             using (var context = new BaseContext())
@@ -77,7 +77,7 @@ namespace DAL.Repository
                         return true;
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         dbContextTransaction.Rollback();
                         return false;
@@ -97,7 +97,7 @@ namespace DAL.Repository
             {
                 x.IdResponsavelEtapa = idUsuarioMigracao;
 
-                if(x.StatusEtapa == 1)
+                if (x.StatusEtapa == 1)
                 {
                     x.IdResponsavelInicarAcaoImediata = idUsuarioMigracao;
                 }
@@ -110,7 +110,7 @@ namespace DAL.Repository
                     x.IdResponsavelAnalisar = idUsuarioMigracao;
                 }
 
-                if(x.TipoRegistro == "nc")
+                if (x.TipoRegistro == "nc")
                 {
                     var notificacoesNaoConformidade = context.Notificacao.Where(y => y.IdRelacionado == x.IdNaoConformidade && y.IdFuncionalidade == 3).ToList();
 
@@ -232,7 +232,7 @@ namespace DAL.Repository
             Byte status0 = Convert.ToByte(0);
             Byte status3 = Convert.ToByte(3);
 
-            var instrumentos = context.Calibracao.Where(x => x.Instrumento.IdResponsavel.Value == id && (x.Aprovado ==  status0 || x.Aprovado == status3 )).Select(x=> x.Instrumento).ToList();
+            var instrumentos = context.Calibracao.Where(x => x.Instrumento.IdResponsavel.Value == id && (x.Aprovado == status0 || x.Aprovado == status3)).Select(x => x.Instrumento).ToList();
 
             instrumentos.ForEach(x =>
             {
@@ -286,7 +286,7 @@ namespace DAL.Repository
                         return true;
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         dbContextTransaction.Rollback();
                         return false;

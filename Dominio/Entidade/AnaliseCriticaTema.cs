@@ -13,8 +13,13 @@ namespace Dominio.Entidade
 
         public string Descricao { get; set; }
         public int CorRisco { get; set; }
-        public bool PossuiGestaoRisco { get; set; }
-        public int Ativo { get; set; }
+		
+		public bool PossuiInformarGestaoRisco { get; set; }
+		public bool PossuiGestaoRisco { get; set; }
+		public int IdProcesso { get; set; }
+		public virtual Processo Processo { get; set; }
+
+		public int Ativo { get; set; }
         public DateTime? DataCadastro { get; set; }
 
         public ValidationResult ValidationResult { get; set; }

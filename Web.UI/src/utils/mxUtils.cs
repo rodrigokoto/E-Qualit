@@ -104,7 +104,7 @@ namespace com.mxgraph
             double outerWidth, double outerHeight, Dictionary<string, Object> style, double scale)
         {
             // Adds an inset of 3 pixels
-            double inset = mxConstants.LABEL_INSET* scale;
+            double inset = mxConstants.LABEL_INSET * scale;
 
             // Scales the size of the label
             double width = size.Width * scale + 2 * inset;
@@ -412,14 +412,14 @@ namespace com.mxgraph
         /// <param name="height"></param>
         public static void FillClippedRect(Graphics g, Brush brush, int x, int y, int width, int height)
         {
-		    RectangleF bg = new RectangleF(x, y, width, height);
+            RectangleF bg = new RectangleF(x, y, width, height);
 
-		    if (g.ClipBounds != null)
-		    {
+            if (g.ClipBounds != null)
+            {
                 bg.Intersect(g.ClipBounds);
-		    }
+            }
 
-		    g.FillRectangle(brush, bg.X, bg.Y, bg.Width, bg.Height);
+            g.FillRectangle(brush, bg.X, bg.Y, bg.Width, bg.Height);
         }
 
         /// <summary>
@@ -457,11 +457,11 @@ namespace com.mxgraph
         /// <param name="dy"></param>
         /// <returns></returns>
         public static List<mxPoint> TranslatePoints(List<mxPoint> pts, double dx, double dy)
-	    {
-		    List<mxPoint> result = null;
+        {
+            List<mxPoint> result = null;
 
-		    if (pts != null)
-		    {
+            if (pts != null)
+            {
                 result = new List<mxPoint>(pts.Count);
 
                 foreach (mxPoint point in pts)
@@ -473,10 +473,10 @@ namespace com.mxgraph
 
                     result.Add(pt);
                 }
-		    }
+            }
 
-		    return result;
-	    }
+            return result;
+        }
 
         /// <summary>
         /// Returns the intersection of two lines as an mxPoint.
@@ -558,7 +558,7 @@ namespace com.mxgraph
                 }
             }
 
-            return (String[]) result.ToArray();
+            return (String[])result.ToArray();
         }
 
         /// <summary>
@@ -826,7 +826,7 @@ namespace com.mxgraph
 
                 if (index < 0)
                 {
-                    if (value == null || (bool) value)
+                    if (value == null || (bool)value)
                     {
                         String sep = (style.EndsWith(";")) ? "" : ";";
                         style = style + sep + key + "=" + flag;
@@ -851,7 +851,7 @@ namespace com.mxgraph
                     {
                         result = int.Parse(tmp) ^ flag;
                     }
-                    else if ((bool) value)
+                    else if ((bool)value)
                     {
                         result = int.Parse(tmp) | flag;
                     }
@@ -1275,7 +1275,7 @@ namespace com.mxgraph
                         {
                             img = Image.FromStream(stream);
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             // ignore
                         }
@@ -1326,31 +1326,31 @@ namespace com.mxgraph
         /// This implementation does not use XPath.
         /// </summary>
         public static XmlNode FindNode(XmlNode node, String attr, String value)
-	    {
+        {
             Object tmp = node.Attributes[attr];
-    		
-		    if (tmp != null &&
-			    tmp.ToString().Equals(value))
-		    {
-			    return node;
-		    }
-    		
-		    node = node.FirstChild;
-    		
-		    while (node != null)
-		    {
-			    XmlNode result = FindNode(node, attr, value);
-    			
-			    if (result != null)
-			    {
-				    return result;
-			    }
-    			
-			    node = node.NextSibling;
-		    }
-    		
-		    return null;
-	    }
+
+            if (tmp != null &&
+                tmp.ToString().Equals(value))
+            {
+                return node;
+            }
+
+            node = node.FirstChild;
+
+            while (node != null)
+            {
+                XmlNode result = FindNode(node, attr, value);
+
+                if (result != null)
+                {
+                    return result;
+                }
+
+                node = node.NextSibling;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Returns a single node that matches the given XPath expression.

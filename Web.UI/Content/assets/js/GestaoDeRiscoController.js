@@ -877,7 +877,7 @@ APP.controller.GestaoDeRiscoController = {
     },
 
     //getProcessosPorSite: function () {
-    //    debugger;
+    //    
     //    var idSite = $('#nao-conformidade-site').val();
     //    $.get('/Processo/ListaProcessosPorSite?idSite=' + idSite, function (result) {
     //        $.each(result.Lista, (key, val) => {

@@ -21,7 +21,7 @@ namespace Web.UI.Controllers
         private readonly IArquivosEvidenciaCriterioQualificacaoAppServico _arquivosEvidenciaCriterioQualificacaoAppServico;
         private readonly IFornecedorAppServico _fornecedorAppServico;
         private readonly IFornecedorServico _fornecedorServico;
-        
+
         private readonly IProdutoFornecedorAppServico _produtoFornecedorAppServico;
 
         private readonly IAvaliacaoCriticidadeAppServico _avaliacaoCriticidadeAppServico;
@@ -146,12 +146,12 @@ namespace Web.UI.Controllers
             }
             else
             {
-  
+
                 produto.AvaliacoesCriticidade.Add(new AvaliacaoCriticidade
                 {
                     Titulo = "Este fornecedor tem impacto direto no meu produto/ serviços?",
                     IdAvaliacaoCriticidade = 0,
-                    Ativo = false,    
+                    Ativo = false,
                 });
 
                 produto.AvaliacoesCriticidade.Add(new AvaliacaoCriticidade
@@ -180,7 +180,7 @@ namespace Web.UI.Controllers
                     Titulo = "O produto/serviço tem impacto legal?",
                     IdAvaliacaoCriticidade = 0,
                     Ativo = false,
-                }); 
+                });
             }
 
             //// Adiciona Qualificação disponivel no mesmo site
@@ -260,7 +260,7 @@ namespace Web.UI.Controllers
 
                 produto.CriteriosQualificacao.ToList().ForEach(criterioQualificacao =>
                 {
-                    _criterioQualificacaoServico.ValidaCampos(criterioQualificacao, ref erros);                    
+                    _criterioQualificacaoServico.ValidaCampos(criterioQualificacao, ref erros);
                 });
 
                 produto.CriteriosAvaliacao.ToList().ForEach(CriterioAvaliacao =>
@@ -273,9 +273,9 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
-                    
+
                     produto.AvaliacoesCriticidade.ToList().ForEach(avaliacaoCriticidade =>
-                    {                        
+                    {
                         var avaliacao = _avaliacaoCriticidadeAppServico.Get(x => x.Titulo == avaliacaoCriticidade.Titulo && x.Produto.IdSite == idSite && x.IdProduto == produto.IdProduto).FirstOrDefault();
                         if (avaliacao == null)
                         {
@@ -359,7 +359,7 @@ namespace Web.UI.Controllers
 
                 return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Resource.SucessoAoExcluirORegistro }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 erros.Add(Traducao.Resource.ParaExcluirEsseRegistroVoceDeveExcluirNoCriterioOriginal);
@@ -368,7 +368,7 @@ namespace Web.UI.Controllers
             return Json(new { StatusCode = (int)HttpStatusCode.BadRequest, Erros = erros }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ExcluirCriterioFormQualificacao (int id)
+        public JsonResult ExcluirCriterioFormQualificacao(int id)
         {
             List<string> erros = new List<string>();
 
@@ -485,29 +485,29 @@ namespace Web.UI.Controllers
         {
             var produto = new Produto();
             var fornecedor = new Fornecedor();
-            ViewBag.idFuncao = EditarFornecedor; 
+            ViewBag.idFuncao = EditarFornecedor;
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.Ancora = Ancora;
             ViewBag.IdProduto = idProduto;
-            
-            produto = _produtoAppServico.GetById(idProduto); 
+
+            produto = _produtoAppServico.GetById(idProduto);
             ViewBag.IdSite = produto.IdSite;
 
             if (id != null)
             {
-                fornecedor = _fornecedorAppServico.GetById(id.Value);                
+                fornecedor = _fornecedorAppServico.GetById(id.Value);
             }
 
             var idscriteriosQualificacaoAtual = fornecedor.AvaliaCriteriosQualificacao.Select(avaliacaoCriterioQualificacao => avaliacaoCriterioQualificacao.CriterioQualificacao.IdCriterioQualificacao).ToList();
             var criteriosQualificacaoAtual = fornecedor.AvaliaCriteriosQualificacao.ToList();
-            var idscriteriosQualificacao = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).Select(x=> x.IdCriterioQualificacao).ToList();
-            
+            var idscriteriosQualificacao = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).Select(x => x.IdCriterioQualificacao).ToList();
+
 
 
 
             if (fornecedor.AvaliaCriteriosQualificacao == null || fornecedor.AvaliaCriteriosQualificacao.Count == 0 || idscriteriosQualificacao.Count != idscriteriosQualificacaoAtual.Count)
             {
-                var criteriosQualificacao = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).Where(x=> !idscriteriosQualificacaoAtual.Contains(x.IdCriterioQualificacao)).ToList();
+                var criteriosQualificacao = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).Where(x => !idscriteriosQualificacaoAtual.Contains(x.IdCriterioQualificacao)).ToList();
 
                 criteriosQualificacao.ForEach(criterioQualificacao =>
                 {
@@ -520,7 +520,8 @@ namespace Web.UI.Controllers
                 });
             }
 
-            criteriosQualificacaoAtual.ForEach(criterioQualificacao =>            {
+            criteriosQualificacaoAtual.ForEach(criterioQualificacao =>
+            {
 
                 var criterioQualificacaoExcluir = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto && x.IdCriterioQualificacao == criterioQualificacao.IdCriterioQualificacao).FirstOrDefault();
 
@@ -537,7 +538,7 @@ namespace Web.UI.Controllers
                 AvaliaCriterioAvaliacao avaliaCriterioAvaliacao = new AvaliaCriterioAvaliacao();
                 _criterioAvaliacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).ToList().ForEach(criterioAvaliacao =>
                 {
-                    
+
                     avaliaCriterioAvaliacao.CriterioAvaliacao = criterioAvaliacao;
                     fornecedor.AvaliaCriteriosAvaliacao.Add(avaliaCriterioAvaliacao);
                 });
@@ -548,7 +549,7 @@ namespace Web.UI.Controllers
 
 
             ViewBag.Produto = produto;
-            
+
             return View(fornecedor);
         }
 
@@ -587,12 +588,12 @@ namespace Web.UI.Controllers
             var erros = new List<string>();
             try
             {
-                
+
                 criteriosQualificacao.ForEach(criterioQualificacao =>
                 {
                     var temControleVencimento = _criterioQualificacaoAppServico.GetById(criterioQualificacao.IdCriterioQualificacao).TemControleVencimento;
 
-                    if(temControleVencimento)
+                    if (temControleVencimento)
                         _criterioQualificacaoServico.ValidaCamposQualificacao(criterioQualificacao, ref erros);
                     else
                         _criterioQualificacaoServico.ValidaCamposQualificacaoSemControleVencimento(criterioQualificacao, ref erros);
@@ -617,7 +618,7 @@ namespace Web.UI.Controllers
                             }
                             else if (anexo.IdAnexo == 0 && criterioQualificacao.IdAvaliaCriterioQualificacao > 0)
                             {
-                                var anexoCtx = _arquivosEvidenciaCriterioQualificacaoAppServico.Get(x=> x.Anexo.Nome == anexo.Nome && x.IdAvaliaCriterioQualificacao == criterioQualificacao.IdAvaliaCriterioQualificacao).FirstOrDefault();
+                                var anexoCtx = _arquivosEvidenciaCriterioQualificacaoAppServico.Get(x => x.Anexo.Nome == anexo.Nome && x.IdAvaliaCriterioQualificacao == criterioQualificacao.IdAvaliaCriterioQualificacao).FirstOrDefault();
 
                                 if (anexoCtx == null)
                                 {
@@ -631,17 +632,17 @@ namespace Web.UI.Controllers
                                     {
                                         _arquivosEvidenciaCriterioQualificacaoAppServico.Add(x);
                                     });
-                                }                                                           
+                                }
 
                             }
-                            
+
                         });
 
                         if (criterioQualificacao.IdAvaliaCriterioQualificacao == 0)
                         {
                             //criterioQualificacao.CriterioQualificacao = _criterioQualificacaoAppServico.GetById(criterioQualificacao.IdCriterioQualificacao);
                             _avaliaCriterioQualificacaoAppServico.Add(criterioQualificacao);
-                        }                            
+                        }
                         else
                             _avaliaCriterioQualificacaoAppServico.Update(criterioQualificacao);
                     });
@@ -667,10 +668,10 @@ namespace Web.UI.Controllers
             {
                 var primeiraAvaliacao = avaliacoes.FirstOrDefault();
 
-                if(primeiraAvaliacao != null && primeiraAvaliacao.IdUsuarioAvaliacao > 0)
+                if (primeiraAvaliacao != null && primeiraAvaliacao.IdUsuarioAvaliacao > 0)
                 {
                     var fornecedor = _fornecedorAppServico.GetById(primeiraAvaliacao.IdFornecedor);
-                    fornecedor.IdUsuarioAvaliacao = primeiraAvaliacao.IdUsuarioAvaliacao;                    
+                    fornecedor.IdUsuarioAvaliacao = primeiraAvaliacao.IdUsuarioAvaliacao;
                     _fornecedorAppServico.Update(fornecedor);
                 }
                 else
@@ -758,7 +759,7 @@ namespace Web.UI.Controllers
 
         public JsonResult ExcluirProduto(int idProduto)
         {
-            
+
             try
             {
                 _produtoAppServico.Excluir(idProduto);
@@ -771,7 +772,7 @@ namespace Web.UI.Controllers
             }
 
         }
-                
+
         public JsonResult Excluir(int idFornecedor)
         {
             var fornecedor = _fornecedorAppServico.GetById(idFornecedor);
@@ -780,7 +781,7 @@ namespace Web.UI.Controllers
             {
                 var avaliacoes = _avaliaCriterioAvaliacaoAppServico.Get(x => x.IdFornecedor == idFornecedor).ToList();
 
-                foreach(var item in avaliacoes)
+                foreach (var item in avaliacoes)
                 {
                     _avaliaCriterioAvaliacaoAppServico.Remove(item);
                 }

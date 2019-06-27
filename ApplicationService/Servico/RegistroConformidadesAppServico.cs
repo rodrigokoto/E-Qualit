@@ -778,7 +778,7 @@ namespace ApplicationService.Servico
                 return _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade).FirstOrDefault();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -795,7 +795,7 @@ namespace ApplicationService.Servico
                         && x.TipoRegistro == tipoRegistro
                     ).Max(x => x.DtEmissao);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return DateTime.Now;
             }

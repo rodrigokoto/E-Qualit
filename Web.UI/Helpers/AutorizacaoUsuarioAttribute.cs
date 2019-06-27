@@ -30,7 +30,7 @@ namespace Web.UI.Helpers
                 var idUsuario = Util.ObterCodigoUsuarioLogado();
                 var idPerfil = Util.ObterPerfilUsuarioLogado();
                 //var idProcessoSelecionado = Util.ObterProcessoSelecionado();
-                
+
                 if ((int)PerfisAcesso.Administrador == idPerfil)
                 {
                     return true;
@@ -54,8 +54,8 @@ namespace Web.UI.Helpers
 
                 return false;
             }
-            catch (Exception ex)
-            {  
+            catch (Exception)
+            {
                 return false;
             }
         }

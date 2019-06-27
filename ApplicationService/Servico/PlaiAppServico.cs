@@ -29,7 +29,7 @@ namespace ApplicationService.Servico
 
         public void Atualizar(Plai plai)
         {
-            if (plai.Arquivo != null && PossuiDocumento(plai.Arquivo.Arquivo))
+            if (plai.ArquivoPlai != null && PossuiDocumento(plai.ArquivoPlai))
             {
                 plai.Bloqueado = true;
             }
@@ -41,14 +41,15 @@ namespace ApplicationService.Servico
             Update(plai);
         }
 
-        private bool PossuiDocumento(byte[] arquivo)
+        private bool PossuiDocumento(ICollection<ArquivoPlaiAnexo> ArquivoPlai)
         {
-            if (arquivo.Length == 0)
-            {
-                return false;
-            }
+            foreach (var arquivo in ArquivoPlai)
+                if (arquivo != null && arquivo.Anexo != null && arquivo.Anexo.Arquivo.Length != 0)
+                {
+                    return true;
+                }
 
-            return true;
+            return false;
         }
 
         public List<Plai> ObterPorPai(int idPai)

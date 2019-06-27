@@ -256,16 +256,6 @@ APP.component.Datapicker = {
 
     ativaDataPicker: function () {
 
-        // jQuery.datetimepicker.setLocale(jsIdioma);
-        // $('.data:not([readonly])').datetimepicker({
-        // 	format: 'd/m/Y',
-        // 	lang: jsIdioma,
-        // 	timepicker: false,
-        // 	scrollInput: false
-        // });
-        // $(".data").attr("autocomplete", "off");
-        // $(".data").g2itMasks("date");
-
         $('.data').each(function () {
 
             if ($(this).attr("class") != "form-control data time") {
@@ -322,10 +312,9 @@ APP.component.Datapicker = {
 
         $('.fa-calendar').on('click', function () {
 
-            if ($(this).closest('div').find('.data').attr("disabled") == undefined)
-            {
+            if ($(this).closest('div').find('.data').attr("disabled") == undefined) {
                 $(this).closest('div').find('.data').trigger("focusin");
-            }          
+            }
 
         });
 
@@ -596,35 +585,42 @@ APP.component.DragAndDrop = {
         ev.preventDefault();
     },
 
+    //https://developer.mozilla.org/en-US/docs/Web/API/Document/drag_event
+    dragged: null,
+
     drag: function (ev) {
         ev.dataTransfer.setData("text", ev.target.id);
+        this.dragged = event.target;
     },
 
     drop: function (ev) {
 
-        //ev.preventDefault();
-        //var data = ev.dataTransfer.getData("text");
-        //ev.target.appendChild();
-
-
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");        
-        var nodeCopy = document.getElementById(data).cloneNode(true);
-        //nodeCopy.id = nodeCopy.id + "newId"; 
-        
+        if (this.dragged === null)
+            return;
+        var nodeCopy = this.dragged.cloneNode(true);
+
         var temNovoNode = false;
-        
-        $(ev.target).find("li").each(function () {
-            if($(this).find("span").html() == $(nodeCopy).find("span").html())
-            {
+
+        //target é o UL do topo, estava podnendo arrastar para dentro de item já existente
+        let target = $(ev.target);
+        if (target.prop("tagName").toLowerCase() != "ul")
+            target = target.closest("ul");
+
+        target.find("li").each(function () {
+            if ($(this).find("span").text().trim() == $(nodeCopy).find("span").text().trim()) {
+                if (!temNovoNode) {
+                    bootbox.alert(_options.Auditoria_ProcessoExisteMes);
+                }
                 temNovoNode = true;
-            }            
+            }
         });
-        
-        if(!temNovoNode)
-        {
-            $(nodeCopy).find("span").html($(nodeCopy).find("span").html() + "<a href='#' onclick='ExcluirProcessoAuditoria(this);' style='float: right; margin-right: 10px; color: white'><i class='fa fa-trash'></i></a>")
-            ev.target.appendChild(nodeCopy);
+
+        if (!temNovoNode) {
+            $(nodeCopy).find("span").html($(nodeCopy).find("span").text() + "<a href='#' onclick='ExcluirProcessoAuditoria(this);' style='float: right; margin-right: 10px; color: white'><i class='fa fa-trash'></i></a>")
+            target.append(nodeCopy);
+            //remover do mes anteriori, se tiver um botão de excluir
+            $(this.dragged).find("a").click();
         }
     },
 
@@ -706,6 +702,8 @@ APP.component.FileUpload = {
 
         this.fileUploadRai();
         this.delItemFileUploadRai();
+        this.fileUpload2Rai();
+        this.delItemFileUpload2Rai();
 
     },
 
@@ -718,7 +716,9 @@ APP.component.FileUpload = {
         this.buttonDelFileUpload = $("[class^=btn-delete]");
 
         this.buttonUploadRai = $("[class^=btn-upload-rai]");
+        this.buttonUpload2Rai = $("[class^=btn-upload2-rai]");
         this.buttonDelFileUploadRai = $("[class^=btn-delete-rai]");
+        this.buttonDelFileUpload2Rai = $("[class^=btn-delete2-rai]");
 
     },
 
@@ -883,7 +883,7 @@ APP.component.FileUpload = {
                         var extencao = name.split('.')[1];
 
                         srcImg.children().text(name.substring(0, 8) + "..." + extencao);
-                        
+
                         var html = '<div class="DivExcluirAnexoEvidencia" style="float: left; margin-top: -50px">';
                         html += '<a href="#" class="btn-delete" onclick="DeleteAnexoAcaoImediata(this)">';
                         html += '<i class="fa fa-trash fa-1" aria-hidden="true" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '">';
@@ -958,10 +958,10 @@ APP.component.FileUpload = {
 
                         name = $('#' + idInput + '').prop('files')[0].name;
                         base64 = e.target.result.split(',');
-                        
+
                         NomeAnexo.val(name);
                         srcImg.text('R.A.I');
-                        
+
                         var html = '';
                         html += '<a href="#" class="btn-delete-rai">';
                         html += '<i class="fa fa-trash fa-1" aria-hidden="true" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '">';
@@ -988,31 +988,97 @@ APP.component.FileUpload = {
 
     },
 
+    fileUpload2Rai: function () {
+
+        this.buttonUpload2Rai.unbind('click');
+        this.buttonUpload2Rai.on('click', function () {
+            $(this).closest('div').find('input[type=file]').first().trigger("click");
+
+            //Variaveis de auxilio
+            var fileInput = $(this).closest('div').find('input[type=file]');
+            var topoUpload = $(this).closest('div');
+
+            fileInput.unbind('change');
+            fileInput.on('change', function () {
+
+                var copia = $($(this).closest('div').find('.templatenovoarquivo').find("div")[0].cloneNode(true));
+
+                var _files = this.files;
+
+                if (_files && _files[0]) {
+
+                    var reader = new FileReader();
+                    var name = "";
+
+                    reader.onload = function (e) {
+                        var NomeAnexo = copia.find("input[name='NomeAnexo']");
+                        var NomeAnexo2 = copia.find('.noemarquivo');
+                        var base64 = "";
+                        var ConteudoAnexo = copia.find("input[name='ConteudoAnexo']");
+
+                        name = fileInput.prop('files')[0].name;
+                        base64 = e.target.result.split(',');
+
+                        //Pega somente a String Base64 e coloca da tag data-b64
+                        NomeAnexo.val(name);
+                        NomeAnexo2.text(name);
+                        ConteudoAnexo.data('b64', '' + base64[1] + '');
+
+                        copia.insertAfter(topoUpload);
+
+                        APP.component.FileUpload.bind();
+
+                        $("." + fileInput.data("spannroarquivos")).text(topoUpload.parent().find("div:visible").length - 1);
+                    };
+
+                    reader.readAsDataURL(_files[0]);
+
+                }
+
+            });
+
+
+        });
+
+    },
+
     delItemFileUploadRai: function () {
 
         this.buttonDelFileUploadRai.unbind('click');
         this.buttonDelFileUploadRai.on('click', function (event) {
-            
+
             var id = $(this).parent().find(".download-rai-form-auditoria-mes").attr("id");
 
             event.preventDefault();
             $("#" + id).parent().find('[class^=btn-upload]').text('');
             $(this).parent().find('input[type=file]').data('b64', '');
             $(this).parent().find('input[type=file]').attr('data-b64', '');
-            
+
             $(this).parent().find('.IdAnexo').val('');
-            $(this).parent().find('.NomeAnexo').val('');  
+            $(this).parent().find('.NomeAnexo').val('');
 
             $("#" + id).attr("class", id);
             $("#" + id).removeAttr("href");
             $("#" + id).removeAttr("target");
             $("#" + id).removeAttr("download");
             $("#" + id).attr("onclick", "UploadArquivoRai(this);");
-            
-            
+
+
             $(this).closest('div').find('[class^=btn-upload]').html('<i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar');
             $(this).remove();
 
+        });
+
+    },
+
+    delItemFileUpload2Rai: function () {
+
+        this.buttonDelFileUpload2Rai.unbind('click');
+        this.buttonDelFileUpload2Rai.on('click', function (event) {
+            event.preventDefault();
+            $(this).parent().find("input[name='ApagarAnexo']").val(1);
+            $(this).parent().hide();
+            $("." + $(this).data("spannroarquivos")).text($(this).parent().parent().find("div:visible").length - 1);
         });
 
     },
@@ -1022,6 +1088,7 @@ APP.component.FileUpload = {
         APP.component.FileUpload.setup();
         APP.component.FileUpload.delItemFileUpload();
         APP.component.FileUpload.delItemFileUploadRai();
+        APP.component.FileUpload.delItemFileUpload2Rai();
 
     },
 
@@ -1043,8 +1110,8 @@ APP.component.GestaoDeRiscoPartial = {
         if (page == "CriarAnaliseCritica") {
             this.gestaoDeRiscoCriarAnaliseCritica(_divGestaoDeRisco, _temaSelected);
             //this.gestaoDeRisco(_selector);
-          
-            }
+
+        }
         if (page == "EditarAnaliseCritica") {
             this.gestaoDeRiscoEditAnaliseCritica();
         }
@@ -1059,20 +1126,23 @@ APP.component.GestaoDeRiscoPartial = {
 
     gestaoDeRiscoCriarAnaliseCritica: function (_divGestaoDeRisco, _temaSelected) {
 
-       
+
         this.getPartialGestaoDeRisco(_divGestaoDeRisco, _temaSelected);
         this.setCkeditorGestaoDeRisco(_divGestaoDeRisco, _temaSelected);
         this.setBarRating(_divGestaoDeRisco);
 
         this.setCriticidade();
         this.setERisco();
-        this.getERisco();
+		this.getERisco();
+
+		this.setInformarRisco();
+		this.getInformarRisco();
 
    
 
         var numeroRisco = $('[name=numeroAC]').val();
-        var busca = ".gestaoDeRiscoPartial-"+_temaSelected;      
-        $(busca).find($('[name=formGestaoDeRiscoNumero]')).val(numeroRisco); 
+        var busca = ".gestaoDeRiscoPartial-" + _temaSelected;
+        $(busca).find($('[name=formGestaoDeRiscoNumero]')).val(numeroRisco);
         $('[name=numeroAC]').val(parseInt(numeroRisco) + parseInt('1'));
 
 
@@ -1089,9 +1159,10 @@ APP.component.GestaoDeRiscoPartial = {
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },
-            success: function (result) {
+			success: function (result) {
                 _divGestaoDeRisco.html(result);
-                _divGestaoDeRisco.find('[name=formGestaoDeRiscoRisco]').attr('name', 'formGestaoDeRiscoRisco-' + _temaSelected);
+				_divGestaoDeRisco.find('[name=formGestaoDeRiscoRisco]').attr('name', 'formGestaoDeRiscoRisco-' + _temaSelected);
+				_divGestaoDeRisco.find('[name=formInformarGestaoDeRiscoRisco]').attr('name', 'formInformarGestaoDeRiscoRisco-' + _temaSelected);
                 APP.component.GestaoDeRiscoPartial.setHideAndShowGestaodeRisco(_divGestaoDeRisco);
             },
             error: function (result) {
@@ -1121,16 +1192,12 @@ APP.component.GestaoDeRiscoPartial = {
 
     setHideAndShowGestaodeRisco: function (_divGestaoDeRisco) {
 
-        //_divGestaoDeRisco.find('[name^=formGestaoDeRiscoRisco]').closest('[class^=col]').hide();
-        //_divGestaoDeRisco.find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
-        //_divGestaoDeRisco.find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').hide();
         _divGestaoDeRisco.find('.responsavel-gestao-de-risco').hide();
-        _divGestaoDeRisco.find('.numeroGestaoRisco').hide();   
-        _divGestaoDeRisco.find('.JustificativaGestaoDeRisco').hide(); 
-        
-       _divGestaoDeRisco.find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').hide();
         _divGestaoDeRisco.find('.numeroGestaoRisco').hide();
-        //_divGestaoDeRisco.find('[name=formGestaoDeRiscoIdentificacao]').closest('[class^=col]').hide();
+        _divGestaoDeRisco.find('.JustificativaGestaoDeRisco').hide();
+
+        _divGestaoDeRisco.find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').hide();
+        _divGestaoDeRisco.find('.numeroGestaoRisco').hide();
 
     },
 
@@ -1138,23 +1205,33 @@ APP.component.GestaoDeRiscoPartial = {
     setCriticidade: function (value, text) {
 
     $('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
-
-            //var barRatingSelect = $(this).val();
-            //if (barRatingSelect == 2 || barRatingSelect == 3) {
-            //$(this).closest('#gestaoDeRisco').find('[name^=formGestaoDeRiscoRisco]').closest('[class^=col]').show();
             APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(this);
-            //}
-            // else {
-            //$(this).closest('#gestaoDeRisco').find('[name^=formGestaoDeRiscoRisco]').attr('checked',false);
-            //$(this).closest('#gestaoDeRisco').find('[name^=formGestaoDeRiscoRisco]').closest('[class^=col]').hide();
-            //$(this).closest('#gestaoDeRisco').find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
-            //$(this).closest('#gestaoDeRisco').find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').hide();
-            //$(this).closest('#gestaoDeRisco').find('[name=formGestaoDeRiscoIdentificacao]').closest('[class^=col]').hide();
-            // }
-
         });
 
-    },
+	},
+
+
+	setInformarRisco: function () {
+
+		$('[name^=formInformarGestaoDeRiscoRisco]').unbind('change');
+		$('[name^=formInformarGestaoDeRiscoRisco]').on('change', function () {
+			
+			var ERisco = APP.component.GestaoDeRiscoPartial.getInformarRisco(this);
+			APP.component.GestaoDeRiscoPartial.setRulesInformarRisco(ERisco, this);
+
+		});
+
+	},
+
+
+
+	//Auxiliares
+	getInformarRisco: function (_this) {
+
+		var ERisco = $(_this).val();
+		return ERisco;
+
+	},
 
     setERisco: function () {
 
@@ -1168,7 +1245,16 @@ APP.component.GestaoDeRiscoPartial = {
 
     },
 
+	setRulesInformarRisco: function (_ERisco, _this) {
+		if (_ERisco == "true") {
+			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').show();
+			APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(_this);
+		} else {
 
+			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').hide();
+		}
+
+	},
 
     //Auxiliares
     getERisco: function (_this) {
@@ -1180,7 +1266,6 @@ APP.component.GestaoDeRiscoPartial = {
 
     //Rules
     setRulesERisco: function (_ERisco, _this) {
-
         if (_ERisco == "true") {
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').show();
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').show();
@@ -1188,7 +1273,7 @@ APP.component.GestaoDeRiscoPartial = {
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoIdentificacao]').closest('[class^=col]').show();
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').show();
             $(_this).parent().parent().parent().parent().parent().find('.numeroGestaoRisco').show();
-            $(_this).parent().parent().parent().parent().parent().find('.JustificativaGestaoDeRisco').hide();            
+            $(_this).parent().parent().parent().parent().parent().find('.JustificativaGestaoDeRisco').hide();
             APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(_this);
         } else {
             $(_this).parent().parent().parent().parent().parent().find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
@@ -1221,7 +1306,8 @@ APP.component.GestaoDeRiscoPartial = {
     getRadioPossuiGestaoDeRisco: function () {
 
         $('[name^=formGestaoDeRiscoRisco]').unbind('change');
-        $('[name^=formGestaoDeRiscoRisco]').bind('change', function () {
+		$('[name^=formGestaoDeRiscoRisco]').bind('change', function () {
+			
             var radioPossuiGestaoDeRisco = APP.component.Radio.init('formGestaoDeRiscoRisco');
             if (radioPossuiGestaoDeRisco == "true") {
                 $(this).closest('#gestaoDeRisco').find('[name=InformacoesGestaoDeRisco]').show();
@@ -1292,10 +1378,10 @@ APP.component.Calendar = {
                 $(this).parent().parent().find("input").datepicker("show");
             }
 
-            
+
         });
 
-        
+
 
     },
 };
@@ -1385,7 +1471,7 @@ APP.component.Mascaras = {
 
         this.mascara();
         this.mascaraCelular();
-        
+
 
     },
 
@@ -1405,7 +1491,7 @@ APP.component.Mascaras = {
         $('.input-celular').focusout(function () {
 
             var elemento, elementoThis; elementoThis = $(this);
-            elementoThis.unmask(); elemento = elementoThis.val().replace(/\D/g, ""); 
+            elementoThis.unmask(); elemento = elementoThis.val().replace(/\D/g, "");
 
             var mascara = '(00) 0000-00000';
             var placeholder = '(__) ____-_____';
@@ -1429,7 +1515,7 @@ APP.component.Mascaras = {
 
     }
 
- 
+
 
 
 };
@@ -1462,7 +1548,7 @@ APP.component.Menu = {
             $("#main").css("marginLeft", "250px");
         });
 
-        
+
 
     },
 
@@ -1474,7 +1560,7 @@ APP.component.Menu = {
 
         });
 
-        
+
 
     },
 
@@ -1567,7 +1653,7 @@ APP.component.UserMenu = {
     },
 
     user: function () {
-        
+
         this.closeCliente.on('click', function () {
             $('#clientes').slideUp();
         });
@@ -1696,8 +1782,8 @@ APP.component.UserMenu = {
 
                         $('#clientes').slideDown();
                         $("#modal-panel-clientes-sites").modal();
-                        
-                        
+
+
 
 
                     },
@@ -1708,7 +1794,7 @@ APP.component.UserMenu = {
                     },
                     complete: function (result) {
                         APP.component.Loading.hideLoading();
-                        
+
                     }
                 });
 
@@ -1976,8 +2062,7 @@ APP.component.ResultErros = {
                 html += "</li>";
             });
         }
-        else
-        {
+        else {
             html += "<li>";
             html += "- " + _listErros;
             html += "</li>";
@@ -2051,17 +2136,17 @@ APP.component.SelectListCompare = {
             _listPage = [0];
 
         $(_listPage).each(function (key, value) {
-            
+
 
             obj = { [_paramCompare.valueOf()]: parseInt($(value).val()) };
             anotherOne.push(obj);
-            
+
         });
 
         var filteredArray = array.filter(myCallBack);
 
         function myCallBack(el) {
-            return anotherOne.findIndex(x => x[ _paramCompare ] == el[ _paramCompare ]) < 0;
+            return anotherOne.findIndex(x => x[_paramCompare] == el[_paramCompare]) < 0;
         }
 
         this.addSelectOnPage(filteredArray, _idSelect, obj, _paramTexto);

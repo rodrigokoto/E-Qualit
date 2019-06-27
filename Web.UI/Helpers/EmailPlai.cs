@@ -27,7 +27,7 @@ namespace Web.UI.Helpers
 
         public void EnviarNotificacao(Plai plai)
         {
-            var site = 5;
+            //var site = 5;
     
             if (plai.Pai.Usuario == null)
             {

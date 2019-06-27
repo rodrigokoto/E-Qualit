@@ -35,7 +35,6 @@ namespace Web.UI.Controllers
         private readonly IUsuarioAppServico _usuarioAppServico;
 
         private string _tipoRegistro = "gr";
-        private object notificacao;
         private readonly ISiteAppServico _siteService;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
@@ -144,7 +143,7 @@ namespace Web.UI.Controllers
                 if (totalAcoesEfetivadas == item.AcoesImediatas.Count())
                 {
                     retorno = item.ResponsavelReverificador?.NmCompleto;
-                }   
+                }
             }
             else if (item.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada)
             {
@@ -978,6 +977,24 @@ namespace Web.UI.Controllers
             try
             {
 
+                return PartialView("GestaoDeRiscoAnaliseCritica", analiseCriticaTema);
+
+            }
+            catch (Exception)
+            {
+
+                return Json(new { StatusCode = (int)HttpStatusCode.BadRequest, Erros = erros }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ObterPartialGestaoDeRiscoAnaliseCritica(int? idRegistro)
+        {
+            var erros = new List<string>();
+            var analiseCriticaTema = new AnaliseCriticaTema();
+
+            try
+            {
+
                 return PartialView("GestaoDeRisco", analiseCriticaTema);
 
             }
@@ -986,8 +1003,8 @@ namespace Web.UI.Controllers
 
                 return Json(new { StatusCode = (int)HttpStatusCode.BadRequest, Erros = erros }, JsonRequestBehavior.AllowGet);
             }
-            return null;
         }
+
 
         public ActionResult Imprimir(int id)
         {
