@@ -62,9 +62,18 @@ namespace Web.UI.Controllers
 
             var plai = _plaiAppServico.Get(x => x.IdPai == idPai && x.Mes == mes).FirstOrDefault();
 
-            ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
 
-            int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
+			if (plai.Pai.Processos.Count > 0)
+			{
+				ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
+			}
+			else {
+				ViewBag.NormasSelecionadas = null;
+			}
+            //
+			
+
+			int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
 
             var plaiTest = plai.PlaiProcessoNorma.ToList();
 

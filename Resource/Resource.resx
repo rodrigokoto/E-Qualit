@@ -3439,4 +3439,7 @@ www.e-qualit.com.br
   <data name="DocDocumento_msg_erro_assunto_sem_descricao" xml:space="preserve">
     <value>A descrição do assunto deve ser preenchida.</value>
   </data>
+  <data name="HoraInicial" xml:space="preserve">
+    <value>Hora Inicial</value>
+  </data>
 </root>
