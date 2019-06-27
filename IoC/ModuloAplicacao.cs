@@ -61,8 +61,7 @@ namespace IoC
             Bind<IArquivoCertificadoAnexoAppServico>().To<ArquivoCertificadoAnexoAppServico>();
             Bind<IArquivosEvidenciaCriterioQualificacaoAppServico>().To<ArquivosEvidenciaCriterioQualificacaoAppServico>();
             Bind<IDocumentoComentarioAppServico>().To<DocumentoComentarioAppServico>();
-
-
+            
             //RH
             Bind<IFuncionarioAppServico>().To<FuncionarioAppServico>();
             Bind<IFuncionalidadeAppServico>().To<FuncionalidadeAppServico>();

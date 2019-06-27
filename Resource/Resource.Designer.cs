@@ -6710,6 +6710,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to O campo Texto Documento deve conter no máximo 30000 caracteres..
+        /// </summary>
+        public static string MsgMaxTextoDoc30000Caracteres {
+            get {
+                return ResourceManager.GetString("MsgMaxTextoDoc30000Caracteres", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O campo mensagem é obrigatório..
         /// </summary>
         public static string MsgMensagem {

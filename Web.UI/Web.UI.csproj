@@ -1742,6 +1742,7 @@
     <Content Include="Templates\GestaoRiscoDefinirPlanoAcao-pt-BR.html" />
     <Content Include="Templates\GestaoRiscoAcaoDataImplementacao-pt-BR.html" />
     <Content Include="Templates\InstrumentoCalibracao-pt-BR.html" />
+    <Content Include="Templates\Auditoria-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeAcaoDataImplementacao-pt-BR.html" />
     <Content Include="Templates\AcaoCorretivaAcaoIneficaz-pt-BR.html" />
     <Content Include="Templates\GestaoRiscoAcaoIneficaz-pt-BR.html" />

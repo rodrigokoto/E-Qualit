@@ -1,9 +1,11 @@
 ﻿using ApplicationService.Interface;
 using Dominio.Entidade;
+using Dominio.Interface.Servico;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using Web.UI.Helpers;
 
@@ -23,6 +25,8 @@ namespace Web.UI.Controllers
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IFilaEnvioServico _filaEnvioServico;
+        private readonly IRegistroAuditoriaServico _registroAuditoriaServico;
 
         public AuditoriaController(IPaiAppServico paiAppServico, IPlaiAppServico plaiAppServico, IPlaiProcessoNormaAppServico plaiProcessoNormaAppServico, INormaAppServico normaAppServico,
                             IAnexoAppServico anexoAppServico,
@@ -30,6 +34,8 @@ namespace Web.UI.Controllers
                              ILogAppServico logAppServico,
                              IUsuarioAppServico usuarioAppServico,
                              IProcessoAppServico processoAppServico,
+                             IFilaEnvioServico filaEnvio,
+                             IRegistroAuditoriaServico registroAuditoria,
             IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _paiAppServico = paiAppServico;
@@ -42,7 +48,9 @@ namespace Web.UI.Controllers
             _usuarioAppServico = usuarioAppServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _filaEnvioServico = filaEnvio;
             _AnexoAppServico = anexoAppServico;
+            _registroAuditoriaServico = registroAuditoria;
         }
 
         public ActionResult Index(int? ano)
@@ -106,8 +114,8 @@ namespace Web.UI.Controllers
                 foreach (var pai in pais)
                 {
                     pai.IdSite = Util.ObterSiteSelecionado();
-                    
-                    if(pai.IdPai == 0)
+
+                    if (pai.IdPai == 0)
                     {
                         pai.IdSite = Util.ObterSiteSelecionado();
                         pai.DataCadastro = DateTime.Now;
@@ -124,8 +132,7 @@ namespace Web.UI.Controllers
                     {
 
                         Plai plai = _plaiAppServico.Get(x => x.Mes == plaiNovo.Mes && x.IdPai == pai.IdPai).FirstOrDefault();
-                        
-                        
+
                         if (plai != null)
                         {
                             plai.Arquivo = plaiNovo.Arquivo;
@@ -171,7 +178,7 @@ namespace Web.UI.Controllers
                             {
                                 foreach (int processo in processosPlaiAtual)
                                 {
-                                    
+
                                     List<PlaiProcessoNorma> plaiProcessoNormas = _plaiProcessoNormaAppServico.Get(x => x.IdProcesso == processo && x.IdPlai == plai.IdPlai && plai.Pai.Ano == pai.Ano).ToList();
 
                                     plaiProcessoNormas.ForEach(plaiProcessoNorma =>
@@ -239,13 +246,12 @@ namespace Web.UI.Controllers
                                 plai.Arquivo.Tratar();
                             }
 
-                            
+
                         }
                         else
                         {
                             plai.Arquivo = null;
                         }
-
 
                         if (plai.IdPlai == 0)
                         {
@@ -255,13 +261,10 @@ namespace Web.UI.Controllers
                         {
                             _plaiAppServico.Update(plai);
                         }
-
-                        
-
-
                     });
                 }
 
+                EnfileirarEmailAuditoria(pais);
             }
             catch (Exception ex)
             {
@@ -278,7 +281,6 @@ namespace Web.UI.Controllers
                 }, JsonRequestBehavior.AllowGet);
 
         }
-
 
         public ActionResult SalvaPDF(int id)
         {
@@ -325,6 +327,127 @@ namespace Web.UI.Controllers
             var pai = _paiAppServico.GetById(id);
 
             return View(pai);
+        }
+
+        public void EnfileirarEmailAuditoria(List<Pai> pais)
+        {
+            foreach (var pai in pais)
+            {
+                var plais = _plaiAppServico.GetAll().Where(x => x.IdPai == pai.IdPai);
+
+                foreach (var plai in plais)
+                {
+                    var registro = _registroAuditoriaServico.RetornaRegistro(plai);
+
+                    if (registro != null)
+                    {
+                        if (RemoverFilaEnvioAcoesEfetivadas(registro))
+                            SalvarEmailAuditoria(plai);
+                    }
+                    else
+                    {
+                        SalvarEmailAuditoria(plai);
+                    }
+                }
+            }
+        }
+
+        public void SalvarEmailAuditoria(Plai plai)
+        {
+            var dataDaPlai = new DateTime(plai.Pai.Ano, plai.Mes, 1);
+            var mandarEste = false;
+
+            if ((dataDaPlai - DateTime.Now).Days >= 30 && DateTime.Now.Day > 15)
+                mandarEste = true;
+            if ((dataDaPlai - DateTime.Now).Days >= 62)
+                mandarEste = true;
+
+            if (mandarEste)
+            {
+
+                RegistroAuditoria registro = new RegistroAuditoria();
+
+                var pai = _paiAppServico.Get(x => x.IdPai == plai.IdPai).FirstOrDefault();
+                var gestor = _usuarioAppServico.GetById(pai.IdGestor);
+                string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Auditoria-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+                var destinatario = gestor.CdIdentificacao;
+
+                string template = System.IO.File.ReadAllText(path);
+                string conteudo = template;
+
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var norma in plai.PlaiProcessoNorma)
+                {
+                    sb.AppendFormat("<tr><td>{0} - {1}</td></tr>", norma.Norma.Titulo , norma.Norma.Codigo );
+                }
+
+                conteudo = conteudo.Replace("#NomeGestor#", gestor.NmCompleto);
+                conteudo = conteudo.Replace("#PlaiAgendada#", sb.ToString());
+
+                var filaEnvio = new FilaEnvio();
+
+                filaEnvio.Assunto = "Agendamento de Plai";
+                filaEnvio.DataAgendado = new DateTime(plai.Pai.Ano, plai.Mes, 15).AddMonths(-1);
+                filaEnvio.DataInclusao = DateTime.Now;
+                filaEnvio.Destinatario = destinatario;
+                filaEnvio.Enviado = false;
+                filaEnvio.Mensagem = conteudo;
+
+                registro.DtInclusao = filaEnvio.DataInclusao;
+                registro.IdGestor = plai.Pai.IdGestor;
+                registro.IdPlai = plai.IdPlai;
+                registro.IdUsuarioInclusao = int.Parse(Util.ObterUsuario().IdUsuario);
+
+                _filaEnvioServico.Enfileirar(filaEnvio);
+
+                registro.IdFilaEnvio = filaEnvio.Id;
+
+                _registroAuditoriaServico.InserirEmail(registro);
+            }
+        }
+        private bool RemoverFilaEnvioAcoesEfetivadas(RegistroAuditoria registroAuditorias)
+        {
+            if (registroAuditorias.IdFilaEnvio != null)
+            {
+                var filaEnvio = _filaEnvioServico.ObterPorId(registroAuditorias.IdFilaEnvio.Value);
+                if (filaEnvio != null && !filaEnvio.Enviado)
+                {
+                    _registroAuditoriaServico.ExcluiEmail(registroAuditorias);
+                    _filaEnvioServico.Apagar(filaEnvio);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void AtualizarDatasAgendadas(RegistroConformidade naoConformidade)
+        {
+            var acoes = naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao == null && x.IdAcaoImediata > 0 && x.IdFilaEnvio != null).ToList();
+            var acoesEnfileirar = new List<RegistroAcaoImediata>();
+
+            foreach (var acao in acoes)
+            {
+                var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
+
+                if (filaEnvio != null)
+                {
+                    if (!filaEnvio.Enviado)
+                    {
+                        filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
+                    }
+                    else
+                    {
+                        acoesEnfileirar.Add(acao);
+                    }
+                }
+
+                _filaEnvioServico.Atualizar(filaEnvio);
+            }
+
+            //EnfileirarEmailsAcaoImediata(acoesEnfileirar, naoConformidade);
+
         }
     }
 }
