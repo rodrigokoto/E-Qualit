@@ -6,31 +6,31 @@ using System.Linq;
 
 namespace DAL.Repository
 {
-    public class RegistroAcaoImediataRepositorio: BaseRepositorio<RegistroAcaoImediata>, IRegistroAcaoImediataRepositorio
+    public class RegistroAcaoImediataRepositorio : BaseRepositorio<RegistroAcaoImediata>, IRegistroAcaoImediataRepositorio
     {
         public void AtualizaAcaoImediataComAnexos(RegistroAcaoImediata obj)
         {
             //using (var context = new BaseContext())
             //{
-                try
+            try
+            {
+                if (obj.ArquivoEvidencia.Any(x => x.IdArquivoDeEvidenciaAcaoImediata == 0))
                 {
-                    if (obj.ArquivoEvidencia.Any(x => x.IdArquivoDeEvidenciaAcaoImediata == 0))
-                    {
-                        Db.Set<ArquivoDeEvidenciaAcaoImediata>().Add(obj.ArquivoEvidencia.FirstOrDefault());
-                        //context.Set<ArquivoDeEvidenciaAcaoImediata>().Add(obj.ArquivoEvidencia.FirstOrDefault());
-                    }
-
-                    //context.Entry(obj).State = EntityState.Modified;
-                    Db.Entry(obj).State = EntityState.Modified;
-
-                    //context.SaveChanges();
-                    Db.SaveChanges();
+                    Db.Set<ArquivoDeEvidenciaAcaoImediata>().Add(obj.ArquivoEvidencia.FirstOrDefault());
+                    //context.Set<ArquivoDeEvidenciaAcaoImediata>().Add(obj.ArquivoEvidencia.FirstOrDefault());
                 }
-                catch (System.Exception ex)
-                {
 
-                }
-               
+                //context.Entry(obj).State = EntityState.Modified;
+                Db.Entry(obj).State = EntityState.Modified;
+
+                //context.SaveChanges();
+                Db.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+
+            }
+
             //}
         }
     }

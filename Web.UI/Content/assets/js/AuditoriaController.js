@@ -24,8 +24,8 @@ APP.controller.AuditoriaController = {
 
     },
 
-    models: {        
-        AnexoModel: APP.model.Anexo,        
+    models: {
+        AnexoModel: APP.model.Anexo,
     },
 
     indexAuditoria: function () {
@@ -37,7 +37,7 @@ APP.controller.AuditoriaController = {
         this.setAndHide();
         this.getGestorPorSite();
         this.setValidateForms();
-        this.sendFormAuditoria();       
+        this.sendFormAuditoria();
 
     },
 
@@ -47,29 +47,46 @@ APP.controller.AuditoriaController = {
 
     },
 
-    getArquivo: function (_this) {
+    getArrArquivo: function (_this) {
 
-        var anexoContratoModel = APP.controller.FornecedoresController.models.AnexoModel;
-        var anexoAuditoria = {};
-        
-        var nameImg = $(_this).parent().find('.NomeAnexo').val();
-        var id = $(_this).parent().find('.IdAnexo').val() != undefined && $(_this).parent().find('.IdAnexo').val() != null && $(_this).parent().find('.IdAnexo').val() != "" ? $(_this).parent().find('.IdAnexo').val() : "0";
-        
-        var anexoAuditoria = anexoContratoModel.constructor(
-            id,
-            nameImg,
-            $(_this).parent().find('.anexo-plai').data('b64'),
-        );
+        let divArquivosSel = $(_this).data("divarquivos");
+        let arquivos = $(divArquivosSel).find(".upload-arq");
+        var arrAnexoAuditoria = new Array();
 
-        return anexoAuditoria;
+        for (let iarquivos = 0; iarquivos < arquivos.length; iarquivos++) {
+            let arq = $(arquivos[iarquivos]);
+            var nameImg = arq.find("input[name='NomeAnexo']").val();
+            if (!nameImg)
+                continue;
+            if (nameImg == "") //skip temporary buttons
+                continue;
+            var id = arq.find("input[name='IdAnexo']").val();
+            if (!id)
+                id = 0;
+            let ArquivoB64 = arq.find('.anexo-plai').data('b64');
+            let Anexo = {
+                IdAnexo: id,
+                Extensao: nameImg,
+                ArquivoB64: ArquivoB64,
+            };
+            let anexoAuditoria = {
+                IdArquivoPlaiAnexo: arq.find("input[name='IdArquivoPlaiAnexo']").val(),
+                IdPlai: arq.find("input[name='IdPlai']").val(),
+                IdAnexo: id,
+                Anexo: Anexo,
+                ApagarAnexo: arq.find("input[name='ApagarAnexo']").val(),
+            };
+            arrAnexoAuditoria.push(anexoAuditoria);
+        }
+        return arrAnexoAuditoria;
 
     },
-   
+
     getGestorPorSite: function () {
 
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 40; // Funcionalidade(Cadastrar) que permite usuario criar nc
-        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name=formAuditoriaGestor] option'), $('[name=formAuditoriaGestor]'), 'IdUsuario', 'NmCompleto');
             }
@@ -135,7 +152,7 @@ APP.controller.AuditoriaController = {
         $(_this).find('.calendar ul').each(function () {
             var formAuditoriaMesesObj = {
                 Mes: $(this).find('[name^=formAuditoriaMes]').val(),
-                Arquivo: APP.controller.AuditoriaController.getArquivo(this),
+                ArquivoPlai: APP.controller.AuditoriaController.getArrArquivo(this),
                 PlaiProcessoNorma: APP.controller.AuditoriaController.getObjFormAuditoriaMesesProcessos(this),
             };
 
@@ -161,7 +178,7 @@ APP.controller.AuditoriaController = {
     },
 
     getIdProcessoPorNome: function (_Nome) {
-     
+
         $.ajax({
             type: "GET",
             dataType: 'JSON',
@@ -172,8 +189,7 @@ APP.controller.AuditoriaController = {
                 if (result.StatusCode == 202) {
                     return result.IdProcesso;
                 }
-                else
-                {
+                else {
                     return 0;
                 }
             },
@@ -239,14 +255,13 @@ APP.controller.AuditoriaController = {
 
             if (isVisible) {
                 var form = idPanel[2];
-                
-                if (form == "auditoria")
-                {
+
+                if (form == "auditoria") {
                     $('.carousel-inner .item').each(function () {
-                        var auditoriaObj = APP.controller.AuditoriaController.getObjFormAuditoria(this);                    
+                        var auditoriaObj = APP.controller.AuditoriaController.getObjFormAuditoria(this);
                         ArrayAuditoriaObj.push(auditoriaObj);
                     });
-                }                
+                }
             }
 
         });

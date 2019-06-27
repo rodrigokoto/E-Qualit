@@ -19,6 +19,169 @@
     <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
 }
 
+<style>
+    .rai-modal-body {
+        max-height: 60vh;
+        height: 60vh;
+        overflow: auto;
+    }
+
+    .linksemcor {
+        color: black;
+    }
+
+        .linksemcor:hover {
+            color: black;
+        }
+    .latalixo {
+        padding-right: 10px !important;
+    }
+</style>
+
+@helper SairMes(string labelMes, string nomeMesMaiusc, string nomeMesMinusc, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+        <div class="background-calendar">
+            @labelMes
+        </div>
+        <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)" data-divarquivos="#modal-rai@(numeroMes)@(pai.Ano)">
+            <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMes@(nomeMesMaiusc)" value="@numeroMes" />
+            @{
+                List<string> normas = (pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
+            }
+            @foreach (var processoNorma in normas)
+            {
+                if (processoNorma != null)
+                {
+                    <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
+
+                        <span>
+                            @processoNorma
+
+                            @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
+|| ViewBag.IdPerfil != 4)
+                            {
+                                <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
+                            }
+                        </span>
+                    </li>
+                }
+            }
+        </ul>
+        @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == numeroMes) != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma.Count > 0)
+        {
+            if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
+                           || ViewBag.IdPerfil != 4)
+            {
+                <div class="button-plai">
+                    <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = numeroMes }, null)</button>
+                </div>
+            }
+
+            <div class="button-pai-anexo">
+                @{
+                    var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
+                    int nroArquivos = plai.ArquivoPlai.Count;
+                }
+                <button type="button" class="btn btn-primary" onclick="$('#modal-rai@(numeroMes)@(pai.Ano)').modal('show');">R.A.I. (<span class="raiNroArquivos@(numeroMes)@(pai.Ano)">@nroArquivos</span> arquivos)</button>
+            </div>
+        }
+    </div>
+}
+@helper SairMesRaiModal(string nomeMes, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
+{
+
+    @* dialogo do RAI
+        nao pode estar no meio do HTML principal, tem que estar fora do div main
+    *@
+    <div id="modal-rai@(numeroMes)@(pai.Ano)" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos2" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">R.A.I. - @nomeMes</h4>
+                </div>
+
+                <div class="modal-body rai-modal-body">
+
+                    @{
+                        var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
+                        var listaAnexos = plai.ArquivoPlai;
+                    }
+
+                    @* botao upload novo, fica no topo *@
+                    @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
+                    {
+                        <div class="upload-arq upload-arq-rai" style="text-align: left">
+                            <a class="btn-upload2-rai linksemcor">
+                                <i class="fa fa-paperclip fa-1x latalixo" aria-hidden="true"></i> @Traducao.Resource.Anexar
+                            </a>
+                            <input type="file" class="anexo-plai"
+                                   data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"
+                                   data-msg-required=""
+                                   data-b64="">
+
+
+                            <div class="templatenovoarquivo" style="display: none">
+                                <div class="upload-arq upload-arq-rai uploadrai@(numeroMes)@(pai.Ano)" style="text-align: left">
+                                    @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
+                                    {
+                                        <a href="#" class="btn-delete2-rai linksemcor latalixo"
+                                           data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"><i class="fa fa-trash fa-1" aria-hidden="true" title="Excluir anexo" data-original-title=""></i></a>
+                                    }
+                                    <span class="downrai linksemcor">Anexo: <span class="noemarquivo"></span></span>
+                                    <input type="hidden" name="IdAnexo" value="0" />
+                                    <input type="hidden" name="NomeAnexo" value="" />
+                                    <input type="hidden" name="ApagarAnexo" value="0" />
+                                    <input type="file" name="ConteudoAnexo" class="anexo-plai" data-msg-required="" data-b64="">
+                                </div>
+
+                            </div>
+                        </div>
+
+                    }
+
+                    @foreach (var anexo in listaAnexos)
+                    {
+                        @*
+            cada arquivo estara agrupado por classe, para montar os dados precisa ler por classe e depois os itens dentro dessa classe
+                        *@
+                        <div class="upload-arq upload-arq-rai uploadrai@(numeroMes)@(pai.Ano)" style="text-align: left">
+                            @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
+                            {
+                                <a href="#" class="btn-delete2-rai linksemcor latalixo"
+                                   data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"><i class="fa fa-trash fa-1" aria-hidden="true" title="Excluir anexo" data-original-title=""></i></a>
+                            }
+                            @{
+                                var ArquivoB64 = String.Format("data:application/" + (anexo.Anexo.Arquivo != null ? anexo.Anexo.Extensao : "") + ";base64," + (anexo.Anexo.Arquivo != null ? Convert.ToBase64String(anexo.Anexo.Arquivo) : ""));
+                            }
+                            <a href="@ArquivoB64" class="downrai linksemcor" target="_blank" download="@anexo.Anexo.Nome">Anexo: @anexo.Anexo.Nome</a>
+                            <input type="hidden" name="IdAnexo" value="@anexo.Anexo.IdAnexo" />
+                            <input type="hidden" name="NomeAnexo" value="@anexo.Anexo.Nome" />
+                            <input type="hidden" name="ApagarAnexo" value="0" />
+                            <input type="hidden" name="IdArquivoPlaiAnexo" value="@anexo.IdArquivoPlaiAnexo" />
+                            <input type="hidden" name="IdPlai" value="@anexo.IdPlai" />
+                            <input type="file" class="anexo-plai"
+                                   data-msg-required=""
+                                   data-b64="@(anexo.Anexo.Arquivo != null && anexo.Anexo.IdAnexo > 0 ? Convert.ToBase64String(anexo.Anexo.Arquivo) : "")">
+                        </div>
+                    }
+
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
 <div id="main">
     <div class="content-painel">
         <!-- hidden -->
@@ -106,1021 +269,33 @@
                                                     <div class="row">
                                                         <div class="row">
                                                             <!-- Janeiro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jan
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJan" value="1" />
-                                                                    @{
-                                                                        List<string> normas = (pai.Plais.Where(x => x.Mes == 1).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 1).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 1).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                    || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 1) != null && pai.Plais.Where(x => x.Mes == 1).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 1).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                   || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 1 }, null)</button>
-                                                                        </div>
-                                                                    }
-
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 1).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-jan-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-jan-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo1" name="IdAnexo1" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo1" name="NomeAnexo1" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesJanRai-@pai.Ano" class="anexo-plai" id="form-auditoria-mes-jan-rai-@pai.Ano"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jan, "Jan", "jan", 1, pai, listaPermissoes)
                                                             <!-- Fevereiro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Fev
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesFev" value="2" />
-                                                                    @{
-                                                                        List<string> normas2 = (pai.Plais.Where(x => x.Mes == 2).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 2).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 2).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas2)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white">
-                                                                                            <i class="fa fa-trash"></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 2) != null && pai.Plais.Where(x => x.Mes == 2).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 2).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 2 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 2).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-fev-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-fev-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> @Traducao.Resource.Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo2" name="IdAnexo2" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo2" name="NomeAnexo2" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesFeRai-@pai.Ano" id="form-auditoria-mes-fev-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Fev, "Fev", "fev", 2, pai, listaPermissoes)
                                                             <!-- Março -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Mar
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMar" value="3" />
-                                                                    @{
-                                                                        List<string> normas3 = (pai.Plais.Where(x => x.Mes == 3).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 3).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 3).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas3)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }                                                                                        <
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 3) != null && pai.Plais.Where(x => x.Mes == 3).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 3).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 3 }, null)</button>
-                                                                        </div>
-                                                                    }
-
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 3).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-mar-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-mar-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo3" name="IdAnexo3" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo3" name="NomeAnexo3" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesMarRai-@pai.Ano" id="form-auditoria-mes-mar-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Mar, "Mar", "mar", 3, pai, listaPermissoes)
                                                             <!-- Abril -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Abr
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAbr" value="4" />
-                                                                    @{
-                                                                        List<string> normas4 = (pai.Plais.Where(x => x.Mes == 4).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 4).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 4).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas4)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 4) != null && pai.Plais.Where(x => x.Mes == 4).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 4).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 4 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 4).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-abr-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-abr-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo4" name="IdAnexo4" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo4" name="NomeAnexo4" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesAbrRai-@pai.Ano" id="form-auditoria-mes-abr-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Abr, "Abr", "abr", 4, pai, listaPermissoes)
                                                         </div>
                                                         <div class="row">
                                                             <!-- Maio -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Mai
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMai" value="5" />
-                                                                    @{
-                                                                        List<string> normas5 = (pai.Plais.Where(x => x.Mes == 5).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 5).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 5).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas5)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 5) != null && pai.Plais.Where(x => x.Mes == 5).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 5).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 5 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 5).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-mai-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-mai-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo5" name="IdAnexo5" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo5" name="NomeAnexo5" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesMaiRai-@pai.Ano" id="form-auditoria-mes-mai-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Mai, "Mai", "mai", 5, pai, listaPermissoes)
                                                             <!-- Junho -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jun
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJun" value="6" />
-                                                                    @{
-                                                                        List<string> normas6 = (pai.Plais.Where(x => x.Mes == 6).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 6).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 6).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas6)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 6) != null && pai.Plais.Where(x => x.Mes == 6).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 6).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 6 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 6).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-jun-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-jun-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo6" name="IdAnexo6" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo6" name="NomeAnexo6" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesJunRai-@pai.Ano" id="form-auditoria-mes-jun-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jun, "Jun", "jun", 6, pai, listaPermissoes)
                                                             <!-- Julho -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jul
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJul" value="7" />
-                                                                    @{
-                                                                        List<string> normas7 = (pai.Plais.Where(x => x.Mes == 7).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 7).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 7).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas7)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 7) != null && pai.Plais.Where(x => x.Mes == 7).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 7).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                    || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 7 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 7).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-jul-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-jul-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo7" name="IdAnexo7" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo7" name="NomeAnexo7" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesJunRai-@pai.Ano" id="form-auditoria-mes-jun-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jul, "Jul", "jul", 7, pai, listaPermissoes)
                                                             <!-- Agosto -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Ago
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAgo" value="8" />
-                                                                    @{
-                                                                        List<string> normas8 = (pai.Plais.Where(x => x.Mes == 8).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 8).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 8).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas8)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 8) != null && pai.Plais.Where(x => x.Mes == 8).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 8).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                    || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 8 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 8).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-ago-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-ago-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> @Traducao.Resource.Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo8" name="IdAnexo8" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo8" name="NomeAnexo8" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesAgoRai-@pai.Ano" id="form-auditoria-mes-Ago-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Ago, "Ago", "ago", 8, pai, listaPermissoes)
                                                         </div>
                                                         <div class="row">
                                                             <!-- Setembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Set
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesSet" value="9" />
-                                                                    @{
-                                                                        List<string> normas9 = (pai.Plais.Where(x => x.Mes == 9).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 9).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 9).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas9)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 9) != null && pai.Plais.Where(x => x.Mes == 9).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 9).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 9 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 9).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-set-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-set-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo9" name="IdAnexo9" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo9" name="NomeAnexo9" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesSetRai-@pai.Ano" id="form-auditoria-mes-set-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Set, "Set", "set", 9, pai, listaPermissoes)
                                                             <!-- Outubro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Out
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesOut" value="10" />
-                                                                    @{
-                                                                        List<string> normas10 = (pai.Plais.Where(x => x.Mes == 10).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 10).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 10).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas10)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 10) != null && pai.Plais.Where(x => x.Mes == 10).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 10).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 10 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 10).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-out-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-out-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo10" name="IdAnexo10" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo10" name="NomeAnexo10" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesOutRai-@pai.Ano" id="form-auditoria-mes-out-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Out, "Out", "out", 10, pai, listaPermissoes)
                                                             <!-- Novembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Nov
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesNov" value="11" />
-                                                                    @{
-                                                                        List<string> normas11 = (pai.Plais.Where(x => x.Mes == 11).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 11).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 11).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas11)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 11) != null && pai.Plais.Where(x => x.Mes == 11).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 11).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 11 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 11).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-nov-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                            || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-nov-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo11" name="IdAnexo11" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo11" name="NomeAnexo11" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesNovRai-@pai.Ano" id="form-auditoria-mes-nov-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Nov, "Nov", "nov", 11, pai, listaPermissoes)
                                                             <!-- Dezembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Dez
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesDez" value="12" />
-                                                                    @{
-                                                                        List<string> normas12 = (pai.Plais.Where(x => x.Mes == 12).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == 12).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == 12).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-                                                                    }
-                                                                    @foreach (var processoNorma in normas12)
-                                                                    {
-                                                                        if (processoNorma != null)
-                                                                        {
-                                                                            <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-
-                                                                                <span>
-                                                                                    @processoNorma
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                                                                                    }
-                                                                                </span>
-                                                                            </li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                                @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == 12) != null && pai.Plais.Where(x => x.Mes == 12).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == 12).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-                                                                {
-                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                                                                                  || ViewBag.IdPerfil != 4)
-                                                                    {
-                                                                        <div class="button-plai">
-                                                                            <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = 12 }, null)</button>
-                                                                        </div>
-                                                                    }
-                                                                    <div class="button-pai-anexo">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            <div class="upload-arq">
-
-                                                                                @{
-                                                                                    var plai = pai.Plais.Where(x => x.Mes == 12).FirstOrDefault();
-
-                                                                                    var anexo = new Dominio.Entidade.Anexo()
-                                                                                    {
-                                                                                        IdAnexo = plai.Arquivo != null ? plai.Arquivo.IdAnexo : 0,
-                                                                                        Nome = plai.Arquivo != null ? plai.Arquivo.Nome : "",
-                                                                                        Extensao = plai.Arquivo != null ? plai.Arquivo.Extensao : "",
-                                                                                        ArquivoB64 = String.Format("data:application/" + (plai.Arquivo != null ? plai.Arquivo.Extensao : "") + ";base64," + (plai.Arquivo != null ? Convert.ToBase64String(plai.Arquivo.Arquivo) : "")),
-                                                                                    };
-                                                                                }
-                                                                                @if (anexo != null && anexo.IdAnexo > 0)
-                                                                                {
-                                                                                    <a href="@anexo.ArquivoB64" id="btn-upload-rai-form-auditoria-mes-dez-rai-@pai.Ano" class="download-rai-form-auditoria-mes" target="_blank" download="@anexo.Nome">R.A.I</a>
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                             || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a href="#" class="btn-delete-rai">
-                                                                                            <i class="fa fa-trash fa-1" aria-hidden="true" title="" data-original-title=""></i>
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI)
-                                                                                        || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        <a class="btn-upload-rai-form-auditoria-mes-dez-rai-@pai.Ano">
-                                                                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> @Traducao.Resource.Anexar
-                                                                                        </a>
-                                                                                    }
-                                                                                }
-
-                                                                                <input type="hidden" id="IdAnexo12" name="IdAnexo12" class="IdAnexo" value="@anexo.IdAnexo" />
-                                                                                <input type="hidden" id="NomeAnexo12" name="NomeAnexo12" class="NomeAnexo" value="@anexo.Nome" />
-                                                                                <input type="file" name="formAuditoriaMesDezRai-@pai.Ano" id="form-auditoria-mes-Dez-rai-@pai.Ano"
-                                                                                       class="anexo-plai"
-                                                                                       data-msg-required=""
-                                                                                       data-b64="@(plai.Arquivo != null &&  plai.Arquivo.IdAnexo > 0 ?  Convert.ToBase64String(plai.Arquivo.Arquivo) : "")">
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                            </div>
+                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Dez, "Dez", "dez", 12, pai, listaPermissoes)
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1266,7 +441,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        else if(Model.Count() == 0)
+                                        else if (Model.Count() == 0)
                                         {
                                             <!-- Calendario Atual -->
                                             <div class="item active">
@@ -1546,8 +721,8 @@
                                             </div>
                                         }
 
-                      
-                                    </div>                                    
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1558,6 +733,40 @@
 
     </div>
 </div>
+
+@*
+
+    dialogos do RAI
+*@
+@foreach (Dominio.Entidade.Pai pai in Model)
+{
+    <!-- Janeiro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jan, 1, pai, listaPermissoes)
+    <!-- Fevereiro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Fev, 2, pai, listaPermissoes)
+    <!-- Março -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Mar, 3, pai, listaPermissoes)
+    <!-- Abril -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Abr, 4, pai, listaPermissoes)
+    <!-- Maio -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Mai, 5, pai, listaPermissoes)
+    <!-- Junho -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jun, 6, pai, listaPermissoes)
+    <!-- Julho -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jul, 7, pai, listaPermissoes)
+    <!-- Agosto -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Ago, 8, pai, listaPermissoes)
+    <!-- Setembro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Set, 9, pai, listaPermissoes)
+    <!-- Outubro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Out, 10, pai, listaPermissoes)
+    <!-- Novembro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Nov, 11, pai, listaPermissoes)
+    <!-- Dezembro -->
+    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Dez, 12, pai, listaPermissoes)
+}
+
+
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1565,3 +774,4 @@
         </div>
     </div>
 </div>
+

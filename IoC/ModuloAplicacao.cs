@@ -59,6 +59,7 @@ namespace IoC
             Bind<IUsuarioAnexoAppServico>().To<UsuarioAnexoAppServico>();
             Bind<IClienteContratoAppServico>().To<ClienteContratoAppServico>();
             Bind<IArquivoCertificadoAnexoAppServico>().To<ArquivoCertificadoAnexoAppServico>();
+            Bind<IArquivoPlaiAnexoAppServico>().To<ArquivoPlaiAnexoAppServico>();
             Bind<IArquivosEvidenciaCriterioQualificacaoAppServico>().To<ArquivosEvidenciaCriterioQualificacaoAppServico>();
             Bind<IDocumentoComentarioAppServico>().To<DocumentoComentarioAppServico>();
 

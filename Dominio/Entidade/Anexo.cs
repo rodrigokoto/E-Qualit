@@ -58,6 +58,7 @@ namespace Dominio.Entidade
 
         #region Relacionamento
         public virtual ICollection<ArquivoCertificadoAnexo> ArquivoCertificadoAnexo { get; set; }
+        public virtual ICollection<ArquivoPlaiAnexo> ArquivoPlaiAnexo { get; set; }
         public virtual ICollection<ArquivoDeEvidenciaAcaoImediata> ArquivoEvidenciaAcaoImediata { get; set; }
         public virtual ICollection<UsuarioAnexo> FotosUsuario { get; set; }
         public virtual ICollection<SiteAnexo> FotosSite { get; set; }
@@ -74,7 +75,6 @@ namespace Dominio.Entidade
         public virtual ICollection<Licenca> Licencas { get; set; }
         public virtual ICollection<DocExterno> DocsExterno { get; set; }
 
-        public virtual ICollection<Plai> Plais { get; set; }
         #endregion
     }
 }

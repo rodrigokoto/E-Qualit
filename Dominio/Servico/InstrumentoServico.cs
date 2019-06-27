@@ -35,8 +35,8 @@ namespace Dominio.Servico
 
         private void ValidaRegraNegocio(Instrumento instrumento, ref List<string> erros)
         {
-            instrumento.ValidationResult = instrumento.IdInstrumento == 0?
-                new AptoParaCadastroInstrumentoValidation(_instrumentoRepositorio).Validate(instrumento):
+            instrumento.ValidationResult = instrumento.IdInstrumento == 0 ?
+                new AptoParaCadastroInstrumentoValidation(_instrumentoRepositorio).Validate(instrumento) :
                 new AptoParaEditarInstrumentoValidation(_instrumentoRepositorio).Validate(instrumento);
 
             if (!instrumento.ValidationResult.IsValid)
@@ -46,8 +46,8 @@ namespace Dominio.Servico
         private void ValidaRegraTela(Instrumento instrumento, ref List<string> erros)
         {
 
-            var camposObrigatrios = instrumento.IdInstrumento == 0?
-                new CriarInstrumentoViewValidation().Validate(instrumento):
+            var camposObrigatrios = instrumento.IdInstrumento == 0 ?
+                new CriarInstrumentoViewValidation().Validate(instrumento) :
                 new EditarInstrumentoViewValidation().Validate(instrumento);
 
             if (!camposObrigatrios.IsValid)
@@ -62,7 +62,7 @@ namespace Dominio.Servico
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

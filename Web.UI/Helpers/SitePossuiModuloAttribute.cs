@@ -31,7 +31,7 @@ namespace Web.UI.Helpers
 
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

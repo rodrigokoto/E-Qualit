@@ -21,7 +21,7 @@ namespace DAL.Repository
 
                         var produtoFornecedor = context.ProdutoFornecedor.Where(x => x.IdProduto == idProduto).ToList();
 
-                        foreach(var item in produtoFornecedor)
+                        foreach (var item in produtoFornecedor)
                         {
                             context.Entry(item).State = EntityState.Deleted;
                         }
@@ -70,21 +70,20 @@ namespace DAL.Repository
                         }
 
                         var produto = context.Produto.Where(x => x.IdProduto == idProduto).FirstOrDefault();
-                        
+
                         context.Entry(produto).State = EntityState.Deleted;
 
                         context.SaveChanges();
 
                         dbContextTransaction.Commit();
                         return true;
-                        
+
 
                     }
                     catch (Exception ex)
                     {
                         dbContextTransaction.Rollback();
                         throw ex;
-                        return true;
                     }
                 }
             }

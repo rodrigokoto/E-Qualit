@@ -112,7 +112,7 @@ namespace Dominio.Servico
 
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Adicionar a tratativa para log
             }
@@ -155,7 +155,7 @@ namespace Dominio.Servico
                 usuarioAtualizar.CdSenha = UtilsServico.Sha1Hash(novaSenha);
                 _usuarioRepositorio.Update(usuarioAtualizar);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

@@ -25,7 +25,7 @@ namespace DAL.Repository
                 {
 
                     try
-                    {                        
+                    {
                         var sites = context.Site.Where(x => x.IdSite == id).ToList();
 
                         foreach (var item in sites)
@@ -114,14 +114,14 @@ namespace DAL.Repository
 
                             context.Entry(item).State = EntityState.Deleted;
                         }
-                        
+
                         context.SaveChanges();
 
                         dbContextTransaction.Commit();
                         return true;
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         dbContextTransaction.Rollback();
                         return false;

@@ -33,7 +33,7 @@ namespace MessengerWindowsService
             {
                 this.encoding = encoding;
             }
-            this.console = console;            
+            this.console = console;
             swFile.AutoFlush = true;
             this.writer = swFile;
             this.writer.AutoFlush = true;
@@ -69,7 +69,7 @@ namespace MessengerWindowsService
         #endregion
 
         #region IDisposable  
-        public void Dispose()
+        public new void Dispose()
         {
             this.writer.Flush();
             this.writer.Close();

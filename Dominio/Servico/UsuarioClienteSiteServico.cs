@@ -33,11 +33,11 @@ namespace Dominio.Servico
                     });
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
-            return  UsuarioServico.RetiraDuplicado(_usuarios);
+            return UsuarioServico.RetiraDuplicado(_usuarios);
         }
 
         public List<UsuarioClienteSite> ListarPorUsuario(int idUsuario)
@@ -48,7 +48,7 @@ namespace Dominio.Servico
                 _usuarios = _usuarioClienteSiteRepositorio.ListarPorUsuario(idUsuario);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
