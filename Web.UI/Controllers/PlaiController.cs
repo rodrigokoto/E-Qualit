@@ -63,14 +63,9 @@ namespace Web.UI.Controllers
             var plai = _plaiAppServico.Get(x => x.IdPai == idPai && x.Mes == mes).FirstOrDefault();
 
 
-			if (plai.Pai.Processos.Count > 0)
-			{
-				ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
-			}
-			else {
-				ViewBag.NormasSelecionadas = null;
-			}
-            //
+			
+			ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
+			
 			
 
 			int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
@@ -88,8 +83,9 @@ namespace Web.UI.Controllers
             });
 
             ViewBag.Gestores = _usuarioAppServico.ObterUsuariosPorPerfilESite(IdSite, 3, IdPerfil);
+			ViewBag.Editar = (plai.DataReuniaoEncerramento >= DateTime.Now).ToString();
 
-            return View("Criar", plai);
+			return View("Criar", plai);
         }
 
         public ActionResult DownloadPdf(int idPlai)
@@ -144,9 +140,90 @@ namespace Web.UI.Controllers
 
             try
             {
-                Plai plaiAtual = _plaiAppServico.GetById(plai.IdPlai);
 
-                plaiAtual.DataReuniaoAbertura = plai.DataReuniaoAbertura;
+				bool erroData = false;
+				foreach (var item in plai.PlaiProcessoNorma)
+				{
+					if (item.Data <  plai.DataReuniaoAbertura || item.DataFinal > plai.DataReuniaoEncerramento) {
+						erros.Add("A data inicial e final do processo deverão estar no intervalo de data e hora de abertura e encerramento do PLAI.");
+						break;
+					}
+
+					foreach (var processoVerificar in plai.PlaiProcessoNorma)
+					{
+						//     Data Item atual        Data Principal
+						if (processoVerificar.Data > item.Data && processoVerificar.Data < item.DataFinal ||
+							processoVerificar.DataFinal > item.Data && processoVerificar.DataFinal < item.DataFinal)
+						{
+							erros.Add("Data, Hora inicial e Hora final dos processos não podem se sobrepor.");
+							erroData = true;
+							break;
+						}
+					}
+					if (erroData == true)
+					{
+						break;
+					}
+				}
+				
+
+				//bool temNormaAtiva = false;
+				//int processoAtual = plai.PlaiProcessoNorma.FirstOrDefault().IdProcesso;
+				//foreach (var item in plai.PlaiProcessoNorma)
+				//{
+				//	if (processoAtual == item.IdProcesso)
+				//	{
+				//		if (item.Ativo == true)
+				//		{
+				//			temNormaAtiva = true;
+
+				//		}
+				//	} else {
+				//		if (temNormaAtiva == false)
+				//		{
+				//			break;
+				//		}
+
+				//		temNormaAtiva = false;
+				//	}
+				//	processoAtual = item.IdProcesso;
+
+				//	// item.Ativo 
+				//}
+				//if (!temNormaAtiva)
+				//{
+				//	erros.Add("Seleciona uma norma por processo");
+				//}
+
+				Plai plaiAtual = _plaiAppServico.GetById(plai.IdPlai);
+
+
+				bool temNormaAtiva = false;
+				foreach (var item in plaiAtual.PlaiProcessoNorma.Select(x => x.IdProcesso).ToList())
+				{
+
+					foreach (var itemNorma in plai.PlaiProcessoNorma)
+					{
+						if (itemNorma.IdProcesso == item)
+						{
+							if (itemNorma.Ativo == true)
+							{
+								temNormaAtiva = true;
+								break;
+							}
+						}
+					}
+					if (!temNormaAtiva)
+					{
+						erros.Add("Seleciona uma norma por processo");
+						break;
+					}
+					temNormaAtiva = false;
+				}
+
+
+
+				plaiAtual.DataReuniaoAbertura = plai.DataReuniaoAbertura;
                 plaiAtual.DataReuniaoEncerramento = plai.DataReuniaoEncerramento;
                 plaiAtual.IdElaborador = plai.IdElaborador;
                 plaiAtual.PlaiGerentes = plai.PlaiGerentes;
@@ -173,8 +250,8 @@ namespace Web.UI.Controllers
                     else
                     {
                         plaiProcessoNormaAcao.Data = plaiProcessoNorma.Data;
-
-                        _plaiProcessoNormaAppServico.Update(plaiProcessoNormaAcao);
+						plaiProcessoNormaAcao.DataFinal = plaiProcessoNorma.DataFinal;
+						_plaiProcessoNormaAppServico.Update(plaiProcessoNormaAcao);
                     }
                 });
 

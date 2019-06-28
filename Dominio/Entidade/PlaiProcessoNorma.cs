@@ -13,6 +13,7 @@ namespace Dominio.Entidade
         public int? IdNorma { get; set; }
         public virtual Norma Norma { get; set; }
         public DateTime Data { get; set; }
-        public bool Ativo { get; set; }
+		public DateTime? DataFinal { get; set; }
+		public bool Ativo { get; set; }
     }
 }

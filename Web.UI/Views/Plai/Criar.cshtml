@@ -29,6 +29,8 @@
 			<input type="hidden" name="IdSite" value="@ViewBag.IdSite" />
 			<input type="hidden" name="IdPlai" class="IdPlai" value="@Model.IdPlai" />
 			<input type="hidden" name="MesPlai" class="MesPlai" value="@Model.Mes" />
+			<input type="hidden" name="Editar" class="Editar" value="@ViewBag.Editar" />
+		
 			<div class="panel panel-default" id="panel-plai">
 				<div class="panel-heading">
 					<div class="panel-title">
@@ -130,36 +132,81 @@
 									</div>
 								</div>
 							</div>
-
+							@*Gerenets*@
 							<div class="row">
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 									<label for="form-criar-plai-gerentes" class="control-label">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_titulo_Gerentes</label>
-									<select id="form-criar-plai-gerentes" name="formCriarPlaiGerentes" multiple="true" class="form-control"
-											data-msg-required="O campo gerentes deve ser preenchido">
-										@if (Model.PlaiGerentes.Count() > 0)
-										{
-											foreach (var plaiGerente in Model.PlaiGerentes)
-											{
-												<option value="@plaiGerente.Usuario.IdUsuario" selected>@plaiGerente.Usuario.NmCompleto</option>
-											}
+									<div class="row">
 
-											foreach (var usuario in ViewBag.Gestores)
-											{
-												if (!Model.PlaiGerentes.Select(x => x.IdUsuario).ToList().Contains(usuario.IdUsuario))
+
+										<div class="col-md-5">
+											<select id="form-criar-plai-gerentesBase" name="formCriarPlaiGerentesBase" multiple="true" class="form-control"
+													size="5" data-msg-required="O campo gerentes deve ser preenchido">
+												@if (Model.PlaiGerentes.Count() > 0)
+												{
+													@*foreach (var plaiGerente in Model.PlaiGerentes)
+												{
+													<option value="@plaiGerente.Usuario.IdUsuario" selected>@plaiGerente.Usuario.NmCompleto</option>
+												}*@
+
+													foreach (var usuario in ViewBag.Gestores)
+													{
+														if (!Model.PlaiGerentes.Select(x => x.IdUsuario).ToList().Contains(usuario.IdUsuario))
+														{
+															<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
+														}
+													}
+
+												}
+												else
+												{
+													foreach (var usuario in ViewBag.Gestores)
+													{
+														<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
+													}
+												}
+											</select>
+										</div>
+
+										<div class="col-md-1 text-sm-center">
+											<div class="btn-group-vertical m-b">
+												<button id="add" type="button" class="btn info"><i class="fa fa-chevron-right"></i> Add</button>
+												<button id="remove" type="button" class="btn danger"><i class="fa fa-chevron-left"></i> Remove</button>
+											</div>
+										</div>
+
+										<div class="col-md-5">
+
+											<select id="form-criar-plai-gerentes" name="formCriarPlaiGerentes" class="form-control" size="5" multiple="multiple" data-msg-required="@Traducao.Resource.VerificadorObrigatorio">
+												@if (Model.PlaiGerentes.Count() > 0)
+												{
+													foreach (var plaiGerente in Model.PlaiGerentes)
+													{
+														@*<option value="@plaiGerente.Usuario.IdUsuario" selected>@plaiGerente.Usuario.NmCompleto</option>*@
+														<option value="@plaiGerente.Usuario.IdUsuario">@plaiGerente.Usuario.NmCompleto</option>
+													}
+
+													@*foreach (var usuario in ViewBag.Gestores)
+												{
+													if (!Model.PlaiGerentes.Select(x => x.IdUsuario).ToList().Contains(usuario.IdUsuario))
+													{
+														<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
+													}
+												}*@
+
+												}
+												else
+												{
+													@*foreach (var usuario in ViewBag.Gestores)
 												{
 													<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
+												}*@
 												}
-											}
+											</select>
+										</div>
 
-										}
-										else
-										{
-											foreach (var usuario in ViewBag.Gestores)
-											{
-												<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
-											}
-										}
-									</select>
+
+									</div>
 								</div>
 							</div>
 
@@ -210,6 +257,22 @@
 														</div>
 													</div>
 												</div>
+												<!-- Hora Final Processo -->
+												<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+													<div class="form-group">
+														<label for="form-criar-plai-processo-hora-final" class="control-label">Hora Final</label>
+														<br />
+														<div class='input-group'>
+															<input type='text' name="formCriarPlaiProcessoHrFinal" id="form-criar-plai-processo-hora-final-@item.IdPlaiProcessoNorma" class="form-control data time"
+																   placeholder=""
+																   data-msg-required="Hora final do processo é obrigatória"
+																   value="@(item.DataFinal != null &&  item.DataFinal != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? item.DataFinal.Value.ToShortTimeString() : "")" />
+															<span class="input-group-addon">
+																<i class="fa fa-clock-o" aria-hidden="true"></i>
+															</span>
+														</div>
+													</div>
+												</div>
 											</div>
 											<div class="row">
 												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -236,19 +299,24 @@
 
 																<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 checkbox @NormaHide">
 																	@{ var IdCheckBoxNorma = "form-criar-plai-processo-normas-iso" + norma.IdNorma + "-" + item.IdProcesso;}
-																	@if (NormasSelecionadas != null)
-																	{
-																		<input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
-																			   value="@norma.IdNorma"
-																			   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes"
-																			   @(NormasSelecionadas.Where(x => x.IdProcesso == item.IdProcesso).Select(x => x.IdNorma).Contains((int)norma.IdNorma) ? "checked" : "")>
-																	}
-																	else
-																	{
-																		<input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
-																			   value="@norma.IdNorma"
-																			   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes">
-																	}
+
+																	<input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
+																		   value="@norma.IdNorma"
+																		   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes"
+																		   @(NormasSelecionadas.Where(x => x.IdProcesso == item.IdProcesso).Select(x => x.IdNorma).Contains((int)norma.IdNorma) ? "checked" : "")>
+																	@*@if (NormasSelecionadas != null)
+																{
+																	<input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
+																		   value="@norma.IdNorma"
+																		   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes"
+																		   @(NormasSelecionadas.Where(x => x.IdProcesso == item.IdProcesso).Select(x => x.IdNorma).Contains((int)norma.IdNorma) ? "checked" : "")>
+																}
+																else
+																{
+																	<input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
+																		   value="@norma.IdNorma"
+																		   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes">
+																}*@
 
 																	<label for="@IdCheckBoxNorma">@norma.Codigo</label>
 																</div>
@@ -271,7 +339,7 @@
 	<div class="row pull-right">
 		<div class="col-md-12">
 			<button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">Imprimir</button>
-			<button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+			<button class="btn btn-primary btn-salvar" type="submit" style="display:@(ViewBag.Editar == "True" ? "" :  "none")">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
 			<button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Auditoria/Index")</button>
 		</div>
 	</div>

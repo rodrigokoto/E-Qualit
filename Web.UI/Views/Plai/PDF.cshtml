@@ -144,26 +144,38 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                                    <div class="row">
-                                                        <!-- Data Processo -->
-                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
-                                                            <div class="form-group">                                                                
-                                                                <div class='input-group'>
-                                                                    <label for="form-criar-plai-processo-data" class="control-label">@Traducao.Resource.Data</label>
-                                                                    @item.Data.ToShortDateString()
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Hora Processo -->
-                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
-                                                            <div class="form-group">                                                                
-                                                                <div class='input-group'>
-                                                                    <label for="form-criar-plai-processo-hora" class="control-label">@Traducao.Resource.Hora</label>
-                                                                    @item.Data.ToShortTimeString()
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+													<div class="row">
+														<!-- Data Processo -->
+														<div class="col-lg-3 col-md-3 col-sm-6 col-xs-4 ">
+															<div class="form-group">
+																<div class='input-group'>
+																	<label for="form-criar-plai-processo-data" class="control-label">@Traducao.Resource.Data</label>
+																	@item.Data.ToShortDateString()
+																</div>
+															</div>
+														</div>
+														<!-- Hora Processo -->
+														<div class="col-lg-3 col-md-3 col-sm-6 col-xs-4 ">
+															<div class="form-group">
+																<div class='input-group'>
+																	<label for="form-criar-plai-processo-hora" class="control-label">@Traducao.Resource.Hora Inicial</label>
+																	@item.Data.ToShortTimeString()
+																</div>
+															</div>
+														</div>
+														<!-- Hora Processo -->
+														<div class="col-lg-3 col-md-3 col-sm-6 col-xs-4 ">
+															<div class="form-group">
+																<div class='input-group'>
+																	<label for="form-criar-plai-processo-hora" class="control-label">@Traducao.Resource.Hora Final</label>
+																	@if (item.DataFinal != null)
+																	{
+																	@item.DataFinal.Value.ToShortTimeString()
+																	}
+																</div>
+															</div>
+														</div>
+													</div>
                                                     <div class="row">
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                             <!-- Normas -->
