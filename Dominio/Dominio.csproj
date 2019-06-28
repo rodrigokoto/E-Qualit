@@ -116,6 +116,7 @@
     <Compile Include="Entidade\Licenca.cs" />
     <Compile Include="Entidade\Recurso.cs" />
     <Compile Include="Entidade\DocRegistro.cs" />
+    <Compile Include="Entidade\RegistroAuditoria.cs" />
     <Compile Include="Entidade\Residuo.cs" />
     <Compile Include="Entidade\RH\Advertencia.cs" />
     <Compile Include="Entidade\RH\Atribuicao.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Interface\Repositorio\ICriterioAvaliacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IRegistroAcaoImediataRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IAnaliseCriticaTemaRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IRegistroAuditoria.cs" />
     <Compile Include="Interface\Repositorio\ISiteAnexoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\ISubModuloRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IUsuarioAnexoRepositorio.cs" />
@@ -323,6 +325,7 @@
     <Compile Include="Interface\Servico\IProdutoServico.cs" />
     <Compile Include="Interface\Servico\ICriterioAvaliacaoServico.cs" />
     <Compile Include="Interface\Servico\IRegistroAcaoImediataServico.cs" />
+    <Compile Include="Interface\Servico\IRegistroAuditoriaServico.cs" />
     <Compile Include="Interface\Servico\IUsuarioSenhaServico.cs" />
     <Compile Include="Interface\Servico\IUsuarioServico.cs" />
     <Compile Include="Interface\Servico\IDocDocumentoServico.cs" />
@@ -357,6 +360,7 @@
     <Compile Include="Servico\FilaEnvioServico.cs" />
     <Compile Include="Servico\FornecedorServico.cs" />
     <Compile Include="Servico\RegistroAcaoImediataServico.cs" />
+    <Compile Include="Servico\RegistroAuditoriaServico.cs" />
     <Compile Include="Servico\UsuarioSenhaServico.cs" />
     <Compile Include="Validacao\AnaliseCriticas\GestaoDeRiscoDeveTerCriticidadeMediaOuAltaValidation.cs" />
     <Compile Include="Servico\FuncionalidadeServico.cs" />
