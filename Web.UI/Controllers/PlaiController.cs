@@ -140,32 +140,34 @@ namespace Web.UI.Controllers
 
             try
             {
-
-				bool erroData = false;
-				foreach (var item in plai.PlaiProcessoNorma)
+				if (plai.PlaiProcessoNorma != null)
 				{
-					if (item.Data <  plai.DataReuniaoAbertura || item.DataFinal > plai.DataReuniaoEncerramento) {
-						erros.Add("A data inicial e final do processo deverão estar no intervalo de data e hora de abertura e encerramento do PLAI.");
-						break;
-					}
-
-					foreach (var processoVerificar in plai.PlaiProcessoNorma)
+					bool erroData = false;
+					foreach (var item in plai.PlaiProcessoNorma)
 					{
-						//     Data Item atual        Data Principal
-						if (processoVerificar.Data > item.Data && processoVerificar.Data < item.DataFinal ||
-							processoVerificar.DataFinal > item.Data && processoVerificar.DataFinal < item.DataFinal)
+						if (item.Data < plai.DataReuniaoAbertura || item.DataFinal > plai.DataReuniaoEncerramento)
 						{
-							erros.Add("Data, Hora inicial e Hora final dos processos não podem se sobrepor.");
-							erroData = true;
+							erros.Add("A data inicial e final do processo deverão estar no intervalo de data e hora de abertura e encerramento do PLAI.");
+							break;
+						}
+
+						foreach (var processoVerificar in plai.PlaiProcessoNorma)
+						{
+							//     Data Item atual        Data Principal
+							if (processoVerificar.Data > item.Data && processoVerificar.Data < item.DataFinal ||
+								processoVerificar.DataFinal > item.Data && processoVerificar.DataFinal < item.DataFinal)
+							{
+								erros.Add("Data, Hora inicial e Hora final dos processos não podem se sobrepor.");
+								erroData = true;
+								break;
+							}
+						}
+						if (erroData == true)
+						{
 							break;
 						}
 					}
-					if (erroData == true)
-					{
-						break;
-					}
 				}
-				
 
 				//bool temNormaAtiva = false;
 				//int processoAtual = plai.PlaiProcessoNorma.FirstOrDefault().IdProcesso;
@@ -201,24 +203,29 @@ namespace Web.UI.Controllers
 				bool temNormaAtiva = false;
 				foreach (var item in plaiAtual.PlaiProcessoNorma.Select(x => x.IdProcesso).ToList())
 				{
-
-					foreach (var itemNorma in plai.PlaiProcessoNorma)
+					if (plai.PlaiProcessoNorma != null)
 					{
-						if (itemNorma.IdProcesso == item)
+						foreach (var itemNorma in plai.PlaiProcessoNorma)
 						{
-							if (itemNorma.Ativo == true)
+							if (itemNorma.IdProcesso == item)
 							{
-								temNormaAtiva = true;
-								break;
+								if (itemNorma.Ativo == true)
+								{
+									temNormaAtiva = true;
+									break;
+								}
 							}
 						}
+						if (!temNormaAtiva)
+						{
+							erros.Add("Seleciona uma norma por processo");
+							break;
+						}
+						temNormaAtiva = false;
 					}
-					if (!temNormaAtiva)
-					{
+					else {
 						erros.Add("Seleciona uma norma por processo");
-						break;
 					}
-					temNormaAtiva = false;
 				}
 
 
