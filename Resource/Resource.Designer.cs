@@ -4838,6 +4838,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hora Inicial.
+        /// </summary>
+        public static string HoraInicial {
+            get {
+                return ResourceManager.GetString("HoraInicial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id do Cliente.
         /// </summary>
         public static string IdCliente {

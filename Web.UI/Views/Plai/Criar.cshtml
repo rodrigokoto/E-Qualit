@@ -1,15 +1,15 @@
 ﻿@model Dominio.Entidade.Plai
 @{
-    ViewBag.Title = "Plai";
-    List<Dominio.Entidade.PlaiProcessoNorma> NormasSelecionadas = ViewBag.NormasSelecionadas;
+	ViewBag.Title = "Plai";
+	List<Dominio.Entidade.PlaiProcessoNorma> NormasSelecionadas = ViewBag.NormasSelecionadas;
 
 
 }
 @section Metas {
-    <meta name="page" content="AcoesPlai" />
+	<meta name="page" content="AcoesPlai" />
 }
 @section scripts {
-    <script src="@Url.Content("~/Content/assets/js/PlaiController.js")"></script>
+	<script src="@Url.Content("~/Content/assets/js/PlaiController.js")"></script>
 }
 
 
@@ -17,250 +17,330 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="~/Content/assets_src/js/components/_print.min.js"></script>
 <script>
-    $(function () {
-        $(".datepicker").datepicker();
-    });
+	$(function () {
+		$(".datepicker").datepicker();
+	});
 </script>
 <div id="main">
-    <div class="content-painel">
-        <!-- Formulario Plai -->
-        <form id="form-criar-plai">
-            <!-- Hidden -->
-            <input type="hidden" name="IdSite" value="@ViewBag.IdSite" />
-            <input type="hidden" name="IdPlai" class="IdPlai" value="@Model.IdPlai" />
-            <div class="panel panel-default" id="panel-plai">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h2>@Traducao.Auditoria.ResourceAuditoria.PlanoAuditoriaInterna</h2>
-                    </div>
-                </div>
-                <div class="panel-body" id="panel-form-plai">
-                    <div class="barra-busca">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-                                <label>@Traducao.Resource.ReuniaoDeAbertura</label>
-                                <div class="row">
-                                    <!-- Data Reuniao Abertura -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                        <div class="form-group">
-                                            <label for="form-criar-plai-dt-reuniao-abertura" class="control-label">@Traducao.Resource.Data</label>
-                                            <br />
-                                            <div class='input-group  input-group-datepicker'>
-                                                <input type='text' name="formCriarPlaiDtReuniaoAbertura" id="form-criar-plai-dt-reuniao-abertura" class="form-control data datepicker largura-calendario"
-                                                       placeholder=""
-                                                       data-msg-required="O campo Data Expiração deve ser preenchido"
-                                                       value="@(Model.DataReuniaoAbertura != null && Model.DataReuniaoAbertura != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? Model.DataReuniaoAbertura.ToShortDateString() : "")" />
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Hora Reuniao Abertura -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                        <div class="form-group">
-                                            <label for="form-criar-plai-hr-reuniao-abertura" class="control-label">@Traducao.Resource.Hora</label>
-                                            <br />
-                                            <div class='input-group'>
-                                                <input type='text' name="formCriarPlaiHrReuniaoAbertura" id="form-criar-plai-hr-reuniao-abertura" class="form-control data time"
-                                                       placeholder=""
-                                                       data-msg-required="O campo Data Expiração deve ser preenchido"
-                                                       value="@(Model.DataReuniaoAbertura != null && Model.DataReuniaoAbertura != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? Model.DataReuniaoAbertura.ToShortTimeString() : "")" />
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-                                <label>@Traducao.Resource.ReuniaoDeEncerramento</label>
-                                <div class="row">
-                                    <!-- Data Reuniao Encerramento -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                        <div class="form-group">
-                                            <label for="form-criar-plai-dt-reuniao-encerramento" class="control-label">@Traducao.Resource.Data</label>
-                                            <br />
-                                            <div class='input-group  input-group-datepicker'>
-                                                <input type='text' name="formCriarPlaiDtReuniaoEncerramento" id="form-criar-plai-dt-reuniao-encerramento" class="form-control data datepicker largura-calendario" "
-                                                       placeholder=""
-                                                       data-msg-required="O campo Data Expiração deve ser preenchido"
-                                                       value="@(Model.DataReuniaoEncerramento != null &&  Model.DataReuniaoEncerramento != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? Model.DataReuniaoEncerramento.ToShortDateString() : "")" />
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Hora Reuniao Encerramento -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                        <div class="form-group">
-                                            <label for="form-criar-plai-hr-reuniao-encerramento" class="control-label">@Traducao.Resource.Hora</label>
-                                            <div class='input-group'>
-                                                <input type='text' name="formCriarPlaiHrReuniaoEncerramento" id="form-criar-plai-hr-reuniao-encerramento" class="form-control data time"
-                                                       placeholder=""
-                                                       data-msg-required="O campo Data Expiração deve ser preenchido"
-                                                       value="@(Model.DataReuniaoEncerramento != null && Model.DataReuniaoEncerramento != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? Model.DataReuniaoEncerramento.ToShortTimeString() : "")" />
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-                                <label></label>
-                                <!-- Elaborador -->
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="form-criar-plai-elaborador" class="control-label">@Traducao.Resource.DocDocumento_lbl_Elaborador</label>
-                                            <select id="form-criar-plai-elaborador" name="formCriarPlaiElaborador" class="form-control"
-                                                    data-msg-required="O campo Elaborador deve ser preenchido">
-                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                                @if (Model.Elaborador != null && Model.PlaiGerentes.Count() > 0)
-                                                {
-                                                    <option value="@Model.Elaborador.IdUsuario" selected>@Model.Elaborador.NmCompleto</option>
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+	<div class="content-painel">
+		<!-- Formulario Plai -->
+		<form id="form-criar-plai">
+			<!-- Hidden -->
+			<input type="hidden" name="IdSite" value="@ViewBag.IdSite" />
+			<input type="hidden" name="IdPlai" class="IdPlai" value="@Model.IdPlai" />
+			<input type="hidden" name="MesPlai" class="MesPlai" value="@Model.Mes" />
+			<input type="hidden" name="Editar" class="Editar" value="@ViewBag.Editar" />
+		
+			<div class="panel panel-default" id="panel-plai">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<h2>@Traducao.Auditoria.ResourceAuditoria.PlanoAuditoriaInterna</h2>
+					</div>
+				</div>
+				<div class="panel-body" id="panel-form-plai">
+					<div class="barra-busca">
+						<div class="row">
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+								<label>@Traducao.Resource.ReuniaoDeAbertura</label>
+								<div class="row">
+									<!-- Data Reuniao Abertura -->
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+										<div class="form-group">
+											<label for="form-criar-plai-dt-reuniao-abertura" class="control-label">@Traducao.Resource.Data</label>
+											<br />
+											<div class='input-group  input-group-datepicker'>
+												<input type='text' name="formCriarPlaiDtReuniaoAbertura" id="form-criar-plai-dt-reuniao-abertura" class="form-control data datepicker largura-calendario"
+													   placeholder=""
+													   data-msg-required="O campo Data Expiração deve ser preenchido"
+													   value="@(Model.DataReuniaoAbertura != null && Model.DataReuniaoAbertura != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? Model.DataReuniaoAbertura.ToShortDateString() : "")" />
+												<span class="input-group-addon">
+													<i class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+									<!-- Hora Reuniao Abertura -->
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+										<div class="form-group">
+											<label for="form-criar-plai-hr-reuniao-abertura" class="control-label">@Traducao.Resource.Hora</label>
+											<br />
+											<div class='input-group'>
+												<input type='text' name="formCriarPlaiHrReuniaoAbertura" id="form-criar-plai-hr-reuniao-abertura" class="form-control data time"
+													   placeholder=""
+													   data-msg-required="O campo Data Expiração deve ser preenchido"
+													   value="@(Model.DataReuniaoAbertura != null && Model.DataReuniaoAbertura != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? Model.DataReuniaoAbertura.ToShortTimeString() : "")" />
+												<span class="input-group-addon">
+													<i class="fa fa-clock-o" aria-hidden="true"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+								<label>@Traducao.Resource.ReuniaoDeEncerramento</label>
+								<div class="row">
+									<!-- Data Reuniao Encerramento -->
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+										<div class="form-group">
+											<label for="form-criar-plai-dt-reuniao-encerramento" class="control-label">@Traducao.Resource.Data</label>
+											<br />
+											<div class='input-group  input-group-datepicker'>
+												<input type='text' name="formCriarPlaiDtReuniaoEncerramento" id="form-criar-plai-dt-reuniao-encerramento" class="form-control data datepicker largura-calendario" "
+													   placeholder=""
+													   data-msg-required="O campo Data Expiração deve ser preenchido"
+													   value="@(Model.DataReuniaoEncerramento != null &&  Model.DataReuniaoEncerramento != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? Model.DataReuniaoEncerramento.ToShortDateString() : "")" />
+												<span class="input-group-addon">
+													<i class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+									<!-- Hora Reuniao Encerramento -->
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+										<div class="form-group">
+											<label for="form-criar-plai-hr-reuniao-encerramento" class="control-label">@Traducao.Resource.Hora</label>
+											<div class='input-group'>
+												<input type='text' name="formCriarPlaiHrReuniaoEncerramento" id="form-criar-plai-hr-reuniao-encerramento" class="form-control data time"
+													   placeholder=""
+													   data-msg-required="O campo Data Expiração deve ser preenchido"
+													   value="@(Model.DataReuniaoEncerramento != null && Model.DataReuniaoEncerramento != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? Model.DataReuniaoEncerramento.ToShortTimeString() : "")" />
+												<span class="input-group-addon">
+													<i class="fa fa-clock-o" aria-hidden="true"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+								<label></label>
+								<!-- Elaborador -->
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="form-group">
+											<label for="form-criar-plai-elaborador" class="control-label">@Traducao.Resource.DocDocumento_lbl_Elaborador</label>
+											<select id="form-criar-plai-elaborador" name="formCriarPlaiElaborador" class="form-control"
+													data-msg-required="O campo Elaborador deve ser preenchido">
+												<option value="">@Traducao.Resource.Dropdown_name_select</option>
+												@if (Model.Elaborador != null && Model.PlaiGerentes.Count() > 0)
+												{
+													<option value="@Model.Elaborador.IdUsuario" selected>@Model.Elaborador.NmCompleto</option>
+												}
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							@*Gerenets*@
+							<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+									<label for="form-criar-plai-gerentes" class="control-label">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_titulo_Gerentes</label>
+									<div class="row">
 
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                    <label for="form-criar-plai-gerentes" class="control-label">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_titulo_Gerentes</label>
-                                    <select id="form-criar-plai-gerentes" name="formCriarPlaiGerentes" multiple="true" class="form-control"
-                                            data-msg-required="O campo gerentes deve ser preenchido">
-                                        @if (Model.PlaiGerentes.Count() > 0)
-                                        {
-                                            foreach (var plaiGerente in Model.PlaiGerentes)
-                                            {
-                                                <option value="@plaiGerente.Usuario.IdUsuario" selected>@plaiGerente.Usuario.NmCompleto</option>
-                                            }
 
-                                            foreach (var usuario in ViewBag.Gestores)
-                                            {
-                                                if (!Model.PlaiGerentes.Select(x => x.IdUsuario).ToList().Contains(usuario.IdUsuario))
-                                                {
-                                                    <option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
-                                                }
-                                            }
+										<div class="col-md-5">
+											<select id="form-criar-plai-gerentesBase" name="formCriarPlaiGerentesBase" multiple="true" class="form-control"
+													size="5" data-msg-required="O campo gerentes deve ser preenchido">
+												@if (Model.PlaiGerentes.Count() > 0)
+												{
+													@*foreach (var plaiGerente in Model.PlaiGerentes)
+												{
+													<option value="@plaiGerente.Usuario.IdUsuario" selected>@plaiGerente.Usuario.NmCompleto</option>
+												}*@
 
-                                        }
-                                        else
-                                        {
-                                            foreach (var usuario in ViewBag.Gestores)
-                                            {
-                                                <option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
+													foreach (var usuario in ViewBag.Gestores)
+													{
+														if (!Model.PlaiGerentes.Select(x => x.IdUsuario).ToList().Contains(usuario.IdUsuario))
+														{
+															<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
+														}
+													}
 
-                            @foreach (var item in Model.PlaiProcessoNorma)
-                            {
-                                <div class="row plai-processo">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                            <div class="titulo-tabela-blue" style="margin:30px 0 15px 0">
-                                                <input type="hidden" name="IdProcesso" value="@item.IdProcesso" />
-                                                <input type="hidden" name="IdPlai" value="@item.IdPlai" />
-                                                @item.Processo.Nome
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                            <div class="row">
-                                                <!-- Data Processo -->
-                                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
-                                                    <div class="form-group">
-                                                        <label for="form-criar-plai-processo-data" class="control-label">Data</label>
-                                                        <br />
-                                                        <div class='input-group'>
-                                                            <input type='text' name="formCriarPlaiProcessoDt" id="form-criar-plai-processo-data-@item.IdPlaiProcessoNorma" class="form-control data datepicker"
-                                                                   placeholder=""
-                                                                   data-msg-required="Data de processo obrigatória"
-                                                                   value="@( item.Data != null &&  item.Data != default(DateTime) && Model.PlaiGerentes.Count() > 0 ?  item.Data.ToShortDateString() : "")" />
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Hora Processo -->
-                                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
-                                                    <div class="form-group">
-                                                        <label for="form-criar-plai-processo-hora" class="control-label">@Traducao.Resource.Hora</label>
-                                                        <br />
-                                                        <div class='input-group'>
-                                                            <input type='text' name="formCriarPlaiProcessoHr" id="form-criar-plai-processo-hora-@item.IdPlaiProcessoNorma" class="form-control data time"
-                                                                   placeholder=""
-                                                                   data-msg-required="Hora do processo é obrigatória"
-                                                                   value="@(item.Data != null &&  item.Data != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? item.Data.ToShortTimeString() : "")" />
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <!-- Normas -->
-                                                    <div class="form-group">
-                                                        <label for="form-criar-plai-processo-normas">Normas</label>
-                                                        <div class="row tabela-check">
+												}
+												else
+												{
+													foreach (var usuario in ViewBag.Gestores)
+													{
+														<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
+													}
+												}
+											</select>
+										</div>
 
-                                                            @foreach (var norma in ViewBag.Normas)
-                                                            {
-                                                                var NormaHide = "";
+										<div class="col-md-1 text-sm-center">
+											<div class="btn-group-vertical m-b">
+												<button id="add" type="button" class="btn info"><i class="fa fa-chevron-right"></i> Add</button>
+												<button id="remove" type="button" class="btn danger"><i class="fa fa-chevron-left"></i> Remove</button>
+											</div>
+										</div>
 
-                                                                if (!norma.Ativo)
-                                                                {
-                                                                    if (NormasSelecionadas.Where(x => x.IdProcesso == item.IdProcesso).Select(x => x.IdNorma).Contains((int)norma.IdNorma))
-                                                                    {
-                                                                        NormaHide = "";
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        NormaHide = "hidden";
-                                                                    }
-                                                                }
+										<div class="col-md-5">
 
-                                                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 checkbox @NormaHide">
-                                                                    @{ var IdCheckBoxNorma = "form-criar-plai-processo-normas-iso" + norma.IdNorma + "-" + item.IdProcesso;}
-                                                                    <input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
-                                                                           value="@norma.IdNorma"
-                                                                           data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes" @(NormasSelecionadas.Where(x => x.IdProcesso == item.IdProcesso).Select(x => x.IdNorma).Contains((int)norma.IdNorma) ? "checked" : "")>
-                                                                    <label for="@IdCheckBoxNorma">@norma.Codigo</label>
-                                                                </div>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-        </form>
-    </div>
+											<select id="form-criar-plai-gerentes" name="formCriarPlaiGerentes" class="form-control" size="5" multiple="multiple" data-msg-required="@Traducao.Resource.VerificadorObrigatorio">
+												@if (Model.PlaiGerentes.Count() > 0)
+												{
+													foreach (var plaiGerente in Model.PlaiGerentes)
+													{
+														@*<option value="@plaiGerente.Usuario.IdUsuario" selected>@plaiGerente.Usuario.NmCompleto</option>*@
+														<option value="@plaiGerente.Usuario.IdUsuario">@plaiGerente.Usuario.NmCompleto</option>
+													}
+
+													@*foreach (var usuario in ViewBag.Gestores)
+												{
+													if (!Model.PlaiGerentes.Select(x => x.IdUsuario).ToList().Contains(usuario.IdUsuario))
+													{
+														<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
+													}
+												}*@
+
+												}
+												else
+												{
+													@*foreach (var usuario in ViewBag.Gestores)
+												{
+													<option value="@usuario.IdUsuario">@usuario.NmCompleto</option>
+												}*@
+												}
+											</select>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+							@foreach (var item in Model.PlaiProcessoNorma)
+							{
+								<div class="row plai-processo">
+									<div class="row">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+											<div class="titulo-tabela-blue" style="margin:30px 0 15px 0">
+												<input type="hidden" name="IdProcesso" value="@item.IdProcesso" />
+												<input type="hidden" name="IdPlai" value="@item.IdPlai" />
+												@item.Processo.Nome
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+											<div class="row">
+												<!-- Data Processo -->
+												<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+													<div class="form-group">
+														<label for="form-criar-plai-processo-data" class="control-label">Data</label>
+														<br />
+														<div class='input-group'>
+															<input type='text' name="formCriarPlaiProcessoDt" id="form-criar-plai-processo-data-@item.IdPlaiProcessoNorma" class="form-control data datepicker"
+																   placeholder=""
+																   data-msg-required="Data de processo obrigatória"
+																   value="@( item.Data != null &&  item.Data != default(DateTime) && Model.PlaiGerentes.Count() > 0 ?  item.Data.ToShortDateString() : "")" />
+															<span class="input-group-addon">
+																<i class="fa fa-calendar" aria-hidden="true"></i>
+															</span>
+														</div>
+													</div>
+												</div>
+												<!-- Hora Processo -->
+												<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+													<div class="form-group">
+														<label for="form-criar-plai-processo-hora" class="control-label">@Traducao.Resource.HoraInicial</label>
+														<br />
+														<div class='input-group'>
+															<input type='text' name="formCriarPlaiProcessoHr" id="form-criar-plai-processo-hora-@item.IdPlaiProcessoNorma" class="form-control data time"
+																   placeholder=""
+																   data-msg-required="Hora do processo é obrigatória"
+																   value="@(item.Data != null &&  item.Data != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? item.Data.ToShortTimeString() : "")" />
+															<span class="input-group-addon">
+																<i class="fa fa-clock-o" aria-hidden="true"></i>
+															</span>
+														</div>
+													</div>
+												</div>
+												<!-- Hora Final Processo -->
+												<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+													<div class="form-group">
+														<label for="form-criar-plai-processo-hora-final" class="control-label">Hora Final</label>
+														<br />
+														<div class='input-group'>
+															<input type='text' name="formCriarPlaiProcessoHrFinal" id="form-criar-plai-processo-hora-final-@item.IdPlaiProcessoNorma" class="form-control data time"
+																   placeholder=""
+																   data-msg-required="Hora final do processo é obrigatória"
+																   value="@(item.DataFinal != null &&  item.DataFinal != default(DateTime) && Model.PlaiGerentes.Count() > 0 ? item.DataFinal.Value.ToShortTimeString() : "")" />
+															<span class="input-group-addon">
+																<i class="fa fa-clock-o" aria-hidden="true"></i>
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+													<!-- Normas -->
+													<div class="form-group">
+														<label for="form-criar-plai-processo-normas">Normas</label>
+														<div class="row tabela-check">
+
+															@foreach (var norma in ViewBag.Normas)
+															{
+																var NormaHide = "";
+
+																if (!norma.Ativo)
+																{
+																	if (NormasSelecionadas.Where(x => x.IdProcesso == item.IdProcesso).Select(x => x.IdNorma).Contains((int)norma.IdNorma))
+																	{
+																		NormaHide = "";
+																	}
+																	else
+																	{
+																		NormaHide = "hidden";
+																	}
+																}
+
+																<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 checkbox @NormaHide">
+																	@{ var IdCheckBoxNorma = "form-criar-plai-processo-normas-iso" + norma.IdNorma + "-" + item.IdProcesso;}
+
+																	<input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
+																		   value="@norma.IdNorma"
+																		   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes"
+																		   @(NormasSelecionadas.Where(x => x.IdProcesso == item.IdProcesso).Select(x => x.IdNorma).Contains((int)norma.IdNorma) ? "checked" : "")>
+																	@*@if (NormasSelecionadas != null)
+																{
+																	<input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
+																		   value="@norma.IdNorma"
+																		   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes"
+																		   @(NormasSelecionadas.Where(x => x.IdProcesso == item.IdProcesso).Select(x => x.IdNorma).Contains((int)norma.IdNorma) ? "checked" : "")>
+																}
+																else
+																{
+																	<input type="checkbox" name="formCriarPlaiProcessoNormas" id="@IdCheckBoxNorma" class="form-control @NormaHide"
+																		   value="@norma.IdNorma"
+																		   data-msg-required="@Traducao.Site.ResourceSite.Site_msg_required_Observacoes">
+																}*@
+
+																	<label for="@IdCheckBoxNorma">@norma.Codigo</label>
+																</div>
+															}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+		</form>
+	</div>
 </div>
 <div class="navbar navbar-inverse navbar-fixed-bottom">
-    <div class="row pull-right">
-        <div class="col-md-12">
-            <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">Imprimir</button>
-            <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
-            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Auditoria/Index")</button>
-        </div>
-    </div>
+	<div class="row pull-right">
+		<div class="col-md-12">
+			<button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">Imprimir</button>
+			<button class="btn btn-primary btn-salvar" type="submit" style="display:@(ViewBag.Editar == "True" ? "" :  "none")">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+			<button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Auditoria/Index")</button>
+		</div>
+	</div>
 </div>

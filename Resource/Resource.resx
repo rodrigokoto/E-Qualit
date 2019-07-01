@@ -3439,6 +3439,9 @@ www.e-qualit.com.br
   <data name="DocDocumento_msg_erro_assunto_sem_descricao" xml:space="preserve">
     <value>A descrição do assunto deve ser preenchida.</value>
   </data>
+  <data name="HoraInicial" xml:space="preserve">
+    <value>Hora Inicial</value>
+  </data>
   <data name="MsgMaxTextoDoc30000Caracteres" xml:space="preserve">
     <value>O campo Texto Documento deve conter no máximo 30000 caracteres.</value>
   </data>
