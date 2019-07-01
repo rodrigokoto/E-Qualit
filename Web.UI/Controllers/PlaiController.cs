@@ -61,12 +61,8 @@ namespace Web.UI.Controllers
             ViewBag.Mes = mes;
 
             var plai = _plaiAppServico.Get(x => x.IdPai == idPai && x.Mes == mes).FirstOrDefault();
-
-
 			
 			ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
-			
-			
 
 			int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
 
@@ -224,13 +220,13 @@ namespace Web.UI.Controllers
 						}
 						if (!temNormaAtiva)
 						{
-							erros.Add("Seleciona uma norma por processo");
+							erros.Add("Selecionar uma norma por processo");
 							break;
 						}
 						temNormaAtiva = false;
 					}
 					else {
-						erros.Add("Seleciona uma norma por processo");
+						erros.Add("Selecionar uma norma por processo");
 						break;
 					}
 				}
