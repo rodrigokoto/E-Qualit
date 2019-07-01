@@ -151,6 +151,12 @@ namespace Web.UI.Controllers
 							break;
 						}
 
+						if (item.Data >= item.DataFinal)
+						{
+							erros.Add("A hora inicial não pode ser maior ou igual a hora final.");
+							break;
+						}
+
 						foreach (var processoVerificar in plai.PlaiProcessoNorma)
 						{
 							//     Data Item atual        Data Principal
@@ -225,6 +231,7 @@ namespace Web.UI.Controllers
 					}
 					else {
 						erros.Add("Seleciona uma norma por processo");
+						break;
 					}
 				}
 
