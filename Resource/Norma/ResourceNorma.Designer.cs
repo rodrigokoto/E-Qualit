@@ -151,7 +151,7 @@ namespace Traducao.Norma {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Não é possivel excluir pois há uma ou mais Plai vinculada a norma..
+        ///   Looks up a localized string similar to Não é possivel excluir essa norma, pois ha uma ou mais Plais vinculadas a ela..
         /// </summary>
         public static string Norma_msg_save_canceled {
             get {
