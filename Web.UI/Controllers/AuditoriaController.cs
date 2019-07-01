@@ -144,7 +144,8 @@ namespace Web.UI.Controllers
                                 {
                                     if (!processosPlaiAtual.Contains(processo))
                                     {
-                                        _NormaAppServico.Get(x => x.IdSite == IdSite).ToList().ForEach(norma =>
+                                        var normas = _NormaAppServico.Get(x => x.IdSite == IdSite).ToList();
+                                        _NormaAppServico.Get(x => x.IdSite == IdSite && x.Ativo == true).ToList().ForEach(norma =>
                                         {
                                             PlaiProcessoNorma plaiProcessoNorma = new PlaiProcessoNorma();
                                             plaiProcessoNorma.IdPlai = plai.IdPlai;
@@ -202,7 +203,7 @@ namespace Web.UI.Controllers
                                 plaiNovo.PlaiProcessoNorma.ForEach(plaiProcessoNorma =>
                                 {
 
-                                    _NormaAppServico.Get(x => x.IdSite == IdSite).ToList().ForEach(norma =>
+                                    _NormaAppServico.Get(x => x.IdSite == IdSite && x.Ativo == true).ToList().ForEach(norma =>
                                     {
                                         plaiProcessoNorma.IdPlai = plaiNovo.IdPlai;
                                         plaiProcessoNorma.Data = DateTime.Now;

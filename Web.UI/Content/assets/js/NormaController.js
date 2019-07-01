@@ -197,7 +197,7 @@ APP.controller.NormaController = {
             var msgIconeAtivoInativar = $('[name=msgIconeAtivoInativar]').val();
             var _this = this;
 
-            if (AtivoInativo != _options.labelButtonAtivar) {
+            if ("Ativar" != _options.labelButtonAtivar) {
                 bootbox.confirm(msgIconeAtivoAtivar, function (result) {
                     if (result == true) {
                         APP.controller.NormaController.sendFormNorma(_this, 'active');
