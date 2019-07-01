@@ -61,12 +61,8 @@ namespace Web.UI.Controllers
             ViewBag.Mes = mes;
 
             var plai = _plaiAppServico.Get(x => x.IdPai == idPai && x.Mes == mes).FirstOrDefault();
-
-
 			
 			ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
-			
-			
 
 			int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
 
@@ -151,6 +147,12 @@ namespace Web.UI.Controllers
 							break;
 						}
 
+						if (item.Data >= item.DataFinal)
+						{
+							erros.Add("A hora inicial não pode ser maior ou igual a hora final.");
+							break;
+						}
+
 						foreach (var processoVerificar in plai.PlaiProcessoNorma)
 						{
 							//     Data Item atual        Data Principal
@@ -218,13 +220,14 @@ namespace Web.UI.Controllers
 						}
 						if (!temNormaAtiva)
 						{
-							erros.Add("Seleciona uma norma por processo");
+							erros.Add("Selecionar uma norma por processo");
 							break;
 						}
 						temNormaAtiva = false;
 					}
 					else {
-						erros.Add("Seleciona uma norma por processo");
+						erros.Add("Selecionar uma norma por processo");
+						break;
 					}
 				}
 

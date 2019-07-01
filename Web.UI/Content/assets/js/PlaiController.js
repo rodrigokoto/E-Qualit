@@ -27,7 +27,15 @@ APP.controller.PlaiController = {
 		}
 
 		$('#add').click(function () {
-			moveItems('#form-criar-plai-gerentesBase', '#form-criar-plai-gerentes');
+			//moveItems('#form-criar-plai-gerentesBase', '#form-criar-plai-gerentes');
+			if ($('#form-criar-plai-gerentesBase').find(':selected').length + $('#form-criar-plai-gerentes').find('option').length > 3) {
+				bootbox.alert("Numero máximo de gestores 3.");
+			} else {
+				moveItems('#form-criar-plai-gerentesBase', '#form-criar-plai-gerentes');
+			}
+
+
+
 		});
 
 		$('#remove').click(function () {
@@ -62,6 +70,7 @@ APP.controller.PlaiController = {
 		this.eventoImprimir();
 		this.sendFormCriarPlai();
 		this.setDatePickerDate();
+		this.setDatePickerDateNorma();
 		this.setComboGestores();
 		this.verificaEdicao();
 	},
@@ -258,10 +267,26 @@ APP.controller.PlaiController = {
 	},
 
 	setDatePickerDate: function () {
-		debugger;
 
 		var mes = $('[name=MesPlai]').val();
-		//startDate
+		var dataAtual = new Date();
+		var ano = dataAtual.getFullYear();
+
+		var dataMinima = new Date(ano, parseInt(mes) - 1, 1);
+		var dataMaxima = new Date(ano, mes, 0);
+
+		var dataInicial = $('[name=formCriarPlaiDtReuniaoAbertura]').val();
+		$('[name=formCriarPlaiDtReuniaoAbertura]').datepicker('option', 'minDate', new Date(dataMinima));
+		$('[name=formCriarPlaiDtReuniaoAbertura]').datepicker('option', 'maxDate', new Date(dataMaxima));
+		$('[name=formCriarPlaiDtReuniaoAbertura]').val(dataInicial);
+		
+
+	},
+
+
+	setDatePickerDateNorma: function () {
+
+		var mes = $('[name=MesPlai]').val();
 		var dataAtual = new Date();
 		var ano = dataAtual.getFullYear();
 
@@ -269,16 +294,14 @@ APP.controller.PlaiController = {
 		var dataMaxima = new Date(ano, mes, 0);
 
 
-		//$('[name=formCriarPlaiDtReuniaoAbertura]').datepicker('option', 'minDate', new Date(dataMinima));
-		var dataInicial = $('[name=formCriarPlaiDtReuniaoAbertura]').val();
-		$('[name=formCriarPlaiDtReuniaoAbertura]').datepicker('option', 'minDate', new Date(dataMinima));
-		$('[name=formCriarPlaiDtReuniaoAbertura]').datepicker('option', 'maxDate', new Date(dataMaxima));
-		$('[name=formCriarPlaiDtReuniaoAbertura]').val(dataInicial);
-		//$('[name=formCriarPlaiDtReuniaoAbertura]').on('change', function () {
-		//	debugger;
-		//	APP.component.Datapicker.setDataPicker(this, '[name=formCriarPlaiDtReuniaoEncerramento]');
 
-		//});
+		$('[name^=formCriarPlaiProcessoDt]').each(function () {
+			debugger;
+			var dataInicial = $(this).val();
+			$(this).datepicker('option', 'minDate', new Date(dataMinima));
+			$(this).datepicker('option', 'maxDate', new Date(dataMaxima));
+			$(this).val(dataInicial);
+		});
 
 	},
 
