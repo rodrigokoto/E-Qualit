@@ -6719,11 +6719,11 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo Texto Documento deve conter no máximo 30000 caracteres..
+        ///   Looks up a localized string similar to O campo Texto Documento deve conter no máximo 40000 caracteres..
         /// </summary>
-        public static string MsgMaxTextoDoc30000Caracteres {
+        public static string MsgMaxTextoDoc40000Caracteres {
             get {
-                return ResourceManager.GetString("MsgMaxTextoDoc30000Caracteres", resourceCulture);
+                return ResourceManager.GetString("MsgMaxTextoDoc40000Caracteres", resourceCulture);
             }
         }
         

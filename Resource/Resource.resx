@@ -3442,7 +3442,7 @@ www.e-qualit.com.br
   <data name="HoraInicial" xml:space="preserve">
     <value>Hora Inicial</value>
   </data>
-  <data name="MsgMaxTextoDoc30000Caracteres" xml:space="preserve">
-    <value>O campo Texto Documento deve conter no máximo 30000 caracteres.</value>
+  <data name="MsgMaxTextoDoc40000Caracteres" xml:space="preserve">
+    <value>O campo Texto Documento deve conter no máximo 40000 caracteres.</value>
   </data>
 </root>
