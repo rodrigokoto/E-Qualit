@@ -2266,7 +2266,7 @@ www.e-qualit.com.br
   <data name="VisualizarRevisoes" xml:space="preserve">
     <value>Visualizar Revisões</value>
   </data>
-  <data name="data-msg-required" xml:space="preserve">
+  <data name="datamsgrequired" xml:space="preserve">
     <value>Abril</value>
   </data>
   <data name="IdCliente" xml:space="preserve">

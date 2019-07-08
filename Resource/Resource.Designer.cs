@@ -2140,15 +2140,6 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Abril.
-        /// </summary>
-        public static string data_msg_required {
-            get {
-                return ResourceManager.GetString("data-msg-required", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to A data de abertura da reunião deve estar dentro do periodo da plai..
         /// </summary>
         public static string DataAberturaReuniaoDeveEstaDentroDoPeriodoPlai {
@@ -2181,6 +2172,15 @@ namespace Traducao {
         public static string DataExpiraPreenchido {
             get {
                 return ResourceManager.GetString("DataExpiraPreenchido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abril.
+        /// </summary>
+        public static string datamsgrequired {
+            get {
+                return ResourceManager.GetString("datamsgrequired", resourceCulture);
             }
         }
         
