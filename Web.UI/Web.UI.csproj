@@ -537,6 +537,11 @@
     <Content Include="ckeditor\plugins\filetools\lang\zh-cn.js" />
     <Content Include="ckeditor\plugins\filetools\lang\zh.js" />
     <Content Include="ckeditor\plugins\filetools\plugin.js" />
+    <Content Include="ckeditor\plugins\htmlwriter\plugin.js" />
+    <Content Include="ckeditor\plugins\htmlwriter\samples\assets\outputforflash\outputforflash.swf" />
+    <Content Include="ckeditor\plugins\htmlwriter\samples\assets\outputforflash\swfobject.js" />
+    <Content Include="ckeditor\plugins\htmlwriter\samples\outputforflash.html" />
+    <Content Include="ckeditor\plugins\htmlwriter\samples\outputhtml.html" />
     <Content Include="ckeditor\plugins\icons.png" />
     <Content Include="ckeditor\plugins\icons_hidpi.png" />
     <Content Include="ckeditor\plugins\image2\dev\assets\image1.jpg" />
@@ -1433,6 +1438,7 @@
     <Content Include="packages.config" />
     <Content Include="Content\assets_src\sass\source\datepicker\_jquery.timepicker.scss" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="ckeditor\plugins\htmlwriter\samples\assets\outputforflash\outputforflash.fla" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <Content Include="Content\assets_src\js\vendor\mxGraph\InicializadorFluxo.js" />
