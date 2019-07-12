@@ -237,7 +237,7 @@ APP.controller.PlaiController = {
 	},
 
 	getObjFormCriarPlaiGerentes: function () {
-		debugger;
+		//debugger;
 		var arrayFormCriarPlaiGerentesObj = [];
 		var formCriarPlaiGerenteObj = {};
 
@@ -259,7 +259,7 @@ APP.controller.PlaiController = {
 	setRulesDateReuniaoEncerramento: function () {
 
 		$('[name=formCriarPlaiDtReuniaoAbertura]').on('change', function () {
-			debugger;
+			//debugger;
 			APP.component.Datapicker.setDataPicker(this, '[name=formCriarPlaiDtReuniaoEncerramento]');
 
 		});
@@ -296,7 +296,7 @@ APP.controller.PlaiController = {
 
 
 		$('[name^=formCriarPlaiProcessoDt]').each(function () {
-			debugger;
+			//debugger;
 			var dataInicial = $(this).val();
 			$(this).datepicker('option', 'minDate', new Date(dataMinima));
 			$(this).datepicker('option', 'maxDate', new Date(dataMaxima));
