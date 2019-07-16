@@ -95,6 +95,10 @@ namespace ApplicationService.Servico
             {
                 TrataRegistroAprovacaoReverificador(acaoCorretiva, listaAcaoImediataUpdate.ToList(), objCtx);
             }
+            else if (acaoCorretiva.OStatusEEncerrada()) {
+                TrataRegistroAprovacaoReverificador(acaoCorretiva, listaAcaoImediataUpdate.ToList(), objCtx);
+
+            }
 
             return objCtx;
         }

@@ -436,9 +436,14 @@ namespace Dominio.Servico
         {
             var acaoImediataUpdateIsValid = acaoCorretiva.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
             var validaCampos = DefineFluxoValidacaoAC(acaoCorretiva).Validate(acaoCorretiva);
-            if (!validaCampos.IsValid && validaCampos != null)
+
+
+            if (validaCampos != null)
             {
-                erros.AddRange(UtilsServico.PopularErros(validaCampos.Errors));
+                if (!validaCampos.IsValid)
+                {
+                    erros.AddRange(UtilsServico.PopularErros(validaCampos.Errors));
+                }
             }
 
             if (acaoCorretiva.AcoesImediatas.Count > 0 && acaoCorretiva.StatusEtapa != (byte)EtapasRegistroConformidade.Reverificacao)
@@ -582,6 +587,10 @@ namespace Dominio.Servico
             {
                 return new CamposObrigatoriosAcaoCorretivaReverificacao();
             }
+            else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada) {
+                return new CamposObrigatoriosAcaoCorretivaEncerrada();
+            }
+            
             return null;
         }
 

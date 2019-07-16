@@ -442,7 +442,7 @@ else
             @if (Model.IdRegistroConformidade > 0)
             {
 
-                if (ViewBag.IdPerfil != 4 && Model.StatusEtapa != 4)
+                if (ViewBag.IdPerfil == 3||ViewBag.IdPerfil != 4 && Model.StatusEtapa != 4)
                 {
                     <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
                 }

@@ -447,6 +447,7 @@
     <Compile Include="Validacao\Produtos\ValidaCampoProduto.cs" />
     <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\AptoParaExclusaoAcaoCorretivaValidation.cs" />
     <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaEtapa4Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaEncerrada.cs" />
     <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaReverificacao.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\AptoParaCadastroComGestaoDeRiscoValidacao.cs" />
     <Compile Include="Validacao\NaoConformidadeValidacao.cs" />

@@ -301,7 +301,7 @@ namespace Web.UI.Controllers
             //    ViewBag.ScriptCall = "sim";
             //}
 
-            if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada)
+            if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada && Util.ObterPerfilUsuarioLogado() != 3 && Util.ObterPerfilUsuarioLogado() != 1)
             {
                 return View("Visualizacao", acaoCorretiva);
             }
@@ -368,19 +368,15 @@ namespace Web.UI.Controllers
 
             try
             {
-
                 acaoCorretiva.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 acaoCorretiva.FlDesbloqueado = acaoCorretiva.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 acaoCorretiva.TipoRegistro = _tipoRegistro;
                 acaoCorretiva.StatusRegistro = 1;
                 acaoCorretiva.IdEmissor = Util.ObterCodigoUsuarioLogado();
 
-
-
                 _registroConformidadesServico.ValidaAcaoCorretiva(acaoCorretiva, Util.ObterCodigoUsuarioLogado(), ref erros);
 
                 var usuario = Util.ObterUsuario();
-
 
                 for (int i = 0; i < acaoCorretiva.AcoesImediatas.Count; i++)
                 {
@@ -401,8 +397,6 @@ namespace Web.UI.Controllers
                         acaoCorretiva.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
                     }
                 }
-
-
 
                 if (erros.Count == 0)
                 {
