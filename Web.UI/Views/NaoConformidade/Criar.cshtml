@@ -548,13 +548,13 @@
                                                     <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
                                                         <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                     </a>
-                                                    @if (ViewBag.StatusEtapa == 3)
+                                                    @if (ViewBag.StatusEtapa == 3 && !Convert.ToBoolean(aprovadoAux))
                                                     {
                                                         <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
                                                             <i class="fa fa-check " aria-hidden="true"></i>
                                                         </button>
                                                         <button type="button" class="btn btn-denied-acao-imediata trash-color">
-                                                            <i class="fa fa-check " aria-hidden="true"></i>
+                                                            <i class="fa fa-close " aria-hidden="true"></i>
                                                         </button>
 
                                                     }
