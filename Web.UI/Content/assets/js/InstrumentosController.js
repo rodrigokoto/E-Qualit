@@ -33,6 +33,10 @@ APP.controller.InstrumentosController = {
         this.buttonSaveForm = $(".form-save");
         this.buttonDelInstrumento = $('.tb-instrumento-excluir');
         this.buttonImprimir = $("#btn-imprimir");
+        this.buttonStatus = $(".btn-status");
+        this.buttonEmCalibracao = $(".btn-EmCalibracao");
+        this.buttonForaDeUso = $(".btn-ForaDeUso");
+        this.buttonModalCancelar = $(".btn-modal-cancelar");
     },
 
     models: {
@@ -53,7 +57,7 @@ APP.controller.InstrumentosController = {
     },
 
     CriarInstrumentos: function () {
-        
+
 
         //GETs
         this.getResponsavel();
@@ -80,6 +84,7 @@ APP.controller.InstrumentosController = {
         this.bind();
 
         this.eventoImprimir();
+        this.eventoAlterarStatus();
 
         //INCLUDEs
         APP.component.AtivaLobiPanel.init();
@@ -95,7 +100,7 @@ APP.controller.InstrumentosController = {
     },
 
     eventoImprimir: function () {
-        
+
 
         this.buttonImprimir.on('click', function () {
 
@@ -106,8 +111,45 @@ APP.controller.InstrumentosController = {
 
     },
 
+
+
+    eventoAlterarStatus: function () {
+        var status = document.getElementById('IdStatusHidden');
+        var lblstatus = $('.status-aprovado');
+
+        var statusB = status;
+        var lblstatusB = lblstatus;
+        this.buttonStatus.on('click', function () {
+            $('#modal-alter-status').modal("show");
+        });
+
+        this.buttonEmCalibracao.on('click', function () {
+            status.value = 3;
+
+            lblstatus[0].className = '';
+            lblstatus[0].className = 'status-em-calibracao status-aprovado';
+            lblstatus[0].innerHTML = 'Em Calibração';
+
+        });
+
+        this.buttonForaDeUso.on('click', function () {
+            status.value = 2;
+
+            lblstatus[0].className = '';
+            lblstatus[0].className = 'status-fora-de-uso status-aprovado';
+            lblstatus[0].innerHTML = 'Fora de Uso';
+        });
+
+        this.buttonModalCancelar.on('click', function () {
+            status.value = statusB;
+            lblstatus[0] = lblstatusB[0];
+        });
+    },
+
+
+
     imprimir: function (IdInstrumento) {
-        
+
 
 
         if (IdInstrumento != null) {
@@ -152,7 +194,7 @@ APP.controller.InstrumentosController = {
     },
 
     setValidateForms: function () {
-        
+
 
         var ObjFormInstrumentoValidate = APP.controller.InstrumentosController.getObjObjFormInstrumentoValidate();
         APP.component.ValidateForm.init(ObjFormInstrumentoValidate, '#form-parametro-instrumento');
@@ -160,7 +202,7 @@ APP.controller.InstrumentosController = {
     },
 
     getObjObjFormInstrumentoValidate: function () {
-        
+
 
         var acoesPadraoFormCriarPadraoObj = {
             //formCriaClienteLogo: {required: true, minFiles: 1},
@@ -184,7 +226,7 @@ APP.controller.InstrumentosController = {
 
     //Funcoes Index Instrumentos
     delInstrumento: function () {
-        
+
 
         var tabelaInstrumento = $('#tb-instrumento').DataTable();
 
@@ -210,11 +252,10 @@ APP.controller.InstrumentosController = {
     },
 
     editIntrumento: function () {
-        
+
 
         var IdInstrumento = $('#IdInstrumento');
         var instrumento = $('#form-parametro-instrumento').serialize();
-
         $.ajaxSetup({ async: false });
 
         $.post('/Instrumento/Editar/', instrumento, function (data, status) {
@@ -230,7 +271,7 @@ APP.controller.InstrumentosController = {
     },
 
     getResponsavel: function () {
-        
+
 
         var idSite = $('#IdSite').val();
         var idFuncao = 57;
@@ -250,7 +291,7 @@ APP.controller.InstrumentosController = {
     },
 
     getResponsavelAprovadorCalibracao: function () {
-        
+
 
         var idSite = $('#IdSite').val();
         var idFuIdAprovadorCalibracaoncao = $('#IdAprovadorCalibracao').val();
@@ -269,7 +310,7 @@ APP.controller.InstrumentosController = {
     },
 
     getObjPosCalibracao: function () {
-        
+
 
         var PosCalibracao = {
             IdCalibracao: $("#IdCalibracao").val(),
@@ -320,7 +361,7 @@ APP.controller.InstrumentosController = {
     },
 
     getArquivoCertificadoAnexos: function () {
-        
+
 
         var anexoContratoModel = APP.controller.ClienteController.models.AnexoModel;
         var arrayAnexoArquivoCertificado = [];
@@ -341,7 +382,7 @@ APP.controller.InstrumentosController = {
     },
 
     getEditPosCalibracao: function (result) {
-        
+
 
         APP.controller.InstrumentosController.showPosCalibracao();
 
@@ -410,7 +451,7 @@ APP.controller.InstrumentosController = {
     },
 
     setCalibracao: function () {
-        
+
 
 
         this.buttonAddCalibracao.bind('click', function () {
@@ -421,7 +462,7 @@ APP.controller.InstrumentosController = {
     },
 
     showPosCalibracao: function () {
-        
+
 
         $('.tb-calibracao').slideUp(500);
         $('#form-pos-calibracao').removeClass('hide').addClass('show');
@@ -433,7 +474,7 @@ APP.controller.InstrumentosController = {
     },
 
     showTablePosCalibracaoParametros: function () {
-        
+
 
         var nomeRadio = 'SistemaDefineStatus';
         var radio = APP.component.Radio.init(nomeRadio);
@@ -445,7 +486,7 @@ APP.controller.InstrumentosController = {
     },
 
     setCalculaDoSistema: function () {
-        
+
 
         this.radioButton.bind('click', function () {
             APP.controller.InstrumentosController.showTablePosCalibracaoParametros();
@@ -454,7 +495,7 @@ APP.controller.InstrumentosController = {
     },
 
     setParametrosCalibracao: function () {
-        
+
 
 
 
@@ -481,14 +522,14 @@ APP.controller.InstrumentosController = {
     },
 
     setResponsavelInstrumento: function () {
-        
+
 
         var idResponsavel = $("#IdResponsavelHidden").val();
         $('#dropdown-responsavel').val(idResponsavel);
     },
 
     setCalibracaoAprovado: function () {
-        
+
 
         //var sizeCheck = $('.tb-parametros-pos-calibracao').find('.form-pos-calibracao-parametros-validacao i').size();
         //var qntCheck = $('.tb-parametros-pos-calibracao').find('.form-pos-calibracao-parametros-validacao .fa-check').size();
@@ -500,7 +541,7 @@ APP.controller.InstrumentosController = {
     },
 
     delCalibracao: function () {
-        
+
 
         tabelaCalibracao = $('#tb-calibracao').DataTable();
 
@@ -537,7 +578,7 @@ APP.controller.InstrumentosController = {
     },
 
     delParametroCalibracao: function () {
-        
+
 
         this.buttonDelParametroCalibracao.unbind('click');
 
@@ -548,7 +589,7 @@ APP.controller.InstrumentosController = {
     },
 
     editPosCalibracao: function () {
-        
+
 
         this.buttoEditParametroCalibracao.unbind('click');
         this.buttoEditParametroCalibracao.bind('click', function (event) {
@@ -591,7 +632,7 @@ APP.controller.InstrumentosController = {
     },
 
     calcCriterioAceitacao: function () {
-        
+
 
         $('.form-pos-calibracao-parametros-erro, .form-pos-calibracao-parametros-incerteza, .form-parametro-instrumento-criterio-aceitacao').on('keyup change', function () {
 
@@ -697,8 +738,10 @@ APP.controller.InstrumentosController = {
     },
 
     sendFormParametroInstrumento: function () {
-        
+
         APP.component.Loading.showLoading();
+
+        var vstatus = document.getElementById('IdStatusHidden');
 
         $.ajaxSetup({ async: false });
         var idInstrumento = $("#IdInstrumento").val();
@@ -716,6 +759,10 @@ APP.controller.InstrumentosController = {
             $("#emErroSistemaDefineStatus").show();
         }
 
+        var dataobject = $('#form-parametro-instrumento').serialize();
+
+        dataobject["Status"] = vstatus.value;
+
         if (validacao) {
             $.ajax({
                 type: "POST",
@@ -723,7 +770,7 @@ APP.controller.InstrumentosController = {
                 url: url,
                 data: $('#form-parametro-instrumento').serialize(),
                 success: function (result) {
-                    
+
                     if (result.StatusCode == 200) {
 
                         if (idInstrumento == "0") {
@@ -732,12 +779,12 @@ APP.controller.InstrumentosController = {
                                 {
                                     message: result.Success,
                                     callback: function () {
-                                        
+
                                         window.location.href = "/Instrumento/Editar/" + result.IdInstrumento;
                                     }
                                 });
                             return;
-                            
+
                         }
 
                         APP.controller.InstrumentosController.setCalibracaoVisivel();
@@ -782,7 +829,7 @@ APP.controller.InstrumentosController = {
     },
 
     sendFormPoscalibracao: function (idInstrumento, msgRetorno) {
-        
+
 
         var objPosCalibracao = APP.controller.InstrumentosController.getObjPosCalibracao();
 
@@ -853,12 +900,12 @@ APP.controller.InstrumentosController = {
     },
 
     saveForms: function () {
-        
+
 
         this.buttonSaveForm.click(function () {
 
             event.preventDefault();
-            
+
             $("#form-pos-calibracao").validate();
 
             var formCalibracaoValido = $("#form-pos-calibracao").valid();
@@ -925,7 +972,7 @@ APP.controller.InstrumentosController = {
     },
 
     addCalibracaoTabela: function (calibracao) {
-        
+
 
         var tabelaCalibracao = $('#tb-calibracao').DataTable();
 
@@ -960,12 +1007,12 @@ APP.controller.InstrumentosController = {
 
     //fazer
     viewArquivoCalibracao: function () {
-        
+
 
     },
 
     setupUploadArquivoCalibracao: function () {
-        
+
 
         var formJson = { "id": 0, "idSite": $("#IdSite").val() };
         UploadMultiplosArquivos(
@@ -981,14 +1028,14 @@ APP.controller.InstrumentosController = {
     },
 
     bind: function () {
-        
+
 
         APP.controller.InstrumentosController.calcCriterioAceitacao();
 
     },
 
     setCalibracaoVisivel() {
-        
+
 
         var idInstrumento = $("#IdInstrumento").val();
 
@@ -999,7 +1046,7 @@ APP.controller.InstrumentosController = {
     },
 
     setFormCalibracaoVazio() {
-        
+
 
         $('#form-pos-calibracao .arquivo').html("").addClass("hide");
         $('#form-pos-calibracao .deletefile').addClass("hide").attr('disabled', 'disabled');
@@ -1008,7 +1055,7 @@ APP.controller.InstrumentosController = {
     },
 
     addCriterioAceitacao(criterioAceitacao) {
-        
+
 
         var html = '';
         html += '<tr class="campos-tabela">';

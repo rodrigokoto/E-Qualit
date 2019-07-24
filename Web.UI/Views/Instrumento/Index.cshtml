@@ -81,20 +81,19 @@
                                                 <td>
                                                     @if (instrumento.Calibracao.LastOrDefault() != null)
                                                     {
-
-                                                        if (instrumento.Calibracao.LastOrDefault().Aprovado == 0)
+                                                        if (instrumento.Status == 0)
                                                         {
                                                             <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
                                                         }
-                                                        else if (instrumento.Calibracao.LastOrDefault().Aprovado == 1)
+                                                        else if (instrumento.Status == 1)
                                                         {
                                                             <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
                                                         }
-                                                        else if (instrumento.Calibracao.LastOrDefault().Aprovado == 2)
+                                                        else if (instrumento.Status == 2)
                                                         {
                                                             <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
                                                         }
-                                                        else if (instrumento.Calibracao.LastOrDefault().Aprovado == 3)
+                                                        else if (instrumento.Status == 3)
                                                         {
                                                             <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
                                                         }
