@@ -351,7 +351,7 @@ namespace ApplicationService.Servico
             return registroConformidade;
 
         }
-
+        
         private void TrataRegistroQuandoEntraEmFaseDeImplementacao(RegistroConformidade registroConformidade, RegistroConformidade objCtx)
         {
             //limpando tabela para atualização
@@ -702,6 +702,17 @@ namespace ApplicationService.Servico
                 acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
                 acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
 
+                foreach (var obj in objCtx.AcoesImediatas)
+                {
+                    if (obj.IdAcaoImediata == acaoImediata.IdAcaoImediata) {
+
+                        obj.Observacao = obj.Observacao != acaoImediata.Observacao ? acaoImediata.Observacao : obj.Observacao;
+                        obj.Descricao = obj.Descricao != acaoImediata.Descricao ? acaoImediata.Descricao : obj.Descricao;
+                        obj.DtPrazoImplementacao = obj.DtPrazoImplementacao != acaoImediata.DtPrazoImplementacao ? acaoImediata.DtPrazoImplementacao : obj.DtPrazoImplementacao;
+                        obj.DtEfetivaImplementacao = obj.DtEfetivaImplementacao != acaoImediata.DtEfetivaImplementacao ? acaoImediata.DtEfetivaImplementacao : obj.DtEfetivaImplementacao;
+                    }
+                }
+
                 if (acaoImediata.ArquivoEvidenciaAux != null && acaoImediata.ArquivoEvidenciaAux.ArquivoB64 != null)
                 {
                     if (acaoImediata.ArquivoEvidenciaAux.ArquivoB64 == "undefined")
@@ -917,7 +928,7 @@ namespace ApplicationService.Servico
                 else
                 {
                     registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
-                    registroAcaoCorretiva.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata; ;
+                    registroAcaoCorretiva.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
                     registroAcaoCorretiva.DtEnceramento = null;
                     _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
                 }
