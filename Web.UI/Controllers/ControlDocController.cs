@@ -1445,6 +1445,7 @@ namespace Web.UI.Controllers
         {
             try
             {
+
                 //var docBase = _documentoAppServico.GetById(documento.IdDocumento);
 
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
@@ -1456,10 +1457,23 @@ namespace Web.UI.Controllers
                 AtualizarAssuntos(documento);
                 AdicionaComentario(documento);
 
-                var listaAprovaVerifi = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento).ToList();
-                listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlVerificou = true;
-                _docUsuarioVerificaAprovaAppServico.AlterarUsuariosDoDocumento(listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado() && x.TpEtapa == "V").ToList());
 
+
+                var listaAprovaVerifi = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento).ToList();
+
+                if (Util.ObterPerfilUsuarioLogado() == 3)
+                {
+                    listaAprovaVerifi.ForEach(aprova =>
+                    {
+                        aprova.FlVerificou = true;
+                    });
+                }
+                else
+                {
+                    listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlVerificou = true;
+                }
+
+                _docUsuarioVerificaAprovaAppServico.AlterarUsuariosDoDocumento(listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado() && x.TpEtapa == "V").ToList());
 
                 if (_documentoAppServico.VerificadoPorTodos(listaAprovaVerifi))
                 {
