@@ -379,6 +379,7 @@
                                                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Prazo_implementacao</th>
                                                                             <th class="w10">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Responsavel_implementar</th>
                                                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Efetiva_implementacao</th>
+                                                                            <th class="w7">Observação</th>
                                                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Arquivo_evidencia</th>
                                                                             <th class="w7"></th>
                                                                         </tr>
@@ -405,6 +406,10 @@
                                                                                 <!-- Data Efetiva Implementacao -->
                                                                                 <td>
                                                                                     @(acaoImediata.DtEfetivaImplementacao != null ? acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat) : null)
+                                                                                </td>
+                                                                                <!-- Observação-->
+                                                                                <td>
+                                                                                    @(acaoImediata.Observacao)
                                                                                 </td>
                                                                                 <!-- Arquivo de Evidencia -->
                                                                                 <td>
@@ -438,6 +443,7 @@
                                                                                     @*@nomeAnexo*@
 
                                                                                 </td>
+
                                                                                 <!-- Acoes -->
                                                                                 <td>
                                                                                     @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
