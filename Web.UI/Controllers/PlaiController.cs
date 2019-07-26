@@ -61,10 +61,10 @@ namespace Web.UI.Controllers
             ViewBag.Mes = mes;
 
             var plai = _plaiAppServico.Get(x => x.IdPai == idPai && x.Mes == mes).FirstOrDefault();
-			
-			ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
 
-			int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
+            ViewBag.NormasSelecionadas = plai.PlaiProcessoNorma;
+
+            int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
 
             var plaiTest = plai.PlaiProcessoNorma.ToList();
 
@@ -79,9 +79,9 @@ namespace Web.UI.Controllers
             });
 
             ViewBag.Gestores = _usuarioAppServico.ObterUsuariosPorPerfilESite(IdSite, 3, IdPerfil);
-			ViewBag.Editar = (plai.DataReuniaoEncerramento >= DateTime.Now).ToString();
+            ViewBag.Editar = (plai.DataReuniaoEncerramento >= DateTime.Now).ToString();
 
-			return View("Criar", plai);
+            return View("Criar", plai);
         }
 
         public ActionResult DownloadPdf(int idPlai)
@@ -89,6 +89,11 @@ namespace Web.UI.Controllers
             int IdSite = Util.ObterSiteSelecionado();
 
             var plai = _plaiAppServico.Get(x => x.IdPlai == idPlai).FirstOrDefault();
+            ///plai.PlaiProcessoNorma = _plaiProcessoNormaAppServico.GetAll().ToList();
+
+            //var teste1 = _plaiProcessoNormaAppServico.GetAll().ToList();
+
+            //var teste = plai.PlaiProcessoNorma.Where(x => x.IdPlai == plai.IdPlai).ToList();
 
             ViewBag.IdSite = IdSite;
             ViewBag.IdPai = plai.IdPlai;
@@ -98,10 +103,21 @@ namespace Web.UI.Controllers
 
             int? IdPrimeiraNorma = plai.PlaiProcessoNorma.FirstOrDefault()?.IdNorma;
 
+            List<int> lstResult = new List<int>();
+
+            foreach (var norma in plai.PlaiProcessoNorma)
+            {
+                lstResult.Add(norma.IdNorma.GetValueOrDefault());
+            }
+
             plai.PlaiProcessoNorma = plai.PlaiProcessoNorma.Where(x => x.IdNorma == IdPrimeiraNorma).ToList();
 
             plai.Elaborador = _usuarioAppServico.GetById(plai.IdElaborador);
-            ViewBag.Normas = _normaAppServico.Get(x => x.IdSite == IdSite).ToList();
+            var Normas = _normaAppServico.Get(x => x.IdSite == IdSite).ToList();
+
+            var result = Normas.Where(x => lstResult.Contains(x.IdNorma)).ToList();
+
+            ViewBag.Normas = result;
 
             plai.PlaiGerentes.ForEach(x =>
             {
@@ -136,104 +152,105 @@ namespace Web.UI.Controllers
 
             try
             {
-				if (plai.PlaiProcessoNorma != null)
-				{
-					bool erroData = false;
-					foreach (var item in plai.PlaiProcessoNorma)
-					{
-						if (item.Data < plai.DataReuniaoAbertura || item.DataFinal > plai.DataReuniaoEncerramento)
-						{
-							erros.Add("A data inicial e final do processo deverão estar no intervalo de data e hora de abertura e encerramento do PLAI.");
-							break;
-						}
+                if (plai.PlaiProcessoNorma != null)
+                {
+                    bool erroData = false;
+                    foreach (var item in plai.PlaiProcessoNorma)
+                    {
+                        if (item.Data < plai.DataReuniaoAbertura || item.DataFinal > plai.DataReuniaoEncerramento)
+                        {
+                            erros.Add("A data inicial e final do processo deverão estar no intervalo de data e hora de abertura e encerramento do PLAI.");
+                            break;
+                        }
 
-						if (item.Data >= item.DataFinal)
-						{
-							erros.Add("A hora inicial não pode ser maior ou igual a hora final.");
-							break;
-						}
+                        if (item.Data >= item.DataFinal)
+                        {
+                            erros.Add("A hora inicial não pode ser maior ou igual a hora final.");
+                            break;
+                        }
 
-						foreach (var processoVerificar in plai.PlaiProcessoNorma)
-						{
-							//     Data Item atual        Data Principal
-							if (processoVerificar.Data > item.Data && processoVerificar.Data < item.DataFinal ||
-								processoVerificar.DataFinal > item.Data && processoVerificar.DataFinal < item.DataFinal)
-							{
-								erros.Add("Data, Hora inicial e Hora final dos processos não podem se sobrepor.");
-								erroData = true;
-								break;
-							}
-						}
-						if (erroData == true)
-						{
-							break;
-						}
-					}
-				}
+                        foreach (var processoVerificar in plai.PlaiProcessoNorma)
+                        {
+                            //     Data Item atual        Data Principal
+                            if (processoVerificar.Data > item.Data && processoVerificar.Data < item.DataFinal ||
+                                processoVerificar.DataFinal > item.Data && processoVerificar.DataFinal < item.DataFinal)
+                            {
+                                erros.Add("Data, Hora inicial e Hora final dos processos não podem se sobrepor.");
+                                erroData = true;
+                                break;
+                            }
+                        }
+                        if (erroData == true)
+                        {
+                            break;
+                        }
+                    }
+                }
 
-				//bool temNormaAtiva = false;
-				//int processoAtual = plai.PlaiProcessoNorma.FirstOrDefault().IdProcesso;
-				//foreach (var item in plai.PlaiProcessoNorma)
-				//{
-				//	if (processoAtual == item.IdProcesso)
-				//	{
-				//		if (item.Ativo == true)
-				//		{
-				//			temNormaAtiva = true;
+                //bool temNormaAtiva = false;
+                //int processoAtual = plai.PlaiProcessoNorma.FirstOrDefault().IdProcesso;
+                //foreach (var item in plai.PlaiProcessoNorma)
+                //{
+                //	if (processoAtual == item.IdProcesso)
+                //	{
+                //		if (item.Ativo == true)
+                //		{
+                //			temNormaAtiva = true;
 
-				//		}
-				//	} else {
-				//		if (temNormaAtiva == false)
-				//		{
-				//			break;
-				//		}
+                //		}
+                //	} else {
+                //		if (temNormaAtiva == false)
+                //		{
+                //			break;
+                //		}
 
-				//		temNormaAtiva = false;
-				//	}
-				//	processoAtual = item.IdProcesso;
+                //		temNormaAtiva = false;
+                //	}
+                //	processoAtual = item.IdProcesso;
 
-				//	// item.Ativo 
-				//}
-				//if (!temNormaAtiva)
-				//{
-				//	erros.Add("Seleciona uma norma por processo");
-				//}
+                //	// item.Ativo 
+                //}
+                //if (!temNormaAtiva)
+                //{
+                //	erros.Add("Seleciona uma norma por processo");
+                //}
 
-				Plai plaiAtual = _plaiAppServico.GetById(plai.IdPlai);
-
-
-				bool temNormaAtiva = false;
-				foreach (var item in plaiAtual.PlaiProcessoNorma.Select(x => x.IdProcesso).ToList())
-				{
-					if (plai.PlaiProcessoNorma != null)
-					{
-						foreach (var itemNorma in plai.PlaiProcessoNorma)
-						{
-							if (itemNorma.IdProcesso == item)
-							{
-								if (itemNorma.Ativo == true)
-								{
-									temNormaAtiva = true;
-									break;
-								}
-							}
-						}
-						if (!temNormaAtiva)
-						{
-							erros.Add("Selecionar uma norma por processo");
-							break;
-						}
-						temNormaAtiva = false;
-					}
-					else {
-						erros.Add("Selecionar uma norma por processo");
-						break;
-					}
-				}
+                Plai plaiAtual = _plaiAppServico.GetById(plai.IdPlai);
 
 
+                bool temNormaAtiva = false;
+                foreach (var item in plaiAtual.PlaiProcessoNorma.Select(x => x.IdProcesso).ToList())
+                {
+                    if (plai.PlaiProcessoNorma != null)
+                    {
+                        foreach (var itemNorma in plai.PlaiProcessoNorma)
+                        {
+                            if (itemNorma.IdProcesso == item)
+                            {
+                                if (itemNorma.Ativo == true)
+                                {
+                                    temNormaAtiva = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!temNormaAtiva)
+                        {
+                            erros.Add("Selecionar uma norma por processo");
+                            break;
+                        }
+                        temNormaAtiva = false;
+                    }
+                    else
+                    {
+                        erros.Add("Selecionar uma norma por processo");
+                        break;
+                    }
+                }
 
-				plaiAtual.DataReuniaoAbertura = plai.DataReuniaoAbertura;
+
+
+                plaiAtual.DataReuniaoAbertura = plai.DataReuniaoAbertura;
                 plaiAtual.DataReuniaoEncerramento = plai.DataReuniaoEncerramento;
                 plaiAtual.IdElaborador = plai.IdElaborador;
                 plaiAtual.PlaiGerentes = plai.PlaiGerentes;
@@ -260,8 +277,8 @@ namespace Web.UI.Controllers
                     else
                     {
                         plaiProcessoNormaAcao.Data = plaiProcessoNorma.Data;
-						plaiProcessoNormaAcao.DataFinal = plaiProcessoNorma.DataFinal;
-						_plaiProcessoNormaAppServico.Update(plaiProcessoNormaAcao);
+                        plaiProcessoNormaAcao.DataFinal = plaiProcessoNorma.DataFinal;
+                        _plaiProcessoNormaAppServico.Update(plaiProcessoNormaAcao);
                     }
                 });
 
