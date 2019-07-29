@@ -1736,8 +1736,9 @@ APP.controller.NaoConformidadeController = {
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
                     IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
                     Motivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
-                    Orientacao: $(tr).find('[name=formAcaoImediataComentarioOrientacao]').val()
-
+                    Orientacao: $(tr).find('[name=formAcaoImediataComentarioOrientacao]').val(),
+                    DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                    Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val()
                     //ComentariosAcaoImediata: acoesImediatasComentarios = {
                     //    Motivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
                     //    Orientacao: $(tr).find('[name=formAcaoImediataComentarioOrientacao]').val()
