@@ -1873,6 +1873,7 @@
     <Content Include="Views\Shared\_BlankLayout.cshtml" />
     <Content Include="Views\AcaoCorretiva\Visualizacao.cshtml" />
     <Content Include="Views\Shared\GestaoDeRiscoAnaliseCritica.cshtml" />
+    <Content Include="Views\Shared\Anexo\_AnexoComponent.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
