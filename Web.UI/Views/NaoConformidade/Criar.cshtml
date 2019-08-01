@@ -96,6 +96,11 @@
         <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
         <input type="hidden" id="acaoImediataAtual" />
 
+
+        @{
+            Html.RenderPartial("Anexo/_Anexo");
+        }
+
         <!-- Formulario Nao Conformidade -->
         <form id="form-criar-naoconformidade">
             <div class="panel panel-default" id="panel-naoconformidade">
@@ -494,6 +499,8 @@
                                                         }
                                                     }
 
+
+
                                                     <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
                                                         @if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                         {
@@ -871,8 +878,8 @@
 
 
 <script>
-                                                                                                                    //$(".fa-calendar").click(function () {
-                                                                                                                    //    $(this).parent().parent().find("input").datepicker("show");
-                                                                                                                    //});
+                                                                                                                        //$(".fa-calendar").click(function () {
+                                                                                                                        //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                                        //});
 </script>
 

@@ -47,40 +47,7 @@ APP.controller.AuditoriaController = {
 
     },
 
-    getArrArquivo: function (_this) {
-
-        let divArquivosSel = $(_this).data("divarquivos");
-        let arquivos = $(divArquivosSel).find(".upload-arq");
-        var arrAnexoAuditoria = new Array();
-
-        for (let iarquivos = 0; iarquivos < arquivos.length; iarquivos++) {
-            let arq = $(arquivos[iarquivos]);
-            var nameImg = arq.find("input[name='NomeAnexo']").val();
-            if (!nameImg)
-                continue;
-            if (nameImg == "") //skip temporary buttons
-                continue;
-            var id = arq.find("input[name='IdAnexo']").val();
-            if (!id)
-                id = 0;
-            let ArquivoB64 = arq.find('.anexo-plai').data('b64');
-            let Anexo = {
-                IdAnexo: id,
-                Extensao: nameImg,
-                ArquivoB64: ArquivoB64,
-            };
-            let anexoAuditoria = {
-                IdArquivoPlaiAnexo: arq.find("input[name='IdArquivoPlaiAnexo']").val(),
-                IdPlai: arq.find("input[name='IdPlai']").val(),
-                IdAnexo: id,
-                Anexo: Anexo,
-                ApagarAnexo: arq.find("input[name='ApagarAnexo']").val(),
-            };
-            arrAnexoAuditoria.push(anexoAuditoria);
-        }
-        return arrAnexoAuditoria;
-
-    },
+    
 
     getGestorPorSite: function () {
 
@@ -152,7 +119,7 @@ APP.controller.AuditoriaController = {
         $(_this).find('.calendar ul').each(function () {
             var formAuditoriaMesesObj = {
                 Mes: $(this).find('[name^=formAuditoriaMes]').val(),
-                ArquivoPlai: APP.controller.AuditoriaController.getArrArquivo(this),
+                ArquivoPlai: FileUploadGlobal_getArrArquivo(this, "IdArquivoPlaiAnexo", "IdPlai"),
                 PlaiProcessoNorma: APP.controller.AuditoriaController.getObjFormAuditoriaMesesProcessos(this),
             };
 

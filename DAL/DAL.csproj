@@ -63,6 +63,9 @@
     <Compile Include="EntityConfig\AnaliseCriticaFuncionarioMap.cs" />
     <Compile Include="EntityConfig\AnaliseCriticaTemaMap.cs" />
     <Compile Include="EntityConfig\AnexoMap.cs" />
+    <Compile Include="EntityConfig\ArquivoInstrumentoMap.cs" />
+    <Compile Include="EntityConfig\ArquvioControleDeDocumentoMap.cs" />
+    <Compile Include="EntityConfig\ArquvioAcaoCorretivaMap.cs" />
     <Compile Include="EntityConfig\ArquivoPlaiAnexoMap.cs" />
     <Compile Include="EntityConfig\ArquivoCertificadoAnexoMap.cs" />
     <Compile Include="EntityConfig\ArquivoDeEvidenciaAcaoImediataMap.cs" />

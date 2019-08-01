@@ -1093,6 +1093,43 @@ APP.component.FileUpload = {
     },
 
 };
+
+function FileUploadGlobal_getArrArquivo(_this, nomeChave1, nomeChave2) {
+
+    let divArquivosSel = $(_this).data("divarquivos");
+    let arquivos = $(divArquivosSel).find(".upload-arq");
+    var arrAnexoAuditoria = new Array();
+
+    for (let iarquivos = 0; iarquivos < arquivos.length; iarquivos++) {
+        let arq = $(arquivos[iarquivos]);
+        var nameImg = arq.find("input[name='NomeAnexo']").val();
+        if (!nameImg)
+            continue;
+        if (nameImg == "") //skip temporary buttons
+            continue;
+        var id = arq.find("input[name='IdAnexo']").val();
+        if (!id)
+            id = 0;
+        let ArquivoB64 = arq.find('.anexo-plai').data('b64');
+        let Anexo = {
+            IdAnexo: id,
+            Extensao: nameImg,
+            ArquivoB64: ArquivoB64,
+        };
+        let anexoAuditoria = {
+            IdAnexo: id,
+            Anexo: Anexo,
+            ApagarAnexo: arq.find("input[name='ApagarAnexo']").val(),
+        };
+        anexoAuditoria[nomeChave1] = arq.find("input[name='IdArquivoPlaiAnexo']").val();
+        anexoAuditoria[nomeChave2] = arq.find("input[name='IdPlai']").val();
+
+        arrAnexoAuditoria.push(anexoAuditoria);
+    }
+    return arrAnexoAuditoria;
+
+}
+
 /*
 |--------------------------------------------------------------------------
 | GestaoDeRiscoPartial

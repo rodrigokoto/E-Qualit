@@ -82,6 +82,8 @@ namespace Dominio.Entidade
         public virtual Usuario Elaborador { get; set; }
         public virtual RegistroConformidade GestaoDeRisco { get; set; }
 
+        public virtual ICollection<ArquivoDocDocumentoAnexo> ArquivoDocDocumento { get; set; }
+        
         public virtual List<DocumentoCargo> DocCargo { get; set; }
         public virtual List<DocTemplate> DocTemplate { get; set; }
         public virtual List<DocUsuarioVerificaAprova> DocUsuarioVerificaAprova { get; set; }
