@@ -2,7 +2,7 @@
 
 namespace ApplicationService.Interface
 {
-    public interface IArquivoAcaoCorretivaAppServico : IBaseServico<ArquvioAcaoCorretivaAnexo>
+    public interface IArquivoAcaoCorretivaAppServico : IBaseServico<ArquivoAcaoCorretivaAnexo>
     {
     }
 }

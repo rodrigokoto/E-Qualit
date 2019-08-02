@@ -4,7 +4,7 @@
     {
         public int IdArquivooControleDeDocumentoAnexo { get; set; }
         public int IdAnexo { get; set; }
-        public int IdoControleDeDocumento { get; set; }
+        public int IdControleDeDocumento { get; set; }
 
         //informação somente da tela, solicitando para apagar
         public int ApagarAnexo { get; set; } = 0;

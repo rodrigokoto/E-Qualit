@@ -2,7 +2,7 @@
 
 namespace ApplicationService.Interface
 {
-    public interface IArquivoControleDeDocumentoAppServico : IBaseServico<ArquivoControleDeDocumentoAnexo>
+    public interface IArquivoControleDeDocumentoAppServico : IBaseServico<ArquivoDocDocumentoAnexo>
     {
     }
 }

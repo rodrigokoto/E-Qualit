@@ -84,7 +84,7 @@
                     var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
                     int nroArquivos = plai.ArquivoPlai.Count;
 
-                    var botao = new Web.UI.Models.ArquivoAnexoViewModel<Dominio.Entidade.ArquivoPlaiAnexo>()
+                    var botao = new Web.UI.Models.ArquivoAnexoViewModel()
                     {
                         IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
                         TextoLink = "R.A.I.",
@@ -100,7 +100,7 @@
 
 @helper SairMesRaiModal(string nomeMes, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
 {
-var botao = new Web.UI.Models.ArquivoAnexoViewModel<Dominio.Entidade.ArquivoPlaiAnexo>()
+var botao = new Web.UI.Models.ArquivoAnexoViewModel
 {
     IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
     TextoLink = "R.A.I.",

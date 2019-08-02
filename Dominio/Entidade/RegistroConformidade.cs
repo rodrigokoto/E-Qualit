@@ -94,6 +94,7 @@ namespace Dominio.Entidade
 
         #region Relacionamentos
 
+        public virtual ICollection<ArquivoAcaoCorretivaAnexo> ArquivoAcaoCorretiva { get; set; }
         public virtual ICollection<ArquivosDeEvidencia> ArquivosDeEvidencia { get; set; }
         public virtual Usuario ResponsavelAcaoCorretiva { get; set; }
         public virtual Usuario ResponsavelAnalisar { get; set; }

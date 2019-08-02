@@ -190,7 +190,6 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AcaoCorretivaController.cs" />
-    <Compile Include="Controllers\TesteAnexoController.cs" />
     <Compile Include="Controllers\AnaliseCriticaController.cs" />
     <Compile Include="Controllers\AvaliacaoCriticidadeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -1877,7 +1876,6 @@
     <Content Include="Views\Shared\GestaoDeRiscoAnaliseCritica.cshtml" />
     <Content Include="Views\Shared\Anexo\_Anexo.cshtml" />
     <Content Include="Views\Shared\Anexo\_ModalAnexo.cshtml" />
-    <Content Include="Views\TesteAnexo\Index.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

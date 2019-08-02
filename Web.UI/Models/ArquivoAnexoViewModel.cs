@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Web.UI.Models
 {
-    public class ArquivoAnexoViewModel<T> where T : class 
+    public class ArquivoAnexoViewModel
     {
         //para o botao e a caixa de dialogo
         public string IdentificadorInicial { get; set; }
@@ -17,11 +17,6 @@ namespace Web.UI.Models
         public string ModalTittle { get; set; }
         public List<ArquivoAnexoItemViewModel> AnexosLista { get; set; }
         public bool PodeAnexar;
-
-        //nao sendo usado aindao
-        public List<T> Anexos { get; set; }
-
-
 
     }
 
