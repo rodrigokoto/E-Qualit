@@ -348,8 +348,9 @@ else
                                                     <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
                                                         @if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                         {
-                                                            var acao = acaoImediata.ArquvioAcaoCorretivaAnexo.Where(x => x.IdRegistroConformidade == acaoImediata.IdRegistroConformidade).ToList();
-                                                            int nroArquivos = acao.Count;
+
+                                                            var acao = acaoImediata.ArquvioAcaoCorretivaAnexo.ToList();
+                                                            var nroArquivos =acao.Count();
 
                                                             var botao = new Web.UI.Models.ArquivoAnexoViewModel()
                                                             {
