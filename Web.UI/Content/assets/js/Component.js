@@ -1097,7 +1097,12 @@ APP.component.FileUpload = {
 function FileUploadGlobal_getArrArquivo(_this, nomeChave1, nomeChave2) {
 
     let divArquivosSel = $(_this).data("divarquivos");
-    let arquivos = $(divArquivosSel).find(".upload-arq");
+    return FileUploadGlobal_getArrArquivoRaiz(divArquivosSel, nomeChave1, nomeChave2)
+}
+
+function FileUploadGlobal_getArrArquivoRaiz(raiz, nomeChave1, nomeChave2) {
+
+    let arquivos = $(raiz).find(".upload-arq");
     var arrAnexoAuditoria = new Array();
 
     for (let iarquivos = 0; iarquivos < arquivos.length; iarquivos++) {

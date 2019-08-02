@@ -19,25 +19,6 @@
     <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
 }
 
-<style>
-    .rai-modal-body {
-        max-height: 60vh;
-        height: 60vh;
-        overflow: auto;
-    }
-
-    .linksemcor {
-        color: black;
-    }
-
-        .linksemcor:hover {
-            color: black;
-        }
-
-    .latalixo {
-        padding-right: 10px !important;
-    }
-</style>
 
 @helper SairMes(string labelMes, string nomeMesMaiusc, string nomeMesMinusc, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
 {
@@ -100,31 +81,34 @@
 
 @helper SairMesRaiModal(string nomeMes, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
 {
-var botao = new Web.UI.Models.ArquivoAnexoViewModel
-{
-    IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
-    TextoLink = "R.A.I.",
-    NumeroArquivos = 0,
-    ModalTittle = "R.A.I. - " + nomeMes
-};
-var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
-botao.AnexosLista = plai.ArquivoPlai.ToList().Select(r =>
-{
-    return
-new Web.UI.Models.ArquivoAnexoItemViewModel()
-{
-    AnexoDados = r.Anexo,
-    IdChave1 = r.IdArquivoPlaiAnexo,
-    IdChave2 = r.IdPlai
-};
-}).ToList();
-botao.NumeroArquivos = plai.ArquivoPlai.Count;
-botao.PodeAnexar = listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4;
+    var botao = new Web.UI.Models.ArquivoAnexoViewModel
+    {
+        IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
+        TextoLink = "R.A.I.",
+        NumeroArquivos = 0,
+        ModalTittle = "R.A.I. - " + nomeMes
+    };
+    var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
+    botao.AnexosLista = plai.ArquivoPlai.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoPlaiAnexo,
+        IdChave2 = r.IdPlai
+    };
+    }).ToList();
+    botao.NumeroArquivos = plai.ArquivoPlai.Count;
+    botao.PodeAnexar = listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4;
 
-Html.RenderPartial("Anexo/_ModalAnexo", botao);
+    Html.RenderPartial("Anexo/_ModalAnexo", botao);
 }
 
 
+@{
+    Html.RenderPartial("Anexo/_AnexoSetup");
+}
 
 
 <div id="main">

@@ -200,8 +200,11 @@ APP.controller.ControlDocController = {
 
 
         //Control Doc - UPLOAD
+        /*
         this.buttonAddUploadFormUpload = $('.form-upload-add-upload');
         this.buttonDelUploadFormUpload = $('.excluir-form-upload');
+        */
+
 
         //Control Doc - ASSUNTOS
         this.buttonAddNovoAssuntoFormAssuntos = $('.form-assuntos-add-assunto');
@@ -712,6 +715,7 @@ APP.controller.ControlDocController = {
 
                     emissaoDocumento.Assuntos = APP.controller.ControlDocController.getObjFormAssuntos();
                     emissaoDocumento.Comentarios = APP.controller.ControlDocController.getObjFormComentarios();
+                    emissaoDocumento.ArquivoDocDocumentoAnexo = APP.controller.ControlDocController.getObjFormAnexos();
                 }
 
                 var statusEtapa = parseInt($('[name=StatusEtapa]').val());
@@ -869,6 +873,7 @@ APP.controller.ControlDocController = {
             var emissaoDocumento = APP.controller.ControlDocController.getEmissaoDocumentoObj(1);
             emissaoDocumento.Assuntos = APP.controller.ControlDocController.getObjFormAssuntos();
             emissaoDocumento.Comentarios = APP.controller.ControlDocController.getObjFormComentarios();
+            emissaoDocumento.ArquivoDocDocumentoAnexo = APP.controller.ControlDocController.getObjFormAnexos();
 
             APP.controller.ControlDocController.saveFormEmissaoDocumentoEtapaVerificacao(emissaoDocumento);
         });
@@ -924,6 +929,7 @@ APP.controller.ControlDocController = {
             var emissaoDocumento = APP.controller.ControlDocController.getEmissaoDocumentoObj(2);
             emissaoDocumento.Assuntos = APP.controller.ControlDocController.getObjFormAssuntos();
             emissaoDocumento.Comentarios = APP.controller.ControlDocController.getObjFormComentarios();
+            emissaoDocumento.ArquivoDocDocumentoAnexo = APP.controller.ControlDocController.getObjFormAnexos();
 
             APP.controller.ControlDocController.saveFormEmissaoDocumentoEtapaAprovacao(emissaoDocumento);
         });
@@ -1003,6 +1009,7 @@ APP.controller.ControlDocController = {
             var emissaoDocumento = APP.controller.ControlDocController.getEmissaoDocumentoObj(0);
             emissaoDocumento.Assuntos = APP.controller.ControlDocController.getObjFormAssuntos();
             emissaoDocumento.Comentarios = APP.controller.ControlDocController.getObjFormComentarios();
+            emissaoDocumento.ArquivoDocDocumentoAnexo = APP.controller.ControlDocController.getObjFormAnexos();
 
             APP.controller.ControlDocController.saveFormEmissaoDocumentoEtapaVoltarElaboracao(emissaoDocumento);
 
@@ -1051,6 +1058,7 @@ APP.controller.ControlDocController = {
             var emissaoDocumento = APP.controller.ControlDocController.getEmissaoDocumentoObj(1);
             emissaoDocumento.Assuntos = APP.controller.ControlDocController.getObjFormAssuntos();
             emissaoDocumento.Comentarios = APP.controller.ControlDocController.getObjFormComentarios();
+            emissaoDocumento.ArquivoDocDocumentoAnexo = APP.controller.ControlDocController.getObjFormAnexos();
 
             APP.controller.ControlDocController.saveFormEmissaoDocumentoEtapaAprovar(emissaoDocumento);
         });
@@ -2392,8 +2400,8 @@ APP.controller.ControlDocController = {
         this.setupUploadArquivoFormUpload();
 
     },
-
     setdelUploadFormUpload: function () {
+    /*
         this.buttonAddUploadFormUpload.unbind('click');
         this.buttonAddUploadFormUpload.on('click', function () {
             var index = $('#tb-form-upload tbody tr').size();
@@ -2428,20 +2436,22 @@ APP.controller.ControlDocController = {
 
             APP.controller.ControlDocController.setup();
             APP.controller.ControlDocController.bindFormUpload(dropPE, uplPE, arquivoEvidencia);
-
         });
+            */
 
     },
 
     delUploadFormUpload: function () {
-
+        /*
         this.buttonDelUploadFormUpload.unbind('click');
         this.buttonDelUploadFormUpload.on('click', function (event) {
             event.preventDefault();
             $(this).closest('tr').remove();
         });
+            */
 
     },
+    
 
     setupUploadArquivoFormUpload: function (dropPE, uplPE, arquivoEvidencia) {
 
@@ -3084,6 +3094,13 @@ APP.controller.ControlDocController = {
 
         return arrayFormAssuntosObj;
     },
+
+    getObjFormAnexos: function () {
+        debugger;
+        let raiz = $("#modal-raicontroldocup")[0];
+        return FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoControleDeDocumentoAnexo", "IdControleDeDocumento");
+    },
+
 
     bindFormAssuntos: function () {
 
