@@ -995,6 +995,15 @@ APP.component.FileUpload = {
             for (let ifile = 0; ifile < _files.length; ifile++) {
                 let thisifile = _files[ifile];
 
+                if (thisifile.size > 5 * 1024 * 1024) {
+                    alert("Erro: arquivo muito grande. Somente são permitidos anexos até 5 megabytes.");
+                    continue;
+                }
+                if (thisifile.name.toLowerCase().indexOf(".exe") > 0 || thisifile.name.toLowerCase().indexOf(".bat") > 0 || thisifile.name.toLowerCase().indexOf(".com") > 0 || thisifile.name.toLowerCase().indexOf(".cmd") > 0) {
+                    alert("Erro: extensão não permitida. Não são aceitos arquivos .EXE, .COM, .CMD ou .BAT.");
+                    continue;
+                }
+
                 let reader = new FileReader();
                 let name = "";
 
