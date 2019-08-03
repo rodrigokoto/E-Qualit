@@ -74,6 +74,9 @@
     <Compile Include="Interface\IAnaliseCriticaAppServico.cs" />
     <Compile Include="Interface\IAnaliseCriticaTemaAppServico.cs" />
     <Compile Include="Interface\IAnexoAppServico.cs" />
+    <Compile Include="Interface\IArquivoInstrumentoAppServico.cs" />
+    <Compile Include="Interface\IArquivoControleDeDocumentoAppServico.cs" />
+    <Compile Include="Interface\IArquivoAcaoCorretivaAppServico.cs" />
     <Compile Include="Interface\IArquivoPlaiAnexoAppServico.cs" />
     <Compile Include="Interface\IArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
     <Compile Include="Interface\IArquivoCertificadoAnexoAppServico.cs" />

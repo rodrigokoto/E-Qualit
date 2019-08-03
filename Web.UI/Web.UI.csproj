@@ -240,6 +240,7 @@
     <Compile Include="Helpers\VerificaIntegridadeLoginAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AlterarSenhaUsuarioViewModels.cs" />
+    <Compile Include="Models\ArquivoAnexoViewModel.cs" />
     <Compile Include="Models\GestaoRiscoViewModel.cs" />
     <Compile Include="Models\GraficoNaoConformidadeViewModel.cs" />
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
@@ -1873,7 +1874,9 @@
     <Content Include="Views\Shared\_BlankLayout.cshtml" />
     <Content Include="Views\AcaoCorretiva\Visualizacao.cshtml" />
     <Content Include="Views\Shared\GestaoDeRiscoAnaliseCritica.cshtml" />
-    <Content Include="Views\Shared\Anexo\_AnexoComponent.cshtml" />
+    <Content Include="Views\Shared\Anexo\_Anexo.cshtml" />
+    <Content Include="Views\Shared\Anexo\_ModalAnexo.cshtml" />
+    <Content Include="Views\Shared\Anexo\_AnexoSetup.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

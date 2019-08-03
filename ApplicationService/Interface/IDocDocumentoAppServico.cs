@@ -7,7 +7,7 @@ namespace ApplicationService.Interface
     public interface IDocDocumentoAppServico : IBaseServico<DocDocumento>
     {
         void RemoverGenerico(object obj);
-        void SalvarDocumento(DocDocumento documento);
+        void CriarDocumento(DocDocumento documento);
         void AprovarDocumento(DocDocumento documentoAprovado);
         // Atualizar Etapa Por Usuario
         void AprovarDocumento(DocDocumento documento, int idUsuarioLogado);

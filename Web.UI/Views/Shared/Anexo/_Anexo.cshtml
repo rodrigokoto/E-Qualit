@@ -1,0 +1,5 @@
+﻿@using Web.UI.Models
+@model  Web.UI.Models.ArquivoAnexoViewModel
+
+<button type="button" class="btn btn-primary" 
+        onclick="$('#modal-rai@(Model.IdentificadorInicial)').modal('show');">@Model.TextoLink (<span class="raiNroArquivos@(Model.IdentificadorInicial)">@(Model.NumeroArquivos)</span> arquivos)</button>

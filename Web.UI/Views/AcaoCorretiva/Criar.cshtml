@@ -90,6 +90,10 @@ else
 
 </script>
 
+@{
+    Html.RenderPartial("Anexo/_AnexoSetup");
+}
+
 
 <div id="main">
     <div class="content-painel">
@@ -348,6 +352,17 @@ else
                                                     <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
                                                         @if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                         {
+                                                            var acao = acaoImediata.ArquvioAcaoCorretivaAnexo.Where(x => x.IdRegistroConformidade == acaoImediata.IdRegistroConformidade).ToList();
+                                                            int nroArquivos = acao.Count;
+
+                                                            var botao = new Web.UI.Models.ArquivoAnexoViewModel()
+                                                            {
+                                                                IdentificadorInicial = acaoImediata.IdAcaoImediata.ToString(),
+                                                                TextoLink = "Anexos.",
+                                                                NumeroArquivos = nroArquivos
+                                                            };
+                                                            Html.RenderPartial("Anexo/_Anexo", botao);
+
                                                             <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
                                                                 <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
                                                             </a>
@@ -422,7 +437,7 @@ else
                                                                 <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
                                                                     <i class="fa fa-times-circle " aria-hidden="true"></i>
                                                                 </button>
-                                                                
+
                                                                 <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
                                                                     <i class="fa fa-check-circle " aria-hidden="true"></i>
                                                                 </button>
@@ -442,7 +457,7 @@ else
                                                             <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
                                                                 <i class="fa fa-check-circle " aria-hidden="true"></i>
                                                             </button>
-                                                            
+
                                                             <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
                                                                 <i class="fa fa-times-circle " aria-hidden="true"></i>
                                                             </button>
