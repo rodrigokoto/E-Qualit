@@ -16,4 +16,62 @@
     .latalixo {
         padding-right: 10px !important;
     }
+
+    .droppableanexo {
+    }
+
+        .droppableanexo.dragover {
+            background: #b8ecff;
+        }
 </style>
+
+<script>
+     $(function ()
+     {
+         var elements = $('.droppableanexo');
+         for (var i = 0; i < elements.length; i++)
+         {
+             anexoMakeDroppabledp(elements[i], function (files, elem)
+             {
+                 APP.component.FileUpload.fileUpload2RaiDrop(elem, files);
+             });
+         }
+    });
+
+    function anexoMakeDroppabledp(ele, callback) {
+        ele.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            ele.classList.add('dragover');
+        });
+
+        ele.addEventListener('dragleave', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            ele.classList.remove('dragover');
+        });
+
+        ele.addEventListener('drop', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            ele.classList.remove('dragover');
+            anexoTriggerCallback(e, callback, ele);
+        });
+    }
+
+
+    function anexoTriggerCallback(e, callback, elem) {
+        if (!callback || typeof callback !== 'function') {
+            return;
+        }
+        var files;
+        if (e.dataTransfer) {
+            files = e.dataTransfer.files;
+        } else if (e.target) {
+            files = e.target.files;
+        }
+        callback.call(null, files, elem);
+    }
+
+</script>
+

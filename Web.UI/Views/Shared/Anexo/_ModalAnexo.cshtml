@@ -14,17 +14,17 @@
                 <h4 class="modal-title">@(Model.ModalTittle)</h4>
             </div>
 
-            <div class="modal-body rai-modal-body">
+            <div class="modal-body rai-modal-body droppableanexo">
 
 
                 @* botao upload novo, fica no topo *@
                 @if (Model.PodeAnexar)
                 {
-                    <div class="upload-arq upload-arq-rai" style="text-align: left">
+                    <div class="upload-arq upload-arq-rai raizdrop" style="text-align: left">
                         <a class="btn-upload2-rai linksemcor">
                             <i class="fa fa-paperclip fa-1x latalixo" aria-hidden="true"></i> @Traducao.Resource.Anexar
                         </a>
-                        <input type="file" class="anexo-plai"
+                        <input type="file" multiple class="anexo-plai"
                                data-spannroarquivos="raiNroArquivos@(Model.IdentificadorInicial)"
                                data-msg-required=""
                                data-b64="">
