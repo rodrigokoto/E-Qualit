@@ -1341,7 +1341,6 @@ APP.controller.GestaoDeRiscoController = {
     },
 
     bind: function () {
-		debugger;
         APP.component.Datapicker.init();
         APP.controller.GestaoDeRiscoController.setup();
         APP.controller.GestaoDeRiscoController.setAcaoImediata();

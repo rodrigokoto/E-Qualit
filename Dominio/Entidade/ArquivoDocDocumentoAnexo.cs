@@ -2,7 +2,7 @@
 {
     public class ArquivoDocDocumentoAnexo
     {
-        public int IdArquivooControleDeDocumentoAnexo { get; set; }
+        public int IdArquivoControleDeDocumentoAnexo { get; set; }
         public int IdAnexo { get; set; }
         public int IdControleDeDocumento { get; set; }
 

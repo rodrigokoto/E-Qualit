@@ -1876,6 +1876,7 @@
     <Content Include="Views\Shared\GestaoDeRiscoAnaliseCritica.cshtml" />
     <Content Include="Views\Shared\Anexo\_Anexo.cshtml" />
     <Content Include="Views\Shared\Anexo\_ModalAnexo.cshtml" />
+    <Content Include="Views\Shared\Anexo\_AnexoSetup.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -19,6 +19,7 @@ namespace ApplicationService.Servico
         private readonly INotificacaoAppServico _notificacaoServico;
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly int NuMeroDiasDispatoComAntecedencia = 5;
+        private readonly IAnexoAppServico _AnexoAppServico;
 
         private string _statusVerificacao = "V";
         private string _statusAprovacao = "A";
@@ -29,8 +30,10 @@ namespace ApplicationService.Servico
                                    IDocTemplateRepositorio docTemplate,
                                    IDocCargoRepositorio docCargo,
                                    IUsuarioAppServico usuarioAppServico,
-                                   INotificacaoAppServico notificacaoServico) : base(documentoRepositorio)
+                                   INotificacaoAppServico notificacaoServico,
+                                   IAnexoAppServico anexoAppServico) : base(documentoRepositorio)
         {
+            _AnexoAppServico = anexoAppServico;
             _documentoRepositorio = documentoRepositorio;
             _docUsuarioVerificaAprovaRepositorio = docUsuarioVerificaAprovaRepositorio;
             _docTemplateRepositorio = docTemplate;
@@ -44,10 +47,25 @@ namespace ApplicationService.Servico
             _documentoRepositorio.RemoverGenerico(obj);
         }
 
-        public void SalvarDocumento(DocDocumento documento)
+        public void CriarDocumento(DocDocumento documento)
         {
             //_documentoRepositorio.Add(documento);
-            _documentoRepositorio.SalvarDocumento(documento);
+
+            //salvar anexos
+            if (documento.ArquivoDocDocumentoAnexo != null)
+            {
+                foreach (var esteArquivo in documento.ArquivoDocDocumentoAnexo)
+                {
+                    Anexo anexoAtual = _AnexoAppServico.GetById(esteArquivo.IdAnexo);
+                    if (anexoAtual == null)
+                    {
+                        esteArquivo.Anexo.Tratar();
+                    }
+                }
+            }
+
+
+            _documentoRepositorio.CriarDocumento(documento);
         }
 
         public void VerificarDocumentoPorUsuario(DocDocumento documento, int idUsuarioLogado)
