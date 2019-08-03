@@ -3,15 +3,15 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace DAL.EntityConfig
 {
-    public class ArquvioAcaoCorretivaAnexoMap : EntityTypeConfiguration<ArquivoAcaoCorretivaAnexo>
+    public class ArquivoNaoConformidadeAnexoMap : EntityTypeConfiguration<ArquivoNaoConformidadeAnexo>
     {
-        public ArquvioAcaoCorretivaAnexoMap()
+        public ArquivoNaoConformidadeAnexoMap()
         {
             Ignore(x => x.ApagarAnexo);
 
-            ToTable("ArquvioAcaoCorretivaAnexo");
+            ToTable("ArquivoNaoConformidadeAnexo");
 
-            HasKey(x => x.IdArquivoAcaoCorretivaAnexo);
+            HasKey(x => x.IdArquivoNaoConformidadeAnexo);
 
             Property(x => x.IdAnexo)
                 .IsRequired();
@@ -21,13 +21,13 @@ namespace DAL.EntityConfig
 
             #region Relacionamento
 
-            HasRequired(s => s.AcaoCorretiva)
-                .WithMany(s => s.ArquivoAcaoCorretiva)
+            HasRequired(s => s.NaoConformidade)
+                .WithMany(s => s.ArquivoNaoConformidade)
                 .HasForeignKey(s => s.IdRegistroConformidade)
                 .WillCascadeOnDelete(false);
 
             HasRequired(s => s.Anexo)
-                .WithMany(s => s.ArquivoAcaoCorretivaAnexo)
+                .WithMany(s => s.ArquivoNaoConformidadeAnexo)
                 .HasForeignKey(s => s.IdAnexo)
                 .WillCascadeOnDelete(true);
 

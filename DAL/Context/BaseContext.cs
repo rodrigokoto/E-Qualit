@@ -81,7 +81,7 @@ namespace DAL.Context
         public DbSet<ArquivoDeEvidenciaAcaoImediata> ArquivoDeEvidenciaAcaoImediata { get; set; }
         public DbSet<ArquivoCertificadoAnexo> ArquivoCertificadoAnexo { get; set; }
         public DbSet<ArquivoPlaiAnexo> ArquivoPlaiAnexo { get; set; }
-        public DbSet<ArquivoAcaoCorretivaAnexo> AcaoCorretivaAnexo { get; set; }
+        public DbSet<ArquivoNaoConformidadeAnexo> AcaoCorretivaAnexo { get; set; }
         public DbSet<ArquivoDocDocumentoAnexo>  ArquivoDocDocumentoAnexo { get; set; }
         public DbSet<ArquivoInstrumentoAnexo> ArquivoInstrumentoAnexo { get; set; }
         //public DbSet<DocLicenca> DocLicenca { get; set; }
@@ -206,7 +206,7 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new ArquivoDeEvidenciaAcaoImediataMap());
             modelBuilder.Configurations.Add(new ArquivoCertificadoAnexoMap());
             modelBuilder.Configurations.Add(new ArquivoPlaiAnexoMap());
-            modelBuilder.Configurations.Add(new ArquvioAcaoCorretivaAnexoMap());
+            modelBuilder.Configurations.Add(new ArquivoNaoConformidadeAnexoMap());
             modelBuilder.Configurations.Add(new ArquivoDocDocumentoAnexoMap());
             modelBuilder.Configurations.Add(new ArquivoInstrumentoAnexoMap());
             

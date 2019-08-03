@@ -1,8 +1,8 @@
 ﻿namespace Dominio.Entidade
 {
-    public class ArquivoAcaoCorretivaAnexo
+    public class ArquivoNaoConformidadeAnexo
     {
-        public int IdArquivoAcaoCorretivaAnexo { get; set; }
+        public int IdArquivoNaoConformidadeAnexo { get; set; }
         public int IdAnexo { get; set; }
         public int IdRegistroConformidade { get; set; }
 
@@ -10,7 +10,7 @@
         public int ApagarAnexo { get; set; } = 0;
 
         #region Relacionamento
-        public virtual RegistroConformidade AcaoCorretiva { get; set; }
+        public virtual RegistroConformidade NaoConformidade { get; set; }
         public virtual Anexo Anexo { get; set; }
 
         #endregion
