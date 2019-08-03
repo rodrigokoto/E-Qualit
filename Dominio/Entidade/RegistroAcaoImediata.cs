@@ -45,7 +45,7 @@ namespace Dominio.Entidade
         [NotMapped]
         public string Orientacao { get; set; }
 
-        public virtual ICollection<ArquivoAcaoCorretivaAnexo> ArquvioAcaoCorretivaAnexo { get; set; }
+        public virtual ICollection<ArquivoNaoConformidadeAnexo> ArquvioAcaoCorretivaAnexo { get; set; }
         public virtual ICollection<ArquivoDeEvidenciaAcaoImediata> ArquivoEvidencia { get; set; }
 
         public virtual Usuario ResponsavelImplementar { get; set; }

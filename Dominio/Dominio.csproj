@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entidade\ArquivoInstrumentoAnexo.cs" />
-    <Compile Include="Entidade\ArquvioAcaoCorretivaAnexo.cs" />
+    <Compile Include="Entidade\ArquivoNaoConformidadeAnexo.cs" />
     <Compile Include="Entidade\ArquivoDocDocumentoAnexo.cs" />
     <Compile Include="Entidade\ArquivoPlaiAnexo.cs" />
     <Compile Include="Entidade\ArquivosEvidenciaCriterioQualificacao.cs" />
