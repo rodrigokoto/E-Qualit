@@ -118,7 +118,7 @@ namespace DAL.Repository
             return Db.DocDocumento.Where(w => w.IdDocumentoPai == idDocumentoPai);
         }
 
-        public void SalvarDocumento(DocDocumento doc)
+        public void CriarDocumento(DocDocumento doc)
         {
             using (var context = new BaseContext())
             {

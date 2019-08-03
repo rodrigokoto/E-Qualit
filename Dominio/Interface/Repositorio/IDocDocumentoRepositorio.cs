@@ -21,6 +21,6 @@ namespace Dominio.Interface.Repositorio
         IEnumerable<DocDocumento> ListarAssuntosDoDocumentoERevisoes(int idDocumentoPai);
         void RemoverGenerico(object obj);
         void RemoverDocumento(DocDocumento obj);
-        void SalvarDocumento(DocDocumento doc);
+        void CriarDocumento(DocDocumento doc);
     }                          
 }
