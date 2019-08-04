@@ -56,6 +56,7 @@ namespace Web.UI.Controllers
             IUsuarioClienteSiteAppServico usuarioClienteAppServico,
             IControladorCategoriasAppServico controladorCategoriasServico,
             IFilaEnvioServico filaEnvioServico,
+            IAnexoAppServico anexoAppServico,
            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
@@ -374,7 +375,7 @@ namespace Web.UI.Controllers
         }
 
 
-        public ActionResult Editar(int id , string destravar = "false")
+        public ActionResult Editar(int id, string destravar = "false")
         {
             ViewBag.Destravar = destravar;
             ViewBag.IdSite = Util.ObterSiteSelecionado();
@@ -449,7 +450,6 @@ namespace Web.UI.Controllers
                 }
                 else
                 {
-                    SalvarArquivoEvidencia(naoConformidade);
                     naoConformidade.StatusRegistro = 1;
                     naoConformidade = _registroConformidadesAppServico.SalvarPrimeiraEtapa(naoConformidade);
                     naoConformidade.Site = _siteService.GetById(naoConformidade.IdSite);
@@ -503,24 +503,7 @@ namespace Web.UI.Controllers
             _email.Enviar();
         }
 
-
-        private void SalvarArquivoEvidencia(RegistroConformidade nc)
-        {
-            if (nc.ArquivosDeEvidenciaAux.Count > 0)
-            {
-                nc.ArquivosDeEvidenciaAux.ForEach(arquivoEvidencia =>
-                {
-
-                    nc.ArquivosDeEvidencia.Add(new ArquivosDeEvidencia
-                    {
-                        Anexo = arquivoEvidencia,
-                        RegistroConformidade = nc,
-                        TipoRegistro = nc.TipoRegistro
-                    });
-                });
-            }
-        }
-
+        
         private void TrataDadosParaCriacao(RegistroConformidade nc)
         {
             nc.TipoRegistro = _tipoRegistro;
@@ -572,7 +555,6 @@ namespace Web.UI.Controllers
         [HttpPost]
         public JsonResult SalvarSegundaEtapa(RegistroConformidade naoConformidade)
         {
-
             var erros = new List<string>();
 
             try
@@ -654,7 +636,6 @@ namespace Web.UI.Controllers
                     if (1 == 0)
                     {
                         TrataDadosParaCriacao_Edicao(naoConformidade);
-                        SalvarArquivoEvidencia(naoConformidade);
                     }
                     */
 

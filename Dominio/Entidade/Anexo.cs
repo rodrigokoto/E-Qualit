@@ -8,7 +8,7 @@ namespace Dominio.Entidade
 {
     public class Anexo : ISelfValidator
     {
-             
+
 
         public int IdAnexo { get; set; }
         public string Nome { get; set; }
@@ -16,6 +16,10 @@ namespace Dominio.Entidade
         public byte[] Arquivo { get; set; }
         public DateTime DtCriacao { get; set; }
         public DateTime DtAlteracao { get; set; }
+
+        //informação somente da tela, solicitando para apagar
+        public int ApagarAnexo { get; set; } = 0;
+
 
         //Aux
         public string ArquivoB64 { get; set; }
@@ -31,6 +35,13 @@ namespace Dominio.Entidade
         public void Tratar()
         {
             Nome = Extensao;
+            TratarComNomeCerto();
+        }
+
+        public void TratarComNomeCerto()
+        {
+            if (Nome == null)
+                Nome = Extensao;
             Arquivo = TransformaString64EmBase64(ArquivoB64);
             Extensao = RetornaExtensao(Extensao);
 
@@ -70,10 +81,10 @@ namespace Dominio.Entidade
         public virtual ICollection<ClienteContrato> ClientesContratos { get; set; }
         public virtual ICollection<ArquivosDeEvidencia> ArquivosDeEvidencia { get; set; }
         public virtual ICollection<ArquivosEvidenciaCriterioQualificacao> ArquivosEvidenciaCriterioQualificacao { get; set; }
-        
+
 
         public virtual ICollection<Usuario> Usuarios { get; set; }
-        
+
 
         public virtual ICollection<Licenca> Licencas { get; set; }
         public virtual ICollection<DocExterno> DocsExterno { get; set; }

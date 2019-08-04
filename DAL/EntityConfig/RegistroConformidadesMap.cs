@@ -14,6 +14,8 @@ namespace DAL.EntityConfig
             Ignore(x => x.ValidationResult);
             Ignore(x => x.ArquivosDeEvidenciaAux);
 
+            //Ignore(x => x.ArquivosDeEvidencia);
+
 
             HasKey(t => t.IdRegistroConformidade);
 

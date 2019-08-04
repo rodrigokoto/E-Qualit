@@ -9,6 +9,7 @@ namespace DAL.EntityConfig
         {
             Ignore(x => x.ArquivoB64);
             Ignore(x => x.ValidationResult);
+            Ignore(x => x.ApagarAnexo);
 
             ToTable("Anexo");
 

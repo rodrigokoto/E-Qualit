@@ -23,6 +23,7 @@ namespace ApplicationService.Servico
         private readonly IArquivoDeEvidenciaRegistroConformidadeRepositorio _arquivoDeEvidenciaRegistroConformidadeRepositorio;
 
         private readonly INotificacaoAppServico _notificacaoServico;
+        private readonly IAnexoAppServico _AnexoAppServico;
 
         public RegistroConformidadesAppServico(
             IRegistroConformidadesRepositorio registroConformidadesRepositorio,
@@ -31,9 +32,11 @@ namespace ApplicationService.Servico
             IAnexoRepositorio anexoRepositorio,
             IArquivoDeEvidenciaAcaoImediataRepositorio arquivoDeEvidenciaAcaoImediataRepositorio,
             IArquivoDeEvidenciaRegistroConformidadeRepositorio arquivoDeEvidenciaRegistroConformidadeRepositorio,
+            IAnexoAppServico anexoAppServico,
             IUsuarioRepositorio usuarioRepositorio)
             : base(registroConformidadesRepositorio)
         {
+            _AnexoAppServico = anexoAppServico;
             _registroConformidadesRepositorio = registroConformidadesRepositorio;
             _registroAcaoImediataRepositorio = registroAcaoImediataRepositorio;
             _arquivoDeEvidenciaAcaoImediataRepositorio = arquivoDeEvidenciaAcaoImediataRepositorio;
@@ -44,6 +47,8 @@ namespace ApplicationService.Servico
 
         public RegistroConformidade SalvarPrimeiraEtapa(RegistroConformidade registroConformidade)
         {
+            SalvarArquivoEvidencia(registroConformidade);
+
             if (registroConformidade.IdResponsavelInicarAcaoImediata.HasValue)
                 registroConformidade.IdResponsavelEtapa = registroConformidade.IdResponsavelInicarAcaoImediata.Value;
 
@@ -53,8 +58,59 @@ namespace ApplicationService.Servico
             return registroConformidade;
         }
 
+        //eduperez afazer apagar as tabelas que o rodrigo criou
+        private void SalvarArquivoEvidencia(RegistroConformidade nc)
+        {
+            if (nc.ArquivosDeEvidenciaAux.Count > 0)
+            {
+                foreach (var arquivoEvidencia in nc.ArquivosDeEvidenciaAux)
+                {
+                    if (arquivoEvidencia.ApagarAnexo == 1)
+                    {
+                        //apagamos deirtamente do anexo
+                        //ninguem mais pode estar usando esse anexo
+
+                        //tem que ser removida pelo servico, e não da lista
+                        _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoEvidencia.IdAnexo));
+                        /*
+                        var existente = nc.ArquivosDeEvidencia.FirstOrDefault(r => r.IdAnexo == arquivoEvidencia.IdAnexo);
+                        if (existente != null)
+                            nc.ArquivosDeEvidencia.Remove(existente);
+                            */
+                        continue;
+                    }
+
+                    Anexo anexoAtual = _AnexoAppServico.GetById(arquivoEvidencia.IdAnexo);
+                    if (anexoAtual == null)
+                    {
+                        arquivoEvidencia.TratarComNomeCerto();
+                        //_AnexoAppServico.Add(arquivoEvidencia);
+
+                        if (!nc.ArquivosDeEvidencia.Any(r => r.IdAnexo == arquivoEvidencia.IdAnexo))
+                        {
+                            //se ja existe, nao adicioonamos!!
+                            nc.ArquivosDeEvidencia.Add(new ArquivosDeEvidencia
+                            {
+                                Anexo = arquivoEvidencia,
+                                RegistroConformidade = nc,
+                                TipoRegistro = nc.TipoRegistro,
+                                IdAnexo = arquivoEvidencia.IdAnexo,
+                            });
+                        }
+                    }
+                }
+
+                //processados, removemos, para pode rchamar de novo sem risco
+                nc.ArquivosDeEvidenciaAux = new List<Anexo>();
+            }
+
+            foreach (var a in nc.ArquivosDeEvidencia)
+                a.RegistroConformidade = nc;
+        }
+
         public RegistroConformidade SalvarSegundaEtapa(RegistroConformidade registroConformidade, Funcionalidades funcionalidade)
         {
+            SalvarArquivoEvidencia(registroConformidade);
             registroConformidade = TrataRegistroConformidadeParaSerAtualizada(registroConformidade);
 
             registroConformidade.AcoesImediatas.ToList().ForEach(x =>
@@ -65,6 +121,9 @@ namespace ApplicationService.Servico
             });
 
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
+
+            //para salvar so anexos
+            SalvarArquivoEvidencia(registroConformidade);
 
             _registroConformidadesRepositorio.Update(registroConformidade);
 
@@ -340,30 +399,30 @@ namespace ApplicationService.Servico
             return objCtx;
         }
 
-        private RegistroConformidade TrataRegistroConformidadeParaSerAtualizada(RegistroConformidade registroConformidade)
+        private RegistroConformidade TrataRegistroConformidadeParaSerAtualizada(RegistroConformidade registroConformidadeOrig)
         {
-
-            switch (registroConformidade.TipoRegistro)
+            RegistroConformidade RegistroConformidadeRet = registroConformidadeOrig;
+            switch (registroConformidadeOrig.TipoRegistro)
             {
                 case "nc":
-                    registroConformidade = TrataNC(registroConformidade);
+                    RegistroConformidadeRet = TrataNC(registroConformidadeOrig);
                     break;
 
                 case "ac":
-                    registroConformidade = TrataAC(registroConformidade);
+                    RegistroConformidadeRet = TrataAC(registroConformidadeOrig);
                     break;
 
                 case "gr":
-                    registroConformidade = TrataGR(registroConformidade);
+                    RegistroConformidadeRet = TrataGR(registroConformidadeOrig);
                     break;
 
                 default:
                     break;
             }
 
-            registroConformidade.IdProcesso = registroConformidade.IdProcesso == 0 ? null : registroConformidade.IdProcesso;
-
-            return registroConformidade;
+            RegistroConformidadeRet.IdProcesso = RegistroConformidadeRet.IdProcesso == 0 ? null : RegistroConformidadeRet.IdProcesso;
+            //RegistroConformidadeRet.ArquivosDeEvidencia = registroConformidadeOrig.ArquivosDeEvidencia;
+            return RegistroConformidadeRet;
 
         }
 
@@ -925,6 +984,7 @@ namespace ApplicationService.Servico
                 IdResponsavelEtapa = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva,
                 IdSite = naoConformidade.IdSite,
                 IdProcesso = naoConformidade.IdProcesso,
+                //ArquivosDeEvidencia = naoConformidade.ArquivosDeEvidencia,
                 IdRegistroPai = naoConformidade.IdRegistroConformidade
             };
         }

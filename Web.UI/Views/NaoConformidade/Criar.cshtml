@@ -59,6 +59,28 @@
     var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
     var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
     var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
+
+
+    var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
+    {
+        IdentificadorInicial = "ncabeca",
+        TextoLink = "Anexar",
+        NumeroArquivos = listaEvidencias.Count,
+        ModalTittle = "Anexos da Não Conformidade",
+        PodeAnexar = true
+    };
+    compoenteUploadCabecalho.AnexosLista = listaEvidencias.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r,
+        IdChave1 = 0,
+        IdChave2 = 0
+    };
+    }).ToList();
+
+
 }
 @section Metas {
     <meta name="page" content="CriarNaoConformidade" />
@@ -73,7 +95,7 @@
     </script>
 
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js?rnd=2")"></script>
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
 
@@ -82,6 +104,7 @@
 
 @{
     Html.RenderPartial("Anexo/_AnexoSetup");
+    Html.RenderPartial("Anexo/_ModalAnexo", compoenteUploadCabecalho);
 }
 
 
@@ -102,7 +125,7 @@
 
 
         @{
-           
+
         }
 
         <!-- Formulario Nao Conformidade -->
@@ -144,31 +167,37 @@
                             <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
                                 <div class="form-group">
                                     <label for="form-cria-cliente-contrato" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Arquivo_evidencia</label>
-                                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)">
-                                        <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
-                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                        </a>
+                                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)" style="border: 0 !important;">
 
-                                        <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
-                                            @if (listaEvidencias.Count > 0)
-                                            {
-                                                foreach (var evidencia in listaEvidencias)
+                                        @{
+                                            Html.RenderPartial("Anexo/_Anexo", compoenteUploadCabecalho);
+                                        }
+                                        @*
+                                            <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
+                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                            </a>
+
+                                            <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
+                                                @if (listaEvidencias.Count > 0)
                                                 {
-                                                    <li>
-                                                        <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
-                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
-                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
-                                                    </li>
+                                                    foreach (var evidencia in listaEvidencias)
+                                                    {
+                                                        <li>
+                                                            <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
+                                                        </li>
 
+                                                    }
                                                 }
-                                            }
 
-                                        </ul>
-                                        <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
-                                               class=""
-                                               data-msg-required=""
-                                               data-b64=""
-                                               multiple="multiple">
+                                            </ul>
+                                            <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
+                                                   class=""
+                                                   data-msg-required=""
+                                                   data-b64=""
+                                                   multiple="multiple">
+                                        *@
                                     </div>
                                 </div>
                             </div>
@@ -882,8 +911,8 @@
 
 
 <script>
-                                                                                                                            //$(".fa-calendar").click(function () {
-                                                                                                                            //    $(this).parent().parent().find("input").datepicker("show");
-                                                                                                                            //});
+                                                                                                                                        //$(".fa-calendar").click(function () {
+                                                                                                                                        //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                                                        //});
 </script>
 

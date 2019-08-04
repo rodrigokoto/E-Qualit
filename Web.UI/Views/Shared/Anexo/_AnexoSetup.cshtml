@@ -26,16 +26,13 @@
 </style>
 
 <script>
-     $(function ()
-     {
-         var elements = $('.droppableanexo');
-         for (var i = 0; i < elements.length; i++)
-         {
-             anexoMakeDroppabledp(elements[i], function (files, elem)
-             {
-                 APP.component.FileUpload.fileUpload2RaiDrop(elem, files);
-             });
-         }
+    $(function () {
+        var elements = $('.droppableanexo');
+        for (var i = 0; i < elements.length; i++) {
+            anexoMakeDroppabledp(elements[i], function (files, elem) {
+                APP.component.FileUpload.fileUpload2RaiDrop(elem, files);
+            });
+        }
     });
 
     function anexoMakeDroppabledp(ele, callback) {
@@ -55,7 +52,12 @@
             e.preventDefault();
             e.stopPropagation();
             ele.classList.remove('dragover');
-            anexoTriggerCallback(e, callback, ele);
+            if (!$(".botaouploadarquivos").prop('disabled')) {
+                anexoTriggerCallback(e, callback, ele);
+            }
+            else {
+                alert("Upload de arquivos está desabilitado. Favor destravar o documento.");
+            }
         });
     }
 
