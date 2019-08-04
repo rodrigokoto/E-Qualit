@@ -15,28 +15,10 @@
 }
 
 @section scripts {
-    <script src="@Url.Content("~/Content/assets/js/AuditoriaController.js?rnd=3")"></script>
+    <script src="@Url.Content("~/Content/assets/js/AuditoriaController.js?rnd=4")"></script>
     <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
 }
 
-<style>
-    .rai-modal-body {
-        max-height: 60vh;
-        height: 60vh;
-        overflow: auto;
-    }
-
-    .linksemcor {
-        color: black;
-    }
-
-        .linksemcor:hover {
-            color: black;
-        }
-    .latalixo {
-        padding-right: 10px !important;
-    }
-</style>
 
 @helper SairMes(string labelMes, string nomeMesMaiusc, string nomeMesMinusc, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
 {
@@ -82,104 +64,51 @@
                 @{
                     var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
                     int nroArquivos = plai.ArquivoPlai.Count;
+
+                    var botao = new Web.UI.Models.ArquivoAnexoViewModel()
+                    {
+                        IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
+                        TextoLink = "R.A.I.",
+                        NumeroArquivos = nroArquivos
+                    };
+                    Html.RenderPartial("Anexo/_Anexo", botao);
                 }
-                <button type="button" class="btn btn-primary" onclick="$('#modal-rai@(numeroMes)@(pai.Ano)').modal('show');">R.A.I. (<span class="raiNroArquivos@(numeroMes)@(pai.Ano)">@nroArquivos</span> arquivos)</button>
             </div>
         }
     </div>
 }
+
+
 @helper SairMesRaiModal(string nomeMes, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
 {
+    var botao = new Web.UI.Models.ArquivoAnexoViewModel
+    {
+        IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
+        TextoLink = "R.A.I.",
+        NumeroArquivos = 0,
+        ModalTittle = "R.A.I. - " + nomeMes
+    };
+    var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
+    botao.AnexosLista = plai.ArquivoPlai.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoPlaiAnexo,
+        IdChave2 = r.IdPlai
+    };
+    }).ToList();
+    botao.NumeroArquivos = plai.ArquivoPlai.Count;
+    botao.PodeAnexar = listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4;
 
-    @* dialogo do RAI
-        nao pode estar no meio do HTML principal, tem que estar fora do div main
-    *@
-    <div id="modal-rai@(numeroMes)@(pai.Ano)" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close closeCargos2" data-dismiss="modal">
-                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
-                    </button>
-                    <h4 class="modal-title">R.A.I. - @nomeMes</h4>
-                </div>
-
-                <div class="modal-body rai-modal-body">
-
-                    @{
-                        var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
-                        var listaAnexos = plai.ArquivoPlai;
-                    }
-
-                    @* botao upload novo, fica no topo *@
-                    @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
-                    {
-                        <div class="upload-arq upload-arq-rai" style="text-align: left">
-                            <a class="btn-upload2-rai linksemcor">
-                                <i class="fa fa-paperclip fa-1x latalixo" aria-hidden="true"></i> @Traducao.Resource.Anexar
-                            </a>
-                            <input type="file" class="anexo-plai"
-                                   data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"
-                                   data-msg-required=""
-                                   data-b64="">
-
-
-                            <div class="templatenovoarquivo" style="display: none">
-                                <div class="upload-arq upload-arq-rai uploadrai@(numeroMes)@(pai.Ano)" style="text-align: left">
-                                    @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
-                                    {
-                                        <a href="#" class="btn-delete2-rai linksemcor latalixo"
-                                           data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"><i class="fa fa-trash fa-1" aria-hidden="true" title="Excluir anexo" data-original-title=""></i></a>
-                                    }
-                                    <span class="downrai linksemcor">Anexo: <span class="noemarquivo"></span></span>
-                                    <input type="hidden" name="IdAnexo" value="0" />
-                                    <input type="hidden" name="NomeAnexo" value="" />
-                                    <input type="hidden" name="ApagarAnexo" value="0" />
-                                    <input type="file" name="ConteudoAnexo" class="anexo-plai" data-msg-required="" data-b64="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                    }
-
-                    @foreach (var anexo in listaAnexos)
-                    {
-                        @*
-            cada arquivo estara agrupado por classe, para montar os dados precisa ler por classe e depois os itens dentro dessa classe
-                        *@
-                        <div class="upload-arq upload-arq-rai uploadrai@(numeroMes)@(pai.Ano)" style="text-align: left">
-                            @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4)
-                            {
-                                <a href="#" class="btn-delete2-rai linksemcor latalixo"
-                                   data-spannroarquivos="raiNroArquivos@(numeroMes)@(pai.Ano)"><i class="fa fa-trash fa-1" aria-hidden="true" title="Excluir anexo" data-original-title=""></i></a>
-                            }
-                            @{
-                                var ArquivoB64 = String.Format("data:application/" + (anexo.Anexo.Arquivo != null ? anexo.Anexo.Extensao : "") + ";base64," + (anexo.Anexo.Arquivo != null ? Convert.ToBase64String(anexo.Anexo.Arquivo) : ""));
-                            }
-                            <a href="@ArquivoB64" class="downrai linksemcor" target="_blank" download="@anexo.Anexo.Nome">Anexo: @anexo.Anexo.Nome</a>
-                            <input type="hidden" name="IdAnexo" value="@anexo.Anexo.IdAnexo" />
-                            <input type="hidden" name="NomeAnexo" value="@anexo.Anexo.Nome" />
-                            <input type="hidden" name="ApagarAnexo" value="0" />
-                            <input type="hidden" name="IdArquivoPlaiAnexo" value="@anexo.IdArquivoPlaiAnexo" />
-                            <input type="hidden" name="IdPlai" value="@anexo.IdPlai" />
-                            <input type="file" class="anexo-plai"
-                                   data-msg-required=""
-                                   data-b64="@(anexo.Anexo.Arquivo != null && anexo.Anexo.IdAnexo > 0 ? Convert.ToBase64String(anexo.Anexo.Arquivo) : "")">
-                        </div>
-                    }
-
-
-                </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
-
+    Html.RenderPartial("Anexo/_ModalAnexo", botao);
 }
 
+
+@{
+    Html.RenderPartial("Anexo/_AnexoSetup");
+}
 
 
 <div id="main">

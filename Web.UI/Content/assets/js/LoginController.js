@@ -25,15 +25,15 @@ APP.controller.LoginController = {
     },
 
     setup: function () {
-
-        //Index Login
-        this.buttonLogin = $(".btn-login");
-
+        
         //Recuperar Senha
         this.buttonRecuperarSenha = $(".btn-recuperar-senha");
 
         //Alterar Senha
         this.buttonAlterarSenha = $(".btn-alterar-senha");
+
+        //Form
+        this.form = $("#form-login");
 
     },
 
@@ -183,20 +183,16 @@ APP.controller.LoginController = {
 
     //Todos
     sendFormLogin: function () {
+        this.form.on('submit', function (e) {
+            e.preventDefault();
+            var validate = !!APP.controller.LoginController.validateForms();
 
-        this.buttonLogin.unbind('click');
-        this.buttonLogin.on('click', function () {
-
-            var validate = APP.controller.LoginController.validateForms();
-
-            //var validate = true;
-            if (validate == true) {
+            if (validate === true) {
                 var loginObj = APP.controller.LoginController.getLoginObj();
                 APP.controller.LoginController.saveFormLogin(loginObj);
             }
-
+            return false;
         });
-
     },
 
     sendFormRecuperarSenha: function () {

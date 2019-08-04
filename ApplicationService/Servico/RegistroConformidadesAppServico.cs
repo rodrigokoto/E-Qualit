@@ -95,6 +95,11 @@ namespace ApplicationService.Servico
             {
                 TrataRegistroAprovacaoReverificador(acaoCorretiva, listaAcaoImediataUpdate.ToList(), objCtx);
             }
+            else if (acaoCorretiva.OStatusEEncerrada())
+            {
+                TrataRegistroAprovacaoReverificador(acaoCorretiva, listaAcaoImediataUpdate.ToList(), objCtx);
+
+            }
 
             return objCtx;
         }
@@ -303,9 +308,23 @@ namespace ApplicationService.Servico
                 objCtx.DescricaoAnaliseCausa = naoConformidade.DescricaoAnaliseCausa;
                 objCtx.IdResponsavelPorIniciarTratativaAcaoCorretiva = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva;
                 objCtx.DtEfetivaImplementacao = naoConformidade.DtEfetivaImplementacao;
+                objCtx.DtPrazoImplementacao = naoConformidade.DtPrazoImplementacao;
+
+                foreach (var objacao in objCtx.AcoesImediatas)
+                {
+                    foreach (var naoconfacao in naoConformidade.AcoesImediatas)
+                    {
+                        if (objacao.IdAcaoImediata == naoconfacao.IdAcaoImediata)
+                        {
+                            objacao.DtPrazoImplementacao = naoconfacao.DtPrazoImplementacao;
+                            objacao.Descricao = naoconfacao.Descricao;
+
+                        }
+                    }
+                }
+
                 objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
                 objCtx.DescricaoRegistro = naoConformidade.DescricaoRegistro;
-
 
                 TrataRegistroAprovacaoReverificador(naoConformidade, listaAcaoImediataUpdate.ToList(), objCtx);
             }
@@ -698,6 +717,18 @@ namespace ApplicationService.Servico
                 acaoImediata.IdUsuarioIncluiu = objCtx.IdResponsavelInicarAcaoImediata;
                 acaoImediata.IdRegistroConformidade = objCtx.IdRegistroConformidade;
 
+                foreach (var obj in objCtx.AcoesImediatas)
+                {
+                    if (obj.IdAcaoImediata == acaoImediata.IdAcaoImediata)
+                    {
+
+                        obj.Observacao = obj.Observacao != acaoImediata.Observacao ? acaoImediata.Observacao : obj.Observacao;
+                        obj.Descricao = obj.Descricao != acaoImediata.Descricao ? acaoImediata.Descricao : obj.Descricao;
+                        obj.DtPrazoImplementacao = obj.DtPrazoImplementacao != acaoImediata.DtPrazoImplementacao ? acaoImediata.DtPrazoImplementacao : obj.DtPrazoImplementacao;
+                        obj.DtEfetivaImplementacao = obj.DtEfetivaImplementacao != acaoImediata.DtEfetivaImplementacao ? acaoImediata.DtEfetivaImplementacao : obj.DtEfetivaImplementacao;
+                    }
+                }
+
                 if (acaoImediata.ArquivoEvidenciaAux != null && acaoImediata.ArquivoEvidenciaAux.ArquivoB64 != null)
                 {
                     if (acaoImediata.ArquivoEvidenciaAux.ArquivoB64 == "undefined")
@@ -913,7 +944,8 @@ namespace ApplicationService.Servico
                 else
                 {
                     registroAcaoCorretiva.DescricaoRegistro = naoConformidade.DescricaoAnaliseCausa;
-                    registroAcaoCorretiva.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata; ;
+                    registroAcaoCorretiva.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
+                    registroAcaoCorretiva.DtEfetivaImplementacao = naoConformidade.DtEfetivaImplementacao;
                     registroAcaoCorretiva.DtEnceramento = null;
                     _registroConformidadesRepositorio.Update(registroAcaoCorretiva);
                 }

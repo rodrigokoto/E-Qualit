@@ -104,6 +104,7 @@ namespace Dominio.Entidade
 
         #region Relacionamentos
         public virtual ControladorCategoria Sigla { get; set; }
+        public virtual ICollection<ArquivoInstrumentoAnexo> ArquivoInstrumento { get; set; }
         #endregion
 
         public ValidationResult ValidationResult { get; set; }

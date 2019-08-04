@@ -374,8 +374,9 @@ namespace Web.UI.Controllers
         }
 
 
-        public ActionResult Editar(int id)
+        public ActionResult Editar(int id , string destravar = "false")
         {
+            ViewBag.Destravar = destravar;
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.UsuarioLogado = Util.ObterUsuario();
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
@@ -585,7 +586,7 @@ namespace Web.UI.Controllers
                 naoConformidade.StatusRegistro = 1;
 
                 _registroConformidadesServico.ValidaNaoConformidade(naoConformidade, Util.ObterCodigoUsuarioLogado(), ref erros);
-                
+
                 if (naoConformidade.EProcedente == null)
                 {
                     erros.Add(Traducao.Resource.MsgCampoProcedente);
@@ -658,7 +659,7 @@ namespace Web.UI.Controllers
                     */
 
                     AtualizarDatasAgendadas(naoConformidade);
-                    
+
                     naoConformidade = _registroConformidadesAppServico.SalvarSegundaEtapa(naoConformidade, Funcionalidades.NaoConformidade);
 
                     if (naoConformidade.EProcedente == true)
@@ -710,9 +711,9 @@ namespace Web.UI.Controllers
             {
                 var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
 
-                if(filaEnvio != null)
+                if (filaEnvio != null)
                 {
-                    if(!filaEnvio.Enviado)
+                    if (!filaEnvio.Enviado)
                     {
                         filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
                     }

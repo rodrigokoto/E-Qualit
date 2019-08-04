@@ -2266,7 +2266,7 @@ www.e-qualit.com.br
   <data name="VisualizarRevisoes" xml:space="preserve">
     <value>Visualizar Revisões</value>
   </data>
-  <data name="data-msg-required" xml:space="preserve">
+  <data name="datamsgrequired" xml:space="preserve">
     <value>Abril</value>
   </data>
   <data name="IdCliente" xml:space="preserve">
@@ -3442,7 +3442,7 @@ www.e-qualit.com.br
   <data name="HoraInicial" xml:space="preserve">
     <value>Hora Inicial</value>
   </data>
-  <data name="MsgMaxTextoDoc30000Caracteres" xml:space="preserve">
-    <value>O campo Texto Documento deve conter no máximo 30000 caracteres.</value>
+  <data name="MsgMaxTextoDoc100000Caracteres" xml:space="preserve">
+    <value>O campo Texto Documento deve conter no máximo 100000 caracteres.</value>
   </data>
 </root>

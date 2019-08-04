@@ -384,4 +384,13 @@
   <data name="IN_lbl_CdNumero" xml:space="preserve">
     <value>Código</value>
   </data>
+  <data name="IN_Status_Instrumento" xml:space="preserve">
+    <value>Status do Instrumento</value>
+  </data>
+  <data name="IN_lbl_tb_nao" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="IN_lbl_tb_sim" xml:space="preserve">
+    <value>Sim</value>
+  </data>
 </root>

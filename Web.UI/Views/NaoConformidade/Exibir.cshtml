@@ -59,8 +59,13 @@
     var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
     var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
 
-
+    <script type="text/javascript">
+        var destravar = @ViewBag.Destravar;
+        var perfil = '@ViewBag.IdPerfil';
+        var IdRegistro = @Model.IdRegistroConformidade;
+    </script>
 }
+
 <html>
 <head>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -128,6 +133,7 @@
             <div id="main">
                 <div class="content-painel">
                     <!-- hidden -->
+                    <input type="hidden" name="Destravar" value="@ViewBag.Destravar" />
                     <input type="hidden" name="StatusEtapa" value="@ViewBag.StatusEtapa" />
                     <input type="hidden" name="labelDesejaCriarNcDtEmissaoAnteriorAUltima" value="@Traducao.Resource.NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" />
                     <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
@@ -373,6 +379,7 @@
                                                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Prazo_implementacao</th>
                                                                             <th class="w10">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Responsavel_implementar</th>
                                                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Efetiva_implementacao</th>
+                                                                            <th class="w7">Observação</th>
                                                                             <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Arquivo_evidencia</th>
                                                                             <th class="w7"></th>
                                                                         </tr>
@@ -399,6 +406,10 @@
                                                                                 <!-- Data Efetiva Implementacao -->
                                                                                 <td>
                                                                                     @(acaoImediata.DtEfetivaImplementacao != null ? acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat) : null)
+                                                                                </td>
+                                                                                <!-- Observação-->
+                                                                                <td>
+                                                                                    @(acaoImediata.Observacao)
                                                                                 </td>
                                                                                 <!-- Arquivo de Evidencia -->
                                                                                 <td>
@@ -432,6 +443,7 @@
                                                                                     @*@nomeAnexo*@
 
                                                                                 </td>
+
                                                                                 <!-- Acoes -->
                                                                                 <td>
                                                                                     @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
@@ -549,6 +561,20 @@
 
                             </ul>
                         </div>
+                        <div class="navbar navbar-inverse navbar-fixed-bottom">
+                            <div class="row pull-right">
+                                <div class="col-md-12">
+
+                                    @if (ViewBag.IdPerfil == 3)
+                                    {
+                                        <button type="button" id="btn-destravar-view" onclick="location.href= '@Url.Action("Editar" , "NaoConformidade")' + '/@Model.IdRegistroConformidade' + '?destravar=True'" class="btn btn-primary btn-destravar-view">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                                    }
+
+                                    <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "NaoConformidade/Index")</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

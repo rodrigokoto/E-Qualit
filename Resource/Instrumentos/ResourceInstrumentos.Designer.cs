@@ -547,6 +547,15 @@ namespace Traducao.Instrumentos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Não.
+        /// </summary>
+        public static string IN_lbl_tb_nao {
+            get {
+                return ResourceManager.GetString("IN_lbl_tb_nao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nova Calibração.
         /// </summary>
         public static string IN_lbl_tb_nova_calibracao {
@@ -588,6 +597,15 @@ namespace Traducao.Instrumentos {
         public static string IN_lbl_tb_proxima_calibracao {
             get {
                 return ResourceManager.GetString("IN_lbl_tb_proxima_calibracao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sim.
+        /// </summary>
+        public static string IN_lbl_tb_sim {
+            get {
+                return ResourceManager.GetString("IN_lbl_tb_sim", resourceCulture);
             }
         }
         
@@ -831,6 +849,15 @@ namespace Traducao.Instrumentos {
         public static string IN_msg_save_valid {
             get {
                 return ResourceManager.GetString("IN_msg_save_valid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status do Instrumento.
+        /// </summary>
+        public static string IN_Status_Instrumento {
+            get {
+                return ResourceManager.GetString("IN_Status_Instrumento", resourceCulture);
             }
         }
         

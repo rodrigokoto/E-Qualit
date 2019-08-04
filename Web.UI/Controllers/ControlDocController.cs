@@ -57,6 +57,7 @@ namespace Web.UI.Controllers
         private readonly IUsuarioClienteSiteAppServico _usuarioClienteAppServico;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IAnexoAppServico _AnexoAppServico;
 
         public ControlDocController(IDocDocumentoAppServico docDocumentoAppServico,
                                     IDocDocumentoServico documentoServico,
@@ -76,8 +77,10 @@ namespace Web.UI.Controllers
                                     IUsuarioClienteSiteAppServico usuarioClienteAppServico,
                                     IProcessoAppServico processoAppServico,
                                     IDocUsuarioVerificaAprovaServico docUsuarioVerificaAprovaServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                    IControladorCategoriasAppServico controladorCategoriasServico,
+                                    IAnexoAppServico anexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
+            _AnexoAppServico = anexoAppServico;
             _documentoAppServico = docDocumentoAppServico;
             _registroConformidadeAppServico = registroConformidadeAppServico;
             _cargoAppServico = cargoAppServico;
@@ -921,7 +924,7 @@ namespace Web.UI.Controllers
                 if (erros.Count > 0)
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
 
-                _documentoAppServico.SalvarDocumento(doc);
+                _documentoAppServico.CriarDocumento(doc);
 
 
 
@@ -1123,6 +1126,9 @@ namespace Web.UI.Controllers
 
                 MapearDocumentoBase(baseDocumento, documentoEditado);
 
+                TratarAnexos(baseDocumento, documentoEditado);
+
+
                 if (baseDocumento.FlWorkFlow)
                 {
                     _docUsuarioVerificaAprovaServico.RemoveAllById(baseDocumento.IdDocumento);
@@ -1164,6 +1170,41 @@ namespace Web.UI.Controllers
                 return Json(new { StatusCode = (int)HttpStatusCode.InternalServerError, Erro = ex.ToString() }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+        }
+
+        private void TratarAnexos(DocDocumento documentoAtual, DocDocumento documentoNovo)
+        {
+            if (documentoNovo.ArquivoDocDocumentoAnexo == null)
+                return;
+            foreach (var esteArquivo in documentoNovo.ArquivoDocDocumentoAnexo)
+            {
+                if (esteArquivo.ApagarAnexo == 1)
+                {
+                    //apagamos deirtamente do anexo
+                    //ninguem mais pode estar usando esse anexo
+                    _AnexoAppServico.Remove(_AnexoAppServico.GetById(esteArquivo.IdAnexo));
+                    continue;
+                }
+
+                if (esteArquivo == null)
+                    continue;
+                if (esteArquivo.Anexo == null)
+                    continue;
+                if (string.IsNullOrEmpty(esteArquivo.Anexo.Extensao))
+                    continue;
+                if (string.IsNullOrEmpty(esteArquivo.Anexo.ArquivoB64))
+                    continue;
+
+                Anexo anexoAtual = _AnexoAppServico.GetById(esteArquivo.IdAnexo);
+                if (anexoAtual == null)
+                {
+                    esteArquivo.Anexo.Tratar();
+                    documentoAtual.ArquivoDocDocumentoAnexo.Add(esteArquivo);
+                    continue;
+                }
+
+                //atualização, não pode tter atualização! se trocar, o usuário paga um e insere o outro!
+            }
         }
 
         private void MapearDocumentoBase(DocDocumento dest, DocDocumento source)
@@ -1445,6 +1486,7 @@ namespace Web.UI.Controllers
         {
             try
             {
+
                 //var docBase = _documentoAppServico.GetById(documento.IdDocumento);
 
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
@@ -1456,10 +1498,23 @@ namespace Web.UI.Controllers
                 AtualizarAssuntos(documento);
                 AdicionaComentario(documento);
 
-                var listaAprovaVerifi = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento).ToList();
-                listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlVerificou = true;
-                _docUsuarioVerificaAprovaAppServico.AlterarUsuariosDoDocumento(listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado() && x.TpEtapa == "V").ToList());
 
+
+                var listaAprovaVerifi = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento).ToList();
+
+                if (Util.ObterPerfilUsuarioLogado() == 3)
+                {
+                    listaAprovaVerifi.ForEach(aprova =>
+                    {
+                        aprova.FlVerificou = true;
+                    });
+                }
+                else
+                {
+                    listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlVerificou = true;
+                }
+
+                _docUsuarioVerificaAprovaAppServico.AlterarUsuariosDoDocumento(listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado() && x.TpEtapa == "V").ToList());
 
                 if (_documentoAppServico.VerificadoPorTodos(listaAprovaVerifi))
                 {

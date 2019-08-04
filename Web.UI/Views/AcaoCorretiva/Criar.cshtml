@@ -90,6 +90,10 @@ else
 
 </script>
 
+@{
+    Html.RenderPartial("Anexo/_AnexoSetup");
+}
+
 
 <div id="main">
     <div class="content-painel">
@@ -348,6 +352,17 @@ else
                                                     <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
                                                         @if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                         {
+                                                            var acao = acaoImediata.ArquvioAcaoCorretivaAnexo.Where(x => x.IdRegistroConformidade == acaoImediata.IdRegistroConformidade).ToList();
+                                                            int nroArquivos = acao.Count;
+
+                                                            var botao = new Web.UI.Models.ArquivoAnexoViewModel()
+                                                            {
+                                                                IdentificadorInicial = acaoImediata.IdAcaoImediata.ToString(),
+                                                                TextoLink = "Anexos.",
+                                                                NumeroArquivos = nroArquivos
+                                                            };
+                                                            Html.RenderPartial("Anexo/_Anexo", botao);
+
                                                             <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
                                                                 <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
                                                             </a>
@@ -397,12 +412,6 @@ else
                                                         <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
                                                             <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                         </a>
-                                                        <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
-                                                            <i class="fa fa-check " aria-hidden="true"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-denied-acao-imediata trash-color">
-                                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                                        </button>
                                                         @if (acaoImediata.Aprovado.HasValue)
                                                         {
                                                             if (acaoImediata.Aprovado.Value == true)
@@ -417,9 +426,18 @@ else
                                                             }
                                                             else
                                                             {
-                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color">
+                                                                <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
+                                                                    <i class="fa fa-check " aria-hidden="true"></i>
+                                                                </button>
+
+                                                                <button type="button" class="btn btn-denied-acao-imediata trash-color">
+                                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                                </button>
+
+                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
                                                                     <i class="fa fa-times-circle " aria-hidden="true"></i>
                                                                 </button>
+
                                                                 <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
                                                                     <i class="fa fa-check-circle " aria-hidden="true"></i>
                                                                 </button>
@@ -428,9 +446,18 @@ else
                                                         }
                                                         else
                                                         {
+                                                            <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
+                                                                <i class="fa fa-check " aria-hidden="true"></i>
+                                                            </button>
+
+                                                            <button type="button" class="btn btn-denied-acao-imediata trash-color">
+                                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                            </button>
+
                                                             <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
                                                                 <i class="fa fa-check-circle " aria-hidden="true"></i>
                                                             </button>
+
                                                             <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
                                                                 <i class="fa fa-times-circle " aria-hidden="true"></i>
                                                             </button>

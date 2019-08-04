@@ -58,6 +58,9 @@ namespace Dominio.Entidade
 
         #region Relacionamento
         public virtual ICollection<ArquivoCertificadoAnexo> ArquivoCertificadoAnexo { get; set; }
+        public virtual ICollection<ArquivoInstrumentoAnexo> ArquivoInstrumentoAnexo { get; set; }
+        public virtual ICollection<ArquivoDocDocumentoAnexo> ArquivoDocDocumentoAnexo { get; set; }
+        public virtual ICollection<ArquivoAcaoCorretivaAnexo> ArquivoAcaoCorretivaAnexo { get; set; }
         public virtual ICollection<ArquivoPlaiAnexo> ArquivoPlaiAnexo { get; set; }
         public virtual ICollection<ArquivoDeEvidenciaAcaoImediata> ArquivoEvidenciaAcaoImediata { get; set; }
         public virtual ICollection<UsuarioAnexo> FotosUsuario { get; set; }

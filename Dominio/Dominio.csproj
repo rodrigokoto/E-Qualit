@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entidade\ArquivoInstrumentoAnexo.cs" />
+    <Compile Include="Entidade\ArquvioAcaoCorretivaAnexo.cs" />
+    <Compile Include="Entidade\ArquivoDocDocumentoAnexo.cs" />
     <Compile Include="Entidade\ArquivoPlaiAnexo.cs" />
     <Compile Include="Entidade\ArquivosEvidenciaCriterioQualificacao.cs" />
     <Compile Include="Entidade\AvaliaCriterioQualificacao.cs" />
@@ -447,6 +450,7 @@
     <Compile Include="Validacao\Produtos\ValidaCampoProduto.cs" />
     <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\AptoParaExclusaoAcaoCorretivaValidation.cs" />
     <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaEtapa4Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaEncerrada.cs" />
     <Compile Include="Validacao\RegistroConformidades\AcaoCorretivas\CamposObrigatoriosAcaoCorretivaReverificacao.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\AptoParaCadastroComGestaoDeRiscoValidacao.cs" />
     <Compile Include="Validacao\NaoConformidadeValidacao.cs" />

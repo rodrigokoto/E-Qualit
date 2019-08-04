@@ -56,6 +56,7 @@
             <input name="idFuncao" type="hidden" id="idFuncao" value="@ViewBag.IdFuncao" />
             <input name="IdProcesso" type="hidden" id="IdProcesso" value="@ViewBag.IdProcesso" />
             <input name="IdResponsavelHidden" type="hidden" id="IdResponsavelHidden" value="@Model.IdResponsavel" />
+            <input name="Status" type="hidden" id="IdStatusHidden" value="@Model.Status" />
             <!-- Inicio Panel -->
             <div class="content-painel">
                 <div class="panel panel-default">
@@ -68,13 +69,44 @@
                         <div class="barra-busca">
                             <div class="row base-senhas">
                                 <!-- Instrumento -->
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Intrumento</label>
                                         <input name="Equipamento" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-instrumento" data-val="true" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Instrumento"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Intrumento"
                                                value="@Model.Equipamento">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_Status_Instrumento</label>
+                                        @if (Model.Status != null)
+                                        {
+                                            <button type="button" class="btn btn-primary btn-status pull-right">Alterar Status</button>
+                                        }
+                                        @if (Model.Status == 0)
+                                        {
+                                            <p class="status-nao-calibrado status-aprovado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                        }
+                                        else if (Model.Status == 1)
+                                        {
+                                            <p class="status-calibrado status-aprovado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
+
+                                        }
+                                        else if (Model.Status == 2)
+                                        {
+                                            <p class="status-fora-de-uso status-aprovado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
+                                        }
+                                        else if (Model.Status == 3)
+                                        {
+                                            <p class="status-em-calibracao status-aprovado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="status-nao-calibrado status-aprovado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
@@ -280,21 +312,13 @@
                                             <td>@calibracao.OrgaoCalibrador</td>
                                             <td>@calibracao.UsuarioAprovador.NmCompleto</td>
                                             <td>
-                                                @if (calibracao.Aprovado == 0)
+                                                @if (calibracao.Aprovado == 1)
                                                 {
-                                                    <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                                    <p class="status-aprovado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_sim</p>
                                                 }
-                                                else if (calibracao.Aprovado == 1)
+                                                else if (calibracao.Aprovado == 0)
                                                 {
-                                                    <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
-                                                }
-                                                else if (calibracao.Aprovado == 2)
-                                                {
-                                                    <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
-                                                }
-                                                else if (calibracao.Aprovado == 3)
-                                                {
-                                                    <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
+                                                    <p class="status-aprovado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_tb_nao</p>
                                                 }
 
                                             </td>
@@ -443,14 +467,7 @@
                                             <input name="Aprovado" class="form-pos-calibracao-aprovado-nao" id="form-pos-calibracao-nao-aprovado" type="radio" value="0">
                                             @Traducao.Shared.ResourceButtons.btn_lbl_nao
                                         </label>
-                                        <label class="demo-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="form-pos-calibracao-aprovado">
-                                            <input name="Aprovado" class="form-pos-calibracao-aprovado-fora" id="form-pos-calibracao-fora-uso" type="radio" value="2">
-                                            @Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso
-                                        </label>
-                                        <label class="demo-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="form-pos-calibracao-aprovado">
-                                            <input name="Aprovado" class="form-pos-calibracao-aprovado-em-calibracao" id="form-pos-calibracao-em-calibracao" type="radio" value="3">
-                                            @Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao
-                                        </label>
+
                                     </div>
                                 </div>
                                 <!-- Certificado -->
@@ -512,6 +529,36 @@
         </div>
     </div>
 </div>
+
+<form id="form-alterar-status">
+    <div id="modal-alter-status" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeStatus" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Alterar Status</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca" style="box-shadow: none">
+                            <div class="form-group align-center" id="painelComentarios">
+                                <button type="button" class="btn btn-primary btn-EmCalibracao  align-center" data-dismiss="modal">Em Calibração</button>
+                                <button type="button" class="btn btn-primary btn-ForaDeUso align-center" data-dismiss="modal">Fora de Uso</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="send btn-modal-cancelar" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <script type="text/javascript">
 
