@@ -350,9 +350,9 @@ else
                                                     }
 
                                                     <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
-                                                        @if (acaoImediata.ArquivoEvidencia.Count == 0)
+                                                        @*@if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                         {
-
+                                                        
                                                             var acao = acaoImediata.ArquvioAcaoCorretivaAnexo.ToList();
                                                             var nroArquivos =acao.Count();
 
@@ -362,20 +362,20 @@ else
                                                                 TextoLink = "Anexos.",
                                                                 NumeroArquivos = nroArquivos
                                                             };
-                                                            Html.RenderPartial("Anexo/_Anexo", botao);
+                                                            Html.RenderPartial("Anexo/_Anexo", botao);*@
 
                                                             <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
                                                                 <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
                                                             </a>
                                                             <i class="hide" name="Ianexo" style="display:none">@nomeAnexo</i>
                                                         }
-                                                        else
+                                                        @*else
                                                         {
                                                             <i class="hide" name="Ianexo" style="display:block">@nomeAnexo</i>
                                                             <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:none">
                                                                 <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
                                                             </a>
-                                                        }
+                                                        }*@
                                                         <ul>
                                                             <li>
                                                                 <a href="@base64" target="_blank" download="@nomeAnexo" name="IanexoLi">@nomeAnexo</a>
