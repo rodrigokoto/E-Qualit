@@ -219,6 +219,7 @@ namespace Web.UI.Controllers
             var naoConformidade = _registroConformidadesAppServico.GetById(id);
 
             naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosDeEvidencia.Select(x => x.Anexo));
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(naoConformidade, true);
 
             if (naoConformidade.AcoesImediatas.Count > 0)
             {
@@ -300,6 +301,7 @@ namespace Web.UI.Controllers
             var naoConformidade = _registroConformidadesAppServico.GetById(id);
 
             naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosDeEvidencia.Select(x => x.Anexo));
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(naoConformidade, true);
 
             if (naoConformidade.AcoesImediatas.Count > 0)
             {
@@ -344,6 +346,7 @@ namespace Web.UI.Controllers
             var naoConformidade = _registroConformidadesAppServico.GetById(id);
 
             naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosDeEvidencia.Select(x => x.Anexo));
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(naoConformidade, true);
 
             if (naoConformidade.AcoesImediatas.Count > 0)
             {
@@ -389,6 +392,7 @@ namespace Web.UI.Controllers
             var naoConformidade = _registroConformidadesAppServico.GetById(id);
 
             naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosDeEvidencia.Select(x => x.Anexo));
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(naoConformidade, true);
 
             if (naoConformidade.AcoesImediatas.Count > 0)
             {
@@ -555,6 +559,7 @@ namespace Web.UI.Controllers
             var erros = new List<string>();
 
             var naoConformidade = _registroConformidadesAppServico.GetById(idNaoConformidade);
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(naoConformidade, false);
             var idPerfil = Util.ObterPerfilUsuarioLogado();
 
             _registroConformidadesServico.ValidaDestravamento(idPerfil, ref erros);
@@ -852,6 +857,7 @@ namespace Web.UI.Controllers
             var erros = new List<string>();
 
             var naoConformidade = _registroConformidadesAppServico.GetById(id);
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(naoConformidade, true);
             ViewBag.UsuarioLogado = Util.ObterCodigoUsuarioLogado();
 
             return View("Editar", naoConformidade);
@@ -960,6 +966,7 @@ namespace Web.UI.Controllers
         public ActionResult Imprimir(int id)
         {
             var analiseCritica = _registroConformidadesAppServico.GetById(id);
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(analiseCritica, true);
 
             var pdf = new ViewAsPdf
             {

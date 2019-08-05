@@ -996,11 +996,11 @@ APP.component.FileUpload = {
                 let thisifile = _files[ifile];
 
                 if (thisifile.size > 5 * 1024 * 1024) {
-                    alert("Erro: arquivo muito grande. Somente são permitidos anexos até 5 megabytes.");
+                    bootbox.alert("Erro: arquivo muito grande. Somente são permitidos anexos até 5 megabytes.");
                     continue;
                 }
                 if (thisifile.name.toLowerCase().indexOf(".exe") > 0 || thisifile.name.toLowerCase().indexOf(".bat") > 0 || thisifile.name.toLowerCase().indexOf(".com") > 0 || thisifile.name.toLowerCase().indexOf(".cmd") > 0) {
-                    alert("Erro: extensão não permitida. Não são aceitos arquivos .EXE, .COM, .CMD ou .BAT.");
+                    bootbox.alert("Erro: extensão não permitida. Não são aceitos arquivos .EXE, .COM, .CMD ou .BAT.");
                     continue;
                 }
 
@@ -1051,7 +1051,7 @@ APP.component.FileUpload = {
         this.buttonUpload2Rai.unbind('click');
         this.buttonUpload2Rai.on('click', function (evt) {
             if ($(evt.target).closest(".modal-body").find(".botaouploadarquivos").prop('disabled')) {
-                alert("Upload de arquivos está desabilitado.");
+                bootbox.alert("Upload de arquivos está desabilitado.");
                 return;
             }
 
@@ -1109,6 +1109,10 @@ APP.component.FileUpload = {
         this.buttonDelFileUpload2Rai.unbind('click');
         this.buttonDelFileUpload2Rai.on('click', function (event) {
             event.preventDefault();
+            if ($(event.target).closest(".modal-body").find(".botaouploadarquivos").prop('disabled')) {
+                bootbox.alert("Exclusão de arquivos está desabilitada.");
+                return;
+            }
             $(this).parent().find("input[name='ApagarAnexo']").val(1);
             $(this).parent().hide();
             $("." + $(this).data("spannroarquivos")).text($(this).parent().parent().find("div:visible").length - 1);

@@ -1292,6 +1292,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.NaoConformidadeController.getAnexosArquivosNaoConformidadeAnexos(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
@@ -1316,6 +1317,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.NaoConformidadeController.getAnexosArquivosNaoConformidadeAnexos(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
@@ -1346,6 +1348,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.NaoConformidadeController.getAnexosArquivosNaoConformidadeAnexos(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
@@ -1372,6 +1375,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.NaoConformidadeController.getAnexosArquivosNaoConformidadeAnexos(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
@@ -1415,6 +1419,7 @@ APP.controller.NaoConformidadeController = {
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.NaoConformidadeController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCausa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                 };
@@ -1446,6 +1451,7 @@ APP.controller.NaoConformidadeController = {
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.NaoConformidadeController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCausa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                 };
@@ -1460,6 +1466,12 @@ APP.controller.NaoConformidadeController = {
     getAnexosAcaoImediata(identificador) {
         let raiz = $("#modal-rai" + identificador)[0];
         let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoDeEvidenciaAcaoImediata", "IdAcaoImediata");
+        return ret;
+    },
+    
+    getAnexosArquivosNaoConformidadeAnexos() {
+        let raiz = $("#modal-rai" + "ncabeca")[0];
+        let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoNaoConformidadeAnexo", "IdRegistroConformidade");
         return ret;
     },
 
