@@ -27,7 +27,7 @@ namespace Dominio.Entidade
         public int ? IdProcesso { get; set; }
         public int? IdResponsavel { get; set; }
         public string Equipamento { get; set; }
-        public string Numero { get; set; }
+        public int Numero { get; set; }
         public string LocalDeUso { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }

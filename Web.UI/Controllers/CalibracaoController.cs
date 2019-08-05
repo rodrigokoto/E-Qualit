@@ -385,7 +385,7 @@ namespace Web.UI.Controllers
                 string template = System.IO.File.ReadAllText(path);
                 string conteudo = template;
 
-                conteudo = conteudo.Replace("#NuRegistro#", instrumento.Numero);
+                conteudo = conteudo.Replace("#NuRegistro#", instrumento.Numero.ToString());
                 conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
 
                 var filaEnvio = new FilaEnvio();
