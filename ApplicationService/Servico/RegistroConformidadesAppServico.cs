@@ -546,6 +546,18 @@ namespace ApplicationService.Servico
             {
                 if (item.Aprovado == false)
                 {
+                    //tem que apagar os anexos dessa linha
+                    var acaoImediataparaLimpar = objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata);
+                    if (acaoImediataparaLimpar != null)
+                    {
+                        foreach (var arquivoAcaoImediata in acaoImediataparaLimpar.ArquivoEvidencia)
+                        {
+                            //apagamos deirtamente do anexo
+                            _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo));
+                            continue;
+                        }
+                    }
+
                     objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).DtEfetivaImplementacao = null;
 
                     //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
