@@ -437,7 +437,7 @@ namespace ApplicationService.Servico
                                                     x.IdSite == site &&
                                                     x.FlStatus == (int)StatusDocumento.Verificacao);
 
-            listaVerificadores = listaVerificadores.Where(x => x.DocUsuarioVerificaAprova.Any(y => y.IdUsuario == usuarioVerificador && y.TpEtapa == _statusVerificacao));
+            listaVerificadores = listaVerificadores.Where(x => x.DocUsuarioVerificaAprova.Any(y => y.IdUsuario == usuarioVerificador && y.TpEtapa == _statusVerificacao && (y.TpEtapa == "V")) );
 
             return listaVerificadores;
         }
@@ -456,7 +456,7 @@ namespace ApplicationService.Servico
                                                     x.IdSite == site &&
                                                     x.FlStatus == (int)StatusDocumento.Aprovacao);
 
-            listaDocumentosAprovacao = listaDocumentosAprovacao.Where(x => x.DocUsuarioVerificaAprova.Any(y => y.Usuario.IdUsuario == usuarioAprovador && (y.FlAprovou == false || y.FlAprovou == null))).ToList();
+            listaDocumentosAprovacao = listaDocumentosAprovacao.Where(x => x.DocUsuarioVerificaAprova.Any(y => y.Usuario.IdUsuario == usuarioAprovador && (y.FlAprovou == false || y.FlAprovou == null) && (y.TpEtapa == "A" ))).ToList();
 
             return listaDocumentosAprovacao;
         }
