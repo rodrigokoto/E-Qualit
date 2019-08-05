@@ -22,5 +22,6 @@ namespace ApplicationService.Interface
         RegistroConformidade DestravarEtapa(RegistroConformidade registroConformidade);
 
         RegistroConformidade CriarAcaoCorretivaApartirDeNaoConformidade(RegistroConformidade naoConformidade);
+        void CarregarArquivosNaoConformidadeAnexos2(RegistroConformidade naoConformidade, bool carregarArquivosDeEvidenciaAux);
     }
 }

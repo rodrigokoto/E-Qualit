@@ -223,6 +223,7 @@
     <Compile Include="Especificacao\Usuarios\DeveTerContaNaoCompartilhada.cs" />
     <Compile Include="Especificacao\Usuarios\NaoDeveEstarExpirado.cs" />
     <Compile Include="Interface\Repositorio\IAnexoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IArquivoNaoConformidadeAnexoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IArquivoPlaiAnexoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IArquivoDeEvidenciaRegistroConformidadeRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IArquivosEvidenciaCriterioQualificacaoRepositorio.cs" />

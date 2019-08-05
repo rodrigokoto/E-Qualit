@@ -192,6 +192,7 @@
     <Compile Include="Repository\AnaliseCriticaFuncionarioRepositorio.cs" />
     <Compile Include="Repository\AnaliseCriticaRepositorio.cs" />
     <Compile Include="Repository\AnexoRepositorio.cs" />
+    <Compile Include="Repository\ArquivoNaoConformidadeAnexoRepositorio.cs" />
     <Compile Include="Repository\ArquivoPlaiAnexoRepositorio.cs" />
     <Compile Include="Repository\ArquivoDeEvidenciaRegistroConformidadeRepositorio.cs" />
     <Compile Include="Repository\ArquivosEvidenciaCriterioQualificacaoRepositorio.cs" />

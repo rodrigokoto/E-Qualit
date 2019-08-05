@@ -65,14 +65,21 @@
     {
         IdentificadorInicial = "ncabeca",
         TextoLink = "Anexar",
-        NumeroArquivos = listaEvidencias.Count,
+        NumeroArquivos = Model.ArquivosNaoConformidadeAnexos.Count(),
         ModalTittle = "Anexos da Não Conformidade",
         PodeAnexar = true
     };
-    /*
-    eduperez revisar
-    */
-    compoenteUploadCabecalho.AnexosLista = null;
+    compoenteUploadCabecalho.AnexosLista = Model.ArquivosNaoConformidadeAnexos.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoNaoConformidadeAnexo,
+        IdChave2 = r.IdRegistroConformidade
+    };
+    }).ToList();
+
 
 
     //para os anexos das acoes imediatas
@@ -949,8 +956,8 @@
 
 
 <script>
-                                                                                                                                                        //$(".fa-calendar").click(function () {
-                                                                                                                                                        //    $(this).parent().parent().find("input").datepicker("show");
-                                                                                                                                                        //});
+                                                                                                                                                            //$(".fa-calendar").click(function () {
+                                                                                                                                                            //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                                                                            //});
 </script>
 

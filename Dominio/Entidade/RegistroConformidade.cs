@@ -91,10 +91,10 @@ namespace Dominio.Entidade
         public string Tags { get; set; }
 
 
+        public IEnumerable<ArquivoNaoConformidadeAnexo> ArquivosNaoConformidadeAnexos { get; set; } = new List<ArquivoNaoConformidadeAnexo>();
 
         #region Relacionamentos
 
-        public virtual ICollection<ArquivoNaoConformidadeAnexo> ArquivoNaoConformidade { get; set; }
         public virtual ICollection<ArquivosDeEvidencia> ArquivosDeEvidencia { get; set; }
         public virtual Usuario ResponsavelAcaoCorretiva { get; set; }
         public virtual Usuario ResponsavelAnalisar { get; set; }
