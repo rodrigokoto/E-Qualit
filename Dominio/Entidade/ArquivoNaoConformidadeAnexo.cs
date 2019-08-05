@@ -10,7 +10,6 @@
         public int ApagarAnexo { get; set; } = 0;
 
         #region Relacionamento
-        public virtual RegistroConformidade NaoConformidade { get; set; }
         public virtual Anexo Anexo { get; set; }
 
         #endregion

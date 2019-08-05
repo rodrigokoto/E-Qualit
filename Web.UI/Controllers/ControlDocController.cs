@@ -1590,8 +1590,8 @@ namespace Web.UI.Controllers
                     AdicionaComentario(documento);
                     AtualizarUsuarioCargosETemplatesDoDocumento(documento);
 
-                    var listaAprova = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento && x.TpEtapa == "A").ToList();
-                    listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlAprovou = true;
+
+					
 
                     //[cargo]
                     documento.GestaoDeRisco = null;
@@ -1602,15 +1602,25 @@ namespace Web.UI.Controllers
                         documento.DocRisco.FirstOrDefault(x => x.IdDocRisco == documentoLocal.IdDocRisco).IdDocumento = documento.IdDocumento;
                     });
 
+					if (Util.ObterPerfilUsuarioLogado() == 3 || Util.ObterPerfilUsuarioLogado() == 1)
+					{
+						_documentoAppServico.AprovarDocumento(documento);
+					}
+					else
+					{
+						var listaAprova = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento && x.TpEtapa == "A").ToList();
+						listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlAprovou = true;
 
-                    if (_documentoAppServico.AprovadoPorTodos(listaAprova))
-                        _documentoAppServico.AprovarDocumento(documento);
-                    else
-                        documento.FlStatus = (byte)StatusDocumento.Aprovacao;
+						if (_documentoAppServico.AprovadoPorTodos(listaAprova))
+							_documentoAppServico.AprovarDocumento(documento);
+						else
+							documento.FlStatus = (byte)StatusDocumento.Aprovacao;
 
+						_docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
+					}
                     //int numeroUltimoRegistro = 0;
 
-                    _docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
+                    
 
                     //List<RegistroConformidade> listaRegistro = new List<RegistroConformidade>();
                     foreach (var item in documento.DocRisco)
