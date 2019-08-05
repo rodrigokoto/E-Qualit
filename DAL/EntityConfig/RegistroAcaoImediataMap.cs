@@ -10,6 +10,7 @@ namespace DAL.EntityConfig
         {
             Ignore(x => x.Estado);
             Ignore(x => x.ArquivoEvidenciaAux);
+            Ignore(x => x.SubmitArquivoEvidencia);
 
             ToTable("RegistroAcaoImediata");
 

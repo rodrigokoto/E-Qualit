@@ -1049,9 +1049,9 @@ APP.component.FileUpload = {
     fileUpload2Rai: function () {
 
         this.buttonUpload2Rai.unbind('click');
-        this.buttonUpload2Rai.on('click', function () {
-            if ($(".botaouploadarquivos").prop('disabled')) {
-                alert("Upload de arquivos está desabilitado. Favor destravar o documento.");
+        this.buttonUpload2Rai.on('click', function (evt) {
+            if ($(evt.target).closest(".modal-body").find(".botaouploadarquivos").prop('disabled')) {
+                alert("Upload de arquivos está desabilitado.");
                 return;
             }
 

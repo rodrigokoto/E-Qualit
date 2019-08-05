@@ -491,6 +491,10 @@ APP.controller.NaoConformidadeController = {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
                     $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', true);
+
+                    $(this).find('.botaouploadarquivos').prop('disabled', true);
+                    $("#" + $(this).find('.botaouploadarquivos').data('outrobotaodesab')).find('.botaouploadarquivos').prop('disabled', false);
+
                     //$('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
                     $(this).find('[name=anxFile]').find('a').css("pointer-events", "none");
                     $(this).find('[name=anxFile]').find('a').prop('disabled', true);
@@ -502,6 +506,8 @@ APP.controller.NaoConformidadeController = {
                 else {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
                     $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', false);
+                    $(this).find('.botaouploadarquivos').prop('disabled', false);
+                    $("#" + $(this).find('.botaouploadarquivos').data('outrobotaodesab')).find('.botaouploadarquivos').prop('disabled', false);
 
                     //$(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val("");
                     //$('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
@@ -1450,11 +1456,12 @@ APP.controller.NaoConformidadeController = {
 
     },
 
-/*
-eduperez usar
-        let raiz = $("#modal-rai" + "ncabeca")[0];
-        let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "chavegrande", "chavepequena");
-*/
+
+    getAnexosAcaoImediata(identificador) {
+        let raiz = $("#modal-rai" + identificador)[0];
+        let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoDeEvidenciaAcaoImediata", "IdAcaoImediata");
+        return ret;
+    },
 
     getAnexosEvidencias: function () {
 
@@ -1734,6 +1741,7 @@ eduperez usar
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
                         $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
                     ),
+                    SubmitArquivoEvidencia: APP.controller.NaoConformidadeController.getAnexosAcaoImediata($(tr).find(".IdentificadorInicialupload").data("identificador")),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                 };
@@ -1772,6 +1780,7 @@ eduperez usar
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
                         $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
                     ),
+                    SubmitArquivoEvidencia: APP.controller.NaoConformidadeController.getAnexosAcaoImediata($(tr).find(".IdentificadorInicialupload").data("identificador")),
 
                     //ComentarioMotivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
                     //ComentarioOrientacao: $(tr).find('[nameformAcaoImediataComentarioOrientacaoformAcaoImadiataTbIdAcaoImediata]').val()
@@ -2015,6 +2024,7 @@ eduperez usar
             if (perfil == '4') {
 
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
+                $('.botaouploadarquivos').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $("#form-criar-nao-conformidade-processo").attr("disabled", true);
                 $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
@@ -2022,6 +2032,7 @@ eduperez usar
             else {
 
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
+                $('.botaouploadarquivos').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
 

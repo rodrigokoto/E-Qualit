@@ -52,11 +52,11 @@
             e.preventDefault();
             e.stopPropagation();
             ele.classList.remove('dragover');
-            if (!$(".botaouploadarquivos").prop('disabled')) {
+            if (!$(e.target).closest(".modal-body").find(".botaouploadarquivos").prop('disabled')) {
                 anexoTriggerCallback(e, callback, ele);
             }
             else {
-                alert("Upload de arquivos está desabilitado. Favor destravar o documento.");
+                alert("Upload de arquivos está desabilitado.");
             }
         });
     }

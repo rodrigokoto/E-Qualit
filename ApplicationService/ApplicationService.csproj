@@ -138,6 +138,7 @@
     <Compile Include="Servico\AnaliseCriticaAppServico.cs" />
     <Compile Include="Servico\AnaliseCriticaTemaAppServico.cs" />
     <Compile Include="Servico\AnexoAppServico.cs" />
+    <Compile Include="Servico\ArquivoDeEvidenciaAcaoImediataAppServico.cs" />
     <Compile Include="Servico\ArquivoPlaiAnexoAppServico.cs" />
     <Compile Include="Servico\ArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
     <Compile Include="Servico\ArquivoCertificadoAnexoAppServico.cs" />

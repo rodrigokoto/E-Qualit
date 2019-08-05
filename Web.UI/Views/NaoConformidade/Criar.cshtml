@@ -69,11 +69,14 @@
         ModalTittle = "Anexos da Não Conformidade",
         PodeAnexar = true
     };
-/*
-eduperez revisar
-*/
+    /*
+    eduperez revisar
+    */
     compoenteUploadCabecalho.AnexosLista = null;
 
+
+    //para os anexos das acoes imediatas
+    var listaBotoesAcaoImeidataUpload = new List<Web.UI.Models.ArquivoAnexoViewModel>();
 
 }
 @section Metas {
@@ -507,28 +510,60 @@ eduperez revisar
                                                 </td>
 
                                                 <!-- Arquivo de Evidencia -->
-                                                <td>
+                                                @{
+                                                    var chaveDestecontroleUploadArquuivos = "upacaoimeidata" + count.ToString();
+                                                }
+                                                <td class="IdentificadorInicialupload" data-identificador="@(chaveDestecontroleUploadArquuivos )">
                                                     @{
-                                                        var base64 = "";
-                                                        var dataB64 = "";
-                                                        var nomeAnexo = "";
-                                                        var extensao = "";
-                                                        var idAnexo = 0;
-                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                        int nroArquivos = acaoImediata.ArquivoEvidencia?.Count ?? 0;
+
+                                                        var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
                                                         {
-                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
-                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                            dataB64 = base64;
-                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+                                                            IdentificadorInicial = chaveDestecontroleUploadArquuivos,
+                                                            TextoLink = Traducao.Resource.UploadArquivos,
+                                                            ModalTittle = Traducao.Resource.UploadArquivos,
+                                                            NumeroArquivos = nroArquivos,
+                                                            PodeAnexar = true
+                                                        };
+                                                        controleUploadArquuivos.AnexosLista = acaoImediata.ArquivoEvidencia?.ToList().Select(r =>
+                                                        {
+                                                            return
+                                                        new Web.UI.Models.ArquivoAnexoItemViewModel()
+                                                        {
+                                                            AnexoDados = r.Anexo,
+                                                            IdChave1 = r.IdArquivoDeEvidenciaAcaoImediata,
+                                                            IdChave2 = r.IdAcaoImediata
+                                                        };
+                                                        }).ToList();
 
-                                                        }
+                                                        listaBotoesAcaoImeidataUpload.Add(controleUploadArquuivos);
+                                                        Html.RenderPartial("Anexo/_Anexo", controleUploadArquuivos);
+
                                                     }
+                                                    @*
+                                                                                                            upload antigo
+                                                                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
+                                                                                                    </div>
+                                                                                                    @{
+
+                                                                                                        var base64 = "";
+                                                                                                        var dataB64 = "";
+                                                                                                        var nomeAnexo = "";
+                                                                                                        var extensao = "";
+                                                                                                        var idAnexo = 0;
+                                                                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                                                        {
+                                                                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
+                                                                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                                                            dataB64 = base64;
+                                                                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+
+                                                                                                        }
+                                                                                                    }
 
 
-
-                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
                                                         @if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                         {
 
@@ -555,7 +590,7 @@ eduperez revisar
                                                                class=""
                                                                data-msg-required=""
                                                                data-b64="@dataB64">
-                                                    </div>
+                                                    *@
 
                                                 </td>
                                                 <!-- Acoes -->
@@ -767,6 +802,15 @@ eduperez revisar
 
     </div>
 </div>
+
+@{
+    //caixas de dialogo das acoes imediatas anexos
+    foreach (var botao in listaBotoesAcaoImeidataUpload)
+    {
+        Html.RenderPartial("Anexo/_ModalAnexo", botao);
+    }
+}
+
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-md-12">
@@ -905,8 +949,8 @@ eduperez revisar
 
 
 <script>
-                                                                                                                                        //$(".fa-calendar").click(function () {
-                                                                                                                                        //    $(this).parent().parent().find("input").datepicker("show");
-                                                                                                                                        //});
+                                                                                                                                                        //$(".fa-calendar").click(function () {
+                                                                                                                                                        //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                                                                        //});
 </script>
 

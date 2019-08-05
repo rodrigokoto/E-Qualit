@@ -38,6 +38,7 @@ namespace Dominio.Entidade
         public bool? Aprovado { get; set; }
 
         public Anexo ArquivoEvidenciaAux { get; set; }
+        public List<ArquivoDeEvidenciaAcaoImediata> SubmitArquivoEvidencia { get; set; }
 
         public long? IdFilaEnvio { get; set; }
         [NotMapped]

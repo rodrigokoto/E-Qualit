@@ -504,7 +504,7 @@ namespace Web.UI.Controllers
             _email.Enviar();
         }
 
-        
+
         private void SalvarArquivoEvidencia(RegistroConformidade nc)
         {
             if (nc.ArquivosDeEvidenciaAux.Count > 0)
@@ -656,7 +656,7 @@ namespace Web.UI.Controllers
                         TrataDadosParaCriacao_Edicao(naoConformidade);
                     }
                     */
-                        SalvarArquivoEvidencia(naoConformidade);
+                    SalvarArquivoEvidencia(naoConformidade);
 
                     AtualizarDatasAgendadas(naoConformidade);
 

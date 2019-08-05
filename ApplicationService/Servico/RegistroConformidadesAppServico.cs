@@ -788,35 +788,48 @@ namespace ApplicationService.Servico
                         obj.DtEfetivaImplementacao = obj.DtEfetivaImplementacao != acaoImediata.DtEfetivaImplementacao ? acaoImediata.DtEfetivaImplementacao : obj.DtEfetivaImplementacao;
                     }
                 }
-
-                if (acaoImediata.ArquivoEvidenciaAux != null && acaoImediata.ArquivoEvidenciaAux.ArquivoB64 != null)
+                if (acaoImediata.SubmitArquivoEvidencia != null)
                 {
-                    if (acaoImediata.ArquivoEvidenciaAux.ArquivoB64 == "undefined")
-                        acaoImediata.ArquivoEvidenciaAux.ArquivoB64 = string.Empty;
-
-                    acaoImediata.ArquivoEvidenciaAux.Tratar();
-
-                    if (acaoImediata.ArquivoEvidenciaAux.IdAnexo == 0)
+                    foreach (var arquivoAcaoImediata in acaoImediata.SubmitArquivoEvidencia)
                     {
-                        acaoImediata.ArquivoEvidencia.Add(new ArquivoDeEvidenciaAcaoImediata
+                        if (arquivoAcaoImediata != null && arquivoAcaoImediata.Anexo.ArquivoB64 != null)
                         {
-                            IdAcaoImediata = acaoImediata.IdAcaoImediata,
-                            Anexo = acaoImediata.ArquivoEvidenciaAux
-                        });
-                    }
-                    else
-                    {
+                            if (arquivoAcaoImediata.ApagarAnexo == 1)
+                            {
+                                //apagamos deirtamente do anexo
+                                //ninguem mais pode estar usando esse anexo
+                                _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo));
+                                continue;
+                            }
 
-                        var anexoCtx = _anexoRepositorio.GetById(acaoImediata.ArquivoEvidenciaAux.IdAnexo);
-                        anexoCtx.Arquivo = acaoImediata.ArquivoEvidenciaAux.Arquivo;
-                        anexoCtx.Nome = acaoImediata.ArquivoEvidenciaAux.Nome;
-                        anexoCtx.Extensao = acaoImediata.ArquivoEvidenciaAux.Extensao;
-                        anexoCtx.DtAlteracao = DateTime.Now;
+                            if (arquivoAcaoImediata == null)
+                                continue;
+                            if (arquivoAcaoImediata.Anexo == null)
+                                continue;
+                            if (string.IsNullOrEmpty(arquivoAcaoImediata.Anexo.Extensao))
+                                continue;
+                            if (string.IsNullOrEmpty(arquivoAcaoImediata.Anexo.ArquivoB64))
+                                continue;
 
-                        _anexoRepositorio.Update(anexoCtx);
+                            if (arquivoAcaoImediata.Anexo.ArquivoB64 == "undefined")
+                                arquivoAcaoImediata.Anexo.ArquivoB64 = string.Empty;
+
+                            Anexo anexoAtual = _AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo);
+                            if (anexoAtual == null)
+                            {
+                                arquivoAcaoImediata.Anexo.Tratar();
+                                arquivoAcaoImediata.IdAcaoImediata = acaoImediata.IdAcaoImediata;
+
+                                _arquivoDeEvidenciaAcaoImediataRepositorio.Add(arquivoAcaoImediata);
+                            }
+                        }
                     }
                 }
                 //_registroAcaoImediataRepositorio.AtualizaAcaoImediataComAnexos(acaoImediata);
+                /*
+                if (alteracaoAnexos)
+                    _registroAcaoImediataRepositorio.Update(acaoImediata);
+                    */
             });
         }
 
