@@ -474,6 +474,19 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="form-pos-calibracao-certificado" class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_certificado</label>
+                                        @{
+                                            var nroArquivos = Model.ArquivoInstrumento == null ? 0 : Model.ArquivoInstrumento.Count;
+
+                                            var botao = new Web.UI.Models.ArquivoAnexoViewModel()
+                                            {
+                                                IdentificadorInicial = Model.IdInstrumento.ToString(),
+                                                TextoLink = "Anexos.",
+                                                NumeroArquivos = nroArquivos
+                                            };
+                                            @Html.Partial("Anexo/_Anexo", botao);
+                                        }
+
+
                                         <div class="upload-arq form-control">
                                             <a class="btn-upload-multiple-form-criar-cliente-contrato">
                                                 <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
@@ -568,3 +581,21 @@
     }
 
 </script>
+
+@{
+    botao.AnexosLista = Model.ArquivoInstrumento.Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoInstrumentoAnexo,
+        IdChave2 = r.IdInstrumento
+    };
+    }).ToList();
+    botao.NumeroArquivos = Model.ArquivoInstrumento.Count;
+    botao.PodeAnexar = true;
+
+    Html.RenderPartial("Anexo/_ModalAnexo", botao);
+}
+

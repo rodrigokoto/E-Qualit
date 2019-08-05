@@ -348,6 +348,18 @@ else
                                                     <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
                                                         @if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                         {
+
+                                                            var acao = acaoImediata.ArquvioAcaoCorretivaAnexo.ToList();
+                                                            var nroArquivos =acao.Count();
+
+                                                            var botao = new Web.UI.Models.ArquivoAnexoViewModel()
+                                                            {
+                                                                IdentificadorInicial = acaoImediata.IdAcaoImediata.ToString(),
+                                                                TextoLink = "Anexos.",
+                                                                NumeroArquivos = nroArquivos
+                                                            };
+                                                            Html.RenderPartial("Anexo/_Anexo", botao);
+
                                                             <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
                                                                 <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
                                                             </a>
