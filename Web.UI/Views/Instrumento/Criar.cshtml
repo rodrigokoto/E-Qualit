@@ -81,10 +81,9 @@
                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_Status_Instrumento</label>
-                                        @if (Model.Status != null)
-                                        {
-                                            <button type="button" class="btn btn-primary btn-status pull-right">Alterar Status</button>
-                                        }
+
+                                        <button type="button" class="btn btn-primary btn-status pull-right">Alterar Status</button>
+
                                         @if (Model.Status == 0)
                                         {
                                             <p class="status-nao-calibrado status-aprovado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
@@ -582,20 +581,20 @@
 
 </script>
 
-@{
-    botao.AnexosLista = Model.ArquivoInstrumento.Select(r =>
-    {
-        return
-    new Web.UI.Models.ArquivoAnexoItemViewModel()
-    {
-        AnexoDados = r.Anexo,
-        IdChave1 = r.IdArquivoInstrumentoAnexo,
-        IdChave2 = r.IdInstrumento
-    };
-    }).ToList();
-    botao.NumeroArquivos = Model.ArquivoInstrumento.Count;
-    botao.PodeAnexar = true;
+@*@{
+        botao.AnexosLista = Model.ArquivoInstrumento.Select(r =>
+        {
+            return
+        new Web.UI.Models.ArquivoAnexoItemViewModel()
+        {
+            AnexoDados = r.Anexo,
+            IdChave1 = r.IdArquivoInstrumentoAnexo,
+            IdChave2 = r.IdInstrumento
+        };
+        }).ToList();
+        botao.NumeroArquivos = Model.ArquivoInstrumento.Count;
+        botao.PodeAnexar = true;
 
-    Html.RenderPartial("Anexo/_ModalAnexo", botao);
-}
+        Html.RenderPartial("Anexo/_ModalAnexo", botao);
+    }*@
 

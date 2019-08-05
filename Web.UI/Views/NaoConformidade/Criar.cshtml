@@ -59,6 +59,25 @@
     var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
     var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
     var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
+
+
+    var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
+    {
+        IdentificadorInicial = "ncabeca",
+        TextoLink = "Anexar",
+        NumeroArquivos = listaEvidencias.Count,
+        ModalTittle = "Anexos da Não Conformidade",
+        PodeAnexar = true
+    };
+    /*
+    eduperez revisar
+    */
+    compoenteUploadCabecalho.AnexosLista = null;
+
+
+    //para os anexos das acoes imediatas
+    var listaBotoesAcaoImeidataUpload = new List<Web.UI.Models.ArquivoAnexoViewModel>();
+
 }
 @section Metas {
     <meta name="page" content="CriarNaoConformidade" />
@@ -73,7 +92,7 @@
     </script>
 
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js?rnd=4")"></script>
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
 
@@ -82,6 +101,7 @@
 
 @{
     Html.RenderPartial("Anexo/_AnexoSetup");
+    Html.RenderPartial("Anexo/_ModalAnexo", compoenteUploadCabecalho);
 }
 
 
@@ -102,7 +122,7 @@
 
 
         @{
-           
+
         }
 
         <!-- Formulario Nao Conformidade -->
@@ -144,31 +164,37 @@
                             <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
                                 <div class="form-group">
                                     <label for="form-cria-cliente-contrato" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Arquivo_evidencia</label>
-                                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)">
-                                        <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
-                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                        </a>
+                                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)" style="border: 0 !important;">
 
-                                        <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
-                                            @if (listaEvidencias.Count > 0)
-                                            {
-                                                foreach (var evidencia in listaEvidencias)
+                                        @{
+                                            Html.RenderPartial("Anexo/_Anexo", compoenteUploadCabecalho);
+                                        }
+                                        @*
+                                            <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
+                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                            </a>
+
+                                            <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
+                                                @if (listaEvidencias.Count > 0)
                                                 {
-                                                    <li>
-                                                        <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
-                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
-                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
-                                                    </li>
+                                                    foreach (var evidencia in listaEvidencias)
+                                                    {
+                                                        <li>
+                                                            <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
+                                                        </li>
 
+                                                    }
                                                 }
-                                            }
 
-                                        </ul>
-                                        <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
-                                               class=""
-                                               data-msg-required=""
-                                               data-b64=""
-                                               multiple="multiple">
+                                            </ul>
+                                            <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
+                                                   class=""
+                                                   data-msg-required=""
+                                                   data-b64=""
+                                                   multiple="multiple">
+                                        *@
                                     </div>
                                 </div>
                             </div>
@@ -484,28 +510,60 @@
                                                 </td>
 
                                                 <!-- Arquivo de Evidencia -->
-                                                <td>
+                                                @{
+                                                    var chaveDestecontroleUploadArquuivos = "upacaoimeidata" + count.ToString();
+                                                }
+                                                <td class="IdentificadorInicialupload" data-identificador="@(chaveDestecontroleUploadArquuivos )">
                                                     @{
-                                                        var base64 = "";
-                                                        var dataB64 = "";
-                                                        var nomeAnexo = "";
-                                                        var extensao = "";
-                                                        var idAnexo = 0;
-                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                        int nroArquivos = acaoImediata.ArquivoEvidencia?.Count ?? 0;
+
+                                                        var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
                                                         {
-                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
-                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                            dataB64 = base64;
-                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+                                                            IdentificadorInicial = chaveDestecontroleUploadArquuivos,
+                                                            TextoLink = Traducao.Resource.UploadArquivos,
+                                                            ModalTittle = Traducao.Resource.UploadArquivos,
+                                                            NumeroArquivos = nroArquivos,
+                                                            PodeAnexar = true
+                                                        };
+                                                        controleUploadArquuivos.AnexosLista = acaoImediata.ArquivoEvidencia?.ToList().Select(r =>
+                                                        {
+                                                            return
+                                                        new Web.UI.Models.ArquivoAnexoItemViewModel()
+                                                        {
+                                                            AnexoDados = r.Anexo,
+                                                            IdChave1 = r.IdArquivoDeEvidenciaAcaoImediata,
+                                                            IdChave2 = r.IdAcaoImediata
+                                                        };
+                                                        }).ToList();
 
-                                                        }
+                                                        listaBotoesAcaoImeidataUpload.Add(controleUploadArquuivos);
+                                                        Html.RenderPartial("Anexo/_Anexo", controleUploadArquuivos);
+
                                                     }
+                                                    @*
+                                                                                                            upload antigo
+                                                                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
+                                                                                                    </div>
+                                                                                                    @{
+
+                                                                                                        var base64 = "";
+                                                                                                        var dataB64 = "";
+                                                                                                        var nomeAnexo = "";
+                                                                                                        var extensao = "";
+                                                                                                        var idAnexo = 0;
+                                                                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                                                        {
+                                                                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
+                                                                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                                                            dataB64 = base64;
+                                                                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+
+                                                                                                        }
+                                                                                                    }
 
 
-
-                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
                                                         @if (acaoImediata.ArquivoEvidencia.Count == 0)
                                                         {
 
@@ -532,7 +590,7 @@
                                                                class=""
                                                                data-msg-required=""
                                                                data-b64="@dataB64">
-                                                    </div>
+                                                    *@
 
                                                 </td>
                                                 <!-- Acoes -->
@@ -744,6 +802,15 @@
 
     </div>
 </div>
+
+@{
+    //caixas de dialogo das acoes imediatas anexos
+    foreach (var botao in listaBotoesAcaoImeidataUpload)
+    {
+        Html.RenderPartial("Anexo/_ModalAnexo", botao);
+    }
+}
+
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-md-12">
@@ -882,8 +949,8 @@
 
 
 <script>
-                                                                                                                            //$(".fa-calendar").click(function () {
-                                                                                                                            //    $(this).parent().parent().find("input").datepicker("show");
-                                                                                                                            //});
+                                                                                                                                                        //$(".fa-calendar").click(function () {
+                                                                                                                                                        //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                                                                        //});
 </script>
 

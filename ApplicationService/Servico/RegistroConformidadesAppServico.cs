@@ -23,6 +23,7 @@ namespace ApplicationService.Servico
         private readonly IArquivoDeEvidenciaRegistroConformidadeRepositorio _arquivoDeEvidenciaRegistroConformidadeRepositorio;
 
         private readonly INotificacaoAppServico _notificacaoServico;
+        private readonly IAnexoAppServico _AnexoAppServico;
 
         public RegistroConformidadesAppServico(
             IRegistroConformidadesRepositorio registroConformidadesRepositorio,
@@ -31,9 +32,11 @@ namespace ApplicationService.Servico
             IAnexoRepositorio anexoRepositorio,
             IArquivoDeEvidenciaAcaoImediataRepositorio arquivoDeEvidenciaAcaoImediataRepositorio,
             IArquivoDeEvidenciaRegistroConformidadeRepositorio arquivoDeEvidenciaRegistroConformidadeRepositorio,
+            IAnexoAppServico anexoAppServico,
             IUsuarioRepositorio usuarioRepositorio)
             : base(registroConformidadesRepositorio)
         {
+            _AnexoAppServico = anexoAppServico;
             _registroConformidadesRepositorio = registroConformidadesRepositorio;
             _registroAcaoImediataRepositorio = registroAcaoImediataRepositorio;
             _arquivoDeEvidenciaAcaoImediataRepositorio = arquivoDeEvidenciaAcaoImediataRepositorio;
@@ -49,12 +52,67 @@ namespace ApplicationService.Servico
 
             registroConformidade = _registroConformidadesRepositorio.GerarNumeroSequencialPorSite(registroConformidade);
             _registroConformidadesRepositorio.Add(registroConformidade);
+            SalvarArquivoNaoConformidade(registroConformidade);
 
             return registroConformidade;
         }
 
+        //eduperez afazer 
+        private void SalvarArquivoNaoConformidade(RegistroConformidade nc)
+        {
+            return;
+#if naocompilar
+            if (nc.ArquivosDeEvidenciaAux.Count > 0)
+            {
+                foreach (var arquivoEvidencia in nc.ArquivosDeEvidenciaAux)
+                {
+                    if (arquivoEvidencia.ApagarAnexo == 1)
+                    {
+                        //apagamos deirtamente do anexo
+                        //ninguem mais pode estar usando esse anexo
+
+                        //tem que ser removida pelo servico, e não da lista
+                        _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoEvidencia.IdAnexo));
+                        /*
+                        var existente = nc.ArquivosDeEvidencia.FirstOrDefault(r => r.IdAnexo == arquivoEvidencia.IdAnexo);
+                        if (existente != null)
+                            nc.ArquivosDeEvidencia.Remove(existente);
+                            */
+                        continue;
+                    }
+
+                    Anexo anexoAtual = _AnexoAppServico.GetById(arquivoEvidencia.IdAnexo);
+                    if (anexoAtual == null)
+                    {
+                        arquivoEvidencia.TratarComNomeCerto();
+                        //_AnexoAppServico.Add(arquivoEvidencia);
+
+                        if (!nc.ArquivosDeEvidencia.Any(r => r.IdAnexo == arquivoEvidencia.IdAnexo))
+                        {
+                            //se ja existe, nao adicioonamos!!
+                            nc.ArquivosDeEvidencia.Add(new ArquivosDeEvidencia
+                            {
+                                Anexo = arquivoEvidencia,
+                                RegistroConformidade = nc,
+                                TipoRegistro = nc.TipoRegistro,
+                                IdAnexo = arquivoEvidencia.IdAnexo,
+                            });
+                        }
+                    }
+                }
+
+                //processados, removemos, para pode rchamar de novo sem risco
+                nc.ArquivosDeEvidenciaAux = new List<Anexo>();
+            }
+
+            foreach (var a in nc.ArquivosDeEvidencia)
+                a.RegistroConformidade = nc;
+#endif
+        }
+
         public RegistroConformidade SalvarSegundaEtapa(RegistroConformidade registroConformidade, Funcionalidades funcionalidade)
         {
+            SalvarArquivoNaoConformidade(registroConformidade);
             registroConformidade = TrataRegistroConformidadeParaSerAtualizada(registroConformidade);
 
             registroConformidade.AcoesImediatas.ToList().ForEach(x =>
@@ -67,6 +125,9 @@ namespace ApplicationService.Servico
             _notificacaoServico.RemovePorFuncionalidade(funcionalidade, registroConformidade.IdRegistroConformidade);
 
             _registroConformidadesRepositorio.Update(registroConformidade);
+
+            //para salvar so anexos
+            SalvarArquivoNaoConformidade(registroConformidade);
 
             return registroConformidade;
         }
@@ -230,7 +291,6 @@ namespace ApplicationService.Servico
                     _registroConformidadesRepositorio.Add(novaAc);
 
                     objCtx.IdNuRegistroFilho = novaAc.NuRegistro;
-
                 }
 
             }
@@ -486,6 +546,18 @@ namespace ApplicationService.Servico
             {
                 if (item.Aprovado == false)
                 {
+                    //tem que apagar os anexos dessa linha
+                    var acaoImediataparaLimpar = objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata);
+                    if (acaoImediataparaLimpar != null)
+                    {
+                        foreach (var arquivoAcaoImediata in acaoImediataparaLimpar.ArquivoEvidencia)
+                        {
+                            //apagamos deirtamente do anexo
+                            _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo));
+                            continue;
+                        }
+                    }
+
                     objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).DtEfetivaImplementacao = null;
 
                     //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
@@ -728,35 +800,48 @@ namespace ApplicationService.Servico
                         obj.DtEfetivaImplementacao = obj.DtEfetivaImplementacao != acaoImediata.DtEfetivaImplementacao ? acaoImediata.DtEfetivaImplementacao : obj.DtEfetivaImplementacao;
                     }
                 }
-
-                if (acaoImediata.ArquivoEvidenciaAux != null && acaoImediata.ArquivoEvidenciaAux.ArquivoB64 != null)
+                if (acaoImediata.SubmitArquivoEvidencia != null)
                 {
-                    if (acaoImediata.ArquivoEvidenciaAux.ArquivoB64 == "undefined")
-                        acaoImediata.ArquivoEvidenciaAux.ArquivoB64 = string.Empty;
-
-                    acaoImediata.ArquivoEvidenciaAux.Tratar();
-
-                    if (acaoImediata.ArquivoEvidenciaAux.IdAnexo == 0)
+                    foreach (var arquivoAcaoImediata in acaoImediata.SubmitArquivoEvidencia)
                     {
-                        acaoImediata.ArquivoEvidencia.Add(new ArquivoDeEvidenciaAcaoImediata
+                        if (arquivoAcaoImediata != null && arquivoAcaoImediata.Anexo.ArquivoB64 != null)
                         {
-                            IdAcaoImediata = acaoImediata.IdAcaoImediata,
-                            Anexo = acaoImediata.ArquivoEvidenciaAux
-                        });
-                    }
-                    else
-                    {
+                            if (arquivoAcaoImediata.ApagarAnexo == 1)
+                            {
+                                //apagamos deirtamente do anexo
+                                //ninguem mais pode estar usando esse anexo
+                                _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo));
+                                continue;
+                            }
 
-                        var anexoCtx = _anexoRepositorio.GetById(acaoImediata.ArquivoEvidenciaAux.IdAnexo);
-                        anexoCtx.Arquivo = acaoImediata.ArquivoEvidenciaAux.Arquivo;
-                        anexoCtx.Nome = acaoImediata.ArquivoEvidenciaAux.Nome;
-                        anexoCtx.Extensao = acaoImediata.ArquivoEvidenciaAux.Extensao;
-                        anexoCtx.DtAlteracao = DateTime.Now;
+                            if (arquivoAcaoImediata == null)
+                                continue;
+                            if (arquivoAcaoImediata.Anexo == null)
+                                continue;
+                            if (string.IsNullOrEmpty(arquivoAcaoImediata.Anexo.Extensao))
+                                continue;
+                            if (string.IsNullOrEmpty(arquivoAcaoImediata.Anexo.ArquivoB64))
+                                continue;
 
-                        _anexoRepositorio.Update(anexoCtx);
+                            if (arquivoAcaoImediata.Anexo.ArquivoB64 == "undefined")
+                                arquivoAcaoImediata.Anexo.ArquivoB64 = string.Empty;
+
+                            Anexo anexoAtual = _AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo);
+                            if (anexoAtual == null)
+                            {
+                                arquivoAcaoImediata.Anexo.Tratar();
+                                arquivoAcaoImediata.IdAcaoImediata = acaoImediata.IdAcaoImediata;
+
+                                _arquivoDeEvidenciaAcaoImediataRepositorio.Add(arquivoAcaoImediata);
+                            }
+                        }
                     }
                 }
                 //_registroAcaoImediataRepositorio.AtualizaAcaoImediataComAnexos(acaoImediata);
+                /*
+                if (alteracaoAnexos)
+                    _registroAcaoImediataRepositorio.Update(acaoImediata);
+                    */
             });
         }
 

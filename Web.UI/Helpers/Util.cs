@@ -77,7 +77,7 @@ namespace Web.UI.Helpers
         {
             int idSite = 0;
             var siteSelecionado = HttpContext.Current.Request.Cookies["siteSelecionado"];
-            if (siteSelecionado.Value != string.Empty)
+            if (siteSelecionado != null && siteSelecionado.Value != string.Empty)
             {
 
                 int.TryParse(siteSelecionado.Value, out idSite);
@@ -90,6 +90,8 @@ namespace Web.UI.Helpers
         public static int ObterClienteSelecionado()
         {
             var clienteSelecionado = HttpContext.Current.Request.Cookies["clienteSelecionado"];
+            if (clienteSelecionado == null)
+                return 0;
 
             return Convert.ToInt32(clienteSelecionado.Value);
         }

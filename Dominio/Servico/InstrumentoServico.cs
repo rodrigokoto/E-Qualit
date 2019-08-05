@@ -85,12 +85,14 @@ namespace Dominio.Servico
                 .OrderByDescending(x => x.Numero).FirstOrDefault();
             if (item != null)
             {
-                if (Int32.Parse(item.Numero) != 0)
+                if (item.Numero != 0)
                 {
-                    saida = Int32.Parse(item.Numero) + 1;
+                    saida = Convert.ToInt32(item.Numero + 1);
                 }
                 else
-                { saida = 1; }
+                {
+                    saida = 1;
+                }
             }
             else
             {

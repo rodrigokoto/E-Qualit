@@ -56,6 +56,7 @@ namespace Web.UI.Controllers
             IUsuarioClienteSiteAppServico usuarioClienteAppServico,
             IControladorCategoriasAppServico controladorCategoriasServico,
             IFilaEnvioServico filaEnvioServico,
+            IAnexoAppServico anexoAppServico,
            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
@@ -374,7 +375,7 @@ namespace Web.UI.Controllers
         }
 
 
-        public ActionResult Editar(int id , string destravar = "false")
+        public ActionResult Editar(int id, string destravar = "false")
         {
             ViewBag.Destravar = destravar;
             ViewBag.IdSite = Util.ObterSiteSelecionado();
@@ -572,7 +573,6 @@ namespace Web.UI.Controllers
         [HttpPost]
         public JsonResult SalvarSegundaEtapa(RegistroConformidade naoConformidade)
         {
-
             var erros = new List<string>();
 
             try
@@ -654,9 +654,9 @@ namespace Web.UI.Controllers
                     if (1 == 0)
                     {
                         TrataDadosParaCriacao_Edicao(naoConformidade);
-                        SalvarArquivoEvidencia(naoConformidade);
                     }
                     */
+                    SalvarArquivoEvidencia(naoConformidade);
 
                     AtualizarDatasAgendadas(naoConformidade);
 

@@ -1,5 +1,7 @@
 ﻿@using Web.UI.Models
 @model  Web.UI.Models.ArquivoAnexoViewModel
 
+@*este botao é para saber se está desabiltiado oou nao (usado na nao conformidade)*@
+<button type="button" class="botaouploadarquivos" data-outrobotaodesab="modal-rai@(Model.IdentificadorInicial)" style="display: none;"></button>
 <button type="button" class="btn btn-primary" 
         onclick="$('#modal-rai@(Model.IdentificadorInicial)').modal('show');">@Model.TextoLink (<span class="raiNroArquivos@(Model.IdentificadorInicial)">@(Model.NumeroArquivos)</span> arquivos)</button>

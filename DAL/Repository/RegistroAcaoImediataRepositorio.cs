@@ -8,8 +8,13 @@ namespace DAL.Repository
 {
     public class RegistroAcaoImediataRepositorio : BaseRepositorio<RegistroAcaoImediata>, IRegistroAcaoImediataRepositorio
     {
-        public void AtualizaAcaoImediataComAnexos(RegistroAcaoImediata obj)
+        public void AtualizaAcaoImediataComAnexos2(RegistroAcaoImediata acaoImediata, ArquivoDeEvidenciaAcaoImediata arquivoAcaoImediata)
         {
+            Db.Set<ArquivoDeEvidenciaAcaoImediata>().Add(arquivoAcaoImediata);
+            acaoImediata.ArquivoEvidencia.Add(arquivoAcaoImediata);
+
+
+#if comentado
             //using (var context = new BaseContext())
             //{
             try
@@ -32,6 +37,8 @@ namespace DAL.Repository
             }
 
             //}
+#endif
+
         }
     }
 }

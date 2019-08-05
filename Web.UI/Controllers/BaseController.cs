@@ -21,7 +21,7 @@ namespace Web.UI.Controllers
         private string controller;
         private string action;
         public string lingua;
-        private readonly ILogAppServico _logServico;       
+        private readonly ILogAppServico _logServico;
         private readonly ISiteRepositorio _siteRepositorio;
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IProcessoAppServico _processoAppServico;
@@ -42,8 +42,8 @@ namespace Web.UI.Controllers
             {
                 idUsuario = Util.ObterCodigoUsuarioLogado();
             }
-            catch 
-            {   
+            catch
+            {
             }
 
             try
@@ -53,7 +53,7 @@ namespace Web.UI.Controllers
             catch
             {
             }
-            
+
             try
             {
 
@@ -61,20 +61,27 @@ namespace Web.UI.Controllers
             }
             catch
             {
-                ViewBag.CodClienteSelecionado = 0;                
+                ViewBag.CodClienteSelecionado = 0;
             }
 
             try
             {
-                usuarioLogadoBase = _usuarioAppServico.GetById(idUsuario);
+                ViewBag.Funcionalidades = new List<Funcionalidade>();
+                if (_usuarioAppServico != null)
+                {
+                    usuarioLogadoBase = _usuarioAppServico.GetById(idUsuario);
 
-                if (usuarioLogadoBase.IdPerfil == 4)
-                {
-                    ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidas(idUsuario).Where(x => x.Ativo == true).ToList();
-                }
-                else
-                {
-                    ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidasPorSite(idSite).Where(x => x.Ativo == true).ToList();
+                    if (usuarioLogadoBase != null)
+                    {
+                        if (usuarioLogadoBase.IdPerfil == 4)
+                        {
+                            ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidas(idUsuario).Where(x => x.Ativo == true).ToList();
+                        }
+                        else
+                        {
+                            ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidasPorSite(idSite).Where(x => x.Ativo == true).ToList();
+                        }
+                    }
                 }
             }
             catch
@@ -84,7 +91,9 @@ namespace Web.UI.Controllers
 
             try
             {
-                ViewBag.Processos = _processoAppServico.Get(x => x.IdSite == idSite && !x.FlQualidade).ToList();
+                ViewBag.Processos = new List<Processo>();
+                if (_processoAppServico != null)
+                    ViewBag.Processos = _processoAppServico.Get(x => x.IdSite == idSite && !x.FlQualidade).ToList();
             }
             catch
             {
@@ -93,12 +102,13 @@ namespace Web.UI.Controllers
 
             try
             {
-                ViewBag.Categorias = _controladorCategoriasServico.ListaAtivos("CATDOC", idSite);
+                ViewBag.Categorias = new List<ControladorCategoria>();
+                if (_controladorCategoriasServico != null)
+                    ViewBag.Categorias = _controladorCategoriasServico.ListaAtivos("CATDOC", idSite);
             }
             catch
             {
-                ViewBag.Categorias = new List<ControladorCategoria>();
-            }          
+            }
 
         }
 
@@ -109,7 +119,7 @@ namespace Web.UI.Controllers
             controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             action = filterContext.ActionDescriptor.ActionName;
 
-            if(Session["siteFrase"] != null)
+            if (Session["siteFrase"] != null)
             {
                 ViewBag.SiteFrase = Session["siteFrase"];
             }
@@ -121,7 +131,7 @@ namespace Web.UI.Controllers
             string parameter = string.Empty;
             if (filterContext.ActionParameters.ContainsKey("rotaDoCliente"))
             {
-               //var parametro = filterContext.ActionParameters.Values.Any(x=>x != string.Empty);
+                //var parametro = filterContext.ActionParameters.Values.Any(x=>x != string.Empty);
                 //if (parametro)
                 //{
 
@@ -133,7 +143,7 @@ namespace Web.UI.Controllers
 
             }
 
-           
+
             ViewBag.Controller = controller;
 
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
@@ -148,14 +158,16 @@ namespace Web.UI.Controllers
             {
                 int idCliente = Util.ObterClienteSelecionado();
 
-                ViewBag.QuantidadeSites = _siteRepositorio.ListarSitesPorCliente(idCliente);
+                ViewBag.QuantidadeSites = 0;
+                if (_siteRepositorio != null)
+                    ViewBag.QuantidadeSites = _siteRepositorio.ListarSitesPorCliente(idCliente);
             }
             catch
-            {                
+            {
                 ViewBag.QuantidadeSites = 0;
             }
-            
-            
+
+
             #region Parametros de Cultura - Lingua corrente
 
             lingua = Web.UI.Helpers.Cultura.GetCultura();
@@ -262,7 +274,7 @@ namespace Web.UI.Controllers
         protected string RetornaExtensao(string nomeArquivo) =>
             nomeArquivo != null ? nomeArquivo.Substring(nomeArquivo.LastIndexOf(".")) : "";
 
-      
+
     }
 
 }

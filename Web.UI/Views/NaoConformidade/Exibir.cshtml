@@ -12,7 +12,7 @@
 
 
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js?rnd=4")"></script>
     @*<script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>*@
     @*<script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>*@
 
@@ -414,33 +414,32 @@
                                                                                 <!-- Arquivo de Evidencia -->
                                                                                 <td>
                                                                                     @{
-                                                                                        var base64 = "";
-                                                                                        var dataB64 = "";
-                                                                                        var nomeAnexo = "";
-                                                                                        var extensao = "";
-                                                                                        var idAnexo = 0;
-                                                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                                        foreach (var acaoImediataArquivoEvidencia in acaoImediata.ArquivoEvidencia)
                                                                                         {
-                                                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
-                                                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                                            var base64 = "";
+                                                                                            var dataB64 = "";
+                                                                                            var nomeAnexo = "";
+                                                                                            var extensao = "";
+                                                                                            var idAnexo = 0;
+                                                                                            idAnexo = acaoImediataArquivoEvidencia.Anexo.IdAnexo;
+                                                                                            extensao = acaoImediataArquivoEvidencia.Anexo.Extensao;
+                                                                                            nomeAnexo = acaoImediataArquivoEvidencia.Anexo.Nome;
+                                                                                            base64 = Convert.ToBase64String(acaoImediataArquivoEvidencia.Anexo.Arquivo);
                                                                                             dataB64 = base64;
                                                                                             base64 = String.Format("data:application/" + extensao + ";base64," + base64);
 
+                                                                                            <i class="hide">@nomeAnexo</i>
+                                                                                            <ul>
+                                                                                                <li>
+                                                                                                    <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
+                                                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                                                                </li>
+                                                                                            </ul>
+
+                                                                                            @*@nomeAnexo*@
                                                                                         }
                                                                                     }
-
-                                                                                    <i class="hide">@nomeAnexo</i>
-                                                                                    <ul>
-                                                                                        <li>
-                                                                                            <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
-                                                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
-                                                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
-                                                                                        </li>
-                                                                                    </ul>
-
-                                                                                    @*@nomeAnexo*@
 
                                                                                 </td>
 

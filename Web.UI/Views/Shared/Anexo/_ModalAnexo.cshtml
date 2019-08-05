@@ -15,6 +15,8 @@
             </div>
 
             <div class="modal-body rai-modal-body droppableanexo">
+                @*este botao é para saber se está desabiltiado oou nao (usado na nao acoa imediata da acao corretiva)*@
+                <button type="button" class="botaouploadarquivos" style="display: none;"></button>
 
 
                 @* botao upload novo, fica no topo *@
@@ -54,7 +56,7 @@
                     foreach (var anexo in Model.AnexosLista)
                     {
                         @*
-                            cada arquivo estara agrupado por classe, para montar os dados precisa ler por classe e depois os itens dentro dessa classe
+                cada arquivo estara agrupado por classe, para montar os dados precisa ler por classe e depois os itens dentro dessa classe
                         *@
                         <div class="upload-arq upload-arq-rai uploadrai@(Model.IdentificadorInicial)" style="text-align: left">
                             @if (Model.PodeAnexar)

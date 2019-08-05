@@ -38,6 +38,7 @@ namespace Dominio.Entidade
         public bool? Aprovado { get; set; }
 
         public Anexo ArquivoEvidenciaAux { get; set; }
+        public List<ArquivoDeEvidenciaAcaoImediata> SubmitArquivoEvidencia { get; set; }
 
         public long? IdFilaEnvio { get; set; }
         [NotMapped]
@@ -45,7 +46,6 @@ namespace Dominio.Entidade
         [NotMapped]
         public string Orientacao { get; set; }
 
-        public virtual ICollection<ArquivoNaoConformidadeAnexo> ArquivoNaoConformidadeAnexo { get; set; }
         public virtual ICollection<ArquivoDeEvidenciaAcaoImediata> ArquivoEvidencia { get; set; }
 
         public virtual Usuario ResponsavelImplementar { get; set; }

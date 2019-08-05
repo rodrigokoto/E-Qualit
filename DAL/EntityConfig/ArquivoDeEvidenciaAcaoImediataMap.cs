@@ -7,6 +7,8 @@ namespace DAL.EntityConfig
     {
         public ArquivoDeEvidenciaAcaoImediataMap()
         {
+            Ignore(x => x.ApagarAnexo);
+
             HasKey(x => x.IdArquivoDeEvidenciaAcaoImediata);
 
             Property(x => x.IdAnexo)
