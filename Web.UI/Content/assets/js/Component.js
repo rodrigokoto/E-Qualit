@@ -988,6 +988,64 @@ APP.component.FileUpload = {
 
     },
 
+    fileUpload2RaiDropCommon: function (fileInput, topoUpload, origcopia, arquivos) {
+        var _files = arquivos;
+
+        if (_files && _files[0]) {
+            for (let ifile = 0; ifile < _files.length; ifile++) {
+                let thisifile = _files[ifile];
+
+                if (thisifile.size > 5 * 1024 * 1024) {
+                    alert("Erro: arquivo muito grande. Somente são permitidos anexos até 5 megabytes.");
+                    continue;
+                }
+                if (thisifile.name.toLowerCase().indexOf(".exe") > 0 || thisifile.name.toLowerCase().indexOf(".bat") > 0 || thisifile.name.toLowerCase().indexOf(".com") > 0 || thisifile.name.toLowerCase().indexOf(".cmd") > 0) {
+                    alert("Erro: extensão não permitida. Não são aceitos arquivos .EXE, .COM, .CMD ou .BAT.");
+                    continue;
+                }
+
+                let reader = new FileReader();
+                let name = "";
+
+                reader.onload = function (e) {
+                    let copia = $(origcopia.cloneNode(true));
+                    let NomeAnexo = copia.find("input[name='NomeAnexo']");
+                    let NomeAnexo2 = copia.find('.noemarquivo');
+                    let base64 = "";
+                    let ConteudoAnexo = copia.find("input[name='ConteudoAnexo']");
+
+                    name = thisifile.name;
+                    base64 = e.target.result.split(',');
+
+                    //Pega somente a String Base64 e coloca da tag data-b64
+                    NomeAnexo.val(name);
+                    NomeAnexo2.text(name);
+                    ConteudoAnexo.data('b64', '' + base64[1] + '');
+
+                    copia.insertAfter(topoUpload);
+
+                    APP.component.FileUpload.bind();
+
+                    $("." + fileInput.data("spannroarquivos")).text(topoUpload.parent().find("div:visible").length - 1);
+                };
+
+                reader.readAsDataURL(thisifile);
+            }
+        }
+    },
+
+    fileUpload2RaiDrop: function (raiz, arquivos) {
+
+        //parcialmente duplciado com fileUpload2Rai
+        //Variaveis de auxilio
+        var fileInput = $(raiz).find('.raizdrop').find('input[type=file]');
+        var topoUpload = $(raiz).find('.raizdrop');
+
+        var origcopia = $(raiz).find('.raizdrop').find('.templatenovoarquivo').find("div")[0].cloneNode(true);
+
+        APP.component.FileUpload.fileUpload2RaiDropCommon(fileInput, topoUpload, origcopia, arquivos);
+    },
+
     fileUpload2Rai: function () {
 
         this.buttonUpload2Rai.unbind('click');
@@ -1001,40 +1059,10 @@ APP.component.FileUpload = {
             fileInput.unbind('change');
             fileInput.on('change', function () {
 
-                var copia = $($(this).closest('div').find('.templatenovoarquivo').find("div")[0].cloneNode(true));
+                var origcopia = $(this).closest('div').find('.templatenovoarquivo').find("div")[0].cloneNode(true);
 
                 var _files = this.files;
-
-                if (_files && _files[0]) {
-
-                    var reader = new FileReader();
-                    var name = "";
-
-                    reader.onload = function (e) {
-                        var NomeAnexo = copia.find("input[name='NomeAnexo']");
-                        var NomeAnexo2 = copia.find('.noemarquivo');
-                        var base64 = "";
-                        var ConteudoAnexo = copia.find("input[name='ConteudoAnexo']");
-
-                        name = fileInput.prop('files')[0].name;
-                        base64 = e.target.result.split(',');
-
-                        //Pega somente a String Base64 e coloca da tag data-b64
-                        NomeAnexo.val(name);
-                        NomeAnexo2.text(name);
-                        ConteudoAnexo.data('b64', '' + base64[1] + '');
-
-                        copia.insertAfter(topoUpload);
-
-                        APP.component.FileUpload.bind();
-
-                        $("." + fileInput.data("spannroarquivos")).text(topoUpload.parent().find("div:visible").length - 1);
-                    };
-
-                    reader.readAsDataURL(_files[0]);
-
-                }
-
+                APP.component.FileUpload.fileUpload2RaiDropCommon(fileInput, topoUpload, origcopia, _files);
             });
 
 
@@ -1097,7 +1125,12 @@ APP.component.FileUpload = {
 function FileUploadGlobal_getArrArquivo(_this, nomeChave1, nomeChave2) {
 
     let divArquivosSel = $(_this).data("divarquivos");
-    let arquivos = $(divArquivosSel).find(".upload-arq");
+    return FileUploadGlobal_getArrArquivoRaiz(divArquivosSel, nomeChave1, nomeChave2)
+}
+
+function FileUploadGlobal_getArrArquivoRaiz(raiz, nomeChave1, nomeChave2) {
+
+    let arquivos = $(raiz).find(".upload-arq");
     var arrAnexoAuditoria = new Array();
 
     for (let iarquivos = 0; iarquivos < arquivos.length; iarquivos++) {
@@ -1124,7 +1157,14 @@ function FileUploadGlobal_getArrArquivo(_this, nomeChave1, nomeChave2) {
         anexoAuditoria[nomeChave1] = arq.find("input[name='IdArquivoPlaiAnexo']").val();
         anexoAuditoria[nomeChave2] = arq.find("input[name='IdPlai']").val();
 
-        arrAnexoAuditoria.push(anexoAuditoria);
+        //se ainda nao existe e é para apagar, não colocamos
+        let inserir = true;
+        if (anexoAuditoria.ApagarAnexo != 0 && anexoAuditoria.ApagarAnexo != "0")
+            if (anexoAuditoria.IdAnexo == "" || anexoAuditoria.IdAnexo == "0")
+                inserir = false;
+
+        if (inserir)
+            arrAnexoAuditoria.push(anexoAuditoria);
     }
     return arrAnexoAuditoria;
 
@@ -1170,12 +1210,12 @@ APP.component.GestaoDeRiscoPartial = {
 
         this.setCriticidade();
         this.setERisco();
-		this.getERisco();
+        this.getERisco();
 
-		this.setInformarRisco();
-		this.getInformarRisco();
+        this.setInformarRisco();
+        this.getInformarRisco();
 
-   
+
 
         var numeroRisco = $('[name=numeroAC]').val();
         var busca = ".gestaoDeRiscoPartial-" + _temaSelected;
@@ -1196,10 +1236,10 @@ APP.component.GestaoDeRiscoPartial = {
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },
-			success: function (result) {
+            success: function (result) {
                 _divGestaoDeRisco.html(result);
-				_divGestaoDeRisco.find('[name=formGestaoDeRiscoRisco]').attr('name', 'formGestaoDeRiscoRisco-' + _temaSelected);
-				_divGestaoDeRisco.find('[name=formInformarGestaoDeRiscoRisco]').attr('name', 'formInformarGestaoDeRiscoRisco-' + _temaSelected);
+                _divGestaoDeRisco.find('[name=formGestaoDeRiscoRisco]').attr('name', 'formGestaoDeRiscoRisco-' + _temaSelected);
+                _divGestaoDeRisco.find('[name=formInformarGestaoDeRiscoRisco]').attr('name', 'formInformarGestaoDeRiscoRisco-' + _temaSelected);
                 APP.component.GestaoDeRiscoPartial.setHideAndShowGestaodeRisco(_divGestaoDeRisco);
             },
             error: function (result) {
@@ -1241,34 +1281,34 @@ APP.component.GestaoDeRiscoPartial = {
     //Changes
     setCriticidade: function (value, text) {
 
-    $('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
+        $('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
             APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(this);
         });
 
-	},
+    },
 
 
-	setInformarRisco: function () {
+    setInformarRisco: function () {
 
-		$('[name^=formInformarGestaoDeRiscoRisco]').unbind('change');
-		$('[name^=formInformarGestaoDeRiscoRisco]').on('change', function () {
-			
-			var ERisco = APP.component.GestaoDeRiscoPartial.getInformarRisco(this);
-			APP.component.GestaoDeRiscoPartial.setRulesInformarRisco(ERisco, this);
+        $('[name^=formInformarGestaoDeRiscoRisco]').unbind('change');
+        $('[name^=formInformarGestaoDeRiscoRisco]').on('change', function () {
 
-		});
+            var ERisco = APP.component.GestaoDeRiscoPartial.getInformarRisco(this);
+            APP.component.GestaoDeRiscoPartial.setRulesInformarRisco(ERisco, this);
 
-	},
+        });
+
+    },
 
 
 
-	//Auxiliares
-	getInformarRisco: function (_this) {
+    //Auxiliares
+    getInformarRisco: function (_this) {
 
-		var ERisco = $(_this).val();
-		return ERisco;
+        var ERisco = $(_this).val();
+        return ERisco;
 
-	},
+    },
 
     setERisco: function () {
 
@@ -1282,16 +1322,16 @@ APP.component.GestaoDeRiscoPartial = {
 
     },
 
-	setRulesInformarRisco: function (_ERisco, _this) {
-		if (_ERisco == "true") {
-			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').show();
-			APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(_this);
-		} else {
+    setRulesInformarRisco: function (_ERisco, _this) {
+        if (_ERisco == "true") {
+            $(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').show();
+            APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(_this);
+        } else {
 
-			$(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').hide();
-		}
+            $(_this).parent().parent().parent().parent().parent().parent().find('[name=divEsconder]').hide();
+        }
 
-	},
+    },
 
     //Auxiliares
     getERisco: function (_this) {
@@ -1343,8 +1383,8 @@ APP.component.GestaoDeRiscoPartial = {
     getRadioPossuiGestaoDeRisco: function () {
 
         $('[name^=formGestaoDeRiscoRisco]').unbind('change');
-		$('[name^=formGestaoDeRiscoRisco]').bind('change', function () {
-			
+        $('[name^=formGestaoDeRiscoRisco]').bind('change', function () {
+
             var radioPossuiGestaoDeRisco = APP.component.Radio.init('formGestaoDeRiscoRisco');
             if (radioPossuiGestaoDeRisco == "true") {
                 $(this).closest('#gestaoDeRisco').find('[name=InformacoesGestaoDeRisco]').show();

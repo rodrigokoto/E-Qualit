@@ -122,9 +122,20 @@
                                                         <p class="status-encerrada">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Encerrada</p>
                                                     }
                                                 </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.ResponsavelEtapa.NmCompleto)
-                                                </td>
+												<td>
+													@if (item.StatusEtapa == 3)
+													{
+														@Html.DisplayFor(modelItem => item.ResponsavelReverificador.NmCompleto)
+													}
+													else if (item.StatusEtapa == 2)
+													{
+														@Html.DisplayFor(modelItem => item.ResponsavelImplementar.NmCompleto)
+													}
+													else
+													{
+														@Html.DisplayFor(modelItem => item.ResponsavelEtapa.NmCompleto)
+													}
+												</td>
                                                 <td class="">
                                                     @Html.DisplayFor(modelItem => item.Tags)
                                                 </td>

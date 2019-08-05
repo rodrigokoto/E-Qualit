@@ -11,7 +11,7 @@ namespace DAL.EntityConfig
 
             ToTable("ArquivoDocDocumentoAnexo");
 
-            HasKey(x => x.IdArquivooControleDeDocumentoAnexo);
+            HasKey(x => x.IdArquivoControleDeDocumentoAnexo);
 
             Property(x => x.IdAnexo)
                 .IsRequired();
