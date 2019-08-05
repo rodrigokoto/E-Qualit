@@ -69,16 +69,10 @@
         ModalTittle = "Anexos da Não Conformidade",
         PodeAnexar = true
     };
-    compoenteUploadCabecalho.AnexosLista = listaEvidencias.ToList().Select(r =>
-    {
-        return
-    new Web.UI.Models.ArquivoAnexoItemViewModel()
-    {
-        AnexoDados = r,
-        IdChave1 = 0,
-        IdChave2 = 0
-    };
-    }).ToList();
+/*
+eduperez revisar
+*/
+    compoenteUploadCabecalho.AnexosLista = null;
 
 
 }
@@ -95,7 +89,7 @@
     </script>
 
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js?rnd=2")"></script>
+    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js?rnd=3")"></script>
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
 

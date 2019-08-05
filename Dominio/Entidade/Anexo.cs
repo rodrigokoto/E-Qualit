@@ -17,10 +17,6 @@ namespace Dominio.Entidade
         public DateTime DtCriacao { get; set; }
         public DateTime DtAlteracao { get; set; }
 
-        //informação somente da tela, solicitando para apagar
-        public int ApagarAnexo { get; set; } = 0;
-
-
         //Aux
         public string ArquivoB64 { get; set; }
 

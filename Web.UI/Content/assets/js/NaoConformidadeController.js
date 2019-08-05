@@ -1450,21 +1450,28 @@ APP.controller.NaoConformidadeController = {
 
     },
 
-    getAnexosEvidencias: function () {
-
+/*
+eduperez usar
         let raiz = $("#modal-rai" + "ncabeca")[0];
         let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "chavegrande", "chavepequena");
+*/
 
+    getAnexosEvidencias: function () {
 
         var anexoEvidenciaModel = APP.controller.ClienteController.models.AnexoModel;
         var arrayAnexoEvidencia = [];
 
-        for (let iret = 0; iret < ret.length; iret++) {
-            let item = ret[iret];
-            //javascript permite!
-            item.Anexo.ApagarAnexo = item.ApagarAnexo;
-            arrayAnexoEvidencia.push(item.Anexo);
-        }
+        $('.dashed li a:first-child').each(function () {
+
+            var nameImg = $(this).text();
+            var anexoEvidenciaNC = anexoEvidenciaModel.constructor(
+                $(this).closest('li').find('[name=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
+                nameImg,
+                $(this).data('b64')
+            );
+
+            arrayAnexoEvidencia.push(anexoEvidenciaNC);
+        });
 
         return arrayAnexoEvidencia;
 

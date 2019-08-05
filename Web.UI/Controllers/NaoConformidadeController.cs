@@ -450,6 +450,7 @@ namespace Web.UI.Controllers
                 }
                 else
                 {
+                    SalvarArquivoEvidencia(naoConformidade);
                     naoConformidade.StatusRegistro = 1;
                     naoConformidade = _registroConformidadesAppServico.SalvarPrimeiraEtapa(naoConformidade);
                     naoConformidade.Site = _siteService.GetById(naoConformidade.IdSite);
@@ -504,6 +505,23 @@ namespace Web.UI.Controllers
         }
 
         
+        private void SalvarArquivoEvidencia(RegistroConformidade nc)
+        {
+            if (nc.ArquivosDeEvidenciaAux.Count > 0)
+            {
+                nc.ArquivosDeEvidenciaAux.ForEach(arquivoEvidencia =>
+                {
+
+                    nc.ArquivosDeEvidencia.Add(new ArquivosDeEvidencia
+                    {
+                        Anexo = arquivoEvidencia,
+                        RegistroConformidade = nc,
+                        TipoRegistro = nc.TipoRegistro
+                    });
+                });
+            }
+        }
+
         private void TrataDadosParaCriacao(RegistroConformidade nc)
         {
             nc.TipoRegistro = _tipoRegistro;
@@ -638,6 +656,7 @@ namespace Web.UI.Controllers
                         TrataDadosParaCriacao_Edicao(naoConformidade);
                     }
                     */
+                        SalvarArquivoEvidencia(naoConformidade);
 
                     AtualizarDatasAgendadas(naoConformidade);
 

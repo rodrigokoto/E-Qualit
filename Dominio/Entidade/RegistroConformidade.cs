@@ -91,12 +91,11 @@ namespace Dominio.Entidade
         public string Tags { get; set; }
 
 
-        public virtual ICollection<ArquivosDeEvidencia> ArquivosDeEvidencia { get; set; }
-        
 
         #region Relacionamentos
 
         public virtual ICollection<ArquivoNaoConformidadeAnexo> ArquivoNaoConformidade { get; set; }
+        public virtual ICollection<ArquivosDeEvidencia> ArquivosDeEvidencia { get; set; }
         public virtual Usuario ResponsavelAcaoCorretiva { get; set; }
         public virtual Usuario ResponsavelAnalisar { get; set; }
         public virtual Usuario ResponsavelReverificador { get; set; }
