@@ -22,7 +22,7 @@ namespace DAL.EntityConfig
             #region Relacionamento
 
             HasRequired(s => s.NaoConformidade)
-                .WithMany(s => s.ArquivoNaoConformidade)
+                .WithMany(s => s.ArquivoNaoConformidadeAnexo)
                 .HasForeignKey(s => s.IdRegistroConformidade)
                 .WillCascadeOnDelete(false);
 
