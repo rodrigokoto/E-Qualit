@@ -38,6 +38,8 @@
 
     }
 
+    //para os anexos das acoes imediatas
+    var listaBotoesAcaoImeidataUpload = new List<Web.UI.Models.ArquivoAnexoViewModel>();
 }
 @section Metas {
     <meta name="page" content="CriarAcaoCorretiva" />
@@ -65,7 +67,7 @@
 
 @section scripts {
     <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js?rnd=2")"></script>
 }
 
 <script>
@@ -73,6 +75,12 @@
         $(".datepicker").datepicker();
     });
 </script>
+
+@{
+    Html.RenderPartial("Anexo/_AnexoSetup");
+}
+
+
 <div id="main">
     <div class="content-painel">
         <!-- hidden -->
@@ -315,6 +323,45 @@
 
                                                 </td>
                                                 <!-- Arquivo de Evidencia -->
+
+                                                @{
+                                                    var chaveDestecontroleUploadArquuivos = "upacaoimeidata" + @acaoImediata.IdAcaoImediata.ToString();
+                                                }
+                                                <td class="IdentificadorInicialupload" data-identificador="@(chaveDestecontroleUploadArquuivos )">
+                                                    @{
+                                                        int nroArquivos = acaoImediata.ArquivoEvidencia?.Count ?? 0;
+
+                                                        var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
+                                                        {
+                                                            IdentificadorInicial = chaveDestecontroleUploadArquuivos,
+                                                            TextoLink = Traducao.Resource.UploadArquivos,
+                                                            ModalTittle = Traducao.Resource.UploadArquivos,
+                                                            NumeroArquivos = nroArquivos,
+                                                            PodeAnexar = true
+                                                        };
+                                                        controleUploadArquuivos.AnexosLista = acaoImediata.ArquivoEvidencia?.ToList().Select(r =>
+                                                        {
+                                                            return
+                                                        new Web.UI.Models.ArquivoAnexoItemViewModel()
+                                                        {
+                                                            AnexoDados = r.Anexo,
+                                                            IdChave1 = r.IdArquivoDeEvidenciaAcaoImediata,
+                                                            IdChave2 = r.IdAcaoImediata
+                                                        };
+                                                        }).ToList();
+
+                                                        listaBotoesAcaoImeidataUpload.Add(controleUploadArquuivos);
+                                                        Html.RenderPartial("Anexo/_Anexo", controleUploadArquuivos);
+
+                                                    }
+                                                    @*
+                                                                                                                                            upload antigo
+                                                                                                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
+                                                                                                                                    </div>
+                                                                                                                                    @{
+
+
+
                                                 <td>
                                                     @{
                                                         var base64 = "";
@@ -351,7 +398,7 @@
                                                                data-msg-required=""
                                                                data-b64="@base64">
                                                     </div>
-
+                                                    *@
                                                 </td>
                                                 <!-- Acoes -->
                                                 <td>

@@ -298,6 +298,7 @@ namespace Web.UI.Controllers
             var gestaoDeRisco = _registroConformidadesAppServico.GetById(id);
 
             gestaoDeRisco.ArquivosDeEvidenciaAux.AddRange(gestaoDeRisco.ArquivosDeEvidencia.Select(x => x.Anexo));
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(gestaoDeRisco, true);
 
             if (gestaoDeRisco.AcoesImediatas.Count > 0)
             {
@@ -358,6 +359,7 @@ namespace Web.UI.Controllers
             var gestaoDeRisco = _registroConformidadesAppServico.GetById(id);
 
             gestaoDeRisco.ArquivosDeEvidenciaAux.AddRange(gestaoDeRisco.ArquivosDeEvidencia.Select(x => x.Anexo));
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(gestaoDeRisco, true);
 
             if (gestaoDeRisco.AcoesImediatas.Count > 0)
             {
@@ -1009,6 +1011,7 @@ namespace Web.UI.Controllers
         public ActionResult Imprimir(int id)
         {
             var analiseCritica = _registroConformidadesAppServico.GetById(id);
+            _registroConformidadesAppServico.CarregarArquivosNaoConformidadeAnexos2(analiseCritica, true);
 
             var pdf = new ViewAsPdf
             {
