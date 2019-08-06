@@ -542,29 +542,34 @@ namespace ApplicationService.Servico
 
         private void TrataRegistroAprovacaoReverificador(RegistroConformidade registroConformidade, List<RegistroAcaoImediata> listaAcaoImediataUpdate, RegistroConformidade objCtx)
         {
-/*
-feito abaixo, mas nao funcinou, continua limpando em todas
-            listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
-            {
-                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
-                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+			/*
+			feito abaixo, mas nao funcinou, continua limpando em todas*/
+			
 
-            });
-*/
 
             //List<RegistroAcaoImediata> lista = new List<RegistroAcaoImediata>();
             foreach (var item in listaAcaoImediataUpdate)
             {
-                if (item.Aprovado == false)
+
+				{
+					//estava limpando todas as ações imediatas
+					var acaoImediata = item;
+					{
+						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+					}
+				}
+
+				if (item.Aprovado == false)
                 {
-                    {
-                        //estava limpando todas as ações imediatas
-                        var acaoImediata = item;
-                        {
-                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
-                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
-                        }
-                    }
+                    //{
+                    //    //estava limpando todas as ações imediatas
+                    //    var acaoImediata = item;
+                    //    {
+                    //        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+                    //        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+                    //    }
+                    //}
 
                     //tem que apagar os anexos dessa linha
                     var acaoImediataparaLimpar = objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata);
