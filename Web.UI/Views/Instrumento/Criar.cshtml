@@ -17,6 +17,8 @@
     var listaPermissoes = new List<PermissoesApp>();
 
     listaPermissoes.AddRange(ViewBag.Permissoes);
+
+
 }
 @section Metas {
     <meta name="page" content="CriarInstrumentos" />
@@ -42,7 +44,7 @@
 
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/InstrumentosController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/InstrumentosController.js?rnd=2")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
 
 }
@@ -473,29 +475,21 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="form-pos-calibracao-certificado" class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_certificado</label>
-                                        @{
-                                            var nroArquivos = Model.ArquivoInstrumento == null ? 0 : Model.ArquivoInstrumento.Count;
-
-                                            var botao = new Web.UI.Models.ArquivoAnexoViewModel()
-                                            {
-                                                IdentificadorInicial = Model.IdInstrumento.ToString(),
-                                                TextoLink = "Anexos.",
-                                                NumeroArquivos = nroArquivos
-                                            };
-                                            @Html.Partial("Anexo/_Anexo", botao);
-                                        }
 
 
-                                        <div class="upload-arq form-control">
-                                            <a class="btn-upload-multiple-form-criar-cliente-contrato">
-                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                            </a>
-                                            <ul class="ulAnexos"></ul>
-                                            <input type="file" name="ArquivoCertificado" id="form-pos-calibracao-certificado"
-                                                   class=""
-                                                   data-msg-required=""
-                                                   data-b64=""
-                                                   multiple="multiple">
+                                        <div>
+                                            <span id="uploadbotaodestino"></span>
+                                            @*
+                                                <a class="btn-upload-multiple-form-criar-cliente-contrato">
+                                                    <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                                </a>
+                                                <ul class="ulAnexos"></ul>
+                                                <input type="file" name="ArquivoCertificado" id="form-pos-calibracao-certificado"
+                                                       class=""
+                                                       data-msg-required=""
+                                                       data-b64=""
+                                                       multiple="multiple">
+                                            *@
                                         </div>
                                     </div>
                                 </div>
@@ -514,6 +508,77 @@
         </form>
     </div>
 </div>
+
+
+
+@{
+
+    //para os anexos das calibracoes
+    //a chave do dicionario é o idcalibracao
+    var listaBotoesCalibracaoUpload = new Dictionary<int, Web.UI.Models.ArquivoAnexoViewModel>();
+
+
+
+    var listaCalibracoes = Model.Calibracao;
+    if (listaCalibracoes == null)
+    {
+        listaCalibracoes = new List<Dominio.Entidade.Calibracao>();
+    }
+
+    //tem que ter um para o zero (nova calibracao)
+
+    listaCalibracoes.Add(new Dominio.Entidade.Calibracao() { IdCalibracao = 0, ArquivoCertificado = new List<Dominio.Entidade.ArquivoCertificadoAnexo>() });
+
+    foreach (var calibracao in listaCalibracoes)
+    {
+        var chaveDestecontroleUploadArquuivos = "upacaoimeidata" + calibracao.IdCalibracao.ToString();
+
+        var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
+        {
+            IdentificadorInicial = chaveDestecontroleUploadArquuivos,
+            TextoLink = "Certificados",
+            ModalTittle = Traducao.Resource.UploadArquivos,
+            NumeroArquivos = calibracao.ArquivoCertificado?.Count ?? 0,
+            PodeAnexar = true
+        };
+        controleUploadArquuivos.AnexosLista = calibracao.ArquivoCertificado?.ToList().Select(r =>
+        {
+            return
+        new Web.UI.Models.ArquivoAnexoItemViewModel()
+        {
+            AnexoDados = r.Anexo,
+            IdChave1 = r.IdArquivoCertificadoAnexo,
+            IdChave2 = r.IdCalibracao
+        };
+        }).ToList();
+
+        listaBotoesCalibracaoUpload.Add(calibracao.IdCalibracao, controleUploadArquuivos);
+
+    }
+}
+
+@{
+    //agora renderizamos todo mundo
+
+    Html.RenderPartial("Anexo/_AnexoSetup");
+
+    foreach (var esteUpload in listaBotoesCalibracaoUpload)
+    {
+        <span id="uploadbotao@(esteUpload.Key)">
+            @{
+                Html.RenderPartial("Anexo/_Anexo", esteUpload.Value);
+            }
+        </span>
+    }
+
+    foreach (var esteUpload in listaBotoesCalibracaoUpload)
+    {
+        Html.RenderPartial("Anexo/_ModalAnexo", esteUpload.Value);
+    }
+
+}
+
+
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-md-12">
@@ -565,7 +630,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    
+
                 </div>
             </div>
         </div>

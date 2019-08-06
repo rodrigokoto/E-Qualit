@@ -325,7 +325,7 @@ APP.controller.InstrumentosController = {
             OrgaoCalibrador: $('#form-pos-calibracao').find('[name=OrgaoCalibrador]').val(),
             Aprovador: $('#form-pos-calibracao').find('[name=Aprovador]').val(),
             Aprovado: $('input[name="Aprovado"]:checked').val(),
-            ArquivoCertificadoAux: APP.controller.InstrumentosController.getArquivoCertificadoAnexos(),
+            ArquivoCertificadoAux: APP.controller.InstrumentosController.getArquivoCertificadoAnexos($("#IdCalibracao").val()),
             Observacoes: $('#form-pos-calibracao').find('[name=Observacoes]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
             NomeUsuarioAprovador: $('#form-pos-calibracao').find('[name=Aprovador] option:selected').text(),
         };
@@ -360,9 +360,10 @@ APP.controller.InstrumentosController = {
         return PosCalibracao;
     },
 
-    getArquivoCertificadoAnexos: function () {
-
-
+    getArquivoCertificadoAnexos: function (IdCalibracao) {
+        debugger;
+        /*
+         * componente antigo
         var anexoContratoModel = APP.controller.ClienteController.models.AnexoModel;
         var arrayAnexoArquivoCertificado = [];
 
@@ -379,6 +380,11 @@ APP.controller.InstrumentosController = {
         });
 
         return arrayAnexoArquivoCertificado;
+        */
+        let raiz = $("#modal-raiupacaoimeidata" + IdCalibracao)[0];
+        let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoCertificadoAnexo", "IdCalibracao");
+        return ret;
+
     },
 
     getEditPosCalibracao: function (result) {
@@ -470,6 +476,9 @@ APP.controller.InstrumentosController = {
         $('.pills-parametros-pos-calibracao').removeClass('hide').addClass('show');
         $('.pills-tabela-calibracao').removeClass('show').addClass('hide');
         APP.controller.InstrumentosController.showTablePosCalibracaoParametros();
+        //transfere o botão correto
+        $("#uploadbotaodestino").html($("#uploadbotao0").html());
+
 
     },
 
@@ -617,7 +626,8 @@ APP.controller.InstrumentosController = {
                 success: function (result) {
                     if (result.StatusCode == 200) {
                         APP.controller.InstrumentosController.getEditPosCalibracao(result.Calibracao);
-
+                        //transfere o botão correto
+                        $("#uploadbotaodestino").html($("#uploadbotao" + result.Calibracao.IdCalibracao).html());
 
                     }
                 },
