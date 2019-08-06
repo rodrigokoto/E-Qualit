@@ -979,6 +979,7 @@ APP.controller.InstrumentosController = {
         var newRow =
             [
                 calibracao.IdCalibracao,
+                calibracao.IdFilaEnvio,
                 calibracao.Certificado,
                 calibracao.DataCalibracao,
                 calibracao.DataProximaCalibracao,
