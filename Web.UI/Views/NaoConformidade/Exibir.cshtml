@@ -564,7 +564,7 @@
                             <div class="row pull-right">
                                 <div class="col-md-12">
 
-                                    @if (ViewBag.IdPerfil == 3)
+                                    @if (ViewBag.IdPerfil != 4)
                                     {
                                         <button type="button" id="btn-destravar-view" onclick="location.href= '@Url.Action("Editar" , "NaoConformidade")' + '/@Model.IdRegistroConformidade' + '?destravar=True'" class="btn btn-primary btn-destravar-view">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
                                     }

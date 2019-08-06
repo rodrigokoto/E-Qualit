@@ -117,8 +117,10 @@ APP.controller.NaoConformidadeController = {
         }
         if (page == "CriarNaoConformidade") {
             this.acoesNaoConformidade();
-        }
-        if (typeof (destavar) != "undefined" && destravar === 'True') {
+		}
+		//typeof (destavar) != "undefined" && 
+		if (destravar === 'True') {
+			
             this.HabilitaCamposNaoConformidade(perfil);
         }
 
