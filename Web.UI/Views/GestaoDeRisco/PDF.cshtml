@@ -353,26 +353,22 @@
                                                         <!-- Arquivo de Evidencia -->
                                                         <td>
                                                             @{
-                                                                var base64 = "";
-                                                                var dataB64 = "";
-                                                                var nomeAnexo = "";
-                                                                var extensao = "";
-                                                                var idAnexo = 0;
                                                                 if (acaoImediata.ArquivoEvidencia.Count > 0)
                                                                 {
-                                                                    idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                                    extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                                    nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
-                                                                    base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                                    dataB64 = base64;
-                                                                    base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+                                                                    foreach (var acaoImediataArquivoEvidencia in acaoImediata.ArquivoEvidencia)
+                                                                    {
+                                                                        var nomeAnexo = "";
+                                                                        nomeAnexo = acaoImediataArquivoEvidencia.Anexo.Nome;
 
+                                                                        @nomeAnexo
+                                                                        <br />
+                                                                    }
                                                                 }
+
                                                             }
 
-                                                            @nomeAnexo
-
                                                         </td>
+                                                        
                                                         <!-- Acoes -->
                                                         <td>
                                                             @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)

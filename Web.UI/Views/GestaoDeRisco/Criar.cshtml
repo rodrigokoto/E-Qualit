@@ -7,8 +7,8 @@
 
     @section scripts {
         <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
-        <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js")"></script>
-        <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+        <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js?rnd=2")"></script>
+        <script src="@Url.Content("~/Content/assets/js/ClienteController.js?rnd=2")"></script>
     }
     var funcoes = new List<int>
 {
@@ -42,6 +42,29 @@
         });
 
     }
+
+
+    var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
+    {
+        IdentificadorInicial = "ncabeca",
+        TextoLink = "Anexar",
+        NumeroArquivos = Model.ArquivosNaoConformidadeAnexos.Count(),
+        ModalTittle = "Anexos da Não Conformidade",
+        PodeAnexar = true
+    };
+    compoenteUploadCabecalho.AnexosLista = Model.ArquivosNaoConformidadeAnexos.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoNaoConformidadeAnexo,
+        IdChave2 = r.IdRegistroConformidade
+    };
+    }).ToList();
+
+    //para os anexos das acoes imediatas
+    var listaBotoesAcaoImeidataUpload = new List<Web.UI.Models.ArquivoAnexoViewModel>();
 
 }
 @section Metas {
@@ -93,6 +116,12 @@
 
 </script>
 
+@{
+    Html.RenderPartial("Anexo/_AnexoSetup");
+    Html.RenderPartial("Anexo/_ModalAnexo", compoenteUploadCabecalho);
+}
+
+
 <div id="main">
     <div class="content-painel">
         <!-- hidden -->
@@ -136,134 +165,140 @@
                             <!-- Arquivo de Evidencia -->
                             <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
                                 <div class="form-group">
-                                    <label for="form-cria-cliente-contrato" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Arquivo_evidencia</label>
-                                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)">
-                                        <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
-                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                        </a>
+                                    @{
+                                        Html.RenderPartial("Anexo/_Anexo", compoenteUploadCabecalho);
+                                    }
+                                    @*
 
-                                        <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
-                                            @if (listaEvidencias.Count > 0)
-                                            {
-                                                foreach (var evidencia in listaEvidencias)
-                                                {
-                                                    <li>
-                                                        <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
-                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
-                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
-                                                    </li>
+                    <label for="form-cria-cliente-contrato" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Arquivo_evidencia</label>
+                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)">
+                        <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
+                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                        </a>
 
-                                                }
-                                            }
+                        <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
+                            @if (listaEvidencias.Count > 0)
+                            {
+                                foreach (var evidencia in listaEvidencias)
+                                {
+                                    <li>
+                                        <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
+                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
+                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
+                                    </li>
 
-                                        </ul>
-                                        <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
-                                               class=""
-                                               data-msg-required=""
-                                               data-b64=""
-                                               multiple="multiple">
-                                    </div>
-                                </div>
-                            </div>
+                                }
+                            }
+
+                        </ul>
+                        <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
+                               class=""
+                               data-msg-required=""
+                               data-b64=""
+                               multiple="multiple">
+                                        *@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <!-- Data de Emissao -->
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                    <div class="form-group">
+                        <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao</label>
+                        <br />
+                        <div class='input-group input-group-datepicker'>
+                            <input type='text' name="formCriarNaoConformidadeDtEmissao" id="form-criar-nao-conformidade-dt-emissao"
+                                   class="form-control data datepicker largura-calendario"
+                                   placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_placeholder_DtEmissao"
+                                   data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_DtEmissao"
+                                   value="@Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)" />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </span>
                         </div>
-                        <div class="row">
-                            <div>
-                                <!-- Data de Emissao -->
-                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-                                    <div class="form-group">
-                                        <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao</label>
-                                        <br />
-                                        <div class='input-group input-group-datepicker'>
-                                            <input type='text' name="formCriarNaoConformidadeDtEmissao" id="form-criar-nao-conformidade-dt-emissao"
-                                                   class="form-control data datepicker largura-calendario"
-                                                   placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_placeholder_DtEmissao"
-                                                   data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_DtEmissao"
-                                                   value="@Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)" />
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Processo -->
-                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-                                    <div class="form-group">
-                                        <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Processo</label>
+                    </div>
+                </div>
+                <!-- Processo -->
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                    <div class="form-group">
+                        <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Processo</label>
 
-                                        <select id="form-criar-nao-conformidade-processo" name="formCriarNaoConformidadeProcesso" class="form-control"
-                                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Processo">
-                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                            @if (Model.IdProcesso != 0 && Model.IdProcesso != null)
-                                            {
-                                                <option value="@Model.IdProcesso" selected>@(Model.Processo != null ? @Model.Processo.Nome : "")</option>
-                                            }
-                                        </select>
+                        <select id="form-criar-nao-conformidade-processo" name="formCriarNaoConformidadeProcesso" class="form-control"
+                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Processo">
+                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                            @if (Model.IdProcesso != 0 && Model.IdProcesso != null)
+                            {
+                                <option value="@Model.IdProcesso" selected>@(Model.Processo != null ? @Model.Processo.Nome : "")</option>
+                            }
+                        </select>
 
-                                    </div>
-                                </div>
-                                <!-- Emissor -->
-                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-                                    <div class="form-group">
-                                        <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Emissor</label>
+                    </div>
+                </div>
+                <!-- Emissor -->
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                    <div class="form-group">
+                        <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Emissor</label>
 
-                                        @*@if (ViewBag.IdPerfil == 3)
-                                            {
-                                                <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
-                                                        data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
-                                                    <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                                    @if (Model.IdEmissor != 0)
-                                                    {
-                                                        <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-                                                    }
-
-                                                </select>
-                                            }*@
-                                        @if (ViewBag.IdPerfil != 4)
+                        @*@if (ViewBag.IdPerfil == 3)
+                                    {
+                                    <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
+                                            data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdEmissor != 0)
                                         {
-
-                                            <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
-                                                    data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
-                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                                @if (Model.IdEmissor != 0)
-                                                {
-                                                    <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-                                                }
-                                            </select>
+                                            <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
                                         }
                                         else
                                         {
-											<select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
-													data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
-
-												<option value="">@Traducao.Resource.Dropdown_name_select</option>
-
-												@if (Model.IdEmissor != 0)
-												{
-													<option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
-												}
-												else
-												{
-													<option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-												}
-
-
-												
-
-											</select>
-
+                                            <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
                                         }
 
+                                    </select>
+                                    }*@
+                                    @if (ViewBag.IdPerfil != 4)
+                                    {
+
+                                        <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
+                                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            @if (Model.IdEmissor != 0)
+                                            {
+                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                            }
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
+                                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
+
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+
+                                            @if (Model.IdEmissor != 0)
+                                            {
+                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                            }
 
 
-                                    </div>
+
+
+                                        </select>
+
+                                    }
+
+
+
+                                </div>
 
 
 
@@ -537,49 +572,84 @@
                                                 </td>
 
                                                 <!-- Arquivo de Evidencia -->
-                                                <td>
+
+                                                @{
+                                                    var chaveDestecontroleUploadArquuivos = "upacaoimeidata" + @acaoImediata.IdAcaoImediata.ToString();
+                                                }
+                                                <td class="IdentificadorInicialupload" data-identificador="@(chaveDestecontroleUploadArquuivos )">
                                                     @{
-                                                        var base64 = "";
-                                                        var dataB64 = "";
-                                                        var nomeAnexo = "";
-                                                        var extensao = "";
-                                                        var idAnexo = 0;
-                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
-                                                        {
-                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
-                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                            dataB64 = base64;
-                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+                                                        int nroArquivos = acaoImediata.ArquivoEvidencia?.Count ?? 0;
 
-                                                        }
+                                                        var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
+                                                        {
+                                                            IdentificadorInicial = chaveDestecontroleUploadArquuivos,
+                                                            TextoLink = Traducao.Resource.UploadArquivos,
+                                                            ModalTittle = Traducao.Resource.UploadArquivos,
+                                                            NumeroArquivos = nroArquivos,
+                                                            PodeAnexar = true
+                                                        };
+                                                        controleUploadArquuivos.AnexosLista = acaoImediata.ArquivoEvidencia?.ToList().Select(r =>
+                                                        {
+                                                            return
+                                                        new Web.UI.Models.ArquivoAnexoItemViewModel()
+                                                        {
+                                                            AnexoDados = r.Anexo,
+                                                            IdChave1 = r.IdArquivoDeEvidenciaAcaoImediata,
+                                                            IdChave2 = r.IdAcaoImediata
+                                                        };
+                                                        }).ToList();
+
+                                                        listaBotoesAcaoImeidataUpload.Add(controleUploadArquuivos);
+                                                        Html.RenderPartial("Anexo/_Anexo", controleUploadArquuivos);
+
                                                     }
+                                                    @*
+                                                                                                                                                upload antigo
 
-                                                    <div class="upload-arq form-control" style="height: 40px !important">
-                                                        @if (acaoImediata.ArquivoEvidencia.Count == 0)
-                                                        {
-                                                            <a class="btn-upload-file-evidencia btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" style="width: 80px">
-                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                                            </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="hide">@nomeAnexo</i>
-                                                        }
-                                                        <ul>
-                                                            <li>
-                                                                <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
-                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
-                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
-                                                            </li>
-                                                        </ul>
-                                                        <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
-                                                               class=""
-                                                               data-msg-required=""
-                                                               data-b64="@dataB64">
-                                                    </div>
 
+                                                                                            <td>
+                                                        @{
+                                                            var base64 = "";
+                                                            var dataB64 = "";
+                                                            var nomeAnexo = "";
+                                                            var extensao = "";
+                                                            var idAnexo = 0;
+                                                            if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                            {
+                                                                idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                                extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                                nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
+                                                                base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                dataB64 = base64;
+                                                                base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+
+                                                            }
+                                                        }
+
+                                                        <div class="upload-arq form-control" style="height: 40px !important">
+                                                            @if (acaoImediata.ArquivoEvidencia.Count == 0)
+                                                            {
+                                                                <a class="btn-upload-file-evidencia btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" style="width: 80px">
+                                                                    <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                                                </a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="hide">@nomeAnexo</i>
+                                                            }
+                                                            <ul>
+                                                                <li>
+                                                                    <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
+                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                                </li>
+                                                            </ul>
+                                                            <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
+                                                                   class=""
+                                                                   data-msg-required=""
+                                                                   data-b64="@dataB64">
+                                                        </div>
+                                                    *@
                                                 </td>
                                                 <!-- Acoes -->
                                                 <td>
@@ -707,6 +777,18 @@
 
     </div>
 </div>
+
+@{
+    //caixas de dialogo das acoes imediatas anexos
+    foreach (var botao in listaBotoesAcaoImeidataUpload)
+    {
+        Html.RenderPartial("Anexo/_ModalAnexo", botao);
+    }
+}
+
+
+
+
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-md-12">

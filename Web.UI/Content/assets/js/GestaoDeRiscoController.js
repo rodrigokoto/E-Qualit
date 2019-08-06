@@ -309,6 +309,7 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataEProcedente]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeTags]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeCausa]').prop('disabled', _disabled);
+        $('.botaouploadarquivos').prop('disabled', _disabled);
 
     },
 
@@ -397,6 +398,7 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeCausa]').prop('disabled', _disabled);
 
+        $('.botaouploadarquivos').prop('disabled', _disabled);
     },
 
     setShowInputsEtapa2: function () {
@@ -413,12 +415,22 @@ APP.controller.GestaoDeRiscoController = {
                     $(this).find('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#fff');
                     $(this).find('[name=anxFile]').find('a').css("pointer-events", "none");
                     $(this).find('[name=anxFile]').find('a').prop('disabled', true);
+
+
+
+                    $(this).find('.botaouploadarquivos').prop('disabled', true);
+                    $("#" + $(this).find('.botaouploadarquivos').data('outrobotaodesab')).find('.botaouploadarquivos').prop('disabled', false);
+
                 }
                 else {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
                     $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', false);
                     $(this).find('[name=anxFile]').find('a').prop('disabled', false);
                     $(this).find('[name=anxFile]').find('a').css("pointer-events", "visible");
+
+
+                    $(this).find('.botaouploadarquivos').prop('disabled', false);
+                    $("#" + $(this).find('.botaouploadarquivos').data('outrobotaodesab')).find('.botaouploadarquivos').prop('disabled', false);
                 }
                 $(this).find('[name=formAcaoImadiataTbEvidencia]').prop('disabled', false);
                 $(this).find('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', false);
@@ -488,6 +500,9 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeCausa]').prop('disabled', _disabled);
+
+        $('.botaouploadarquivos').prop('disabled', _disabled);
+
     },
 
     setShowInputsEtapa3: function () {
@@ -779,6 +794,7 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeCausa]').prop('disabled', _disabled);
 
+        $('.botaouploadarquivos').prop('disabled', _disabled);
     },
 
     setShowInputsEtapa4: function () {
@@ -1020,6 +1036,7 @@ APP.controller.GestaoDeRiscoController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                     DsJustificativa: $('[name=formCriarNaoConformidadeDsJustificativa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
@@ -1058,6 +1075,7 @@ APP.controller.GestaoDeRiscoController = {
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                 };
 
@@ -1088,6 +1106,7 @@ APP.controller.GestaoDeRiscoController = {
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                 };
                 break;
@@ -1116,6 +1135,7 @@ APP.controller.GestaoDeRiscoController = {
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                     FlEficaz: APP.controller.GestaoDeRiscoController.getFoiEficaz(),
                 };
@@ -1145,6 +1165,7 @@ APP.controller.GestaoDeRiscoController = {
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                     FlEficaz: APP.controller.GestaoDeRiscoController.getFoiEficaz(),
                 };
@@ -1176,7 +1197,13 @@ APP.controller.GestaoDeRiscoController = {
 
     },
 
-    //Formulario Acao Imediata
+    getAnexosArquivosNaoConformidadeAnexos() {
+        let raiz = $("#modal-rai" + "ncabeca")[0];
+        let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoNaoConformidadeAnexo", "IdRegistroConformidade");
+        return ret;
+    },
+
+     //Formulario Acao Imediata
     formAcaoImediata: function () {
 
         this.setAndHideAcaoImediata();
@@ -1387,6 +1414,7 @@ APP.controller.GestaoDeRiscoController = {
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
                         $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
                     ),
+                    SubmitArquivoEvidencia: APP.controller.GestaoDeRiscoController.getAnexosAcaoImediata($(tr).find(".IdentificadorInicialupload").data("identificador")),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                 };
@@ -1421,7 +1449,13 @@ APP.controller.GestaoDeRiscoController = {
 
     },
 
-    //Edit
+    getAnexosAcaoImediata(identificador) {
+        let raiz = $("#modal-rai" + identificador)[0];
+        let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoDeEvidenciaAcaoImediata", "IdAcaoImediata");
+        return ret;
+    },
+
+     //Edit
     getTemasCores: function () {
 
         var divBarRating = $('.barraRating');
@@ -1598,6 +1632,7 @@ APP.controller.GestaoDeRiscoController = {
         if (perfil == '4') {
 
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
+            $('.botaouploadarquivos').removeAttr('disabled');
             //$("#form-criar-nao-conformidade-processo").attr("disabled", true);
             $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
@@ -1608,6 +1643,7 @@ APP.controller.GestaoDeRiscoController = {
         else {
 
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
+            $('.botaouploadarquivos').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
             $('.br-widget').removeClass('barRating-disabled');
@@ -1659,6 +1695,7 @@ APP.controller.GestaoDeRiscoController = {
             if (perfil == '4') {
 
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
+                $('.botaouploadarquivos').removeAttr('disabled');
                 //$("#form-criar-nao-conformidade-processo").attr("disabled", true);
                 $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
@@ -1678,6 +1715,7 @@ APP.controller.GestaoDeRiscoController = {
             else {
 
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
+                $('.botaouploadarquivos').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
