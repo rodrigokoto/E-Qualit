@@ -686,12 +686,12 @@ APP.controller.GestaoDeRiscoController = {
     setBackChecksOnPage: function () {
         $('.fa-check-circle, .fa-times-circle').unbind('click');
         $('.fa-check-circle, .fa-times-circle').on('click', function () {
-            $(this).closest('td').find('.btn-ok-acao-imediata').fadeOut(300);
-            $(this).closest('td').find('.btn-notok-acao-imediata').fadeOut(300);
-            $(this).closest('td').find('.btn-confirm-acao-imediata').delay(400).fadeIn(300);
-            $(this).closest('td').find('.btn-denied-acao-imediata').delay(400).fadeIn(300);
-            $(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val('');
-            APP.controller.GestaoDeRiscoController.getChecksAcaoImediata();
+            //$(this).closest('td').find('.btn-ok-acao-imediata').fadeOut(300);
+            //$(this).closest('td').find('.btn-notok-acao-imediata').fadeOut(300);
+            //$(this).closest('td').find('.btn-confirm-acao-imediata').delay(400).fadeIn(300);
+            //$(this).closest('td').find('.btn-denied-acao-imediata').delay(400).fadeIn(300);
+            //$(this).closest('td').find('[name=formAcaoImadiataTbAprovado]').val('');
+            //APP.controller.GestaoDeRiscoController.getChecksAcaoImediata();
 
         });
     },
