@@ -542,6 +542,16 @@ namespace ApplicationService.Servico
 
         private void TrataRegistroAprovacaoReverificador(RegistroConformidade registroConformidade, List<RegistroAcaoImediata> listaAcaoImediataUpdate, RegistroConformidade objCtx)
         {
+/*
+feito abaixo, mas nao funcinou, continua limpando em todas
+            listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
+            {
+                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+
+            });
+*/
+
             //List<RegistroAcaoImediata> lista = new List<RegistroAcaoImediata>();
             foreach (var item in listaAcaoImediataUpdate)
             {
@@ -564,24 +574,10 @@ namespace ApplicationService.Servico
                         {
                             //apagamos deirtamente do anexo
                             _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo));
-                            continue;
                         }
                     }
 
                     objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).DtEfetivaImplementacao = null;
-
-                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
-                    //foreach (var itemLocal in item.ArquivoEvidencia)
-                    //{
-                    //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.FirstOrDefault(x => x.IdAcaoImediata == itemLocal.IdAcaoImediata).Anexo = null;
-                    //    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.FirstOrDefault(x => x.IdAcaoImediata == itemLocal.IdAcaoImediata).AcaoImediata = null;
-
-
-                    //}
-
-                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidencia.();
-
-                    //objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux = null;
 
                     objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).Observacao = string.Empty;
 

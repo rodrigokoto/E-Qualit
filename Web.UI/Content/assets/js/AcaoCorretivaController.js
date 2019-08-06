@@ -221,6 +221,7 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formCriarNaoConformidadeProcesso]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeEmissor]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeResponsavel]').prop('disabled', _disabled);
+        $('.botaouploadarquivos').prop('disabled', _disabled);
 
     },
 
@@ -313,6 +314,7 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
 
+        $('.botaouploadarquivos').prop('disabled', _disabled);
     },
 
 
@@ -328,6 +330,11 @@ APP.controller.AcaoCorretivaController = {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
                     $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', true);
+
+
+                    $(this).find('.botaouploadarquivos').prop('disabled', true);
+                    $("#" + $(this).find('.botaouploadarquivos').data('outrobotaodesab')).find('.botaouploadarquivos').prop('disabled', false);
+
                     //$('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
                     $(this).find('[name=anxFile]').find('a').css("pointer-events", "none");
                     $(this).find('[name=anxFile]').find('a').prop('disabled', true);
@@ -339,6 +346,9 @@ APP.controller.AcaoCorretivaController = {
                 else {
                     $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
                     $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', false);
+
+                    $(this).find('.botaouploadarquivos').prop('disabled', false);
+                    $("#" + $(this).find('.botaouploadarquivos').data('outrobotaodesab')).find('.botaouploadarquivos').prop('disabled', false);
 
                     //$(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val("");
                     //$('.upload-arq.form-control').not('.box-upload-arq').find('a').css("pointer-events", "none");
@@ -425,6 +435,7 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataTbEvidencia]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
 
+        $('.botaouploadarquivos').prop('disabled', _disabled);
     },
 
     setShowInputsEtapa3: function () {
@@ -711,6 +722,7 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
 
+        $('.botaouploadarquivos').prop('disabled', _disabled);
     },
 
     setShowInputsEtapa4: function () {
@@ -1160,6 +1172,7 @@ APP.controller.AcaoCorretivaController = {
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
                         $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
                     ),
+                    SubmitArquivoEvidencia: APP.controller.AcaoCorretivaController.getAnexosAcaoImediata($(tr).find(".IdentificadorInicialupload").data("identificador")),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                 };
@@ -1188,6 +1201,7 @@ APP.controller.AcaoCorretivaController = {
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
                         $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
                     ),
+                    SubmitArquivoEvidencia: APP.controller.AcaoCorretivaController.getAnexosAcaoImediata($(tr).find(".IdentificadorInicialupload").data("identificador")),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                 };
             }
@@ -1197,6 +1211,12 @@ APP.controller.AcaoCorretivaController = {
 
         return getObjFormAcaoImediataArray;
 
+    },
+
+    getAnexosAcaoImediata(identificador) {
+        let raiz = $("#modal-rai" + identificador)[0];
+        let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoDeEvidenciaAcaoImediata", "IdAcaoImediata");
+        return ret;
     },
 
     //Todos
