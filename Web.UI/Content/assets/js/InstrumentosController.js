@@ -326,6 +326,7 @@ APP.controller.InstrumentosController = {
             Aprovador: $('#form-pos-calibracao').find('[name=Aprovador]').val(),
             Aprovado: $('input[name="Aprovado"]:checked').val(),
             ArquivoCertificadoAux: APP.controller.InstrumentosController.getArquivoCertificadoAnexos($("#IdCalibracao").val()),
+            SubmitArquivosCertificado: APP.controller.InstrumentosController.getArquivoCertificadoAnex2($("#IdCalibracao").val()),
             Observacoes: $('#form-pos-calibracao').find('[name=Observacoes]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
             NomeUsuarioAprovador: $('#form-pos-calibracao').find('[name=Aprovador] option:selected').text(),
         };
@@ -361,9 +362,7 @@ APP.controller.InstrumentosController = {
     },
 
     getArquivoCertificadoAnexos: function (IdCalibracao) {
-        debugger;
-        /*
-         * componente antigo
+         //componente antigo
         var anexoContratoModel = APP.controller.ClienteController.models.AnexoModel;
         var arrayAnexoArquivoCertificado = [];
 
@@ -380,7 +379,9 @@ APP.controller.InstrumentosController = {
         });
 
         return arrayAnexoArquivoCertificado;
-        */
+    },
+
+    getArquivoCertificadoAnex2: function (IdCalibracao) {
         let raiz = $("#modal-raiupacaoimeidata" + IdCalibracao)[0];
         let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoCertificadoAnexo", "IdCalibracao");
         return ret;

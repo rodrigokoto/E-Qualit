@@ -27,6 +27,8 @@ namespace Dominio.Entidade
         //public string ArquivoCertificado { get; set; }
 
         public List<Anexo> ArquivoCertificadoAux { get; set; }
+        public List<ArquivoCertificadoAnexo> SubmitArquivosCertificado { get; set; }
+
         public virtual ICollection<ArquivoCertificadoAnexo> ArquivoCertificado { get; set; }
 
         public DateTime ? DataCalibracao { get; set; }
