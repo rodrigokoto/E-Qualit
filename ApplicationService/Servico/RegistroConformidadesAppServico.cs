@@ -542,17 +542,20 @@ namespace ApplicationService.Servico
 
         private void TrataRegistroAprovacaoReverificador(RegistroConformidade registroConformidade, List<RegistroAcaoImediata> listaAcaoImediataUpdate, RegistroConformidade objCtx)
         {
-            listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
-            {
-                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
-                objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
-
-            });
             //List<RegistroAcaoImediata> lista = new List<RegistroAcaoImediata>();
             foreach (var item in listaAcaoImediataUpdate)
             {
                 if (item.Aprovado == false)
                 {
+                    {
+                        //estava limpando todas as ações imediatas
+                        var acaoImediata = item;
+                        {
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+                        }
+                    }
+
                     //tem que apagar os anexos dessa linha
                     var acaoImediataparaLimpar = objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata);
                     if (acaoImediataparaLimpar != null)
