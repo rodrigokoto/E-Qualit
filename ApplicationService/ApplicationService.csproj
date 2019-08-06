@@ -77,7 +77,7 @@
     <Compile Include="Interface\IArquivoInstrumentoAppServico.cs" />
     <Compile Include="Interface\IArquivoControleDeDocumentoAppServico.cs" />
     <Compile Include="Interface\IArquivoDeEvidenciaAcaoImediata.cs" />
-    <Compile Include="Interface\IArquivoNaoConformidadeAppServico.cs" />
+    <Compile Include="Interface\IArquivoNaoConformidadeAnexoAppServico.cs" />
     <Compile Include="Interface\IArquivoPlaiAnexoAppServico.cs" />
     <Compile Include="Interface\IArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
     <Compile Include="Interface\IArquivoCertificadoAnexoAppServico.cs" />
@@ -139,6 +139,7 @@
     <Compile Include="Servico\AnaliseCriticaTemaAppServico.cs" />
     <Compile Include="Servico\AnexoAppServico.cs" />
     <Compile Include="Servico\ArquivoDeEvidenciaAcaoImediataAppServico.cs" />
+    <Compile Include="Servico\ArquivoNaoConformidadeAnexoAppServico.cs" />
     <Compile Include="Servico\ArquivoPlaiAnexoAppServico.cs" />
     <Compile Include="Servico\ArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
     <Compile Include="Servico\ArquivoCertificadoAnexoAppServico.cs" />

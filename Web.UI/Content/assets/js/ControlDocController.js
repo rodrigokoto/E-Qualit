@@ -3354,6 +3354,8 @@ APP.controller.ControlDocController = {
                     $('.btn-enviar-aprovacao').show();
                     $('.btn-voltar-elaboracao').show();
                     $("input").attr("disabled", "disabled");
+                    $(".botaouploadarquivos").prop('disabled', true);
+                    $(".botaoacessoupload").prop('disabled', false);
                     $(".quatro").hide();
                     $(".close").removeAttr("disabled");
                     editor.graph.setEnabled(false);
@@ -3363,6 +3365,8 @@ APP.controller.ControlDocController = {
                     $('.btn-aprovar').show();
                     $('.btn-voltar-elaboracao').show();
                     $("input").attr("disabled", "disabled");
+                    $(".botaouploadarquivos").prop('disabled', true);
+                    $(".botaoacessoupload").prop('disabled', false);
                     $("#form-cargos-escolha-all").removeAttr("disabled");
                     $(".closeCargos").removeAttr("disabled");
                     editor.graph.setEnabled(false);

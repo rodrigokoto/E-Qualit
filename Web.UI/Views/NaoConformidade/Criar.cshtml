@@ -61,18 +61,25 @@
 	var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
 
 
-	var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
-	{
-		IdentificadorInicial = "ncabeca",
-		TextoLink = "Anexar",
-		NumeroArquivos = listaEvidencias.Count,
-		ModalTittle = "Anexos da Não Conformidade",
-		PodeAnexar = true
-	};
-	/*
-	eduperez revisar
-	*/
-	compoenteUploadCabecalho.AnexosLista = null;
+    var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
+    {
+        IdentificadorInicial = "ncabeca",
+        TextoLink = "Anexar",
+        NumeroArquivos = Model.ArquivosNaoConformidadeAnexos.Count(),
+        ModalTittle = "Anexos da Não Conformidade",
+        PodeAnexar = true
+    };
+    compoenteUploadCabecalho.AnexosLista = Model.ArquivosNaoConformidadeAnexos.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoNaoConformidadeAnexo,
+        IdChave2 = r.IdRegistroConformidade
+    };
+    }).ToList();
+
 
 
 	//para os anexos das acoes imediatas
@@ -961,8 +968,8 @@
 
 
 <script>
-																																									//$(".fa-calendar").click(function () {
-																																									//    $(this).parent().parent().find("input").datepicker("show");
-																																									//});
+                                                                                                                                                            //$(".fa-calendar").click(function () {
+                                                                                                                                                            //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                                                                            //});
 </script>
 
