@@ -1359,6 +1359,7 @@ APP.controller.AcaoCorretivaController = {
         if (perfil == '4') {
 
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
+            $('.botaouploadarquivos').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $("#form-criar-nao-conformidade-processo").attr("disabled", true);
             $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
@@ -1367,6 +1368,7 @@ APP.controller.AcaoCorretivaController = {
         }
         else {
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
+            $('.botaouploadarquivos').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
             //$("#form-acaoimediata-responsavel-reverificacao").attr("disabled", true);
@@ -1417,6 +1419,7 @@ APP.controller.AcaoCorretivaController = {
 
             if (perfil == '4') {
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
+                $('.botaouploadarquivos').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $("#form-criar-nao-conformidade-processo").attr("disabled", true);
                 $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
@@ -1426,6 +1429,7 @@ APP.controller.AcaoCorretivaController = {
             }
             else {
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
+                $('.botaouploadarquivos').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
                 //$("#form-acaoimediata-responsavel-reverificacao").attr("disabled", true);
