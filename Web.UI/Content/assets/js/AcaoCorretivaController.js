@@ -970,7 +970,12 @@ APP.controller.AcaoCorretivaController = {
         this.delAcaoImediata();
         this.getResponsavelReverificarAcaoImediata();
 
-    },
+	},
+
+
+
+
+
 
     setAndHideAcaoImediata: function () {
 

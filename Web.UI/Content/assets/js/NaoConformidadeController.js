@@ -120,8 +120,13 @@ APP.controller.NaoConformidadeController = {
 		}
 		//typeof (destavar) != "undefined" && 
 		if (destravar === 'True') {
-			
-            this.HabilitaCamposNaoConformidade(perfil);
+
+
+			this.setDestravarCamposNaoConformidade();
+			this.HabilitaCamposNaoConformidade(perfil);
+			this.formEditarNaoConformidade();
+			this.formAcaoImediata();
+			APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
         }
 
     },
@@ -312,7 +317,7 @@ APP.controller.NaoConformidadeController = {
                 this.formAcaoImediata();
                 break;
             case 3:
-                this.setShowAndHideStatusEtapa3();
+                this.setShowAndHideStatusEtapa3(); 
                 this.formEditarNaoConformidade();
                 this.formAcaoImediata();
                 break;
