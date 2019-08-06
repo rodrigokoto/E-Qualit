@@ -37,6 +37,8 @@
 
     }
 
+    //para os anexos das acoes imediatas
+    var listaBotoesAcaoImeidataUpload = new List<Web.UI.Models.ArquivoAnexoViewModel>();
 }
 @section Metas {
     <meta name="page" content="CriarAcaoCorretiva" />
@@ -67,7 +69,7 @@
 
 @section scripts {
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js?rnd=2")"></script>
 }
 
 <script type="text/javascript">
@@ -330,64 +332,92 @@ else
                                                     <textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control">@acaoImediata.Observacao</textarea>
                                                 </td>
                                                 <!-- Arquivo de Evidencia -->
-                                                <td>
+
+                                                @{
+                                                    var chaveDestecontroleUploadArquuivos = "upacaoimeidata" + @acaoImediata.IdAcaoImediata.ToString();
+                                                }
+                                                <td class="IdentificadorInicialupload" data-identificador="@(chaveDestecontroleUploadArquuivos )">
                                                     @{
-                                                        var base64 = "";
-                                                        var dataB64 = "";
-                                                        var nomeAnexo = "";
-                                                        var extensao = "";
-                                                        var idAnexo = 0;
-                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
-                                                        {
-                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
-                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                            dataB64 = base64;
-                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+                                                        int nroArquivos = acaoImediata.ArquivoEvidencia?.Count ?? 0;
 
-                                                        }
+                                                        var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
+                                                        {
+                                                            IdentificadorInicial = chaveDestecontroleUploadArquuivos,
+                                                            TextoLink = Traducao.Resource.UploadArquivos,
+                                                            ModalTittle = Traducao.Resource.UploadArquivos,
+                                                            NumeroArquivos = nroArquivos,
+                                                            PodeAnexar = true
+                                                        };
+                                                        controleUploadArquuivos.AnexosLista = acaoImediata.ArquivoEvidencia?.ToList().Select(r =>
+                                                        {
+                                                            return
+                                                        new Web.UI.Models.ArquivoAnexoItemViewModel()
+                                                        {
+                                                            AnexoDados = r.Anexo,
+                                                            IdChave1 = r.IdArquivoDeEvidenciaAcaoImediata,
+                                                            IdChave2 = r.IdAcaoImediata
+                                                        };
+                                                        }).ToList();
+
+                                                        listaBotoesAcaoImeidataUpload.Add(controleUploadArquuivos);
+                                                        Html.RenderPartial("Anexo/_Anexo", controleUploadArquuivos);
+
                                                     }
+                                                    @*
+                                                                                                                                            upload antigo
+                                                                                                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
+                                                                                                                                    </div>
+                                                                                                                                    @{
 
-                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
-                                                        @*@if (acaoImediata.ArquivoEvidencia.Count == 0)
-                                                        {
-                                                        
-                                                            var acao = acaoImediata.ArquvioAcaoCorretivaAnexo.ToList();
-                                                            var nroArquivos =acao.Count();
 
-                                                            var botao = new Web.UI.Models.ArquivoAnexoViewModel()
-                                                            {
-                                                                IdentificadorInicial = acaoImediata.IdAcaoImediata.ToString(),
-                                                                TextoLink = "Anexos.",
-                                                                NumeroArquivos = nroArquivos
-                                                            };
-                                                            Html.RenderPartial("Anexo/_Anexo", botao);*@
 
-                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
-                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                                            </a>
-                                                            <i class="hide" name="Ianexo" style="display:none">@nomeAnexo</i>
-                                                        }
-                                                        @*else
-                                                        {
-                                                            <i class="hide" name="Ianexo" style="display:block">@nomeAnexo</i>
-                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:none">
-                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                                            </a>
-                                                        }*@
-                                                        <ul>
-                                                            <li>
-                                                                <a href="@base64" target="_blank" download="@nomeAnexo" name="IanexoLi">@nomeAnexo</a>
-                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
-                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
-                                                            </li>
-                                                        </ul>
-                                                        <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
-                                                               class=""
-                                                               data-msg-required=""
-                                                               data-b64="@dataB64">
-                                                    </div>
+                                                                                <td>
+                                                                                    @{
+                                                                                        var base64 = "";
+                                                                                        var dataB64 = "";
+                                                                                        var nomeAnexo = "";
+                                                                                        var extensao = "";
+                                                                                        var idAnexo = 0;
+                                                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                                        {
+                                                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
+                                                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                                            dataB64 = base64;
+                                                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+
+                                                                                        }
+                                                                                    }
+
+                                                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
+
+
+                                                                                                                    <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
+                                                                                                                        <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                                                                                                    </a>
+                                                                                                                    <i class="hide" name="Ianexo" style="display:none">@nomeAnexo</i>
+                                                                                                                    }
+                                                                                                                    else
+                                                                                {
+                                                                                    <i class="hide" name="Ianexo" style="display:block">@nomeAnexo</i>
+                                                                                    <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:none">
+                                                                                        <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                                                                    </a>
+                                                                                }
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <a href="@base64" target="_blank" download="@nomeAnexo" name="IanexoLi">@nomeAnexo</a>
+                                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                                                </li>
+                                                                            </ul>
+                                                                            <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
+                                                                                   class=""
+                                                                                   data-msg-required=""
+                                                                                   data-b64="@dataB64">
+                                                        </div>
+                                                    *@
                                                 </td>
                                                 <!-- Acoes -->
                                                 <td>
@@ -404,76 +434,76 @@ else
                                                 </td>
                                                 <td>
                                                     @*id="botoesTd"*@
-													<div class="botoesTd">
-														@if (ViewBag.StatusEtapa != 2)
-														{
-															<input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
-														}
-														@*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
-														<a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
-															<i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-														</a>
-														@if (acaoImediata.Aprovado.HasValue)
-														{
+                                                    <div class="botoesTd">
+                                                        @if (ViewBag.StatusEtapa != 2)
+                                                        {
+                                                            <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                        }
+                                                        @*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
+                                                        <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+                                                        @if (acaoImediata.Aprovado.HasValue)
+                                                        {
 
 
-															if (acaoImediata.Aprovado.Value == true && ViewBag.StatusEtapa == 4)
-															{
-																<button type="button" class="btn btn-ok-acao-imediata ativo-color">
-																	<i class="fa fa-check-circle " aria-hidden="true"></i>
-																</button>
-															}
+                                                            if (acaoImediata.Aprovado.Value == true && ViewBag.StatusEtapa == 4)
+                                                            {
+                                                                <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                    <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                </button>
+                                                            }
 
-															else if (acaoImediata.Aprovado.Value == true)
-															{
-																<button type="button" class="btn btn-ok-acao-imediata ativo-color">
-																	<i class="fa fa-check-circle " aria-hidden="true"></i>
-																</button>
-																<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
-																	<i class="fa fa-times-circle " aria-hidden="true"></i>
-																</button>
+                                                            else if (acaoImediata.Aprovado.Value == true)
+                                                            {
+                                                                <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                    <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                </button>
+                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
+                                                                    <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                                </button>
 
-															}
-															else
-															{
-																<button type="button" class="btn btn-confirm-acao-imediata ativo-color">
-																	<i class="fa fa-check " aria-hidden="true"></i>
-																</button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
+                                                                    <i class="fa fa-check " aria-hidden="true"></i>
+                                                                </button>
 
-																<button type="button" class="btn btn-denied-acao-imediata trash-color">
-																	<i class="fa fa-times" aria-hidden="true"></i>
-																</button>
+                                                                <button type="button" class="btn btn-denied-acao-imediata trash-color">
+                                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                                </button>
 
-																<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
-																	<i class="fa fa-times-circle " aria-hidden="true"></i>
-																</button>
+                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
+                                                                    <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                                </button>
 
-																<button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
-																	<i class="fa fa-check-circle " aria-hidden="true"></i>
-																</button>
-															}
+                                                                <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
+                                                                    <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                </button>
+                                                            }
 
-														}
-														else
-														{
-															<button type="button" class="btn btn-confirm-acao-imediata ativo-color">
-																<i class="fa fa-check " aria-hidden="true"></i>
-															</button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
+                                                                <i class="fa fa-check " aria-hidden="true"></i>
+                                                            </button>
 
-															<button type="button" class="btn btn-denied-acao-imediata trash-color">
-																<i class="fa fa-times" aria-hidden="true"></i>
-															</button>
+                                                            <button type="button" class="btn btn-denied-acao-imediata trash-color">
+                                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                            </button>
 
-															<button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
-																<i class="fa fa-check-circle " aria-hidden="true"></i>
-															</button>
+                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
+                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                            </button>
 
-															<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
-																<i class="fa fa-times-circle " aria-hidden="true"></i>
-															</button>
+                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
+                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                            </button>
 
-														}
-													</div>
+                                                        }
+                                                    </div>
                                                 </td>
                                             </tr>
                                         }
@@ -537,6 +567,13 @@ else
     </div>
 </div>
 
+@{
+    //caixas de dialogo das acoes imediatas anexos
+    foreach (var botao in listaBotoesAcaoImeidataUpload)
+    {
+        Html.RenderPartial("Anexo/_ModalAnexo", botao);
+    }
+}
 
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
