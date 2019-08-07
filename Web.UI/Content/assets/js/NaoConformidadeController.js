@@ -145,6 +145,7 @@ APP.controller.NaoConformidadeController = {
 
 			//this.setResponsavelAnaliseDefinicaoAC();
 			APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+
         }
 
     },
@@ -420,7 +421,7 @@ APP.controller.NaoConformidadeController = {
     },
 
     setHideRowAcaoImediata: function () {
-
+		debugger;
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
@@ -1635,9 +1636,18 @@ APP.controller.NaoConformidadeController = {
             html += '</tr>';
 
             $('#tb-acao-imediata tbody').append(html);
-            $('.add-acao-imediata').removeClass('show').addClass('hide');
+			$('.add-acao-imediata').removeClass('show').addClass('hide');
 			APP.controller.NaoConformidadeController.bind();
 
+			
+			//if ($('[name=StatusEtapa]').val() == 1) {
+			//	APP.controller.NaoConformidadeController.bind();
+			//} else {
+			//	APP.controller.NaoConformidadeController.bindAcao();
+			//	//$('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
+			//	//$('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
+			//	$('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
+			//}
             _options.NumeroAcaoImediataGrid++;
 
         });
@@ -1676,8 +1686,10 @@ APP.controller.NaoConformidadeController = {
             error: function (result) {
                 bootbox.alert(_options.MsgOcorreuErro);
             },
-            complete: function (result) {
-                $('.add-acao-imediata').removeClass('hide').addClass('show');
+			complete: function (result) {
+				if ($('[name=StatusEtapa]').val() == "2" || $('[name=StatusEtapa]').val() == "1") {
+					$('.add-acao-imediata').removeClass('hide').addClass('show');
+				}
             }
         });
 
