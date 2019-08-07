@@ -848,7 +848,7 @@
 			@if (Model.IdRegistroConformidade > 0)
 			{
 
-				if (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Destravar) || ViewBag.IdPerfil != 4)
+				if ((listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Destravar) || ViewBag.IdPerfil != 4) && ViewBag.StatusEtapa != 4)
 				{
 					<button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
 				}

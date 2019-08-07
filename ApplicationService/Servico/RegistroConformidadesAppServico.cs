@@ -578,6 +578,14 @@ namespace ApplicationService.Servico
 					{
 						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
 						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Descricao = acaoImediata.Descricao;
+
+						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao;
+						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).IdResponsavelImplementar = acaoImediata.IdResponsavelImplementar;
+						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).DtEfetivaImplementacao = acaoImediata.DtEfetivaImplementacao;
+						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Observacao = acaoImediata.Observacao;
+						objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).SubmitArquivoEvidencia = acaoImediata.SubmitArquivoEvidencia;
+
 					}
 				}
 

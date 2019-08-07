@@ -1265,7 +1265,7 @@ APP.controller.GestaoDeRiscoController = {
             html += '</span>';
             html += '</div>';
             html += '</td>';
-            html += '<td>';
+            html += '<td>'; 
             html += '<select id="form-acaoimediata-tb-responsavel-implementar" name="formAcaoImadiataTbResponsavelImplementar" class="form-control" ';
             html += 'data-msg-required="">';
             html += '<option value="">' + TraducaoDropNameSelect + '</option>';

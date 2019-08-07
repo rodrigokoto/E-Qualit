@@ -224,11 +224,16 @@
 
                                         <!-- Responsavel -->
                                         <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_definir_AC</label>
-                                                <br />
-                                                @Model.ResponsavelInicarAcaoImediata.NmCompleto
-                                            </div>
+											<div class="form-group">
+												<label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_definir_AC</label>
+												<br />
+												@if (Model.ResponsavelInicarAcaoImediata != null)
+												{
+													@Model.ResponsavelInicarAcaoImediata.NmCompleto
+
+												}
+
+											</div>
                                         </div>
 
                                         <!-- Tags -->

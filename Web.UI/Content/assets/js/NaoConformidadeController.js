@@ -1676,12 +1676,13 @@ APP.controller.NaoConformidadeController = {
                 $('.add-acao-imediata').removeClass('show').addClass('hide');
             },
             success: function (result) {
-                if (result.StatusCode == 200) {
+				if (result.StatusCode == 200) {
+					debugger;
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
                     $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
                         APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
                     });
-                }
+                } 
             },
             error: function (result) {
                 bootbox.alert(_options.MsgOcorreuErro);
