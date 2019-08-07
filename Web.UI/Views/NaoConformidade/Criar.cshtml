@@ -61,24 +61,24 @@
 	var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
 
 
-    var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
-    {
-        IdentificadorInicial = "ncabeca",
-        TextoLink = "Anexar",
-        NumeroArquivos = Model.ArquivosNaoConformidadeAnexos.Count(),
-        ModalTittle = "Anexos da Não Conformidade",
-        PodeAnexar = true
-    };
-    compoenteUploadCabecalho.AnexosLista = Model.ArquivosNaoConformidadeAnexos.ToList().Select(r =>
-    {
-        return
-    new Web.UI.Models.ArquivoAnexoItemViewModel()
-    {
-        AnexoDados = r.Anexo,
-        IdChave1 = r.IdArquivoNaoConformidadeAnexo,
-        IdChave2 = r.IdRegistroConformidade
-    };
-    }).ToList();
+	var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
+	{
+		IdentificadorInicial = "ncabeca",
+		TextoLink = "Anexar",
+		NumeroArquivos = Model.ArquivosNaoConformidadeAnexos.Count(),
+		ModalTittle = "Anexos da Não Conformidade",
+		PodeAnexar = true
+	};
+	compoenteUploadCabecalho.AnexosLista = Model.ArquivosNaoConformidadeAnexos.ToList().Select(r =>
+	{
+		return
+	new Web.UI.Models.ArquivoAnexoItemViewModel()
+	{
+		AnexoDados = r.Anexo,
+		IdChave1 = r.IdArquivoNaoConformidadeAnexo,
+		IdChave2 = r.IdRegistroConformidade
+	};
+	}).ToList();
 
 
 
@@ -615,73 +615,82 @@
 													}
 												</td>
 												<td>
-													@if (acaoImediata.Aprovado.HasValue && (acaoImediata.Aprovado.Value == true && ViewBag.StatusEtapa == 2))
+													@if (Model.ECorrecao.HasValue && Model.ECorrecao == true)
 													{
-														<div>
-															<button type="button" class="btn btn-ok-acao-imediata ativo-color">
-																<i class="fa fa-check-circle " aria-hidden="true"></i>
-															</button>
-														</div>
-													}
-
-													<div class="botoesTd">
-														@if (ViewBag.StatusEtapa != 2)
+														if (acaoImediata.Aprovado.HasValue && (acaoImediata.Aprovado.Value == true && ViewBag.StatusEtapa == 2))
 														{
-															<input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
-														}
-														@*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
-														<a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
-															<i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-														</a>
-														@if (ViewBag.StatusEtapa == 3 && !Convert.ToBoolean(aprovadoAux))
-														{
-															<button type="button" class="btn btn-confirm-acao-imediata ativo-color">
-																<i class="fa fa-check " aria-hidden="true"></i>
-															</button>
-															<button type="button" class="btn btn-denied-acao-imediata trash-color">
-																<i class="fa fa-close " aria-hidden="true"></i>
-															</button>
-
-														}
-														@if (acaoImediata.Aprovado.HasValue)
-														{
-
-
-
-															if (acaoImediata.Aprovado.Value == true)
-															{
+															<div>
 																<button type="button" class="btn btn-ok-acao-imediata ativo-color">
 																	<i class="fa fa-check-circle " aria-hidden="true"></i>
 																</button>
-
-																<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
-																	<i class="fa fa-times-circle " aria-hidden="true"></i>
-																</button>
-
-															}
-															else
-															{
-																<button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
-																	<i class="fa fa-check-circle " aria-hidden="true"></i>
-																</button>
-
-																<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
-																	<i class="fa fa-times-circle " aria-hidden="true"></i>
-																</button>
-															}
+															</div>
 														}
-														else
-														{
-															<button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
-																<i class="fa fa-check-circle " aria-hidden="true"></i>
-															</button>
-															<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
-																<i class="fa fa-times-circle " aria-hidden="true"></i>
-															</button>
 
-														}
-													</div>
+															<div class="botoesTd">
+																@if (ViewBag.StatusEtapa != 2)
+																{
+																	<input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+																}
+																@*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
+																<a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
+																	<i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+																</a>
+																@if (ViewBag.StatusEtapa == 3 && !Convert.ToBoolean(aprovadoAux))
+																{
+																	<button type="button" class="btn btn-confirm-acao-imediata ativo-color">
+																		<i class="fa fa-check " aria-hidden="true"></i>
+																	</button>
+																	<button type="button" class="btn btn-denied-acao-imediata trash-color">
+																		<i class="fa fa-close " aria-hidden="true"></i>
+																	</button>
 
+																}
+																@if (acaoImediata.Aprovado.HasValue)
+																{
+
+
+
+																	if (acaoImediata.Aprovado.Value == true)
+																	{
+																		<button type="button" class="btn btn-ok-acao-imediata ativo-color">
+																			<i class="fa fa-check-circle " aria-hidden="true"></i>
+																		</button>
+
+																		<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
+																			<i class="fa fa-times-circle " aria-hidden="true"></i>
+																		</button>
+
+																	}
+																	else
+																	{
+																		<button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
+																			<i class="fa fa-check-circle " aria-hidden="true"></i>
+																		</button>
+
+																		<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
+																			<i class="fa fa-times-circle " aria-hidden="true"></i>
+																		</button>
+																	}
+																}
+																else if (ViewBag.StatusEtapa == 4 && ! acaoImediata.Aprovado.HasValue)
+																{
+																	<button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:block;">
+																		<i class="fa fa-check-circle " aria-hidden="true"></i>
+																	</button>
+
+																}
+																else
+																{
+																	<button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
+																		<i class="fa fa-check-circle " aria-hidden="true"></i>
+																	</button>
+																	<button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
+																		<i class="fa fa-times-circle " aria-hidden="true"></i>
+																	</button>
+
+																}
+															</div>
+													}
 												</td>
 
 											</tr>
@@ -968,8 +977,8 @@
 
 
 <script>
-                                                                                                                                                            //$(".fa-calendar").click(function () {
-                                                                                                                                                            //    $(this).parent().parent().find("input").datepicker("show");
-                                                                                                                                                            //});
+																																								//$(".fa-calendar").click(function () {
+																																								//    $(this).parent().parent().find("input").datepicker("show");
+																																								//});
 </script>
 

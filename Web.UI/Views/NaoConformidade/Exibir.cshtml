@@ -444,25 +444,31 @@
                                                                                 </td>
 
                                                                                 <!-- Acoes -->
-                                                                                <td>
-                                                                                    @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
-                                                                                    {
-                                                                                        if (acaoImediata.Aprovado.Value == true)
-                                                                                        {
-                                                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color">
-                                                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
-                                                                                            </button>
+																				<td>
+																					@if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
+																					{
+																						if (acaoImediata.Aprovado.Value == true)
+																						{
+																							<button type="button" class="btn btn-ok-acao-imediata ativo-color">
+																								<i class="fa fa-check-circle " aria-hidden="true"></i>
+																							</button>
 
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color">
-                                                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
-                                                                                            </button>
-                                                                                        }
+																						}
+																						else
+																						{
+																							<button type="button" class="btn btn-notok-acao-imediata trash-color">
+																								<i class="fa fa-times-circle " aria-hidden="true"></i>
+																							</button>
+																						}
 
-                                                                                    }
-                                                                                </td>
+																					}
+																					else if (acaoImediata.Aprovado == null && Model.StatusEtapa == 4)
+																					{
+																						<button type="button" class="btn btn-ok-acao-imediata ativo-color">
+																							<i class="fa fa-check-circle " aria-hidden="true"></i>
+																						</button>
+																					}
+																				</td>
                                                                             </tr>
                                                                         }
                                                                     </tbody>
