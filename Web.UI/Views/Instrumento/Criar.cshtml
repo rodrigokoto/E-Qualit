@@ -564,7 +564,7 @@
 
     foreach (var esteUpload in listaBotoesCalibracaoUpload)
     {
-        <span id="uploadbotao@(esteUpload.Key)">
+        <span id="uploadbotao@(esteUpload.Key)" style="display:none;">
             @{
                 Html.RenderPartial("Anexo/_Anexo", esteUpload.Value);
             }
