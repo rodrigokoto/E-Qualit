@@ -52,51 +52,31 @@ namespace DAL.Repository
 
         public void Atualizar(Calibracao calibracao)
         {
-            if (calibracao.SubmitArquivosCertificado.Count > 0)
-            {
-                calibracao.SubmitArquivosCertificado.ForEach(x =>
+            if(calibracao.SubmitArquivosCertificado != null) {
+                if (calibracao.SubmitArquivosCertificado.Count > 0)
                 {
-                    if (x.IdCalibracao == 0)
+                    calibracao.SubmitArquivosCertificado.ForEach(x =>
                     {
-                        try
-                        {
-                            using (var context = new BaseContext())
-                            {
-                                x.Anexo.TratarComNomeCerto();
-                                context.Entry(calibracao).State = EntityState.Modified;
-
-                                context.Set<Anexo>().Add(x.Anexo);
-                                context.SaveChanges();
-
-                                var certificado = new ArquivoCertificadoAnexo();
-
-                                certificado.IdAnexo = x.Anexo.IdAnexo;
-                                certificado.IdCalibracao = calibracao.IdCalibracao;
-
-                                context.Set<ArquivoCertificadoAnexo>().Add(certificado);
-                                context.SaveChanges();
-
-                            }
-                        }
-                        catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-                        {
-                            throw ex;
-                        }
-                    }
-                    else
-                    {
-                        if (x.ApagarAnexo == 1)
+                        if (x.IdCalibracao == 0)
                         {
                             try
                             {
                                 using (var context = new BaseContext())
                                 {
-                                    
-                                    var arqanexo = context.ArquivoCertificadoAnexo.Where(u => u.IdAnexo == x.IdAnexo).FirstOrDefault();
-                                    context.Entry(arqanexo).State = EntityState.Deleted;
+                                    x.Anexo.TratarComNomeCerto();
+                                    context.Entry(calibracao).State = EntityState.Modified;
 
-                                    context.ArquivoCertificadoAnexo.Remove(arqanexo);
+                                    context.Set<Anexo>().Add(x.Anexo);
                                     context.SaveChanges();
+
+                                    var certificado = new ArquivoCertificadoAnexo();
+
+                                    certificado.IdAnexo = x.Anexo.IdAnexo;
+                                    certificado.IdCalibracao = calibracao.IdCalibracao;
+
+                                    context.Set<ArquivoCertificadoAnexo>().Add(certificado);
+                                    context.SaveChanges();
+
                                 }
                             }
                             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
@@ -104,8 +84,30 @@ namespace DAL.Repository
                                 throw ex;
                             }
                         }
-                    }
-                });
+                        else
+                        {
+                            if (x.ApagarAnexo == 1)
+                            {
+                                try
+                                {
+                                    using (var context = new BaseContext())
+                                    {
+
+                                        var arqanexo = context.ArquivoCertificadoAnexo.Where(u => u.IdAnexo == x.IdAnexo).FirstOrDefault();
+                                        context.Entry(arqanexo).State = EntityState.Deleted;
+
+                                        context.ArquivoCertificadoAnexo.Remove(arqanexo);
+                                        context.SaveChanges();
+                                    }
+                                }
+                                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                                {
+                                    throw ex;
+                                }
+                            }
+                        }
+                    });
+                }
                 //if (calibracao.ArquivoCertificado.Count == 0)
                 //{
 

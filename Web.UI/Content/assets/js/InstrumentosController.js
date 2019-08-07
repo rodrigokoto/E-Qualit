@@ -362,7 +362,7 @@ APP.controller.InstrumentosController = {
     },
 
     getArquivoCertificadoAnexos: function (IdCalibracao) {
-         //componente antigo
+        //componente antigo
         var anexoContratoModel = APP.controller.ClienteController.models.AnexoModel;
         var arrayAnexoArquivoCertificado = [];
 
@@ -572,7 +572,12 @@ APP.controller.InstrumentosController = {
                         success: function (data) {
                             if (data.StatusCode == 200) {
                                 tabelaCalibracao.row($rowAtual).remove().draw();
-                                bootbox.alert(_options.CalibracaoExcluida);
+                                bootbox.alert({
+                                    message: _options.CalibracaoExcluida,
+                                    callback: function () {
+                                        window.location.reload();
+                                    }
+                                });
                             }
                         },
                         beforeSend: function () {
@@ -806,8 +811,9 @@ APP.controller.InstrumentosController = {
                         }
                         else {
                             if (idInstrumento != "0") {
-                                bootbox.confirm(result.Success, function (result) {
-                                    if (result == true) {
+                                bootbox.alert({
+                                    message: result.Success,
+                                    callback: function () {
                                         window.location.href = "/Instrumento/Index";
                                     }
                                 });
@@ -880,8 +886,9 @@ APP.controller.InstrumentosController = {
                     }
 
                     if (idInstrumento != "0") {
-                        bootbox.confirm(msgRetorno, function (result) {
-                            if (result == true) {
+                        bootbox.alert({
+                            message: msgRetorno,
+                            callback: function () {
                                 window.location.href = "/Instrumento/Index";
                             }
                         });

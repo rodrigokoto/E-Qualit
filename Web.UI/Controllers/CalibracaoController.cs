@@ -239,12 +239,36 @@ namespace Web.UI.Controllers
             return View(calibracaoDetalhe);
         }
 
+        public void ValidarCalibracao(Instrumento instrumento) {
+
+            if (instrumento.Calibracao.Count == 0)
+            {
+                instrumento.Status = 0;
+
+                _instrumentoServico.Update(instrumento);
+            }
+            else {
+
+                var lstEstaCalibrado = instrumento.Calibracao.Where(x =>  x.DataProximaCalibracao >= DateTime.Now && x.StatusCalibracao == "Sim").ToList();
+
+                if (lstEstaCalibrado.Count == 0) {
+                    instrumento.Status = 0;
+
+                    _instrumentoServico.Update(instrumento);
+                } 
+            }
+        }
+
         public JsonResult Excluir(int id)
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var calibracaoRemover = _calibracaoAppServico.GetById(id);
 
+            var instrumento = _instrumentoServico.GetById(calibracaoRemover.IdInstrumento);
+
             RemoverCalibracao(calibracaoRemover);
+
+            ValidarCalibracao(instrumento);
 
             return Json(new { StatusCode = 200 }, JsonRequestBehavior.AllowGet);
         }
