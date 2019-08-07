@@ -17,6 +17,8 @@
     var listaPermissoes = new List<PermissoesApp>();
 
     listaPermissoes.AddRange(ViewBag.Permissoes);
+
+
 }
 @section Metas {
     <meta name="page" content="CriarInstrumentos" />
@@ -42,7 +44,7 @@
 
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/InstrumentosController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/InstrumentosController.js?rnd=2")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
 
 }
@@ -72,7 +74,7 @@
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 ">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Intrumento</label>
-                                        <input name="Equipamento" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-instrumento" data-val="true" type="text"
+                                        <input name="Equipamento" @( Model.FlagTravado ? "readonly" : "") class="form-control form-parametro-instrumento-instrumento" data-val="true" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Instrumento"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Intrumento"
                                                value="@Model.Equipamento">
@@ -130,7 +132,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero</label>
-                                        <input name="Numero" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-numero" data-val="true" title="" type="text"
+                                        <input name="Numero" @( Model.FlagTravado ? "readonly" : "") class="form-control form-parametro-instrumento-numero" data-val="true" title="" type="text"
                                                pattern="[a-z\s]+$"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Numero"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Numero"
@@ -141,7 +143,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Marca</label>
-                                        <input name="Marca" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-marca" data-val="true" title="" type="text"
+                                        <input name="Marca" @( Model.FlagTravado ? "readonly" : "") class="form-control form-parametro-instrumento-marca" data-val="true" title="" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Marca"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Marca"
                                                value="@Model.Marca">
@@ -154,7 +156,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Modelo</label>
-                                        <input name="Modelo" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-modelo" data-val="true" title="" type="text"
+                                        <input name="Modelo" @( Model.FlagTravado ? "readonly" : "") class="form-control form-parametro-instrumento-modelo" data-val="true" title="" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Modelo"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Modelo"
                                                value="@Model.Modelo">
@@ -164,7 +166,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Responsavel</label>
-                                        <select name="IdResponsavel" @( Model.FlagTravado ? "disabled" : "") id="dropdown-responsavel" class="form-control form-parametro-instrumento-responsavel"
+                                        <select name="IdResponsavel" @( Model.FlagTravado ? "readonly" : "") id="dropdown-responsavel" class="form-control form-parametro-instrumento-responsavel"
                                                 placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Responsavel"
                                                 data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Responsavel">
                                             <option value="">@Traducao.Resource.Dropdown_name_select</option>
@@ -175,7 +177,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label for="form-parametro-instrumento-local-de-uso" class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Local_de_uso</label>
-                                        <input name="LocalDeUso" @( Model.FlagTravado ? "disabled" : "") id="form-parametro-instrumento-local-de-uso" class="form-control form-parametro-instrumento-local-de-uso" type="text"
+                                        <input name="LocalDeUso" @( Model.FlagTravado ? "readonly" : "") id="form-parametro-instrumento-local-de-uso" class="form-control form-parametro-instrumento-local-de-uso" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Local_de_uso"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Local_de_uso"
                                                value="@Model.LocalDeUso">
@@ -188,7 +190,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Escala</label>
-                                        <input name="Escala" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-escala" data-val="true" title="" type="text"
+                                        <input name="Escala" @( Model.FlagTravado ? "readonly" : "") class="form-control form-parametro-instrumento-escala" data-val="true" title="" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Escala"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Escala"
                                                value="@Model.Escala">
@@ -198,7 +200,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Menos_divisao</label>
-                                        <input name="MenorDivisao" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-menor-divisao" data-val="true" title="" type="text"
+                                        <input name="MenorDivisao" @( Model.FlagTravado ? "readonly" : "") class="form-control form-parametro-instrumento-menor-divisao" data-val="true" title="" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Menor_divisao"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Menor_divisao"
                                                value="@Model.MenorDivisao">
@@ -208,7 +210,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Criterio_de_aceitacao</label>
-                                        <input name="valorAceitacao" @( Model.FlagTravado ? "disabled" : "") onkeyup="SubstituiVirgulaPorPonto(this)" class="form-control form-parametro-instrumento-criterio-aceitacao" data-val="true" title="" type="text"
+                                        <input name="valorAceitacao" @( Model.FlagTravado ? "readonly" : "") onkeyup="SubstituiVirgulaPorPonto(this)" class="form-control form-parametro-instrumento-criterio-aceitacao" data-val="true" title="" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Criterio_de_aceitacao"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Criterio_de_aceitacao"
                                                data-msg-number="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_number_Criterio_de_aceitacao"
@@ -224,10 +226,10 @@
                                         <div class="row">
                                             <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Calculado_pelo_sistema</label>
                                         </div>
-                                        <input name="SistemaDefineStatus" @( Model.FlagTravado ? "disabled" : "") id="radio-sim" class="radio-sim-nao" type="radio" value="true" @(Model.SistemaDefineStatus == true && Model.IdInstrumento > 0 ? "checked" : "")>
+                                        <input name="SistemaDefineStatus" @( Model.FlagTravado ? "readonly" : "") id="radio-sim" class="radio-sim-nao" type="radio" value="true" @(Model.SistemaDefineStatus == true && Model.IdInstrumento > 0 ? "checked" : "")>
                                         <label class="demo-list-radio" for="radio-sim">@Traducao.Shared.ResourceButtons.btn_lbl_sim</label>
 
-                                        <input name="SistemaDefineStatus" @( Model.FlagTravado ? "disabled" : "") id="radio-nao" class="radio-sim-nao" type="radio" value="false" @(Model.SistemaDefineStatus == false && Model.IdInstrumento > 0 ? "checked" : "")>
+                                        <input name="SistemaDefineStatus" @( Model.FlagTravado ? "readonly" : "") id="radio-nao" class="radio-sim-nao" type="radio" value="false" @(Model.SistemaDefineStatus == false && Model.IdInstrumento > 0 ? "checked" : "")>
                                         <label class="demo-list-radio" for="radio-nao">@Traducao.Shared.ResourceButtons.btn_lbl_nao</label>
 
                                         <em id="emErroSistemaDefineStatus" class="error help-block" style="display:none;">@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Calculado_pelo_sistema</em>
@@ -241,7 +243,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_DescricaoCriterio</label>
-                                        <textarea name="DescricaoCriterio" @( Model.FlagTravado ? "disabled" : "") class="form-control form-parametro-instrumento-descricao-criterio" title=""
+                                        <textarea name="DescricaoCriterio" @( Model.FlagTravado ? "readonly" : "") class="form-control form-parametro-instrumento-descricao-criterio" title=""
                                                   placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_DescricaoCriterio"
                                                   data-msg-required="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_DsRegistro"
                                                   data-msg-minlength="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_required_minlength_DsRegistro"
@@ -473,29 +475,21 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="form-pos-calibracao-certificado" class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_certificado</label>
-                                        @{
-                                            var nroArquivos = Model.ArquivoInstrumento == null ? 0 : Model.ArquivoInstrumento.Count;
-
-                                            var botao = new Web.UI.Models.ArquivoAnexoViewModel()
-                                            {
-                                                IdentificadorInicial = Model.IdInstrumento.ToString(),
-                                                TextoLink = "Anexos.",
-                                                NumeroArquivos = nroArquivos
-                                            };
-                                            @Html.Partial("Anexo/_Anexo", botao);
-                                        }
 
 
-                                        <div class="upload-arq form-control">
-                                            <a class="btn-upload-multiple-form-criar-cliente-contrato">
-                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                            </a>
-                                            <ul class="ulAnexos"></ul>
-                                            <input type="file" name="ArquivoCertificado" id="form-pos-calibracao-certificado"
-                                                   class=""
-                                                   data-msg-required=""
-                                                   data-b64=""
-                                                   multiple="multiple">
+                                        <div>
+                                            <span id="uploadbotaodestino"></span>
+                                            @*
+                                                <a class="btn-upload-multiple-form-criar-cliente-contrato">
+                                                    <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                                </a>
+                                                <ul class="ulAnexos"></ul>
+                                                <input type="file" name="ArquivoCertificado" id="form-pos-calibracao-certificado"
+                                                       class=""
+                                                       data-msg-required=""
+                                                       data-b64=""
+                                                       multiple="multiple">
+                                            *@
                                         </div>
                                     </div>
                                 </div>
@@ -514,6 +508,77 @@
         </form>
     </div>
 </div>
+
+
+
+@{
+
+    //para os anexos das calibracoes
+    //a chave do dicionario é o idcalibracao
+    var listaBotoesCalibracaoUpload = new Dictionary<int, Web.UI.Models.ArquivoAnexoViewModel>();
+
+
+
+    var listaCalibracoes = Model.Calibracao;
+    if (listaCalibracoes == null)
+    {
+        listaCalibracoes = new List<Dominio.Entidade.Calibracao>();
+    }
+
+    //tem que ter um para o zero (nova calibracao)
+
+    listaCalibracoes.Add(new Dominio.Entidade.Calibracao() { IdCalibracao = 0, ArquivoCertificado = new List<Dominio.Entidade.ArquivoCertificadoAnexo>() });
+
+    foreach (var calibracao in listaCalibracoes)
+    {
+        var chaveDestecontroleUploadArquuivos = "upacaoimeidata" + calibracao.IdCalibracao.ToString();
+
+        var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
+        {
+            IdentificadorInicial = chaveDestecontroleUploadArquuivos,
+            TextoLink = "Certificados",
+            ModalTittle = Traducao.Resource.UploadArquivos,
+            NumeroArquivos = calibracao.ArquivoCertificado?.Count ?? 0,
+            PodeAnexar = true
+        };
+        controleUploadArquuivos.AnexosLista = calibracao.ArquivoCertificado?.ToList().Select(r =>
+        {
+            return
+        new Web.UI.Models.ArquivoAnexoItemViewModel()
+        {
+            AnexoDados = r.Anexo,
+            IdChave1 = r.IdArquivoCertificadoAnexo,
+            IdChave2 = r.IdCalibracao
+        };
+        }).ToList();
+
+        listaBotoesCalibracaoUpload.Add(calibracao.IdCalibracao, controleUploadArquuivos);
+
+    }
+}
+
+@{
+    //agora renderizamos todo mundo
+
+    Html.RenderPartial("Anexo/_AnexoSetup");
+
+    foreach (var esteUpload in listaBotoesCalibracaoUpload)
+    {
+        <span id="uploadbotao@(esteUpload.Key)" style="display:none;">
+            @{
+                Html.RenderPartial("Anexo/_Anexo", esteUpload.Value);
+            }
+        </span>
+    }
+
+    foreach (var esteUpload in listaBotoesCalibracaoUpload)
+    {
+        Html.RenderPartial("Anexo/_ModalAnexo", esteUpload.Value);
+    }
+
+}
+
+
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-md-12">
@@ -565,7 +630,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    
+
                 </div>
             </div>
         </div>

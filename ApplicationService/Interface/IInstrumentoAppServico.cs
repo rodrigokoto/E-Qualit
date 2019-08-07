@@ -7,5 +7,6 @@ namespace ApplicationService.Interface
     {
         bool DeletarInstrumentoEDependencias(int id);
         List<Instrumento> ObterPorIdSite(int idSite);
+
     }
 }

@@ -12,6 +12,7 @@ namespace DAL.EntityConfig
             Ignore(x => x.ValidationResult);
             Ignore(x => x.NomeUsuarioAprovador);
             Ignore(x => x.ArquivoCertificadoAux);
+            Ignore(x => x.SubmitArquivosCertificado);
 
             HasKey(t => t.IdCalibracao);
 

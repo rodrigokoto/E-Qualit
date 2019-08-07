@@ -9,6 +9,8 @@ namespace DAL.EntityConfig
         {
             HasKey(x => x.IdArquivoCertificadoAnexo);
 
+            Ignore(x => x.ApagarAnexo);
+
             Property(x => x.IdAnexo)
                 .IsRequired();
 
