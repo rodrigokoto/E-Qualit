@@ -203,7 +203,7 @@ APP.controller.AcaoCorretivaController = {
 
     //Interacao de Tela - StatusEtapa 1
     setShowAndHideStatusEtapa1: function () {
-
+      
         this.setDisabledStatusEtapa1(true);
         this.setHideStatusEtapa1();
 
@@ -274,7 +274,6 @@ APP.controller.AcaoCorretivaController = {
 
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('.add-acao-imediata').hide();
-
     },
 
     setDisabledStatusEtapa2: function (_disabled) {
@@ -1110,7 +1109,7 @@ APP.controller.AcaoCorretivaController = {
             },
             complete: function (result) {
                 //$('.add-acao-imediata').removeClass('hide').addClass('show');
-				if ($('[name=StatusEtapa]').val() == "2" || $('[name=StatusEtapa]').val() == "1") {
+				if ($('[name=StatusEtapa]').val() == "1") {
 					$('.add-acao-imediata').removeClass('hide').addClass('show');
 				}
             }

@@ -62,7 +62,7 @@ namespace Dominio.Entidade
         public DateTime? DtPrazoImplementacao { get; set; }
         public byte FlDesbloqueado { get; set; }
         public bool? FlEficaz { get; set; }
-        public byte? FlStatusAntesAnulacao { get; set; }
+        public byte? FlStatusAntesAnulacao { get; set; }    
         public byte? StatusEtapa { get; set; }
 
         public DateTime DtInclusao { get; set; }
