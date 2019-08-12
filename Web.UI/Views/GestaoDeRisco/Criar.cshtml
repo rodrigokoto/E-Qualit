@@ -170,135 +170,135 @@
                                     }
                                     @*
 
-                    <label for="form-cria-cliente-contrato" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Arquivo_evidencia</label>
-                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)">
-                        <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
-                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                        </a>
+                                        <label for="form-cria-cliente-contrato" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Arquivo_evidencia</label>
+                                        <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)">
+                                            <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
+                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                            </a>
 
-                        <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
-                            @if (listaEvidencias.Count > 0)
-                            {
-                                foreach (var evidencia in listaEvidencias)
-                                {
-                                    <li>
-                                        <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
-                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
-                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
-                                    </li>
+                                            <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
+                                                @if (listaEvidencias.Count > 0)
+                                                {
+                                                    foreach (var evidencia in listaEvidencias)
+                                                    {
+                                                        <li>
+                                                            <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
+                                                        </li>
 
-                                }
-                            }
+                                                    }
+                                                }
 
-                        </ul>
-                        <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
-                               class=""
-                               data-msg-required=""
-                               data-b64=""
-                               multiple="multiple">
-                                        *@
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div>
-                <!-- Data de Emissao -->
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-                    <div class="form-group">
-                        <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao</label>
-                        <br />
-                        <div class='input-group input-group-datepicker'>
-                            <input type='text' name="formCriarNaoConformidadeDtEmissao" id="form-criar-nao-conformidade-dt-emissao"
-                                   class="form-control data datepicker largura-calendario"
-                                   placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_placeholder_DtEmissao"
-                                   data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_DtEmissao"
-                                   value="@Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)" />
-                            <span class="input-group-addon">
-                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                            </span>
+                                            </ul>
+                                            <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
+                                                   class=""
+                                                   data-msg-required=""
+                                                   data-b64=""
+                                                   multiple="multiple">
+                                    *@
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <!-- Processo -->
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-                    <div class="form-group">
-                        <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Processo</label>
 
-                        <select id="form-criar-nao-conformidade-processo" name="formCriarNaoConformidadeProcesso" class="form-control"
-                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Processo">
-                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                            @if (Model.IdProcesso != 0 && Model.IdProcesso != null)
-                            {
-                                <option value="@Model.IdProcesso" selected>@(Model.Processo != null ? @Model.Processo.Nome : "")</option>
-                            }
-                        </select>
+                        <div class="row">
+                            <div>
+                                <!-- Data de Emissao -->
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                    <div class="form-group">
+                                        <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao</label>
+                                        <br />
+                                        <div class='input-group input-group-datepicker'>
+                                            <input type='text' name="formCriarNaoConformidadeDtEmissao" id="form-criar-nao-conformidade-dt-emissao"
+                                                   class="form-control data datepicker largura-calendario"
+                                                   placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_placeholder_DtEmissao"
+                                                   data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_DtEmissao"
+                                                   value="@Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Processo -->
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                    <div class="form-group">
+                                        <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Processo</label>
 
-                    </div>
-                </div>
-                <!-- Emissor -->
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-                    <div class="form-group">
-                        <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Emissor</label>
+                                        <select id="form-criar-nao-conformidade-processo" name="formCriarNaoConformidadeProcesso" class="form-control"
+                                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Processo">
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            @if (Model.IdProcesso != 0 && Model.IdProcesso != null)
+                                            {
+                                                <option value="@Model.IdProcesso" selected>@(Model.Processo != null ? @Model.Processo.Nome : "")</option>
+                                            }
+                                        </select>
 
-                        @*@if (ViewBag.IdPerfil == 3)
-                                    {
-                                    <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
-                                            data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
-                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                        @if (Model.IdEmissor != 0)
+                                    </div>
+                                </div>
+                                <!-- Emissor -->
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                    <div class="form-group">
+                                        <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Emissor</label>
+
+                                        @*@if (ViewBag.IdPerfil == 3)
+                                            {
+                                            <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
+                                                    data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
+                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                @if (Model.IdEmissor != 0)
+                                                {
+                                                    <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                                }
+
+                                            </select>
+                                            }*@
+                                        @if (ViewBag.IdPerfil != 4)
                                         {
-                                            <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+
+                                            <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
+                                                    data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
+                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                @if (Model.IdEmissor != 0)
+                                                {
+                                                    <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                                }
+                                            </select>
                                         }
                                         else
                                         {
-                                            <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                            <select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
+                                                    data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
+
+                                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
+
+                                                @if (Model.IdEmissor != 0)
+                                                {
+                                                    <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                                }
+
+
+
+
+                                            </select>
+
                                         }
 
-                                    </select>
-                                    }*@
-                                    @if (ViewBag.IdPerfil != 4)
-                                    {
-
-                                        <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
-                                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
-                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                            @if (Model.IdEmissor != 0)
-                                            {
-                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-                                            }
-                                        </select>
-                                    }
-                                    else
-                                    {
-                                        <select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
-                                                data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Emissor">
-
-                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-
-                                            @if (Model.IdEmissor != 0)
-                                            {
-                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-                                            }
 
 
-
-
-                                        </select>
-
-                                    }
-
-
-
-                                </div>
+                                    </div>
 
 
 
@@ -454,9 +454,9 @@
                             </div>
 
                         </div>
-
                     </div>
                 </div>
+            </div>
         </form>
 
         <!-- Formulario Acao Imediata -->
@@ -770,6 +770,7 @@
                                 </div>
                             </div>
                         }
+
                     </div>
                 </div>
             </div>

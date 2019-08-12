@@ -1191,9 +1191,12 @@ APP.controller.AcaoCorretivaController = {
             } else if (statusEtapa == 3) {
                 acoesNaoConformidadeFormAcaoImediataObj = {
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
+                    IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
                     IdFilaEnvio: $(tr).find('[name=formAcaoImediataIdFilaEnvio]').val(),
+                    Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
+                    DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
 
                     Motivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
                     Orientacao: $(tr).find('[name=formAcaoImediataComentarioOrientacao]').val()
