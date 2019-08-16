@@ -372,8 +372,8 @@ namespace Web.UI.Controllers
                 acaoCorretiva.FlDesbloqueado = acaoCorretiva.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 acaoCorretiva.TipoRegistro = _tipoRegistro;
                 acaoCorretiva.StatusRegistro = 1;
-				if (acaoCorretiva.IdEmissor == 0)
-					acaoCorretiva.IdEmissor = Util.ObterCodigoUsuarioLogado();
+                if (acaoCorretiva.IdEmissor == 0)
+                    acaoCorretiva.IdEmissor = Util.ObterCodigoUsuarioLogado();
 
 
                 _registroConformidadesServico.ValidaAcaoCorretiva(acaoCorretiva, Util.ObterCodigoUsuarioLogado(), ref erros);
@@ -544,11 +544,14 @@ namespace Web.UI.Controllers
                 if (acao.IdFilaEnvio != null)
                 {
                     var filaEnvio = _filaEnvioServico.ObterPorId(acao.IdFilaEnvio.Value);
-                    if (!filaEnvio.Enviado)
+                    if (filaEnvio != null)
                     {
-                        acao.IdFilaEnvio = null;
-                        _registroRegistroAcaoImediataServico.Update(acao);
-                        _filaEnvioServico.Apagar(filaEnvio);
+                        if (!filaEnvio.Enviado)
+                        {
+                            acao.IdFilaEnvio = null;
+                            _registroRegistroAcaoImediataServico.Update(acao);
+                            _filaEnvioServico.Apagar(filaEnvio);
+                        }
                     }
                 }
             }
