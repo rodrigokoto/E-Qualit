@@ -1787,6 +1787,7 @@
     <Content Include="Content\assets_src\js\vendor\mxGraph\javascript\src\resources\mxApplication_de.txt" />
     <Content Include="Content\assets_src\js\vendor\mxGraph\javascript\src\resources\mxApplication_pt.txt" />
     <Content Include="Content\assets_src\js\vendor\mxGraph\javascript\src\resources\mxApplication_zh.txt" />
+    <Content Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\flot\excanvas.js" />
     <Content Include="Scripts\flot\excanvas.min.js" />
