@@ -24934,4 +24934,10 @@ label .error
     float: left;
 }
 
-
+.not-active {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+    color: black;
+}

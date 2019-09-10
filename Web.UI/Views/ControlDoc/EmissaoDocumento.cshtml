@@ -1055,14 +1055,17 @@
                                         @*form-control *@
 
                                         @{
-                                            int nroArquivos = Model.ArquivoDocDocumentoAnexo?.Count ?? 0;
+                                                int nroArquivos = Model.ArquivoDocDocumentoAnexo?.Count ?? 0;
 
-                                            var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
-                                            {
-                                                IdentificadorInicial = "controldocup",
-                                                TextoLink = Traducao.Resource.UploadArquivos,
-                                                ModalTittle = Traducao.Resource.UploadArquivos,
-                                                NumeroArquivos = nroArquivos
+                                                var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
+                                                {
+                                                    IdentificadorInicial = "controldocup",
+                                                    TextoLink = Traducao.Resource.UploadArquivos,
+                                                    ModalTittle = Traducao.Resource.UploadArquivos,
+                                                    NumeroArquivos = nroArquivos,
+                                                    PodeAnexar = true
+
+
                                             };
                                             Html.RenderPartial("Anexo/_Anexo", controleUploadArquuivos);
                                         }

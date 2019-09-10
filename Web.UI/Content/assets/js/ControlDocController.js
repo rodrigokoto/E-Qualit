@@ -3397,6 +3397,8 @@ APP.controller.ControlDocController = {
             $("#form-emissao-documento-comentarios :input").prop("disabled", false);
         } else if (_statusEtapa == 3) {
             $("#form-emissao-documento-assuntos :input").prop("disabled", false);
+            $(".botaoacessoupload").prop('disabled', false);
+            $(".btn-upload2-rai").addClass("not-active");
         }
 
     },
