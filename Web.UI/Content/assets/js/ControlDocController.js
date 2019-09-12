@@ -268,10 +268,10 @@ APP.controller.ControlDocController = {
                 bootbox.alert("Ocorreu um erro inesperado durante a solicitação. Tente Novamente.");
             },
             success: function (data) {
-				if (data.xmlFluxo != null) {
-					$("#form-emissao-documento-fluxo-conteudo").val(data.xmlFluxo);
-					APP.controller.ControlDocController.setEditorFormFluxo();
-				}
+                if (data.xmlFluxo != null) {
+                    $("#form-emissao-documento-fluxo-conteudo").val(data.xmlFluxo);
+                    APP.controller.ControlDocController.setEditorFormFluxo();
+                }
                 if (perfil == "4" || perfil == "2") {
 
                     var modal = bootbox.dialog({
@@ -473,6 +473,7 @@ APP.controller.ControlDocController = {
         this.formComentarios();
         this.formCargos();
         this.setCargosEmissaoDocumentos();
+        this.setValidateAssunto();
 
         this.sendFormEmissaoDocumento();
         this.sendFormEmissaoDocumentoVerificacao();
@@ -506,6 +507,7 @@ APP.controller.ControlDocController = {
         this.formComentarios();
         this.formCargos();
         this.setCargosEmissaoDocumentos();
+        this.setValidateAssunto();
         this.setWorkFlow();
         APP.controller.ControlDocController.getTemasCores();
 
@@ -520,7 +522,7 @@ APP.controller.ControlDocController = {
 
         //$("#form-emissao-documento-texto").show();
         //$('[name^=formRiscosNecessitaAcao]').trigger('change');
-        
+
         //$('[name^=formRiscosJustificativa]').val("");
         //$('[name^=formRiscosObjetivo]').val("");
 
@@ -715,6 +717,10 @@ APP.controller.ControlDocController = {
                 if ($("#emissao-documento-IdDocumento").val() != 0) {
 
                     emissaoDocumento.Assuntos = APP.controller.ControlDocController.getObjFormAssuntos();
+                    var validateAssunto = APP.controller.ControlDocController.setValidateAssunto(emissaoDocumento.Assuntos);
+                    if (validateAssunto) {
+                        return;
+                    }
                     emissaoDocumento.Comentarios = APP.controller.ControlDocController.getObjFormComentarios();
                 }
 
@@ -2401,43 +2407,43 @@ APP.controller.ControlDocController = {
 
     },
     setdelUploadFormUpload: function () {
-    /*
-        this.buttonAddUploadFormUpload.unbind('click');
-        this.buttonAddUploadFormUpload.on('click', function () {
-            var index = $('#tb-form-upload tbody tr').size();
-            event.preventDefault();
-
-            var html = '';
-            html += '<tr>';
-            html += '<td>';
-            html += '<input type="text" name="formUploadTitulo" id="form-upload-titulo" class="form-control"  value="" />';
-            html += '</td>';
-            html += '<td>';
-            html += '<div id="uplPE-form-upload' + index + '" class="upload upload-file">';
-            html += '<div id="dropPE-form-upload' + index + '" class="drop" style="padding:2px 3px; background-color:#fff;">';
-            html += '<a href="javascript:;" class="text-center" style="color: #698e9f;">';
-            html += '<i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br>Anexar</a>';
-            html += '<input type="file" name="upl" multiple />';
-            html += '<ul><!-- The file uploads will be shown here --></ul>';
-            html += '<input type="hidden" id="arquivoEvidencia-form-upload' + index + '" value=""/></div></div>';
-            html += '</td>';
-            html += '<td>';
-            html += '<button type="button" class="excluir-form-upload btn trash-color">';
-            html += '<i class="fa fa-trash " aria-hidden="true" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '"></i>';
-            html += '</button>';
-            html += '</td>';
-            html += '</tr>';
-
-            $('#tb-form-upload tbody').append(html);
-
-            var dropPE = "dropPE-form-upload" + index;
-            var uplPE = "uplPE-form-upload" + index;
-            var arquivoEvidencia = "arquivoEvidencia-form-upload" + index;
-
-            APP.controller.ControlDocController.setup();
-            APP.controller.ControlDocController.bindFormUpload(dropPE, uplPE, arquivoEvidencia);
-        });
-            */
+        /*
+            this.buttonAddUploadFormUpload.unbind('click');
+            this.buttonAddUploadFormUpload.on('click', function () {
+                var index = $('#tb-form-upload tbody tr').size();
+                event.preventDefault();
+    
+                var html = '';
+                html += '<tr>';
+                html += '<td>';
+                html += '<input type="text" name="formUploadTitulo" id="form-upload-titulo" class="form-control"  value="" />';
+                html += '</td>';
+                html += '<td>';
+                html += '<div id="uplPE-form-upload' + index + '" class="upload upload-file">';
+                html += '<div id="dropPE-form-upload' + index + '" class="drop" style="padding:2px 3px; background-color:#fff;">';
+                html += '<a href="javascript:;" class="text-center" style="color: #698e9f;">';
+                html += '<i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br>Anexar</a>';
+                html += '<input type="file" name="upl" multiple />';
+                html += '<ul><!-- The file uploads will be shown here --></ul>';
+                html += '<input type="hidden" id="arquivoEvidencia-form-upload' + index + '" value=""/></div></div>';
+                html += '</td>';
+                html += '<td>';
+                html += '<button type="button" class="excluir-form-upload btn trash-color">';
+                html += '<i class="fa fa-trash " aria-hidden="true" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '"></i>';
+                html += '</button>';
+                html += '</td>';
+                html += '</tr>';
+    
+                $('#tb-form-upload tbody').append(html);
+    
+                var dropPE = "dropPE-form-upload" + index;
+                var uplPE = "uplPE-form-upload" + index;
+                var arquivoEvidencia = "arquivoEvidencia-form-upload" + index;
+    
+                APP.controller.ControlDocController.setup();
+                APP.controller.ControlDocController.bindFormUpload(dropPE, uplPE, arquivoEvidencia);
+            });
+                */
 
     },
 
@@ -2451,7 +2457,7 @@ APP.controller.ControlDocController = {
             */
 
     },
-    
+
 
     setupUploadArquivoFormUpload: function (dropPE, uplPE, arquivoEvidencia) {
 
@@ -2771,7 +2777,7 @@ APP.controller.ControlDocController = {
         $('[name^=formRiscosNecessitaAcao]').unbind('change');
         $('[name^=formRiscosNecessitaAcao]').on('change', function () {
 
-            APP.controller.ControlDocController.getNecessitaAcao();	
+            APP.controller.ControlDocController.getNecessitaAcao();
 
 
             //var necessitaAcao = APP.controller.ControlDocController.getNecessitaAcao();
@@ -2780,7 +2786,7 @@ APP.controller.ControlDocController = {
         });
 
     },
-    
+
 
     getNecessitaAcao: function () {
 
@@ -3251,6 +3257,26 @@ APP.controller.ControlDocController = {
 
     },
 
+    setValidateAssunto: function (obj) {
+        if (obj != null) {
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].Descricao === "") {
+                    $("#modal-panel-form-assuntos").modal("show");
+                    bootbox.alert("Ocorreu um erro ao criar uma nova revisão por gentileza preencher a descrição do assunto");
+                    var tablerow = $("#tb-emissao-documento-form-assuntos tbody tr:first");
+                    tablerow.closest('tr').find('[name=formAssuntoDtVersao]').prop('disabled', false);
+                    tablerow.closest('tr').find('[name=formAssuntoRevisao]').prop('disabled', false);
+                    tablerow.closest('tr').find('[name=formAssuntoDescricao]').prop('disabled', false);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            };
+        };
+    },
+
+
     addCargosEmissaoDocumentos: function (cargo) {
 
         var $divCargos = $(".tabela-cargo-check");
@@ -3422,5 +3448,7 @@ APP.controller.ControlDocController = {
             $("#panel-form-" + templateUtilizado).show();
         });
     },
+
+
 
 };
