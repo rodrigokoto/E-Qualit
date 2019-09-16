@@ -409,7 +409,7 @@ APP.controller.ControlDocController = {
     },
 
     setRevisarDocumento: function () {
-        $('.controldoc-revisar').on('click', function () {
+        $('#tb-list-documentos').on('click', '.controldoc-revisar' , function () {
             var erro = "";
 
 
@@ -3453,37 +3453,3 @@ APP.controller.ControlDocController = {
 
 };
 
-
-function RevisarDocumento() {
-    var erro = "";
-
-    var idDoc = $('.controldoc-revisar').data('id-doc');
-
-    $.ajax({
-        type: "POST",
-        dataType: 'json',
-        url: '/ControlDoc/Revisar?Id=' + idDoc,
-        beforeSend: function () {
-            APP.component.Loading.showLoading();
-        },
-        success: function (result) {
-            if (result.StatusCode == 200) {
-                window.location.href = "/ControlDoc/Editar/?id=" + result.IdRevisao + '&validarAssunto=true';
-            }
-            else if (result.StatusCode == 505) {
-                erro = APP.component.ResultErros.init(result.Erro);
-                bootbox.alert(erro);
-            } else if (result.StatusCode == 500) {
-                erro = APP.component.ResultErros.init(result.Erro);
-                bootbox.alert(erro);
-            }
-        },
-        error: function (result) {
-            erro = APP.component.ResultErros.init(result.Erro);
-            bootbox.alert(erro);
-        },
-        complete: function (result) {
-            APP.component.Loading.hideLoading();
-        }
-    });
-}
