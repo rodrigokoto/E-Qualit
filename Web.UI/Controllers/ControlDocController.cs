@@ -140,6 +140,12 @@ namespace Web.UI.Controllers
             ViewBag.usuarios = lstItem;
         }
 
+
+        public ActionResult Header() {
+
+            return View("Header");
+        }
+
         [HttpPost]
         public ActionResult PDF([System.Web.Http.FromBody]int id, bool controlada, string usuarioDest, string fluxoBase64)
         {
@@ -194,6 +200,19 @@ namespace Web.UI.Controllers
                 IsImpressaoControlada = controlada
             };
 
+            string header = string.Empty;
+
+            if (controlada)
+            {
+                header = string.Format("{0} - Copia controlada", DateTime.Now.ToString("dd/MM/yyyy"));
+            }
+            else {
+                header = string.Format("{0} - Copia não controlada", DateTime.Now.ToString("dd/MM/yyyy"));
+            }
+
+            string customSwitches = string.Format("--header-center \"{0}\" " +
+                "--header-font-size \"8\" ", header);
+
             var pdf = new ViewAsPdf
             {
                 ViewName = "PDF",
@@ -201,7 +220,9 @@ namespace Web.UI.Controllers
                 PageOrientation = Orientation.Portrait,
                 PageSize = Size.A4,
                 PageMargins = new Margins(10, 15, 10, 15),
-                FileName = "Documento.pdf"
+                FileName = "Documento.pdf",
+                CustomSwitches = customSwitches
+                
             };
 
             ViewBag.CopiaControlada = controlada;
