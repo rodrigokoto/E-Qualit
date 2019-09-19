@@ -138,5 +138,16 @@ namespace Dominio.Validacao.DocDocumentos
             RuleFor(documento => documento.TextoDoc)
                 .MaximumLength(100000).WithMessage(Traducao.Resource.MsgMaxTextoDoc100000Caracteres);
         }
+
+        public void ValidarDocumentoCargoObrigatorio()
+        {
+            RuleFor(x => x.DocCargo)
+                .Must(y => y.Count > 0)
+                .When(z => z.FlWorkFlow == false)
+                .WithMessage(Traducao.Resource.DocDocumento_msg_erro_required_DocCargo);
+                
+            
+             //.GreaterThan(0).WithMessage(Traducao.Resource.DocDocumento_msg_erro_required_DocCargo);
+        }
     }
 }

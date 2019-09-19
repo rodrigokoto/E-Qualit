@@ -24,6 +24,7 @@ namespace Dominio.Validacao.DocDocumentos.View
             DataNotificacaoObrigatoria();
             ValidaDocTemplate();
             ValidaQuantidadeCaracteresCampos();
+            ValidarDocumentoCargoObrigatorio();
         }
     }
 }
