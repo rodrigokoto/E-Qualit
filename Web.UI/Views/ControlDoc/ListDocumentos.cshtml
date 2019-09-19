@@ -141,13 +141,16 @@
                                                         }
                                                     }
 
-                                                    @if (item.FlStatus != (int)StatusDocumento.Aprovado || ViewBag.Revisao)
+                                                    @if (item.FlStatus != (int)StatusDocumento.Aprovado)
                                                     {
-                                                        if (ViewBag.UsuarioPodeAlterar && (ViewBag.Obsoletos == null || ViewBag.Obsoletos == false))
+                                                        if (ViewBag.Revisao != false)
                                                         {
-                                                            <a href="@Url.Action("Editar", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.btn_lbl_editar" class="edit icon-cliente editar-color">
-                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="Editar"></i>
-                                                            </a>
+                                                            if (ViewBag.UsuarioPodeAlterar && (ViewBag.Obsoletos == null || ViewBag.Obsoletos == false))
+                                                            {
+                                                                <a href="@Url.Action("Editar", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.btn_lbl_editar" class="edit icon-cliente editar-color">
+                                                                    <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="Editar"></i>
+                                                                </a>
+                                                            }
                                                         }
                                                     }
 
