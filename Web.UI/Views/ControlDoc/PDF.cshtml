@@ -82,7 +82,7 @@
                 <input type="hidden" name="NmUsuarioLogado" id="emissao-documento-NmUsuarioLogado" value="@ViewBag.NmUsuarioLogado" />
                 <div class="content-painel">
                     <!-- Formulario CADASTRO -->
-                  
+
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="row">
@@ -110,7 +110,7 @@
                                 </div>
                                 <div>
                                     <div class="caixa">
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <!-- Titulo do Documento -->
                                             <div class="form-group">
                                                 <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_TituloDocumento</label>
@@ -118,7 +118,7 @@
                                                 @Model.Documento.Titulo
                                             </div>
                                         </div>
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <!-- Sigla -->
                                             <div class="form-group">
                                                 <label for="form-cadastro-sigla">
@@ -128,7 +128,7 @@
                                                 @Model.Documento.Sigla.Descricao
                                             </div>
                                         </div>
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <!-- Numero Documento -->
                                             <div class="form-group">
                                                 <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
@@ -139,37 +139,7 @@
                                                 @numeroDocumento
                                             </div>
                                         </div>
-                                        <div class="col-xs-2">
-                                            <!-- Processo -->
-                                            <div class="form-group">
-                                                <label for="form-cadastro-processo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Processo</label>
-                                                <br />
-                                                @(Model.Documento.Processo != null ? Model.Documento.Processo.Nome : "")
 
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <!-- Categoria -->
-                                            <div class="form-group">
-                                                <label for="form-cadastro-categoria">
-                                                    @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Categoria
-                                                    <i class="fa fa-plus-circle trash-color add-categoria" style="display:none" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="Adicione uma categoria." data-tipo="CATDOC" data-site="@(Model.Documento.IdSite == 0 ? ViewBag.IdSite : Model.Documento.IdSite)"></i>
-                                                </label>
-                                                <br />
-                                                @Model.Documento.Categoria.Descricao
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <!-- Elaborador -->
-                                            <div class="form-group">
-                                                <label for="form-cadastro-categoria">
-                                                    @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador
-                                                    <i class="fa fa-plus-circle trash-color add-categoria" style="display:none" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="Adicione uma categoria." data-tipo="CATDOC" data-site="@(Model.Documento.IdSite == 0 ? ViewBag.IdSite : Model.Documento.IdSite)"></i>
-                                                </label>
-                                                <br />
-                                                @Model.Documento.Elaborador.NmCompleto
-                                            </div>
-                                        </div>
                                         <div style="display: none">
                                             <!-- Escolha -->
                                             <div class="form-group">
@@ -482,7 +452,7 @@
                                                                             @rotina.Item
                                                                         </td>
                                                                         <td>
-                                                                            rotina.OQue
+                                                                            @rotina.OQue
                                                                         </td>
                                                                         <td>
                                                                             @rotina.Quem
@@ -714,44 +684,75 @@
                     {
                         <div class="row">
                             <form id="form-emissao-documento-docsexternos">
-                                <div id="panel-form-docsexternos">
+                                <div>
                                     <div>
-                                        <div>
-                                            <h4>@Traducao.Resource.UploadArquivos</h4>
-                                        </div>
+                                        <h4>@Traducao.Resource.UploadArquivos</h4>
                                     </div>
-                                    <div>
-                                        <div class="caixa">
-
-                                            <div class="col-md-12" style="height:30%; margin-bottom: 30px;">
-                                                <div class="form-group">
-                                                    <!-- Arquivo -->
-                                                    <label>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Arquivo</label>
-                                                    <div class="upload-arq  @(Model.Documento.IdDocumento > 0 ? "box-upload-arq" : null)">
-                                                        <ul>
-                                                            @if (Model.Documento.DocExterno != null)
-                                                            {
-                                                                <li>
-                                                                    <a href="@Model.Documento.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.Documento.DocExterno.Anexo.Nome">@Model.Documento.DocExterno.Anexo.Nome</a>
-                                                                    <input type="hidden" name="formDocExternoAnexoNome" value="@Model.Documento.DocExterno.Anexo.Nome">
-                                                                    <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.Documento.DocExterno.Anexo.IdAnexo">
-                                                                </li>
-                                                            }
-
-                                                        </ul>
-                                                        <input type="file" name="formDocExternoAnexoAnexo" id="form-docexterno-anexo"
-                                                               class=""
-                                                               data-msg-required=""
-                                                               data-b64="" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                                <div>
+                                    <div class="caixa">
+                                        <div class="col-md-12">
+                                            <!-- Arquivo -->
+                                            <table class="table table-striped table-bordered table-list" style="width:100% !important">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="w20 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Aprovador</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.Documento.ArquivoDocDocumentoAnexo.Count > 0)
+                                                    {
+                                                        foreach (var anexo in Model.Documento.ArquivoDocDocumentoAnexo)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <p>@anexo.Anexo.Nome</p>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     }
+
+                    <!-- Elaborador-->
+                    <div class="row">
+                        <form id="form-emissao-documento-elaborador">
+                            <div>
+                                <div>
+                                    <h4>Elaborador</h4>
+                                </div>
+                            </div>
+                            <div class="caixa">
+                                <div class="col-md-12">
+                                    <table id="tb-emissao-documento-form-elaborador" class="table table-striped table-bordered table-list" style="width:100% !important">
+                                        <thead>
+                                            <tr>
+                                                <th class="w20 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador</th>
+                                                <th class="w20 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Aprovador</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>@Model.Documento.Elaborador.NmCompleto</td>
+                                                <td>
+                                                    @foreach (var aprovador in Model.Documento.Aprovadores)
+                                                    {
+                                                        <p>@aprovador.Usuario.NmCompleto.ToString()</p>;
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
 
                     <!-- Assunto -->
