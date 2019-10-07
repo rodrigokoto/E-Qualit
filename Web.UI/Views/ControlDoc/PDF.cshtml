@@ -696,7 +696,7 @@
                                             <table class="table table-striped table-bordered table-list" style="width:100% !important">
                                                 <thead>
                                                     <tr>
-                                                        <th class="w20 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Aprovador</th>
+                                                        <th class="w20 with-input">Arquivos</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -734,12 +734,14 @@
                                         <thead>
                                             <tr>
                                                 <th class="w20 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador</th>
+                                                <th class="w20 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Revisao</th>
                                                 <th class="w20 with-input">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Aprovador</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>@Model.Documento.Elaborador.NmCompleto</td>
+                                                <td>@Model.Documento.NuRevisao</td>
                                                 <td>
                                                     @foreach (var aprovador in Model.Documento.Aprovadores)
                                                     {

@@ -211,7 +211,10 @@ namespace Web.UI.Controllers
             }
 
             string customSwitches = string.Format("--header-center \"{0}\" " +
-                "--header-font-size \"8\" ", header);
+                "--header-font-size \"8\" " +
+                "--footer-right \"[page] / [topage]\" " +
+                "--footer-font-size \"8\" "
+                , header);
 
             var pdf = new ViewAsPdf
             {
@@ -222,6 +225,8 @@ namespace Web.UI.Controllers
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Documento.pdf",
                 CustomSwitches = customSwitches
+                
+                
                 
             };
 

@@ -312,4 +312,7 @@
   <data name="ControlDoc_msg_Success_Verificacao_Falha_Email" xml:space="preserve">
     <value>Documento enviado para Verificação, porém ocorreu falha no envio da notificação.</value>
   </data>
+  <data name="ControlDoc_lbl_Revisao" xml:space="preserve">
+    <value>Revisão</value>
+  </data>
 </root>

@@ -313,6 +313,15 @@ namespace Traducao.ControlDoc {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Revisão.
+        /// </summary>
+        public static string ControlDoc_lbl_Revisao {
+            get {
+                return ResourceManager.GetString("ControlDoc_lbl_Revisao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Risco.
         /// </summary>
         public static string ControlDoc_lbl_Risco {
