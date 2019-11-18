@@ -10,6 +10,7 @@ namespace Dominio.Entidade
         public int IdRepresentanteDaDirecao { get; set; }
         public int IdElaborador { get; set; }
 
+		
 
         public int Mes { get; set; }
 

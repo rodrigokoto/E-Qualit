@@ -4,703 +4,706 @@
 @model  List<Dominio.Entidade.Pai>
 
 @{
-    ViewBag.Title = "Auditoria";
+	ViewBag.Title = "Auditoria";
 
-    var listaPermissoes = new List<PermissoesApp>();
-    listaPermissoes.AddRange(ViewBag.Permissoes);
+	var listaPermissoes = new List<PermissoesApp>();
+	listaPermissoes.AddRange(ViewBag.Permissoes);
 
 }
 @section Metas {
-    <meta name="page" content="IndexAuditoria" />
+	<meta name="page" content="IndexAuditoria" />
 }
 
 @section scripts {
-    <script src="@Url.Content("~/Content/assets/js/AuditoriaController.js?rnd=4")"></script>
-    <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
+	<script src="@Url.Content("~/Content/assets/js/AuditoriaController.js?rnd=4")"></script>
+	<script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
 }
 
 
 @helper SairMes(string labelMes, string nomeMesMaiusc, string nomeMesMinusc, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
 {
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-        <div class="background-calendar">
-            @labelMes
-        </div>
-        <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)" data-divarquivos="#modal-rai@(numeroMes)@(pai.Ano)">
-            <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMes@(nomeMesMaiusc)" value="@numeroMes" />
-            @{
-                List<string> normas = (pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
-            }
-            @foreach (var processoNorma in normas)
-            {
-                if (processoNorma != null)
-                {
-                    <li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+		<div class="background-calendar">
+			@labelMes
+		</div>
+		<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)" data-divarquivos="#modal-rai@(numeroMes)@(pai.Ano)">
+			<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMes@(nomeMesMaiusc)" value="@numeroMes" />
+			@{
+				List<string> normas = (pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault() != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma != null ? pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma.Select(x => x.Processo.Nome).ToList().Distinct().ToList() : new List<string>());
+			}
+			@foreach (var processoNorma in normas)
+			{
+				if (processoNorma != null)
+				{
+					<li id="drag-item-eng" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
 
-                        <span>
-                            @processoNorma
+						<span>
+							@processoNorma
 
-                            @if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
+							@if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPAIExcluir)
 || ViewBag.IdPerfil != 4)
-                            {
-                                <a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
-                            }
-                        </span>
-                    </li>
-                }
-            }
-        </ul>
-        @if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == numeroMes) != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma.Count > 0)
-        {
-            if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
-                           || ViewBag.IdPerfil != 4)
-            {
-                <div class="button-plai">
-                    <button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = numeroMes }, null)</button>
-                </div>
-            }
+							{
+								<a href="#" onclick="ExcluirProcessoAuditoria(this);" style="float: right; margin-right: 10px; color: white"><i class="fa fa-trash"></i></a>
+							}
+						</span>
+					</li>
+				}
+			}
+		</ul>
+		@if (pai.Plais.Count > 0 && pai.Plais.Where(x => x.Mes == numeroMes) != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma != null && pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault().PlaiProcessoNorma.Count > 0)
+		{
+			if (listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.ElaborarPLAIEditar)
+						   || ViewBag.IdPerfil != 4)
+			{
+				<div class="button-plai">
+					<button type="button" class="btn btn-primary">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_plai, "Criar", "Plai", new { idPai = pai.IdPai, mes = numeroMes }, null)</button>
+				</div>
+			}
 
-            <div class="button-pai-anexo">
-                @{
-                    var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
-                    int nroArquivos = plai.ArquivoPlai.Count;
+			<div class="button-pai-anexo">
+				@{
+					var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
+					int nroArquivos = plai.ArquivoPlai.Count;
 
-                    var botao = new Web.UI.Models.ArquivoAnexoViewModel()
-                    {
-                        IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
-                        TextoLink = "R.A.I.",
-                        NumeroArquivos = nroArquivos
-                    };
-                    Html.RenderPartial("Anexo/_Anexo", botao);
-                }
-            </div>
-        }
-    </div>
+					var botao = new Web.UI.Models.ArquivoAnexoViewModel()
+					{
+						IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
+						TextoLink = "R.A.I.",
+						NumeroArquivos = nroArquivos
+					};
+					Html.RenderPartial("Anexo/_Anexo", botao);
+				}
+			</div>
+		}
+	</div>
 }
 
 
 @helper SairMesRaiModal(string nomeMes, int numeroMes, Dominio.Entidade.Pai pai, List<PermissoesApp> listaPermissoesMes)
 {
-    var botao = new Web.UI.Models.ArquivoAnexoViewModel
-    {
-        IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
-        TextoLink = "R.A.I.",
-        NumeroArquivos = 0,
-        ModalTittle = "R.A.I. - " + nomeMes
-    };
-    var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
-    botao.AnexosLista = plai.ArquivoPlai.ToList().Select(r =>
-    {
-        return
-    new Web.UI.Models.ArquivoAnexoItemViewModel()
-    {
-        AnexoDados = r.Anexo,
-        IdChave1 = r.IdArquivoPlaiAnexo,
-        IdChave2 = r.IdPlai
-    };
-    }).ToList();
-    botao.NumeroArquivos = plai.ArquivoPlai.Count;
-    botao.PodeAnexar = listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4;
+	var botao = new Web.UI.Models.ArquivoAnexoViewModel
+	{
+		IdentificadorInicial = numeroMes.ToString() + pai.Ano.ToString(),
+		TextoLink = "R.A.I.",
+		NumeroArquivos = 0,
+		ModalTittle = "R.A.I. - " + nomeMes
+	};
+	var plai = pai.Plais.Where(x => x.Mes == numeroMes).FirstOrDefault();
+	if (plai != null)
+	{
+		botao.AnexosLista = plai.ArquivoPlai.ToList().Select(r =>
+		{
+			return
+		new Web.UI.Models.ArquivoAnexoItemViewModel()
+		{
+			AnexoDados = r.Anexo,
+			IdChave1 = r.IdArquivoPlaiAnexo,
+			IdChave2 = r.IdPlai
+		};
+		}).ToList();
 
-    Html.RenderPartial("Anexo/_ModalAnexo", botao);
+		botao.NumeroArquivos = plai.ArquivoPlai.Count;
+		botao.PodeAnexar = listaPermissoesMes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.AnexarPLAI) || ViewBag.IdPerfil != 4;
+	}
+	Html.RenderPartial("Anexo/_ModalAnexo", botao);
 }
 
 
 @{
-    Html.RenderPartial("Anexo/_AnexoSetup");
+	Html.RenderPartial("Anexo/_AnexoSetup");
 }
 
 
 <div id="main">
-    <div class="content-painel">
-        <!-- hidden -->
-        <input class="hidden" name="IdSite" value="@ViewBag.IdSite"
+	<div class="content-painel">
+		<!-- hidden -->
+		<input class="hidden" name="IdSite" value="@ViewBag.IdSite"
         <!-- Formulario Calendario -->
-        <form id="form-auditoria">
-            <div class="panel panel-default" id="panel-auditoria">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h2>@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_titulo</h2>
-                    </div>
-                </div>
-                <div class="panel-body" id="panel-form-auditoria">
-                    <div class="barra-busca">
-                        <div class="row">
-                            <!-- Gestor -->
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-                                <div class="row">
-                                    <div class="form-group">
-                                        <label for="form-auditoria-gestor" class="control-label">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_Gestor</label>
-                                        <select id="form-auditoria-gestor" name="formAuditoriaGestor" class="form-control"
-                                                data-msg-required="@Traducao.Auditoria.ResourceAuditoria.Auditoria_msg_required_Gestor">
-                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                            @if (Model.FirstOrDefault() != null && Model.FirstOrDefault().Usuario != null)
-                                            {
-                                                <option value="@Model.FirstOrDefault().Usuario.IdUsuario" selected>@Model.FirstOrDefault().Usuario.NmCompleto</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
+		<form id="form-auditoria">
+			<div class="panel panel-default" id="panel-auditoria">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<h2>@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_titulo</h2>
+					</div>
+				</div>
+				<div class="panel-body" id="panel-form-auditoria">
+					<div class="barra-busca">
+						<div class="row">
+							<!-- Gestor -->
+							<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+								<div class="row">
+									<div class="form-group">
+										<label for="form-auditoria-gestor" class="control-label">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_Gestor</label>
+										<select id="form-auditoria-gestor" name="formAuditoriaGestor" class="form-control"
+												data-msg-required="@Traducao.Auditoria.ResourceAuditoria.Auditoria_msg_required_Gestor">
+											<option value="">@Traducao.Resource.Dropdown_name_select</option>
+											@if (Model.FirstOrDefault() != null && Model.FirstOrDefault().Usuario != null)
+											{
+												<option value="@Model.FirstOrDefault().Usuario.IdUsuario" selected>@Model.FirstOrDefault().Usuario.NmCompleto</option>
+											}
+										</select>
+									</div>
+								</div>
+								<div class="row">
 
-                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.CadastroDeNorma)
-                                        || listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.EdiçãoDeNorma)
-                                        || ViewBag.IdPerfil != 4)
-                                    {
-                                        <div class="pai-box-norma-processo">
-                                            <button type="button" class="btn btn-primary btn-block"><a href="/Norma/Index">@Traducao.Auditoria.ResourceAuditoria.Auditoria_btn_Normas</a></button>
-                                        </div>
-                                    }
-                                    <div class="box-processo">
-                                        <h4>@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_titulo_processo</h4>
-                                        <ul>
-                                            @{ var item = 1; }
-                                            @foreach (var processo in ViewBag.ListaProcessos)
-                                            {
-                                                <li id="@( "drag-item-eng" + @item)" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
-                                                    <input type="hidden" name="formCalendarioMesIdProcesso" value="@processo.IdProcesso" />
-                                                    <span>@processo.Nome</span>
-                                                </li>
+									@if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.CadastroDeNorma)
+										|| listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAuditoria.EdiçãoDeNorma)
+										|| ViewBag.IdPerfil != 4)
+									{
+										<div class="pai-box-norma-processo">
+											<button type="button" class="btn btn-primary btn-block"><a href="/Norma/Index">@Traducao.Auditoria.ResourceAuditoria.Auditoria_btn_Normas</a></button>
+										</div>
+									}
+									<div class="box-processo">
+										<h4>@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_titulo_processo</h4>
+										<ul>
+											@{ var item = 1; }
+											@foreach (var processo in ViewBag.ListaProcessos)
+											{
+												<li id="@( "drag-item-eng" + @item)" name="formCalendarioMesProcesso" class="pai-calendario-processo" draggable="true" ondragstart="APP.component.DragAndDrop.drag(event)">
+													<input type="hidden" name="formCalendarioMesIdProcesso" value="@processo.IdProcesso" />
+													<span>@processo.Nome</span>
+												</li>
 
-                                                item++;
+												item++;
 
-                                            }
-                                        </ul>
-                                    </div>
+											}
+										</ul>
+									</div>
 
-                                </div>
-                            </div>
-                            <!-- Processo -->
-                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-                                <div id="myCarousel" class="carousel slide" data-interval="false" data-ride="carousel">
-                                    <!-- Left and right controls -->
-                                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                        <span class="glyphicon glyphicon-chevron-left"></span>
-                                        <span class="sr-only">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_anterior</span>
-                                    </a>
-                                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                                        <span class="glyphicon glyphicon-chevron-right"></span>
-                                        <span class="sr-only">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_proximo</span>
-                                    </a>
-                                    <!-- Wrapper for slides -->
-                                    <div class="carousel-inner">
-                                        <!-- Calendario 2017 -->
-                                        @*@if (Model.Count > 0)
-                                            {*@
-                                        @foreach (Dominio.Entidade.Pai pai in Model)
-                                        {
-                                            <div class="item @(pai.Ano  == DateTime.Now.Year ? "active" : "")">
-                                                <input type="hidden" id="formAuditoriaIdPai" class="formAuditoriaIdPai" name="formAuditoriaIdPai" value="@pai.IdPai" />
-                                                <div class="pai-ano">
-                                                    <span>@pai.Ano</span>
-                                                </div>
-                                                <div class='calendar'>
-                                                    <div class="row">
-                                                        <div class="row">
-                                                            <!-- Janeiro -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jan, "Jan", "jan", 1, pai, listaPermissoes)
-                                                            <!-- Fevereiro -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Fev, "Fev", "fev", 2, pai, listaPermissoes)
-                                                            <!-- Março -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Mar, "Mar", "mar", 3, pai, listaPermissoes)
-                                                            <!-- Abril -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Abr, "Abr", "abr", 4, pai, listaPermissoes)
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Maio -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Mai, "Mai", "mai", 5, pai, listaPermissoes)
-                                                            <!-- Junho -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jun, "Jun", "jun", 6, pai, listaPermissoes)
-                                                            <!-- Julho -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jul, "Jul", "jul", 7, pai, listaPermissoes)
-                                                            <!-- Agosto -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Ago, "Ago", "ago", 8, pai, listaPermissoes)
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Setembro -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Set, "Set", "set", 9, pai, listaPermissoes)
-                                                            <!-- Outubro -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Out, "Out", "out", 10, pai, listaPermissoes)
-                                                            <!-- Novembro -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Nov, "Nov", "nov", 11, pai, listaPermissoes)
-                                                            <!-- Dezembro -->
-                                                            @SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Dez, "Dez", "dez", 12, pai, listaPermissoes)
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
+								</div>
+							</div>
+							<!-- Processo -->
+							<div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+								<div id="myCarousel" class="carousel slide" data-interval="false" data-ride="carousel">
+									<!-- Left and right controls -->
+									<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+										<span class="glyphicon glyphicon-chevron-left"></span>
+										<span class="sr-only">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_anterior</span>
+									</a>
+									<a class="right carousel-control" href="#myCarousel" data-slide="next">
+										<span class="glyphicon glyphicon-chevron-right"></span>
+										<span class="sr-only">@Traducao.Auditoria.ResourceAuditoria.Auditoria_lbl_proximo</span>
+									</a>
+									<!-- Wrapper for slides -->
+									<div class="carousel-inner">
+										<!-- Calendario 2017 -->
+										@*@if (Model.Count > 0)
+											{*@
+										@foreach (Dominio.Entidade.Pai pai in Model)
+										{
+											<div class="item @(pai.Ano  == DateTime.Now.Year ? "active" : "")">
+												<input type="hidden" id="formAuditoriaIdPai" class="formAuditoriaIdPai" name="formAuditoriaIdPai" value="@pai.IdPai" />
+												<div class="pai-ano">
+													<span>@pai.Ano</span>
+												</div>
+												<div class='calendar'>
+													<div class="row">
+														<div class="row">
+															<!-- Janeiro -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jan, "Jan", "jan", 1, pai, listaPermissoes)
+															<!-- Fevereiro -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Fev, "Fev", "fev", 2, pai, listaPermissoes)
+															<!-- Março -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Mar, "Mar", "mar", 3, pai, listaPermissoes)
+															<!-- Abril -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Abr, "Abr", "abr", 4, pai, listaPermissoes)
+														</div>
+														<div class="row">
+															<!-- Maio -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Mai, "Mai", "mai", 5, pai, listaPermissoes)
+															<!-- Junho -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jun, "Jun", "jun", 6, pai, listaPermissoes)
+															<!-- Julho -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Jul, "Jul", "jul", 7, pai, listaPermissoes)
+															<!-- Agosto -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Ago, "Ago", "ago", 8, pai, listaPermissoes)
+														</div>
+														<div class="row">
+															<!-- Setembro -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Set, "Set", "set", 9, pai, listaPermissoes)
+															<!-- Outubro -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Out, "Out", "out", 10, pai, listaPermissoes)
+															<!-- Novembro -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Nov, "Nov", "nov", 11, pai, listaPermissoes)
+															<!-- Dezembro -->
+															@SairMes(Traducao.Shared.ResourceLabel.Label_mes_short_Dez, "Dez", "dez", 12, pai, listaPermissoes)
+														</div>
+													</div>
+												</div>
+											</div>
+										}
 
-                                        @if (Model.Count() > 0 && Model.Last().Ano == DateTime.Now.Year)
-                                        {
-                                            <!-- Calendario Ano Seguinte -->
-                                            <div class="item">
-                                                <div class="pai-ano">
-                                                    <span>@(DateTime.Now.Year + 1)</span>
-                                                </div>
-                                                <div class='calendar'>
-                                                    <div class="row">
-                                                        <div class="row">
-                                                            <!-- Janeiro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jan
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJan" value="1" />
-                                                                </ul>
+										@if (Model.Count() > 0 && Model.Last().Ano == DateTime.Now.Year)
+										{
+											<!-- Calendario Ano Seguinte -->
+											<div class="item">
+												<div class="pai-ano">
+													<span>@(DateTime.Now.Year + 1)</span>
+												</div>
+												<div class='calendar'>
+													<div class="row">
+														<div class="row">
+															<!-- Janeiro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jan
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJan" value="1" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Fevereiro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Fev
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesFev" value="2" />
-                                                                </ul>
+															</div>
+															<!-- Fevereiro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Fev
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesFev" value="2" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Março -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Mar
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMar" value="3" />
-                                                                </ul>
+															</div>
+															<!-- Março -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Mar
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMar" value="3" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Abril -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Abr
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAbr" value="4" />
-                                                                </ul>
+															</div>
+															<!-- Abril -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Abr
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAbr" value="4" />
+																</ul>
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Maio -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Mai
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMai" value="5" />
-                                                                </ul>
+															</div>
+														</div>
+														<div class="row">
+															<!-- Maio -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Mai
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMai" value="5" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Junho -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jun
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJun" value="6" />
-                                                                </ul>
+															</div>
+															<!-- Junho -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jun
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJun" value="6" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Julho -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jul
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJul" value="7" />
-                                                                </ul>
+															</div>
+															<!-- Julho -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jul
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJul" value="7" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Agosto -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Ago
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAgo" value="8" />
-                                                                </ul>
+															</div>
+															<!-- Agosto -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Ago
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAgo" value="8" />
+																</ul>
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Setembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Set
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesSet" value="9" />
-                                                                </ul>
+															</div>
+														</div>
+														<div class="row">
+															<!-- Setembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Set
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesSet" value="9" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Outubro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Out
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesOut" value="10" />
-                                                                </ul>
+															</div>
+															<!-- Outubro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Out
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesOut" value="10" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Novembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Nov
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesNov" value="11" />
-                                                                </ul>
+															</div>
+															<!-- Novembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Nov
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesNov" value="11" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Dezembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Dez
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesDez" value="12" />
-                                                                </ul>
+															</div>
+															<!-- Dezembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Dez
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesDez" value="12" />
+																</ul>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                        else if (Model.Count() == 0)
-                                        {
-                                            <!-- Calendario Atual -->
-                                            <div class="item active">
-                                                <div class="pai-ano">
-                                                    <span>@DateTime.Now.Year</span>
-                                                </div>
-                                                <div class='calendar'>
-                                                    <div class="row">
-                                                        <div class="row">
-                                                            <!-- Janeiro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px" Style="margin-bottom: -50px;">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jan
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJan" value="1" />
-                                                                </ul>
-                                                            </div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										}
+										else if (Model.Count() == 0)
+										{
+											<!-- Calendario Atual -->
+											<div class="item active">
+												<div class="pai-ano">
+													<span>@DateTime.Now.Year</span>
+												</div>
+												<div class='calendar'>
+													<div class="row">
+														<div class="row">
+															<!-- Janeiro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px" Style="margin-bottom: -50px;">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jan
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJan" value="1" />
+																</ul>
+															</div>
 
-                                                            <!-- Fevereiro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px" Style="margin-bottom: -50px;">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Fev
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesFev" value="2" />
+															<!-- Fevereiro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px" Style="margin-bottom: -50px;">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Fev
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesFev" value="2" />
 
-                                                                </ul>
+																</ul>
 
-                                                            </div>
-                                                            <!-- Março -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Mar
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMar" value="3" />
+															</div>
+															<!-- Março -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Mar
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMar" value="3" />
 
-                                                                </ul>
-                                                            </div>
-                                                            <!-- Abril -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Abr
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAbr" value="4" />
+																</ul>
+															</div>
+															<!-- Abril -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Abr
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAbr" value="4" />
 
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Maio -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Mai
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMai" value="5" />
+																</ul>
+															</div>
+														</div>
+														<div class="row">
+															<!-- Maio -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Mai
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMai" value="5" />
 
-                                                                </ul>
-                                                            </div>
-                                                            <!-- Junho -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jun
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJun" value="6" />
-                                                                </ul>
-                                                            </div>
-                                                            <!-- Julho -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jul
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJul" value="7" />
+																</ul>
+															</div>
+															<!-- Junho -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jun
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJun" value="6" />
+																</ul>
+															</div>
+															<!-- Julho -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jul
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJul" value="7" />
 
-                                                                </ul>
+																</ul>
 
-                                                            </div>
-                                                            <!-- Agosto -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Ago
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAgo" value="8" />
+															</div>
+															<!-- Agosto -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Ago
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAgo" value="8" />
 
-                                                                </ul>
+																</ul>
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Setembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Set
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesSet" value="9" />
-                                                                </ul>
+															</div>
+														</div>
+														<div class="row">
+															<!-- Setembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Set
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesSet" value="9" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Outubro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Out
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesOut" value="10" />
-                                                                </ul>
+															</div>
+															<!-- Outubro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Out
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesOut" value="10" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Novembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Nov
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesNov" value="11" />
+															</div>
+															<!-- Novembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Nov
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesNov" value="11" />
 
-                                                                </ul>
+																</ul>
 
-                                                            </div>
-                                                            <!-- Dezembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Dez
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesDez" value="12" />
+															</div>
+															<!-- Dezembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Dez
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesDez" value="12" />
 
-                                                                </ul>
+																</ul>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Calendario Ano Seguinte -->
-                                            <div class="item">
-                                                <div class="pai-ano">
-                                                    <span>@(DateTime.Now.Year + 1)</span>
-                                                </div>
-                                                <div class='calendar'>
-                                                    <div class="row">
-                                                        <div class="row">
-                                                            <!-- Janeiro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jan
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJan" value="1" />
-                                                                </ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Calendario Ano Seguinte -->
+											<div class="item">
+												<div class="pai-ano">
+													<span>@(DateTime.Now.Year + 1)</span>
+												</div>
+												<div class='calendar'>
+													<div class="row">
+														<div class="row">
+															<!-- Janeiro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jan
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJan" value="1" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Fevereiro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Fev
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesFev" value="2" />
-                                                                </ul>
+															</div>
+															<!-- Fevereiro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Fev
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesFev" value="2" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Março -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Mar
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMar" value="3" />
-                                                                </ul>
+															</div>
+															<!-- Março -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Mar
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMar" value="3" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Abril -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Abr
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAbr" value="4" />
-                                                                </ul>
+															</div>
+															<!-- Abril -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Abr
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAbr" value="4" />
+																</ul>
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Maio -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Mai
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMai" value="5" />
-                                                                </ul>
+															</div>
+														</div>
+														<div class="row">
+															<!-- Maio -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Mai
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesMai" value="5" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Junho -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jun
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJun" value="6" />
-                                                                </ul>
+															</div>
+															<!-- Junho -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jun
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJun" value="6" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Julho -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Jul
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJul" value="7" />
-                                                                </ul>
+															</div>
+															<!-- Julho -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Jul
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesJul" value="7" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Agosto -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Ago
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAgo" value="8" />
-                                                                </ul>
+															</div>
+															<!-- Agosto -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Ago
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesAgo" value="8" />
+																</ul>
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Setembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Set
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesSet" value="9" />
-                                                                </ul>
+															</div>
+														</div>
+														<div class="row">
+															<!-- Setembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Set
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesSet" value="9" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Outubro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Out
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesOut" value="10" />
-                                                                </ul>
+															</div>
+															<!-- Outubro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Out
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesOut" value="10" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Novembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Nov
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesNov" value="11" />
-                                                                </ul>
+															</div>
+															<!-- Novembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Nov
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesNov" value="11" />
+																</ul>
 
-                                                            </div>
-                                                            <!-- Dezembro -->
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
-                                                                <div class="background-calendar">
-                                                                    @Traducao.Shared.ResourceLabel.Label_mes_short_Dez
-                                                                </div>
-                                                                <ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
-                                                                    <input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesDez" value="12" />
-                                                                </ul>
+															</div>
+															<!-- Dezembro -->
+															<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="height: 125px">
+																<div class="background-calendar">
+																	@Traducao.Shared.ResourceLabel.Label_mes_short_Dez
+																</div>
+																<ul ondragover="APP.component.DragAndDrop.allowDrop(event)" ondrop="APP.component.DragAndDrop.drop(event)">
+																	<input type="hidden" class="form-control" id="form-calendario-mes" name="formAuditoriaMesDez" value="12" />
+																</ul>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										}
 
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
 
-    </div>
+	</div>
 </div>
 
 @*
 
-    dialogos do RAI
+	dialogos do RAI
 *@
 @foreach (Dominio.Entidade.Pai pai in Model)
 {
-    <!-- Janeiro -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jan, 1, pai, listaPermissoes)
-    <!-- Fevereiro -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Fev, 2, pai, listaPermissoes)
-    <!-- Março -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Mar, 3, pai, listaPermissoes)
-    <!-- Abril -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Abr, 4, pai, listaPermissoes)
-    <!-- Maio -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Mai, 5, pai, listaPermissoes)
-    <!-- Junho -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jun, 6, pai, listaPermissoes)
-    <!-- Julho -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jul, 7, pai, listaPermissoes)
-    <!-- Agosto -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Ago, 8, pai, listaPermissoes)
-    <!-- Setembro -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Set, 9, pai, listaPermissoes)
-    <!-- Outubro -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Out, 10, pai, listaPermissoes)
-    <!-- Novembro -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Nov, 11, pai, listaPermissoes)
-    <!-- Dezembro -->
-    @SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Dez, 12, pai, listaPermissoes)
+	<!-- Janeiro -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jan, 1, pai, listaPermissoes)
+	<!-- Fevereiro -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Fev, 2, pai, listaPermissoes)
+	<!-- Março -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Mar, 3, pai, listaPermissoes)
+	<!-- Abril -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Abr, 4, pai, listaPermissoes)
+	<!-- Maio -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Mai, 5, pai, listaPermissoes)
+	<!-- Junho -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jun, 6, pai, listaPermissoes)
+	<!-- Julho -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Jul, 7, pai, listaPermissoes)
+	<!-- Agosto -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Ago, 8, pai, listaPermissoes)
+	<!-- Setembro -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Set, 9, pai, listaPermissoes)
+	<!-- Outubro -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Out, 10, pai, listaPermissoes)
+	<!-- Novembro -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Nov, 11, pai, listaPermissoes)
+	<!-- Dezembro -->
+	@SairMesRaiModal(Traducao.Shared.ResourceLabel.Label_mes_Dez, 12, pai, listaPermissoes)
 }
 
 
 <div class="navbar navbar-inverse navbar-fixed-bottom">
-    <div class="row pull-right">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
-        </div>
-    </div>
+	<div class="row pull-right">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+		</div>
+	</div>
 </div>
 

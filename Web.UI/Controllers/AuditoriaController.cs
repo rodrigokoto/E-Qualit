@@ -224,6 +224,20 @@ namespace Web.UI.Controllers
 
                         TratarAnexos(plaiNovo, plai);
 
+
+						//if (plai.ArquivoPlai == null)
+						//{
+
+							
+						//	List<ArquivoPlaiAnexo> arqPlai = new List<ArquivoPlaiAnexo>();
+						//	ArquivoPlaiAnexo arquiAnexo = new ArquivoPlaiAnexo();
+						//	arquiAnexo.IdArquivoPlaiAnexo = 0;
+						//	arquiAnexo.IdPlai = plai.IdPlai;
+						//	arquiAnexo.IdAnexo = 0;
+						//	arqPlai.Add(arquiAnexo);
+						//	plai.ArquivoPlai = arqPlai;
+						//}
+
                         if (plai.IdPlai == 0)
                         {
                             _plaiAppServico.Add(plai);
@@ -348,19 +362,19 @@ namespace Web.UI.Controllers
                     if (registro != null)
                     {
                         if (RemoverFilaEnvioAcoesEfetivadas(registro))
-                            SalvarEmailAuditoria(plai);
+                            SalvarEmailAuditoria(plai, pai.Ano);
                     }
                     else
                     {
-                        SalvarEmailAuditoria(plai);
+                        SalvarEmailAuditoria(plai, pai.Ano);
                     }
                 }
             }
         }
 
-        public void SalvarEmailAuditoria(Plai plai)
+        public void SalvarEmailAuditoria(Plai plai, int ano)
         {
-            var dataDaPlai = new DateTime(plai.Pai.Ano, plai.Mes, 1);
+            var dataDaPlai = new DateTime(ano, plai.Mes, 1);
             var mandarEste = false;
 
             if ((dataDaPlai - DateTime.Now).Days >= 30 && DateTime.Now.Day > 15)
@@ -395,7 +409,7 @@ namespace Web.UI.Controllers
                 var filaEnvio = new FilaEnvio();
 
                 filaEnvio.Assunto = "Agendamento de Plai";
-                filaEnvio.DataAgendado = new DateTime(plai.Pai.Ano, plai.Mes, 15).AddMonths(-1);
+                filaEnvio.DataAgendado = new DateTime(ano, plai.Mes, 15).AddMonths(-1);
                 filaEnvio.DataInclusao = DateTime.Now;
                 filaEnvio.Destinatario = destinatario;
                 filaEnvio.Enviado = false;
