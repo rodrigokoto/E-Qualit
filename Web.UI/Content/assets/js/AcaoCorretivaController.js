@@ -1117,18 +1117,32 @@ APP.controller.AcaoCorretivaController = {
 
     },
 
-    getResponsavelReverificarAcaoImediata: function () {
+	getResponsavelReverificarAcaoImediata: function () {
+		debugger;
         var idSite = $('#nao-conformidade-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
         var idFuncao = 24; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique NC
         $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + ' &idSite=' + idSite + '&idFuncao=' + idFuncao + '', function (result) {
-            if (result.StatusCode == 200) {
-
-                $(result.Lista).each(function (key, value) {
-                    var $option = $('<option>');
-                    $('[name=formAcaoImadiataResponsavelReverificacao]').append(
-                        $option.val(value.IdUsuario).text(value.NmCompleto)
-                    );
+			if (result.StatusCode == 200) {
+				var selecionado = $('[name=formAcaoImadiataResponsavelReverificacao]').val();
+				var $option = $('<option>');
+				$('[name=formAcaoImadiataResponsavelReverificacao]').empty();
+				$('[name=formAcaoImadiataResponsavelReverificacao]').append(
+					$option.val("").text("Selecione")
+				);
+				$('[name=formAcaoImadiataResponsavelReverificacao]').append(selecionado);
+				
+				$(result.Lista).each(function (key, value) {
+					var $option = $('<option>');
+					if (value.IdUsuario == selecionado) {
+						$('[name=formAcaoImadiataResponsavelReverificacao]').append(
+							$option.val(value.IdUsuario).text(value.NmCompleto).attr("selected", "true")
+						);
+					} else {
+						$('[name=formAcaoImadiataResponsavelReverificacao]').append(
+							$option.val(value.IdUsuario).text(value.NmCompleto)
+						);
+					}
                 });
             }
         });
@@ -1471,14 +1485,15 @@ APP.controller.AcaoCorretivaController = {
 	},
 
     setDestravarCamposAcaoCorretiva: function () {
-		debugger;
+		//debugger;
 		this.getProcessosPorSite();
 		this.getEmissorPorSite();
 		this.setResponsavelAnaliseDefinicaoAC();
 		this.formAcaoImediata();
 		//this.setAcaoImediata();
 		//this.delAcaoImediata();
-		this.getResponsavelReverificarAcaoImediata();
+
+		//this.getResponsavelReverificarAcaoImediata();
 		APP.controller.AcaoCorretivaController.getResponsavelImplementarAcaoImediata();
 
         this.buttonDestravar.on('click', function () {
