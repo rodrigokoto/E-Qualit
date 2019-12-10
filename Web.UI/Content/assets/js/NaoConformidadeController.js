@@ -421,7 +421,7 @@ APP.controller.NaoConformidadeController = {
     },
 
     setHideRowAcaoImediata: function () {
-		debugger;
+		//debugger;
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
@@ -1677,7 +1677,7 @@ APP.controller.NaoConformidadeController = {
             },
             success: function (result) {
 				if (result.StatusCode == 200) {
-					debugger;
+					//debugger;
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
                     $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
                         APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');

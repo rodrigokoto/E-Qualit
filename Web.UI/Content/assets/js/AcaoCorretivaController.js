@@ -1118,7 +1118,7 @@ APP.controller.AcaoCorretivaController = {
     },
 
 	getResponsavelReverificarAcaoImediata: function () {
-		debugger;
+		//debugger;
         var idSite = $('#nao-conformidade-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
         var idFuncao = 24; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique NC
