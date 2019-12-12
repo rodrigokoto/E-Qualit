@@ -19,7 +19,7 @@ APP.controller.ClienteController = {
             this.criarCliente();
         }
 
-     
+
     },
 
     setup: function () {
@@ -47,7 +47,7 @@ APP.controller.ClienteController = {
     },
 
     setMsgIconeAtivo: function () {
-        
+
 
     },
 
@@ -57,7 +57,7 @@ APP.controller.ClienteController = {
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: '/Cliente/AtivaInativa?id='+ _idCliente,
+            url: '/Cliente/AtivaInativa?id=' + _idCliente,
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },
@@ -85,7 +85,7 @@ APP.controller.ClienteController = {
     },
 
     setMsgIconeExcluirCliente: function () {
-        
+
 
     },
 
@@ -95,7 +95,7 @@ APP.controller.ClienteController = {
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: '/Cliente/Excluir?id='+ _idCliente,
+            url: '/Cliente/Excluir?id=' + _idCliente,
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },
@@ -441,7 +441,7 @@ APP.controller.ClienteController = {
             formCriaUsuarioResponsavel: { required: true, maxlength: 500 },
             //formCriaUsuarioSexo: 'required',
             formCriaUsuarioEmail: { required: true, maxlength: 500, email: true },
-            formCriaUsuarioCpf: { required: true, cpf: true },
+            //formCriaUsuarioCpf: { required: true, cpf: true },
             formCriaUsuarioDtExpiracao: 'required',
             //formCriaUsuarioEscolhaEmail: 'required',
             //formCriaUsuarioEscolhaCompartilhado: 'required',
@@ -486,6 +486,7 @@ APP.controller.ClienteController = {
     validateForms: function () {
 
         var valid = true;
+        var errors = [];
         $('[id^=panel-form]').each(function () {
             var isVisible = $(this).is(':visible');
             if (isVisible) {
@@ -496,6 +497,10 @@ APP.controller.ClienteController = {
 
             }
         });
+
+        if (!valid) {
+            bootbox.alert("Existem campos de preenchimento obrigatório não informados.");
+        }
 
         return valid;
 
