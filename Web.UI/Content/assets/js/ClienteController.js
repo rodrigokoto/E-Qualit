@@ -19,6 +19,7 @@ APP.controller.ClienteController = {
             this.criarCliente();
         }
 
+     
     },
 
     setup: function () {

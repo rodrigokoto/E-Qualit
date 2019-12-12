@@ -203,7 +203,7 @@ APP.controller.AcaoCorretivaController = {
 
     //Interacao de Tela - StatusEtapa 1
     setShowAndHideStatusEtapa1: function () {
-      
+
         this.setDisabledStatusEtapa1(true);
         this.setHideStatusEtapa1();
 
@@ -962,15 +962,15 @@ APP.controller.AcaoCorretivaController = {
 
     //Formulario Acao Imediata
     formAcaoImediata: function () {
-			
+
         this.setAndHideAcaoImediata();
         this.getformCriarNaoConformidadeDtDescricaoAcao();
         this.setAcaoImediata();
         this.delAcaoImediata();
-		this.getResponsavelReverificarAcaoImediata();
-		APP.controller.AcaoCorretivaController.getResponsavelImplementarAcaoImediata();
+        this.getResponsavelReverificarAcaoImediata();
+        APP.controller.AcaoCorretivaController.getResponsavelImplementarAcaoImediata();
 
-	},
+    },
 
 
 
@@ -1099,9 +1099,9 @@ APP.controller.AcaoCorretivaController = {
             success: function (result) {
                 if (result.StatusCode == 200) {
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
-					$('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
-						APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
-					});
+                    $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
+                        APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
+                    });
                 }
             },
             error: function (result) {
@@ -1109,40 +1109,40 @@ APP.controller.AcaoCorretivaController = {
             },
             complete: function (result) {
                 //$('.add-acao-imediata').removeClass('hide').addClass('show');
-				if ($('[name=StatusEtapa]').val() == "1") {
-					$('.add-acao-imediata').removeClass('hide').addClass('show');
-				}
+                if ($('[name=StatusEtapa]').val() == "1") {
+                    $('.add-acao-imediata').removeClass('hide').addClass('show');
+                }
             }
         });
 
     },
 
-	getResponsavelReverificarAcaoImediata: function () {
-		//debugger;
+    getResponsavelReverificarAcaoImediata: function () {
+        debugger;
         var idSite = $('#nao-conformidade-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
         var idFuncao = 24; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique NC
         $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + ' &idSite=' + idSite + '&idFuncao=' + idFuncao + '', function (result) {
-			if (result.StatusCode == 200) {
-				var selecionado = $('[name=formAcaoImadiataResponsavelReverificacao]').val();
-				var $option = $('<option>');
-				$('[name=formAcaoImadiataResponsavelReverificacao]').empty();
-				$('[name=formAcaoImadiataResponsavelReverificacao]').append(
-					$option.val("").text("Selecione")
-				);
-				$('[name=formAcaoImadiataResponsavelReverificacao]').append(selecionado);
-				
-				$(result.Lista).each(function (key, value) {
-					var $option = $('<option>');
-					if (value.IdUsuario == selecionado) {
-						$('[name=formAcaoImadiataResponsavelReverificacao]').append(
-							$option.val(value.IdUsuario).text(value.NmCompleto).attr("selected", "true")
-						);
-					} else {
-						$('[name=formAcaoImadiataResponsavelReverificacao]').append(
-							$option.val(value.IdUsuario).text(value.NmCompleto)
-						);
-					}
+            if (result.StatusCode == 200) {
+                var selecionado = $('[name=formAcaoImadiataResponsavelReverificacao]').val();
+                var $option = $('<option>');
+                $('[name=formAcaoImadiataResponsavelReverificacao]').empty();
+                $('[name=formAcaoImadiataResponsavelReverificacao]').append(
+                    $option.val("").text("Selecione")
+                );
+                $('[name=formAcaoImadiataResponsavelReverificacao]').append(selecionado);
+
+                $(result.Lista).each(function (key, value) {
+                    var $option = $('<option>');
+                    if (value.IdUsuario == selecionado) {
+                        $('[name=formAcaoImadiataResponsavelReverificacao]').append(
+                            $option.val(value.IdUsuario).text(value.NmCompleto).attr("selected", "true")
+                        );
+                    } else {
+                        $('[name=formAcaoImadiataResponsavelReverificacao]').append(
+                            $option.val(value.IdUsuario).text(value.NmCompleto)
+                        );
+                    }
                 });
             }
         });
@@ -1400,7 +1400,7 @@ APP.controller.AcaoCorretivaController = {
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
             //$("#form-acaoimediata-responsavel-reverificacao").attr("disabled", true);
-            
+
             $('.br-widget').removeClass('barRating-disabled');
         }
 
@@ -1413,7 +1413,7 @@ APP.controller.AcaoCorretivaController = {
         var data = { "idAcaoCorretiva": idAcaoCorretiva };
 
 
-		APP.controller.AcaoCorretivaController.getResponsavelImplementarAcaoImediata();
+        APP.controller.AcaoCorretivaController.getResponsavelImplementarAcaoImediata();
         $.ajax({
             type: "POST",
             dataType: 'json',
@@ -1439,66 +1439,66 @@ APP.controller.AcaoCorretivaController = {
             //complete: function (result) {
             //    APP.component.Loading.hideLoading();
         });
-	},
+    },
 
-	getProcessosPorSite: function () {
+    getProcessosPorSite: function () {
 
-		var idSite = $('#nao-conformidade-site').val();
-		$.get('/Processo/ListaProcessosPorSite?idSite=' + idSite, function (result) {
-			$.each(result.Lista, (key, val) => {
-				var $option = $('<option></option>');
-				$('[name=formCriarNaoConformidadeProcesso]').append(
-					$option.val(val.IdProcesso).text(val.Nome)
-				);
-			});
-		});
+        var idSite = $('#nao-conformidade-site').val();
+        $.get('/Processo/ListaProcessosPorSite?idSite=' + idSite, function (result) {
+            $.each(result.Lista, (key, val) => {
+                var $option = $('<option></option>');
+                $('[name=formCriarNaoConformidadeProcesso]').append(
+                    $option.val(val.IdProcesso).text(val.Nome)
+                );
+            });
+        });
 
-	},
+    },
 
-	getEmissorPorSite: function () {
+    getEmissorPorSite: function () {
 
-		var idSite = $('#nao-conformidade-site').val();
-		var idFuncao = 12; // Funcionalidade(Cadastrar) que permite usuario criar nc
-		$.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
-			if (result.StatusCode == 200) {
-				APP.component.SelectListCompare.selectList(result.Lista, $('[name=formCriarNaoConformidadeEmissor] option'), $('[name=formCriarNaoConformidadeEmissor]'), 'IdUsuario', 'NmCompleto');
-			}
-		});
+        var idSite = $('#nao-conformidade-site').val();
+        var idFuncao = 12; // Funcionalidade(Cadastrar) que permite usuario criar nc
+        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
+            if (result.StatusCode == 200) {
+                APP.component.SelectListCompare.selectList(result.Lista, $('[name=formCriarNaoConformidadeEmissor] option'), $('[name=formCriarNaoConformidadeEmissor]'), 'IdUsuario', 'NmCompleto');
+            }
+        });
 
-	},
+    },
 
-	setResponsavelAnaliseDefinicaoAC: function () {
+    setResponsavelAnaliseDefinicaoAC: function () {
 
-		$('[name=formCriarNaoConformidadeProcesso]').on('change', function () {
-			var idSite = $('#nao-conformidade-site').val();
-			processoSelecionado = $(this).find(':selected').val();
-			var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
-			$.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
-				if (result.StatusCode == 200) {
-					$('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
-					APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
-				}
-			});
+        $('[name=formCriarNaoConformidadeProcesso]').on('change', function () {
+            var idSite = $('#nao-conformidade-site').val();
+            processoSelecionado = $(this).find(':selected').val();
+            var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
+            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
+                if (result.StatusCode == 200) {
+                    $('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
+                    APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
+                }
+            });
 
-		});
+        });
 
-	},
+    },
 
     setDestravarCamposAcaoCorretiva: function () {
-		//debugger;
-		this.getProcessosPorSite();
-		this.getEmissorPorSite();
-		this.setResponsavelAnaliseDefinicaoAC();
-		this.formAcaoImediata();
-		//this.setAcaoImediata();
-		//this.delAcaoImediata();
+        //debugger;
+        this.getProcessosPorSite();
+        this.getEmissorPorSite();
+        this.setResponsavelAnaliseDefinicaoAC();
+        this.formAcaoImediata();
+        //this.setAcaoImediata();
+        //this.delAcaoImediata();
 
-		//this.getResponsavelReverificarAcaoImediata();
-		APP.controller.AcaoCorretivaController.getResponsavelImplementarAcaoImediata();
+        //this.getResponsavelReverificarAcaoImediata();
+        APP.controller.AcaoCorretivaController.getResponsavelImplementarAcaoImediata();
 
         this.buttonDestravar.on('click', function () {
 
-			
+
             if (perfil == '4') {
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $('.botaouploadarquivos').removeAttr('disabled');
@@ -1522,15 +1522,15 @@ APP.controller.AcaoCorretivaController = {
             var idAcaoCorretiva = $('[name=IdRegistroConformidade]').val();  // $('#form-criar-nao-conformidade-nm-registro').val();
             var data = { "idAcaoCorretiva": idAcaoCorretiva };
 
-			var idSite = $('#nao-conformidade-site').val();
-			processoSelecionado = $('[name=formCriarNaoConformidadeProcesso]').find(':selected').val();
-			var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
-			$.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
-				if (result.StatusCode == 200) {
-					//$('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
-					APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
-				}
-			});
+            var idSite = $('#nao-conformidade-site').val();
+            processoSelecionado = $('[name=formCriarNaoConformidadeProcesso]').find(':selected').val();
+            var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
+            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
+                if (result.StatusCode == 200) {
+                    //$('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
+                    APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
+                }
+            });
 
 
 
@@ -1566,12 +1566,12 @@ APP.controller.AcaoCorretivaController = {
             //this.HabilitaCamposGestaoRisco(perfil);
 
             //this.DestravaDocumento();
-			
+
 
 
 
         });
-	},
+    },
 
 
 

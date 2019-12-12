@@ -49,7 +49,7 @@ namespace Web.UI.Controllers
             Usuario usuario = _usuarioAppServico.GetById(idUsuario);
             Cliente cliente = _clienteAppServico.ObterClientesPorUsuario(idUsuario).FirstOrDefault();
 
-            int nuDiasTrocaSenha = (EAdministrador() || ESuporte()) ? 30 : cliente.NuDiasTrocaSenha;
+            int? nuDiasTrocaSenha = (EAdministrador() || ESuporte()) ? 30 : cliente.NuDiasTrocaSenha;
 
             if (DiasParaTrocaDeSenha(usuario.DtAlteracaoSenha.Value, DateTime.Now) >= nuDiasTrocaSenha && cliente.NuDiasTrocaSenha != 0)
             {

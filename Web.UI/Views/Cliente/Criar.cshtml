@@ -5,7 +5,7 @@
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/SiteController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/UsuarioController.js")"></script>
-    
+
 }
 
 @{
@@ -156,7 +156,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>                                                  
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <!-- Troca de Senha -->
@@ -256,9 +256,9 @@
                                                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 checkbox">
                                                     <input type="checkbox" name="formCriaClienteAtivo" id="form-cria-cliente-ativo"
                                                            class="form-control"
-                                                           value="true"
-                                                           @(Model.IdCliente == 0 ? "checked disabled" : null)
-                                                           @(Model.FlAtivo != false ? "checked" : null)>
+                                                           value="true")
+                                                           @*@(Model.IdCliente == 0 ? "checked disabled" : null)*@
+                                                           @(Model.FlAtivo != false ? "checked" : null)>    
 
                                                     <label for="form-cria-cliente-ativo">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Acao_ativo</label>
                                                 </div>
@@ -267,8 +267,8 @@
                                                     <input type="checkbox" name="formCriaClienteCaptcha" id="form-cria-cliente-captcha"
                                                            class="form-control"
                                                            value="true"
-                                                           @(Model.IdCliente == 0 ? "checked" : null)
-                                                           @(Model.FlTemCaptcha != false ? "checked" : null)>
+                                                           @*@(Model.IdCliente == 0 ? "checked" : null)*@
+                                                           @(Model.FlTemCaptcha != false ? "checked" : null)> 
                                                     <label for="form-cria-cliente-captcha">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Acao_captcha</label>
                                                 </div>
                                                 <!-- Senha -->
@@ -276,8 +276,8 @@
                                                     <input type="checkbox" name="formCriaClienteSenha" id="form-cria-cliente-senha"
                                                            class="form-control"
                                                            value="true"
-                                                           @(Model.IdCliente == 0 ? "checked" : null)
-                                                           @(Model.FlExigeSenhaForte != false ? "checked" : null)>
+                                                           @*@(Model.IdCliente == 0 ? "checked" : null)*@
+                                                           @(Model.FlExigeSenhaForte != false ? "checked" : null)> 
                                                     <label for="form-cria-cliente-senha">@Traducao.Cliente.ResourceCliente.Cliente_lbl_Acao_senha_forte</label>
                                                 </div>
                                             </div>

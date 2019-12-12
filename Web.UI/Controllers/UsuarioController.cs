@@ -528,7 +528,7 @@ namespace Web.UI.Controllers
 
             Cliente cliente = _clienteServico.ObterClientesPorUsuario(idUsuario).FirstOrDefault();
 
-            int nuDiasTrocaSenha = (usuario.IdPerfil == (int)PerfisAcesso.Administrador || usuario.IdPerfil == (int)PerfisAcesso.Suporte) ? 30 : cliente.NuDiasTrocaSenha;
+            int? nuDiasTrocaSenha = (usuario.IdPerfil == (int)PerfisAcesso.Administrador || usuario.IdPerfil == (int)PerfisAcesso.Suporte) ? 30 : cliente.NuDiasTrocaSenha;
 
             if (DiasParaTrocaDeSenha(usuario.DtAlteracaoSenha.Value, DateTime.Now) >= nuDiasTrocaSenha)
             {

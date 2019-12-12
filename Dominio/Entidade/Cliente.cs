@@ -23,7 +23,7 @@ namespace Dominio.Entidade
 
         public DateTime? DtValidadeContrato { get; set; }
 
-        public int NuDiasTrocaSenha { get; set; }
+        public int? NuDiasTrocaSenha { get; set; }
 
         public int? NuTentativaBloqueioLogin { get; set; }
 

@@ -23046,8 +23046,8 @@ input:required:valid
 /* Logo */
 .logo-cliente
 {
-    width: 50px;
-
+    width: 45px!important;
+    
     -webkit-border-radius: 5px;
             border-radius: 5px;
 }
