@@ -254,7 +254,7 @@ namespace Web.UI.Controllers
             }
         }
 
-        [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.Registro, (int)Funcionalidades.GestaoDeRiscos)]
+        [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.CriaNovaGR, (int)Funcionalidades.GestaoDeRiscos)]
         public ActionResult Criar()
         {
             var gestaoDeRisco = new RegistroConformidade();
@@ -393,7 +393,7 @@ namespace Web.UI.Controllers
         }
 
         [HttpPost]
-        [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.Registro, (int)Funcionalidades.GestaoDeRiscos)]
+        [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.CriaNovaGR, (int)Funcionalidades.GestaoDeRiscos)]
         public JsonResult SalvarPrimeiraEtapa(RegistroConformidade gestaoDeRisco)
         {
 

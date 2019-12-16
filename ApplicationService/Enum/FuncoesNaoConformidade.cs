@@ -11,7 +11,7 @@
         Excluir = 17,
         Destravar = 18, 
         Editar = 19,
-        AnaliseDaCausa = 20,
-
-    }
+        AnaliseDaCausa = 20,   
+        DefinirAsConsequencias = 21, 
+    }   
 }

@@ -2,14 +2,14 @@
 {
     public enum FuncoesGestaoDeRisco
     {
-        Registro = 89,     
-        DefinirAcao = 90,
+        DefinirAcao = 90, 
         ImplementarAcao = 91,
-        Reverificacao = 92,
+        Reverificacao = 92, 
         VerificacaoDaEficacia= 93,
         AnularAMDestravar = 94,
         AnularAMEditar = 95,
-        CriaNovaGR = 96,
-        Excluir = 104
+        CriaNovaGR = 96, 
+        Excluir = 104 
     }
 }
+
