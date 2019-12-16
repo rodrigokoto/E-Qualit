@@ -59,7 +59,7 @@ namespace Web.UI.Controllers
             if (EAdministrador() || ESuporte())
             {
                 idSite = Util.ObterSiteSelecionado();
-                
+
                 //IEnumerable<Cliente> listaClientes = _clienteAppServico.ObterClientesPorUsuario(Util.ObterCodigoUsuarioLogado());
 
                 return RedirectToAction("Index", "Cliente/Index");
@@ -75,6 +75,7 @@ namespace Web.UI.Controllers
                 EscolheSite(sitesUsuario.FirstOrDefault().Site);
 
                 listaProcessos.AddRange(_processoAppServico.ListaProcessosPorSite(idSite));
+                ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidasPorSite(idSite);
             }
 
             if (EColaborador())
@@ -86,7 +87,7 @@ namespace Web.UI.Controllers
                 EscolheSite(sitesUsuario.FirstOrDefault().Site);
 
                 listaProcessos.AddRange(_processoAppServico.ListaProcessosPorUsuario(idUsuario));
-                ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidas(idUsuario);
+                ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidasPorSite(idSite);
 
             }
 

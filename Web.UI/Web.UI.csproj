@@ -978,8 +978,10 @@
     <Content Include="Content\assets\imagens\bandeira-es-es.png" />
     <Content Include="Content\assets\imagens\bandeira-pt-br.png" />
     <Content Include="Content\assets\imagens\bg.jpg" />
+    <Content Include="Content\assets\imagens\cliente-padrao.jpg" />
     <Content Include="Content\assets\imagens\cliente-padrao.png" />
     <Content Include="Content\assets\imagens\clips.png" />
+    <Content Include="Content\assets\imagens\logo-equalit-bg.jpg" />
     <Content Include="Content\assets\imagens\logo-equalit-bg.png" />
     <Content Include="Content\assets\js\AnaliseCriticaController.js" />
     <Content Include="Content\assets\js\AuditoriaController.js" />

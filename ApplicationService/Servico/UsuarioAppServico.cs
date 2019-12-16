@@ -391,7 +391,7 @@ namespace ApplicationService.Servico
 
             List<Funcionalidade> funcionalidades = _siteRepositorio.Get(x => x.IdSite == idSite).FirstOrDefault().SiteFuncionalidades.Select(y => y.Funcionalidade).Where(x => x.CdFormulario == "1").Distinct().ToList();
 
-            return funcionalidades.Where(x => x.IdFuncionalidade != 2 && x.Ativo == true).ToList();
+            return funcionalidades.Where(x => x.Ativo == true).ToList();
         }
 
         public bool EAdministrador(int idPerfil)

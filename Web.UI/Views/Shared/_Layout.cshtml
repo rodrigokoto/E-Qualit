@@ -1,5 +1,6 @@
 ﻿@using ApplicationService.Entidade
 @using ApplicationService.Enum
+
 @{
     /**/
 
@@ -95,7 +96,7 @@
 
     @{
         var imgSrcUsuario = "/Content/assets/imagens/avatar.jpg";
-        var imgSrcCliente = "/Content/assets/imagens/cliente-padrao.png";
+        var imgSrcCliente = "/Content/assets/imagens/cliente-padrao.jpg";
         var base64 = "";
 
         if (ViewBag.UsuarioLogado.Arquivo != null)
@@ -337,7 +338,11 @@
 
                                         @foreach (var funcionalidade in ViewBag.Funcionalidades)
                                         {
-                                            <li><a href="@Url.Action("Index", funcionalidade.Url + "/index" )" class="">@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(funcionalidade.Tag)</a></li>
+                                            if (funcionalidade.Nome != "Control-Doc")
+                                            {
+                                                <li><a href="@Url.Action("Index", funcionalidade.Url + "/index" )" class="">@Traducao.Modulo.ResourceModulo.ResourceManager.GetString(funcionalidade.Tag)</a></li>
+                                            }
+
                                         }
 
                                     </ul>
@@ -348,6 +353,8 @@
                                 var PermiteVisualizarControleDocumentos = false;
                             }
 
+
+
                             @foreach (var permissao in listaPermissoes)
                             {
                                 if (Enum.IsDefined(typeof(FuncoesControlDoc), permissao.IdFuncao))
@@ -355,6 +362,15 @@
                                     PermiteVisualizarControleDocumentos = true;
                                     break;
                                 }
+                            }
+
+                            @foreach (var funcionalidade in ViewBag.Funcionalidades)
+                            {
+                                if (funcionalidade.Nome == "Control-Doc")
+                                {
+                                    PermiteVisualizarControleDocumentos = true;
+                                }
+
                             }
 
                             @*@if (ViewBag.IdPerfil != 4)
