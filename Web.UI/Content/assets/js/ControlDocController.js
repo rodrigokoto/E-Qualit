@@ -233,6 +233,7 @@ APP.controller.ControlDocController = {
         APP.component.DataTable.init("#tb-list-documentos");
         this.setRevisarDocumento();
         this.setExcluirDocumento();
+        this.setObsoletarDocumento();
         this.setImprimirDocumento();
         this.imprimir();
     },
@@ -408,8 +409,31 @@ APP.controller.ControlDocController = {
 
     },
 
+    setObsoletarDocumento: function () {
+        $('#tb-list-documentos').on('click', '.controldoc-obsoletar', function () {
+            var tabela = $('#tb-list-documentos').DataTable();
+
+            var idDoc = $(this).data('id-doc');
+
+            var $rowAtual = $(this).parents('tr');
+
+            bootbox.confirm("Deseja tornar o documento obsoleto?", function (result) {
+                if (result) {
+                    $.post('/ControlDoc/Obsoletar/' + idDoc, function (data, status) { }).done(function (data) {
+                        if (data.StatusCode == "200") {
+                            tabela.row($rowAtual).remove().draw();
+                            bootbox.alert("Documento tornou-se obsoleto.");
+                        }
+                        if (data.StatusCode == "500") {
+                            bootbox.alert("Erro ao tornar o documento obsoleto , contacte o administrador.");
+                        }
+                    });
+                }
+            });
+        })
+    },
     setRevisarDocumento: function () {
-        $('#tb-list-documentos').on('click', '.controldoc-revisar' , function () {
+        $('#tb-list-documentos').on('click', '.controldoc-revisar', function () {
             var erro = "";
 
 

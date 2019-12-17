@@ -3445,4 +3445,7 @@ www.e-qualit.com.br
   <data name="MsgMaxTextoDoc100000Caracteres" xml:space="preserve">
     <value>O campo Texto Documento deve conter no máximo 100000 caracteres.</value>
   </data>
+  <data name="Obsoletar" xml:space="preserve">
+    <value>Tornar Obsoleto</value>
+  </data>
 </root>

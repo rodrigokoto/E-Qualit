@@ -744,6 +744,34 @@ namespace Web.UI.Controllers
             }
         }
 
+        public JsonResult Obsoletar(int id) {
+
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+
+            var erros = new List<string>();
+            var doc = _documentoAppServico.GetById(id);
+
+            doc.FlStatus = (int)StatusDocumento.Obsoleto;
+
+            try
+            {
+                _documentoAppServico.Update(doc);
+
+                if (erros.Count > 0) {
+                    return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+
+                return Json(new { StatusCode = (int)HttpStatusCode.InternalServerError, Erro = ex.ToString(), JsonRequestBehavior.AllowGet });
+
+
+            }
+
+            return Json(new { StatusCode = 200 }, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Revisar(int id)
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();

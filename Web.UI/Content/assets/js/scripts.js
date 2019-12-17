@@ -174,11 +174,11 @@
             // don't prefix for widgets that aren't DOM-based
             widgetEventPrefix: existingConstructor ? (basePrototype.widgetEventPrefix || name) : name
         }, proxiedPrototype, {
-                constructor: constructor,
-                namespace: namespace,
-                widgetName: name,
-                widgetFullName: fullName
-            });
+            constructor: constructor,
+            namespace: namespace,
+            widgetName: name,
+            widgetFullName: fullName
+        });
 
         // If this widget is being redefined then we need to find all widgets that
         // are inheriting from it and redefine all of them so that they inherit from
@@ -4536,27 +4536,27 @@
 
             that.element.animate(
                 $.extend(style, top && left ? { top: top, left: left } : {}), {
-                    duration: o.animateDuration,
-                    easing: o.animateEasing,
-                    step: function () {
+                duration: o.animateDuration,
+                easing: o.animateEasing,
+                step: function () {
 
-                        var data = {
-                            width: parseFloat(that.element.css("width")),
-                            height: parseFloat(that.element.css("height")),
-                            top: parseFloat(that.element.css("top")),
-                            left: parseFloat(that.element.css("left"))
-                        };
+                    var data = {
+                        width: parseFloat(that.element.css("width")),
+                        height: parseFloat(that.element.css("height")),
+                        top: parseFloat(that.element.css("top")),
+                        left: parseFloat(that.element.css("left"))
+                    };
 
-                        if (pr && pr.length) {
-                            $(pr[0]).css({ width: data.width, height: data.height });
-                        }
-
-                        // Propagating resize, and updating values for each animation step
-                        that._updateCache(data);
-                        that._propagate("resize", event);
-
+                    if (pr && pr.length) {
+                        $(pr[0]).css({ width: data.width, height: data.height });
                     }
+
+                    // Propagating resize, and updating values for each animation step
+                    that._updateCache(data);
+                    that._propagate("resize", event);
+
                 }
+            }
             );
         }
 
@@ -7518,7 +7518,7 @@
                 .removeAttr("aria-activedescendant")
                 .find(".ui-menu").addBack()
                 .removeAttr("role aria-labelledby aria-expanded aria-hidden aria-disabled " +
-                "tabIndex")
+                    "tabIndex")
                 .removeUniqueId()
                 .show();
 
@@ -12750,7 +12750,7 @@
 
             this
                 ._toggleClass(this.valueDiv, "ui-progressbar-complete", null,
-                value === this.options.max)
+                    value === this.options.max)
                 ._toggleClass("ui-progressbar-indeterminate", null, this.indeterminate);
 
             if (this.indeterminate) {
@@ -13371,7 +13371,7 @@
             this._removeClass(this.button, "ui-selectmenu-button-" +
                 (this.isOpen ? "closed" : "open"))
                 ._addClass(this.button, "ui-selectmenu-button-" +
-                (this.isOpen ? "open" : "closed"))
+                    (this.isOpen ? "open" : "closed"))
                 ._toggleClass(this.menuWrap, "ui-selectmenu-open", null, this.isOpen);
 
             this.menu.attr("aria-hidden", !this.isOpen);
@@ -14047,9 +14047,9 @@
                                 that.range[animate ? "animate" : "css"]({
                                     width: (valPercent - lastValPercent) + "%"
                                 }, {
-                                        queue: false,
-                                        duration: o.animate
-                                    });
+                                    queue: false,
+                                    duration: o.animate
+                                });
                             }
                         } else {
                             if (i === 0) {
@@ -14061,9 +14061,9 @@
                                 that.range[animate ? "animate" : "css"]({
                                     height: (valPercent - lastValPercent) + "%"
                                 }, {
-                                        queue: false,
-                                        duration: o.animate
-                                    });
+                                    queue: false,
+                                    duration: o.animate
+                                });
                             }
                         }
                     }
@@ -14400,7 +14400,7 @@
 
                 // Add buttons
                 .append(
-                "<a></a><a></a>"
+                    "<a></a><a></a>"
                 );
         },
 
@@ -18787,8 +18787,8 @@
             e;)a.hasOwnProperty(d) && (g = j ? b(g, a[d], d, a) : a[d], j = !0, d += f); return g
     } function Da(a, b) { var c = m.defaults.column, d = a.aoColumns.length, c = h.extend({}, m.models.oColumn, c, { nTh: b ? b : G.createElement("th"), sTitle: c.sTitle ? c.sTitle : b ? b.innerHTML : "", aDataSort: c.aDataSort ? c.aDataSort : [d], mData: c.mData ? c.mData : d, idx: d }); a.aoColumns.push(c); c = a.aoPreSearchCols; c[d] = h.extend({}, m.models.oSearch, c[d]); ja(a, d, h(b).data()) } function ja(a, b, c) {
         var b = a.aoColumns[b], d = a.oClasses, e = h(b.nTh); if (!b.sWidthOrig) {
-        b.sWidthOrig =
-            e.attr("width") || null; var f = (e.attr("style") || "").match(/width:\s*(\d+[pxem%]+)/); f && (b.sWidthOrig = f[1])
+            b.sWidthOrig =
+                e.attr("width") || null; var f = (e.attr("style") || "").match(/width:\s*(\d+[pxem%]+)/); f && (b.sWidthOrig = f[1])
         } c !== k && null !== c && (eb(c), I(m.defaults.column, c), c.mDataProp !== k && !c.mData && (c.mData = c.mDataProp), c.sType && (b._sManualType = c.sType), c.className && !c.sClass && (c.sClass = c.className), c.sClass && e.addClass(c.sClass), h.extend(b, c), F(b, c, "sWidth", "sWidthOrig"), c.iDataSort !== k && (b.aDataSort = [c.iDataSort]), F(b, c, "aDataSort")); var g = b.mData, j = Q(g), i = b.mRender ? Q(b.mRender) : null, c = function (a) {
             return "string" ===
                 typeof a && -1 !== a.indexOf("@")
@@ -18801,8 +18801,8 @@
         var b = a.aoColumns, c = a.aoData, d = m.ext.type.detect, e, f, g, j, i, h, l, q, t; e = 0; for (f = b.length; e < f; e++)if (l = b[e], t = [], !l.sType && l._sManualType) l.sType = l._sManualType; else if (!l.sType) {
             g = 0; for (j = d.length; g < j; g++) {
                 i = 0; for (h = c.length; i < h; i++) {
-                t[i] ===
-                    k && (t[i] = B(a, i, e, "type")); q = d[g](t[i], a); if (!q && g !== d.length - 1) break; if ("html" === q) break
+                    t[i] ===
+                        k && (t[i] = B(a, i, e, "type")); q = d[g](t[i], a); if (!q && g !== d.length - 1) break; if ("html" === q) break
                 } if (q) { l.sType = q; break }
             } l.sType || (l.sType = "string")
         }
@@ -18819,8 +18819,8 @@
                 c.data, e, c.cells)
         })
     } function B(a, b, c, d) { var e = a.iDraw, f = a.aoColumns[c], g = a.aoData[b]._aData, j = f.sDefaultContent, i = f.fnGetData(g, d, { settings: a, row: b, col: c }); if (i === k) return a.iDrawError != e && null === j && (J(a, 0, "Requested unknown parameter " + ("function" == typeof f.mData ? "{function}" : "'" + f.mData + "'") + " for row " + b + ", column " + c, 4), a.iDrawError = e), j; if ((i === g || null === i) && null !== j && d !== k) i = j; else if ("function" === typeof i) return i.call(g); return null === i && "display" == d ? "" : i } function ib(a, b, c, d) {
-    a.aoColumns[c].fnSetData(a.aoData[b]._aData,
-        d, { settings: a, row: b, col: c })
+        a.aoColumns[c].fnSetData(a.aoData[b]._aData,
+            d, { settings: a, row: b, col: c })
     } function Ia(a) { return h.map(a.match(/(\\.|[^\.])+/g) || [""], function (a) { return a.replace(/\\\./g, ".") }) } function Q(a) {
         if (h.isPlainObject(a)) { var b = {}; h.each(a, function (a, c) { c && (b[a] = Q(c)) }); return function (a, c, f, g) { var j = b[c] || b._; return j !== k ? j(a, c, f, g) : a } } if (null === a) return function (a) { return a }; if ("function" === typeof a) return function (b, c, f, g) { return a(b, c, f, g) }; if ("string" === typeof a && (-1 !== a.indexOf(".") || -1 !== a.indexOf("[") || -1 !== a.indexOf("("))) {
             var c = function (a,
@@ -18862,12 +18862,12 @@
         if (null !== j) { a = a.aoFooter[0]; b = 0; for (c = a.length; b < c; b++)f = l[b], f.nTf = a[b].cell, f.sClass && h(f.nTf).addClass(f.sClass) }
     } function ea(a, b, c) {
         var d, e, f, g = [], j = [], i = a.aoColumns.length, n; if (b) {
-        c === k && (c = !1); d = 0; for (e = b.length; d < e; d++) { g[d] = b[d].slice(); g[d].nTr = b[d].nTr; for (f = i - 1; 0 <= f; f--)!a.aoColumns[f].bVisible && !c && g[d].splice(f, 1); j.push([]) } d = 0; for (e = g.length; d < e; d++) {
-            if (a = g[d].nTr) for (; f = a.firstChild;)a.removeChild(f); f = 0; for (b = g[d].length; f < b; f++)if (n = i = 1, j[d][f] === k) {
-                a.appendChild(g[d][f].cell);
-                for (j[d][f] = 1; g[d + i] !== k && g[d][f].cell == g[d + i][f].cell;)j[d + i][f] = 1, i++; for (; g[d][f + n] !== k && g[d][f].cell == g[d][f + n].cell;) { for (c = 0; c < i; c++)j[d + c][f + n] = 1; n++ } h(g[d][f].cell).attr("rowspan", i).attr("colspan", n)
+            c === k && (c = !1); d = 0; for (e = b.length; d < e; d++) { g[d] = b[d].slice(); g[d].nTr = b[d].nTr; for (f = i - 1; 0 <= f; f--)!a.aoColumns[f].bVisible && !c && g[d].splice(f, 1); j.push([]) } d = 0; for (e = g.length; d < e; d++) {
+                if (a = g[d].nTr) for (; f = a.firstChild;)a.removeChild(f); f = 0; for (b = g[d].length; f < b; f++)if (n = i = 1, j[d][f] === k) {
+                    a.appendChild(g[d][f].cell);
+                    for (j[d][f] = 1; g[d + i] !== k && g[d][f].cell == g[d + i][f].cell;)j[d + i][f] = 1, i++; for (; g[d][f + n] !== k && g[d][f].cell == g[d][f + n].cell;) { for (c = 0; c < i; c++)j[d + c][f + n] = 1; n++ } h(g[d][f].cell).attr("rowspan", i).attr("colspan", n)
+                }
             }
-        }
         }
     } function N(a) {
         var b = r(a, "aoPreDrawCallback", "preDraw", [a]); if (-1 !== h.inArray(!1, b)) C(a, !1); else {
@@ -18898,7 +18898,7 @@
     } function ra(a, b, c) { var d = []; c || (c = a.aoHeader, b && (c = [], da(c, b))); for (var b = 0, e = c.length; b < e; b++)for (var f = 0, g = c[b].length; f < g; f++)if (c[b][f].unique && (!d[f] || !a.bSortCellsTop)) d[f] = c[b][f].cell; return d } function sa(a, b, c) {
         r(a, "aoServerParams", "serverParams", [b]); if (b && h.isArray(b)) {
             var d = {},
-            e = /(.*?)\[\]$/; h.each(b, function (a, b) { var c = b.name.match(e); c ? (c = c[0], d[c] || (d[c] = []), d[c].push(b.value)) : d[b.name] = b.value }); b = d
+                e = /(.*?)\[\]$/; h.each(b, function (a, b) { var c = b.name.match(e); c ? (c = c[0], d[c] || (d[c] = []), d[c].push(b.value)) : d[b.name] = b.value }); b = d
         } var f, g = a.ajax, j = a.oInstance, i = function (b) { r(a, null, "xhr", [a, b, a.jqXHR]); c(b) }; if (h.isPlainObject(g) && g.data) { f = g.data; var n = h.isFunction(f) ? f(b, a) : f, b = h.isFunction(f) && n ? n : h.extend(!0, b, n); delete g.data } n = {
             data: b, success: function (b) { var c = b.error || b.sError; c && J(a, 0, c); a.json = b; i(b) }, dataType: "json", cache: !1, type: a.sServerMethod, error: function (b, c) {
                 var d = r(a, null, "xhr",
@@ -18957,7 +18957,7 @@
             new Option("number" === typeof d[g] ? a.fnFormatNumber(d[g]) : d[g], f[g]); var i = h("<div><label/></div>").addClass(b.sLength); a.aanFeatures.l || (i[0].id = c + "_length"); i.children().append(a.oLanguage.sLengthMenu.replace("_MENU_", e[0].outerHTML)); h("select", i).val(a._iDisplayLength).on("change.DT", function () { Qa(a, h(this).val()); N(a) }); h(a.nTable).on("length.dt.DT", function (b, c, d) { a === c && h("select", i).val(d) }); return i[0]
     } function sb(a) {
         var b = a.sPaginationType, c = m.ext.pager[b], d = "function" === typeof c, e = function (a) { N(a) },
-        b = h("<div/>").addClass(a.oClasses.sPaging + b)[0], f = a.aanFeatures; d || c.fnInit(a, b, e); f.p || (b.id = a.sTableId + "_paginate", a.aoDrawCallback.push({ fn: function (a) { if (d) { var b = a._iDisplayStart, i = a._iDisplayLength, h = a.fnRecordsDisplay(), l = -1 === i, b = l ? 0 : Math.ceil(b / i), i = l ? 1 : Math.ceil(h / i), h = c(b, i), k, l = 0; for (k = f.p.length; l < k; l++)Ma(a, "pageButton")(a, f.p[l], l, h, b, i) } else c.fnUpdate(a, e) }, sName: "pagination" })); return b
+            b = h("<div/>").addClass(a.oClasses.sPaging + b)[0], f = a.aanFeatures; d || c.fnInit(a, b, e); f.p || (b.id = a.sTableId + "_paginate", a.aoDrawCallback.push({ fn: function (a) { if (d) { var b = a._iDisplayStart, i = a._iDisplayLength, h = a.fnRecordsDisplay(), l = -1 === i, b = l ? 0 : Math.ceil(b / i), i = l ? 1 : Math.ceil(h / i), h = c(b, i), k, l = 0; for (k = f.p.length; l < k; l++)Ma(a, "pageButton")(a, f.p[l], l, h, b, i) } else c.fnUpdate(a, e) }, sName: "pagination" })); return b
     } function Sa(a, b, c) {
         var d = a._iDisplayStart, e = a._iDisplayLength, f = a.fnRecordsDisplay(); 0 === f || -1 ===
             e ? d = 0 : "number" === typeof b ? (d = b * e, d > f && (d = 0)) : "first" == b ? d = 0 : "previous" == b ? (d = 0 <= e ? d - e : 0, 0 > d && (d = 0)) : "next" == b ? d + e < f && (d += e) : "last" == b ? d = Math.floor((f - 1) / e) * e : J(a, 0, "Unknown paging action: " + b, 5); b = a._iDisplayStart !== d; a._iDisplayStart = d; b && (r(a, null, "page", [a]), c && N(a)); return b
@@ -18970,23 +18970,23 @@
                 0).append("bottom" === j ? g : null).append(b.children("tfoot"))))); var b = i.children(), k = b[0], f = b[1], t = l ? b[2] : null; if (d) h(f).on("scroll.DT", function () { var a = this.scrollLeft; k.scrollLeft = a; l && (t.scrollLeft = a) }); h(f).css(e && c.bCollapse ? "max-height" : "height", e); a.nScrollHead = k; a.nScrollBody = f; a.nScrollFoot = t; a.aoDrawCallback.push({ fn: ka, sName: "scrolling" }); return i[0]
     } function ka(a) {
         var b = a.oScroll, c = b.sX, d = b.sXInner, e = b.sY, b = b.iBarWidth, f = h(a.nScrollHead), g = f[0].style, j = f.children("div"), i = j[0].style, n = j.children("table"),
-        j = a.nScrollBody, l = h(j), q = j.style, t = h(a.nScrollFoot).children("div"), m = t.children("table"), o = h(a.nTHead), p = h(a.nTable), s = p[0], r = s.style, u = a.nTFoot ? h(a.nTFoot) : null, x = a.oBrowser, T = x.bScrollOversize, Xb = D(a.aoColumns, "nTh"), O, K, P, w, Ta = [], y = [], z = [], A = [], B, C = function (a) { a = a.style; a.paddingTop = "0"; a.paddingBottom = "0"; a.borderTopWidth = "0"; a.borderBottomWidth = "0"; a.height = 0 }; K = j.scrollHeight > j.clientHeight; if (a.scrollBarVis !== K && a.scrollBarVis !== k) a.scrollBarVis = K, Y(a); else {
-        a.scrollBarVis = K; p.children("thead, tfoot").remove();
-            u && (P = u.clone().prependTo(p), O = u.find("tr"), P = P.find("tr")); w = o.clone().prependTo(p); o = o.find("tr"); K = w.find("tr"); w.find("th, td").removeAttr("tabindex"); c || (q.width = "100%", f[0].style.width = "100%"); h.each(ra(a, w), function (b, c) { B = Z(a, b); c.style.width = a.aoColumns[B].sWidth }); u && H(function (a) { a.style.width = "" }, P); f = p.outerWidth(); if ("" === c) { r.width = "100%"; if (T && (p.find("tbody").height() > j.offsetHeight || "scroll" == l.css("overflow-y"))) r.width = v(p.outerWidth() - b); f = p.outerWidth() } else "" !== d && (r.width =
-                v(d), f = p.outerWidth()); H(C, K); H(function (a) { z.push(a.innerHTML); Ta.push(v(h(a).css("width"))) }, K); H(function (a, b) { if (h.inArray(a, Xb) !== -1) a.style.width = Ta[b] }, o); h(K).height(0); u && (H(C, P), H(function (a) { A.push(a.innerHTML); y.push(v(h(a).css("width"))) }, P), H(function (a, b) { a.style.width = y[b] }, O), h(P).height(0)); H(function (a, b) { a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' + z[b] + "</div>"; a.style.width = Ta[b] }, K); u && H(function (a, b) {
-                a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' +
-                    A[b] + "</div>"; a.style.width = y[b]
-                }, P); if (p.outerWidth() < f) { O = j.scrollHeight > j.offsetHeight || "scroll" == l.css("overflow-y") ? f + b : f; if (T && (j.scrollHeight > j.offsetHeight || "scroll" == l.css("overflow-y"))) r.width = v(O - b); ("" === c || "" !== d) && J(a, 1, "Possible column misalignment", 6) } else O = "100%"; q.width = v(O); g.width = v(O); u && (a.nScrollFoot.style.width = v(O)); !e && T && (q.height = v(s.offsetHeight + b)); c = p.outerWidth(); n[0].style.width = v(c); i.width = v(c); d = p.height() > j.clientHeight || "scroll" == l.css("overflow-y"); e = "padding" +
-                    (x.bScrollbarLeft ? "Left" : "Right"); i[e] = d ? b + "px" : "0px"; u && (m[0].style.width = v(c), t[0].style.width = v(c), t[0].style[e] = d ? b + "px" : "0px"); p.children("colgroup").insertBefore(p.children("thead")); l.scroll(); if ((a.bSorted || a.bFiltered) && !a._drawHold) j.scrollTop = 0
-        }
+            j = a.nScrollBody, l = h(j), q = j.style, t = h(a.nScrollFoot).children("div"), m = t.children("table"), o = h(a.nTHead), p = h(a.nTable), s = p[0], r = s.style, u = a.nTFoot ? h(a.nTFoot) : null, x = a.oBrowser, T = x.bScrollOversize, Xb = D(a.aoColumns, "nTh"), O, K, P, w, Ta = [], y = [], z = [], A = [], B, C = function (a) { a = a.style; a.paddingTop = "0"; a.paddingBottom = "0"; a.borderTopWidth = "0"; a.borderBottomWidth = "0"; a.height = 0 }; K = j.scrollHeight > j.clientHeight; if (a.scrollBarVis !== K && a.scrollBarVis !== k) a.scrollBarVis = K, Y(a); else {
+                a.scrollBarVis = K; p.children("thead, tfoot").remove();
+                u && (P = u.clone().prependTo(p), O = u.find("tr"), P = P.find("tr")); w = o.clone().prependTo(p); o = o.find("tr"); K = w.find("tr"); w.find("th, td").removeAttr("tabindex"); c || (q.width = "100%", f[0].style.width = "100%"); h.each(ra(a, w), function (b, c) { B = Z(a, b); c.style.width = a.aoColumns[B].sWidth }); u && H(function (a) { a.style.width = "" }, P); f = p.outerWidth(); if ("" === c) { r.width = "100%"; if (T && (p.find("tbody").height() > j.offsetHeight || "scroll" == l.css("overflow-y"))) r.width = v(p.outerWidth() - b); f = p.outerWidth() } else "" !== d && (r.width =
+                    v(d), f = p.outerWidth()); H(C, K); H(function (a) { z.push(a.innerHTML); Ta.push(v(h(a).css("width"))) }, K); H(function (a, b) { if (h.inArray(a, Xb) !== -1) a.style.width = Ta[b] }, o); h(K).height(0); u && (H(C, P), H(function (a) { A.push(a.innerHTML); y.push(v(h(a).css("width"))) }, P), H(function (a, b) { a.style.width = y[b] }, O), h(P).height(0)); H(function (a, b) { a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' + z[b] + "</div>"; a.style.width = Ta[b] }, K); u && H(function (a, b) {
+                        a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' +
+                            A[b] + "</div>"; a.style.width = y[b]
+                    }, P); if (p.outerWidth() < f) { O = j.scrollHeight > j.offsetHeight || "scroll" == l.css("overflow-y") ? f + b : f; if (T && (j.scrollHeight > j.offsetHeight || "scroll" == l.css("overflow-y"))) r.width = v(O - b); ("" === c || "" !== d) && J(a, 1, "Possible column misalignment", 6) } else O = "100%"; q.width = v(O); g.width = v(O); u && (a.nScrollFoot.style.width = v(O)); !e && T && (q.height = v(s.offsetHeight + b)); c = p.outerWidth(); n[0].style.width = v(c); i.width = v(c); d = p.height() > j.clientHeight || "scroll" == l.css("overflow-y"); e = "padding" +
+                        (x.bScrollbarLeft ? "Left" : "Right"); i[e] = d ? b + "px" : "0px"; u && (m[0].style.width = v(c), t[0].style.width = v(c), t[0].style[e] = d ? b + "px" : "0px"); p.children("colgroup").insertBefore(p.children("thead")); l.scroll(); if ((a.bSorted || a.bFiltered) && !a._drawHold) j.scrollTop = 0
+            }
     } function H(a, b, c) { for (var d = 0, e = 0, f = b.length, g, j; e < f;) { g = b[e].firstChild; for (j = c ? c[e].firstChild : null; g;)1 === g.nodeType && (c ? a(g, j, d) : a(g, d), d++), g = g.nextSibling, j = c ? j.nextSibling : null; e++ } } function Ea(a) {
         var b = a.nTable, c = a.aoColumns, d = a.oScroll,
-        e = d.sY, f = d.sX, g = d.sXInner, j = c.length, i = la(a, "bVisible"), n = h("th", a.nTHead), l = b.getAttribute("width"), k = b.parentNode, t = !1, m, o, p = a.oBrowser, d = p.bScrollOversize; (m = b.style.width) && -1 !== m.indexOf("%") && (l = m); for (m = 0; m < i.length; m++)o = c[i[m]], null !== o.sWidth && (o.sWidth = Db(o.sWidthOrig, k), t = !0); if (d || !t && !f && !e && j == aa(a) && j == n.length) for (m = 0; m < j; m++)i = Z(a, m), null !== i && (c[i].sWidth = v(n.eq(m).width())); else {
-            j = h(b).clone().css("visibility", "hidden").removeAttr("id"); j.find("tbody tr").remove(); var s = h("<tr/>").appendTo(j.find("tbody"));
-            j.find("thead, tfoot").remove(); j.append(h(a.nTHead).clone()).append(h(a.nTFoot).clone()); j.find("tfoot th, tfoot td").css("width", ""); n = ra(a, j.find("thead")[0]); for (m = 0; m < i.length; m++)o = c[i[m]], n[m].style.width = null !== o.sWidthOrig && "" !== o.sWidthOrig ? v(o.sWidthOrig) : "", o.sWidthOrig && f && h(n[m]).append(h("<div/>").css({ width: o.sWidthOrig, margin: 0, padding: 0, border: 0, height: 1 })); if (a.aoData.length) for (m = 0; m < i.length; m++)t = i[m], o = c[t], h(Eb(a, t)).clone(!1).append(o.sContentPadding).appendTo(s); h("[name]",
-                j).removeAttr("name"); o = h("<div/>").css(f || e ? { position: "absolute", top: 0, left: 0, height: 1, right: 0, overflow: "hidden" } : {}).append(j).appendTo(k); f && g ? j.width(g) : f ? (j.css("width", "auto"), j.removeAttr("width"), j.width() < k.clientWidth && l && j.width(k.clientWidth)) : e ? j.width(k.clientWidth) : l && j.width(l); for (m = e = 0; m < i.length; m++)k = h(n[m]), g = k.outerWidth() - k.width(), k = p.bBounding ? Math.ceil(n[m].getBoundingClientRect().width) : k.outerWidth(), e += k, c[i[m]].sWidth = v(k - g); b.style.width = v(e); o.remove()
-        } l && (b.style.width =
-            v(l)); if ((l || f) && !a._reszEvt) b = function () { h(E).on("resize.DT-" + a.sInstance, Na(function () { Y(a) })) }, d ? setTimeout(b, 1E3) : b(), a._reszEvt = !0
+            e = d.sY, f = d.sX, g = d.sXInner, j = c.length, i = la(a, "bVisible"), n = h("th", a.nTHead), l = b.getAttribute("width"), k = b.parentNode, t = !1, m, o, p = a.oBrowser, d = p.bScrollOversize; (m = b.style.width) && -1 !== m.indexOf("%") && (l = m); for (m = 0; m < i.length; m++)o = c[i[m]], null !== o.sWidth && (o.sWidth = Db(o.sWidthOrig, k), t = !0); if (d || !t && !f && !e && j == aa(a) && j == n.length) for (m = 0; m < j; m++)i = Z(a, m), null !== i && (c[i].sWidth = v(n.eq(m).width())); else {
+                j = h(b).clone().css("visibility", "hidden").removeAttr("id"); j.find("tbody tr").remove(); var s = h("<tr/>").appendTo(j.find("tbody"));
+                j.find("thead, tfoot").remove(); j.append(h(a.nTHead).clone()).append(h(a.nTFoot).clone()); j.find("tfoot th, tfoot td").css("width", ""); n = ra(a, j.find("thead")[0]); for (m = 0; m < i.length; m++)o = c[i[m]], n[m].style.width = null !== o.sWidthOrig && "" !== o.sWidthOrig ? v(o.sWidthOrig) : "", o.sWidthOrig && f && h(n[m]).append(h("<div/>").css({ width: o.sWidthOrig, margin: 0, padding: 0, border: 0, height: 1 })); if (a.aoData.length) for (m = 0; m < i.length; m++)t = i[m], o = c[t], h(Eb(a, t)).clone(!1).append(o.sContentPadding).appendTo(s); h("[name]",
+                    j).removeAttr("name"); o = h("<div/>").css(f || e ? { position: "absolute", top: 0, left: 0, height: 1, right: 0, overflow: "hidden" } : {}).append(j).appendTo(k); f && g ? j.width(g) : f ? (j.css("width", "auto"), j.removeAttr("width"), j.width() < k.clientWidth && l && j.width(k.clientWidth)) : e ? j.width(k.clientWidth) : l && j.width(l); for (m = e = 0; m < i.length; m++)k = h(n[m]), g = k.outerWidth() - k.width(), k = p.bBounding ? Math.ceil(n[m].getBoundingClientRect().width) : k.outerWidth(), e += k, c[i[m]].sWidth = v(k - g); b.style.width = v(e); o.remove()
+            } l && (b.style.width =
+                v(l)); if ((l || f) && !a._reszEvt) b = function () { h(E).on("resize.DT-" + a.sInstance, Na(function () { Y(a) })) }, d ? setTimeout(b, 1E3) : b(), a._reszEvt = !0
     } function Db(a, b) { if (!a) return 0; var c = h("<div/>").css("width", v(a)).appendTo(b || G.body), d = c[0].offsetWidth; c.remove(); return d } function Eb(a, b) { var c = Fb(a, b); if (0 > c) return null; var d = a.aoData[c]; return !d.nTr ? h("<td/>").html(B(a, c, b, "display"))[0] : d.anCells[b] } function Fb(a, b) {
         for (var c, d = -1, e = -1, f = 0, g = a.aoData.length; f < g; f++)c = B(a, f, b, "display") + "", c = c.replace(Yb,
             ""), c = c.replace(/&nbsp;/g, " "), c.length > d && (d = c.length, e = f); return e
@@ -19023,8 +19023,8 @@
         var d, e, f = a.aoColumns, b = function (b) {
             if (b && b.time) {
                 var g = r(a, "aoStateLoadParams", "stateLoadParams", [a, b]); if (-1 === h.inArray(!1, g) && (g = a.iStateDuration, !(0 < g && b.time < +new Date - 1E3 * g) && !(b.columns && f.length !== b.columns.length))) {
-                a.oLoadedState = h.extend(!0, {}, b); b.start !== k && (a._iDisplayStart = b.start, a.iInitDisplayStart = b.start); b.length !== k && (a._iDisplayLength = b.length); b.order !== k && (a.aaSorting = [], h.each(b.order, function (b, c) { a.aaSorting.push(c[0] >= f.length ? [0, c[1]] : c) })); b.search !==
-                    k && h.extend(a.oPreviousSearch, Ab(b.search)); if (b.columns) { d = 0; for (e = b.columns.length; d < e; d++)g = b.columns[d], g.visible !== k && (f[d].bVisible = g.visible), g.search !== k && h.extend(a.aoPreSearchCols[d], Ab(g.search)) } r(a, "aoStateLoaded", "stateLoaded", [a, b])
+                    a.oLoadedState = h.extend(!0, {}, b); b.start !== k && (a._iDisplayStart = b.start, a.iInitDisplayStart = b.start); b.length !== k && (a._iDisplayLength = b.length); b.order !== k && (a.aaSorting = [], h.each(b.order, function (b, c) { a.aaSorting.push(c[0] >= f.length ? [0, c[1]] : c) })); b.search !==
+                        k && h.extend(a.oPreviousSearch, Ab(b.search)); if (b.columns) { d = 0; for (e = b.columns.length; d < e; d++)g = b.columns[d], g.visible !== k && (f[d].bVisible = g.visible), g.search !== k && h.extend(a.aoPreSearchCols[d], Ab(g.search)) } r(a, "aoStateLoaded", "stateLoaded", [a, b])
                 }
             } c()
         }; if (a.oFeatures.bStateSave) { var g = a.fnStateLoadCallback.call(a.oInstance, a, b); g !== k && b(g) } else c()
@@ -19046,8 +19046,8 @@
                 [ya(this[m.ext.iApiIndex])].concat(Array.prototype.slice.call(arguments)); return m.ext.internal[a].apply(this, b)
         }
     } var m = function (a) {
-    this.$ = function (a, b) { return this.api(!0).$(a, b) }; this._ = function (a, b) { return this.api(!0).rows(a, b).data() }; this.api = function (a) { return a ? new s(ya(this[x.iApiIndex])) : new s(this) }; this.fnAddData = function (a, b) { var c = this.api(!0), d = h.isArray(a) && (h.isArray(a[0]) || h.isPlainObject(a[0])) ? c.rows.add(a) : c.row.add(a); (b === k || b) && c.draw(); return d.flatten().toArray() }; this.fnAdjustColumnSizing =
-        function (a) { var b = this.api(!0).columns.adjust(), c = b.settings()[0], d = c.oScroll; a === k || a ? b.draw(!1) : ("" !== d.sX || "" !== d.sY) && ka(c) }; this.fnClearTable = function (a) { var b = this.api(!0).clear(); (a === k || a) && b.draw() }; this.fnClose = function (a) { this.api(!0).row(a).child.hide() }; this.fnDeleteRow = function (a, b, c) { var d = this.api(!0), a = d.rows(a), e = a.settings()[0], h = e.aoData[a[0][0]]; a.remove(); b && b.call(this, e, h); (c === k || c) && d.draw(); return h }; this.fnDestroy = function (a) { this.api(!0).destroy(a) }; this.fnDraw = function (a) { this.api(!0).draw(a) };
+        this.$ = function (a, b) { return this.api(!0).$(a, b) }; this._ = function (a, b) { return this.api(!0).rows(a, b).data() }; this.api = function (a) { return a ? new s(ya(this[x.iApiIndex])) : new s(this) }; this.fnAddData = function (a, b) { var c = this.api(!0), d = h.isArray(a) && (h.isArray(a[0]) || h.isPlainObject(a[0])) ? c.rows.add(a) : c.row.add(a); (b === k || b) && c.draw(); return d.flatten().toArray() }; this.fnAdjustColumnSizing =
+            function (a) { var b = this.api(!0).columns.adjust(), c = b.settings()[0], d = c.oScroll; a === k || a ? b.draw(!1) : ("" !== d.sX || "" !== d.sY) && ka(c) }; this.fnClearTable = function (a) { var b = this.api(!0).clear(); (a === k || a) && b.draw() }; this.fnClose = function (a) { this.api(!0).row(a).child.hide() }; this.fnDeleteRow = function (a, b, c) { var d = this.api(!0), a = d.rows(a), e = a.settings()[0], h = e.aoData[a[0][0]]; a.remove(); b && b.call(this, e, h); (c === k || c) && d.draw(); return h }; this.fnDestroy = function (a) { this.api(!0).destroy(a) }; this.fnDraw = function (a) { this.api(!0).draw(a) };
         this.fnFilter = function (a, b, c, d, e, h) { e = this.api(!0); null === b || b === k ? e.search(a, c, d, h) : e.column(b).search(a, c, d, h); e.draw() }; this.fnGetData = function (a, b) { var c = this.api(!0); if (a !== k) { var d = a.nodeName ? a.nodeName.toLowerCase() : ""; return b !== k || "td" == d || "th" == d ? c.cell(a, b).data() : c.row(a).data() || null } return c.data().toArray() }; this.fnGetNodes = function (a) { var b = this.api(!0); return a !== k ? b.row(a).node() : b.rows().nodes().flatten().toArray() }; this.fnGetPosition = function (a) {
             var b = this.api(!0), c = a.nodeName.toUpperCase();
             return "TR" == c ? b.row(a).index() : "TD" == c || "TH" == c ? (a = b.cell(a).index(), [a.row, a.columnVisible, a.column]) : null
@@ -19164,10 +19164,10 @@
                         var b = this.iterator("table", function (b) { var c, f, g, h = []; f = 0; for (g = a.length; f < g; f++)c = a[f], c.nodeName && "TR" === c.nodeName.toUpperCase() ? h.push(ma(b, c)[0]) : h.push(M(b, c)); return h }, 1), c = this.rows(-1);
                         c.pop(); h.merge(c, b); return c
                     }); o("row()", function (a, b) { return ab(this.rows(a, b)) }); o("row().data()", function (a) { var b = this.context; if (a === k) return b.length && this.length ? b[0].aoData[this[0]]._aData : k; b[0].aoData[this[0]]._aData = a; ca(b[0], this[0], "data"); return this }); o("row().node()", function () { var a = this.context; return a.length && this.length ? a[0].aoData[this[0]].nTr || null : null }); o("row.add()", function (a) {
-                    a instanceof h && a.length && (a = a[0]); var b = this.iterator("table", function (b) {
-                        return a.nodeName &&
-                            "TR" === a.nodeName.toUpperCase() ? ma(b, a)[0] : M(b, a)
-                    }); return this.row(b[0])
+                        a instanceof h && a.length && (a = a[0]); var b = this.iterator("table", function (b) {
+                            return a.nodeName &&
+                                "TR" === a.nodeName.toUpperCase() ? ma(b, a)[0] : M(b, a)
+                        }); return this.row(b[0])
                     }); var bb = function (a, b) { var c = a.context; if (c.length && (c = c[0].aoData[b !== k ? b : a[0]]) && c._details) c._details.remove(), c._detailsShow = k, c._details = k }, Tb = function (a, b) {
                         var c = a.context; if (c.length && a.length) {
                             var d = c[0].aoData[a[0]]; if (d._details) {
@@ -19241,11 +19241,11 @@
                                             })
                                         }); o("clear()", function () { return this.iterator("table", function (a) { na(a) }) }); o("settings()", function () { return new s(this.context, this.context) }); o("init()", function () { var a = this.context; return a.length ? a[0].oInit : null }); o("data()", function () { return this.iterator("table", function (a) { return D(a.aoData, "_aData") }).flatten() }); o("destroy()", function (a) {
                                             a = a ||
-                                            !1; return this.iterator("table", function (b) {
-                                                var c = b.nTableWrapper.parentNode, d = b.oClasses, e = b.nTable, f = b.nTBody, g = b.nTHead, j = b.nTFoot, i = h(e), f = h(f), k = h(b.nTableWrapper), l = h.map(b.aoData, function (a) { return a.nTr }), o; b.bDestroying = !0; r(b, "aoDestroyCallback", "destroy", [b]); a || (new s(b)).columns().visible(!0); k.off(".DT").find(":not(tbody *)").off(".DT"); h(E).off(".DT-" + b.sInstance); e != g.parentNode && (i.children("thead").detach(), i.append(g)); j && e != j.parentNode && (i.children("tfoot").detach(), i.append(j));
-                                                b.aaSorting = []; b.aaSortingFixed = []; wa(b); h(l).removeClass(b.asStripeClasses.join(" ")); h("th, td", g).removeClass(d.sSortable + " " + d.sSortableAsc + " " + d.sSortableDesc + " " + d.sSortableNone); f.children().detach(); f.append(l); g = a ? "remove" : "detach"; i[g](); k[g](); !a && c && (c.insertBefore(e, b.nTableReinsertBefore), i.css("width", b.sDestroyWidth).removeClass(d.sTable), (o = b.asDestroyStripes.length) && f.children().each(function (a) { h(this).addClass(b.asDestroyStripes[a % o]) })); c = h.inArray(b, m.settings); -1 !== c && m.settings.splice(c,
-                                                    1)
-                                            })
+                                                !1; return this.iterator("table", function (b) {
+                                                    var c = b.nTableWrapper.parentNode, d = b.oClasses, e = b.nTable, f = b.nTBody, g = b.nTHead, j = b.nTFoot, i = h(e), f = h(f), k = h(b.nTableWrapper), l = h.map(b.aoData, function (a) { return a.nTr }), o; b.bDestroying = !0; r(b, "aoDestroyCallback", "destroy", [b]); a || (new s(b)).columns().visible(!0); k.off(".DT").find(":not(tbody *)").off(".DT"); h(E).off(".DT-" + b.sInstance); e != g.parentNode && (i.children("thead").detach(), i.append(g)); j && e != j.parentNode && (i.children("tfoot").detach(), i.append(j));
+                                                    b.aaSorting = []; b.aaSortingFixed = []; wa(b); h(l).removeClass(b.asStripeClasses.join(" ")); h("th, td", g).removeClass(d.sSortable + " " + d.sSortableAsc + " " + d.sSortableDesc + " " + d.sSortableNone); f.children().detach(); f.append(l); g = a ? "remove" : "detach"; i[g](); k[g](); !a && c && (c.insertBefore(e, b.nTableReinsertBefore), i.css("width", b.sDestroyWidth).removeClass(d.sTable), (o = b.asDestroyStripes.length) && f.children().each(function (a) { h(this).addClass(b.asDestroyStripes[a % o]) })); c = h.inArray(b, m.settings); -1 !== c && m.settings.splice(c,
+                                                        1)
+                                                })
                                         }); h.each(["column", "row", "cell"], function (a, b) { o(b + "s().every()", function (a) { var d = this.selector.opts, e = this; return this.iterator(b, function (f, g, h, i, n) { a.call(e[b](g, "cell" === b ? h : d, "cell" === b ? d : k), g, h, i, n) }) }) }); o("i18n()", function (a, b, c) { var d = this.context[0], a = Q(a)(d.oLanguage); a === k && (a = b); c !== k && h.isPlainObject(a) && (a = a[c] !== k ? a[c] : a._); return a.replace("%d", c) }); m.version = "1.10.16"; m.settings = []; m.models = {}; m.models.oSearch = { bCaseInsensitive: !0, sSearch: "", bRegex: !1, bSmart: !0 }; m.models.oRow =
                                             { nTr: null, anCells: null, _aData: [], _aSortData: null, _aFilterData: null, _sFilterRow: null, _sRowStripe: "", src: null, idx: -1 }; m.models.oColumn = {
                                                 idx: null, aDataSort: null, asSorting: null, bSearchable: null, bSortable: null, bVisible: null, _sManualType: null, _bAttrSrc: !1, fnCreatedCell: null, fnGetData: null, fnSetData: null, mData: null, mRender: null, nTh: null, nTf: null, sClass: null, sContentPadding: null, sDefaultContent: null, sName: null, sSortDataType: "std", sSortingClass: null, sSortingClassJUI: null, sTitle: null, sType: null, sWidth: null,
@@ -19272,7 +19272,7 @@
         aoDrawCallback: [], aoRowCreatedCallback: [], aoPreDrawCallback: [], aoInitComplete: [], aoStateSaveParams: [], aoStateLoadParams: [], aoStateLoaded: [], sTableId: "", nTable: null, nTHead: null, nTFoot: null, nTBody: null, nTableWrapper: null, bDeferLoading: !1, bInitialised: !1, aoOpenRows: [], sDom: null, searchDelay: null, sPaginationType: "two_button", iStateDuration: 0, aoStateSave: [], aoStateLoad: [], oSavedState: null, oLoadedState: null, sAjaxSource: null, sAjaxDataProp: null, bAjaxDataGet: !0, jqXHR: null, json: k, oAjaxData: k, fnServerData: null,
         aoServerParams: [], sServerMethod: null, fnFormatNumber: null, aLengthMenu: null, iDraw: 0, bDrawing: !1, iDrawError: -1, _iDisplayLength: 10, _iDisplayStart: 0, _iRecordsTotal: 0, _iRecordsDisplay: 0, oClasses: {}, bFiltered: !1, bSorted: !1, bSortCellsTop: null, oInit: null, aoDestroyCallback: [], fnRecordsTotal: function () { return "ssp" == y(this) ? 1 * this._iRecordsTotal : this.aiDisplayMaster.length }, fnRecordsDisplay: function () { return "ssp" == y(this) ? 1 * this._iRecordsDisplay : this.aiDisplay.length }, fnDisplayEnd: function () {
             var a = this._iDisplayLength,
-            b = this._iDisplayStart, c = b + a, d = this.aiDisplay.length, e = this.oFeatures, f = e.bPaginate; return e.bServerSide ? !1 === f || -1 === a ? b + d : Math.min(b + a, this._iRecordsDisplay) : !f || c > d || -1 === a ? d : c
+                b = this._iDisplayStart, c = b + a, d = this.aiDisplay.length, e = this.oFeatures, f = e.bPaginate; return e.bServerSide ? !1 === f || -1 === a ? b + d : Math.min(b + a, this._iRecordsDisplay) : !f || c > d || -1 === a ? d : c
         }, oInstance: null, sInstance: null, iTabIndex: 0, nScrollHead: null, nScrollFoot: null, aLastSort: [], oPlugins: {}, rowIdFn: null, rowId: null
     }; m.ext = x = {
         buttons: {}, classes: {}, build: "dt/dt-1.10.16", errMode: "alert", feature: [], search: [], selector: { cell: [], column: [], row: [] }, internal: {}, legacy: { ajax: null }, pager: {}, renderer: { pageButton: {}, header: {} },
@@ -19293,7 +19293,7 @@
                     var k, s, u, r, v = function (b) { Sa(a, b.data.action, true) }; k = 0; for (s = d.length; k < s; k++) {
                         r = d[k]; if (h.isArray(r)) {
                             u =
-                            h("<" + (r.DT_el || "div") + "/>").appendTo(b); o(u, r)
+                                h("<" + (r.DT_el || "div") + "/>").appendTo(b); o(u, r)
                         } else {
                             n = null; l = ""; switch (r) { case "ellipsis": b.append('<span class="ellipsis">&#x2026;</span>'); break; case "first": n = j.sFirst; l = r + (e > 0 ? "" : " " + g.sPageButtonDisabled); break; case "previous": n = j.sPrevious; l = r + (e > 0 ? "" : " " + g.sPageButtonDisabled); break; case "next": n = j.sNext; l = r + (e < f - 1 ? "" : " " + g.sPageButtonDisabled); break; case "last": n = j.sLast; l = r + (e < f - 1 ? "" : " " + g.sPageButtonDisabled); break; default: n = r + 1; l = e === r ? g.sPageButtonActive : "" }if (n !== null) {
                                 u = h("<a>", {
@@ -20586,7 +20586,7 @@
 */
 (function (d) { "function" === typeof define && define.amd ? define(["jquery", "datatables.net"], function (o) { return d(o, window, document) }) : "object" === typeof exports ? module.exports = function (o, n) { o || (o = window); if (!n || !n.fn.dataTable) n = require("datatables.net")(o, n).$; return d(n, o, o.document) } : d(jQuery, window, document) })(function (d, o, n, l) {
     var i = d.fn.dataTable, u = 0, v = 0, k = i.ext.buttons, m = function (a, b) {
-    !0 === b && (b = {}); d.isArray(b) && (b = { buttons: b }); this.c = d.extend(!0, {}, m.defaults, b); b.buttons && (this.c.buttons = b.buttons);
+        !0 === b && (b = {}); d.isArray(b) && (b = { buttons: b }); this.c = d.extend(!0, {}, m.defaults, b); b.buttons && (this.c.buttons = b.buttons);
         this.s = { dt: new i.Api(a), buttons: [], listenKeys: "", namespace: "dtb" + u++ }; this.dom = { container: d("<" + this.c.dom.container.tag + "/>").addClass(this.c.dom.container.className) }; this._constructor()
     }; d.extend(m.prototype, {
         action: function (a, b) { var c = this._nodeToButton(a); if (b === l) return c.conf.action; c.conf.action = b; return this }, active: function (a, b) { var c = this._nodeToButton(a), e = this.c.dom.button.active, c = d(c.node); if (b === l) return c.hasClass(e); c.toggleClass(e, b === l ? !0 : b); return this }, add: function (a, b) {
@@ -20602,8 +20602,8 @@
             var a =
                 this, b = this.s.dt, c = b.settings()[0], e = this.c.buttons; c._buttons || (c._buttons = []); c._buttons.push({ inst: this, name: this.c.name }); for (var c = 0, g = e.length; c < g; c++)this.add(e[c]); b.on("destroy", function () { a.destroy() }); d("body").on("keyup." + this.s.namespace, function (b) { if (!n.activeElement || n.activeElement === n.body) { var c = String.fromCharCode(b.keyCode).toLowerCase(); a.s.listenKeys.toLowerCase().indexOf(c) !== -1 && a._keypress(c, b) } })
         }, _addKey: function (a) {
-        a.key && (this.s.listenKeys += d.isPlainObject(a.key) ? a.key.key :
-            a.key)
+            a.key && (this.s.listenKeys += d.isPlainObject(a.key) ? a.key.key :
+                a.key)
         }, _draw: function (a, b) { a || (a = this.dom.container, b = this.s.buttons); a.children().detach(); for (var c = 0, d = b.length; c < d; c++)a.append(b[c].inserter), b[c].buttons && b[c].buttons.length && this._draw(b[c].collection, b[c].buttons) }, _expandButton: function (a, b, c, e) {
             for (var g = this.s.dt, h = 0, b = !d.isArray(b) ? [b] : b, f = 0, q = b.length; f < q; f++) {
                 var j = this._resolveExtends(b[f]); if (j) if (d.isArray(j)) this._expandButton(a, j, c, e); else {
@@ -20635,7 +20635,7 @@
                     } return d.isArray(c) ? c : d.extend({}, c)
                 }, a = g(a); a && a.extend;) {
                     if (!k[a.extend]) throw "Cannot extend unknown button type: " + a.extend; var h = g(k[a.extend]); if (d.isArray(h)) return h; if (!h) return !1; c = h.className; a = d.extend({}, h, a); c && a.className !== c && (a.className = c + " " + a.className); var f = a.postfixButtons; if (f) {
-                    a.buttons || (a.buttons = []);
+                        a.buttons || (a.buttons = []);
                         c = 0; for (e = f.length; c < e; c++)a.buttons.push(f[c]); a.postfixButtons = null
                     } if (f = a.prefixButtons) { a.buttons || (a.buttons = []); c = 0; for (e = f.length; c < e; c++)a.buttons.splice(c, 0, f[c]); a.prefixButtons = null } a.extend = h.extend
                 } return a
@@ -20745,13 +20745,13 @@ if (!jQuery) throw new Error("Bootstrap requires jQuery"); +function (a) { "use 
                 try {
                     if (a.is(":focus")) {
                         var l,
-                        c = a.get(0); c.setSelectionRange ? c.setSelectionRange(e, e) : c.createTextRange && (l = c.createTextRange(), l.collapse(!0), l.moveEnd("character", e), l.moveStart("character", e), l.select())
+                            c = a.get(0); c.setSelectionRange ? c.setSelectionRange(e, e) : c.createTextRange && (l = c.createTextRange(), l.collapse(!0), l.moveEnd("character", e), l.moveStart("character", e), l.select())
                     }
                 } catch (g) { }
             }, events: function () {
                 a.on("keydown.mask", function () { m = c.val() }).on("keyup.mask", c.behaviour).on("paste.mask drop.mask", function () { setTimeout(function () { a.keydown().keyup() }, 100) }).on("change.mask", function () { a.data("changed", !0) }).on("blur.mask", function () {
-                m === a.val() || a.data("changed") || a.trigger("change"); a.data("changed",
-                    !1)
+                    m === a.val() || a.data("changed") || a.trigger("change"); a.data("changed",
+                        !1)
                 }).on("focusout.mask", function () { b.clearIfNotMatch && !p.test(c.val()) && c.val("") })
             }, getRegexMask: function () { for (var e = [], a, c, g, b, k = 0; k < d.length; k++)(a = h.translation[d[k]]) ? (c = a.pattern.toString().replace(/.{1}$|^.{1}/g, ""), g = a.optional, (a = a.recursive) ? (e.push(d[k]), b = { digit: d[k], pattern: c }) : e.push(g || a ? c + "?" : c)) : e.push(d[k].replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")); e = e.join(""); b && (e = e.replace(new RegExp("(" + b.digit + "(.*" + b.digit + ")?)"), "($1)?").replace(new RegExp(b.digit, "g"), b.pattern)); return new RegExp(e) },
             destroyEvents: function () { a.off("keydown keyup paste drop change blur focusout DOMNodeInserted ".split(" ").join(".mask ")).removeData("changeCalled") }, val: function (e) { var c = a.is("input"); return 0 < arguments.length ? c ? a.val(e) : a.text(e) : c ? a.val() : a.text() }, getMCharsBeforeCount: function (e, a) { for (var c = 0, b = 0, f = d.length; b < f && b < e; b++)h.translation[d.charAt(b)] || (e = a ? e + 1 : e, c++); return c }, caretPos: function (e, a, b, g) {
@@ -22343,10 +22343,9 @@ APP.component.Datapicker = {
 
         $('.fa-calendar').on('click', function () {
 
-            if ($(this).closest('div').find('.data').attr("disabled") == undefined)
-            {
+            if ($(this).closest('div').find('.data').attr("disabled") == undefined) {
                 $(this).closest('div').find('.data').trigger("focusin");
-            }          
+            }
 
         });
 
@@ -22629,21 +22628,19 @@ APP.component.DragAndDrop = {
 
 
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");        
+        var data = ev.dataTransfer.getData("text");
         var nodeCopy = document.getElementById(data).cloneNode(true);
         //nodeCopy.id = nodeCopy.id + "newId"; 
-        
+
         var temNovoNode = false;
-        
+
         $(ev.target).find("li").each(function () {
-            if($(this).find("span").html() == $(nodeCopy).find("span").html())
-            {
+            if ($(this).find("span").html() == $(nodeCopy).find("span").html()) {
                 temNovoNode = true;
-            }            
+            }
         });
-        
-        if(!temNovoNode)
-        {
+
+        if (!temNovoNode) {
             $(nodeCopy).find("span").html($(nodeCopy).find("span").html() + "<a href='#' onclick='ExcluirProcessoAuditoria(this);' style='float: right; margin-right: 10px; color: white'><i class='fa fa-trash'></i></a>")
             ev.target.appendChild(nodeCopy);
         }
@@ -22904,7 +22901,7 @@ APP.component.FileUpload = {
                         var extencao = name.split('.')[1];
 
                         srcImg.children().text(name.substring(0, 8) + "..." + extencao);
-                        
+
                         var html = '<div class="DivExcluirAnexoEvidencia" style="float: left; margin-top: -50px">';
                         html += '<a href="#" class="btn-delete" onclick="DeleteAnexoAcaoImediata(this)">';
                         html += '<i class="fa fa-trash fa-1" aria-hidden="true" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '">';
@@ -22979,10 +22976,10 @@ APP.component.FileUpload = {
 
                         name = $('#' + idInput + '').prop('files')[0].name;
                         base64 = e.target.result.split(',');
-                        
+
                         NomeAnexo.val(name);
                         srcImg.text('R.A.I');
-                        
+
                         var html = '';
                         html += '<a href="#" class="btn-delete-rai">';
                         html += '<i class="fa fa-trash fa-1" aria-hidden="true" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '">';
@@ -23013,24 +23010,24 @@ APP.component.FileUpload = {
 
         this.buttonDelFileUploadRai.unbind('click');
         this.buttonDelFileUploadRai.on('click', function (event) {
-            
+
             var id = $(this).parent().find(".download-rai-form-auditoria-mes").attr("id");
 
             event.preventDefault();
             $("#" + id).parent().find('[class^=btn-upload]').text('');
             $(this).parent().find('input[type=file]').data('b64', '');
             $(this).parent().find('input[type=file]').attr('data-b64', '');
-            
+
             $(this).parent().find('.IdAnexo').val('');
-            $(this).parent().find('.NomeAnexo').val('');  
+            $(this).parent().find('.NomeAnexo').val('');
 
             $("#" + id).attr("class", id);
             $("#" + id).removeAttr("href");
             $("#" + id).removeAttr("target");
             $("#" + id).removeAttr("download");
             $("#" + id).attr("onclick", "UploadArquivoRai(this);");
-            
-            
+
+
             $(this).closest('div').find('[class^=btn-upload]').html('<i class="fa fa-paperclip fa-1x" aria-hidden="true"></i> Anexar');
             $(this).remove();
 
@@ -23064,8 +23061,8 @@ APP.component.GestaoDeRiscoPartial = {
         if (page == "CriarAnaliseCritica") {
             this.gestaoDeRiscoCriarAnaliseCritica(_divGestaoDeRisco, _temaSelected);
             //this.gestaoDeRisco(_selector);
-          
-            }
+
+        }
         if (page == "EditarAnaliseCritica") {
             this.gestaoDeRiscoEditAnaliseCritica();
         }
@@ -23080,7 +23077,7 @@ APP.component.GestaoDeRiscoPartial = {
 
     gestaoDeRiscoCriarAnaliseCritica: function (_divGestaoDeRisco, _temaSelected) {
 
-       
+
         this.getPartialGestaoDeRisco(_divGestaoDeRisco, _temaSelected);
         this.setCkeditorGestaoDeRisco(_divGestaoDeRisco, _temaSelected);
         this.setBarRating(_divGestaoDeRisco);
@@ -23089,11 +23086,11 @@ APP.component.GestaoDeRiscoPartial = {
         this.setERisco();
         this.getERisco();
 
-   
+
 
         var numeroRisco = $('[name=numeroAC]').val();
-        var busca = ".gestaoDeRiscoPartial-"+_temaSelected;      
-        $(busca).find($('[name=formGestaoDeRiscoNumero]')).val(numeroRisco); 
+        var busca = ".gestaoDeRiscoPartial-" + _temaSelected;
+        $(busca).find($('[name=formGestaoDeRiscoNumero]')).val(numeroRisco);
         $('[name=numeroAC]').val(parseInt(numeroRisco) + parseInt('1'));
 
 
@@ -23141,15 +23138,15 @@ APP.component.GestaoDeRiscoPartial = {
     },
 
     setHideAndShowGestaodeRisco: function (_divGestaoDeRisco) {
-	
+
         //_divGestaoDeRisco.find('[name^=formGestaoDeRiscoRisco]').closest('[class^=col]').hide();
         //_divGestaoDeRisco.find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
         //_divGestaoDeRisco.find('[name=formGestaoDeRiscoNumero]').closest('[class^=col]').hide();
         $('.responsavel-gestao-de-risco').hide();
-        $('.numeroGestaoRisco').hide();   
-        $('.JustificativaGestaoDeRisco').hide(); 
-        
-       _divGestaoDeRisco.find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').hide();
+        $('.numeroGestaoRisco').hide();
+        $('.JustificativaGestaoDeRisco').hide();
+
+        _divGestaoDeRisco.find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').hide();
         $('.numeroGestaoRisco').hide();
         //_divGestaoDeRisco.find('[name=formGestaoDeRiscoIdentificacao]').closest('[class^=col]').hide();
 
@@ -23158,7 +23155,7 @@ APP.component.GestaoDeRiscoPartial = {
     //Changes
     setCriticidade: function (value, text) {
 
-    $('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
+        $('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
 
             //var barRatingSelect = $(this).val();
             //if (barRatingSelect == 2 || barRatingSelect == 3) {
@@ -23209,7 +23206,7 @@ APP.component.GestaoDeRiscoPartial = {
             $(_this).closest('#gestaoDeRisco').find('[name=formGestaoDeRiscoIdentificacao]').closest('[class^=col]').show();
             $(_this).closest('#gestaoDeRisco').find('[name=formGestaoDeRiscoCausa]').closest('[class^=col]').show();
             $('.numeroGestaoRisco').show();
-            $('.JustificativaGestaoDeRisco').hide();            
+            $('.JustificativaGestaoDeRisco').hide();
             APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(_this);
         } else {
             $(_this).closest('#gestaoDeRisco').find('[name=formGestaoDeRiscoResponsavelDefinicao]').closest('[class^=col]').hide();
@@ -23312,10 +23309,10 @@ APP.component.Calendar = {
                 $(this).parent().parent().find("input").datepicker("show");
             }
 
-            
+
         });
 
-        
+
 
     },
 };
@@ -23482,7 +23479,7 @@ APP.component.Menu = {
             $("#main").css("marginLeft", "250px");
         });
 
-        
+
 
     },
 
@@ -23494,7 +23491,7 @@ APP.component.Menu = {
 
         });
 
-        
+
 
     },
 
@@ -23671,7 +23668,7 @@ APP.component.UserMenu = {
                     success: function (result) {
 
                         var $clienteBox = $("#clientes .row-box");
-                        
+
                         var index = 1;
 
                         $.each(result, function (key, val) {
@@ -23693,7 +23690,7 @@ APP.component.UserMenu = {
                             htmlCliente += '<span><input type="hidden" class="idCliente"' + 'value="' + val.IdCliente + '">' + val.NmFantasia + '</span></a>';
                             htmlCliente += '</div>';
                             htmlCliente += '</div>';
-                            
+
 
                             if (result.length == index) {
                                 htmlCliente += '<!-- Sair -->';
@@ -23701,7 +23698,7 @@ APP.component.UserMenu = {
                                 htmlCliente += '<div class="box-clientes">';
                                 htmlCliente += '<a href="/Site/EscolheSite/?idSite=0" class="get-site-cliente">';
                                 htmlCliente += '<img src="../../../img/sair.png" class="img-responsive">';
-                                htmlCliente += '<span><input type="hidden" class="idCliente" value="0">'+_options.Sair+'</span></a>';
+                                htmlCliente += '<span><input type="hidden" class="idCliente" value="0">' + _options.Sair + '</span></a>';
                                 htmlCliente += '</div>';
                                 htmlCliente += '</div>';
 
@@ -23978,8 +23975,7 @@ APP.component.ResultErros = {
                 html += "</li>";
             });
         }
-        else
-        {
+        else {
             html += "<li>";
             html += "- " + _listErros;
             html += "</li>";
@@ -24053,17 +24049,17 @@ APP.component.SelectListCompare = {
             _listPage = [0];
 
         $(_listPage).each(function (key, value) {
-            
+
 
             obj = { [_paramCompare.valueOf()]: parseInt($(value).val()) };
             anotherOne.push(obj);
-            
+
         });
 
         var filteredArray = array.filter(myCallBack);
 
         function myCallBack(el) {
-            return anotherOne.findIndex(x => x['' + _paramCompare + ''] == el['$' + _paramCompare +'}']) < 0;
+            return anotherOne.findIndex(x => x['' + _paramCompare + ''] == el['$' + _paramCompare + '}']) < 0;
         }
 
         this.addSelectOnPage(filteredArray, _idSelect, obj, _paramTexto);
@@ -24945,7 +24941,7 @@ APP.controller.AcaoCorretivaController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -25009,7 +25005,7 @@ APP.controller.AcaoCorretivaController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -25078,7 +25074,7 @@ APP.controller.AcaoCorretivaController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -25210,7 +25206,7 @@ APP.controller.AcaoCorretivaController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -25361,7 +25357,7 @@ APP.controller.AcaoCorretivaController = {
         var acoesNaoConformidadeFormCriarNaoConformidadeObj = {};
 
         switch (_fluxo) {
-                case "fluxo-02":
+            case "fluxo-02":
                 //Obj enviado no fluxo 02 de edicao
                 acoesNaoConformidadeFormCriarNaoConformidadeObj = {
                     StatusEtapa: 2,
@@ -25585,7 +25581,7 @@ APP.controller.AcaoCorretivaController = {
         $.ajax({
             type: "GET",
             dataType: 'json',
-            url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso +'&idSite=' + idSite + '&idFuncao=' + idFuncao +'',
+            url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '',
             beforeSend: function () {
                 $('.add-acao-imediata').removeClass('show').addClass('hide');
             },
@@ -25608,7 +25604,7 @@ APP.controller.AcaoCorretivaController = {
         var idSite = $('#nao-conformidade-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
         var idFuncao = 24; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique NC
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao +'', function (result) {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', function (result) {
             if (result.StatusCode == 200) {
 
                 $(result.Lista).each(function (key, value) {
@@ -25688,7 +25684,7 @@ APP.controller.AcaoCorretivaController = {
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
                         $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
                         $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
-                    ),                    
+                    ),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                 };
             }
@@ -25867,7 +25863,7 @@ APP.controller.AcaoCorretivaController = {
 
     DestravaDocumento: function () {
 
-        var idAcaoCorretiva = $("input[name='IdRegistroConformidade']").val();  
+        var idAcaoCorretiva = $("input[name='IdRegistroConformidade']").val();
         var data = { "idAcaoCorretiva": idAcaoCorretiva };
 
         $.ajax({
@@ -25915,7 +25911,7 @@ APP.controller.AcaoCorretivaController = {
             else {
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true); 
+                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
             }
 
@@ -26306,7 +26302,7 @@ APP.controller.AcaoCorretivaController_old = {
         var idSite = $('#acao-corretiva-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
         var idFuncao = 24; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique AC
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao +'', function (result) {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', function (result) {
             if (result.StatusCode == 200) {
                 $(result.Lista).each((key, value) => {
                     var $option = $('<option>');
@@ -26746,7 +26742,7 @@ APP.controller.AnaliseCriticaController = {
         var idProcesso = $('[name=IdProcesso]').val();
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 48; // Funcionalidade(Registro da ata) que permite Criar Analise Critica;
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarAnaliseCriticaResponsavel"] option'), $('[name="formCriarAnaliseCriticaResponsavel"]'), 'IdUsuario', 'NmCompleto');
             }
@@ -26881,15 +26877,15 @@ APP.controller.AnaliseCriticaController = {
     },
 
     setTemaBox: function () {
-        
-    $('[name=formCriarAnaliseCriticaTema]').change(function () {
+
+        $('[name=formCriarAnaliseCriticaTema]').change(function () {
             //Valor zero representa o selecione no combobox
             var temaSelected = $("[name=formCriarAnaliseCriticaTema] option:selected").val();
             var textoTemaSelected = $("[name=formCriarAnaliseCriticaTema] option:selected").text();
-            var numeroAC = $("[name=numeroAC]").val(); 
-            
+            var numeroAC = $("[name=numeroAC]").val();
+
             if (temaSelected != 0) {
-            
+
                 var id = temaSelected;
                 var tema = '';
                 tema += '<li class="row li-tema-AC">';
@@ -26965,16 +26961,15 @@ APP.controller.AnaliseCriticaController = {
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 91; // Funcionalidade(Implementar aÃ§Ã£o) que permite Criar aÃ§Ãµes Corretivas
         var idProcesso = $('[name=IdProcesso]').val();
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
-                
-                if($(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"]').find("option").length <= 1)
-                {
+
+                if ($(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"]').find("option").length <= 1) {
                     var comboResponsavel = $(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"] option');
                     var idComboResponsavel = $(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"]');
                     APP.component.SelectListCompare.selectList(result.Lista, comboResponsavel, idComboResponsavel, 'IdUsuario', 'NmCompleto');
                 }
-                
+
             }
         });
 
@@ -27069,7 +27064,7 @@ APP.controller.AnaliseCriticaController = {
 
     getObjFormCriarAnaliseCritica: function () {
 
-       
+
 
         var acoesPadraoFormCriarPadraoObj = {
 
@@ -27084,7 +27079,7 @@ APP.controller.AnaliseCriticaController = {
             Funcionarios: APP.controller.AnaliseCriticaController.getObjFormPessoaFuncaoAnaliseCriticaArray(),
         };
 
-        
+
         return acoesPadraoFormCriarPadraoObj;
 
     },
@@ -27125,16 +27120,16 @@ APP.controller.AnaliseCriticaController = {
                 IdControladorCategoria: $(this).find('[name=idControladorCategoria]').val(),
                 IdGestaoDeRisco: $(this).find('[name=IdGestaoDeRisco]').val(),
                 GestaoDeRisco:
-                    {
-                        CriticidadeGestaoDeRisco: $('.br-current').data('rating-value') == undefined ? 0 : $(this).find("[name^=formGestaoDeRiscoCriticidade] :selected").val(),
-                        //TipoRegistro: 'gr',
-                        IdResponsavelInicarAcaoImediata: $(this).find('[name=formGestaoDeRiscoResponsavelDefinicao]').val(),
-                        DescricaoRegistro: $(this).find('[name=formGestaoDeRiscoIdentificacao]').val(),
-                        Causa: $(this).find('[name=formGestaoDeRiscoCausa]').val(),                        
-                        DsJustificativa: $(this).find('[name=formGestaoDeRiscojustificativa]').val()
-                    }
+                {
+                    CriticidadeGestaoDeRisco: $('.br-current').data('rating-value') == undefined ? 0 : $(this).find("[name^=formGestaoDeRiscoCriticidade] :selected").val(),
+                    //TipoRegistro: 'gr',
+                    IdResponsavelInicarAcaoImediata: $(this).find('[name=formGestaoDeRiscoResponsavelDefinicao]').val(),
+                    DescricaoRegistro: $(this).find('[name=formGestaoDeRiscoIdentificacao]').val(),
+                    Causa: $(this).find('[name=formGestaoDeRiscoCausa]').val(),
+                    DsJustificativa: $(this).find('[name=formGestaoDeRiscojustificativa]').val()
+                }
             };
-            
+
             arrayFormTemasAnaliseCriticaObj.push(formCriarTemasAnaliseCriticaObj);
 
         });
@@ -27178,7 +27173,7 @@ APP.controller.AnaliseCriticaController = {
         $('[name=formGestaoDeRiscoDescricao]').each(function (index, element) {
             var divContext = $(element).closest('[name=GestaoDeRisco]');
             var temGestaoDeRisco = divContext.find('[name=formGestaoDeRiscoRisco]').val();
-            divContext.find('[name=formGestaoDeRiscoResponsavelDefinicao][value='+ temGestaoDeRisco +']').prop('checked', temGestaoDeRisco);
+            divContext.find('[name=formGestaoDeRiscoResponsavelDefinicao][value=' + temGestaoDeRisco + ']').prop('checked', temGestaoDeRisco);
         });
     },
 
@@ -27209,7 +27204,7 @@ APP.controller.AnaliseCriticaController = {
             $('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").show();
             $('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").show();
             $('.JustificativaGestaoDeRisco').hide();
-            
+
         } else {
             $('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").hide();
             $('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").hide();
@@ -27273,7 +27268,7 @@ APP.controller.AnaliseCriticaController = {
                 switch (form) {
                     case "analisecritica":
                         analiseCriticaObj = APP.controller.AnaliseCriticaController.getObjFormCriarAnaliseCritica();
-                        
+
                         var valida = true;
 
                         if (analiseCriticaObj.Funcionarios.length == 0) {
@@ -27281,16 +27276,14 @@ APP.controller.AnaliseCriticaController = {
                             bootbox.alert(_options.labelParticipantesObrigatorio);
                             valida = false;
                         }
-                        else if (analiseCriticaObj.Temas.length == 0)
-                        {
-                            
+                        else if (analiseCriticaObj.Temas.length == 0) {
+
                             bootbox.alert(_options.labelTemaObrigatorio);
                             valida = false;
                         }
                         else if (analiseCriticaObj.Temas.length > 0) {
 
-                            if (analiseCriticaObj.Temas[0].Descricao == "" || analiseCriticaObj.Temas[0].Descricao == null)
-                            {
+                            if (analiseCriticaObj.Temas[0].Descricao == "" || analiseCriticaObj.Temas[0].Descricao == null) {
                                 bootbox.alert(_options.labelDescricaoObrigatorio);
                                 valida = false;
                             }
@@ -27302,24 +27295,22 @@ APP.controller.AnaliseCriticaController = {
                                 bootbox.alert(_options.labelCriticidadeGestaoDeRisco);
                                 valida = false;
                             }
-                            else if (analiseCriticaObj.Temas[0].PossuiGestaoRisco == null || analiseCriticaObj.Temas[0].PossuiGestaoRisco == "") 
-                            {
+                            else if (analiseCriticaObj.Temas[0].PossuiGestaoRisco == null || analiseCriticaObj.Temas[0].PossuiGestaoRisco == "") {
                                 bootbox.alert(_options.labelPossuiGestaoRisco);
                                 valida = false;
                             }
-                            
-                            else if (analiseCriticaObj.Temas[0].GestaoDeRisco.IdResponsavelInicarAcaoImediata == null || analiseCriticaObj.Temas[0].GestaoDeRisco.IdResponsavelInicarAcaoImediata  == "") {
+
+                            else if (analiseCriticaObj.Temas[0].GestaoDeRisco.IdResponsavelInicarAcaoImediata == null || analiseCriticaObj.Temas[0].GestaoDeRisco.IdResponsavelInicarAcaoImediata == "") {
                                 bootbox.alert(_options.labelResponsavelDefinicaoObrigatorio);
                                 valida = false;
                             }
                         }
-                                                
 
-                        if (valida == true)
-                        {
+
+                        if (valida == true) {
                             APP.controller.AnaliseCriticaController.saveFormCriarAnaliseCritica(analiseCriticaObj, '/AnaliseCritica/Salvar');
                         }
-                        
+
                         break;
                 }
             }
@@ -27368,7 +27359,7 @@ APP.controller.AnaliseCriticaController = {
 
         this.buttonExcluirAnaliseCritica.unbind('click');
         this.buttonExcluirAnaliseCritica.bind('click', function () {
-            
+
             event.preventDefault();
 
             var idDocumento = $(this).attr("idAnaliseCritica");
@@ -27377,7 +27368,7 @@ APP.controller.AnaliseCriticaController = {
                 if (result) {
                     $.post('/AnaliseCritica/Excluir/' + idDocumento, function (data, status) { }).done(function (data) {
                         if (data.StatusCode == "200") {
-                            
+
                             bootbox.alert(data.Success, function (result) {
                                 window.location.href = "/AnaliseCritica/Index";
                             });
@@ -27422,8 +27413,8 @@ APP.controller.AuditoriaController = {
 
     },
 
-    models: {        
-        AnexoModel: APP.model.Anexo,        
+    models: {
+        AnexoModel: APP.model.Anexo,
     },
 
     indexAuditoria: function () {
@@ -27435,7 +27426,7 @@ APP.controller.AuditoriaController = {
         this.setAndHide();
         this.getGestorPorSite();
         this.setValidateForms();
-        this.sendFormAuditoria();       
+        this.sendFormAuditoria();
 
     },
 
@@ -27449,10 +27440,10 @@ APP.controller.AuditoriaController = {
 
         var anexoContratoModel = APP.controller.FornecedoresController.models.AnexoModel;
         var anexoAuditoria = {};
-        
+
         var nameImg = $(_this).parent().find('.NomeAnexo').val();
         var id = $(_this).parent().find('.IdAnexo').val() != undefined && $(_this).parent().find('.IdAnexo').val() != null && $(_this).parent().find('.IdAnexo').val() != "" ? $(_this).parent().find('.IdAnexo').val() : "0";
-        
+
         var anexoAuditoria = anexoContratoModel.constructor(
             id,
             nameImg,
@@ -27462,12 +27453,12 @@ APP.controller.AuditoriaController = {
         return anexoAuditoria;
 
     },
-   
+
     getGestorPorSite: function () {
 
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 12; // Funcionalidade(Cadastrar) que permite usuario criar nc
-        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name=formAuditoriaGestor] option'), $('[name=formAuditoriaGestor]'), 'IdUsuario', 'NmCompleto');
             }
@@ -27559,7 +27550,7 @@ APP.controller.AuditoriaController = {
     },
 
     getIdProcessoPorNome: function (_Nome) {
-     
+
         $.ajax({
             type: "GET",
             dataType: 'JSON',
@@ -27570,8 +27561,7 @@ APP.controller.AuditoriaController = {
                 if (result.StatusCode == 202) {
                     return result.IdProcesso;
                 }
-                else
-                {
+                else {
                     return 0;
                 }
             },
@@ -27637,14 +27627,13 @@ APP.controller.AuditoriaController = {
 
             if (isVisible) {
                 var form = idPanel[2];
-                
-                if (form == "auditoria")
-                {
+
+                if (form == "auditoria") {
                     $('.carousel-inner .item').each(function () {
-                        var auditoriaObj = APP.controller.AuditoriaController.getObjFormAuditoria(this);                    
+                        var auditoriaObj = APP.controller.AuditoriaController.getObjFormAuditoria(this);
                         ArrayAuditoriaObj.push(auditoriaObj);
                     });
-                }                
+                }
             }
 
         });
@@ -27728,7 +27717,7 @@ APP.controller.CargoController = {
     },
 
     setMsgIconeAtivo: function () {
-        
+
 
     },
 
@@ -27768,7 +27757,7 @@ APP.controller.CargoController = {
     },
 
     setMsgIconeExcluir: function () {
-        
+
 
     },
 
@@ -28034,7 +28023,7 @@ APP.controller.ClienteController = {
     },
 
     setMsgIconeAtivo: function () {
-        
+
 
     },
 
@@ -28072,7 +28061,7 @@ APP.controller.ClienteController = {
     },
 
     setMsgIconeExcluirCliente: function () {
-        
+
 
     },
 
@@ -28083,7 +28072,7 @@ APP.controller.ClienteController = {
             type: "POST",
             dataType: 'json',
             url: '/Cliente/Excluir?id=' + _idCliente',
-            beforeSend: function () {
+            beforeSend: function() {
                 APP.component.Loading.showLoading();
             },
             success: function (result) {
@@ -28621,15 +28610,13 @@ APP.controller.ControlDocController = {
         }
 
         $(document).on("change", "#ddlCopiaControlada", function () {
-            
+
             var copiaControlada = this.value;
 
-            if (copiaControlada == "true")
-            {
+            if (copiaControlada == "true") {
                 $(".usuarioDestinoCopiaControlada").show();
             }
-            else
-            {
+            else {
                 $(".usuarioDestinoCopiaControlada").hide();
             }
 
@@ -28638,7 +28625,7 @@ APP.controller.ControlDocController = {
         });
 
         $(document).on("change", "#ddlUsuarioDestino", function () {
-            
+
             APP.controller.ControlDocController.models.idusuariodestino = this.value;
         });
     },
@@ -28710,6 +28697,7 @@ APP.controller.ControlDocController = {
         APP.component.DataTable.init("#tb-list-documentos");
         this.setRevisarDocumento();
         this.setExcluirDocumento();
+        this.setObsoletarDocumento();
         this.setImprimirDocumento();
         this.imprimir();
     },
@@ -28722,10 +28710,10 @@ APP.controller.ControlDocController = {
 
             $.post('/ControlDoc/RetornaNumeroPorSigla/' + sigla, function (data, status) { }).done(function (data) {
                 if (data.StatusCode == "200") {
-                 
+
                     $('[name=formCadastroNmDocumento]').val(data.Retorno);
-                 
-                }                
+
+                }
             });
 
         });
@@ -28733,7 +28721,7 @@ APP.controller.ControlDocController = {
     },
 
     setImprimirDocumento: function () {
-       
+
         var tabela = $("#tb-list-documentos").DataTable();
 
         this.buttonImprimirDocumento.unbind('click');
@@ -28777,12 +28765,12 @@ APP.controller.ControlDocController = {
                 APP.controller.ControlDocController.models.idusuariodestino = null;
                 APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, false);
             }
-            });
+        });
     },
 
     imprimir: function (idDocumento, possuiPerfilControle) {
 
-        
+
 
         if (idDocumento != null) {
 
@@ -28810,15 +28798,15 @@ APP.controller.ControlDocController = {
                 }
                 APP.controller.ControlDocController.models.iscontrolada = null;
                 APP.controller.ControlDocController.models.idusuariodestino = null;
-                
+
                 APP.component.Loading.hideLoading();
-            
+
             };
 
             xhr.send();
 
-            
-            
+
+
         }
     },
 
@@ -28850,7 +28838,46 @@ APP.controller.ControlDocController = {
         });
 
     },
+    setObsoletarDocumento: function () {
+        $('.controldoc-obsoletar').on('click', function () {
+            
+            bootbox.confirm("Gostaria de inativar o item selecionado ?", function(result){
+            if(result){
+            tabela.row($rowAtual).remove().draw();
+            bootbox.alert
+            }
+                var idDoc = $(this).data('id-doc');
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    beforeSend: function () {
+                        url: '/ControlDoc/Obsoletar?Id=' + idDoc'',
+                            APP.component.Loading.showLoading();
+                    },
+                    success: function (result) {
+                        if (result.StatusCode == 200) {
+                            bootbox.alert("O documento foi enviado para a fila de obsoletos.");
+                        }
+                        else if (result.StatusCode == 505) {
+                            erro = APP.component.ResultErros.init(result.Erro);
+                            bootbox.alert(erro);
+                        } else if (result.StatusCode == 500) {
+                            erro = APP.component.ResultErros.init(result.Erro);
+                            bootbox.alert(erro);
+                        }
 
+                    },
+                    error: function (result) {
+                        erro = APP.component.ResultErros.init(result.Erro);
+                        bootbox.alert(erro);
+                    },
+                    complete: function (result) {
+                        APP.component.Loading.hideLoading();
+                    }
+                });
+            });
+        });
+    },
     setRevisarDocumento: function () {
         $('.controldoc-revisar').on('click', function () {
             var erro = "";
@@ -28992,13 +29019,12 @@ APP.controller.ControlDocController = {
 
         if (getWorkFlow == 'true') {
 
-            if(statusEtapa != 0)
-            {
-                
+            if (statusEtapa != 0) {
+
                 $('[name=StatusEtapa]').prop('disabled', true);
 
             }
-            
+
             switch (statusEtapa) {
                 case 0:
                     $('.um').hide();
@@ -29139,9 +29165,8 @@ APP.controller.ControlDocController = {
 
                 var statusEtapa = parseInt($('[name=StatusEtapa]').val());
                 var workFlow = $("[name=formCadastroWorkflow]").val();
-                
-                if (workFlow == "sim")
-                {
+
+                if (workFlow == "sim") {
                     statusEtapa = 3;
                 }
 
@@ -30695,7 +30720,7 @@ APP.controller.ControlDocController = {
     },
 
     getTemasCores: function () {
-        
+
         var StatusEtapa = $('[name=StatusEtapa]').val();
         var divBarRating = $('.barraRating');
         var corRisco = $('[name=formRiscosCriticidade]').val();
@@ -30705,9 +30730,8 @@ APP.controller.ControlDocController = {
         }
         $($('.br-theme-bars-1to10').find('.br-widget a')[lastCores]).trigger("click");
         $('.br-theme-bars-1to10').find("[data-rating-value='" + corRisco + "']").addClass('br-current');
-        
-        if(StatusEtapa > 0)
-        {
+
+        if (StatusEtapa > 0) {
             $('.br-widget').addClass('barRating-disabled');
         }
 
@@ -30717,7 +30741,7 @@ APP.controller.ControlDocController = {
 
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 48; // Funcionalidade(Registro da ata) que permite Criar Analise Critica;
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + _idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + _idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name="formRiscosResponsavel"] option'), $('[name="formRiscosResponsavel"]'), 'IdUsuario', 'NmCompleto');
             }
@@ -30916,7 +30940,7 @@ APP.controller.ControlDocController = {
             html += '</span>';
             html += '</div>';
             html += '</td>';
-            
+
             html += '<td>';
             html += '<textarea name="formAssuntoDescricao" class="form-control" id="form-assunto-descricao" data-val="true"  rows="5"></textarea>';
             html += '</td>';
@@ -31009,7 +31033,7 @@ APP.controller.ControlDocController = {
         APP.controller.ControlDocController.setEditAssuntoFormAssuntos();
         APP.controller.ControlDocController.delAssuntoFormAssuntos();
         APP.controller.ControlDocController.setNumeroRevisaoAssunto();
-        
+
         APP.component.Datapicker.init();
 
     },
@@ -31235,8 +31259,8 @@ APP.controller.ControlDocController = {
                     $("input").attr("disabled", "disabled");
                     $("#form-cargos-escolha-all").removeAttr("disabled");
                     $(".closeCargos").removeAttr("disabled");
-                    
-                    
+
+
                     break;
                 case 3:
                     APP.controller.ControlDocController.setDisableVerificacao(statusEtapa);
@@ -31467,7 +31491,7 @@ APP.controller.NotificacaoController = {
         html += '<li class="dropdown">';
         html += '<a class="dropdown-toggle" data-toggle="modal" data-target="#mdPendencia" href="#">';
         html += '<i class="fa fa-bell fa-2x" aria-hidden="true">  <span class="badge">0</span> </i>';
-        html += '<span>'+ _options.TituloNotificacoes +'</span> </i>';
+        html += '<span>' + _options.TituloNotificacoes + '</span> </i>';
         html += '</a>';
         html += '</li>';
 
@@ -31908,7 +31932,7 @@ APP.controller.GestaoDeRiscoController = {
     },
 
     delGestaoDeRisco: function () {
-        
+
         var tabelaGestaoRisco = $('#tb-index-gestao-de-risco').DataTable();
 
         this.buttonDelGestaoDeRisco.on('click', function (event) {
@@ -31916,24 +31940,24 @@ APP.controller.GestaoDeRiscoController = {
 
             var IdRegistroConformidade = $(this).data('idGestaoDeRisco');
             var $AtualRow = $(this).parents('tr');
-                    
+
             console.log("IdRegistroConformidade:= ", IdRegistroConformidade);
 
             bootbox.confirm(_options.MsgDesejaExcluirRegistro, function (result) {
-                    if (result) {
-                        $.get('/GestaoDeRisco/Excluir?idGestaoDeRisco=' + IdRegistroConformidade, function (data, status) {
-                        }).done(function (data) {
-                            if (data.StatusCode == "200") {
-                                tabelaGestaoRisco.row($AtualRow).remove().draw();
-                                bootbox.alert(data.Success, function (result) {
-                                    window.location.href = "/GestaoDeRisco/Index";
-                                });
-                                
-                            }
-                        });
-                    }
-                });
+                if (result) {
+                    $.get('/GestaoDeRisco/Excluir?idGestaoDeRisco=' + IdRegistroConformidade, function (data, status) {
+                    }).done(function (data) {
+                        if (data.StatusCode == "200") {
+                            tabelaGestaoRisco.row($AtualRow).remove().draw();
+                            bootbox.alert(data.Success, function (result) {
+                                window.location.href = "/GestaoDeRisco/Index";
+                            });
+
+                        }
+                    });
+                }
             });
+        });
 
         //    var msgIconeDeleteNC = $('[name=msgIconeDeleteGR]').val();
 
@@ -32072,10 +32096,10 @@ APP.controller.GestaoDeRiscoController = {
         $('#panel-acaoimediata').hide();
         $('[name=formCriarNaoConformidadeNmRegistro]').closest('div').hide();
         $('#lblformCriarNaoConformidadeNmRegistro').closest('div').hide();
-        $('[name=formCriarNaoConformidadeResponsavel]').closest('div').hide();        
+        $('[name=formCriarNaoConformidadeResponsavel]').closest('div').hide();
         $('[name=formCausa]').closest('div').hide();
 
-        
+
 
     },
 
@@ -32091,7 +32115,7 @@ APP.controller.GestaoDeRiscoController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -32158,7 +32182,7 @@ APP.controller.GestaoDeRiscoController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -32230,7 +32254,7 @@ APP.controller.GestaoDeRiscoController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -32365,7 +32389,7 @@ APP.controller.GestaoDeRiscoController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -32446,7 +32470,7 @@ APP.controller.GestaoDeRiscoController = {
             $('[name=formCriarNaoConformidadeResponsavel]').closest('[class^=col]').hide();
             $('[name=formCriarNaoConformidadeNmRegistro]').closest('[class^=col]').hide();
             $('#lblformCriarNaoConformidadeNmRegistro').closest('div').hide();
-            
+
             $('[name=formCausa]').closest('div').hide();
             $('#form-acaoimediata').hide();
             $("#painel-acao-corretiva-nao").show();
@@ -32455,12 +32479,12 @@ APP.controller.GestaoDeRiscoController = {
             $('[name=formCriarNaoConformidadeResponsavel]').closest('[class^=col]').show();
             $('[name=formCriarNaoConformidadeNmRegistro]').closest('[class^=col]').show();
             $('#lblformCriarNaoConformidadeNmRegistro').closest('div').show();
-            
+
             $('[name=formCausa]').closest('div').show();
             $('#form-acaoimediata').show();
             $('#painel-acao-corretiva-sim').show();
             $("#painel-acao-corretiva-nao").hide();
-            
+
         }
 
     },
@@ -32519,7 +32543,7 @@ APP.controller.GestaoDeRiscoController = {
 
         var idSite = $('#nao-conformidade-site').val();
         var idFuncao = 89; // Funcionalidade(Cadastrar) que permite usuario criar nc
-        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite +'&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name=formCriarNaoConformidadeEmissor] option'), $('[name=formCriarNaoConformidadeEmissor]'), 'IdUsuario', 'NmCompleto');
             }
@@ -32533,7 +32557,7 @@ APP.controller.GestaoDeRiscoController = {
             var idSite = $('#nao-conformidade-site').val();
             processoSelecionado = $(this).find(':selected').val();
             var idFuncao = 90; // Funcionalidade(Define aÃ§Ã£o)
-            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite +'idFuncao=' + idFuncao +'', (result) => {
+            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + 'idFuncao=' + idFuncao + '', (result) => {
                 if (result.StatusCode == 200) {
                     $('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
                     APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
@@ -32681,7 +32705,7 @@ APP.controller.GestaoDeRiscoController = {
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
-                    EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),                  
+                    EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
                     Causa: $('[name=formCausa]').val(),
                 };
@@ -32930,7 +32954,7 @@ APP.controller.GestaoDeRiscoController = {
         var idSite = $('#nao-conformidade-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
         var idFuncao = 92; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique NC
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao +'', function (result) {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', function (result) {
             if (result.StatusCode == 200) {
 
                 $(result.Lista).each(function (key, value) {
@@ -33187,25 +33211,25 @@ APP.controller.GestaoDeRiscoController = {
 
 
     HabilitaCamposGestaoRisco: function (perfil) {
-       
+
         if (perfil == '4') {
-            
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-processo").attr("disabled", true);
             $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $('.br-widget').removeClass('barRating-disabled');
 
-     
+
         }
         else {
-           
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);            
+            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
             $('.br-widget').removeClass('barRating-disabled');
 
-   
+
 
         }
     },
@@ -33245,31 +33269,31 @@ APP.controller.GestaoDeRiscoController = {
 
 
     setDestravarCamposGestaoRisco: function () {
-    
+
         this.buttonDestravar.on('click', function () {
-            
-            
+
+
             if (perfil == '4') {
-                
+
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-processo").attr("disabled", true);
                 $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
 
-   
+
 
             }
             else {
-            
+
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true); 
+                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
                 $('.br-widget').removeClass('barRating-disabled');
 
             }
 
-            var idGestaoDeRisco = $("[name=IdRegistroConformidade]").val();     
+            var idGestaoDeRisco = $("[name=IdRegistroConformidade]").val();
             var data = { "idGestaoDeRisco": idGestaoDeRisco };
 
             $.ajax({
@@ -33426,7 +33450,7 @@ APP.controller.IndicadorController = {
         this.buttonGetRelatorioBarras = $('#relatorioBarras');
         this.buttonGetRelatorioColunas = $('#relatorioColunas');
         this.buttonDestravar = $("#btn-destravar");
-       
+
     },
 
     //Models
@@ -33580,7 +33604,7 @@ APP.controller.IndicadorController = {
 
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 27; // Funcionalidade(Cadastrar) que permite usuario criar nc
-        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name=formCriarIndicadorResponsavel] option'), $('[name=formCriarIndicadorResponsavel]'), 'IdUsuario', 'NmCompleto');
             }
@@ -33818,8 +33842,7 @@ APP.controller.IndicadorController = {
         });
 
 
-        if (parseInt($('#form-planodevoo-meta-total').val()) != parseInt($('#form-criar-indicador-meta').val()))
-        {
+        if (parseInt($('#form-planodevoo-meta-total').val()) != parseInt($('#form-criar-indicador-meta').val())) {
             valid = false;
             bootbox.alert(_options.MsgMetaTotal);
         }
@@ -33864,7 +33887,7 @@ APP.controller.IndicadorController = {
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
-                   var id = result.IdIndicador;
+                    var id = result.IdIndicador;
                     bootbox.alert(result.Success, function (result) {
                         window.location.href = "/Indicador/Editar/" + id;
                     });
@@ -34018,9 +34041,9 @@ APP.controller.IndicadorController = {
     },
 
     HabilitaCamposIndicador: function (perfil) {
-        
+
         if (perfil == '4') {
-        
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-processo").attr("disabled", true);
             $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
@@ -34031,27 +34054,27 @@ APP.controller.IndicadorController = {
         }
     },
 
-  
+
     setDestravarCamposIndicador: function () {
 
         this.buttonDestravar.on('click', function () {
-      
+
 
             if (perfil == '4') {
-             
+
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-processo").attr("disabled", true);
-                $("#form-criar-nao-conformidade-emissor").attr("disabled", true); 
+                $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
 
 
             }
             else {
-              
+
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
             }
 
 
-            var idIndicador = $('[name=IdIndicador]').val(); 
+            var idIndicador = $('[name=IdIndicador]').val();
             var data = { "idIndicador": idIndicador };
 
             $.ajax({
@@ -34237,7 +34260,7 @@ APP.controller.InstrumentosController = {
         $.post('/Instrumento/Editar/', instrumento, function (data, status) {
         })
             .success(function (data, status) {
-                
+
             })
             .fail(function (data, status) {
 
@@ -34304,11 +34327,11 @@ APP.controller.InstrumentosController = {
         if (temCriterioAceitacao) {
 
             PosCalibracao.Instrumento =
-                {
-                    SistemaDefineStatus: $("[name=SistemaDefineStatus]:checked").val(),
-                    valorAceitacao: $("[name=valorAceitacao]").val(),
-                    IdInstrumento: $("#IdInstrumento").val()
-                };
+            {
+                SistemaDefineStatus: $("[name=SistemaDefineStatus]:checked").val(),
+                valorAceitacao: $("[name=valorAceitacao]").val(),
+                IdInstrumento: $("#IdInstrumento").val()
+            };
 
             $('.campos-tabela').each(function (i) {
 
@@ -34361,32 +34384,28 @@ APP.controller.InstrumentosController = {
 
         $('#form-pos-calibracao').find('[name=OrgaoCalibrador]').val(result.OrgaoCalibrador);
 
-        
 
-        if (result.Aprovado == 0)
-        {
+
+        if (result.Aprovado == 0) {
             $('#form-pos-calibracao-nao-aprovado').prop('checked', true);
         }
-        else if (result.Aprovado == 1)
-        {
+        else if (result.Aprovado == 1) {
             $('#form-pos-calibracao-aprovado').prop('checked', true);
         }
-        else if (result.Aprovado == 2)
-        {
+        else if (result.Aprovado == 2) {
             $('#form-pos-calibracao-fora-uso').prop('checked', true);
         }
-        else if (result.Aprovado == 3)
-        {
+        else if (result.Aprovado == 3) {
             $('#form-pos-calibracao-em-calibracao').prop('checked', true);
         }
-        
-        
-        
+
+
+
 
         $('.form-pos-calibracao-aprovado-por').val(result.Aprovador.IdUsuario);
         $('#form-pos-calibracao').find('.arquivo').val(result.ArquivoCertificado);
 
-        
+
         for (var i = 0; i < result.CriteriosAceitacao.length; i++) {
             APP.controller.InstrumentosController.addCriterioAceitacao(result.CriteriosAceitacao[i]);
         }
@@ -34556,7 +34575,7 @@ APP.controller.InstrumentosController = {
                     if (result.StatusCode == 200) {
                         APP.controller.InstrumentosController.getEditPosCalibracao(result.Calibracao);
 
-                        
+
                     }
                 },
                 error: function (result) {
@@ -34621,7 +34640,7 @@ APP.controller.InstrumentosController = {
             $.ajax({
                 type: "POST",
                 dataType: 'json',
-                url: url,                
+                url: url,
                 data: $('#form-parametro-instrumento').serialize(),
                 beforeSend: function () {
                     APP.component.Loading.showLoading();
@@ -34629,17 +34648,17 @@ APP.controller.InstrumentosController = {
                 success: function (result) {
                     if (result.StatusCode == 200) {
 
-                        
+
                         if (idInstrumento == "0") { $("#IdInstrumento").val(result.IdInstrumento); }
 
                         APP.controller.InstrumentosController.setCalibracaoVisivel();
-                        
+
                         var isHidden = $('#form-pos-calibracao').is(":hidden");
                         if (isHidden == false) {
                             APP.controller.InstrumentosController.sendFormPoscalibracao(idInstrumento, result.Success);
                         }
 
-                       
+
 
 
                     } else if (result.StatusCode == 505) {
@@ -34667,7 +34686,7 @@ APP.controller.InstrumentosController = {
     sendFormPoscalibracao: function (idInstrumento, msgRetorno) {
 
         var objPosCalibracao = APP.controller.InstrumentosController.getObjPosCalibracao();
-        
+
         var url = '/Calibracao/Criar';
 
         var EedicaoCalibracao = $("[name=EdicaoCalibracao]").val() == "1" ? true : false;
@@ -34700,9 +34719,9 @@ APP.controller.InstrumentosController = {
                         APP.controller.InstrumentosController.setup();
                         APP.controller.InstrumentosController.editPosCalibracao();
                         APP.controller.InstrumentosController.delCalibracao();
-                        
+
                     }
-                    
+
                     if (idInstrumento != "0") {
                         bootbox.confirm(msgRetorno, function (result) {
                             if (result == true) {
@@ -34727,7 +34746,7 @@ APP.controller.InstrumentosController = {
                 APP.component.Loading.showLoading();
             },
             complete: function (result) {
-                APP.component.Loading.hideLoading();                
+                APP.component.Loading.hideLoading();
 
             },
         });
@@ -34765,10 +34784,10 @@ APP.controller.InstrumentosController = {
 
                 if (formCalibracaoValido) {
 
-                   
-                        APP.controller.InstrumentosController.sendFormParametroInstrumento();
 
-                   
+                    APP.controller.InstrumentosController.sendFormParametroInstrumento();
+
+
 
                     $('#form-pos-calibracao').slideUp(500);
                     $('#form-pos-calibracao').removeClass('show').addClass('hide');
@@ -35316,8 +35335,7 @@ APP.controller.NaoConformidadeController = {
 
             var EhAuditoria = $(this).val();
 
-            if (EhAuditoria == "true")
-            {  
+            if (EhAuditoria == "true") {
                 var idCategoria = $('[name=formCriarNaoConformidadeTipo] option:contains("Auditoria")').val();
 
                 $('[name=formCriarNaoConformidadeTipo]').val(idCategoria);
@@ -35467,7 +35485,7 @@ APP.controller.NaoConformidadeController = {
     setDisabledStatusEtapa1: function (_disabled) {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
-        $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);        
+        $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -35542,7 +35560,7 @@ APP.controller.NaoConformidadeController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -35631,7 +35649,7 @@ APP.controller.NaoConformidadeController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -35780,7 +35798,7 @@ APP.controller.NaoConformidadeController = {
         //Formulario Nao Conformidade
         $('[name=formCriarNaoConformidadeDsRegistro]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', _disabled);
-        
+
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').closest('div').find('a').attr('disabled', 'disabled');
         $('[name=formCriarNaoConformidadeEvidencia]').prop('disabled', _disabled);
@@ -36057,7 +36075,7 @@ APP.controller.NaoConformidadeController = {
 
         var idSite = $('#nao-conformidade-site').val();
         var idFuncao = 12; // Funcionalidade(Cadastrar) que permite usuario criar nc
-        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name=formCriarNaoConformidadeEmissor] option'), $('[name=formCriarNaoConformidadeEmissor]'), 'IdUsuario', 'NmCompleto');
             }
@@ -36068,7 +36086,7 @@ APP.controller.NaoConformidadeController = {
     getTipoNaoConformidade: function () {
 
         var idSite = $('#nao-conformidade-site').val();
-        $.get('/ControladorCategorias/ListaAtivos?tipo=tnc&site=' + idSite +'', function (result) {
+        $.get('/ControladorCategorias/ListaAtivos?tipo=tnc&site=' + idSite + '', function (result) {
             $.each(result.Lista, (key, val) => {
                 if (result.StatusCode == 202) {
                     APP.component.SelectListCompare.selectList(result.Lista, $('[name=formCriarNaoConformidadeTipo] option'), $('[name=formCriarNaoConformidadeTipo]'), 'IdControladorCategorias', 'Descricao');
@@ -36095,7 +36113,7 @@ APP.controller.NaoConformidadeController = {
             var idSite = $('#nao-conformidade-site').val();
             processoSelecionado = $(this).find(':selected').val();
             var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
-            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
                 if (result.StatusCode == 200) {
                     $('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
                     APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
@@ -36360,7 +36378,7 @@ APP.controller.NaoConformidadeController = {
 
         this.buttonAddAcaoImediata.unbind('click');
         this.buttonAddAcaoImediata.bind('click', function () {
-            
+
             var TraducaoDropNameSelect = 'Selecione';
             var index = $('#tb-acao-imediata tbody tr').size();
 
@@ -36444,7 +36462,7 @@ APP.controller.NaoConformidadeController = {
         $.ajax({
             type: "GET",
             dataType: 'json',
-            url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao +'',
+            url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '',
             beforeSend: function () {
                 $('.add-acao-imediata').removeClass('show').addClass('hide');
             },
@@ -36470,16 +36488,16 @@ APP.controller.NaoConformidadeController = {
         $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso= + idProcesso + ' & idSite=' + idSite + ' & idFuncao=' + idFuncao +'', function (result) {
             if (result.StatusCode == 200) {
 
-                $(result.Lista).each(function (key, value) {
-                    var $option = $('<option>');
-                    $('[name=formAcaoImadiataResponsavelReverificacao]').append(
-                        $option.val(value.IdUsuario).text(value.NmCompleto)
-                    );
-                });
-            }
-        });
+            $(result.Lista).each(function (key, value) {
+                var $option = $('<option>');
+                $('[name=formAcaoImadiataResponsavelReverificacao]').append(
+                    $option.val(value.IdUsuario).text(value.NmCompleto)
+                );
+            });
+        }
+    });
 
-    },
+},
 
     getResponsavelTratativaAcaoImediata: function () {
 
@@ -36488,299 +36506,351 @@ APP.controller.NaoConformidadeController = {
         var idFuncao = 20; // Funcionalidade(AnÃ¡lise da Causa) que permite usuario Criar nova AC
         $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso= + idProcesso + ' & idSite=' + idSite + ' & idFuncao=' + idFuncao +'', function (result) {
             if (result.StatusCode == 200) {
-                $(result.Lista).each(function (key, value) {
-                    APP.component.SelectListCompare.selectList(result.Lista, $('[name="formAcaoImadiataResponsavelTratativa"] option'), $('[name="formAcaoImadiataResponsavelTratativa"]'), 'IdUsuario', 'NmCompleto');
-                });
-            }
-
-        });
-
-    },
-
-    bind: function () {
-
-        APP.component.Datapicker.init();
-        APP.controller.NaoConformidadeController.setup();
-        APP.controller.NaoConformidadeController.setAcaoImediata();
-        APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
-        APP.component.FileUpload.init();
-        APP.controller.NaoConformidadeController.setShowPanelEProcedenteSim();
-        APP.controller.NaoConformidadeController.setHideRowAcaoImediata();
-        APP.controller.NaoConformidadeController.delAcaoImediata();
-
-    },
-
-    getObjObjFormAcaoImediataValidate: function () {
-
-        var acoesNaoConformidadeoFormAcaoImediataObj = {
-
-            //Form Acao Imediata
-            formAcaoImadiataEProcedente: { 'required': true },
-            formAcaoImadiataDtDescricaoAcao: { 'required': true },
-            //formAcaoImadiataJustificativa: {'required': true},
-            // formAcaoImadiataTbDescricao: {'required': true},
-            // formAcaoImadiataTbDtPrazoImplementacao: {'required': true},
-            // formAcaoImadiataTbResponsavelImplementar: {'required': true},
-            // formAcaoImadiataTbDtEfetivaImplementacao: {'required': true},
-            // formAcaoImadiataTbEvidencia: {'required': true},
-            // formAcaoImadiataECorrecao: {'required': true},
-            // formAcaoImadiataNecessitaAC: {'required': true},
-            // formAcaoImadiataResponsavelReverificacao: {'required': true},
-            // formAcaoImadiataFoiEficaz: {'required': true},
-            // formAcaoImadiataResponsavelTratativa: {'required': true},
-            // formAcaoImadiataNumeroAC: {'required': true},
-            // formAcaoImadiataAnaliseCausa: {'required': true},
-
-        };
-
-        return acoesNaoConformidadeoFormAcaoImediataObj;
-
-    },
-
-    getObjFormAcaoImediata: function () {
-
-        var idUsuarioLogado = $('[name=UsuarioLogado]').val();
-        var statusEtapa = parseInt($('[name=StatusEtapa]').val());
-
-        var getObjFormAcaoImediataArray = [];
-        var acoesNaoConformidadeFormAcaoImediataObj = {};
-
-        var anexoEvidenciaModel = APP.controller.ClienteController.models.AnexoModel;
-
-        $('#tb-acao-imediata tbody tr').each(function (index, tr) {
-            if (statusEtapa == 2) {
-                acoesNaoConformidadeFormAcaoImediataObj = {
-                    Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
-                    DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
-                    IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-                    DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
-                    ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
-                        $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
-                        $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
-                        $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
-                    ),
-                    Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
-                    IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
-                };
-            } else if (statusEtapa == 3) {
-                acoesNaoConformidadeFormAcaoImediataObj = {
-                    Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
-                    IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
-                    Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
-                };
-            } else {
-                acoesNaoConformidadeFormAcaoImediataObj = {
-                    Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
-                    DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
-                    IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-                    DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
-                    Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val(),
-                    IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
-                    IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
-                    ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
-                        $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
-                        $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
-                        $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
-                    ),
-                };
-            }
-
-            getObjFormAcaoImediataArray.push(acoesNaoConformidadeFormAcaoImediataObj);
-        });
-
-        return getObjFormAcaoImediataArray;
-
-    },
-
-    //Todos
-    sendFormCriarNaoConformidade: function () {
-
-        this.buttonSalvar.unbind('click');
-        this.buttonSalvar.on('click', function () {
-
-            //var validate = APP.controller.NaoConformidadeController.validateForms();
-            var validate = true;
-
-            //validate = true;
-            if (validate == true) {
-
-                var statusEtapa = parseInt($('[name=StatusEtapa]').val());
-                var IdRegistroConformidade = $('[name=IdRegistroConformidade]').val();
-                var eProcedente = $('[name=formAcaoImadiataEProcedente]:checked').val();
-
-                var naoConformidade = {};
-
-                var fluxos = {
-                    //Criar Nao Conformidade
-                    _000: ['fluxo-00'],
-                    //Ã‰ Procedente = false
-                    _001: ['fluxo-01'],
-                    //Ã‰ Procedente = true
-                    _002: ['fluxo-02'],
-                    //Status 2 - ImplementaÃ§Ã£o
-                    _003: ['fluxo-03'],
-                    //Status 3 - ReverificaÃ§Ã£o
-                    _004: ['fluxo-04'],
-                    //Status 3 - Desbloquear
-                    _005: ['fluxo-05']
-
-                };
-
-                switch (statusEtapa) {
-                    case 0:
-                        APP.controller.NaoConformidadeController.getUltimaDataEmissao('fluxo-00');
-                        break;
-                    case 1:
-                        if (eProcedente == "false") {
-                            naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-01");
-                            APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-01");
-                        } else {
-                            naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-02");
-                            APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-02");
-                        }
-
-                        break;
-                    case 2:
-                        naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-03");
-                        APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-03");
-
-                        break;
-                    case 3:
-                        naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-04");
-                        APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-04");
-                        break;
-                    case 4:
-                        naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-05");
-                        APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-05");
-                        break;
-                }
-            }
-
-        });
-
-    },
-
-    validateForms: function () {
-
-        var valid = true;
-        $('[id^=panel-form]').each(function () {
-            var isVisible = $(this).is(':visible');
-            if (isVisible) {
-                var validate = $(this).closest('form').valid();
-                if (validate != true) {
-                    valid = false;
-                }
-
-            }
-        });
-
-        return valid;
-
-    },
-
-    getCriarNaoConformidadeObj: function (_fluxo) {
-
-        var naoConformidadeObj = {};
-
-        $('[id^=panel-form]').each(function () {
-            var isVisible = $(this).is(':visible');
-            var idPanel = $(this).attr('id').split('-');
-
-            if (isVisible) {
-                var form = idPanel[2];
-                switch (form) {
-                    case "naoconformidade":
-                        naoConformidadeObj = APP.controller.NaoConformidadeController.getObjFormCriarNaoConformidade(_fluxo);
-                        break;
-                    //case "acaoimediata":
-                    //acaoimediataObj = APP.controller.NaoConformidadeController.getObjFormAcaoImediata();
-                    //break;
-                }
-            }
-
-        });
-
-        return naoConformidadeObj;
-
-    },
-
-    saveFormCriarNaoConformidade: function (naoConformidadeObj, _fluxo) {
-        var url = "";
-
-        switch (_fluxo) {
-            case "fluxo-00":
-                url = "/NaoConformidade/SalvarPrimeiraEtapa";
-                break;
-            case "fluxo-01":
-                url = "/NaoConformidade/SalvarSegundaEtapa";
-                break;
-            case "fluxo-02":
-                url = "/NaoConformidade/SalvarSegundaEtapa";
-                break;
-            case "fluxo-03":
-                url = "/NaoConformidade/SalvarSegundaEtapa";
-                break;
-            case "fluxo-04":
-                url = "/NaoConformidade/SalvarSegundaEtapa";
-                break;
-            case "fluxo-05":
-                url = "/NaoConformidade/SalvarSegundaEtapa";
-                break;
+            $(result.Lista).each(function (key, value) {
+                APP.component.SelectListCompare.selectList(result.Lista, $('[name="formAcaoImadiataResponsavelTratativa"] option'), $('[name="formAcaoImadiataResponsavelTratativa"]'), 'IdUsuario', 'NmCompleto');
+            });
         }
 
-        $.ajax({
-            type: "POST",
-            data: naoConformidadeObj,
-            dataType: 'json',
-            url: url,
-            beforeSend: function () {
-                APP.component.Loading.showLoading();
-            },
-            success: function (result) {
-                if (result.StatusCode == 200) {
-                    bootbox.alert(result.Success, function (result) {
-                        window.location.href = "/NaoConformidade/Index";
-                    });
-                } else if (result.StatusCode == 505) {
-                    erro = APP.component.ResultErros.init(result.Erro);
-                    bootbox.alert(erro);
-                } else if (result.StatusCode == 500) {
-                    erro = APP.component.ResultErros.init(result.Erro);
-                    bootbox.alert(erro);
-                }
-            },
-            error: function (result) {
-                erro = APP.component.ResultErros.init(result.Erro);
-                bootbox.alert(erro);
-            },
-            complete: function (result) {
-                APP.component.Loading.hideLoading();
-            }
-        });
+    });
 
     },
 
-    HabilitaCamposNaoConformidade: function (perfil) {
+bind: function () {
+
+    APP.component.Datapicker.init();
+    APP.controller.NaoConformidadeController.setup();
+    APP.controller.NaoConformidadeController.setAcaoImediata();
+    APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+    APP.component.FileUpload.init();
+    APP.controller.NaoConformidadeController.setShowPanelEProcedenteSim();
+    APP.controller.NaoConformidadeController.setHideRowAcaoImediata();
+    APP.controller.NaoConformidadeController.delAcaoImediata();
+
+},
+
+getObjObjFormAcaoImediataValidate: function () {
+
+    var acoesNaoConformidadeoFormAcaoImediataObj = {
+
+        //Form Acao Imediata
+        formAcaoImadiataEProcedente: { 'required': true },
+        formAcaoImadiataDtDescricaoAcao: { 'required': true },
+        //formAcaoImadiataJustificativa: {'required': true},
+        // formAcaoImadiataTbDescricao: {'required': true},
+        // formAcaoImadiataTbDtPrazoImplementacao: {'required': true},
+        // formAcaoImadiataTbResponsavelImplementar: {'required': true},
+        // formAcaoImadiataTbDtEfetivaImplementacao: {'required': true},
+        // formAcaoImadiataTbEvidencia: {'required': true},
+        // formAcaoImadiataECorrecao: {'required': true},
+        // formAcaoImadiataNecessitaAC: {'required': true},
+        // formAcaoImadiataResponsavelReverificacao: {'required': true},
+        // formAcaoImadiataFoiEficaz: {'required': true},
+        // formAcaoImadiataResponsavelTratativa: {'required': true},
+        // formAcaoImadiataNumeroAC: {'required': true},
+        // formAcaoImadiataAnaliseCausa: {'required': true},
+
+    };
+
+    return acoesNaoConformidadeoFormAcaoImediataObj;
+
+},
+
+getObjFormAcaoImediata: function () {
+
+    var idUsuarioLogado = $('[name=UsuarioLogado]').val();
+    var statusEtapa = parseInt($('[name=StatusEtapa]').val());
+
+    var getObjFormAcaoImediataArray = [];
+    var acoesNaoConformidadeFormAcaoImediataObj = {};
+
+    var anexoEvidenciaModel = APP.controller.ClienteController.models.AnexoModel;
+
+    $('#tb-acao-imediata tbody tr').each(function (index, tr) {
+        if (statusEtapa == 2) {
+            acoesNaoConformidadeFormAcaoImediataObj = {
+                Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
+                DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
+                    $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
+                    $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
+                    $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
+                ),
+                Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
+                IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
+            };
+        } else if (statusEtapa == 3) {
+            acoesNaoConformidadeFormAcaoImediataObj = {
+                Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
+                IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
+                Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
+            };
+        } else {
+            acoesNaoConformidadeFormAcaoImediataObj = {
+                Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
+                DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val(),
+                IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
+                ArquivoEvidenciaAux: anexoEvidenciaModel.constructor(
+                    $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('[name^=formCriarNaoConformidadeEvidenciaIdAnexo]').val(),
+                    $(tr).find('[name^=formCriarNaoConformidadeEvidencia]').closest('td').find('i').text(),
+                    $(tr).find('[id^=form-acaoimediata-tb-evidencia-]').data('b64')
+                ),
+            };
+        }
+
+        getObjFormAcaoImediataArray.push(acoesNaoConformidadeFormAcaoImediataObj);
+    });
+
+    return getObjFormAcaoImediataArray;
+
+},
+
+//Todos
+sendFormCriarNaoConformidade: function () {
+
+    this.buttonSalvar.unbind('click');
+    this.buttonSalvar.on('click', function () {
+
+        //var validate = APP.controller.NaoConformidadeController.validateForms();
+        var validate = true;
+
+        //validate = true;
+        if (validate == true) {
+
+            var statusEtapa = parseInt($('[name=StatusEtapa]').val());
+            var IdRegistroConformidade = $('[name=IdRegistroConformidade]').val();
+            var eProcedente = $('[name=formAcaoImadiataEProcedente]:checked').val();
+
+            var naoConformidade = {};
+
+            var fluxos = {
+                //Criar Nao Conformidade
+                _000: ['fluxo-00'],
+                //Ã‰ Procedente = false
+                _001: ['fluxo-01'],
+                //Ã‰ Procedente = true
+                _002: ['fluxo-02'],
+                //Status 2 - ImplementaÃ§Ã£o
+                _003: ['fluxo-03'],
+                //Status 3 - ReverificaÃ§Ã£o
+                _004: ['fluxo-04'],
+                //Status 3 - Desbloquear
+                _005: ['fluxo-05']
+
+            };
+
+            switch (statusEtapa) {
+                case 0:
+                    APP.controller.NaoConformidadeController.getUltimaDataEmissao('fluxo-00');
+                    break;
+                case 1:
+                    if (eProcedente == "false") {
+                        naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-01");
+                        APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-01");
+                    } else {
+                        naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-02");
+                        APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-02");
+                    }
+
+                    break;
+                case 2:
+                    naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-03");
+                    APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-03");
+
+                    break;
+                case 3:
+                    naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-04");
+                    APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-04");
+                    break;
+                case 4:
+                    naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-05");
+                    APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-05");
+                    break;
+            }
+        }
+
+    });
+
+},
+
+validateForms: function () {
+
+    var valid = true;
+    $('[id^=panel-form]').each(function () {
+        var isVisible = $(this).is(':visible');
+        if (isVisible) {
+            var validate = $(this).closest('form').valid();
+            if (validate != true) {
+                valid = false;
+            }
+
+        }
+    });
+
+    return valid;
+
+},
+
+getCriarNaoConformidadeObj: function (_fluxo) {
+
+    var naoConformidadeObj = {};
+
+    $('[id^=panel-form]').each(function () {
+        var isVisible = $(this).is(':visible');
+        var idPanel = $(this).attr('id').split('-');
+
+        if (isVisible) {
+            var form = idPanel[2];
+            switch (form) {
+                case "naoconformidade":
+                    naoConformidadeObj = APP.controller.NaoConformidadeController.getObjFormCriarNaoConformidade(_fluxo);
+                    break;
+                //case "acaoimediata":
+                //acaoimediataObj = APP.controller.NaoConformidadeController.getObjFormAcaoImediata();
+                //break;
+            }
+        }
+
+    });
+
+    return naoConformidadeObj;
+
+},
+
+saveFormCriarNaoConformidade: function (naoConformidadeObj, _fluxo) {
+    var url = "";
+
+    switch (_fluxo) {
+        case "fluxo-00":
+            url = "/NaoConformidade/SalvarPrimeiraEtapa";
+            break;
+        case "fluxo-01":
+            url = "/NaoConformidade/SalvarSegundaEtapa";
+            break;
+        case "fluxo-02":
+            url = "/NaoConformidade/SalvarSegundaEtapa";
+            break;
+        case "fluxo-03":
+            url = "/NaoConformidade/SalvarSegundaEtapa";
+            break;
+        case "fluxo-04":
+            url = "/NaoConformidade/SalvarSegundaEtapa";
+            break;
+        case "fluxo-05":
+            url = "/NaoConformidade/SalvarSegundaEtapa";
+            break;
+    }
+
+    $.ajax({
+        type: "POST",
+        data: naoConformidadeObj,
+        dataType: 'json',
+        url: url,
+        beforeSend: function () {
+            APP.component.Loading.showLoading();
+        },
+        success: function (result) {
+            if (result.StatusCode == 200) {
+                bootbox.alert(result.Success, function (result) {
+                    window.location.href = "/NaoConformidade/Index";
+                });
+            } else if (result.StatusCode == 505) {
+                erro = APP.component.ResultErros.init(result.Erro);
+                bootbox.alert(erro);
+            } else if (result.StatusCode == 500) {
+                erro = APP.component.ResultErros.init(result.Erro);
+                bootbox.alert(erro);
+            }
+        },
+        error: function (result) {
+            erro = APP.component.ResultErros.init(result.Erro);
+            bootbox.alert(erro);
+        },
+        complete: function (result) {
+            APP.component.Loading.hideLoading();
+        }
+    });
+
+},
+
+HabilitaCamposNaoConformidade: function (perfil) {
+    if (perfil == '4') {
+
+        $('#main').find('input, textarea, button, select').removeAttr('disabled');
+        $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
+        $("#form-criar-nao-conformidade-processo").attr("disabled", true);
+        $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
+
+    }
+    else {
+
+        $('#main').find('input, textarea, button, select').removeAttr('disabled');
+        $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
+        $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
+    }
+},
+
+
+DestravaDocumento: function () {
+
+    var idNaoConformidade = $('[name=IdRegistroConformidade]').val();  // $('#form-criar-nao-conformidade-nm-registro').val();
+    var data = { "idNaoConformidade": idNaoConformidade };
+
+    $.ajax({
+        type: "POST",
+        dataType: 'json',
+        data: data,
+        url: "/NaoConformidade/DestravarDocumento",
+        success: function (result) {
+            //alert('foi');
+            //if (result.StatusCode == 200) {
+            //    window.location.reload([true]);
+            //} else if (result.StatusCode == 505) {
+            //    erro = APP.component.ResultErros.init(result.Erro);
+            //    bootbox.alert(erro);
+            //} else if (result.StatusCode == 500) {
+            //    erro = APP.component.ResultErros.init(result.Erro);
+            //    bootbox.alert(erro);
+            //}
+
+        },
+        error: function (result) {
+            //erro = APP.component.ResultErros.init(result.Erro);
+            //bootbox.alert(erro);
+        },
+        //complete: function (result) {
+        //    APP.component.Loading.hideLoading();
+    });
+},
+
+
+setDestravarCamposNaoConformidade: function () {
+
+    this.buttonDestravar.on('click', function () {
+
+
         if (perfil == '4') {
-         
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
             $("#form-criar-nao-conformidade-processo").attr("disabled", true);
             $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
-
         }
         else {
-          
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true); 
+            $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
+
         }
-    },
 
 
-    DestravaDocumento: function () {
-
-        var idNaoConformidade = $('[name=IdRegistroConformidade]').val();  // $('#form-criar-nao-conformidade-nm-registro').val();
+        var idNaoConformidade = $('[name=IdRegistroConformidade]').val();  //$('#form-criar-nao-conformidade-nm-registro').val();
         var data = { "idNaoConformidade": idNaoConformidade };
 
         $.ajax({
@@ -36808,68 +36878,16 @@ APP.controller.NaoConformidadeController = {
             //complete: function (result) {
             //    APP.component.Loading.hideLoading();
         });
-    },
-
-
-    setDestravarCamposNaoConformidade: function () {
-
-        this.buttonDestravar.on('click', function () {
-
-
-            if (perfil == '4') {
-
-                $('#main').find('input, textarea, button, select').removeAttr('disabled');
-                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-processo").attr("disabled", true);
-                $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
-            }
-            else {
-                
-                $('#main').find('input, textarea, button, select').removeAttr('disabled');
-                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true); 
-                     
-            }
-
-
-            var idNaoConformidade = $('[name=IdRegistroConformidade]').val();  //$('#form-criar-nao-conformidade-nm-registro').val();
-            var data = { "idNaoConformidade": idNaoConformidade };
-
-            $.ajax({
-                type: "POST",
-                dataType: 'json',
-                data: data,
-                url: "/NaoConformidade/DestravarDocumento",
-                success: function (result) {
-                    //alert('foi');
-                    //if (result.StatusCode == 200) {
-                    //    window.location.reload([true]);
-                    //} else if (result.StatusCode == 505) {
-                    //    erro = APP.component.ResultErros.init(result.Erro);
-                    //    bootbox.alert(erro);
-                    //} else if (result.StatusCode == 500) {
-                    //    erro = APP.component.ResultErros.init(result.Erro);
-                    //    bootbox.alert(erro);
-                    //}
-
-                },
-                error: function (result) {
-                    //erro = APP.component.ResultErros.init(result.Erro);
-                    //bootbox.alert(erro);
-                },
-                //complete: function (result) {
-                //    APP.component.Loading.hideLoading();
-            });
 
 
 
 
-            //this.HabilitaCamposGestaoRisco(perfil);
+        //this.HabilitaCamposGestaoRisco(perfil);
 
-            //this.DestravaDocumento();
+        //this.DestravaDocumento();
 
-        });
-    },
+    });
+},
 };
 /*
 |--------------------------------------------------------------------------
@@ -36995,7 +37013,7 @@ APP.controller.NormaController = {
             html += '<i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '"></i>';
             html += '</a>';
             html += '<a href="#" class="active-norma ativo-color">';
-            html += '<i class="fa fa-circle" aria-hidden="true" data-toggle="tooltip" data-original-title= '+_options.btn_lbl_desativar+' ></i>';
+            html += '<i class="fa fa-circle" aria-hidden="true" data-toggle="tooltip" data-original-title= ' + _options.btn_lbl_desativar + ' ></i>';
             html += '</a>';
             html += '</td>';
             html += '</tr>';
@@ -37550,7 +37568,7 @@ APP.controller.PlaiController = {
         if (idPlai != null) {
 
             APP.component.Loading.showLoading();
-            
+
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/Plai/DownloadPdf?idPlai=' + idPlai, true);
             xhr.responseType = 'arraybuffer';
@@ -37598,7 +37616,7 @@ APP.controller.PlaiController = {
         //
 
     },
-     
+
     getElaborador: function () {
 
         var idSite = $('[name=IdSite]').val();
@@ -37662,11 +37680,11 @@ APP.controller.PlaiController = {
         var formCriarPlaiObj = {};
 
         $('.plai-processo').each(function () {
-            
+
             var IdProcesso = $(this).find('[name=IdProcesso]').val();
             var IdPlai = $(this).find('[name=IdPlai]').val();
             var data = $(this).find('[name=formCriarPlaiProcessoDt]').val() + " " + $(this).find('[name=formCriarPlaiProcessoHr]').val();
-            
+
             $(this).find('[name^=formCriarPlaiProcessoNormas]').each(function () {
 
                 formCriarPlaiObj = {
@@ -37676,14 +37694,13 @@ APP.controller.PlaiController = {
                     IdNorma: $(this).val(),
                     Ativo: $(this).is(':checked'),
                 };
-                if (formCriarPlaiObj.Ativo == true)
-                {
-                    arrayFormCriarPlaiObj.push(formCriarPlaiObj);                
+                if (formCriarPlaiObj.Ativo == true) {
+                    arrayFormCriarPlaiObj.push(formCriarPlaiObj);
                 }
-                
+
             });
 
-            
+
         });
 
         return arrayFormCriarPlaiObj;
@@ -37708,7 +37725,7 @@ APP.controller.PlaiController = {
         return arrayFormCriarPlaiGerentesObj;
 
     },
-    
+
 
     setRulesDateReuniaoEncerramento: function () {
 
@@ -37766,10 +37783,9 @@ APP.controller.PlaiController = {
 
             if (isVisible) {
                 var form = idPanel[2];
-                if(form == "plai")
-                {
+                if (form == "plai") {
                     plaiObj = APP.controller.PlaiController.getObjFormCriarPlai();
-                 
+
                 }
             }
 
@@ -37970,10 +37986,10 @@ APP.controller.SiteController = {
     },
 
     setMsgIconeAtivo: function () {
-        
+
 
     },
-    
+
     getMsgIconeAtivo: function (_idSite) {
 
         var erro = "";
@@ -38010,7 +38026,7 @@ APP.controller.SiteController = {
     },
 
     setMsgIconeExcluir: function () {
-       
+
 
     },
 
@@ -38437,7 +38453,7 @@ APP.controller.UsuarioController = {
     },
 
     setMsgIconeAtivo: function () {
-        
+
 
     },
 
@@ -38448,7 +38464,7 @@ APP.controller.UsuarioController = {
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: '/Usuario/AtivaInativa?idUsuario='+_idUsuario'',
+            url: '/Usuario/AtivaInativa?idUsuario=' + _idUsuario'',
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },
@@ -38477,7 +38493,7 @@ APP.controller.UsuarioController = {
     },
 
     setMsgIconeBloqueia: function () {
-        
+
 
     },
 
@@ -38488,7 +38504,7 @@ APP.controller.UsuarioController = {
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: '/Usuario/BloqueiaDesbloqueia?idUsuario='+_idUsuario'',
+            url: '/Usuario/BloqueiaDesbloqueia?idUsuario=' + _idUsuario'',
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },
@@ -38517,7 +38533,7 @@ APP.controller.UsuarioController = {
     },
 
     setMsgIconeEmail: function () {
-        
+
 
     },
 
@@ -38528,7 +38544,7 @@ APP.controller.UsuarioController = {
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: '/Usuario/RecebeNaoRecebeEmail?idUsuario='+ _idUsuario'',
+            url: '/Usuario/RecebeNaoRecebeEmail?idUsuario=' + _idUsuario'',
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },
@@ -38557,7 +38573,7 @@ APP.controller.UsuarioController = {
     },
 
     setMsgIconeExcluir: function () {
-        
+
 
     },
 
@@ -39203,7 +39219,7 @@ APP.controller.FornecedoresController = {
     init: function () {
 
         var page = APP.component.Util.getPage();
-        
+
         this.setup();
         if (page == 'IndexProdutos') {
             this.indexProdutos();
@@ -39347,8 +39363,7 @@ APP.controller.FornecedoresController = {
 
         var Ancora = $("#Ancora").val();
 
-        if (Ancora == "" || Ancora == null || Ancora == undefined)
-        {
+        if (Ancora == "" || Ancora == null || Ancora == undefined) {
             if ($("#form-produtos-produto").val() != "" && $("#form-produto-responsavel").val() != "") {
                 if (($("#form-criticidade").attr("style") == "display: block;" || $("#form-criticidade").attr("style") == undefined) && critico == true) {
                     $('#form-qualifica-fornecedor').show();
@@ -39454,12 +39469,11 @@ APP.controller.FornecedoresController = {
             success: function (result) {
                 if (result.StatusCode == 200) {
 
-                    if($('#tb-form-produtos-criterios tbody tr').length == 0)
-                    {
+                    if ($('#tb-form-produtos-criterios tbody tr').length == 0) {
                         $.each(result.AvaliacoesCriticidadePadrao, function (key, value) {
 
                             var trElements = $('<tr>');
-                            var tdformProdutosCriticidadeCriterio = $('<td><textarea name="formProdutosCriticidadeCriterio" id="form-produtos-criticidade-criterio" class="form-control" placeholder="Critério" title="Critério" rows="5" >'+ value.Titulo +'</textarea></td>');
+                            var tdformProdutosCriticidadeCriterio = $('<td><textarea name="formProdutosCriticidadeCriterio" id="form-produtos-criticidade-criterio" class="form-control" placeholder="Critério" title="Critério" rows="5" >' + value.Titulo + '</textarea></td>');
                             var tdCheck = $('<td><div class="checkbox"><input type="checkbox" name="formProdutosCriticidadeAtivo-' + key + '" id="form-produtos-criticidade-ativo-' + key + '" onclick="chkValue(this);"><label for="form-produtos-criticidade-ativo-' + key + '" style="padding-left: 25px !important;">Crítico</label></div></td>');
                             var tdbtns = $('<td><button type="button" class="btn btn-edit-produtos-criticidade editar-color"><i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonEditar + '" data-original-title="' + _options.labelButtonEditar + '"></i><div class="tooltip fade top in" style="top: 22px; left: 1148.08px; display: block;"><div class="tooltip-arrow"></div></div></button><button type="button" class="btn btn-confirm-produtos-criticidade ativo-color"><i class="fa fa-check " aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonAtivar + '" data-original-title="' + _options.labelButtonAtivar + '"></i></button><button type="button" class="btn btn-del-produtos-criticidade trash-color"><i class="fa fa-trash " aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '"></i></button></td>');
 
@@ -39493,7 +39507,7 @@ APP.controller.FornecedoresController = {
                     $.each(result.CriterioQualificacaoPadrao, function (key, value) {
 
                         var trElements = $('<tr>');
-                        var tdformProdutosCriterioQualificacao = $('<td><textarea name="formQualificaFornecedorCriterio" id="form-qualifica-fornecedor-criterio" class="form-control" placeholder="Critério" title="Critério" rows="5" >'+ value.Titulo +'</textarea></td>');
+                        var tdformProdutosCriterioQualificacao = $('<td><textarea name="formQualificaFornecedorCriterio" id="form-qualifica-fornecedor-criterio" class="form-control" placeholder="Critério" title="Critério" rows="5" >' + value.Titulo + '</textarea></td>');
                         var tdCheck = $('<td><div class="checkbox"><input type="checkbox" name="formQualificaFornecedorAtivo-' + key + '" id="form-qualifica-fornecedor-ativo-' + key + '" onclick="chkValue(this);"><label for="form-qualifica-fornecedor-ativo-' + key + '" style="padding-left: 25px !important;">Ativo</label></div></td>');
                         var tdbtns = $('<td><button type="button" class="btn btn-edit-produtos-qualificacao-fornecedor editar-color"><i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonEditar + '" data-original-title="' + _options.labelButtonEditar + '"></i><div class="tooltip fade top in" style="top: 22px; left: 1148.08px; display: block;"><div class="tooltip-arrow"></div></div></button><button type="button" class="btn btn-confirm-produtos-qualificacao-fornecedor ativo-color"><i class="fa fa-check " aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonAtivar + '" data-original-title="' + _options.labelButtonAtivar + '"></i></button><button type="button" class="btn btn-del-produtos-qualidade-fornecedor trash-color"><i class="fa fa-trash " aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '"></i></button></td>');
 
@@ -39526,7 +39540,7 @@ APP.controller.FornecedoresController = {
 
                         var trElements = $('<tr>');
                         var tdformProdutosCriterioAvaliacao = $('<td><textarea name="formCriteriosAvaliacaoDisponibilidade" id="form-criterios-avaliacao-disponibilidade" class="form-control" placeholder="Critério" title="Critério" rows="5" >' + value.Titulo + '</textarea></td>');
-                        var tdCheck = $('<td><div class="checkbox"><input type="checkbox" name="formCriteriosAvaliacaoAtivo-' + key + '" id="form-criterios-avaliacao-ativo-' + key + '" onclick="chkValue(this);"><label for="form-criterios-avaliacao-ativo-' + key +'" style="padding-left: 25px !important;">Ativo</label></div></td>');
+                        var tdCheck = $('<td><div class="checkbox"><input type="checkbox" name="formCriteriosAvaliacaoAtivo-' + key + '" id="form-criterios-avaliacao-ativo-' + key + '" onclick="chkValue(this);"><label for="form-criterios-avaliacao-ativo-' + key + '" style="padding-left: 25px !important;">Ativo</label></div></td>');
                         var tdbtns = $('<td><button type="button" class="btn btn-edit-produtos-criterios-avaliacao editar-color"><i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonEditar + '" data-original-title="' + _options.labelButtonEditar + '"></i><div class="tooltip fade top in" style="top: 22px; left: 1148.08px; display: block;"><div class="tooltip-arrow"></div></div></button><button type="button" class="btn btn-confirm-produtos-criterios-avaliacao ativo-color"><i class="fa fa-check " aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonAtivar + '" data-original-title="' + _options.labelButtonAtivar + '"></i></button><button type="button" class="btn btn-del-produtos-criterios-avaliacao trash-color"><i class="fa fa-trash " aria-hidden="true" data-toggle="tooltip" title="' + _options.labelButtonExcluir + '" data-original-title="' + _options.labelButtonExcluir + '"></i></button></td>');
 
                         trElements.append(tdformProdutosCriterioAvaliacao).append(tdCheck).append(tdbtns);
@@ -39897,14 +39911,14 @@ APP.controller.FornecedoresController = {
             html += '<td>';
             html += '<div class="checkbox">';
             html += '<input type="checkbox" name="formQualificaFornecedorAtivo-' + index + '" id="form-qualifica-fornecedor-ativo-' + index + '" onclick="chkValue(this);" value="true">';
-            html += '<label for="form-qualifica-fornecedor-ativo-' + index + '" style="padding-left: 25px !important;">'+_options.labelButtonAtivar+'</label>';
+            html += '<label for="form-qualifica-fornecedor-ativo-' + index + '" style="padding-left: 25px !important;">' + _options.labelButtonAtivar + '</label>';
             html += '</div>';
             html += '</td>';
 
             html += '<td>';
             html += '<div class="checkbox">';
             html += '<input type="checkbox" name="formQualificaFornecedorTemControleVencimento-' + index + '" id="form-qualifica-fornecedor-ativo-' + index + '" onclick="chkValue(this);" value="true">';
-            html += '<label for="form-qualifica-fornecedor-TemControleVencimento-' + index + '" style="padding-left: 25px !important;">' + _options.ControlaDataVencimento +'</label>';
+            html += '<label for="form-qualifica-fornecedor-TemControleVencimento-' + index + '" style="padding-left: 25px !important;">' + _options.ControlaDataVencimento + '</label>';
             html += '</div>';
             html += '</td>';
 
@@ -40009,7 +40023,7 @@ APP.controller.FornecedoresController = {
         });
 
     },
-    
+
     getradioVencimentoFormQualificacaoFornecedor: function () {
 
         this.radioFormQualificacaoFornecedorVencimento.on('change', function (event) {
@@ -40297,40 +40311,34 @@ APP.controller.FornecedoresController = {
                         var retornoQualificacao = APP.controller.FornecedoresController.saveFormAcoesQualificacoes(criteriosQualificacao);
                         var retornoAvaliacao = APP.controller.FornecedoresController.saveFormAcoesAvaliacoes(avaliacoes);
                         var retorno = false;
-                        if (retornoQualificacao.StatusCode == 200)
-                        {
+                        if (retornoQualificacao.StatusCode == 200) {
                             retorno = true;
                         }
-                        else
-                        {
-                            
-                                erro = APP.component.ResultErros.init(retornoQualificacao.Erros);
-                                bootbox.alert(erro);
-                            
+                        else {
+
+                            erro = APP.component.ResultErros.init(retornoQualificacao.Erros);
+                            bootbox.alert(erro);
+
                         }
 
-                        if (retorno == true) 
-                        {
-                            if (retornoAvaliacao.StatusCode == 200) 
-                            {
+                        if (retorno == true) {
+                            if (retornoAvaliacao.StatusCode == 200) {
                                 retorno = true;
                             }
-                            else 
-                            {                                
+                            else {
                                 erro = APP.component.ResultErros.init(retornoAvaliacao.Erros);
                                 bootbox.alert(erro);
-                              
+
                                 retorno = false;
-                            
+
                             }
                         }
-                        if(retorno == true)
-                        {
+                        if (retorno == true) {
                             bootbox.confirm(_options.RegistroSalvoComSucesso, function (result) {
                                 if (result == true) {
                                     window.location.href = "/Fornecedor/IndexFornecedores?idProduto=" + $("#fornecedores-produto").val();
                                 }
-                            });                            
+                            });
                         }
 
                     }
@@ -40346,7 +40354,7 @@ APP.controller.FornecedoresController = {
     },
 
     saveFormAcoesAvaliacoes: function (avaliacoes) {
-        
+
         var retorno = 0;
         $.ajax({
             async: false,
@@ -40432,7 +40440,7 @@ APP.controller.FornecedoresController = {
                     $('[name=IdFornecedor]').val(result.IdFornecedor);
                     var idProduto = $('[name=IdProduto]').val();
                     APP.controller.FornecedoresController.setHideAndShowFornecedores();
-                    
+
                     $('.input-nome-fornecedor').val($('[name=formFornecedoresCadastroNome]').val());
                     APP.controller.FornecedoresController.setComboResponsavelControlarQualificacao();
                     APP.controller.FornecedoresController.setComboResponsavelQualificacao();
@@ -40478,7 +40486,7 @@ APP.controller.FornecedoresController = {
                 retorno = result;
             },
             error: function (result) {
-                APP.component.Loading.hideLoading();                
+                APP.component.Loading.hideLoading();
             },
             complete: function (result) {
                 APP.component.Loading.hideLoading();
@@ -40513,7 +40521,7 @@ APP.controller.FornecedoresController = {
         $.ajax({
             type: 'GET',
             dataType: 'JSON',
-            url: '/Processo/ListaProcessosPorSite?idSite=' + idSite +'',
+            url: '/Processo/ListaProcessosPorSite?idSite=' + idSite + '',
             beforeSend: function () { },
             success: function (result) {
                 if (result.StatusCode == 200) {
@@ -40606,14 +40614,14 @@ APP.controller.FornecedoresController = {
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
-                    
+
                     $(".form-fornecedores-qualificacao").each(function () {
-                    
+
                         APP.component.SelectListCompare.init(result.Lista, $(this).find('[name=formFornecedoresQualificacaoResponsavel] option'), ("#" + $(this).find('[name=formFornecedoresQualificacaoResponsavel]').attr("id")), 'IdUsuario', 'NmCompleto');
 
                     });
 
-                    
+
                 }
             },
             error: function (result) {
@@ -40623,7 +40631,7 @@ APP.controller.FornecedoresController = {
 
             }
         });
-},
+    },
 
     setComboResponsavelControlarQualificacao: function () {
 
@@ -40648,8 +40656,8 @@ APP.controller.FornecedoresController = {
 
                         APP.component.SelectListCompare.init(result.Lista, $(this).find('[name=formFornecedoresQualificacaoResponsavelControlar] option'), ("#" + $(this).find('[name=formFornecedoresQualificacaoResponsavelControlar]').attr("id")), 'IdUsuario', 'NmCompleto');
 
-                    });                    
-                
+                    });
+
                 }
             },
             error: function (result) {
@@ -40721,7 +40729,7 @@ APP.controller.FornecedoresController = {
 
         var idSite = $('#fornecedores-site').val();
 
-        
+
         var acoesFornecedoresFormQualificacaoFornecedoresObj = [];
         $('form[id^=form-fornecedores-qualificacao-]').each(function (key, val) {
             var obj = {
@@ -40814,7 +40822,7 @@ APP.controller.FornecedoresController = {
     },
 
     getObjFormAvaliacaoFornecedores: function () {
-        
+
         var dataProximaAvaliacao = $('[name=formFornecedoresDtProximaAvaliacao]').val();
 
         var avaliacoes = [];
@@ -40859,21 +40867,18 @@ APP.controller.FornecedoresController = {
 |--------------------------------------------------------------------------
 */
 
-function AbreCalendario(componente)
-{
-    if ($(componente).parent().parent().find("input").attr("disabled") == undefined)
-    {
+function AbreCalendario(componente) {
+    if ($(componente).parent().parent().find("input").attr("disabled") == undefined) {
         $(componente).parent().parent().find("input").datepicker("show");
     }
-    
+
 }
 
-function DeleteAnexoAcaoImediata(componente)
-{
+function DeleteAnexoAcaoImediata(componente) {
     var idInput = $($(componente).parent()[0]).find('input[type=file]').attr('id');
     var srcImg = $(".btn-upload-file-evidencia");
     srcImg.html('<i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br>Anexar');
-    
+
     srcImg.parent().find(".DivExcluirAnexoEvidencia").remove();
     $('#' + idInput + '').data('b64', '');
 }
@@ -40884,8 +40889,7 @@ function ExcluirProcessoAuditoria(componente) {
 
 }
 
-function UploadArquivoRai(componente)
-{
+function UploadArquivoRai(componente) {
     $(componente).closest('div').find('input[type=file]').trigger("click");
 
     //Variaveis de auxilio

@@ -178,10 +178,15 @@
 
                                                         if (ViewBag.PodeRevisar)
                                                         {
+
                                                             <a href="#" data-id-doc="@item.IdDocumento" title="@Traducao.Resource.Revisar" class="icon-cliente controldoc-revisar">
                                                                 <i class="fa fa-files-o" aria-hidden="true"></i>
                                                             </a>
                                                         }
+
+                                                        <a href="#" data-id-doc="@item.IdDocumento" title="@Traducao.Resource.Obsoletar" class="icon-cliente controldoc-obsoletar">
+                                                            <i class="fa fa-flag" aria-hidden="true"></i>
+                                                        </a>
 
                                                     }
 
