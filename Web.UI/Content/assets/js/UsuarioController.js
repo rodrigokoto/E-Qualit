@@ -58,12 +58,12 @@ APP.controller.UsuarioController = {
         APP.controller.UsuarioController.setMsgIconeAtivo();
         APP.controller.UsuarioController.setMsgIconeBloqueia();
         APP.controller.UsuarioController.setMsgIconeEmail();
-        APP.controller.UsuarioController.setMsgIconeExcluir();        
+        APP.controller.UsuarioController.setMsgIconeExcluir();
 
     },
 
     setMsgIconeAtivo: function () {
-        
+
 
     },
 
@@ -104,7 +104,7 @@ APP.controller.UsuarioController = {
     },
 
     setMsgIconeBloqueia: function () {
-        
+
 
     },
 
@@ -145,7 +145,7 @@ APP.controller.UsuarioController = {
     },
 
     setMsgIconeEmail: function () {
-        
+
 
     },
 
@@ -186,7 +186,7 @@ APP.controller.UsuarioController = {
     },
 
     setMsgIconeExcluir: function () {
-        
+
 
     },
 
@@ -445,7 +445,8 @@ APP.controller.UsuarioController = {
             formCriaUsuarioResponsavel: { required: true, maxlength: 60 },
             //formCriaUsuarioSexo: 'required',
             formCriaUsuarioEmail: { required: true, maxlength: 60, email: true },
-            formCriaUsuarioCpf: { cpf: true },
+            //formCriaUsuarioCpf: { cpf: true },
+
             //formCriaUsuarioDtExpiracao: 'required',
             //formCriaUsuarioEscolhaEmail: 'required',
             //formCriaUsuarioEscolhaCompartilhado: 'required',
@@ -753,6 +754,25 @@ APP.controller.UsuarioController = {
             }
         });
 
+        var perfill = $('[name=formCriaUsuarioPerfil] :selected').val();
+
+        if (perfill != "") {
+            if (!$('#panel-form-clientes input[type="checkbox"]').is(':checked')) {
+                bootbox.alert("Selecione ao menos um cliente");
+            }
+        }
+
+        if (valid) {
+            if (perfill == "") {
+                bootbox.alert("Selecione um perfil.");
+                $('[name=formCriaUsuarioPerfil]').focus();
+            }
+        }
+
+        if (!valid) {
+            bootbox.alert("Existem campos de preenchimento obrigatório não informados.");
+        }
+
         return valid;
 
     },
@@ -787,7 +807,7 @@ APP.controller.UsuarioController = {
 
     },
 
-    saveFormUsuario: function (usuarioObj, _urlAction, form ) {
+    saveFormUsuario: function (usuarioObj, _urlAction, form) {
 
         var erro = "";
         var idCliente = 0;
@@ -795,7 +815,7 @@ APP.controller.UsuarioController = {
         if (form != "meusdados") {
             idCliente = usuarioObj.UsuarioClienteSites[0].IdCliente;
         }
-        
+
         var idSite = $("#IdSite").val();
 
         $.ajax({
@@ -815,7 +835,7 @@ APP.controller.UsuarioController = {
                         else {
                             bootbox.alert(_options.RegistroSalvoComSucesso);
                         }
-                        
+
                     });
                 } else if (result.StatusCode == 505) {
                     erro = APP.component.ResultErros.init(result.Erro);
@@ -847,7 +867,7 @@ APP.controller.UsuarioController = {
         $.get('/Usuario/ObterUsuariosMigracao?IdSite=' + IdSite + '&IdUsuario=' + IdUsuario, (result) => {
             if (result.StatusCode == 200) {
                 APP.component.Loading.hideLoading();
-                retorno = result.Lista;            
+                retorno = result.Lista;
             }
         });
 

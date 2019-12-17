@@ -1230,7 +1230,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			var selected = this._.tabs[ id ];
-			selected[ 0 ].addClass( 'cke_dialog_tab_selected' );
+			selected[0].addClass('
+				cke_dialog_tab_selected' );
 
 			// [IE] an invisible input[type='text'] will enlarge it's width
 			// if it's value is long when it shows, so we clear it's value

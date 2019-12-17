@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'image', 'pt-br', {
 	resetSize: 'Redefinir para o Tamanho Original',
 	title: 'Formatar Imagem',
 	titleButton: 'Formatar Bot&atilde;o de Imagem',
-	upload: 'Enviar',
+	upload: 'Buscar',
 	urlMissing: 'URL da imagem esta faltando.',
 	vSpace: 'VSpace',
 	validateBorder: 'A borda deve ser um numero inteiro.',
