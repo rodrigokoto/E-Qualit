@@ -1534,6 +1534,17 @@ namespace Web.UI.Controllers
             return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Eleboracao, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ValidarRevisao(int id) {
+
+            var valid = _documentoAppServico.Get(x => x.IdDocumentoPai == id && x.FlStatus >= 0 && x.FlStatus < 4).ToList();
+
+            if (valid.Count > 0)
+            {
+                return Json(new { StatusCode = 605, Erro = "Existe outra revisão para este documento" }, JsonRequestBehavior.AllowGet);
+            }
+            else return Revisar(id);
+        }
+
         [HttpPost]
         [ValidateInput(false)]
         public JsonResult EnviarParaAprovacao(DocDocumento documento)
@@ -1565,7 +1576,10 @@ namespace Web.UI.Controllers
                 }
                 else
                 {
-                    listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlVerificou = true;
+
+                    var usuario = listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault();
+                    //.FlVerificou = true;
+
                 }
 
                 _docUsuarioVerificaAprovaAppServico.AlterarUsuariosDoDocumento(listaAprovaVerifi.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado() && x.TpEtapa == "V").ToList());

@@ -442,7 +442,7 @@ APP.controller.ControlDocController = {
             $.ajax({
                 type: "POST",
                 dataType: 'json',
-                url: '/ControlDoc/Revisar?Id=' + idDoc,
+                url: '/ControlDoc/ValidarRevisao?Id=' + idDoc,
                 beforeSend: function () {
                     APP.component.Loading.showLoading();
                 },
@@ -457,6 +457,11 @@ APP.controller.ControlDocController = {
                         erro = APP.component.ResultErros.init(result.Erro);
                         bootbox.alert(erro);
                     }
+                    else if (result.StatusCode == 605) {
+                        erro = APP.component.ResultErros.init(result.Erro);
+                        bootbox.alert(erro);
+                    }
+
 
                 },
                 error: function (result) {
@@ -986,7 +991,11 @@ APP.controller.ControlDocController = {
                 } else if (result.StatusCode == 500) {
                     erro = APP.component.ResultErros.init(result.Erro);
                     bootbox.alert(erro);
+                } else if (result.StatusCode == 605) {
+                    erro = APP.component.ResultErros.init(result.Erro);
+                    bootbox.alert(erro);
                 }
+
             },
             error: function (result) {
                 erro = APP.component.ResultErros.init(result.Erro);
