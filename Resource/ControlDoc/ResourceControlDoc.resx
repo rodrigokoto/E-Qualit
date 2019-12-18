@@ -315,4 +315,7 @@
   <data name="ControlDoc_lbl_Revisao" xml:space="preserve">
     <value>Revisão</value>
   </data>
+  <data name="ControlDoc_msg_erro_Revisao_Existente" xml:space="preserve">
+    <value>Este documento já está em revisão.</value>
+  </data>
 </root>

@@ -15,6 +15,7 @@ using Web.UI.Models;
 using System.Web.Routing;
 using System.Threading;
 using System.Threading.Tasks;
+using DAL.Context;
 
 namespace Web.UI.Controllers
 {
@@ -141,7 +142,8 @@ namespace Web.UI.Controllers
         }
 
 
-        public ActionResult Header() {
+        public ActionResult Header()
+        {
 
             return View("Header");
         }
@@ -206,7 +208,8 @@ namespace Web.UI.Controllers
             {
                 header = string.Format("{0} - Copia controlada", DateTime.Now.ToString("dd/MM/yyyy"));
             }
-            else {
+            else
+            {
                 header = string.Format("{0} - Copia não controlada", DateTime.Now.ToString("dd/MM/yyyy"));
             }
 
@@ -225,9 +228,9 @@ namespace Web.UI.Controllers
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Documento.pdf",
                 CustomSwitches = customSwitches
-                
-                
-                
+
+
+
             };
 
             ViewBag.CopiaControlada = controlada;
@@ -744,7 +747,8 @@ namespace Web.UI.Controllers
             }
         }
 
-        public JsonResult Obsoletar(int id) {
+        public JsonResult Obsoletar(int id)
+        {
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
 
@@ -757,7 +761,8 @@ namespace Web.UI.Controllers
             {
                 _documentoAppServico.Update(doc);
 
-                if (erros.Count > 0) {
+                if (erros.Count > 0)
+                {
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -1534,13 +1539,14 @@ namespace Web.UI.Controllers
             return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Eleboracao, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ValidarRevisao(int id) {
+        public ActionResult ValidarRevisao(int id)
+        {
 
             var valid = _documentoAppServico.Get(x => x.IdDocumentoPai == id && x.FlStatus >= 0 && x.FlStatus < 4).ToList();
 
             if (valid.Count > 0)
             {
-                return Json(new { StatusCode = 605, Erro = "Existe outra revisão para este documento" }, JsonRequestBehavior.AllowGet);
+                return Json(new { StatusCode = 605, Erro = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_erro_Revisao_Existente }, JsonRequestBehavior.AllowGet);
             }
             else return Revisar(id);
         }
@@ -1551,8 +1557,11 @@ namespace Web.UI.Controllers
         {
             try
             {
-
                 //var docBase = _documentoAppServico.GetById(documento.IdDocumento);
+
+                var docBase = _documentoAppServico.GetById(documento.IdDocumento);
+
+                documento.IdDocumentoPai = docBase.IdDocumentoPai;
 
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
                 documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
@@ -1619,8 +1628,16 @@ namespace Web.UI.Controllers
                 });
 
 
+
+
                 documento.GestaoDeRisco = null;
-                _documentoAppServico.Update(documento);
+
+                BaseContext db = new BaseContext();
+
+                db.Entry(documento).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+
             }
             catch (Exception ex)
             {
@@ -1644,54 +1661,53 @@ namespace Web.UI.Controllers
             {
                 try
                 {
-
+                    var documentoatual = _documentoAppServico.GetById(documento.IdDocumento);
+                    var docBase = _documentoAppServico.Get(x => x.IdDocumento == documentoatual.IdDocumentoPai).First();
                     documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
-                    documento.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
+                    documentoatual.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
                     //documento.XmlMetadata = Util.EscreveXML(documento.ConteudoDocumento);
                     //_documentoAppServico.VerificarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
                     //_documentoAppServico.AprovarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
 
                     //Editar(documento, false);
 
-
-
                     AdicionaComentario(documento);
                     AtualizarUsuarioCargosETemplatesDoDocumento(documento);
 
 
-					
+
 
                     //[cargo]
-                    documento.GestaoDeRisco = null;
+                    documentoatual.GestaoDeRisco = null;
 
 
-                    documento.DocRisco.ToList().ForEach(documentoLocal =>
+                    documentoatual.DocRisco.ToList().ForEach(documentoLocal =>
                     {
-                        documento.DocRisco.FirstOrDefault(x => x.IdDocRisco == documentoLocal.IdDocRisco).IdDocumento = documento.IdDocumento;
+                        documentoatual.DocRisco.FirstOrDefault(x => x.IdDocRisco == documentoLocal.IdDocRisco).IdDocumento = documentoatual.IdDocumento;
                     });
 
-					if (Util.ObterPerfilUsuarioLogado() == 3 || Util.ObterPerfilUsuarioLogado() == 1)
-					{
-						_documentoAppServico.AprovarDocumento(documento);
-					}
-					else
-					{
-						var listaAprova = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documento.IdDocumento && x.TpEtapa == "A").ToList();
-						listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlAprovou = true;
+                    if (Util.ObterPerfilUsuarioLogado() == 3 || Util.ObterPerfilUsuarioLogado() == 1)
+                    {
+                        _documentoAppServico.AprovarDocumento(documentoatual);
+                    }
+                    else
+                    {
+                        var listaAprova = _docUsuarioVerificaAprovaAppServico.Get(x => x.IdDocumento == documentoatual.IdDocumento && x.TpEtapa == "A").ToList();
+                        listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault().FlAprovou = true;
 
-						if (_documentoAppServico.AprovadoPorTodos(listaAprova))
-							_documentoAppServico.AprovarDocumento(documento);
-						else
-							documento.FlStatus = (byte)StatusDocumento.Aprovacao;
+                        if (_documentoAppServico.AprovadoPorTodos(listaAprova))
+                            _documentoAppServico.AprovarDocumento(documento);
+                        else
+                            documentoatual.FlStatus = (byte)StatusDocumento.Aprovacao;
 
-						_docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
-					}
+                        _docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
+                    }
                     //int numeroUltimoRegistro = 0;
 
-                    
+
 
                     //List<RegistroConformidade> listaRegistro = new List<RegistroConformidade>();
-                    foreach (var item in documento.DocRisco)
+                    foreach (var item in documentoatual.DocRisco)
                     {
 
                         //RegistroConformidade registro = new RegistroConformidade();
@@ -1770,19 +1786,24 @@ namespace Web.UI.Controllers
 
                         ////listaRegistro.Add(registro);
 
-                        var retorno = PrepararDadosAprovar(documento, item);
+                        var retorno = PrepararDadosAprovar(documentoatual, item);
 
 
                         //documento.GestaoDeRisco = registro;
                         documento.GestaoDeRisco = retorno;
 
-                        _documentoAppServico.Update(documento);
+                        _documentoAppServico.Update(documentoatual);
+
+                        //BaseContext db = new BaseContext();
+
+                        //db.Entry(documento).State = System.Data.Entity.EntityState.Modified;
+                        //db.SaveChanges();
                     }
 
+                    docBase.FlStatus = 4;
+                    _documentoAppServico.Update(docBase);
+
                     //documento.GestaoDeRisco = listaRegistro;
-
-
-
 
                 }
                 catch (Exception ex)
