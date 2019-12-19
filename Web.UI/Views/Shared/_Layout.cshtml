@@ -276,57 +276,108 @@
                                 <a href="#" class="active" data-toggle="collapse" id="MenuDocumentosSistema" aria-expanded="false"><i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.MenuDocumentosSistema</span></a>
                                 <div id="Categoria" class="subPages class in" style="height: auto;">
                                     <ul class="nav">
-                                        @foreach (var processo in ViewBag.Processos)
+                                        @if (ViewBag.IdPerfil == 1 || ViewBag.IdPerfil == 2)
                                         {
-                                            <li>
-                                                <div id="@(processo.Nome)" class="subPages collapse class">
-                                                    <ul class="nav">
-                                                        <li style="border-bottom: 2px solid #e7e7e7;">
-                                                            <a href="#subPages@(processo.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria"
-                                                               id="hrefDocs"
-                                                               class="hrefDocs active collapsed"
-                                                               style="padding-left:0px; text-align:center; display: inline-flex"
-                                                               data-toggle="collapse"
-                                                               aria-expanded="false">
-                                                                <i class="lnr lnr-file-empty"></i>
-                                                                <div style="width: 190px">
-                                                                    <span>@processo.Nome</span>
+                                            foreach (var processo in ViewBag.Processos)
+                                            {
+                                                <li>
+                                                    <div id="@(processo.Nome)" class="subPages collapse class">
+                                                        <ul class="nav">
+                                                            <li style="border-bottom: 2px solid #e7e7e7;">
+                                                                <a href="#subPages@(processo.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria"
+                                                                   id="hrefDocs"
+                                                                   class="hrefDocs active collapsed"
+                                                                   style="padding-left:0px; text-align:center; display: inline-flex"
+                                                                   data-toggle="collapse"
+                                                                   aria-expanded="false">
+                                                                    <i class="lnr lnr-file-empty"></i>
+                                                                    <div style="width: 190px">
+                                                                        <span>@processo.Nome</span>
+                                                                    </div>
+                                                                    <i style="float: right" class="fa fa-bars"></i>
+
+                                                                </a>
+
+                                                                <div id="subPages@(processo.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria" class="subPages2 class collapse" style="height: 0px;">
+                                                                    <ul class="nav">
+                                                                        @{ var item = 0; }
+                                                                        @foreach (var categoria in ViewBag.Categorias)
+                                                                        {
+                                                                            <li class="liDocs" style="display: none;">
+                                                                                @Html.ActionLink((string)categoria.Descricao, "DocumentosAprovados", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, new { @style = "padding-left:10px;" })
+
+                                                                            </li>
+
+                                                                            @*if (item == (ViewBag.Categorias.Count - 1))
+                                                                                {
+                                                                                    <li>
+                                                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) || ViewBag.IdPerfil != 4)
+                                                                                        {
+                                                                                            @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, null)
+                                                                                        }
+                                                                                    </li>
+                                                                                }*@
+                                                                            item++;
+                                                                        }
+                                                                    </ul>
                                                                 </div>
-                                                                <i style="float: right" class="fa fa-bars"></i>
-
-                                                            </a>
-
-                                                            <div id="subPages@(processo.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria" class="subPages2 class collapse" style="height: 0px;">
-                                                                <ul class="nav">
-                                                                    @{ var item = 0; }
-                                                                    @foreach (var categoria in ViewBag.Categorias)
-                                                                    {
-                                                                        <li class="liDocs" style="display: none;">
-                                                                            @Html.ActionLink((string)categoria.Descricao, "DocumentosAprovados", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, new { @style = "padding-left:10px;" })
-
-                                                                        </li>
-
-                                                                        @*if (item == (ViewBag.Categorias.Count - 1))
-                                                                            {
-                                                                                <li>
-                                                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) || ViewBag.IdPerfil != 4)
-                                                                                    {
-                                                                                        @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, null)
-                                                                                    }
-                                                                                </li>
-                                                                            }*@
-                                                                        item++;
-                                                                    }
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            }
                                         }
+                                        else
+                                        {
+                                            foreach (var processo in ViewData["Menu"] as IEnumerable<IGrouping<string, Web.UI.Models.MenuProcessoViewModel>>)
+                                            {
+                                                <li>
+                                                    <div id="@(processo.Key)" class="subPages collapse class">
+                                                        <ul class="nav">
+                                                            <li style="border-bottom: 2px solid #e7e7e7;">
+                                                                <a href="#subPages@(processo.Key.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria"
+                                                                   id="hrefDocs"
+                                                                   class="hrefDocs active collapsed"
+                                                                   style="padding-left:0px; text-align:center; display: inline-flex"
+                                                                   data-toggle="collapse"
+                                                                   aria-expanded="false">
+                                                                    <i class="lnr lnr-file-empty"></i>
+                                                                    <div style="width: 190px">
+                                                                        <span>@processo.Key</span>
+                                                                    </div>
+                                                                    <i style="float: right" class="fa fa-bars"></i>
 
+                                                                </a>
 
+                                                                <div id="subPages@(processo.Key.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria" class="subPages2 class collapse" style="height: 0px;">
+                                                                    <ul class="nav">
+                                                                        @{ var item = 0; }
+                                                                        @foreach (var categoria in processo)
+                                                                        {
+                                                                            <li class="liDocs" style="display: none;">
+                                                                                @Html.ActionLink((string)categoria.Descricao, "DocumentosAprovados", "ControlDoc", new { id = categoria.IdCategoria, idProcesso = categoria.IdProcesso }, new { @style = "padding-left:10px;" })
 
+                                                                            </li>
+
+                                                                            @*if (item == (ViewBag.Categorias.Count - 1))
+                                                                                {
+                                                                                    <li>
+                                                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) || ViewBag.IdPerfil != 4)
+                                                                                        {
+                                                                                            @Html.ActionLink(Traducao.Resource.MenuObsoleto, "DocumentosObsoletos", "ControlDoc", new { id = categoria.IdControladorCategorias, idProcesso = processo.IdProcesso }, null)
+                                                                                        }
+                                                                                    </li>
+                                                                                }*@
+                                                                            item++;
+                                                                        }
+                                                                    </ul>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
                                     </ul>
                                 </div>
                             </li>

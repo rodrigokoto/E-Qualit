@@ -1,4 +1,5 @@
 ﻿using ApplicationService.Interface;
+using DAL.Context;
 using Dominio.Entidade;
 using Dominio.Enumerado;
 using Dominio.Interface.Repositorio;
@@ -12,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Web.UI.Helpers;
+using Web.UI.Models;
 
 namespace Web.UI.Controllers
 {
@@ -66,6 +68,45 @@ namespace Web.UI.Controllers
 
             try
             {
+                using (var db = new BaseContext())
+                {
+                    try
+                    {
+                        if (_usuarioAppServico != null)
+                        {
+                            usuarioLogadoBase = _usuarioAppServico.GetById(idUsuario);
+                        }
+
+                        List<int> usuariocargos = usuarioLogadoBase.UsuarioCargoes.Select(x => x.IdCargo).Distinct().ToList();
+                        var result = (from pr in db.Processo
+                                      join d in db.DocDocumento on pr.IdProcesso equals d.IdProcesso
+                                      join dc in db.DocumentoCargo on d.IdDocumento equals dc.IdDocumento
+                                      join u in db.UsuarioCargo on dc.IdCargo equals u.IdCargo
+                                      join c in db.ControladorCategoria on d.IdCategoria equals c.IdControladorCategorias
+                                      where d.FlStatus == 3 && u.Usuario.IdUsuario == idUsuario
+                                      && d.IdSite == idSite
+                                      select new MenuProcessoViewModel
+                                      {
+
+                                          IdProcesso = pr.IdProcesso,
+                                          Nome = pr.Nome,
+                                          Descricao = c.Descricao,
+                                          IdCategoria = c.IdControladorCategorias
+
+                                      }).Distinct().ToList().GroupBy(x => x.Nome);
+
+                        ViewData["Menu"] = result;
+                        ViewBag.IdPerfil = usuarioLogadoBase.IdPerfil;
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                        throw;
+                    }
+
+                }
+
                 ViewBag.Funcionalidades = new List<Funcionalidade>();
                 if (_usuarioAppServico != null)
                 {
