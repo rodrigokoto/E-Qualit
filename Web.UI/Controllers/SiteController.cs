@@ -195,7 +195,7 @@ namespace Web.UI.Controllers
                 {
                     GravaLog(ex);
                 }
-                if (Util.ObterPerfilUsuarioLogado() == (int)PerfisAcesso.Administrador)
+                if (Util.ObterPerfilUsuarioLogado() == (int)PerfisAcesso.Administrador || Util.ObterPerfilUsuarioLogado() == (int)PerfisAcesso.Coordenador)
                 {
 
                     return RedirectToAction("HomeProcesso", "Home", new { idSite = idSite });

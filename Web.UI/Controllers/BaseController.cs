@@ -77,27 +77,55 @@ namespace Web.UI.Controllers
                             usuarioLogadoBase = _usuarioAppServico.GetById(idUsuario);
                         }
 
-                        List<int> usuariocargos = usuarioLogadoBase.UsuarioCargoes.Select(x => x.IdCargo).Distinct().ToList();
-                        var result = (from pr in db.Processo
-                                      join d in db.DocDocumento on pr.IdProcesso equals d.IdProcesso
-                                      join dc in db.DocumentoCargo on d.IdDocumento equals dc.IdDocumento
-                                      join u in db.UsuarioCargo on dc.IdCargo equals u.IdCargo
-                                      join c in db.ControladorCategoria on d.IdCategoria equals c.IdControladorCategorias
-                                      where d.FlStatus == 3 && u.Usuario.IdUsuario == idUsuario
-                                      && d.IdSite == idSite
-                                      select new MenuProcessoViewModel
-                                      {
+                        if (usuarioLogadoBase != null)
+                        {
 
-                                          IdProcesso = pr.IdProcesso,
-                                          Nome = pr.Nome,
-                                          Descricao = c.Descricao,
-                                          IdCategoria = c.IdControladorCategorias
+                            if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 3)
+                            {
+                                List<int> usuariocargos = usuarioLogadoBase.UsuarioCargoes.Select(x => x.IdCargo).Distinct().ToList();
+                                var result = (from pr in db.Processo
+                                              join d in db.DocDocumento on pr.IdProcesso equals d.IdProcesso
+                                              join dc in db.DocumentoCargo on d.IdDocumento equals dc.IdDocumento
+                                              join c in db.ControladorCategoria on d.IdCategoria equals c.IdControladorCategorias
+                                              where d.FlStatus == 3 && d.IdSite == idSite
+                                              select new MenuProcessoViewModel
+                                              {
 
-                                      }).Distinct().ToList().GroupBy(x => x.Nome);
+                                                  IdProcesso = pr.IdProcesso,
+                                                  Nome = pr.Nome,
+                                                  Descricao = c.Descricao,
+                                                  IdCategoria = c.IdControladorCategorias
 
-                        ViewData["Menu"] = result;
-                        ViewBag.IdPerfil = usuarioLogadoBase.IdPerfil;
+                                              }).Distinct().ToList().GroupBy(x => x.Nome);
 
+                                ViewData["Menu"] = result;
+                                ViewBag.IdPerfil = usuarioLogadoBase.IdPerfil;
+                            }
+
+                            else
+                            {
+                                List<int> usuariocargos = usuarioLogadoBase.UsuarioCargoes.Select(x => x.IdCargo).Distinct().ToList();
+                                var result = (from pr in db.Processo
+                                              join d in db.DocDocumento on pr.IdProcesso equals d.IdProcesso
+                                              join dc in db.DocumentoCargo on d.IdDocumento equals dc.IdDocumento
+                                              join u in db.UsuarioCargo on dc.IdCargo equals u.IdCargo
+                                              join c in db.ControladorCategoria on d.IdCategoria equals c.IdControladorCategorias
+                                              where d.FlStatus == 3
+                                              && d.IdSite == idSite
+                                              select new MenuProcessoViewModel
+                                              {
+
+                                                  IdProcesso = pr.IdProcesso,
+                                                  Nome = pr.Nome,
+                                                  Descricao = c.Descricao,
+                                                  IdCategoria = c.IdControladorCategorias
+
+                                              }).Distinct().ToList().GroupBy(x => x.Nome);
+
+                                ViewData["Menu"] = result;
+                                ViewBag.IdPerfil = usuarioLogadoBase.IdPerfil;
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
