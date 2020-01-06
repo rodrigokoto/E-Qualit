@@ -216,7 +216,9 @@ namespace Web.UI.Controllers
 
                     if (cliente.Site.SiteFuncionalidades.Where(x => x.IdFuncionalidade == 2).Count() > 0)
                     {
-                        cliente.Site.SiteFuncionalidades.Add(cliente.Site.SiteFuncionalidades.Where(x => x.IdFuncionalidade == 2).Select(x => { x.IdFuncionalidade = 13; return x; }).FirstOrDefault());
+                        SiteFuncionalidade workflow = new SiteFuncionalidade();
+                        workflow.IdFuncionalidade = 13;
+                        cliente.Site.SiteFuncionalidades.Add(workflow);
                     }
 
                     _clienteAppServico.Add(cliente);

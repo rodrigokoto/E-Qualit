@@ -28,7 +28,7 @@
                 <div class="panel-body" id="panel-form-naoconformidade">
                     <div class="row">
                         <div class="barra-busca">
-                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesGestaoDeRisco.Registro) || ViewBag.IdPerfil != 4)
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesGestaoDeRisco.CriaNovaGR) || ViewBag.IdPerfil != 4)
                             {
                                 <p class="novo">
                                     @Html.ActionLink(Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_nova_nao_conformidade, "Criar", "GestaoDeRisco")
