@@ -1661,8 +1661,12 @@ namespace Web.UI.Controllers
             {
                 try
                 {
+                    var docBase = new DocDocumento();
+
                     var documentoatual = _documentoAppServico.GetById(documento.IdDocumento);
-                    var docBase = _documentoAppServico.Get(x => x.IdDocumento == documentoatual.IdDocumentoPai).First();
+
+                    if (documentoatual.IdDocumentoPai != null)
+                        docBase = _documentoAppServico.Get(x => x.IdDocumento == documentoatual.IdDocumentoPai).First();
                     documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
                     documentoatual.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
                     //documento.XmlMetadata = Util.EscreveXML(documento.ConteudoDocumento);
@@ -1800,8 +1804,11 @@ namespace Web.UI.Controllers
                         //db.SaveChanges();
                     }
 
-                    docBase.FlStatus = 4;
-                    _documentoAppServico.Update(docBase);
+                    if (documentoatual.IdDocumentoPai != null)
+                    {
+                        docBase.FlStatus = 4;
+                        _documentoAppServico.Update(docBase);
+                    }
 
                     //documento.GestaoDeRisco = listaRegistro;
 
