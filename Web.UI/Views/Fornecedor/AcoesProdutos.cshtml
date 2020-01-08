@@ -197,7 +197,7 @@
         </form>
 
         <!-- Criterios para Qualificacao de Fornecedor -->
-        <form id="form-qualifica-fornecedor" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block": (ViewBag.Ancora == "Alterar" || ViewBag.Ancora == "CriterioQualificacao" ? "block" : "none"));">
+        <form id="form-qualifica-fornecedor" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block": (ViewBag.Ancora == "CriterioQualificacao" ? "block" : "none"));">
             <div class="panel panel-default" name="qualifica" id="qualifica">
                 <div class="panel-heading" data-toggle="collapse" data-target="#criterios">
                     <div class="panel-title">
@@ -302,7 +302,7 @@
         </form>
 
         <!-- Criterios Avaliacao -->
-        <form id="form-criterios-avaliacao" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block": (ViewBag.Ancora == "Alterar" || ViewBag.Ancora == "CriterioAvaliacao" ? "block" : "none"));">
+        <form id="form-criterios-avaliacao" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block": ( ViewBag.Ancora == "CriterioAvaliacao" ? "block" : "none"));">
             <div class="panel panel-default" name="criterios-avaliacao" id="criterios-avaliacao">
                 <div class="panel-heading" data-toggle="collapse" data-target="#criterios-avaliacao">
                     <div class="panel-title">
@@ -394,7 +394,7 @@
         @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.DefinirCritériosDeAvaliação) || ViewBag.IdPerfil != 4)
         {
             <!-- parametros-critérios-avaliacao -->
-            <form id="form-parametros-critérios-avaliacao" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block" : (ViewBag.Ancora == "Alterar" || ViewBag.Ancora == "CriterioAvaliacao" ? "block" : "none"));">
+            <form id="form-parametros-critérios-avaliacao" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block" : (ViewBag.Ancora == "CriterioAvaliacao" ? "block" : "none"));">
 
                 <div class="panel panel-default" name="parametros-critérios-avaliacao" id="parametros-critérios-avaliacao">
                     <div class="panel-heading" data-toggle="collapse" data-target="#parametros-critérios-avaliacao">
