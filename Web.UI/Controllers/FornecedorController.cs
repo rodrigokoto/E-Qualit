@@ -496,15 +496,16 @@ namespace Web.UI.Controllers
             if (id != null)
             {
                 fornecedor = _fornecedorAppServico.GetById(id.Value);
+                ViewBag.avaliacao = _avaliaCriterioAvaliacaoAppServico.Get().Where(x => fornecedor.IdFornecedor == x.IdFornecedor).ToList();
+            }
+            else
+            {
+                ViewBag.avaliacao = new List<AvaliaCriterioAvaliacao>();
             }
 
             var idscriteriosQualificacaoAtual = fornecedor.AvaliaCriteriosQualificacao.Select(avaliacaoCriterioQualificacao => avaliacaoCriterioQualificacao.CriterioQualificacao.IdCriterioQualificacao).ToList();
             var criteriosQualificacaoAtual = fornecedor.AvaliaCriteriosQualificacao.ToList();
             var idscriteriosQualificacao = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).Select(x => x.IdCriterioQualificacao).ToList();
-
-
-
-
             if (fornecedor.AvaliaCriteriosQualificacao == null || fornecedor.AvaliaCriteriosQualificacao.Count == 0 || idscriteriosQualificacao.Count != idscriteriosQualificacaoAtual.Count)
             {
                 var criteriosQualificacao = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).Where(x => !idscriteriosQualificacaoAtual.Contains(x.IdCriterioQualificacao)).ToList();
@@ -544,10 +545,6 @@ namespace Web.UI.Controllers
                 });
 
             }
-
-
-
-
             ViewBag.Produto = produto;
 
             return View(fornecedor);
@@ -679,9 +676,13 @@ namespace Web.UI.Controllers
                     erros.Add(Traducao.Resource.MsgResposavelObrigatorio);
                 }
 
+                
                 avaliacoes.ForEach(avaliaCriterioAvaliacao =>
                 {
                     avaliaCriterioAvaliacao.DtAvaliacao = DateTime.Now;
+
+                    if (avaliaCriterioAvaliacao.NotaAvaliacao == null)
+                        avaliaCriterioAvaliacao.NotaAvaliacao = new int();
                     _avaliaCriterioAvaliacaoServico.ValidaAvaliaCriterioAvaliacao(avaliaCriterioAvaliacao, ref erros);
                 });
 
@@ -695,11 +696,9 @@ namespace Web.UI.Controllers
 
                     return Json(new { StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
                 }
-
             }
             catch (Exception ex)
             {
-
                 GravaLog(ex);
             }
 

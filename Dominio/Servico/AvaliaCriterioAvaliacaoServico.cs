@@ -29,7 +29,7 @@ namespace Dominio.Servico
 
                     var historico = new HistoricoCriterioAvaliacao
                     {
-                        IdCriterioAvaliacao = avaliaCriterioAvaliacao.IdCriterioAvaliacao,
+                        IdCriterioAvaliacao = (int)avaliaCriterioAvaliacao.IdCriterioAvaliacao,
                         Nota = avaliaCriterioAvaliacao.NotaAvaliacao.Value
                     };
 

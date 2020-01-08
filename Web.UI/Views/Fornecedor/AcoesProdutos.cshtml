@@ -23,6 +23,27 @@
     $(function () {
         $(".datepicker").datepicker();
     });
+
+    function setHideOnChange() {
+        var critico = false;
+        $("input:checked").length;
+        var criticos = $('[name^=formProdutosCriticidadeAtivo]:checked').length;
+
+        if (criticos >= 1) {
+            critico = true;
+        }
+
+        if (criticos <= 0) {
+            $('#form-qualifica-fornecedor').hide();
+            $('#form-criterios-avaliacao').hide();
+            $('#form-parametros-critérios-avaliacao').hide();
+        }
+        else {
+            $('#form-qualifica-fornecedor').show();
+            $('#form-criterios-avaliacao').show();
+            $('#form-parametros-critérios-avaliacao').show();
+        }
+    }
 </script>
 <div id="main">
     <input type="hidden" name="IdSite" id="fornecedores-site" value="@ViewBag.IdSite" />
@@ -123,7 +144,7 @@
                                             <td>
                                                 <div class="checkbox">
                                                     @{ var formProdutosCriticidadeAtivo = "form-produtos-criticidade-ativo-" + contaAvaliacoesCriticidade; }
-                                                    <input type="checkbox" name="formProdutosCriticidadeAtivo" id="@formProdutosCriticidadeAtivo" @((listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.AvaliarCriticidadeEditar) || ViewBag.IdPerfil != 4 ? "" : "disabled=\"disabled\"")) onclick="chkValue(this);" @(avaliacaoCriticidade.Ativo == true ? "checked" : null)>
+                                                    <input type="checkbox" name="formProdutosCriticidadeAtivo" onchange="setHideOnChange()" id="@formProdutosCriticidadeAtivo" @((listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.AvaliarCriticidadeEditar) || ViewBag.IdPerfil != 4 ? "" : "disabled=\"disabled\"")) onclick="chkValue(this);" @(avaliacaoCriticidade.Ativo == true ? "checked" : null)>
                                                     <label for="@formProdutosCriticidadeAtivo" style="padding-left: 25px !important;">
                                                         @Traducao.Resource.Critico
                                                     </label>
@@ -143,14 +164,14 @@
                                                     {
                                                         <button type="button" class="btn btn-confirm-produtos-criticidade ativo-color" item="@avaliacaoCriticidade.IdAvaliacaoCriticidade" IdText="@IdAvaliacaoCriticidadeText">
                                                             <i class="fa fa-check " aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_ativar" data-original-title="@Traducao.Resource.btn_lbl_ativar"></i>
-                                                        </button>                                                   
+                                                        </button>
                                                     }
                                                     if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.AvaliarCriticidadeExcluir) || ViewBag.IdPerfil != 4)
                                                     {
                                                         <button type="button" class="btn btn-del-produtos-criticidade trash-color" item="@avaliacaoCriticidade.IdAvaliacaoCriticidade">
 
                                                             <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_excluir" data-original-title="@Traducao.Resource.btn_lbl_excluir"></i>
-                                                        </button>                                                    
+                                                        </button>
                                                     }
                                                 }
                                             </td>
@@ -276,207 +297,207 @@
 
                         }
                     </div>
-                    </div>
+                </div>
             </div>
         </form>
 
-            <!-- Criterios Avaliacao -->
-            <form id="form-criterios-avaliacao" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block": (ViewBag.Ancora == "Alterar" || ViewBag.Ancora == "CriterioAvaliacao" ? "block" : "none"));">
-                <div class="panel panel-default" name="criterios-avaliacao" id="criterios-avaliacao">
-                    <div class="panel-heading" data-toggle="collapse" data-target="#criterios-avaliacao">
+        <!-- Criterios Avaliacao -->
+        <form id="form-criterios-avaliacao" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block": (ViewBag.Ancora == "Alterar" || ViewBag.Ancora == "CriterioAvaliacao" ? "block" : "none"));">
+            <div class="panel panel-default" name="criterios-avaliacao" id="criterios-avaliacao">
+                <div class="panel-heading" data-toggle="collapse" data-target="#criterios-avaliacao">
+                    <div class="panel-title">
+                        <h2>@Traducao.Resource.CriteriosAvaliacao</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-criteriosavaliacao">
+                    <div class="barra-busca">
+
+                        <!-- Tabela Criterios -->
+                        <div class="col-md-12" style="margin-top: 10px;">
+                            <table id="tb-form-criterios-avaliacao" class="table table-striped table-bordered table-list">
+                                <thead class="titulo-tabela">
+                                    <tr>
+                                        <th class="w45">@Traducao.Resource.Criterios</th>
+                                        <th class="w7">@Traducao.Resource.IncluirItem</th>
+                                        <th class="w7">@Traducao.Resource.Acoes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ var contaCriterioAvaliacao = 0; }
+                                    @foreach (var criterioAvaliacao in Model.CriteriosAvaliacao)
+                                    {
+                                        contaCriterioAvaliacao++;
+                                        <tr>
+                                            <!-- Disponibilidade -->
+                                            <td>
+                                                @{ var IdCriterioAvaliacao = "IdCriterioAvaliacao" + contaCriterioAvaliacao; }
+                                                <input type="hidden" id="@IdCriterioAvaliacao" name="IdCriterioAvaliacao" value="@criterioAvaliacao.IdCriterioAvaliacao" />
+                                                @{ var IdCriterioAvaliacaoText = "form-criterios-avaliacao-disponibilidade" + contaCriterioAvaliacao; }
+                                                <textarea name="formCriteriosAvaliacaoDisponibilidade" id="@IdCriterioAvaliacaoText" disabled="disabled" class="form-control" placeholder="@Traducao.Resource.Disponibilidade" rows="3">@criterioAvaliacao.Titulo</textarea>
+                                            </td>
+                                            <!-- Ativo -->
+                                            <td>
+                                                <div class="checkbox">
+                                                    @{ var formCriteriosAvaliacaoAtivoName = "formCriteriosAvaliacaoAtivo-" + contaCriterioAvaliacao; }
+                                                    @{ var formCriteriosAvaliacaoAtivo = "form-criterios-avaliacao-ativo-" + contaCriterioAvaliacao; }
+                                                    @{ var formCriteriosAvaliacaoAtivoLabel = "form-criterios-avaliacao-ativo-" + contaCriterioAvaliacao; }
+                                                    <input type="checkbox" name="@formCriteriosAvaliacaoAtivoName" id="@formCriteriosAvaliacaoAtivo" @((listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoEditar) || ViewBag.IdPerfil != 4 ? "" : "disabled=\"disabled\"")) onclick="chkValue(this);" value="true" @(criterioAvaliacao.Ativo == true ? "checked" : null)>
+                                                    <label for="@formCriteriosAvaliacaoAtivoLabel" style="padding-left: 25px !important;">Ativar</label>
+                                                </div>
+                                            </td>
+                                            <!-- Acoes -->
+                                            <td>
+                                                @if (criterioAvaliacao.IdCriterioAvaliacao > 0)
+                                                {
+                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoDestravar) || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <button type="button" class="btn btn-edit-criterios-avaliacao editar-color">
+                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        </button>
+                                                    }
+                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoEditar) || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <button type="button" class="btn btn-confirm-criterios-avaliacao ativo-color" item="@criterioAvaliacao.IdCriterioAvaliacao" IdText="@IdCriterioAvaliacaoText">
+                                                            <i class="fa fa-check " aria-hidden="true"></i>
+                                                        </button>
+                                                    }
+                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoExcluir) || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        <button type="button" class="btn btn-del-criterios-avaliacao trash-color" item="@criterioAvaliacao.IdCriterioAvaliacao">
+                                                            <i class="fa fa-trash " aria-hidden="true"></i>
+                                                        </button>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.DefinirCritériosDeAvaliação) || ViewBag.IdPerfil != 4)
+                        {
+                            <!--- Adicionar -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p class="novo2 pull-right">
+                                    <a href="#" name="" id="" class="btn-add-criterios-avaliacao">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>@Traducao.Resource.Adicionar
+                                    </a>
+                                </p>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.DefinirCritériosDeAvaliação) || ViewBag.IdPerfil != 4)
+        {
+            <!-- parametros-critérios-avaliacao -->
+            <form id="form-parametros-critérios-avaliacao" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block" : (ViewBag.Ancora == "Alterar" || ViewBag.Ancora == "CriterioAvaliacao" ? "block" : "none"));">
+
+                <div class="panel panel-default" name="parametros-critérios-avaliacao" id="parametros-critérios-avaliacao">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#parametros-critérios-avaliacao">
                         <div class="panel-title">
-                            <h2>@Traducao.Resource.CriteriosAvaliacao</h2>
+                            <h2>@Traducao.Resource.ParametrosFornecedor</h2>
                         </div>
                     </div>
-                    <div class="panel-body" id="panel-form-criteriosavaliacao">
+                    <div class="panel-body" id="panel-form-parametros-critérios-avaliacao">
                         <div class="barra-busca">
+
 
                             <!-- Tabela Criterios -->
                             <div class="col-md-12" style="margin-top: 10px;">
-                                <table id="tb-form-criterios-avaliacao" class="table table-striped table-bordered table-list">
-                                    <thead class="titulo-tabela">
-                                        <tr>
-                                            <th class="w45">@Traducao.Resource.Criterios</th>
-                                            <th class="w7">@Traducao.Resource.IncluirItem</th>
-                                            <th class="w7">@Traducao.Resource.Acoes</th>
-                                        </tr>
-                                    </thead>
+                                <table id="tb-form-parametros-critérios-avaliacao" class="table table-striped table-bordered table-list">
                                     <tbody>
-                                        @{ var contaCriterioAvaliacao = 0; }
-                                        @foreach (var criterioAvaliacao in Model.CriteriosAvaliacao)
-                                        {
-                                            contaCriterioAvaliacao++;
-                                            <tr>
-                                                <!-- Disponibilidade -->
-                                                <td>
-                                                    @{ var IdCriterioAvaliacao = "IdCriterioAvaliacao" + contaCriterioAvaliacao; }
-                                                    <input type="hidden" id="@IdCriterioAvaliacao" name="IdCriterioAvaliacao" value="@criterioAvaliacao.IdCriterioAvaliacao" />
-                                                    @{ var IdCriterioAvaliacaoText = "form-criterios-avaliacao-disponibilidade" + contaCriterioAvaliacao; }
-                                                    <textarea name="formCriteriosAvaliacaoDisponibilidade" id="@IdCriterioAvaliacaoText" disabled="disabled"class="form-control" placeholder="@Traducao.Resource.Disponibilidade" rows="3">@criterioAvaliacao.Titulo</textarea>
-                                                </td>
-                                                <!-- Ativo -->
-                                                <td>
-                                                    <div class="checkbox">
-                                                        @{ var formCriteriosAvaliacaoAtivoName = "formCriteriosAvaliacaoAtivo-" + contaCriterioAvaliacao; }
-                                                        @{ var formCriteriosAvaliacaoAtivo = "form-criterios-avaliacao-ativo-" + contaCriterioAvaliacao; }
-                                                        @{ var formCriteriosAvaliacaoAtivoLabel = "form-criterios-avaliacao-ativo-" + contaCriterioAvaliacao; }
-                                                        <input type="checkbox" name="@formCriteriosAvaliacaoAtivoName" id="@formCriteriosAvaliacaoAtivo" @((listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoEditar) || ViewBag.IdPerfil != 4 ? "" : "disabled=\"disabled\"")) onclick="chkValue(this);" value="true" @(criterioAvaliacao.Ativo == true ? "checked" : null)>
-                                                        <label for="@formCriteriosAvaliacaoAtivoLabel" style="padding-left: 25px !important;">Ativar</label>
-                                                    </div>
-                                                </td>
-                                                <!-- Acoes -->
-                                                <td>
-                                                    @if (criterioAvaliacao.IdCriterioAvaliacao > 0)
-                                                    {
-                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoDestravar) || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <button type="button" class="btn btn-edit-criterios-avaliacao editar-color">
-                                                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                            </button>
-                                                        }
-                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoEditar) || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <button type="button" class="btn btn-confirm-criterios-avaliacao ativo-color" item="@criterioAvaliacao.IdCriterioAvaliacao" IdText="@IdCriterioAvaliacaoText">
-                                                                <i class="fa fa-check " aria-hidden="true"></i>
-                                                            </button>
-                                                        }
-                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CritériosDeAvaliaçãoExcluir) || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <button type="button" class="btn btn-del-criterios-avaliacao trash-color" item="@criterioAvaliacao.IdCriterioAvaliacao">
-                                                                <i class="fa fa-trash " aria-hidden="true"></i>
-                                                            </button>
-                                                        }
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
+                                        <tr>
+                                            <td style="width: 44%;">
+                                                @Traducao.Resource.IntervaloAprovacao
+                                            </td>
+                                            <td style="width: 14%;">
+
+
+
+                                                <input name="MinAprovado" type="text" value="@( Model.MinAprovado != 0 ? Model.MinAprovado : 70 )" id="MinAprovado"
+                                                       data-msg-required=@Traducao.Resource.MinAprovacaoObrigatorio
+                                                       onkeypress="return SomenteNumero(event)" style="width:85%;"><br>
+                                                <span style="display:none;">@Traducao.Resource.Entre0100</span>
+                                            </td>
+                                            <td style="width: 4%; border: none; text-align: center;">
+                                                @Traducao.Resource.Ate
+                                            </td>
+                                            <td style="width: 14%; border: none;">
+                                                <input name="MaxAprovado" type="text" value="@( Model.MaxAprovado != 0 ? Model.MaxAprovado : 100 )" id="MaxAprovado"
+                                                       data-msg-required=@Traducao.Resource.MaxAprovacaoObrigatorio
+                                                       onkeypress="return SomenteNumero(event)" style="width:85%;">
+                                                <br>
+                                                <span id="ContentPlaceHolder1_RangeValidator3" style="display:none;">@Traducao.Resource.Entre0100</span>
+                                            </td>
+                                            <td style="width: 19%; border: none; font-weight: bold;">
+                                                @Traducao.Resource.AprovadoBold
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td style="width: 44%;">
+                                                @Traducao.Resource.IntervaloAprovacao
+                                            </td>
+                                            <td style="width: 14%; border: none;">
+                                                <input name="MinAprovadoAnalise" type="text" value="@( Model.MinAprovadoAnalise != 0 ? Model.MinAprovadoAnalise : 50 )" id="MinAprovadoAnalise"
+                                                       data-msg-required=@Traducao.Resource.MinAnaliseObrigatorio
+                                                       onkeypress="return SomenteNumero(event)" style="width:85%;">
+                                                <br>
+                                                <span id="ContentPlaceHolder1_RangeValidator4" style="display:none;">@Traducao.Resource.Entre0100</span>
+                                            </td>
+                                            <td style="width: 4%; border: none; text-align: center;">
+                                                @Traducao.Resource.Ate
+                                            </td>
+                                            <td style="width: 14%; border: none;">
+                                                <input name="MaxAprovadoAnalise" type="text" value="@( Model.MaxAprovadoAnalise != 0 ? Model.MaxAprovadoAnalise : 69 )" id="MaxAprovadoAnalise"
+                                                       data-msg-required=@Traducao.Resource.MaxAnaliseObrigatorio
+                                                       onkeypress="return SomenteNumero(event)" style="width:85%;">
+                                                <br>
+                                                <span id="ContentPlaceHolder1_RangeValidator5" style="display:none;">@Traducao.Resource.Entre0100</span>
+                                            </td>
+                                            <td style="width: 19%; border: none; font-weight: bold;">
+                                                @Traducao.Resource.RestricaoAnalise
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 44%;">
+                                                @Traducao.Resource.IntevaroReprovacao
+                                            </td>
+                                            <td style="width: 14%; border: none;">
+                                                <input name="MinReprovado" type="text" value="@Model.MinReprovado" id="MinReprovado"
+                                                       data-msg-required=@Traducao.Resource.MinReprovacaoObrigatorio
+                                                       onkeypress="return SomenteNumero(event)" style="width:85%;">
+                                                <br>
+                                                <span id="ContentPlaceHolder1_RangeValidator6" style="display:none;">@Traducao.Resource.Entre0100</span>
+                                            </td>
+                                            <td style="width: 4%; border: none; text-align: center;">
+                                                @Traducao.Resource.Ate
+                                            </td>
+                                            <td style="width: 14%; border: none;">
+                                                <input name="MaxReprovado" type="text" value="@( Model.MaxReprovado != 0 ? Model.MaxReprovado : 49 )" id="MaxReprovado"
+                                                       data-msg-required=@Traducao.Resource.MaxReprovacaoObrigatorio
+                                                       onkeypress="return SomenteNumero(event)" style="width:85%;">
+                                                <br>
+                                                <span id="ContentPlaceHolder1_RangeValidator7" style="display:none;">@Traducao.Resource.Entre0100</span>
+                                            </td>
+                                            <td style="width: 19%; border: none; font-weight: bold;">
+                                                @Traducao.Resource.ReprovadoBold
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.DefinirCritériosDeAvaliação) || ViewBag.IdPerfil != 4)
-                            {
-                                <!--- Adicionar -->
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <p class="novo2 pull-right">
-                                        <a href="#" name="" id="" class="btn-add-criterios-avaliacao">
-                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>@Traducao.Resource.Adicionar
-                                        </a>
-                                    </p>
-
-                                </div>
-                            }
                         </div>
                     </div>
                 </div>
             </form>
 
-            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.DefinirCritériosDeAvaliação) || ViewBag.IdPerfil != 4)
-            {
-                <!-- parametros-critérios-avaliacao -->
-                <form id="form-parametros-critérios-avaliacao" style="display: @(string.IsNullOrEmpty(ViewBag.Ancora) ? "block" : (ViewBag.Ancora == "Alterar" || ViewBag.Ancora == "CriterioAvaliacao" ? "block" : "none"));">
-
-                    <div class="panel panel-default" name="parametros-critérios-avaliacao" id="parametros-critérios-avaliacao">
-                        <div class="panel-heading" data-toggle="collapse" data-target="#parametros-critérios-avaliacao">
-                            <div class="panel-title">
-                                <h2>@Traducao.Resource.ParametrosFornecedor</h2>
-                            </div>
-                        </div>
-                        <div class="panel-body" id="panel-form-parametros-critérios-avaliacao">
-                            <div class="barra-busca">
-
-
-                                <!-- Tabela Criterios -->
-                                <div class="col-md-12" style="margin-top: 10px;">
-                                    <table id="tb-form-parametros-critérios-avaliacao" class="table table-striped table-bordered table-list">
-                                        <tbody>
-                                            <tr>
-                                                <td style="width: 44%;">
-                                                    @Traducao.Resource.IntervaloAprovacao
-                                                </td>
-                                                <td style="width: 14%;">
-
-
-
-                                                    <input name="MinAprovado" type="text" value="@( Model.MinAprovado != 0 ? Model.MinAprovado : 70 )" id="MinAprovado"
-                                                           data-msg-required=@Traducao.Resource.MinAprovacaoObrigatorio
-                                                           onkeypress="return SomenteNumero(event)" style="width:85%;"><br>
-                                                    <span style="display:none;">@Traducao.Resource.Entre0100</span>
-                                                </td>
-                                                <td style="width: 4%; border: none; text-align: center;">
-                                                    @Traducao.Resource.Ate
-                                                </td>
-                                                <td style="width: 14%; border: none;">
-                                                    <input name="MaxAprovado" type="text" value="@( Model.MaxAprovado != 0 ? Model.MaxAprovado : 100 )" id="MaxAprovado"
-                                                           data-msg-required=@Traducao.Resource.MaxAprovacaoObrigatorio
-                                                           onkeypress="return SomenteNumero(event)" style="width:85%;">
-                                                    <br>
-                                                    <span id="ContentPlaceHolder1_RangeValidator3" style="display:none;">@Traducao.Resource.Entre0100</span>
-                                                </td>
-                                                <td style="width: 19%; border: none; font-weight: bold;">
-                                                    @Traducao.Resource.AprovadoBold
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td style="width: 44%;">
-                                                    @Traducao.Resource.IntervaloAprovacao
-                                                </td>
-                                                <td style="width: 14%; border: none;">
-                                                    <input name="MinAprovadoAnalise" type="text" value="@( Model.MinAprovadoAnalise != 0 ? Model.MinAprovadoAnalise : 50 )" id="MinAprovadoAnalise"
-                                                           data-msg-required=@Traducao.Resource.MinAnaliseObrigatorio
-                                                           onkeypress="return SomenteNumero(event)" style="width:85%;">
-                                                    <br>
-                                                    <span id="ContentPlaceHolder1_RangeValidator4" style="display:none;">@Traducao.Resource.Entre0100</span>
-                                                </td>
-                                                <td style="width: 4%; border: none; text-align: center;">
-                                                    @Traducao.Resource.Ate
-                                                </td>
-                                                <td style="width: 14%; border: none;">
-                                                    <input name="MaxAprovadoAnalise" type="text" value="@( Model.MaxAprovadoAnalise != 0 ? Model.MaxAprovadoAnalise : 69 )" id="MaxAprovadoAnalise"
-                                                           data-msg-required=@Traducao.Resource.MaxAnaliseObrigatorio
-                                                           onkeypress="return SomenteNumero(event)" style="width:85%;">
-                                                    <br>
-                                                    <span id="ContentPlaceHolder1_RangeValidator5" style="display:none;">@Traducao.Resource.Entre0100</span>
-                                                </td>
-                                                <td style="width: 19%; border: none; font-weight: bold;">
-                                                    @Traducao.Resource.RestricaoAnalise
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width: 44%;">
-                                                    @Traducao.Resource.IntevaroReprovacao
-                                                </td>
-                                                <td style="width: 14%; border: none;">
-                                                    <input name="MinReprovado" type="text" value="@Model.MinReprovado" id="MinReprovado"
-                                                           data-msg-required=@Traducao.Resource.MinReprovacaoObrigatorio
-                                                           onkeypress="return SomenteNumero(event)" style="width:85%;">
-                                                    <br>
-                                                    <span id="ContentPlaceHolder1_RangeValidator6" style="display:none;">@Traducao.Resource.Entre0100</span>
-                                                </td>
-                                                <td style="width: 4%; border: none; text-align: center;">
-                                                    @Traducao.Resource.Ate
-                                                </td>
-                                                <td style="width: 14%; border: none;">
-                                                    <input name="MaxReprovado" type="text" value="@( Model.MaxReprovado != 0 ? Model.MaxReprovado : 49 )" id="MaxReprovado"
-                                                           data-msg-required=@Traducao.Resource.MaxReprovacaoObrigatorio
-                                                           onkeypress="return SomenteNumero(event)" style="width:85%;">
-                                                    <br>
-                                                    <span id="ContentPlaceHolder1_RangeValidator7" style="display:none;">@Traducao.Resource.Entre0100</span>
-                                                </td>
-                                                <td style="width: 19%; border: none; font-weight: bold;">
-                                                    @Traducao.Resource.ReprovadoBold
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-            }
-            </div>
+        }
+    </div>
 </div>
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">

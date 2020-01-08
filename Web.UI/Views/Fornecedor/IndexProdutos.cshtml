@@ -97,12 +97,15 @@
 
                                                     @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeFornecedor) || ViewBag.IdPerfil != 4)
                                                     {
-                                                        <a href="@Url.Action("AcoesFornecedores", new { idProduto = produto.IdProduto })" class="icon-cliente site-color">
-                                                            <i class="fa fa-user-plus" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Fornecedores.ResourceFornecedores.Produto_btn_lbl_cadastro_fornecedor"></i>
-                                                        </a>
-                                                        <a href="@Url.Action("IndexFornecedores", new { idProduto = produto.IdProduto })" class="edit icon-cliente view-color">
-                                                            <i class="fa fa-users" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Fornecedores.ResourceFornecedores.Produto_btn_lbl_ver_fornecedor"></i>
-                                                        </a>
+                                                        if (produto.Status == 1)
+                                                        {
+                                                            <a href="@Url.Action("AcoesFornecedores", new { idProduto = produto.IdProduto })" class="icon-cliente site-color">
+                                                                <i class="fa fa-user-plus" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Fornecedores.ResourceFornecedores.Produto_btn_lbl_cadastro_fornecedor"></i>
+                                                            </a>
+                                                            <a href="@Url.Action("IndexFornecedores", new { idProduto = produto.IdProduto })" class="edit icon-cliente view-color">
+                                                                <i class="fa fa-users" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Fornecedores.ResourceFornecedores.Produto_btn_lbl_ver_fornecedor"></i>
+                                                            </a>
+                                                        }
                                                     }
                                                     @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeprodutosExcluir) || ViewBag.IdPerfil != 4)
                                                     {

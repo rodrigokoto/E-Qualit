@@ -22,13 +22,14 @@ namespace ApplicationService.Servico
         {
             listavaliacoesCriterioAvaliacao.ForEach(avaliaCriterioAvaliacao =>
             {
-                if (avaliaCriterioAvaliacao.NotaAvaliacao != null)
-                {
-                    _avaliaCriterioAvaliacaoRepositorio.Add(avaliaCriterioAvaliacao);
 
+                _avaliaCriterioAvaliacaoRepositorio.Add(avaliaCriterioAvaliacao);
+
+                if (avaliaCriterioAvaliacao.IdCriterioAvaliacao != null)
+                {
                     var historico = new HistoricoCriterioAvaliacao
                     {
-                        IdCriterioAvaliacao = avaliaCriterioAvaliacao.IdCriterioAvaliacao,
+                        IdCriterioAvaliacao = (int)avaliaCriterioAvaliacao.IdCriterioAvaliacao,
                         Nota = avaliaCriterioAvaliacao.NotaAvaliacao.Value
                     };
 

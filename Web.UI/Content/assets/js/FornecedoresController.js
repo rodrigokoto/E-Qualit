@@ -9,7 +9,7 @@ APP.controller.FornecedoresController = {
     init: function () {
 
         var page = APP.component.Util.getPage();
-        
+
         this.setup();
         if (page == 'IndexProdutos') {
             this.indexProdutos();
@@ -155,8 +155,7 @@ APP.controller.FornecedoresController = {
 
         var Ancora = $("#Ancora").val();
 
-        if (Ancora == "" || Ancora == null || Ancora == undefined)
-        {
+        if (Ancora == "" || Ancora == null || Ancora == undefined) {
             if ($("#form-produtos-produto").val() != "" && $("#form-produto-responsavel").val() != "") {
                 if (($("#form-criticidade").attr("style") == "display: block;" || $("#form-criticidade").attr("style") == undefined) && critico == true) {
                     $('#form-qualifica-fornecedor').show();
@@ -169,7 +168,7 @@ APP.controller.FornecedoresController = {
                     $('#form-parametros-critérios-avaliacao').hide();
                 }
 
-                $('#form-criticidade').show();                
+                $('#form-criticidade').show();
             }
             else {
                 $('#form-criticidade').hide();
@@ -253,7 +252,7 @@ APP.controller.FornecedoresController = {
         var ObjFormProdutosValidate = APP.controller.FornecedoresController.getObjFormProdutosValidate();
         APP.component.ValidateForm.init(ObjFormProdutosValidate, '#form-fornecedores-produtos');
 
-        
+
         $("input:checked").length;
         var criticos = $('[name^=formProdutosCriticidadeAtivo]:checked').length;
 
@@ -274,8 +273,7 @@ APP.controller.FornecedoresController = {
             success: function (result) {
                 if (result.StatusCode == 200) {
 
-                    if($('#tb-form-produtos-criterios tbody tr').length == 0)
-                    {
+                    if ($('#tb-form-produtos-criterios tbody tr').length == 0) {
                         $.each(result.AvaliacoesCriticidadePadrao, function (key, value) {
 
                             var trElements = $('<tr>');
@@ -378,20 +376,8 @@ APP.controller.FornecedoresController = {
             success: function (result) {
                 if (result.StatusCode == 200) {
 
-                    var Ancora = $("#Ancora").val();
+                    window.location.href = "/Fornecedor/Produtos";
 
-                    if ($("#form-criterios-avaliacao").attr("style") == "display: block;") {
-
-                        window.location.href = "/Fornecedor/Produtos";
-                    }
-                    else if (Ancora != null && Ancora != undefined && Ancora != "") {
-                        window.location.href = "/Fornecedor/Produtos";
-                    }
-                    else {
-                        $('#form-criterios-avaliacao').show();
-                        $('#form-parametros-critérios-avaliacao').show();
-                        $('#form-qualifica-fornecedor').show();
-                    }
                 }
 
                 if (result.StatusCode == 400) {
@@ -544,7 +530,7 @@ APP.controller.FornecedoresController = {
 
             MinReprovado: $('[name=MinReprovado]').val(),
             MaxReprovado: $('[name=MaxReprovado]').val()
-            
+
         };
 
         return acoesProdutosFormProdutosObj;
@@ -654,7 +640,7 @@ APP.controller.FornecedoresController = {
                     _this.closest('tr').find('[name^=formProdutosCriticidadeCriterio]').prop('disabled', true);
                     _this.closest('tr').find('[name^=formProdutosCriticidadeAtivo]').prop('disabled', true);
                     _this.closest('tr').find('[name^=formProdutosCriticidadeCritico]').prop('disabled', true);
-                    
+
                 },
                 error: function (result) {
                     APP.component.Loading.hideLoading();
@@ -698,7 +684,7 @@ APP.controller.FornecedoresController = {
                             if (result.StatusCode == 200) {
                                 bootbox.alert(result.Success, function (retorno) {
                                     btnExcluirCriterio.remove()
-                                });                                
+                                });
                             }
                             else {
 
@@ -707,15 +693,15 @@ APP.controller.FornecedoresController = {
                                 bootbox.alert(result.Erros[0]);
                             }
 
-                            
-                            
+
+
                         },
                         error: function (result) {
                             APP.component.Loading.hideLoading();
                             btnExcluirCriterio.remove();
                         },
                         complete: function (result) {
-                            
+
                         }
                     });
                 }
@@ -807,20 +793,20 @@ APP.controller.FornecedoresController = {
             html += '<tr>';
             html += '<!-- Criterio -->';
             html += '<td>';
-            html += '<textarea name="formQualificaFornecedorCriterio" id="form-qualifica-fornecedor-criterio" class="form-control" value="" placeholder=" '+_options.Criterio+'"  rows="3" ></textarea>';
+            html += '<textarea name="formQualificaFornecedorCriterio" id="form-qualifica-fornecedor-criterio" class="form-control" value="" placeholder=" ' + _options.Criterio + '"  rows="3" ></textarea>';
             html += '</td>';
             html += '<!-- Ativa Item -->';
             html += '<td>';
             html += '<div class="checkbox">';
             html += '<input type="checkbox" name="formQualificaFornecedorAtivo-' + index + '" id="form-qualifica-fornecedor-ativo-' + index + '" onclick="chkValue(this);" value="true">';
-            html += '<label for="form-qualifica-fornecedor-ativo-' + index + '" style="padding-left: 25px !important;">'+_options.labelButtonAtivar+'</label>';
+            html += '<label for="form-qualifica-fornecedor-ativo-' + index + '" style="padding-left: 25px !important;">' + _options.labelButtonAtivar + '</label>';
             html += '</div>';
             html += '</td>';
 
             html += '<td>';
             html += '<div class="checkbox">';
             html += '<input type="checkbox" name="formQualificaFornecedorTemControleVencimento-' + index + '" id="form-qualifica-fornecedor-TemControleVencimento-' + index + '" onclick="chkValue(this);" value="true">';
-            html += '<label for="form-qualifica-fornecedor-TemControleVencimento-' + index + '" style="padding-left: 25px !important;">' + _options.ControlaDataVencimento +'</label>';
+            html += '<label for="form-qualifica-fornecedor-TemControleVencimento-' + index + '" style="padding-left: 25px !important;">' + _options.ControlaDataVencimento + '</label>';
             html += '</div>';
             html += '</td>';
 
@@ -955,9 +941,9 @@ APP.controller.FornecedoresController = {
                             if (result.StatusCode == 200) {
                                 bootbox.alert(result.Success, function (retorno) {
                                     btnExcluirCriterio.remove()
-                                });                                
+                                });
                             }
-                            else {                               
+                            else {
                                 btnExcluirCriterio.remove();
                                 console.log(result.Erros[0]);
                                 bootbox.alert(result.Erros[0]);
@@ -968,7 +954,7 @@ APP.controller.FornecedoresController = {
                             btnExcluirCriterio.remove();
                         },
                         complete: function (result) {
-                            
+
                         }
                     });
                 }
@@ -994,7 +980,7 @@ APP.controller.FornecedoresController = {
         });
 
     },
-    
+
     getradioVencimentoFormQualificacaoFornecedor: function () {
 
         this.radioFormQualificacaoFornecedorVencimento.on('change', function (event) {
@@ -1079,7 +1065,7 @@ APP.controller.FornecedoresController = {
             html += '<tr>';
             html += '<!-- Disponibilidade -->';
             html += '<td>';
-            html += '<textarea type="text" name="formCriteriosAvaliacaoDisponibilidade" id="form-criterios-avaliacao-disponibilidade" class="form-control" value="" placeholder="'+_options.Criterio+'" rows="3" ></textarea>';
+            html += '<textarea type="text" name="formCriteriosAvaliacaoDisponibilidade" id="form-criterios-avaliacao-disponibilidade" class="form-control" value="" placeholder="' + _options.Criterio + '" rows="3" ></textarea>';
             html += '</td>';
             html += '<!-- Ativo -->';
             html += '<td>';
@@ -1193,21 +1179,21 @@ APP.controller.FornecedoresController = {
                             if (result.StatusCode == 200) {
                                 bootbox.alert(result.Success, function (retorno) {
                                     btnExcluirCriterio.remove();
-                                });                                
+                                });
                             }
                             else {
 
                                 btnExcluirCriterio.remove();
                                 console.log(result.Erros[0]);
                                 bootbox.alert(result.Erros[0]);
-                            }                            
+                            }
                         },
                         error: function (result) {
                             APP.component.Loading.hideLoading();
                             btnExcluirCriterio.remove();
                         },
                         complete: function (result) {
-                           
+
                         }
                     });
                 }
@@ -1257,6 +1243,7 @@ APP.controller.FornecedoresController = {
     editAcoesProdutos: function () {
 
         this.setHideAndShow();
+        this.setHideOnChange();
         this.validateFormsProdutos();
         this.formProdutos();
 
@@ -1380,75 +1367,75 @@ APP.controller.FornecedoresController = {
                                 bootbox.alert(erro);
                                 retorno = false;
 
-                            }}
-
-                        }
-                        else {
-
-                            retornoQualificacao = APP.controller.FornecedoresController.saveFormAcoesQualificacoes(criteriosQualificacao);
-
-                            if (retornoQualificacao.StatusCode == 200) {
-                                retorno = true;
                             }
-                            else {
-
-                                erro = APP.component.ResultErros.init(retornoQualificacao.Erros);
-                                bootbox.alert(erro);
-
-                            }
-
-
-                            retornoAvaliacao = APP.controller.FornecedoresController.saveFormAcoesAvaliacoes(avaliacoes);
-
-                            if (retorno == true) {
-                                if (retornoAvaliacao.StatusCode == 200) {
-                                    retorno = true;
-                                }
-                                else {
-                                    erro = APP.component.ResultErros.init(retornoAvaliacao.Erros);
-                                    bootbox.alert(erro);
-                                    retorno = false;
-
-                                }
-                            }
-
-                        }
-                                                
-                        if(retorno == true)
-                        {
-                            bootbox.confirm(_options.RegistroSalvoComSucesso, function (result) {
-                                if (result == true) {
-
-                                    if (Ancora == "Qualificar") {
-                                        window.location.href = "/Fornecedor/AcoesFornecedores/" + $('[name=IdFornecedor]').val() + "?idProduto=" + $('[name=IdProduto]').val() + "&Ancora=Avaliar";
-                                    }
-                                    else {
-                                        window.location.href = "/Fornecedor/IndexFornecedores?idProduto=" + $("#fornecedores-produto").val();
-                                    }
-
-                                    
-                                }
-                            });                            
                         }
 
                     }
-                    //if (avaliacoes != undefined) {
-                    //	APP.controller.FornecedoresController.saveFormAcoesAvaliacoes(avaliacoes);
-                    //}
+                    else {
+
+                        retornoQualificacao = APP.controller.FornecedoresController.saveFormAcoesQualificacoes(criteriosQualificacao);
+
+                        if (retornoQualificacao.StatusCode == 200) {
+                            retorno = true;
+                        }
+                        else {
+
+                            erro = APP.component.ResultErros.init(retornoQualificacao.Erros);
+                            bootbox.alert(erro);
+
+                        }
+
+
+                        retornoAvaliacao = APP.controller.FornecedoresController.saveFormAcoesAvaliacoes(avaliacoes);
+
+                        if (retorno == true) {
+                            if (retornoAvaliacao.StatusCode == 200) {
+                                retorno = true;
+                            }
+                            else {
+                                erro = APP.component.ResultErros.init(retornoAvaliacao.Erros);
+                                bootbox.alert(erro);
+                                retorno = false;
+
+                            }
+                        }
+
+                    }
+
+                    if (retorno == true) {
+                        bootbox.confirm(_options.RegistroSalvoComSucesso, function (result) {
+                            if (result == true) {
+
+                                if (Ancora == "Qualificar") {
+                                    window.location.href = "/Fornecedor/AcoesFornecedores/" + $('[name=IdFornecedor]').val() + "?idProduto=" + $('[name=IdProduto]').val() + "&Ancora=Avaliar";
+                                }
+                                else {
+                                    window.location.href = "/Fornecedor/IndexFornecedores?idProduto=" + $("#fornecedores-produto").val();
+                                }
+
+
+                            }
+                        });
+                    }
+
+                }
+                //if (avaliacoes != undefined) {
+                //	APP.controller.FornecedoresController.saveFormAcoesAvaliacoes(avaliacoes);
+                //}
 
 
 
 
             }
 
-            
+
 
         });
 
     },
 
     saveFormAcoesAvaliacoes: function (avaliacoes) {
-        
+
         var retorno = 0;
         $.ajax({
             async: false,
@@ -1490,7 +1477,7 @@ APP.controller.FornecedoresController = {
                 } catch (e) {
                     valid = true;
                 }
-                
+
 
             }
         });
@@ -1542,19 +1529,19 @@ APP.controller.FornecedoresController = {
                 if (result.StatusCode == 200) {
 
                     bootbox.alert(result.Success, function (retorno) {
-                        window.location.href = "/Fornecedor/AcoesFornecedores/" + result.IdFornecedor + "?idProduto=" + $('[name=IdProduto]').val() + "&Ancora=Qualificar";                       
+                        window.location.href = "/Fornecedor/AcoesFornecedores/" + result.IdFornecedor + "?idProduto=" + $('[name=IdProduto]').val() + "&Ancora=Qualificar";
                     });
 
                     //$('[name=IdFornecedor]').val();
                     //var idProduto = $('[name=IdProduto]').val();
                     //APP.controller.FornecedoresController.setHideAndShowFornecedores();
-                    
+
                     //$('.input-nome-fornecedor').val($('[name=formFornecedoresCadastroNome]').val());
                     //APP.controller.FornecedoresController.setComboResponsavelControlarQualificacao();
                     //APP.controller.FornecedoresController.setComboResponsavelQualificacao();
 
                     //APP.controller.FornecedoresController.getAvaliacaoCriticidadePadrao();
-                    
+
                 } else {
                     // var texto = "";
 
@@ -1593,7 +1580,7 @@ APP.controller.FornecedoresController = {
                 retorno = result;
             },
             error: function (result) {
-                APP.component.Loading.hideLoading();                
+                APP.component.Loading.hideLoading();
             },
             complete: function (result) {
                 APP.component.Loading.hideLoading();
@@ -1628,7 +1615,7 @@ APP.controller.FornecedoresController = {
         $.ajax({
             type: 'GET',
             dataType: 'JSON',
-            url: '/Processo/ListaProcessosPorSite?idSite='+ idSite +'',
+            url: '/Processo/ListaProcessosPorSite?idSite=' + idSite + '',
             beforeSend: function () { },
             success: function (result) {
                 if (result.StatusCode == 200) {
@@ -1650,7 +1637,7 @@ APP.controller.FornecedoresController = {
         var acoesFornecedoresFormCadastroFornecedoresObj = {
             formFornecedoresCadastroNome: 'required',
             //formFornecedoresCadastroContato: 'required',
-            formFornecedoresCadastroEmail: {                
+            formFornecedoresCadastroEmail: {
                 'email': true
             },
             //formFornecedoresCadastroDepartamento: 'required',
@@ -1667,7 +1654,7 @@ APP.controller.FornecedoresController = {
         var acoesFornecedoresFormCadastroFornecedoresObj = {
             IdSite: idSite,
             Nome: $('[name=formFornecedoresCadastroNome]').val(),
-            IdUsuarioAvaliacao: $('[name=formFornecedoresAvaliacaoResponsavel]').val(),            
+            IdUsuarioAvaliacao: $('[name=formFornecedoresAvaliacaoResponsavel]').val(),
             Telefone: $('[name=formFornecedoresCadastroContato]').val(),
             Email: $('[name=formFornecedoresCadastroEmail]').val(),
             IdProcesso: $('[name=formFornecedoresCadastroDepartamento] :selected').val(),
@@ -1721,14 +1708,14 @@ APP.controller.FornecedoresController = {
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
-                    
+
                     $(".form-fornecedores-qualificacao").each(function () {
-                    
+
                         APP.component.SelectListCompare.init(result.Lista, $(this).find('[name=formFornecedoresQualificacaoResponsavel] option'), ("#" + $(this).find('[name=formFornecedoresQualificacaoResponsavel]').attr("id")), 'IdUsuario', 'NmCompleto');
 
                     });
 
-                    
+
                 }
             },
             error: function (result) {
@@ -1740,7 +1727,7 @@ APP.controller.FornecedoresController = {
         });
     },
 
-    
+
     setComboResponsavelAvaliar: function () {
 
         var idSite = $('#fornecedores-site').val();
@@ -1761,7 +1748,7 @@ APP.controller.FornecedoresController = {
                 if (result.StatusCode == 200) {
 
                     APP.component.SelectListCompare.init(result.Lista, $('[name=formFornecedoresAvaliacaoResponsavel] option'), ("#" + $('[name=formFornecedoresAvaliacaoResponsavel]').attr("id")), 'IdUsuario', 'NmCompleto');
-                   
+
                 }
             },
             error: function (result) {
@@ -1796,8 +1783,8 @@ APP.controller.FornecedoresController = {
 
                         APP.component.SelectListCompare.init(result.Lista, $(this).find('[name=formFornecedoresQualificacaoResponsavelControlar] option'), ("#" + $(this).find('[name=formFornecedoresQualificacaoResponsavelControlar]').attr("id")), 'IdUsuario', 'NmCompleto');
 
-                    });                    
-                
+                    });
+
                 }
             },
             error: function (result) {
@@ -1869,7 +1856,7 @@ APP.controller.FornecedoresController = {
 
         var idSite = $('#fornecedores-site').val();
 
-        
+
         var acoesFornecedoresFormQualificacaoFornecedoresObj = [];
         $('form[id^=form-fornecedores-qualificacao-]').each(function (key, val) {
             var obj = {
@@ -1963,22 +1950,34 @@ APP.controller.FornecedoresController = {
     },
 
     getObjFormAvaliacaoFornecedores: function () {
-        
+
         var dataProximaAvaliacao = $('[name=formFornecedoresDtProximaAvaliacao]').val();
 
         var avaliacoes = [];
-        $('#tb-fornecedores-avaliacao tbody tr').each(function () {
+        var tablerow = $('#tb-fornecedores-avaliacao tbody tr');
 
+        if (tablerow.length > 0) {
+            $('#tb-fornecedores-avaliacao tbody tr').each(function () {
+
+                var avaliacao = {
+                    IdCriterioAvaliacao: $(this).find('[name=formFornecedoresAvaliacaoCriterioId]').val(),
+                    IdFornecedor: $('[name=IdFornecedor]').val(),
+                    NotaAvaliacao: $(this).find('[name=formFornecedoresAvaliacaoNota]').val(),
+                    DtProximaAvaliacao: dataProximaAvaliacao,
+                    IdUsuarioAvaliacao: $('[name=formFornecedoresAvaliacaoResponsavel]').val(),
+                };
+                avaliacoes.push(avaliacao);
+            });
+        }
+        else {
             var avaliacao = {
                 IdCriterioAvaliacao: $(this).find('[name=formFornecedoresAvaliacaoCriterioId]').val(),
                 IdFornecedor: $('[name=IdFornecedor]').val(),
-                NotaAvaliacao: $(this).find('[name=formFornecedoresAvaliacaoNota]').val(),
                 DtProximaAvaliacao: dataProximaAvaliacao,
-                IdUsuarioAvaliacao: $('[name=formFornecedoresAvaliacaoResponsavel]').val(),  
+                IdUsuarioAvaliacao: $('[name=formFornecedoresAvaliacaoResponsavel]').val(),
             };
             avaliacoes.push(avaliacao);
-        });
-
+        }
         return avaliacoes;
 
     },

@@ -107,51 +107,69 @@
                                                     if (ultimaQualificacao == null)
                                                     {
                                                         ultimaQualificacao = produtoFornecedor.Fornecedor.AvaliaCriteriosQualificacao.OrderByDescending(x => x.IdAvaliaCriterioQualificacao).FirstOrDefault();
-                                                    }                                                    
-                                                    
+                                                    }
+
                                                     var ultimaAvaliacao = @produtoFornecedor.Fornecedor.AvaliaCriteriosAvaliacao.OrderByDescending(x => x.IdAvaliaCriterioAvaliacao).FirstOrDefault();
                                                     var MediaAvaliacao = @produtoFornecedor.Fornecedor.AvaliaCriteriosAvaliacao.Where(x => (x.DtAvaliacao.ToString()) == (ultimaAvaliacao.DtAvaliacao.ToString())).Select(x => x.NotaAvaliacao).Average();
 
-                                                <tr role="row" class="odd">
-                                                    <td>@produtoFornecedor.Fornecedor.Nome</td>
-                                                    <td>@(ultimaQualificacao != null && ultimaQualificacao.IdAvaliaCriterioQualificacao != 0 ? ultimaQualificacao.ResponsavelPorQualificar.NmCompleto : Traducao.Resource.lbl_adefinir)</td>
-                                                    <td>@(ultimaQualificacao != null && ultimaQualificacao.Aprovado == true ? Traducao.Resource.lbl_Aprovado : Traducao.Resource.lbl_Reprovado)</td>
-                                                    <td>@(ultimaQualificacao != null && ultimaQualificacao.DtQualificacaoVencimento != null ? ultimaQualificacao.DtQualificacaoVencimento.Value.ToString(Traducao.Resource.dateFormat) : "-")</td>
+                                                    <tr role="row" class="odd">
+                                                        <td>@produtoFornecedor.Fornecedor.Nome</td>
+                                                        <td>@(ultimaQualificacao != null && ultimaQualificacao.IdAvaliaCriterioQualificacao != 0 ? ultimaQualificacao.ResponsavelPorQualificar.NmCompleto : Traducao.Resource.lbl_adefinir)</td>
+                                                        <td>@(ultimaQualificacao != null && ultimaQualificacao.Aprovado == true ? Traducao.Resource.lbl_Aprovado : Traducao.Resource.lbl_Reprovado)</td>
+                                                        <td>@(ultimaQualificacao != null && ultimaQualificacao.DtQualificacaoVencimento != null ? ultimaQualificacao.DtQualificacaoVencimento.Value.ToString(Traducao.Resource.dateFormat) : "-")</td>
 
-                                                    <td>@produtoFornecedor.Produto.Responsavel.NmCompleto</td>
-                                                    <td>@(MediaAvaliacao != null && ultimaAvaliacao != null ? MediaAvaliacao.Value.ToString() : Traducao.Resource.lbl_Sem_Nota)</td>
-                                                    <td>@(ultimaAvaliacao != null && ultimaAvaliacao.DtAvaliacao != default(DateTime) ? ultimaAvaliacao.DtAvaliacao.ToString(@Traducao.Resource.dateFormat) : "-")</td>
-                                                    <td class="text-nowrap">
-                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeFornecedoresEditar) || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Editar" })" onclick="javascript:document.getElementById('qualificafornecedor').style.display = 'block';" class="editar icon-cliente inativo-color">
-                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_editar" data-original-title="@Traducao.Resource.btn_lbl_editar"></i>
-                                                            </a>
-                                                        }
-                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.RealizarQualificaçãoEditar) || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Qualificar" })" id="botao-qualificar" onclick="javascript:document.getElementById('qualificafornecedor').style.display = 'block';" class="excluir icon-cliente inativo-color">
-                                                                <i class="fa fa-star" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_qualificar" data-original-title="@Traducao.Resource.btn_lbl_qualificar"></i>
-                                                            </a>
-                                                        }
-                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.RealizarAvaliaçãoEditar) || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora="Avaliar" })" class="edit icon-cliente ativo-color" onclick="javascript:document.getElementById('avaliafornecedor').style.display = 'block';">
-                                                                <i class="fa fa-check-circle" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_avaliar" data-original-title="@Traducao.Resource.btn_lbl_avaliar"></i>
-                                                            </a>
+                                                        <td>@produtoFornecedor.Produto.Responsavel.NmCompleto</td>
 
-                                                            <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Historico" })" class="edit icon-cliente view-color" onclick="javascript:document.getElementById('historico').style.display = 'block';">
-                                                                <i class="fa fa-file-text" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_historico" data-original-title="@Traducao.Resource.btn_lbl_historico"></i>
-                                                            </a>
-                                                        }
-                                                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.ExcluirFornecedor) || ViewBag.IdPerfil != 4)
+                                                        @if (ultimaAvaliacao != null)
                                                         {
-                                                            <a href="#" class="excluir icon-cliente trash-color excluirFornecedor" idFornecedor="@produtoFornecedor.IdFornecedor">
-                                                                <i class="fa fa-trash " aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_excluir" data-original-title="@Traducao.Resource.btn_lbl_excluir"></i>
-                                                            </a>
+                                                            if (ultimaAvaliacao.IdCriterioAvaliacao != null)
+                                                            {
+
+                                                                 string SemNota = Traducao.Resource.lbl_Sem_Nota;
+                                                                <td>@(MediaAvaliacao != null && ultimaAvaliacao != null ? MediaAvaliacao.Value.ToString() : @Traducao.Resource.lbl_Sem_Nota)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Traducao.Resource.lbl_Sem_Nota</td>
+                                                            }
                                                         }
-                                                    </td>
-                                                </tr>
+                                                        else
+                                                        {
+                                                            <td>@Traducao.Resource.lbl_Sem_Nota</td>
+                                                        }
+                                                            
+                                                        <td>@(ultimaAvaliacao != null && ultimaAvaliacao.DtAvaliacao != default(DateTime) ? ultimaAvaliacao.DtAvaliacao.ToString(@Traducao.Resource.dateFormat) : "-")</td>
+                                                        <td class="text-nowrap">
+                                                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeFornecedoresEditar) || ViewBag.IdPerfil != 4)
+                                                            {
+                                                                <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Editar" })" onclick="javascript:document.getElementById('qualificafornecedor').style.display = 'block';" class="editar icon-cliente inativo-color">
+                                                                    <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_editar" data-original-title="@Traducao.Resource.btn_lbl_editar"></i>
+                                                                </a>
+                                                            }
+                                                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.RealizarQualificaçãoEditar) || ViewBag.IdPerfil != 4)
+                                                            {
+                                                                <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Qualificar" })" id="botao-qualificar" onclick="javascript:document.getElementById('qualificafornecedor').style.display = 'block';" class="excluir icon-cliente inativo-color">
+                                                                    <i class="fa fa-star" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_qualificar" data-original-title="@Traducao.Resource.btn_lbl_qualificar"></i>
+                                                                </a>
+                                                            }
+                                                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.RealizarAvaliaçãoEditar) || ViewBag.IdPerfil != 4)
+                                                            {
+                                                                <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora="Avaliar" })" class="edit icon-cliente ativo-color" onclick="javascript:document.getElementById('avaliafornecedor').style.display = 'block';">
+                                                                    <i class="fa fa-check-circle" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_avaliar" data-original-title="@Traducao.Resource.btn_lbl_avaliar"></i>
+                                                                </a>
+
+                                                                <a href="@Url.Action("AcoesFornecedores", new { id = produtoFornecedor.IdFornecedor, idProduto = produtoFornecedor.IdProduto, Ancora = "Historico" })" class="edit icon-cliente view-color" onclick="javascript:document.getElementById('historico').style.display = 'block';">
+                                                                    <i class="fa fa-file-text" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_historico" data-original-title="@Traducao.Resource.btn_lbl_historico"></i>
+                                                                </a>
+                                                            }
+                                                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.ExcluirFornecedor) || ViewBag.IdPerfil != 4)
+                                                            {
+                                                                <a href="#" class="excluir icon-cliente trash-color excluirFornecedor" idFornecedor="@produtoFornecedor.IdFornecedor">
+                                                                    <i class="fa fa-trash " aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_excluir" data-original-title="@Traducao.Resource.btn_lbl_excluir"></i>
+                                                                </a>
+                                                            }
+                                                        </td>
+                                                    </tr>
 
                                                 }
                                             </tbody>

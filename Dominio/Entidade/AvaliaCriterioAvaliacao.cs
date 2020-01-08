@@ -11,7 +11,7 @@ namespace Dominio.Entidade
 
         public int IdAvaliaCriterioAvaliacao { get; set; }
 
-        public int IdCriterioAvaliacao { get; set; }
+        public int? IdCriterioAvaliacao { get; set; }
 
         public int IdFornecedor { get; set; }
 
