@@ -69,24 +69,6 @@ namespace IsotecWindowsService.Service
             string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Qualificacao30d-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
 
             EnfileirarEmail(ListEmail, path);
-
-
-            //registro.DtInclusao = filaEnvio.DataInclusao;
-            //registro.IdGestor = plai.Pai.IdGestor;
-            //registro.IdPlai = plai.IdPlai;
-            //registro.IdUsuarioInclusao = int.Parse(Util.ObterUsuario().IdUsuario);
-
-            //StringBuilder sb = new StringBuilder();
-
-            //foreach (var norma in plai.PlaiProcessoNorma)
-            //{
-            //    sb.AppendFormat("<tr><td>{0} - {1}</td></tr>", norma.Norma.Titulo, norma.Norma.Codigo);
-            //}
-
-            //conteudo = conteudo.Replace("#NomeGestor#", gestor.NmCompleto);
-            //conteudo = conteudo.Replace("#PlaiAgendada#", sb.ToString());
-
-
         }
 
         public void EnfileirarEmail(IEnumerable<AvaliaCriterioAvaliacao> ListEmail , string path) {
@@ -97,13 +79,11 @@ namespace IsotecWindowsService.Service
 
             foreach (var critAva in ListEmail)
             {
-
                 StringBuilder sb = new StringBuilder();
 
                 sb.AppendFormat("<tr><td>{0}</td></tr>", _fornecedorAppServico.GetById(critAva.IdFornecedor).Nome);
 
                 conteudo = conteudo.Replace("#Qualificacao#", sb.ToString());
-
 
                 FilaEnvio filaEnvio = new FilaEnvio();
 
@@ -116,6 +96,8 @@ namespace IsotecWindowsService.Service
 
                 RegistroQualificacao registro = new RegistroQualificacao();
 
+                _filaEnvioServico.Enfileirar(filaEnvio);
+
                 registro.IdAvaliaCriterio = critAva.IdAvaliaCriterioAvaliacao;
                 registro.IdFilaEnvio = filaEnvio.Id;
                 registro.IdFornecedor = critAva.IdFornecedor;
@@ -124,8 +106,6 @@ namespace IsotecWindowsService.Service
                 registro.IdUsuarioInclusao = (int)critAva.IdUsuarioAvaliacao;
 
                 _registroQualificacaoServico.InserirEmail(registro);
-
-                _filaEnvioServico.Enfileirar(filaEnvio);
             }
         }
     }

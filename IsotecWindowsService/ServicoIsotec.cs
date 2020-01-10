@@ -8,6 +8,7 @@ using Ninject.Web.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
@@ -33,10 +34,10 @@ namespace IsotecWindowsService
 
             _calibracaoService = kernel.Get<ICalibracaoService>();
             _qualificacaoService = kernel.Get<IQualificacaoService>();
-           
+
         }
 
-        
+
         public void Debug()
         {
             OnStart(null);
@@ -65,13 +66,24 @@ namespace IsotecWindowsService
             }
         }
 
-        private void QualificacaoService() {
+        private void QualificacaoService()
+        {
 
-            while (true) {
-                _qualificacaoService.EnfileirarEmail();
-                Thread.Sleep(1000);
-                
-                //Thread.Sleep(TimeSpan.FromDays(1));
+            while (true)
+            {
+
+                var SysHour = ConfigurationManager.AppSettings["StartService"].Split(':');
+
+                var confighour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Convert.ToInt32(SysHour[0]), Convert.ToInt32(SysHour[1]), 0);
+
+                if (DateTime.Now.Date == confighour.Date)
+                {
+                    if (DateTime.Now.Hour == confighour.Hour)
+                    {
+                        _qualificacaoService.EnfileirarEmail();
+                        Thread.Sleep(TimeSpan.FromDays(1));
+                    }
+                }
             }
         }
 
