@@ -22,6 +22,12 @@
 <script>
     $(function () {
         $(".datepicker").datepicker();
+
+        var Ancora = $("#Ancora").val();
+
+        if (Ancora == "Alterar") {
+            setHideOnChange();
+        }
     });
 
     function setHideOnChange() {
@@ -44,6 +50,8 @@
             $('#form-parametros-critérios-avaliacao').show();
         }
     }
+
+    
 </script>
 <div id="main">
     <input type="hidden" name="IdSite" id="fornecedores-site" value="@ViewBag.IdSite" />

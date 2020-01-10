@@ -1243,7 +1243,6 @@ APP.controller.FornecedoresController = {
     editAcoesProdutos: function () {
 
         this.setHideAndShow();
-        this.setHideOnChange();
         this.validateFormsProdutos();
         this.formProdutos();
 
