@@ -17,13 +17,17 @@ namespace IsotecWindowsService.Service
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IRegistroQualificacaoServico _registroQualificacaoServico;
         private readonly IFornecedorAppServico _fornecedorAppServico;
+        private readonly IProdutoAppServico _produtoAppServico;
+        private readonly IProdutoFornecedorAppServico _produtoFornecedorAppServico;
 
 
         public QualificacaoService(IAvaliaCriterioAvaliacaoAppServico avaliaCriterioAvaliacaoAppServico, 
             IFilaEnvioServico filaEnvioServico , 
             IUsuarioAppServico usuarioAppServico , 
             IRegistroQualificacaoServico registroQualificacaoServico,
-            IFornecedorAppServico fornecedorAppServico)
+            IFornecedorAppServico fornecedorAppServico,
+            IProdutoAppServico produtoAppServico,
+            IProdutoFornecedorAppServico produtoFornecedorAppServico)
         {
 
             _avaliaCriterioAvaliacaoAppServico = avaliaCriterioAvaliacaoAppServico;
@@ -31,6 +35,8 @@ namespace IsotecWindowsService.Service
             _usuarioAppServico = usuarioAppServico;
             _registroQualificacaoServico = registroQualificacaoServico;
             _fornecedorAppServico = fornecedorAppServico;
+            _produtoAppServico = produtoAppServico;
+            _produtoFornecedorAppServico = produtoFornecedorAppServico;
         }
 
         public void EnfileirarEmail()
@@ -40,19 +46,35 @@ namespace IsotecWindowsService.Service
             var data30d = DateTime.Now.AddDays(30);
             data30d = new DateTime(data30d.Year, data30d.Month, data30d.Day, 0, 0, 0);
 
-            var AgendarHoje = _avaliaCriterioAvaliacaoAppServico.Get(x => x.DtProximaAvaliacao == DateTime.Now);
-            var Agendar30D = _avaliaCriterioAvaliacaoAppServico.Get(x => x.DtProximaAvaliacao == data30d);
+            var AgendarHoje = _avaliaCriterioAvaliacaoAppServico.Get().Where(x => x.DtProximaAvaliacao.Date == DateTime.Now.Date).ToList();
+            var Agendar30D = _avaliaCriterioAvaliacaoAppServico.Get(x => x.DtProximaAvaliacao == data30d).ToList();
 
-
-
-            AgendaEmail(AgendarHoje);
-            AgendarEmail30Dias(Agendar30D);
+    
+            AgendaEmail(ValidaAgendamento(AgendarHoje));
+            AgendarEmail30Dias(ValidaAgendamento(Agendar30D));
         }
 
-        public void ValidarAgendamento()
+        public List<AvaliaCriterioAvaliacao> ValidaAgendamento(List<AvaliaCriterioAvaliacao> avaliaCriterioAvaliacaos)
         {
 
+            var retorno = new List<AvaliaCriterioAvaliacao>();
 
+            retorno.AddRange(avaliaCriterioAvaliacaos);
+
+            foreach (var item in retorno)
+            {
+                var reg = _registroQualificacaoServico.RetornaRegistro(item.IdAvaliaCriterioAvaliacao);
+                
+                if (reg != null)
+                {
+                    if ((DateTime)reg.DtInclusao.Value.Date == DateTime.Now.Date)
+                    {
+                        avaliaCriterioAvaliacaos.Remove(item);
+                    }
+                }
+            }
+
+            return avaliaCriterioAvaliacaos;
         }
 
         public void AgendarEmail30Dias(IEnumerable<AvaliaCriterioAvaliacao> ListEmail)
@@ -83,14 +105,20 @@ namespace IsotecWindowsService.Service
 
                 sb.AppendFormat("<tr><td>{0}</td></tr>", _fornecedorAppServico.GetById(critAva.IdFornecedor).Nome);
 
-                conteudo = conteudo.Replace("#Qualificacao#", sb.ToString());
+                ProdutoFornecedor relation = _produtoFornecedorAppServico.Get().Where(x => x.IdFornecedor == critAva.IdFornecedor).FirstOrDefault();
+
+                var Responsavel = _usuarioAppServico.GetById((int)critAva.IdUsuarioAvaliacao);
+                
+                conteudo = conteudo.Replace("#Responsavel#", Responsavel.NmCompleto);
+                conteudo = conteudo.Replace("#Produto#", relation.Produto.Nome);
+                conteudo = conteudo.Replace("#Fornecedor#", relation.Fornecedor.Nome);
 
                 FilaEnvio filaEnvio = new FilaEnvio();
 
                 filaEnvio.Assunto = "Agendamento Qualificação de Fornecedor";
                 filaEnvio.DataAgendado = DateTime.Now;
                 filaEnvio.DataInclusao = DateTime.Now;
-                filaEnvio.Destinatario = _usuarioAppServico.GetById((int)critAva.IdUsuarioAvaliacao).CdIdentificacao;
+                filaEnvio.Destinatario = Responsavel.CdIdentificacao;
                 filaEnvio.Enviado = false;
                 filaEnvio.Mensagem = conteudo;
 

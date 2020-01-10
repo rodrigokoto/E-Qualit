@@ -8,6 +8,8 @@ namespace Dominio.Interface.Servico
         void AtualizaEmail(RegistroQualificacao regQuali);
         void ExcluiEmail(RegistroQualificacao regQuali);
         RegistroQualificacao RetornaRegistro(int avaliaCriterioAvaliacao);
+
+       
         
     }
 }

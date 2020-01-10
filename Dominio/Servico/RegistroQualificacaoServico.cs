@@ -35,6 +35,7 @@ namespace Dominio.Servico
         public RegistroQualificacao RetornaRegistro(int avaliaCriterioAvaliacao)
         {
             return _registroQualificacao.Get(x => x.IdAvaliaCriterio == avaliaCriterioAvaliacao).FirstOrDefault();
+           
         }
     }
 }
