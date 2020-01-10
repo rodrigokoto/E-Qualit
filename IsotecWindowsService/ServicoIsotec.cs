@@ -23,13 +23,17 @@ namespace IsotecWindowsService
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
         private readonly ICalibracaoService _calibracaoService;
+        private readonly IQualificacaoService _qualificacaoService;
         private Thread IsotecServiceThread;
+        private Thread IsotecFornecedorServiceThread;
 
         public ServicoIsotec()
         {
             var kernel = CreateKernel();
 
             _calibracaoService = kernel.Get<ICalibracaoService>();
+            _qualificacaoService = kernel.Get<IQualificacaoService>();
+           
         }
 
         
@@ -40,8 +44,11 @@ namespace IsotecWindowsService
 
         protected override void OnStart(string[] args)
         {
-            IsotecServiceThread = new Thread(() => CalibracaoService());
-            IsotecServiceThread.Start();
+            //IsotecServiceThread = new Thread(() => CalibracaoService());
+            //IsotecServiceThread.Start();
+
+            IsotecFornecedorServiceThread = new Thread(() => QualificacaoService());
+            IsotecFornecedorServiceThread.Start();
         }
 
         protected override void OnStop()
@@ -55,6 +62,16 @@ namespace IsotecWindowsService
             {
                 _calibracaoService.AtualizaCalibracao();
                 Thread.Sleep(1000);
+            }
+        }
+
+        private void QualificacaoService() {
+
+            while (true) {
+                _qualificacaoService.EnfileirarEmail();
+                Thread.Sleep(1000);
+                
+                //Thread.Sleep(TimeSpan.FromDays(1));
             }
         }
 

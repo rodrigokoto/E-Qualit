@@ -1,4 +1,8 @@
-﻿using IsotecWindowsService.Interface;
+﻿using ApplicationService.Interface;
+using ApplicationService.Servico;
+using Dominio.Interface.Servico;
+using Dominio.Servico;
+using IsotecWindowsService.Interface;
 using IsotecWindowsService.Service;
 using Ninject.Modules;
 using System;
@@ -14,6 +18,9 @@ namespace IoC
         public override void Load()
         {
             Bind<ICalibracaoService>().To<CalibracaoService>();
+            Bind<IQualificacaoService>().To<QualificacaoService>();
+           
+            
         }
     }
 }

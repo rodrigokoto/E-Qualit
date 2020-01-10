@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}"
 EndProject
@@ -35,6 +35,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerWindowsService", "MessengerWindowsService\MessengerWindowsService.csproj", "{9D1705EA-CF2A-44B6-84B3-7F10D196AC4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsotecWindowsService", "IsotecWindowsService\IsotecWindowsService.csproj", "{F121B55A-D3A0-4868-B77F-78623E768AC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerService", "MessengerService\MessengerService.csproj", "{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,6 +124,14 @@ Global
 		{F121B55A-D3A0-4868-B77F-78623E768AC7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F121B55A-D3A0-4868-B77F-78623E768AC7}.Release|x86.ActiveCfg = Release|Any CPU
 		{F121B55A-D3A0-4868-B77F-78623E768AC7}.Release|x86.Build.0 = Release|Any CPU
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +148,7 @@ Global
 		{C921D856-1235-4474-B45A-4E44737C6122} = {955BACB8-9099-4776-A401-835629EE92CF}
 		{9D1705EA-CF2A-44B6-84B3-7F10D196AC4E} = {214E6A3C-1C09-47BC-8C6E-DD86D8E41BDE}
 		{F121B55A-D3A0-4868-B77F-78623E768AC7} = {214E6A3C-1C09-47BC-8C6E-DD86D8E41BDE}
+		{0CE1DCAF-711A-4EF4-B088-5E84B81A3840} = {214E6A3C-1C09-47BC-8C6E-DD86D8E41BDE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {337176D4-061F-4D91-A6FB-8AFFECFF4952}

@@ -53,6 +53,7 @@ namespace IoC
             Bind<IDocumentoAssuntoServico>().To<DocumentoAssuntoServico>();
             Bind<IAnexoServico>().To<AnexoServico>();
             Bind<IRegistroAuditoriaServico>().To<RegistroAuditoriaServico>();
+            Bind<IRegistroQualificacaoServico>().To<RegistroQualificacaoServico>();
             //RH
             Bind<IFuncionarioServico>().To<FuncionarioServico>();
             Bind<IUsuarioSenhaServico>().To<UsuarioSenhaServico>();

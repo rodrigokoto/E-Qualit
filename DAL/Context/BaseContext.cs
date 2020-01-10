@@ -96,6 +96,8 @@ namespace DAL.Context
         public DbSet<FilaEnvio> FilaEnvio { get; set; }
         public DbSet<RegistroAuditoria> RegistroAuditoria { get; set; }
 
+        public DbSet<RegistroQualificacao> RegistroQualificacao { get; set; }
+
         #region RH
 
         public DbSet<SubModulo> SubModulo { get; set; }

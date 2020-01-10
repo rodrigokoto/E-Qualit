@@ -21,7 +21,7 @@ namespace IsotecWindowsService
 
             ServicoIsotec servicoIsotec = new ServicoIsotec();
 
-            servicoIsotec.Debug();
+           servicoIsotec.Debug();
 //#else
 //            ServiceBase[] ServicesToRun;
 //            ServicesToRun = new ServiceBase[]
