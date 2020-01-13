@@ -63,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleDualOutput.cs" />
+    <Compile Include="FileLogger.cs" />
     <Compile Include="Interface\IQualificacaoService.cs" />
     <Compile Include="Interface\ICalibracaoService.cs" />
     <Compile Include="ModuloServico.cs" />

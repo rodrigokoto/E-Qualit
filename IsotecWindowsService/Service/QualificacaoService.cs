@@ -41,17 +41,25 @@ namespace IsotecWindowsService.Service
 
         public void EnfileirarEmail()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Auditoria-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            try
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Auditoria-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
 
-            var data30d = DateTime.Now.AddDays(30);
-            data30d = new DateTime(data30d.Year, data30d.Month, data30d.Day, 0, 0, 0);
+                var data30d = DateTime.Now.AddDays(30);
+                data30d = new DateTime(data30d.Year, data30d.Month, data30d.Day, 0, 0, 0);
 
-            var AgendarHoje = _avaliaCriterioAvaliacaoAppServico.Get().Where(x => x.DtProximaAvaliacao.Date == DateTime.Now.Date).ToList();
-            var Agendar30D = _avaliaCriterioAvaliacaoAppServico.Get(x => x.DtProximaAvaliacao == data30d).ToList();
+                var AgendarHoje = _avaliaCriterioAvaliacaoAppServico.Get().Where(x => x.DtProximaAvaliacao.Date == DateTime.Now.Date).ToList();
+                var Agendar30D = _avaliaCriterioAvaliacaoAppServico.Get(x => x.DtProximaAvaliacao == data30d).ToList();
 
-    
-            AgendaEmail(ValidaAgendamento(AgendarHoje));
-            AgendarEmail30Dias(ValidaAgendamento(Agendar30D));
+
+                AgendaEmail(ValidaAgendamento(AgendarHoje));
+                AgendarEmail30Dias(ValidaAgendamento(Agendar30D));
+            }
+            catch (Exception ex)
+            {
+                FileLogger.Log("Erro ao enfileirar os e-mails", ex);
+            }
+            
         }
 
         public List<AvaliaCriterioAvaliacao> ValidaAgendamento(List<AvaliaCriterioAvaliacao> avaliaCriterioAvaliacaos)

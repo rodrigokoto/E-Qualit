@@ -45,8 +45,8 @@ namespace IsotecWindowsService
 
         protected override void OnStart(string[] args)
         {
-            //IsotecServiceThread = new Thread(() => CalibracaoService());
-            //IsotecServiceThread.Start();
+            IsotecServiceThread = new Thread(() => CalibracaoService());
+            IsotecServiceThread.Start();
 
             IsotecFornecedorServiceThread = new Thread(() => QualificacaoService());
             IsotecFornecedorServiceThread.Start();
