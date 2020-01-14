@@ -13,6 +13,7 @@ using Dominio.Interface.Servico;
 using System.Web;
 using ApplicationService.Entidade;
 using Dominio.Enumerado;
+using System.Data.Entity.Infrastructure;
 
 namespace Web.UI.Controllers
 {
@@ -80,7 +81,7 @@ namespace Web.UI.Controllers
         {
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
             var site = _siteAppServico.GetById(id);
-            ViewBag.Funcionalidades = _funcionalidadeAppServico.Get(x=> x.Ativo == true);
+            ViewBag.Funcionalidades = _funcionalidadeAppServico.Get(x => x.Ativo == true);
             return View("Criar", site);
         }
 
@@ -141,7 +142,7 @@ namespace Web.UI.Controllers
                     IdCliente = site.IdCliente,
                     IdSite = site.IdSite,
                     NmFantasia = site.NmFantasia,
-                   SiteLogoAux = siteLogoAux
+                    SiteLogoAux = siteLogoAux
                 });
             }
 
@@ -278,10 +279,18 @@ namespace Web.UI.Controllers
 
 
             }
-            catch (Exception ex)
+            catch (DbUpdateConcurrencyException ex)
             {
-                GravaLog(ex);
-                return Json(new { StatusCode = (int)HttpStatusCode.BadRequest }, JsonRequestBehavior.AllowGet);
+                try
+                {
+                    ex.Entries.Single().Reload();
+                }
+                catch (Exception ex1)
+                {
+
+                    GravaLog(ex1);
+                    return Json(new { StatusCode = (int)HttpStatusCode.BadRequest }, JsonRequestBehavior.AllowGet);
+                }
             }
 
             return Json(new { StatusCode = 200, Success = Traducao.Site.ResourceSite.Site_msg_criar_valid }, JsonRequestBehavior.AllowGet);
@@ -309,7 +318,7 @@ namespace Web.UI.Controllers
                 processo.FlQualidade = x.FlQualidade;
                 _processoAppServico.Update(processo);
             }
-            
+
             site.Processos.Where(y => y.IdProcesso == 0).ToList().ForEach(x => _processoAppServico.Add(x));
         }
 
@@ -359,28 +368,6 @@ namespace Web.UI.Controllers
             var listaQueSeraDeletados = new List<SiteFuncionalidade>();
 
 
-            listaCtx.ForEach(siteFuncionalidadeQueSeraDeletado =>
-            {
-                if (!listaSiteFuncionalidades.Any(y => y.IdSiteFuncionalidade == siteFuncionalidadeQueSeraDeletado.IdSiteFuncionalidade))
-                {
-                    if(siteFuncionalidadeQueSeraDeletado.IdFuncionalidade == 2)
-                    {
-                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
-
-                        siteFuncionalidadeQueSeraDeletado.IdFuncionalidade = 13;
-                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
-                    }
-                    else
-                    {
-                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
-                    }
-
-                    
-                }
-            });
-
-            listaQueSeraDeletados.ForEach(siteFuncionalidade => _siteModuloAppServico.Remove(siteFuncionalidade));
-
             listaQueSeraoAdicionados.ForEach(x =>
             {
                 if (x.IdFuncionalidade == 2)
@@ -395,7 +382,31 @@ namespace Web.UI.Controllers
                 }
 
             });
-            
+
+
+
+            listaCtx.ForEach(siteFuncionalidadeQueSeraDeletado =>
+            {
+                if (!listaSiteFuncionalidades.Any(y => y.IdSiteFuncionalidade == siteFuncionalidadeQueSeraDeletado.IdSiteFuncionalidade))
+                {
+                    if (siteFuncionalidadeQueSeraDeletado.IdFuncionalidade == 2)
+                    {
+                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
+
+                        siteFuncionalidadeQueSeraDeletado.IdFuncionalidade = 13;
+                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
+                    }
+                    else
+                    {
+                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
+                    }
+
+
+                }
+            });
+
+            listaQueSeraDeletados.ForEach(siteFuncionalidade => _siteModuloAppServico.Remove(siteFuncionalidade));
+
         }
     }
 

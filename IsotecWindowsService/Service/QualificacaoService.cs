@@ -53,7 +53,7 @@ namespace IsotecWindowsService.Service
 
                 var avaHj = AgendarHoje.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao , x.GuidAvaliacao }).Distinct().ToList();
 
-                var ava30d = Agendar30D.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao, x.GuidAvaliacao }).Distinct().ToList();
+                var ava30d = Agendar30D.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao , x.GuidAvaliacao }).Distinct().ToList();
 
 
                 List<Avaliacao> lstAvaliacao = new List<Avaliacao>();
@@ -161,7 +161,7 @@ namespace IsotecWindowsService.Service
 
                 FilaEnvio filaEnvio = new FilaEnvio();
 
-                filaEnvio.Assunto = "Agendamento Qualificação de Fornecedor";
+                filaEnvio.Assunto = "Agendamento Avaliação de Fornecedor";
                 filaEnvio.DataAgendado = DateTime.Now;
                 filaEnvio.DataInclusao = DateTime.Now;
                 filaEnvio.Destinatario = Responsavel.CdIdentificacao;
