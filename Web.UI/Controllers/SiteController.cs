@@ -358,20 +358,6 @@ namespace Web.UI.Controllers
             var listaQueSeraoAdicionados = listaSiteFuncionalidades.Where(x => x.IdSiteFuncionalidade == 0).ToList();
             var listaQueSeraDeletados = new List<SiteFuncionalidade>();
 
-            listaQueSeraoAdicionados.ForEach(x =>
-            {
-                if(x.IdFuncionalidade == 2)
-                {
-                    _siteModuloAppServico.Add(x);
-                    x.IdFuncionalidade = 13;
-                    _siteModuloAppServico.Add(x);
-                }
-                else
-                {
-                    _siteModuloAppServico.Add(x);
-                }
-                
-            });
 
             listaCtx.ForEach(siteFuncionalidadeQueSeraDeletado =>
             {
@@ -395,6 +381,21 @@ namespace Web.UI.Controllers
 
             listaQueSeraDeletados.ForEach(siteFuncionalidade => _siteModuloAppServico.Remove(siteFuncionalidade));
 
+            listaQueSeraoAdicionados.ForEach(x =>
+            {
+                if (x.IdFuncionalidade == 2)
+                {
+                    _siteModuloAppServico.Add(x);
+                    x.IdFuncionalidade = 13;
+                    _siteModuloAppServico.Add(x);
+                }
+                else
+                {
+                    _siteModuloAppServico.Add(x);
+                }
+
+            });
+            
         }
     }
 
