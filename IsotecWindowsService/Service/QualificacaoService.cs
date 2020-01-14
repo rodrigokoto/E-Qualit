@@ -65,6 +65,7 @@ namespace IsotecWindowsService.Service
                     ava.IdFornecedor = avaliacao.IdFornecedor;
                     ava.DtProximaAvaliacao = avaliacao.DtProximaAvaliacao;
                     ava.IdUsuarioAvaliacao = (int)avaliacao.IdUsuarioAvaliacao;
+                    ava.GuidAvaliacao = avaliacao.GuidAvaliacao;
 
                     lstAvaliacao.Add(ava);
                 }
@@ -79,13 +80,14 @@ namespace IsotecWindowsService.Service
                     ava.IdFornecedor = avaliacao.IdFornecedor;
                     ava.DtProximaAvaliacao = avaliacao.DtProximaAvaliacao;
                     ava.IdUsuarioAvaliacao = (int)avaliacao.IdUsuarioAvaliacao;
+                    ava.GuidAvaliacao = avaliacao.GuidAvaliacao;
 
                     lstAvaliacao30d.Add(ava);
                 }
 
 
-                AgendaEmail(lstAvaliacao, DateTime.Now);
-                AgendaEmail(lstAvaliacao30d, data30d);
+                AgendaEmail(ValidaAgendamento(lstAvaliacao), DateTime.Now);
+                AgendaEmail(ValidaAgendamento(lstAvaliacao30d), data30d);
 
             }
             catch (Exception ex)
