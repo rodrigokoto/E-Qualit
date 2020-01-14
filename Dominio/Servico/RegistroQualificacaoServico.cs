@@ -32,9 +32,9 @@ namespace Dominio.Servico
             _registroQualificacao.Add(regQuali);
         }
 
-        public RegistroQualificacao RetornaRegistro(int avaliaCriterioAvaliacao)
+        public RegistroQualificacao RetornaRegistro(string guidAvaliacao)
         {
-            return _registroQualificacao.Get(x => x.IdAvaliaCriterio == avaliaCriterioAvaliacao).FirstOrDefault();
+            return _registroQualificacao.Get(x => x.GuidAvaliacao == guidAvaliacao).FirstOrDefault();
            
         }
     }

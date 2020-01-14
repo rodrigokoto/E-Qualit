@@ -13,5 +13,6 @@ namespace Dominio.Interface.Servico
         FilaEnvio ObterPorId(long id);
         void Apagar(FilaEnvio filaEnvio);
         void Atualizar(FilaEnvio filaEnvio);
+        IEnumerable<FilaEnvio> Obter();
     }
 }

@@ -10,7 +10,7 @@ namespace DAL.EntityConfig
 
             HasKey(x => x.IdRegQualificacao);
 
-            Property(x => x.IdAvaliaCriterio).IsRequired();
+            Property(x => x.GuidAvaliacao).IsRequired();
 
             Property(x => x.IdUsuarioAvaliacao).IsRequired();
 

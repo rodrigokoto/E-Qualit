@@ -84,7 +84,7 @@ namespace IsotecWindowsService
                 _qualificacaoService.EnfileirarEmail();
                 //    }
                 //}
-                Thread.Sleep(3000);
+                Thread.Sleep(24*60*60*1000);
             }
         }
 

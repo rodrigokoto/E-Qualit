@@ -13,7 +13,7 @@ namespace Dominio.Entidade
         public long IdRegQualificacao { get; set; }
         public int IdUsuarioAvaliacao { get; set; }
 
-        public int IdAvaliaCriterio { get; set; }
+        public string GuidAvaliacao { get; set; }
         public DateTime? DtInclusao { get; set; }
         public int IdFornecedor { get; set; }
         public long? IdFilaEnvio { get; set; }

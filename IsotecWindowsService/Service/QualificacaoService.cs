@@ -21,9 +21,9 @@ namespace IsotecWindowsService.Service
         private readonly IProdutoFornecedorAppServico _produtoFornecedorAppServico;
 
 
-        public QualificacaoService(IAvaliaCriterioAvaliacaoAppServico avaliaCriterioAvaliacaoAppServico, 
-            IFilaEnvioServico filaEnvioServico , 
-            IUsuarioAppServico usuarioAppServico , 
+        public QualificacaoService(IAvaliaCriterioAvaliacaoAppServico avaliaCriterioAvaliacaoAppServico,
+            IFilaEnvioServico filaEnvioServico,
+            IUsuarioAppServico usuarioAppServico,
             IRegistroQualificacaoServico registroQualificacaoServico,
             IFornecedorAppServico fornecedorAppServico,
             IProdutoAppServico produtoAppServico,
@@ -51,28 +51,62 @@ namespace IsotecWindowsService.Service
                 var AgendarHoje = _avaliaCriterioAvaliacaoAppServico.Get().Where(x => x.DtProximaAvaliacao.Date == DateTime.Now.Date).ToList();
                 var Agendar30D = _avaliaCriterioAvaliacaoAppServico.Get(x => x.DtProximaAvaliacao == data30d).ToList();
 
+                var avaHj = AgendarHoje.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao , x.GuidAvaliacao }).Distinct().ToList();
 
-                AgendaEmail(ValidaAgendamento(AgendarHoje));
-                AgendarEmail30Dias(ValidaAgendamento(Agendar30D));
+                var ava30d = Agendar30D.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao, x.GuidAvaliacao }).Distinct().ToList();
+
+
+                List<Avaliacao> lstAvaliacao = new List<Avaliacao>();
+
+                foreach (var avaliacao in avaHj)
+                {
+                    var ava = new Avaliacao();
+
+                    ava.IdFornecedor = avaliacao.IdFornecedor;
+                    ava.DtProximaAvaliacao = avaliacao.DtProximaAvaliacao;
+                    ava.IdUsuarioAvaliacao = (int)avaliacao.IdUsuarioAvaliacao;
+
+                    lstAvaliacao.Add(ava);
+                }
+
+
+                List<Avaliacao> lstAvaliacao30d = new List<Avaliacao>();
+
+                foreach (var avaliacao in ava30d)
+                {
+                    var ava = new Avaliacao();
+
+                    ava.IdFornecedor = avaliacao.IdFornecedor;
+                    ava.DtProximaAvaliacao = avaliacao.DtProximaAvaliacao;
+                    ava.IdUsuarioAvaliacao = (int)avaliacao.IdUsuarioAvaliacao;
+
+                    lstAvaliacao30d.Add(ava);
+                }
+
+
+                AgendaEmail(lstAvaliacao, DateTime.Now);
+                AgendaEmail(lstAvaliacao30d, data30d);
+
             }
             catch (Exception ex)
             {
                 FileLogger.Log("Erro ao enfileirar os e-mails", ex);
             }
-            
+
         }
 
-        public List<AvaliaCriterioAvaliacao> ValidaAgendamento(List<AvaliaCriterioAvaliacao> avaliaCriterioAvaliacaos)
+        public List<Avaliacao> ValidaAgendamento(List<Avaliacao> avaliaCriterioAvaliacaos)
         {
 
-            var retorno = new List<AvaliaCriterioAvaliacao>();
+
+            var retorno = new List<Avaliacao>();
 
             retorno.AddRange(avaliaCriterioAvaliacaos);
 
             foreach (var item in retorno)
             {
-                var reg = _registroQualificacaoServico.RetornaRegistro(item.IdAvaliaCriterioAvaliacao);
-                
+                var reg = _registroQualificacaoServico.RetornaRegistro(item.GuidAvaliacao);
+
                 if (reg != null)
                 {
                     if ((DateTime)reg.DtInclusao.Value.Date == DateTime.Now.Date)
@@ -85,23 +119,25 @@ namespace IsotecWindowsService.Service
             return avaliaCriterioAvaliacaos;
         }
 
-        public void AgendarEmail30Dias(IEnumerable<AvaliaCriterioAvaliacao> ListEmail)
+        public void AgendaEmail(IEnumerable<Avaliacao> ListEmail, DateTime date)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Qualificacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            if (date == DateTime.Now)
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Qualificacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
 
-            EnfileirarEmail(ListEmail, path);
+                EnfileirarEmail(ListEmail, path);
+            }
+            else
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Qualificacao30d-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+
+                EnfileirarEmail(ListEmail, path);
+
+            }
         }
 
-
-
-        public void AgendaEmail(IEnumerable<AvaliaCriterioAvaliacao> ListEmail)
+        public void EnfileirarEmail(IEnumerable<Avaliacao> ListEmail, string path)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Qualificacao30d-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
-
-            EnfileirarEmail(ListEmail, path);
-        }
-
-        public void EnfileirarEmail(IEnumerable<AvaliaCriterioAvaliacao> ListEmail , string path) {
 
             string template = System.IO.File.ReadAllText(path);
 
@@ -116,7 +152,7 @@ namespace IsotecWindowsService.Service
                 ProdutoFornecedor relation = _produtoFornecedorAppServico.Get().Where(x => x.IdFornecedor == critAva.IdFornecedor).FirstOrDefault();
 
                 var Responsavel = _usuarioAppServico.GetById((int)critAva.IdUsuarioAvaliacao);
-                
+
                 conteudo = conteudo.Replace("#Responsavel#", Responsavel.NmCompleto);
                 conteudo = conteudo.Replace("#Produto#", relation.Produto.Nome);
                 conteudo = conteudo.Replace("#Fornecedor#", relation.Fornecedor.Nome);
@@ -130,11 +166,11 @@ namespace IsotecWindowsService.Service
                 filaEnvio.Enviado = false;
                 filaEnvio.Mensagem = conteudo;
 
-                RegistroQualificacao registro = new RegistroQualificacao();
-
                 _filaEnvioServico.Enfileirar(filaEnvio);
 
-                registro.IdAvaliaCriterio = critAva.IdAvaliaCriterioAvaliacao;
+                RegistroQualificacao registro = new RegistroQualificacao();
+
+                registro.GuidAvaliacao = critAva.GuidAvaliacao;
                 registro.IdFilaEnvio = filaEnvio.Id;
                 registro.IdFornecedor = critAva.IdFornecedor;
                 registro.DtInclusao = DateTime.Now;

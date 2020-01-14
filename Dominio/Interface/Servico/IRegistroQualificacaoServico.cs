@@ -7,7 +7,7 @@ namespace Dominio.Interface.Servico
         void InserirEmail(RegistroQualificacao regQuali);
         void AtualizaEmail(RegistroQualificacao regQuali);
         void ExcluiEmail(RegistroQualificacao regQuali);
-        RegistroQualificacao RetornaRegistro(int avaliaCriterioAvaliacao);
+        RegistroQualificacao RetornaRegistro(string avaliaCriterioAvaliacao);
 
        
         

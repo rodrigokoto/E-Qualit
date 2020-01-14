@@ -67,6 +67,7 @@
     <Compile Include="FileLogger.cs" />
     <Compile Include="Interface\IQualificacaoService.cs" />
     <Compile Include="Interface\ICalibracaoService.cs" />
+    <Compile Include="Model\Avaliacao.cs" />
     <Compile Include="ModuloServico.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
