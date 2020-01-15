@@ -279,18 +279,10 @@ namespace Web.UI.Controllers
 
 
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (Exception ex)
             {
-                try
-                {
-                    ex.Entries.Single().Reload();
-                }
-                catch (Exception ex1)
-                {
-
-                    GravaLog(ex1);
-                    return Json(new { StatusCode = (int)HttpStatusCode.BadRequest }, JsonRequestBehavior.AllowGet);
-                }
+                GravaLog(ex);
+                return Json(new { StatusCode = (int)HttpStatusCode.BadRequest }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new { StatusCode = 200, Success = Traducao.Site.ResourceSite.Site_msg_criar_valid }, JsonRequestBehavior.AllowGet);
@@ -363,50 +355,36 @@ namespace Web.UI.Controllers
 
         private void DeletaOuCriaSiteFuncionalidades(List<SiteFuncionalidade> listaSiteFuncionalidades, int idSite)
         {
-            var listaCtx = _siteModuloAppServico.Get(x => x.IdSite == idSite).ToList();
             var listaQueSeraoAdicionados = listaSiteFuncionalidades.Where(x => x.IdSiteFuncionalidade == 0).ToList();
             var listaQueSeraDeletados = new List<SiteFuncionalidade>();
-
+            var exceptList = new List<SiteFuncionalidade>();
 
             listaQueSeraoAdicionados.ForEach(x =>
             {
                 if (x.IdFuncionalidade == 2)
                 {
                     _siteModuloAppServico.Add(x);
-                    x.IdFuncionalidade = 13;
-                    _siteModuloAppServico.Add(x);
+                    exceptList.Add(x);
+
+                    SiteFuncionalidade funcionalidade = new SiteFuncionalidade
+                    {
+                        IdFuncionalidade = 13,
+                        IdSite = x.IdSite
+                    };
+
+                    _siteModuloAppServico.Add(funcionalidade);
+                    exceptList.Add(funcionalidade);
                 }
                 else
                 {
                     _siteModuloAppServico.Add(x);
-                }
-
-            });
-
-
-
-            listaCtx.ForEach(siteFuncionalidadeQueSeraDeletado =>
-            {
-                if (!listaSiteFuncionalidades.Any(y => y.IdSiteFuncionalidade == siteFuncionalidadeQueSeraDeletado.IdSiteFuncionalidade))
-                {
-                    if (siteFuncionalidadeQueSeraDeletado.IdFuncionalidade == 2)
-                    {
-                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
-
-                        siteFuncionalidadeQueSeraDeletado.IdFuncionalidade = 13;
-                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
-                    }
-                    else
-                    {
-                        listaQueSeraDeletados.Add(siteFuncionalidadeQueSeraDeletado);
-                    }
-
-
+                    exceptList.Add(x);
                 }
             });
 
-            listaQueSeraDeletados.ForEach(siteFuncionalidade => _siteModuloAppServico.Remove(siteFuncionalidade));
+            var listaCtx = _siteModuloAppServico.Get(x => x.IdSite == idSite).ToList().Except(exceptList).ToList();
 
+            listaCtx.ForEach(funcionalidade => _siteModuloAppServico.Remove(funcionalidade));
         }
     }
 
