@@ -68,6 +68,12 @@ namespace Web.UI.Controllers
                 pai.Plais.ForEach(plai =>
                 {
                     plai.PlaiProcessoNorma = _plaiProcessoNormaAppServico.Get(plaiProcessoNorma => plaiProcessoNorma.IdPlai == plai.IdPlai).ToList();
+
+                    foreach (var norma in plai.PlaiProcessoNorma)
+                    {
+                        norma.NomeProcesso = norma.Processo.Nome;
+                    }
+
                 });
             });
 
@@ -225,18 +231,18 @@ namespace Web.UI.Controllers
                         TratarAnexos(plaiNovo, plai);
 
 
-						//if (plai.ArquivoPlai == null)
-						//{
+                        //if (plai.ArquivoPlai == null)
+                        //{
 
-							
-						//	List<ArquivoPlaiAnexo> arqPlai = new List<ArquivoPlaiAnexo>();
-						//	ArquivoPlaiAnexo arquiAnexo = new ArquivoPlaiAnexo();
-						//	arquiAnexo.IdArquivoPlaiAnexo = 0;
-						//	arquiAnexo.IdPlai = plai.IdPlai;
-						//	arquiAnexo.IdAnexo = 0;
-						//	arqPlai.Add(arquiAnexo);
-						//	plai.ArquivoPlai = arqPlai;
-						//}
+
+                        //	List<ArquivoPlaiAnexo> arqPlai = new List<ArquivoPlaiAnexo>();
+                        //	ArquivoPlaiAnexo arquiAnexo = new ArquivoPlaiAnexo();
+                        //	arquiAnexo.IdArquivoPlaiAnexo = 0;
+                        //	arquiAnexo.IdPlai = plai.IdPlai;
+                        //	arquiAnexo.IdAnexo = 0;
+                        //	arqPlai.Add(arquiAnexo);
+                        //	plai.ArquivoPlai = arqPlai;
+                        //}
 
                         if (plai.IdPlai == 0)
                         {
@@ -398,9 +404,12 @@ namespace Web.UI.Controllers
 
                 StringBuilder sb = new StringBuilder();
 
-                foreach (var norma in plai.PlaiProcessoNorma)
+                if (plai.PlaiProcessoNorma != null)
                 {
-                    sb.AppendFormat("<tr><td>{0} - {1}</td></tr>", norma.Norma.Titulo , norma.Norma.Codigo );
+                    foreach (var norma in plai.PlaiProcessoNorma)
+                    {
+                        sb.AppendFormat("<tr><td>{0} - {1}</td></tr>", norma.Norma.Titulo, norma.Norma.Codigo);
+                    }
                 }
 
                 conteudo = conteudo.Replace("#NomeGestor#", gestor.NmCompleto);
@@ -416,7 +425,10 @@ namespace Web.UI.Controllers
                 filaEnvio.Mensagem = conteudo;
 
                 registro.DtInclusao = filaEnvio.DataInclusao;
-                registro.IdGestor = plai.Pai.IdGestor;
+                if (plai.Pai != null)
+                    registro.IdGestor = plai.Pai.IdGestor;
+                else
+                    registro.IdGestor = gestor.IdUsuario;
                 registro.IdPlai = plai.IdPlai;
                 registro.IdUsuarioInclusao = int.Parse(Util.ObterUsuario().IdUsuario);
 
