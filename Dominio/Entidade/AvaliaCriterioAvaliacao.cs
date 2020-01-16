@@ -22,6 +22,8 @@ namespace Dominio.Entidade
         
         public int ? IdUsuarioAvaliacao { get; set; }
 
+        public string GuidAvaliacao { get; set; }
+
         #region Relacionamentos
 
         public virtual CriterioAvaliacao CriterioAvaliacao { get; set; }

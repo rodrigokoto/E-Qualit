@@ -33,6 +33,9 @@ namespace DAL.EntityConfig
             Property(t => t.IdUsuarioAvaliacao)
                 .HasColumnName("IdUsuarioAvaliacao");
 
+            Property(t => t.GuidAvaliacao)
+                .HasColumnName("GuidAvaliacao");
+
             #region Relacionamentos
 
             HasRequired(x => x.CriterioAvaliacao)

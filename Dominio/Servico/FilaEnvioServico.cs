@@ -38,5 +38,10 @@ namespace Dominio.Servico
         {
             _filaEnvioRepositorio.Update(filaEnvio);
         }
+
+        public IEnumerable<FilaEnvio> Obter()
+        {
+            return _filaEnvioRepositorio.GetAll();
+        }
     }
 }

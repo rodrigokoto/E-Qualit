@@ -660,6 +660,9 @@ namespace Web.UI.Controllers
         [HttpPost]
         public JsonResult SalvaAvaliacoes(List<AvaliaCriterioAvaliacao> avaliacoes)
         {
+
+            var guidAvaliacao = Guid.NewGuid(); 
+
             var erros = new List<string>();
             try
             {
@@ -680,6 +683,7 @@ namespace Web.UI.Controllers
                 avaliacoes.ForEach(avaliaCriterioAvaliacao =>
                 {
                     avaliaCriterioAvaliacao.DtAvaliacao = DateTime.Now;
+                    avaliaCriterioAvaliacao.GuidAvaliacao = guidAvaliacao.ToString();
 
                     if (avaliaCriterioAvaliacao.NotaAvaliacao == null)
                         avaliaCriterioAvaliacao.NotaAvaliacao = new int();
