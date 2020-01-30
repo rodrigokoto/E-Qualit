@@ -19,6 +19,8 @@ namespace IsotecWindowsService.Service
         private readonly IFornecedorAppServico _fornecedorAppServico;
         private readonly IProdutoAppServico _produtoAppServico;
         private readonly IProdutoFornecedorAppServico _produtoFornecedorAppServico;
+        private readonly ICriterioQualificacaoAppServico _criterioQualificacaoAppServico;
+        private readonly IAvaliaCriterioQualificacaoAppServico _avaliaCriterioQualificacaoAppServico;
 
 
         public QualificacaoService(IAvaliaCriterioAvaliacaoAppServico avaliaCriterioAvaliacaoAppServico,
@@ -27,7 +29,9 @@ namespace IsotecWindowsService.Service
             IRegistroQualificacaoServico registroQualificacaoServico,
             IFornecedorAppServico fornecedorAppServico,
             IProdutoAppServico produtoAppServico,
-            IProdutoFornecedorAppServico produtoFornecedorAppServico)
+            IProdutoFornecedorAppServico produtoFornecedorAppServico,
+            ICriterioQualificacaoAppServico criterioQualificacaoAppServico,
+            IAvaliaCriterioQualificacaoAppServico avaliaCriterioQualificacaoAppServico)
         {
 
             _avaliaCriterioAvaliacaoAppServico = avaliaCriterioAvaliacaoAppServico;
@@ -37,10 +41,17 @@ namespace IsotecWindowsService.Service
             _fornecedorAppServico = fornecedorAppServico;
             _produtoAppServico = produtoAppServico;
             _produtoFornecedorAppServico = produtoFornecedorAppServico;
+            _criterioQualificacaoAppServico = criterioQualificacaoAppServico;
+            _avaliaCriterioQualificacaoAppServico = avaliaCriterioQualificacaoAppServico;
         }
 
         public void EnfileirarEmail()
         {
+            EnfileirarEmailAvaliacao();
+ 
+
+        }
+        public void EnfileirarEmailAvaliacao() {
             try
             {
                 string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Auditoria-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
@@ -51,9 +62,9 @@ namespace IsotecWindowsService.Service
                 var AgendarHoje = _avaliaCriterioAvaliacaoAppServico.Get().Where(x => x.DtProximaAvaliacao.Date == DateTime.Now.Date).ToList();
                 var Agendar30D = _avaliaCriterioAvaliacaoAppServico.Get(x => x.DtProximaAvaliacao == data30d).ToList();
 
-                var avaHj = AgendarHoje.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao , x.GuidAvaliacao }).Distinct().ToList();
+                var avaHj = AgendarHoje.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao, x.GuidAvaliacao }).Distinct().ToList();
 
-                var ava30d = Agendar30D.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao , x.GuidAvaliacao }).Distinct().ToList();
+                var ava30d = Agendar30D.Select(x => new { x.IdFornecedor, x.DtProximaAvaliacao, x.IdUsuarioAvaliacao, x.GuidAvaliacao }).Distinct().ToList();
 
 
                 List<Avaliacao> lstAvaliacao = new List<Avaliacao>();
@@ -94,9 +105,24 @@ namespace IsotecWindowsService.Service
             {
                 FileLogger.Log("Erro ao enfileirar os e-mails", ex);
             }
+        }
+        public void EnfileirarEmailQualificacao() {
+
+
+            var data30d = DateTime.Now.AddDays(30);
+            data30d = new DateTime(data30d.Year, data30d.Month, data30d.Day, 0, 0, 0);
+
+            var criterios = _criterioQualificacaoAppServico.GetAll().Where(x => x.TemControleVencimento == true);
+
+            foreach (var criterio in criterios)
+            {
+                var avaliaCriterio = _avaliaCriterioQualificacaoAppServico.Get(x => x.IdCriterioQualificacao == criterio.IdCriterioQualificacao).FirstOrDefault();
+
+                
+            }
+
 
         }
-
         public List<Avaliacao> ValidaAgendamento(List<Avaliacao> avaliaCriterioAvaliacaos)
         {
 
