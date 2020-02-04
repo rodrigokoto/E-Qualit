@@ -2282,7 +2282,7 @@ APP.controller.ControlDocController = {
             html += '<textarea type="text" name="formRotinaRegistro" if="form-rotina-registro" class="form-control"></textarea>';
             html += '</td>';
             html += '<td style="width: 40%;">';
-            html += '<textarea type="text" name="formRotinaComo" maxlength="8000" rows="5" if="form-rotina-como" class="form-control"></textarea>';
+            html += '<textarea type="text" name="formRotinaComo" maxlength="10000" rows="5" if="form-rotina-como" class="form-control"></textarea>';
             html += '</td>';
             html += '<td class="text-nowrap">';
             html += '<a href="#" class="editar-form-rotina icon-cliente editar-color">';
@@ -2319,19 +2319,27 @@ APP.controller.ControlDocController = {
             $(this).closest('tr').find('[name=formRotinaComo]').prop('disabled', true);
             editor.graph.setEnabled(false);
 
-
+            var linhaAtual = $(this).closest('tr').index() + 1;
             var itemAtual = $(this).closest('tr').find('[name=formRotinaItem]').val();
             var total = $('#tb-form-rotina tbody tr').length;
             var IdItemAtual = $(this).closest('tr').find('[name=formRotinaIdRotina]').val();
 
-            if (total > itemAtual && (IdItemAtual == null || IdItemAtual == undefined)) {
+            if (total >= itemAtual && (IdItemAtual == null || IdItemAtual == undefined)) {
 
                 var quantidadeLoop = total - itemAtual;
-
-                for (var i = 0; i < quantidadeLoop; i++) {
-                    var $parent = $(this).parents('#tb-form-rotina tbody tr');
-                    $parent.insertBefore($parent.prev());
+                if (linhaAtual !== parseInt(itemAtual)) {
+                    for (var i = 0; i < quantidadeLoop; i++) {
+                        var $parent = $(this).parents('#tb-form-rotina tbody tr');
+                        $parent.insertBefore($parent.prev());
+                    }
                 }
+                else {
+                    for (var i = 0; i < quantidadeLoop; i++) {
+                        var $parent = $(this).parents('#tb-form-rotina tbody tr');
+                        $parent.insertAfter($parent.prev());
+                    }
+                }
+
 
                 APP.controller.ControlDocController.setContNumberRotina();
 

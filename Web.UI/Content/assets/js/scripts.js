@@ -30523,6 +30523,7 @@ APP.controller.ControlDocController = {
         this.buttonEditNovaRotinaFormRotina.on('click', function () {
             event.preventDefault();
 
+            
             $(this).closest('tr').find('[name=formRotinaItem]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRotinaOQue]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRotinaQuem]').prop('disabled', false);
