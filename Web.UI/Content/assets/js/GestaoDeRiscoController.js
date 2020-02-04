@@ -1424,6 +1424,7 @@ APP.controller.GestaoDeRiscoController = {
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
                     Estado: $(tr).find('[name=formAcaoImadiataTbEstado]').val() != 0 ? 16 : 0,
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
+                    Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),

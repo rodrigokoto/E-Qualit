@@ -643,7 +643,7 @@ namespace Web.UI.Controllers
                         ca.Orientacao = gestaoDeRisco.AcoesImediatas[i].Orientacao;
                         ca.DataComentario = DateTime.Now.ToString();
                         ca.UsuarioComentario = usuario.Nome;
-
+                       
                         gestaoDeRisco.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
                     }
                 }
