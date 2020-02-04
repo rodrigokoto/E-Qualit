@@ -430,7 +430,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Avaliação do Fornecedores.
+        ///   Looks up a localized string similar to Avaliação de Fornecedores.
         /// </summary>
         public static string AvaliacoesFornecedores {
             get {
