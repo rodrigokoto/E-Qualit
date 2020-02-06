@@ -73,7 +73,8 @@ namespace IoC
             Bind<IClienteLogoRepositorio>().To<ClienteLogoRepositorio>();
             Bind<ISiteAnexoRepositorio>().To<SiteAnexoRepositorio>();
             Bind<IFilaEnvioRepositorio>().To<FilaEnvioRepositorio>();
-
+            Bind<ILicencaRepositorio>().To<LicencaRepositorio>();
+            
             //RH
             Bind<IFuncionarioRepositorio>().To<FuncionarioRepositorio>();
             Bind<IUsuarioSenhaRepositorio>().To<UsuarioSenhaRepositorio>();

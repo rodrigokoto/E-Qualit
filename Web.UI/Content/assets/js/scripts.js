@@ -28840,12 +28840,12 @@ APP.controller.ControlDocController = {
     },
     setObsoletarDocumento: function () {
         $('.controldoc-obsoletar').on('click', function () {
-            
-            bootbox.confirm("Gostaria de inativar o item selecionado ?", function(result){
-            if(result){
-            tabela.row($rowAtual).remove().draw();
-            bootbox.alert
-            }
+
+            bootbox.confirm("Gostaria de inativar o item selecionado ?", function (result) {
+                if (result) {
+                    tabela.row($rowAtual).remove().draw();
+                    bootbox.alert
+                }
                 var idDoc = $(this).data('id-doc');
                 $.ajax({
                     type: "POST",
@@ -30523,7 +30523,7 @@ APP.controller.ControlDocController = {
         this.buttonEditNovaRotinaFormRotina.on('click', function () {
             event.preventDefault();
 
-            
+
             $(this).closest('tr').find('[name=formRotinaItem]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRotinaOQue]').prop('disabled', false);
             $(this).closest('tr').find('[name=formRotinaQuem]').prop('disabled', false);
@@ -31797,6 +31797,10 @@ APP.controller.General = {
             this.plaiController();
         }
 
+        //Licenca
+        if (page == "IndexLicenca" || page == "CriarLicenca") {
+            this.licencaController();
+        }
     },
 
     loginController: function () {
@@ -31879,6 +31883,10 @@ APP.controller.General = {
 
     processoController: function () {
         APP.controller.ProcessoController.init();
+    },
+
+    licencaController: function () {
+        APP.controller.LicencaController.init();
     },
 
 };

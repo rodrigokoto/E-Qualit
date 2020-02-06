@@ -203,6 +203,7 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new SiteAnexoMap());
             modelBuilder.Configurations.Add(new ClienteLogoMap());
             modelBuilder.Configurations.Add(new ClienteContratoMap());
+            modelBuilder.Configurations.Add(new LicencaMap());
             modelBuilder.Configurations.Add(new ArquivosDeEvidenciaMap());
             modelBuilder.Configurations.Add(new ArquivosEvidenciaCriterioQualificacaoMap());
             modelBuilder.Configurations.Add(new ArquivoDeEvidenciaAcaoImediataMap());
@@ -211,8 +212,7 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new ArquivoNaoConformidadeAnexoMap());
             modelBuilder.Configurations.Add(new ArquivoDocDocumentoAnexoMap());
             modelBuilder.Configurations.Add(new ArquivoInstrumentoAnexoMap());
-            
-            modelBuilder.Configurations.Add(new LicencaMap());
+            modelBuilder.Configurations.Add(new ArquivoLicencaAnexoMap());
             modelBuilder.Configurations.Add(new DocExternoMap());
 
             modelBuilder.Configurations.Add(new DocRotinaMap());

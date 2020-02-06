@@ -296,7 +296,7 @@ namespace Web.UI.Controllers
             var documento = new DocDocumento();
             documento.GestaoDeRisco = new RegistroConformidade();
             documento.Licenca = new Licenca();
-            documento.Licenca.Anexo = new Anexo();
+            //documento.Licenca.Anexo = new Anexo();
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
@@ -378,7 +378,7 @@ namespace Web.UI.Controllers
             var documento = new DocDocumento();
             documento.GestaoDeRisco = new RegistroConformidade();
             documento.Licenca = new Licenca();
-            documento.Licenca.Anexo = new Anexo();
+            //documento.Licenca.Anexo = new Anexo();
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
@@ -407,7 +407,7 @@ namespace Web.UI.Controllers
             var documento = new DocDocumento();
             documento.GestaoDeRisco = new RegistroConformidade();
             documento.Licenca = new Licenca();
-            documento.Licenca.Anexo = new Anexo();
+            //documento.Licenca.Anexo = new Anexo();
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
@@ -1053,7 +1053,7 @@ namespace Web.UI.Controllers
 
             if (documento.IdLicenca > 0)
             {
-                documento.Licenca.Anexo.ArquivoB64 = documento.Licenca.Anexo.TrataAnexoVindoBanco();
+                //documento.Licenca.Anexo.ArquivoB64 = documento.Licenca.Anexo.TrataAnexoVindoBanco();
 
             }
 
@@ -2005,7 +2005,7 @@ namespace Web.UI.Controllers
 
             if (doc.DocTemplate.Any(x => x.TpTemplate == "L"))
             {
-                doc.Licenca.Anexo.Tratar();
+                //doc.Licenca.Anexo.Tratar();
             }
             if (doc.DocTemplate.Any(x => x.TpTemplate == "DE") && doc.DocExterno != null)
             {

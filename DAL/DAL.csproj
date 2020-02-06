@@ -64,6 +64,7 @@
     <Compile Include="EntityConfig\AnaliseCriticaTemaMap.cs" />
     <Compile Include="EntityConfig\AnexoMap.cs" />
     <Compile Include="EntityConfig\ArquivoInstrumentoAnexoMap.cs" />
+    <Compile Include="EntityConfig\ArquivoLicencaAnexoMap.cs" />
     <Compile Include="EntityConfig\ArquvioDocDocumentoAnexoMap.cs" />
     <Compile Include="EntityConfig\ArquivoNaoConformidadeAnexoMap.cs" />
     <Compile Include="EntityConfig\ArquivoPlaiAnexoMap.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Repository\HistoricoCriterioAvaliacaoRepositorio.cs" />
     <Compile Include="Repository\ComentarioAcaoImediataRepositorio.cs" />
     <Compile Include="Repository\IndicadorRepositorio.cs" />
+    <Compile Include="Repository\LicencaRepositorio.cs" />
     <Compile Include="Repository\InstrumentoRepositorio.cs" />
     <Compile Include="Repository\LoginRepositorio.cs" />
     <Compile Include="Repository\LogRepositorio.cs" />

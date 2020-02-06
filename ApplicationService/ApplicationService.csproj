@@ -61,6 +61,7 @@
     <Compile Include="Entidade\ProcessoApp.cs" />
     <Compile Include="Entidade\SiteModuloApp.cs" />
     <Compile Include="Entidade\UsuarioApp.cs" />
+    <Compile Include="Enum\FuncoesLicenca.cs" />
     <Compile Include="Enum\FuncoesFornecedores.cs" />
     <Compile Include="Enum\FuncoesAuditoria.cs" />
     <Compile Include="Enum\FuncoesAcaoCorretiva.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Interface\IArquivoControleDeDocumentoAppServico.cs" />
     <Compile Include="Interface\IArquivoDeEvidenciaAcaoImediata.cs" />
     <Compile Include="Interface\IArquivoNaoConformidadeAnexoAppServico.cs" />
+    <Compile Include="Interface\IArquivoLicencaAnexoAppServico.cs" />
     <Compile Include="Interface\IArquivoPlaiAnexoAppServico.cs" />
     <Compile Include="Interface\IArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
     <Compile Include="Interface\IArquivoCertificadoAnexoAppServico.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Interface\IFuncionalidadeAppServico.cs" />
     <Compile Include="Interface\IHistoricoCriterioAvaliacaoAppServico.cs" />
     <Compile Include="Interface\IIndicadorAppServico.cs" />
+    <Compile Include="Interface\ILicencaAppServico.cs" />
     <Compile Include="Interface\IInstrumentoAppServico.cs" />
     <Compile Include="Interface\ILoginAppServico.cs" />
     <Compile Include="Interface\ILogAppServico.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="Servico\AnexoAppServico.cs" />
     <Compile Include="Servico\ArquivoDeEvidenciaAcaoImediataAppServico.cs" />
     <Compile Include="Servico\ArquivoNaoConformidadeAnexoAppServico.cs" />
+    <Compile Include="Servico\ArquivoLicencaAnexoAppServico.cs" />
     <Compile Include="Servico\ArquivoPlaiAnexoAppServico.cs" />
     <Compile Include="Servico\ArquivosEvidenciaCriterioQualificacaoAppServico.cs" />
     <Compile Include="Servico\ArquivoCertificadoAnexoAppServico.cs" />
@@ -170,6 +174,7 @@
     <Compile Include="Servico\HistoricoCriterioAvaliacaoAppServico.cs" />
     <Compile Include="Servico\IndicadorAppServico.cs" />
     <Compile Include="Servico\InstrumentoAppServico.cs" />
+    <Compile Include="Servico\LicencaAppServico.cs" />
     <Compile Include="Servico\LoginAppServico.cs" />
     <Compile Include="Servico\LogAppServico.cs" />
     <Compile Include="Servico\NormaAppServico.cs" />

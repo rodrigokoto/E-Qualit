@@ -70,6 +70,7 @@ namespace Dominio.Entidade
         public virtual ICollection<ArquivoNaoConformidadeAnexo> ArquivoNaoConformidadeAnexo { get; set; }
         public virtual ICollection<ArquivoPlaiAnexo> ArquivoPlaiAnexo { get; set; }
         public virtual ICollection<ArquivoDeEvidenciaAcaoImediata> ArquivoEvidenciaAcaoImediata { get; set; }
+        public virtual ICollection<ArquivoLicencaAnexo> ArquivoLicencaAnexo { get; set; }
         public virtual ICollection<UsuarioAnexo> FotosUsuario { get; set; }
         public virtual ICollection<SiteAnexo> FotosSite { get; set; }
 
@@ -82,7 +83,6 @@ namespace Dominio.Entidade
         public virtual ICollection<Usuario> Usuarios { get; set; }
 
 
-        public virtual ICollection<Licenca> Licencas { get; set; }
         public virtual ICollection<DocExterno> DocsExterno { get; set; }
 
         #endregion

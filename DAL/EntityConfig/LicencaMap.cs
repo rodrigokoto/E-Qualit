@@ -9,21 +9,40 @@ namespace DAL.EntityConfig
         {
             HasKey(x => x.IdLicenca);
 
-            Property(x => x.IdAnexo)
-                .IsRequired();
+            Property(x => x.IdResponsavel)
+                .IsRequired()
+                .HasColumnName("IdResponsavel");
+
+            Property(x => x.IdProcesso)
+                .HasColumnName("IdProcesso");
+
+            Property(x => x.Titulo)
+                .HasColumnName("Titulo");
+
+            Property(x => x.DataCriacao)
+                .HasColumnName("DataCriacao");
 
             Property(x => x.DataEmissao)
-                .IsRequired();
+                .HasColumnName("DataEmissao");
 
             Property(x => x.DataVencimento)
-                .IsRequired();
+                .HasColumnName("DataVencimento");
+
+            Property(x => x.Obervacao)
+                .HasColumnName("Obervacao");
+
+            Property(x => x.DataProximaNotificacao)
+                .HasColumnName("DataProximaNotificacao");
 
             #region Relacionamento
 
-            HasRequired(x=>x.Anexo)
-                .WithMany(t => t.Licencas)
-                .HasForeignKey(d => d.IdAnexo)
-                .WillCascadeOnDelete(true);
+            HasRequired(x => x.Cliente)
+                .WithMany()
+                .HasForeignKey(x => x.Idcliente);
+
+            HasRequired(x => x.Usuario)
+                .WithMany()
+                .HasForeignKey(x => x.IdResponsavel);
 
             #endregion
         }
