@@ -66,7 +66,10 @@ namespace IoC
             Bind<IArquivosEvidenciaCriterioQualificacaoRepositorio>().To<ArquivosEvidenciaCriterioQualificacaoRepositorio>();
             Bind<IRegistroAuditoria>().To<RegistroAuditoriaRepositorio>();
             Bind<IRegistroQualificacaoRepositorio>().To<RegistroQualificacaoRepositorio>();
-            
+            Bind<IArquivoLicencaAnexoRepositorio>().To<ArquivoLicencaAnexoRepositorio>();
+            Bind<IRegistroLicencaRepositorio>().To<RegistroLicencaRepositorio>();
+
+
             Bind<IArquivoCertificadoAnexoRepositorio>().To<ArquivoCertificadoAnexoRepositorio>();
             Bind<IArquivoPlaiAnexoRepositorio>().To<ArquivoPlaiAnexoRepositorio>();
             Bind<IArquivoNaoConformidadeAnexoRepositorio>().To<ArquivoNaoConformidadeAnexoRepositorio>();

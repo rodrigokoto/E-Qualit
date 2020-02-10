@@ -7,6 +7,9 @@ namespace DAL.EntityConfig
     {
         public LicencaMap()
         {
+            Ignore(x => x.ArquivosLicencaAnexos);
+            Ignore(x => x.ArquivosLicencaAux);
+            Ignore(x => x.ValidationResult);
             HasKey(x => x.IdLicenca);
 
             Property(x => x.IdResponsavel)
@@ -17,6 +20,7 @@ namespace DAL.EntityConfig
                 .HasColumnName("IdProcesso");
 
             Property(x => x.Titulo)
+                .IsRequired()
                 .HasColumnName("Titulo");
 
             Property(x => x.DataCriacao)

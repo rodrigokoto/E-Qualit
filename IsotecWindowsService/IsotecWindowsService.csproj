@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="ConsoleDualOutput.cs" />
     <Compile Include="FileLogger.cs" />
+    <Compile Include="Interface\ILicencaService.cs" />
     <Compile Include="Interface\IQualificacaoService.cs" />
     <Compile Include="Interface\ICalibracaoService.cs" />
     <Compile Include="Model\Avaliacao.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
+    <Compile Include="Service\LicencaService.cs" />
     <Compile Include="Service\QualificacaoService.cs" />
     <Compile Include="Service\CalibracaoService.cs" />
     <Compile Include="ServicoIsotec.cs">
@@ -108,7 +110,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\Licenca-en-US.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Templates\Qualificacao-en-US.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\Licenca-pt-BR.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Templates\Qualificacao-pt-BR.html">

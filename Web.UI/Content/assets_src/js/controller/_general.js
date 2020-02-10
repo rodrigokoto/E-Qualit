@@ -25,7 +25,7 @@ APP.controller.General = {
         //Controle das Pages
 
         //Login
-        if (page == "Login" || page == "RecuperarSenha" || page == "AlterarSenhaLogin" ) {
+        if (page == "Login" || page == "RecuperarSenha" || page == "AlterarSenhaLogin") {
             this.loginController();
         }
 
@@ -35,7 +35,7 @@ APP.controller.General = {
         }
 
         //Cliente
-        if(page == "IndexCliente" || page == "CriarCliente"){
+        if (page == "IndexCliente" || page == "CriarCliente") {
             this.clienteController();
         }
 
@@ -95,7 +95,7 @@ APP.controller.General = {
         }
 
         //Notificacao
-        if (page != "Login" && page != "Cliente" && page != "RecuperarSenha" && page != "AlterarSenhaLogin" && page != "AlterarSenha" ) {
+        if (page != "Login" && page != "Cliente" && page != "RecuperarSenha" && page != "AlterarSenhaLogin" && page != "AlterarSenha") {
             this.notificacaoController();
         }
 
@@ -108,14 +108,14 @@ APP.controller.General = {
         if (page == "IndexAuditoria") {
             this.auditoriaController();
         }
-            //Norma
-            if (page == "IndexNorma") {
-                this.normaController();
-            }
-            //Plai
-            if (page == "AcoesPlai") {
-                this.plaiController();
-            }
+        //Norma
+        if (page == "IndexNorma") {
+            this.normaController();
+        }
+        //Plai
+        if (page == "AcoesPlai") {
+            this.plaiController();
+        }
 
     },
 
@@ -127,7 +127,7 @@ APP.controller.General = {
         APP.controller.HomeController.init();
     },
 
-    clienteController : function () {
+    clienteController: function () {
 
         APP.controller.ClienteController.init();
 
@@ -169,36 +169,40 @@ APP.controller.General = {
         APP.controller.NotificacaoController.init();
     },
 
-    usuarioController : function () {
+    usuarioController: function () {
         APP.controller.UsuarioController.init();
     },
 
-    siteController : function () {
+    siteController: function () {
         APP.controller.SiteController.init();
     },
 
-    cargoController : function () {
+    cargoController: function () {
         APP.controller.CargoController.init();
     },
 
-    auditoriaController : function () {
+    auditoriaController: function () {
         APP.controller.AuditoriaController.init();
     },
 
-    relatorioController : function () {
+    relatorioController: function () {
         APP.controller.RelatorioController.init();
     },
 
-    normaController : function () {
+    normaController: function () {
         APP.controller.NormaController.init();
     },
 
-    plaiController : function () {
+    plaiController: function () {
         APP.controller.PlaiController.init();
     },
 
-    processoController : function () {
+    processoController: function () {
         APP.controller.ProcessoController.init();
     },
 
- };
+    licencaController: function () {
+s        APP.controller.licencaController.init();
+    },
+
+};

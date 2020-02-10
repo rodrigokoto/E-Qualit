@@ -88,6 +88,28 @@ namespace IsotecWindowsService
                 Thread.Sleep(30000);
             }
         }
+        private void LicencaService()
+
+        {
+
+            while (true)
+
+            {
+
+                //var SysHour = ConfigurationManager.AppSettings["StartService"].Split(':');
+
+                //var confighour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Convert.ToInt32(SysHour[0]), Convert.ToInt32(SysHour[1]), 0);
+
+                //if (DateTime.Now.Date == confighour.Date)
+                //{
+                //    if (DateTime.Now.Hour == confighour.Hour)
+                //    {
+                _qualificacaoService.EnfileirarEmail();
+                //    }
+                //}
+                Thread.Sleep(30000);
+            }
+        }
 
 
 

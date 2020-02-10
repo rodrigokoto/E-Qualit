@@ -260,6 +260,7 @@
     <EmbeddedResource Include="Shared\ResourceBreadCrumb.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceBreadCrumb.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Fornecedores\ResourceFornecedores.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

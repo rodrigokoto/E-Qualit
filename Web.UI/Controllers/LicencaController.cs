@@ -27,6 +27,7 @@ namespace Web.UI.Controllers
         private readonly ICargoProcessoAppServico _cargoProcessoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
         private readonly IUsuarioClienteSiteAppServico _usuarioClienteAppServico;
+        private readonly IArquivoLicencaAnexoAppServico _arquivoLicencaAnexoAppServico;
 
         public LicencaController(ILicencaAppServico licencaAppServico,
                                       ILicencaServico licencaServico,
@@ -36,7 +37,8 @@ namespace Web.UI.Controllers
                                       IProcessoAppServico processoAppServico,
                                       IControladorCategoriasAppServico controladorCategoriasServico,
                                       IFilaEnvioServico filaEnvioServico,
-                                      IUsuarioClienteSiteAppServico usuarioClienteAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                      IUsuarioClienteSiteAppServico usuarioClienteAppServico,
+                                      IArquivoLicencaAnexoAppServico arquivoLicencaAnexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
 
             _licencaAppServico = licencaAppServico;
@@ -48,6 +50,7 @@ namespace Web.UI.Controllers
             _controladorCategoriasServico = controladorCategoriasServico;
             _filaEnvioServico = filaEnvioServico;
             _usuarioClienteAppServico = usuarioClienteAppServico;
+            _arquivoLicencaAnexoAppServico = arquivoLicencaAnexoAppServico;
         }
 
         // GET: Instrumentos
@@ -86,16 +89,25 @@ namespace Web.UI.Controllers
         }
 
         [HttpPost]
-        [AutorizacaoUsuario((int)FuncoesLicenca.Incluir, (int)Funcionalidades.Licencas)]
+        //[AutorizacaoUsuario((int)FuncoesLicenca.Incluir, (int)Funcionalidades.Licencas)]
         public JsonResult Criar(Licenca licenca)
         {
             var erros = new List<string>();
 
             try
             {
-                
+                licenca.Idcliente = Util.ObterClienteSelecionado();
 
-                return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
+                if (erros.Count > 0)
+                {
+                    return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    _licencaAppServico.Add(licenca);
+                    _licencaAppServico.SalvarArquivoLicenca(licenca);
+                }
+                return Json(new { StatusCode = 200, IdLicenca = licenca.IdLicenca, Success = "Licença incluida com sucesso" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -150,37 +162,78 @@ namespace Web.UI.Controllers
             instrumento.Status = (byte)EquipamentoStatus.NaoCalibrado;
         }
 
-        //public ActionResult Editar(int id)
-        //{
-        //    ViewBag.IdSite = Util.ObterSiteSelecionado();
-        //    //ViewBag.IdProcesso = Util.ObterProcessoSelecionado();
-        //    ViewBag.IdFuncao = 68;
-        //    ViewBag.IdAprovadorCalibracao = Util.ObterCodigoUsuarioLogado();
+        public ActionResult Editar(int id)
+        {
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
 
-        //    var instrumento = _instrumentoAppServico.GetById(id);
 
-        //    ViewBag.Responsavel = _usuarioAppServico.GetById(instrumento.IdResponsavel.Value).NmCompleto;
+            var licenca = _licencaAppServico.GetById(id);
+            licenca.ArquivosLicencaAux.AddRange(licenca.ArquivoLicenca.Select(x => x.Anexo));
+            licenca.ArquivosLicencaAnexos = _arquivoLicencaAnexoAppServico.Get(r => r.IdLicenca == licenca.IdLicenca);
+                        
+                /*
+                 
+              naoConformidade.ArquivosNaoConformidadeAnexos = _arquivoNaoConformidadeAnexoRepositorio.Get(r => r.IdRegistroConformidade == naoConformidade.IdRegistroConformidade);
 
-        //    return View("Criar", instrumento);
-        //}
+            if(carregarArquivosDeEvidenciaAux)
+            {
+                naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosNaoConformidadeAnexos.Select(x => x.Anexo));
+            }
+            */
+
+            ViewBag.Responsavel = _usuarioAppServico.GetById(licenca.IdResponsavel).NmCompleto;
+
+            return View("Criar", licenca);
+        }
 
 
         [HttpPost]
-        public JsonResult Editar(Instrumento instrumento)
+        public JsonResult Editar(Licenca licenca)
         {
 
+            var erros = new List<string>();
 
-            return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Instrumentos.ResourceInstrumentos.IN_msg_save_valid }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                licenca.Idcliente = Util.ObterClienteSelecionado();
 
-
+                if (erros.Count > 0)
+                {
+                    return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    _licencaAppServico.Update(licenca);
+                    _licencaAppServico.SalvarArquivoLicenca(licenca);
+                }
+                return Json(new { StatusCode = 200, IdLicenca = licenca.IdLicenca, Success = "Licença alterada com sucesso" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+                erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
+                return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
+                throw;
+            }
 
         }
 
         public JsonResult Excluir(int id)
         {
-            return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Instrumentos.ResourceInstrumentos.IN_msg_save_valid }, JsonRequestBehavior.AllowGet);
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            var licencaParaDeletar = _licencaAppServico.GetById(id);
 
-
+            try
+            {
+                _licencaAppServico.Remove(licencaParaDeletar);
+                return Json(new { StatusCode = 200 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+                return Json(new { StatusCode = 500, Erro = ex }, JsonRequestBehavior.AllowGet);
+                throw;
+            }
         }
 
         public ActionResult Detalhe(int id)

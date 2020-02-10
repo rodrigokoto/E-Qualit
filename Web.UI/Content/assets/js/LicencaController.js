@@ -11,9 +11,9 @@ APP.controller.LicencaController = {
         var page = APP.component.Util.getPage();
 
         this.setup();
-        if (page == "IndexLicenca") {
+        if (page == "IndexLicencas") {
             this.IndexLicenca();
-        } else if (page == "CriarLicenca") {
+        } else if (page == "CriarLicencas") {
             this.CriarLicenca();
         }
 
@@ -21,12 +21,12 @@ APP.controller.LicencaController = {
 
     setup: function () {
 
-        //Instrumento Index
+        //Licenca Index
 
-        //Instrumento Criar
+        //Licenca Criar
         this.buttonDelLicenca = $('.tb-Licenca-excluir');
         this.buttonSaveForm = $(".form-save");
-        this.buttonDelInstrumento = $('.tb-instrumento-excluir');
+        this.buttonDelLicenca = $('.tb-Licenca-excluir');
         this.buttonModalCancelar = $(".btn-modal-cancelar");
     },
 
@@ -41,8 +41,8 @@ APP.controller.LicencaController = {
     //Chamadas
     IndexLicenca: function () {
 
-        APP.component.DataTable.init('#tb-instrumento');
-        this.delInstrumento();
+        APP.component.DataTable.init('#tb-licenca');
+        this.delLicenca();
 
 
     },
@@ -52,16 +52,13 @@ APP.controller.LicencaController = {
 
         //GETs
         this.getResponsavel();
-        
         //SETs
         this.setComboProcesso();
+        this.getChangeComboProcesso();
         //DELs
-        this.delLicenca();
-        this.delParametroLicenca();
         this.saveForms();
         //OUTRAS
-        this.viewArquivoLicenca();
-        
+
         //INCLUDEs
         APP.component.AtivaLobiPanel.init();
         APP.component.FileUpload.init();
@@ -69,23 +66,21 @@ APP.controller.LicencaController = {
         APP.component.DataTable.init('#tb-Licenca');
         // APP.controller.LicencaController.setupUploadArquivoLicenca();
         //OUTRASfimp
-        this.changeCadastroSigla();
-        this.setLicencaVisivel();
+
         this.setValidateForms();
 
     },
 
 
-
     setValidateForms: function () {
 
 
-        var ObjFormInstrumentoValidate = APP.controller.LicencaController.getObjObjFormInstrumentoValidate();
-        APP.component.ValidateForm.init(ObjFormInstrumentoValidate, '#form-parametro-licenca');
+        var ObjFormLicencaValidate = APP.controller.LicencaController.getObjObjFormLicencaValidate();
+        APP.component.ValidateForm.init(ObjFormLicencaValidate, '#form-parametro-licenca');
 
     },
 
-    getObjObjFormInstrumentoValidate: function () {
+    getObjObjFormLicencaValidate: function () {
 
 
         var acoesPadraoFormCriarPadraoObj = {
@@ -109,7 +104,7 @@ APP.controller.LicencaController = {
     },
 
     //Funcoes Index Licenca
-    
+
     getResponsavel: function () {
 
 
@@ -133,59 +128,19 @@ APP.controller.LicencaController = {
     getObjLicenca: function () {
 
 
-        var Licenca = {
-
-
-
-            IdLicenca: $('[name=Titulo]').val(),
-
-
-
-            IdFilaEnvio: $("#IdFilaEnvio").val(),
-            IdInstrumento: $('#IdInstrumento').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
-            IdSigla: $('[name=IdSigla]').val(),
-            DataRegistro: $('#form-pos-Licenca').find('[name=DtRegistro]').val(),
-            DataNotificacao: $('#form-pos-Licenca').find('[name=DtNotificacao]').val(),
-            DataProximaLicenca: $('#form-pos-Licenca').find('[name=DataProximaLicenca]').val(),
-            Certificado: $('#form-pos-Licenca').find('[name=Certificado]').val(),
-            CriterioAceitacao: [],
-            OrgaoCalibrador: $('#form-pos-Licenca').find('[name=OrgaoCalibrador]').val(),
-            Aprovador: $('#form-pos-Licenca').find('[name=Aprovador]').val(),
-            Aprovado: $('input[name="Aprovado"]:checked').val(),
-            ArquivoCertificadoAux: APP.controller.LicencaController.getArquivoCertificadoAnexos($("#IdLicenca").val()),
-            SubmitArquivosCertificado: APP.controller.LicencaController.getArquivoCertificadoAnex2($("#IdLicenca").val()),
-            Observacoes: $('#form-pos-Licenca').find('[name=Observacoes]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
-            NomeUsuarioAprovador: $('#form-pos-Licenca').find('[name=Aprovador] option:selected').text(),
+         Licenca = {
+            Idlicenca: $('[name=Idlicenca]').val(),
+            Titulo: $('[name=Titulo]').val(),
+            IdProcesso: $('[name=formCadastroProcesso] option:selected').val(),
+            IdResponsavel: $('[name=IdResponsavel] option:selected').val(),
+            ArquivosLicencaAnexos: APP.controller.LicencaController.getAnexosArquivosLicencaAnexos(),
+            DataEmissao: $('#form-parametro-licenca').find('[name=DataEmissao]').val(),
+            DataVencimento: $('#form-parametro-licenca').find('[name=DataVencimento]').val(),
+            DataProximaNotificacao: $('#form-parametro-licenca').find('[name=DataVencimento]').val(),
+            Obervacao: $('#form-parametro-licenca').find('[name=Obervacao]').val(),
         };
 
-        var temCriterioAceitacao = $("[name=SistemaDefineStatus]:checked").val() == "true" ? true : false;
-
-        if (temCriterioAceitacao) {
-
-            PosLicenca.Instrumento =
-                {
-                    SistemaDefineStatus: $("[name=SistemaDefineStatus]:checked").val(),
-                    valorAceitacao: $("[name=valorAceitacao]").val(),
-                    IdInstrumento: $("#IdInstrumento").val()
-                };
-
-            $('.campos-tabela').each(function (i) {
-
-                CriteriosAceitacao = {
-                    Erro: $(this).find('[name=Erro]').val(),
-                    Incerteza: $(this).find('[name=Incerteza]').val(),
-                    Resultado: $(this).find('[name=Resultado]').val(),
-                    IdCriterioAceitacao: $(this).find('[name=IdCriterioAceitacao]').val(),
-                    Periodicidade: $(this).find('[name=Periodicidade]').val(),
-                    IdLicenca: $("#IdLicenca").val(),
-                    Aceito: $(this).find('.ativo-color').length == 1 ? true : false,
-                };
-
-                PosLicenca.CriterioAceitacao.push(CriteriosAceitacao);
-            });
-        }
-
-        return PosLicenca;
+        return Licenca;
     },
 
     getArquivoCertificadoAnexos: function (IdLicenca) {
@@ -248,7 +203,7 @@ APP.controller.LicencaController = {
                         beforeSend: function () {
                             APP.component.Loading.showLoading();
                         },
-                        complete: function (result) {
+                        complete: function () {
                             APP.component.Loading.hideLoading();
                         },
                     });
@@ -257,9 +212,15 @@ APP.controller.LicencaController = {
         });
     },
 
+    getAnexosArquivosLicencaAnexos() {
+        let raiz = $("#modal-rai" + "ncabeca")[0];
+        let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoNaoConformidadeAnexo", "IdRegistroConformidade");
+        return ret;
+    },
+
     setComboProcesso: function () {
 
-        var idSite = $('#emissao-documento-site').val();
+        var idSite = $('#IdSite').val();
         var data = {
             "idSite": idSite
         };
@@ -280,7 +241,21 @@ APP.controller.LicencaController = {
         });
 
     },
-    
+
+
+    getChangeComboProcesso: function () {
+
+        $('#form-cadastro-processo').on('change', function () {
+            var IdProcesso = $('#IdProcesso');
+
+            IdProcesso.val($(this).val());
+            if (IdProcesso.val() == 0) {
+                IdProcesso.val(null);
+            }
+        });
+
+    },
+
     sendFormParametroLicenca: function () {
 
         APP.component.Loading.showLoading();
@@ -288,61 +263,47 @@ APP.controller.LicencaController = {
         var vstatus = document.getElementById('IdStatusHidden');
 
         $.ajaxSetup({ async: false });
-        var idInstrumento = $("#IdInstrumento").val();
-        var url = '/Instrumento/Criar';
+        var idLicenca = $('[name=Idlicenca]').val();
+        var url = '/Licenca/Criar';
         var validacao = true;
+        var dataobject = APP.controller.LicencaController.getObjLicenca();
+        var data = JSON.stringify(dataobject);
 
-        if (idInstrumento != "0") {
-            url = '/Instrumento/Editar';
+        if (idLicenca != "0") {
+            url = '/Licenca/Editar';
         } else {
-            validacao = $('#form-parametro-instrumento').valid();
+            validacao = $('#form-parametro-licenca').valid();
         }
-
-        if ($("[name=SistemaDefineStatus]:checked").val() == null && $("[name=SistemaDefineStatus]:checked").val() == undefined) {
-            validacao = false;
-            $("#emErroSistemaDefineStatus").show();
-        }
-
-        var dataobject = $('#form-parametro-instrumento').serialize();
-
-        dataobject["Status"] = vstatus.value;
 
         if (validacao) {
             $.ajax({
                 type: "POST",
                 dataType: 'json',
                 url: url,
-                data: $('#form-parametro-instrumento').serialize(),
+                data: dataobject,
                 success: function (result) {
 
                     if (result.StatusCode == 200) {
 
-                        if (idInstrumento == "0") {
-                            $("#IdInstrumento").val(result.IdInstrumento);
+                        if (idLicenca == "0") {
+                            $("#IdLicenca").val(result.IdLicenca);
                             bootbox.alert(
                                 {
                                     message: result.Success,
                                     callback: function () {
 
-                                        window.location.href = "/Instrumento/Editar/" + result.IdInstrumento;
+                                        window.location.href = "/Licenca/Editar/" + result.IdLicenca;
                                     }
                                 });
                             return;
 
                         }
-
-                        APP.controller.LicencaController.setLicencaVisivel();
-
-                        var isHidden = $('#form-pos-Licenca').is(":hidden");
-                        if (isHidden == false) {
-                            APP.controller.LicencaController.sendFormPosLicenca(idInstrumento, result.Success);
-                        }
                         else {
-                            if (idInstrumento != "0") {
+                            if (idLicenca != "0") {
                                 bootbox.alert({
                                     message: result.Success,
                                     callback: function () {
-                                        window.location.href = "/Instrumento/Index";
+                                        window.location.href = "/Licenca/Index";
                                     }
                                 });
                             }
@@ -380,67 +341,18 @@ APP.controller.LicencaController = {
 
             event.preventDefault();
 
-            $("#form-pos-Licenca").validate();
+            $("#form-parametro-licenca").validate();
 
-            var formLicencaValido = $("#form-pos-Licenca").valid();
+            var formLicencaValido = $("#form-parametro-licenca").valid();
 
-            var objPosLicenca = APP.controller.LicencaController.getObjPosLicenca();
-            var dataNotificacaoSplit = objPosLicenca.DataNotificacao.split("/");
-            var DataProximaLicencaSplit = objPosLicenca.DataProximaLicenca.split("/");;
-            var DataNotificacao = new Date(dataNotificacaoSplit[2], dataNotificacaoSplit[1], dataNotificacaoSplit[0]);
-            var DataProximaLicenca = new Date(DataProximaLicencaSplit[2], DataProximaLicencaSplit[1], DataProximaLicencaSplit[0]);
-            var DataRegistroSplit = objPosLicenca.DataRegistro.split("/");
-            var Aprovado = objPosLicenca.Aprovado;
-            var OrgaoCalibrador = objPosLicenca.OrgaoCalibrador;
-            var Certificado = objPosLicenca.Certificado;
-            var DataRegistro = new Date(DataRegistroSplit[2], DataRegistroSplit[1], DataRegistroSplit[0]);
+            var objPosLicenca = APP.controller.LicencaController.getObjLicenca();
 
+            if (formLicencaValido) {
 
-            var valido = true;
-            if (DataRegistro > DataNotificacao) {
-                valido = false;
-                APP.component.Loading.hideLoading();
-                bootbox.alert(_options.labelValidaDataRegistro);
+                APP.controller.LicencaController.sendFormParametroLicenca();
 
+                $('.tb-Licenca').slideDown(500);
 
-            }
-
-
-            if (DataNotificacao > DataProximaLicenca) {
-                valido = false;
-                APP.component.Loading.hideLoading();
-                bootbox.alert(_options.labelValidaDataNotificacao);
-            }
-
-            if (Aprovado < 2 && $('#IdInstrumento').val() != "0") {
-
-                if (OrgaoCalibrador == "" || OrgaoCalibrador == null || OrgaoCalibrador == undefined) {
-                    valido = false;
-                    $("#lblErroOrgaoCalibrador").show();
-                    APP.component.Loading.hideLoading();
-                }
-
-                if (Certificado == "" || Certificado == null || Certificado == undefined) {
-                    valido = false;
-                    $("#lblErroNuCertificado").show();
-                    APP.component.Loading.hideLoading();
-                }
-            }
-
-            if (valido) {
-
-
-                if (formLicencaValido) {
-
-
-                    APP.controller.LicencaController.sendFormParametroInstrumento();
-
-                    $('#form-pos-Licenca').slideUp(500);
-                    $('#form-pos-Licenca').removeClass('show').addClass('hide');
-                    $('.tb-Licenca').slideDown(500);
-                    $('.pills-parametros-pos-Licenca').removeClass('show').addClass('hide');
-                    $('.pills-tabela-Licenca').removeClass('hide').addClass('show');
-                }
             }
         });
     },

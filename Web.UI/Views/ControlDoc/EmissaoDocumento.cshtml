@@ -941,7 +941,7 @@
             </form>
 
             <!-- Formulario LICENÇA -->
-            <form id="form-emissao-documento-licenca">
+           @*<form id="form-emissao-documento-licenca">
                 <div class="panel panel-default" id="panel-form-licenca">
                     <div class="panel-heading">
                         <div class="panel-title">
@@ -984,14 +984,14 @@
                                         </a>
 
                                         <ul class="@(Model.IdDocumento > 0 ? "dashed" : null)">
-                                            @*@if (Model.Licenca != null)
+                                            @if (Model.Licenca != null)
                                             {
                                                 <li>
                                                     <a href="@Model.Licenca.Anexo.ArquivoB64" target="_blank" download="@Model.Licenca.Anexo.Nome">@Model.Licenca.Anexo.Nome</a>
                                                     <input type="hidden" name="formLicensaAnexoaNome" value="@Model.Licenca.Anexo.Nome">
                                                     <input type="hidden" name="formLicensaAnexoIdAnexo" value="@Model.Licenca.Anexo.IdAnexo">
                                                 </li>
-                                            }*@
+                                            }
 
 
                                         </ul>
@@ -1005,7 +1005,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form>*@
             <!-- Formulario DOCS.EXTERNOS -->
             <form id="form-emissao-documento-docsexternos">
                 <div class="panel panel-default" id="panel-form-docsexternos">

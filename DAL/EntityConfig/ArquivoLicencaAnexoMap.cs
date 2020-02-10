@@ -22,7 +22,7 @@ namespace DAL.EntityConfig
             #region Relacionamento
 
             HasRequired(s => s.Licenca)
-                .WithMany(s => s.ArquivoLicencaAnexo)
+                .WithMany(s => s.ArquivoLicenca)
                 .HasForeignKey(s => s.IdLicenca)
                 .WillCascadeOnDelete(false);
 

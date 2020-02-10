@@ -119,6 +119,10 @@ APP.controller.General = {
             this.plaiController();
         }
 
+        if (page == "IndexLicencas" || page == "CriarLicencas") {
+            this.LicencaController();
+        }
+
     },
 
     loginController: function () {
@@ -206,6 +210,10 @@ APP.controller.General = {
 
     processoController: function () {
         APP.controller.ProcessoController.init();
+    },
+
+    LicencaController: function () {
+        APP.controller.LicencaController.init();
     },
 
 };

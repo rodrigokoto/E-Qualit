@@ -116,6 +116,7 @@
     <Compile Include="EntityConfig\ProdutoMap.cs" />
     <Compile Include="EntityConfig\CriterioAvaliacaoMap.cs" />
     <Compile Include="EntityConfig\DocRegistroMap.cs" />
+    <Compile Include="EntityConfig\RegistroLicencaMap.cs" />
     <Compile Include="EntityConfig\RegistroQualificacaoMap.cs" />
     <Compile Include="EntityConfig\RegistroAuditoriaMap.cs" />
     <Compile Include="EntityConfig\RH\AdvertenciaMap.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Repository\AnaliseCriticaFuncionarioRepositorio.cs" />
     <Compile Include="Repository\AnaliseCriticaRepositorio.cs" />
     <Compile Include="Repository\AnexoRepositorio.cs" />
+    <Compile Include="Repository\ArquivoLicencaAnexoRepositorio .cs" />
     <Compile Include="Repository\ArquivoNaoConformidadeAnexoRepositorio.cs" />
     <Compile Include="Repository\ArquivoPlaiAnexoRepositorio.cs" />
     <Compile Include="Repository\ArquivoDeEvidenciaRegistroConformidadeRepositorio.cs" />
@@ -246,6 +248,7 @@
     <Compile Include="Repository\ProdutoRepositorio.cs" />
     <Compile Include="Repository\CriterioAvaliacaoRepositorio.cs" />
     <Compile Include="Repository\RegistroAcaoImediataRepositorio.cs" />
+    <Compile Include="Repository\RegistroLicencaRepositorio.cs" />
     <Compile Include="Repository\RegistroQualificacaoRepositorio.cs" />
     <Compile Include="Repository\RegistroAuditoriaRepositorio.cs" />
     <Compile Include="Repository\RegistroConformidadesRepositorio.cs" />
