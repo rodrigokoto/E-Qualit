@@ -96,7 +96,7 @@ namespace IsotecWindowsService
             }
         }
         private void LicencaService()
-        {
+         {
 
             while (true)
 

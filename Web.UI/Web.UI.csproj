@@ -247,6 +247,7 @@
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
     <Compile Include="Models\MenuProcessoViewModel.cs" />
     <Compile Include="Models\PdfAcaoCorreticaViewModel.cs" />
+    <Compile Include="Models\PendenciaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocator\Interface\IServiceLocator.cs" />
     <Compile Include="ServiceLocator\ServiceLocator.cs" />

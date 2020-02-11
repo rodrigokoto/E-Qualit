@@ -208,6 +208,7 @@
                             </ul>
                         </li>
                     }
+
                     else if (ViewBag.IdPerfil == 3)
                     {
                         <li class="dropdown">
@@ -248,6 +249,21 @@
                             <span>Contato</span>
                         </a>
                     </li>
+                    @if (ViewBag.IdPerfil == 1 || ViewBag.IdPerfil == 2)
+                    {
+                        <!-- Admin -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell-o fa-2x" aria-hidden="true"><span class="badge">@ViewBag.Pendencia.Count</span></i><span>Pendências</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                @foreach (var pendencia in ViewBag.Pendencia)
+                                {
+                                    <li><a href="@Url.Action("Editar", pendencia.Modulo , new { id = pendencia.Id })">@pendencia.Modulo - @pendencia.Titulo</a> </li>
+                                }
+                            </ul>
+                        </li>
+                    }
                 </ul>
 
 
@@ -475,7 +491,6 @@
     <script src="@Url.Content("~/Content/assets/js/Model.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/Component.js?rnd=9")"></script>
     <script src="@Url.Content("~/Content/assets/js/GeneralController.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/NotificacaoController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/GerarPdfDocumento.js")"></script>
 
 

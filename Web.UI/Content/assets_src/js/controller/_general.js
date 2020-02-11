@@ -165,10 +165,6 @@ APP.controller.General = {
         APP.controller.FornecedoresController.init();
     },
 
-    notificacaoController: function () {
-        APP.controller.NotificacaoController.init();
-    },
-
     usuarioController: function () {
         APP.controller.UsuarioController.init();
     },

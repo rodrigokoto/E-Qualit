@@ -96,11 +96,6 @@ APP.controller.General = {
             this.fornecedoresController();
         }
 
-        //Notificacao
-        if (page != "Login" && page != "Cliente" && page != "RecuperarSenha" && page != "AlterarSenhaLogin" && page != "AlterarSenha") {
-            this.notificacaoController();
-        }
-
         //Relatorio
         if (page == "DashBoard") {
             this.relatorioController();
@@ -176,9 +171,6 @@ APP.controller.General = {
         APP.controller.FornecedoresController.init();
     },
 
-    notificacaoController: function () {
-        APP.controller.NotificacaoController.init();
-    },
 
     usuarioController: function () {
         APP.controller.UsuarioController.init();
