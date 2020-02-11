@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace IsotecWindowsService.Service
 {
-    public class LicencaService : ILicencaService
+    public class LicencaService : ILicencaService                                                               
+
     {
         private readonly ILicencaAppServico _licencaAppServico;
         private readonly IFilaEnvioServico _filaEnvioServico;
