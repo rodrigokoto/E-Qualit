@@ -38,5 +38,10 @@ namespace Dominio.Servico
             return _registroLicenca.Get(x => x.GuidLicenca == guidLicenca).FirstOrDefault();
 
         }
+
+        public RegistroLicenca RetornaRegistro(int Licenca)
+        {
+            return _registroLicenca.Get(x => x.IdRegLicenca == Licenca).FirstOrDefault();
+        }
     }
 }
