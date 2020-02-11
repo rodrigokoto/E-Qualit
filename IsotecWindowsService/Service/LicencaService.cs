@@ -44,7 +44,8 @@ namespace IsotecWindowsService.Service
  
 
         }
-        public void EnfileirarEmailLicenca() {
+        public void EnfileirarEmailLicenca()
+        {
             try
             {
                 string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Auditoria-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
