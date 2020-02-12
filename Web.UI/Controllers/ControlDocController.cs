@@ -1344,20 +1344,13 @@ namespace Web.UI.Controllers
             }
 
 
+            source.Rotinas.ForEach(s =>
+             dest.Rotinas.Where(r => r.IdDocRotina == s.IdDocRotina).SingleOrDefault(x => { x.Quem = s.Quem; x.OQue = s.OQue; x.Item = s.Item; x.Como = s.Como; x.Registro = s.Registro; return true; })
+            );
             //Rotinas
             dest.Rotinas.AddRange(source.Rotinas.Where(s => s.IdDocRotina == 0));
             List<DocRotina> rotinas = dest.Rotinas.Where(s => !source.Rotinas.Any(a => s.IdDocRotina == a.IdDocRotina)).ToList();
             rotinas.ForEach(f => _documentoAppServico.RemoverGenerico(f));
-
-            dest.Rotinas.ForEach(x =>
-            {
-                var itemAtualizar = source.Rotinas.Where(y => y.IdDocRotina == x.IdDocRotina).FirstOrDefault();
-                x.Como = itemAtualizar.Como;
-                x.OQue = itemAtualizar.OQue;
-                x.Quem = itemAtualizar.Quem;
-                x.Registro = itemAtualizar.Registro;
-                x.Item = itemAtualizar.Item;
-            });
 
             //Registros
             dest.Registros.AddRange(source.Registros.Where(s => s.IdDocRegistro == 0));
