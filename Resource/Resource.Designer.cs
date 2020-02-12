@@ -6683,7 +6683,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo Como das rotinas deve possuir no máximo 1000 caracteres..
+        ///   Looks up a localized string similar to O campo Como das rotinas deve possuir no máximo 10000 caracteres..
         /// </summary>
         public static string MsgMaxRotinasComo {
             get {

@@ -93,6 +93,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceInstrumentos.resx</DependentUpon>
     </Compile>
+    <Compile Include="Licenca\ResourceLicenca.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceLicenca.resx</DependentUpon>
+    </Compile>
     <Compile Include="Login\ResourceLogin.en-US.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -207,6 +212,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceInstrumentos.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Licenca\ResourceLicenca.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceLicenca.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login\ResourceLogin.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceLogin.en-US.Designer.cs</LastGenOutput>
@@ -242,6 +251,7 @@
     <EmbeddedResource Include="Resource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\ResourceLogin.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -250,6 +260,7 @@
     <EmbeddedResource Include="Shared\ResourceBreadCrumb.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceBreadCrumb.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Fornecedores\ResourceFornecedores.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

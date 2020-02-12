@@ -179,6 +179,49 @@ namespace Web.UI.Controllers
             {
             }
 
+            try
+            {
+                using (var db = new BaseContext())
+                {
+
+
+                    if (idSite != 0)
+                    {
+                        var result = (from lc in db.Licenca
+                                      where lc.DataVencimento.Value < DateTime.Now
+                                      select new PendenciaViewModel
+                                      {
+                                          Id = lc.IdLicenca,
+                                          Titulo = lc.Titulo,
+                                          IdResponsavel = lc.IdResponsavel, 
+                                          Modulo  = "Licenca"
+                                          
+
+                                      });
+
+                        if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 2)
+                        {
+                            ViewBag.Pendencia = result.ToList();
+                        }
+                        else
+                        {
+                            ViewBag.Pendencia = result.Where(x => x.IdResponsavel == usuarioLogadoBase.IdUsuario).ToList();
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Pendencia = new List<PendenciaViewModel>();
+                    }
+                }
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)

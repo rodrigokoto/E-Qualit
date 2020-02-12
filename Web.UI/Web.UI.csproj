@@ -207,6 +207,7 @@
     <Compile Include="Controllers\GestaoDeRiscoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndicadorController.cs" />
+    <Compile Include="Controllers\LicencaController.cs" />
     <Compile Include="Controllers\InstrumentoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\NaoConformidadeController.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
     <Compile Include="Models\MenuProcessoViewModel.cs" />
     <Compile Include="Models\PdfAcaoCorreticaViewModel.cs" />
+    <Compile Include="Models\PendenciaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocator\Interface\IServiceLocator.cs" />
     <Compile Include="ServiceLocator\ServiceLocator.cs" />
@@ -1002,6 +1004,7 @@
     <Content Include="Content\assets\js\GraficoNaoConformidade.js" />
     <Content Include="Content\assets\js\HomeController.js" />
     <Content Include="Content\assets\js\IndicadorController.js" />
+    <Content Include="Content\assets\js\LicencaController.js" />
     <Content Include="Content\assets\js\InstrumentosController.js" />
     <Content Include="Content\assets\js\jquery.min.js" />
     <Content Include="Content\assets\js\jquery-slimscroll\jquery.slimscroll.js" />
@@ -1881,6 +1884,8 @@
     <Content Include="Views\Shared\Anexo\_Anexo.cshtml" />
     <Content Include="Views\Shared\Anexo\_ModalAnexo.cshtml" />
     <Content Include="Views\Shared\Anexo\_AnexoSetup.cshtml" />
+    <Content Include="Views\Licenca\Index.cshtml" />
+    <Content Include="Views\Licenca\Criar.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -296,7 +296,7 @@ namespace Web.UI.Controllers
             var documento = new DocDocumento();
             documento.GestaoDeRisco = new RegistroConformidade();
             documento.Licenca = new Licenca();
-            documento.Licenca.Anexo = new Anexo();
+            //documento.Licenca.Anexo = new Anexo();
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
@@ -378,7 +378,7 @@ namespace Web.UI.Controllers
             var documento = new DocDocumento();
             documento.GestaoDeRisco = new RegistroConformidade();
             documento.Licenca = new Licenca();
-            documento.Licenca.Anexo = new Anexo();
+            //documento.Licenca.Anexo = new Anexo();
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
@@ -407,7 +407,7 @@ namespace Web.UI.Controllers
             var documento = new DocDocumento();
             documento.GestaoDeRisco = new RegistroConformidade();
             documento.Licenca = new Licenca();
-            documento.Licenca.Anexo = new Anexo();
+            //documento.Licenca.Anexo = new Anexo();
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
@@ -1053,7 +1053,7 @@ namespace Web.UI.Controllers
 
             if (documento.IdLicenca > 0)
             {
-                documento.Licenca.Anexo.ArquivoB64 = documento.Licenca.Anexo.TrataAnexoVindoBanco();
+                //documento.Licenca.Anexo.ArquivoB64 = documento.Licenca.Anexo.TrataAnexoVindoBanco();
 
             }
 
@@ -1344,20 +1344,13 @@ namespace Web.UI.Controllers
             }
 
 
+            source.Rotinas.ForEach(s =>
+             dest.Rotinas.Where(r => r.IdDocRotina == s.IdDocRotina).SingleOrDefault(x => { x.Quem = s.Quem; x.OQue = s.OQue; x.Item = s.Item; x.Como = s.Como; x.Registro = s.Registro; return true; })
+            );
             //Rotinas
             dest.Rotinas.AddRange(source.Rotinas.Where(s => s.IdDocRotina == 0));
             List<DocRotina> rotinas = dest.Rotinas.Where(s => !source.Rotinas.Any(a => s.IdDocRotina == a.IdDocRotina)).ToList();
             rotinas.ForEach(f => _documentoAppServico.RemoverGenerico(f));
-
-            dest.Rotinas.ForEach(x =>
-            {
-                var itemAtualizar = source.Rotinas.Where(y => y.IdDocRotina == x.IdDocRotina).FirstOrDefault();
-                x.Como = itemAtualizar.Como;
-                x.OQue = itemAtualizar.OQue;
-                x.Quem = itemAtualizar.Quem;
-                x.Registro = itemAtualizar.Registro;
-                x.Item = itemAtualizar.Item;
-            });
 
             //Registros
             dest.Registros.AddRange(source.Registros.Where(s => s.IdDocRegistro == 0));
@@ -2005,7 +1998,7 @@ namespace Web.UI.Controllers
 
             if (doc.DocTemplate.Any(x => x.TpTemplate == "L"))
             {
-                doc.Licenca.Anexo.Tratar();
+                //doc.Licenca.Anexo.Tratar();
             }
             if (doc.DocTemplate.Any(x => x.TpTemplate == "DE") && doc.DocExterno != null)
             {

@@ -25,8 +25,10 @@ namespace IsotecWindowsService
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
         private readonly ICalibracaoService _calibracaoService;
         private readonly IQualificacaoService _qualificacaoService;
+        private readonly ILicencaService _licencaService;
         private Thread IsotecServiceThread;
         private Thread IsotecFornecedorServiceThread;
+        private Thread IsotecLicencaServiceThread;
 
         public ServicoIsotec()
         {
@@ -34,6 +36,7 @@ namespace IsotecWindowsService
 
             _calibracaoService = kernel.Get<ICalibracaoService>();
             _qualificacaoService = kernel.Get<IQualificacaoService>();
+            _licencaService = kernel.Get<ILicencaService>();
 
         }
 
@@ -45,11 +48,15 @@ namespace IsotecWindowsService
 
         protected override void OnStart(string[] args)
         {
-            //IsotecServiceThread = new Thread(() => CalibracaoService());
-            //IsotecServiceThread.Start();
+            IsotecServiceThread = new Thread(() => CalibracaoService());
+            IsotecServiceThread.Start();
 
             IsotecFornecedorServiceThread = new Thread(() => QualificacaoService());
             IsotecFornecedorServiceThread.Start();
+
+
+            IsotecLicencaServiceThread = new Thread(() => LicencaService());
+            IsotecLicencaServiceThread.Start();
         }
 
         protected override void OnStop()
@@ -83,6 +90,27 @@ namespace IsotecWindowsService
                 //    if (DateTime.Now.Hour == confighour.Hour)
                 //    {
                 _qualificacaoService.EnfileirarEmail();
+                //    }
+                //}
+                Thread.Sleep(30000);
+            }
+        }
+        private void LicencaService()
+         {
+
+            while (true)
+
+            {
+
+                //var SysHour = ConfigurationManager.AppSettings["StartService"].Split(':');
+
+                //var confighour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Convert.ToInt32(SysHour[0]), Convert.ToInt32(SysHour[1]), 0);
+
+                //if (DateTime.Now.Date == confighour.Date)
+                //{
+                //    if (DateTime.Now.Hour == confighour.Hour)
+                //    {
+                _licencaService.EnfileirarEmail();
                 //    }
                 //}
                 Thread.Sleep(30000);

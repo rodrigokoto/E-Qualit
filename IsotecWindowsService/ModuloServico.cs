@@ -19,8 +19,9 @@ namespace IoC
         {
             Bind<ICalibracaoService>().To<CalibracaoService>();
             Bind<IQualificacaoService>().To<QualificacaoService>();
-           
-            
+            Bind<ILicencaService>().To<LicencaService>();
+
+
         }
     }
 }

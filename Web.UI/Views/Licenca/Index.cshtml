@@ -1,0 +1,105 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model IEnumerable<Dominio.Entidade.Licenca>
+@{
+    ViewBag.Title = "Licenças";
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+}
+@section Metas {
+    <meta name="page" content="IndexLicencas" />
+}
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/LicencaController.js")"></script>
+}
+
+@Html.AntiForgeryToken()
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Licenca -->
+        <form id="form-list-">
+            <div class="panel panel-default" id="panel-Licenca">
+                <div class="panel-body" id="panel-form-Licenca">
+                    <div class="row">
+                        <div class="barra-busca">
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesLicenca.Incluir) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo">
+                                    @Html.ActionLink(Traducao.Licenca.ResourceLicenca.IN_lbl_titulo_nova_Licenca, "Criar", "Licenca")
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
+                            <div class="col-lg-12">
+                                <table id="tb-Licenca" class="display table table-striped table-bordered dt-responsive" style="width:100% !important;">
+                                    <thead>
+                                        <tr id="hr1" class="bg">
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_Titulo">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_Processo">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_Responsavel">
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_DtVencimento">
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_Status">
+                                            </th>
+                                            <th class="w10"></th>
+                                        </tr>
+                                        <tr class="bg">
+                                            <th>@Traducao.Licenca.ResourceLicenca.IN_lbl_Titulo</th>
+                                            <th>@Traducao.Licenca.ResourceLicenca.IN_lbl_Processo</th>
+                                            <th>@Traducao.Licenca.ResourceLicenca.IN_lbl_Responsavel</th>
+                                            <th>@Traducao.Licenca.ResourceLicenca.IN_lbl_DtVencimento</th>
+                                            <th>@Traducao.Licenca.ResourceLicenca.IN_lbl_Status</th>
+                                            <th>@Traducao.Shared.ResourceLabel.Label_perfil_Acao</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            foreach (var licenca in Model)
+                                            {
+                                                <tr class="odd">
+                                                    <td>@licenca.Titulo</td>
+                                                    <td>@licenca.IdProcesso</td>
+                                                    <td>@licenca.Usuario.NmCompleto</td>
+                                                    <td>@licenca.DataVencimento</td>
+                                                    <td>Status</td>
+                                                    <td>
+                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Editar).Count() > 0 || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="@Url.Action("Editar","Licenca", new {id = licenca.IdLicenca}) " class="edit icon-cliente editar-color">
+                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                            </a>
+                                                        }
+                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Excluir).Count() > 0 || ViewBag.IdPerfil != 4)
+                                                        {
+
+                                                            <a href="#" class="excluir icon-cliente trash-color tb-Licenca-excluir" data-id="@licenca.IdLicenca">
+                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                            </a>
+                                                        }
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

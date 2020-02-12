@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entidade\ArquivoLicencaAnexo.cs" />
     <Compile Include="Entidade\ArquivoInstrumentoAnexo.cs" />
     <Compile Include="Entidade\ArquivoNaoConformidadeAnexo.cs" />
     <Compile Include="Entidade\ArquivoDocDocumentoAnexo.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Entidade\Licenca.cs" />
     <Compile Include="Entidade\Recurso.cs" />
     <Compile Include="Entidade\DocRegistro.cs" />
+    <Compile Include="Entidade\RegistroLicenca.cs" />
     <Compile Include="Entidade\RegistroQualificacao.cs" />
     <Compile Include="Entidade\RegistroAuditoria.cs" />
     <Compile Include="Entidade\Residuo.cs" />
@@ -224,11 +226,12 @@
     <Compile Include="Especificacao\Usuarios\DeveTerContaNaoCompartilhada.cs" />
     <Compile Include="Especificacao\Usuarios\NaoDeveEstarExpirado.cs" />
     <Compile Include="Interface\Repositorio\IAnexoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IArquivoCertificadoAnexoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IArquivoNaoConformidadeAnexoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IArquivoPlaiAnexoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IArquivoDeEvidenciaRegistroConformidadeRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IArquivosEvidenciaCriterioQualificacaoRepositorio.cs" />
-    <Compile Include="Interface\Repositorio\IArquivoCertificadoAnexoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IArquivoLicencaAnexoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IArquivoDeEvidenciaAcaoImediataRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IClienteContratoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IClienteLogoRepositorio.cs" />
@@ -256,6 +259,7 @@
     <Compile Include="Interface\Repositorio\IHistoricoCriterioAvaliacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IComentarioAcaoImediataRepostorio.cs" />
     <Compile Include="Interface\Repositorio\IIndicadorRepostorio.cs" />
+    <Compile Include="Interface\Repositorio\ILicencaRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IInstrumentoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\ILoginRepositorio.cs" />
     <Compile Include="Interface\Repositorio\ILogRepositorio.cs" />
@@ -277,6 +281,7 @@
     <Compile Include="Interface\Repositorio\ICriterioAvaliacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IRegistroAcaoImediataRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IAnaliseCriticaTemaRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IRegistroLicencaRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IRegistroQualificacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IRegistroAuditoria.cs" />
     <Compile Include="Interface\Repositorio\ISiteAnexoRepositorio.cs" />
@@ -315,6 +320,7 @@
     <Compile Include="Interface\Servico\IFornecedorServico.cs" />
     <Compile Include="Interface\Servico\IHistoricoCriterioAvaliacaoServico.cs" />
     <Compile Include="Interface\Servico\IIndicadorServico.cs" />
+    <Compile Include="Interface\Servico\ILicencaServico.cs" />
     <Compile Include="Interface\Servico\IInstrumentoServico.cs" />
     <Compile Include="Interface\Servico\ILoginServico.cs" />
     <Compile Include="Interface\Servico\ILogServico.cs" />
@@ -331,6 +337,7 @@
     <Compile Include="Interface\Servico\IProdutoServico.cs" />
     <Compile Include="Interface\Servico\ICriterioAvaliacaoServico.cs" />
     <Compile Include="Interface\Servico\IRegistroAcaoImediataServico.cs" />
+    <Compile Include="Interface\Servico\IRegistroLicencaServico.cs" />
     <Compile Include="Interface\Servico\IRegistroQualificacaoServico.cs" />
     <Compile Include="Interface\Servico\IRegistroAuditoriaServico.cs" />
     <Compile Include="Interface\Servico\IUsuarioSenhaServico.cs" />
@@ -366,7 +373,9 @@
     <Compile Include="Servico\DocUsuarioVerificaAprovaServico.cs" />
     <Compile Include="Servico\FilaEnvioServico.cs" />
     <Compile Include="Servico\FornecedorServico.cs" />
+    <Compile Include="Servico\Licenca.cs" />
     <Compile Include="Servico\RegistroAcaoImediataServico.cs" />
+    <Compile Include="Servico\RegistroLicencaServico.cs" />
     <Compile Include="Servico\RegistroQualificacaoServico.cs" />
     <Compile Include="Servico\RegistroAuditoriaServico.cs" />
     <Compile Include="Servico\UsuarioSenhaServico.cs" />

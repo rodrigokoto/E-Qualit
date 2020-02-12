@@ -14,7 +14,7 @@ namespace DAL.Context
             Database.SetInitializer<BaseContext>(null);
 
         }
-        
+
         public DbSet<RegistroConformidade> RegistroConformidade { get; set; }
         public DbSet<ControladorCategoria> ControladorCategoria { get; set; }
         public DbSet<Cargo> Cargo { get; set; }
@@ -56,7 +56,7 @@ namespace DAL.Context
         public DbSet<Produto> Produto { get; set; }
         public DbSet<CriterioQualificacao> CriterioQualificacao { get; set; }
         public DbSet<AvaliaCriterioQualificacao> AvaliaCriterioQualificacao { get; set; }
-        
+
         public DbSet<Fornecedor> Fornecedor { get; set; }
         public DbSet<ProdutoFornecedor> ProdutoFornecedor { get; set; }
         public DbSet<Log> Log { get; set; }
@@ -82,8 +82,9 @@ namespace DAL.Context
         public DbSet<ArquivoCertificadoAnexo> ArquivoCertificadoAnexo { get; set; }
         public DbSet<ArquivoPlaiAnexo> ArquivoPlaiAnexo { get; set; }
         public DbSet<ArquivoNaoConformidadeAnexo> AcaoCorretivaAnexo { get; set; }
-        public DbSet<ArquivoDocDocumentoAnexo>  ArquivoDocDocumentoAnexo { get; set; }
+        public DbSet<ArquivoDocDocumentoAnexo> ArquivoDocDocumentoAnexo { get; set; }
         public DbSet<ArquivoInstrumentoAnexo> ArquivoInstrumentoAnexo { get; set; }
+        public DbSet<ArquivoLicencaAnexo> ArquivoLicencaAnexo { get; set; }
         //public DbSet<DocLicenca> DocLicenca { get; set; }
         public DbSet<ComentarioAcaoImediata> ComentarioAcaoImediata { get; set; }
         public DbSet<Licenca> Licenca { get; set; }
@@ -130,7 +131,7 @@ namespace DAL.Context
         public DbSet<Habilidade> Habilidade { get; set; }
         public DbSet<Atribuicao> Atribuicao { get; set; }
         #endregion
-     
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
@@ -184,7 +185,7 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new AvaliacaoCriticidadeMap());
             modelBuilder.Configurations.Add(new CriterioAvaliacaoMap());
             modelBuilder.Configurations.Add(new CriterioQualificacaoMap());
-            modelBuilder.Configurations.Add(new AvaliaCriterioQualificacaoMap());            
+            modelBuilder.Configurations.Add(new AvaliaCriterioQualificacaoMap());
             modelBuilder.Configurations.Add(new FornecedorMap());
             modelBuilder.Configurations.Add(new ProdutoFornecedorMap());
             modelBuilder.Configurations.Add(new LogMap());
@@ -203,6 +204,7 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new SiteAnexoMap());
             modelBuilder.Configurations.Add(new ClienteLogoMap());
             modelBuilder.Configurations.Add(new ClienteContratoMap());
+            modelBuilder.Configurations.Add(new LicencaMap());
             modelBuilder.Configurations.Add(new ArquivosDeEvidenciaMap());
             modelBuilder.Configurations.Add(new ArquivosEvidenciaCriterioQualificacaoMap());
             modelBuilder.Configurations.Add(new ArquivoDeEvidenciaAcaoImediataMap());
@@ -211,8 +213,7 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new ArquivoNaoConformidadeAnexoMap());
             modelBuilder.Configurations.Add(new ArquivoDocDocumentoAnexoMap());
             modelBuilder.Configurations.Add(new ArquivoInstrumentoAnexoMap());
-            
-            modelBuilder.Configurations.Add(new LicencaMap());
+            modelBuilder.Configurations.Add(new ArquivoLicencaAnexoMap());
             modelBuilder.Configurations.Add(new DocExternoMap());
 
             modelBuilder.Configurations.Add(new DocRotinaMap());

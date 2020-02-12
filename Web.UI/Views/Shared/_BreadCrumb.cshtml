@@ -1,132 +1,136 @@
 ﻿@using Web.UI.Helpers
 @using Dominio.Enumerado
-<ol class="breadcrumb breadcrumb-arrow">
-    @{
-        var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
-        var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
+    <ol class="breadcrumb breadcrumb-arrow">
+        @{
+            var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+            var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
 
-        <li>
-            <button id="btnEsconder" style="margin-right: 10px !important; height: 33px; @(ViewBag.CodClienteSelecionado == null || ViewBag.CodClienteSelecionado == 0 ? "display: none" : "")">
-                <span class="navbar-toggler-icon">
-                    <i class="fa fa-navicon"></i>
-                </span>
-            </button>
-        </li>
+            <li>
+                <button id="btnEsconder" style="margin-right: 10px !important; height: 33px; @(ViewBag.CodClienteSelecionado == null || ViewBag.CodClienteSelecionado == 0 ? "display: none" : "")">
+                    <span class="navbar-toggler-icon">
+                        <i class="fa fa-navicon"></i>
+                    </span>
+                </button>
+            </li>
 
-        <li><a href="/Home/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Home</a></li>
+            <li><a href="/Home/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Home</a></li>
 
-        if (controller == "norma")
-        {
-            <li><a href="/Auditoria/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_auditoria</a></li>
-            @*<li><a href="/Norma/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_norma</a></li>*@
-        }
-
-        if (controller == "plai")
-        {
-            <li><a href="/Auditoria/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_auditoria</a></li>
-            <li><a href="" class="active" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_plai</a></li>
-            @*<li><a href="/Norma/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_norma</a></li>*@
-        }
-        else if (controller == "usuario")
-        {
-            <li><a href="/Cliente/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_cliente</a></li>
-            <li><a href="/Site/Index/@HttpContext.Current.Request.Cookies["clienteSelecionado"].Value" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_site</a></li>
-            <li><a class="@(action == "index"?"active":null)" href="@("/" + controller + "/Index/"+HttpContext.Current.Request.Cookies["clienteSelecionado"].Value)" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
-            if (action != "index")
+            if (controller == "norma")
             {
-                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
+                <li><a href="/Auditoria/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_auditoria</a></li>
+                @*<li><a href="/Norma/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_norma</a></li>*@
             }
-        }
-        else if (controller == "cliente")
-        {
-            <li><a class="@(action == "index"?"active":null)" style="margin-top: 5px" href=@("/" + controller + "/Index")>@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
-            if (action != "index")
+
+            if (controller == "plai")
             {
-                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
+                <li><a href="/Auditoria/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_auditoria</a></li>
+                <li><a href="" class="active" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_plai</a></li>
+                @*<li><a href="/Norma/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_norma</a></li>*@
             }
-        }
-        else if (controller == "site")
-        {
-            var idPerfilLogado = Util.ObterPerfilUsuarioLogado();
-            if (idPerfilLogado == (int)PerfisAcesso.Administrador && idPerfilLogado == (int)PerfisAcesso.Suporte)
+            else if (controller == "licenca")
+            {
+                <li><a href="/Licenca/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_Licenca</a></li>
+            }
+            else if (controller == "usuario")
             {
                 <li><a href="/Cliente/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_cliente</a></li>
-            }
-            <li><a class="@(action == "index"?"active":null)" style="margin-top: 5px" href="@("/" + controller + "/Index/"+HttpContext.Current.Request.Cookies["clienteSelecionado"].Value)">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
-            if (action != "index")
-            {
-                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
-            }
-        }
-        else if (controller == "cargo")
-        {
-            <li><a href="/Cliente/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_cliente</a></li>
-            <li><a href="/Site/Index/@HttpContext.Current.Request.Cookies["clienteSelecionado"].Value" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_site</a></li>
-            <li><a class="@(action == "index"?"active":null)" href="@("/" + controller + "/Index/"+HttpContext.Current.Request.Cookies["siteSelecionado"].Value)">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
-            if (action != "index")
-            {
-                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
-            }
-        }
-        else
-        {
-            if (HttpContext.Current.Request != null && HttpContext.Current.Request.Cookies["processoSelecionadoNome"] != null && HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value != null &&
-               HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value != "")
-            {
-                if (controller == "home" && action == "index")
+                <li><a href="/Site/Index/@HttpContext.Current.Request.Cookies["clienteSelecionado"].Value" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_site</a></li>
+                <li><a class="@(action == "index" ? "active" : null)" href="@("/" + controller + "/Index/" + HttpContext.Current.Request.Cookies["clienteSelecionado"].Value)" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+                if (action != "index")
                 {
-                    <li><a href="/Home/Index" style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.Processo - @HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value</a></li>
-
+                    <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
                 }
-                else
+            }
+            else if (controller == "cliente")
+            {
+                <li><a class="@(action == "index" ? "active" : null)" style="margin-top: 5px" href=@("/" + controller + "/Index")>@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+                if (action != "index")
                 {
-                    if (ViewBag.idSite == null)
+                    <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
+                }
+            }
+            else if (controller == "site")
+            {
+                var idPerfilLogado = Util.ObterPerfilUsuarioLogado();
+                if (idPerfilLogado == (int)PerfisAcesso.Administrador && idPerfilLogado == (int)PerfisAcesso.Suporte)
+                {
+                    <li><a href="/Cliente/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_cliente</a></li>
+                }
+                <li><a class="@(action == "index" ? "active" : null)" style="margin-top: 5px" href="@("/" + controller + "/Index/" + HttpContext.Current.Request.Cookies["clienteSelecionado"].Value)">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+                if (action != "index")
+                {
+                    <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
+                }
+            }
+            else if (controller == "cargo")
+            {
+                <li><a href="/Cliente/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_cliente</a></li>
+                <li><a href="/Site/Index/@HttpContext.Current.Request.Cookies["clienteSelecionado"].Value" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Controller_site</a></li>
+                <li><a class="@(action == "index" ? "active" : null)" href="@("/" + controller + "/Index/" + HttpContext.Current.Request.Cookies["siteSelecionado"].Value)">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+                if (action != "index")
+                {
+                    <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
+                }
+            }
+            else
+            {
+                if (HttpContext.Current.Request != null && HttpContext.Current.Request.Cookies["processoSelecionadoNome"] != null && HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value != null &&
+                   HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value != "")
+                {
+                    if (controller == "home" && action == "index")
                     {
-                        <li><a href="/Home/Index " style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Processo - @HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value</a></li>
+                        <li><a href="/Home/Index" style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.Processo - @HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value</a></li>
+
                     }
                     else
                     {
-                        if (ViewBag.IdPerfil != 4)
+                        if (ViewBag.idSite == null)
                         {
-                            <li><a href="/Home/HomeProcesso?IdSite=@ViewBag.idSite" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Processo - @HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value</a></li>
+                            <li><a href="/Home/Index " style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Processo - @HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value</a></li>
                         }
                         else
                         {
-                            <li><a href="/Home/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Processo - @HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value</a></li>
+                            if (ViewBag.IdPerfil != 4)
+                            {
+                                <li><a href="/Home/HomeProcesso?IdSite=@ViewBag.idSite" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Processo - @HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="/Home/Index" style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.Processo - @HttpContext.Current.Request.Cookies["processoSelecionadoNome"].Value</a></li>
+                            }
                         }
                     }
                 }
-            }
 
-            if (action != "index")
-            {
-                if (action != "homeprocesso")
+                if (action != "index")
                 {
-                    if (controller.Contains("controldoc"))
+                    if (action != "homeprocesso")
                     {
-                        <li><a href=@("/" + controller + "/DocumentosAprovados") style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
-
-                        if (!String.IsNullOrEmpty(Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)))
+                        if (controller.Contains("controldoc"))
                         {
-                            <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString(String.Format("Action_{0}", action))</a></li>
+                            <li><a href=@("/" + controller + "/DocumentosAprovados") style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+
+                            if (!String.IsNullOrEmpty(Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)))
+                            {
+                                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString(String.Format("Action_{0}", action))</a></li>
+                            }
                         }
-                    }
-                    else
-                    {
-                        <li><a href=@("/" + controller + "/Index") style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
-
-                        if (!String.IsNullOrEmpty(Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)))
+                        else
                         {
-                            <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString(String.Format("Action_{0}", action))</a></li>
+                            <li><a href=@("/" + controller + "/Index") style="margin-top: 5px">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+
+                            if (!String.IsNullOrEmpty(Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)))
+                            {
+                                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString(String.Format("Action_{0}", action))</a></li>
+                            }
                         }
                     }
                 }
+                else if (controller != "home")
+                {
+                    <li><a href=@("/" + controller + "/Index") style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+                }
             }
-            else if (controller != "home")
-            {
-                <li><a href=@("/" + controller + "/Index") style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
-            }
-        }
 
-    }
-</ol>
+        }
+    </ol>

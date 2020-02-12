@@ -604,20 +604,20 @@
                                                         foreach (var rotina in Model.Rotinas)
                                                         {
                                                             <tr>
-                                                                <td>
+                                                                <td style="width:10%" >
                                                                     <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdDocRotina" />
                                                                     <label name="formRotinaItem" if="form-rotina-item" class="" disabled="">@rotina.Item</label>
                                                                 </td>
-                                                                <td>
+                                                                <td style="width:20%">
                                                                     <label type="text" name="formRotinaOQue" if="form-rotina-o-que" class="" disabled>@rotina.OQue</label>
                                                                 </td>
-                                                                <td>
+                                                                <td style="width:10%">
                                                                     <label type="text" name="formRotinaQuem" if="form-rotina-quem" class="" disabled>@rotina.Quem</label>
                                                                 </td>
-                                                                <td>
+                                                                <td style="width:10%">
                                                                     <label type="text" name="formRotinaRegistro" if="form-rotina-registro" class="" disabled>@rotina.Registro</label>
                                                                 </td>
-                                                                <td>
+                                                                <td style="width:50%">
                                                                     <label type="text" name="formRotinaComo" if="form-rotina-como" class="" disabled>@rotina.Como</label>
                                                                 </td>
                                                             </tr>
