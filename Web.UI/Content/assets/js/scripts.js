@@ -31734,6 +31734,10 @@ APP.controller.General = {
             this.cargoController();
         }
 
+        if (page == "IndexGestaoMelhoria" || page == "CriarGestaoMelhoria" || page == "EditarGestaoMelhoria") {
+            this.gestaoMelhoriaController();
+        }
+
         //Nao Conformidade
         if (page === "IndexNaoConformidade" || "CriarNaoConformidade" || "EditarNaoConformidade") {
             this.naoConformidadeController();
@@ -31815,6 +31819,9 @@ APP.controller.General = {
 
         APP.controller.ClienteController.init();
 
+    },
+    gestaoMelhoriaController: function () {
+        APP.controller.GestaoMelhoriaController.init();
     },
 
     naoConformidadeController: function () {

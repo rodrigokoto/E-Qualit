@@ -69,6 +69,7 @@
     <Compile Include="Enum\FuncoesControlDoc.cs" />
     <Compile Include="Enum\FuncoesGestaoDeRisco.cs" />
     <Compile Include="Enum\FuncoesInstrumento.cs" />
+    <Compile Include="Enum\FuncoesGestaoMelhoria.cs" />
     <Compile Include="Enum\FuncoesNaoConformidade.cs" />
     <Compile Include="Enum\TempletesDisparoDeEmail.cs" />
     <Compile Include="Interface\IAnaliseCriticaFuncionarioAppServico.cs" />

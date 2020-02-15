@@ -5,6 +5,7 @@ using Dominio.Interface.Servico;
 using Dominio.Validacao.AcoesImediatas;
 using Dominio.Validacao.RegistroConformidades.AcaoCorretivas;
 using Dominio.Validacao.RegistroConformidades.GestaoDeRiscos;
+using Dominio.Validacao.RegistroConformidades.GestaoMelhorias;
 using Dominio.Validacao.RegistroConformidades.NaoConformidades;
 using FluentValidation;
 using System;
@@ -482,7 +483,39 @@ namespace Dominio.Servico
                 }
             }
         }
+        public void ValidaGestaoMelhoria(RegistroConformidade gestaoMelhoria, int idUsuarioLogado, ref List<string> erros)
+        {
 
+            var acaoImediataUpdateIsValid = gestaoMelhoria.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
+
+
+
+            try
+            {
+
+                var validaCampos = DefineFluxoValidacaoGM(gestaoMelhoria).Validate(gestaoMelhoria);
+                if (!validaCampos.IsValid && validaCampos != null)
+                {
+                    erros.AddRange(UtilsServico.PopularErros(validaCampos.Errors));
+                }
+
+                if (gestaoMelhoria.AcoesImediatas.Count > 0 && gestaoMelhoria.StatusEtapa != (byte)EtapasRegistroConformidade.Reverificacao)
+                {
+                    var erroAux = new List<string>();
+
+                    Parallel.ForEach(gestaoMelhoria.AcoesImediatas, acaoImediata =>
+                    {
+                        erroAux = TrataAcaoImediata(acaoImediata, gestaoMelhoria, idUsuarioLogado, erroAux);
+                    });
+                    erros.AddRange(erroAux);
+
+                }
+
+            }
+            catch
+            {
+            }
+        }
         public void ValidaNaoConformidade(RegistroConformidade naoConformidade, int idUsuarioLogado, ref List<string> erros)
         {
 
@@ -593,7 +626,24 @@ namespace Dominio.Servico
             
             return null;
         }
-
+        private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoGM(RegistroConformidade gestaoDeRisco)
+        {
+            var acaoImediataUpdateIsValid = gestaoDeRisco.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
+            if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && acaoImediataUpdateIsValid == false)
+            {
+                return new CamposObrigatoriosGestaoMelhoriaEtapa2Validation();
+            }
+            else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && acaoImediataUpdateIsValid == true)
+            {
+                return new CamposObrigatoriosGestaoMelhoriaImplementacaoDtEfetivaImplementacao();
+            }
+            //else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
+            else
+            {
+                return new CamposObrigatoriosNaoConformidadeReverificacao();
+            }
+            //return null;
+        }
         private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoGR(RegistroConformidade gestaoDeRisco)
         {
             var acaoImediataUpdateIsValid = gestaoDeRisco.AcoesImediatas.FirstOrDefault(x => x.Estado == EstadoObjetoEF.Modified) != null;
@@ -608,7 +658,7 @@ namespace Dominio.Servico
             //else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
             else
             {
-                return new CamposObrigatoriosNaoConformidadeReverificacao();
+                return new CamposObrigatoriosGestaoMelhoriaReverificacao();
             }
             //return null;
         }
@@ -786,6 +836,10 @@ namespace Dominio.Servico
                     case "gr":
                         var camposObrigatoriosGestaoDeRiscoEtapa1 = new CamposObrigatoriosGestaoDeRiscoEtapa1Validation();
                         return camposObrigatoriosGestaoDeRiscoEtapa1;
+
+                    case "gm":
+                        var camposObrigatoriosGestaoMelhoriaEtapa1 = new CamposObrigatoriosGestaoMelhoriaEtapa1Validation();
+                        return camposObrigatoriosGestaoMelhoriaEtapa1;
                 }
             }
             else if (objCtx == true && registroConformidade.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata)
@@ -803,6 +857,9 @@ namespace Dominio.Servico
                     case "gr":
                         var camposObrigatoriosAcaoCorretivaEtapa1 = new CamposObrigatoriosGestaoDeRiscoEtapa1Validation();
                         return camposObrigatoriosAcaoCorretivaEtapa1;
+                    case "gm":
+                        var camposObrigatoriosGestaoMelhoriaEtapa1 = new CamposObrigatoriosGestaoMelhoriaEtapa1Validation();
+                        return camposObrigatoriosGestaoMelhoriaEtapa1;
                 }
             }
             else if (objCtx == true && registroConformidade.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao)
@@ -820,6 +877,9 @@ namespace Dominio.Servico
                     case "gr":
                         var camposObrigatoriosAcaoCorretivaEtapa2 = new CamposObrigatoriosGestaoDeRiscoEtapa2Validation();
                         return camposObrigatoriosAcaoCorretivaEtapa2;
+                    case "gm":
+                        var camposObrigatoriosGestaoMelhoriaEtapa2 = new CamposObrigatoriosGestaoMelhoriaEtapa2Validation();
+                        return camposObrigatoriosGestaoMelhoriaEtapa2;
                 }
 
             }
@@ -838,6 +898,9 @@ namespace Dominio.Servico
                     case "gr":
                         var camposObrigatoriosGestaoDeRiscoEtapa4 = new CamposObrigatoriosGestaoDeRiscoEtapa4Validation();
                         return camposObrigatoriosGestaoDeRiscoEtapa4;
+                    case "gm":
+                        var camposObrigatoriosGestaoMelhoriaEtapa4 = new CamposObrigatoriosGestaoMelhoriaEtapa4Validation();
+                        return camposObrigatoriosGestaoMelhoriaEtapa4;
                 }
             }
             return null;

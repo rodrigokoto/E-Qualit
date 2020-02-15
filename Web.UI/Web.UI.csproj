@@ -210,6 +210,7 @@
     <Compile Include="Controllers\LicencaController.cs" />
     <Compile Include="Controllers\InstrumentoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\GestaoMelhoriaController.cs" />
     <Compile Include="Controllers\NaoConformidadeController.cs" />
     <Compile Include="Controllers\NormaController.cs" />
     <Compile Include="Controllers\NotificacaoController.cs" />
@@ -1001,6 +1002,7 @@
     <Content Include="Content\assets\js\GeneralController.js" />
     <Content Include="Content\assets\js\GerarPdfDocumento.js" />
     <Content Include="Content\assets\js\GestaoDeRiscoController.js" />
+    <Content Include="Content\assets\js\GraficoGestaoMelhoria.js" />
     <Content Include="Content\assets\js\GraficoNaoConformidade.js" />
     <Content Include="Content\assets\js\HomeController.js" />
     <Content Include="Content\assets\js\IndicadorController.js" />
@@ -1012,6 +1014,7 @@
     <Content Include="Content\assets\js\Jquery.js" />
     <Content Include="Content\assets\js\LoginController.js" />
     <Content Include="Content\assets\js\Model.js" />
+    <Content Include="Content\assets\js\GestaoMelhoriaController.js" />
     <Content Include="Content\assets\js\NaoConformidadeController.js" />
     <Content Include="Content\assets\js\NormaController.js" />
     <Content Include="Content\assets\js\NotificacaoController.js" />
@@ -1886,6 +1889,12 @@
     <Content Include="Views\Shared\Anexo\_AnexoSetup.cshtml" />
     <Content Include="Views\Licenca\Index.cshtml" />
     <Content Include="Views\Licenca\Criar.cshtml" />
+    <Content Include="Views\GestaoMelhoria\Criar.cshtml" />
+    <Content Include="Views\GestaoMelhoria\Exibir.cshtml" />
+    <Content Include="Views\GestaoMelhoria\FiltroGrafico.cshtml" />
+    <Content Include="Views\GestaoMelhoria\Grafico.cshtml" />
+    <Content Include="Views\GestaoMelhoria\Index.cshtml" />
+    <Content Include="Views\GestaoMelhoria\PDF.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

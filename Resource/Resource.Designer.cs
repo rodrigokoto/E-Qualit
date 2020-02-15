@@ -4811,6 +4811,537 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data de Emissão.
+        /// </summary>
+        public static string GestaoMelhoria_Index_lbl_DtEmissao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_Index_lbl_DtEmissao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data de Encerramento.
+        /// </summary>
+        public static string GestaoMelhoria_Index_lbl_DtEnceramento {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_Index_lbl_DtEnceramento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Emissor.
+        /// </summary>
+        public static string GestaoMelhoria_Index_lbl_Emissor {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_Index_lbl_Emissor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Número.
+        /// </summary>
+        public static string GestaoMelhoria_Index_lbl_NuRegistro {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_Index_lbl_NuRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsavel por Implementar.
+        /// </summary>
+        public static string GestaoMelhoria_Index_lbl_ResponsavelImplementar {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_Index_lbl_ResponsavelImplementar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string GestaoMelhoria_Index_lbl_StatusEtapa {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_Index_lbl_StatusEtapa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deseja realmente, excluir essa Melhoria?.
+        /// </summary>
+        public static string GestaoMelhoria_Index_msg_DesejaExcluirEssaNC {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_Index_msg_DesejaExcluirEssaNC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuário logado não tem Permissão para destravar.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_Destravar {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_Destravar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Justificativa deve ter no minimo 4 caracteres.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_min_e_max_DescricaoAcao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_min_e_max_DescricaoAcao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Descrição Analise da Casua de ter no minimo 4 caracteres e no maximo 2000.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_min_e_max_DescricaoAnaliseCausa {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_min_e_max_DescricaoAnaliseCausa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo &apos;Registro&apos; deve ter entre 4 e 2000 caracteres..
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_min_e_max_DescricaoRegistro {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_min_e_max_DescricaoRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pelo menos uma Ação Imediata deve ser incluída..
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_AcoesImediatas {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_AcoesImediatas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O Campo Justificativa é obrigatório..
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_DescricaoAcao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_DescricaoAcao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O Campo Descricao Analise Causa é Obrigatório..
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_DescricaoAnaliseCausa {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_DescricaoAnaliseCausa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  O campo O que falhou? é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_DescricaoRegistro {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_DescricaoRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O Campo É Correção é Obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_ECorrecao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_ECorrecao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O Campo É Procedente é Obrigatorio.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_EProcedente {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_EProcedente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Responsavel por E-mailForcedor é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_GestaoMelhoriaFornecedorEmail {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_GestaoMelhoriaFornecedorEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Responsavel por Nome Forcedor é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_GestaoMelhoriaFornecedorName {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_GestaoMelhoriaFornecedorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Emissor é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IdEmissor {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IdEmissor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Processo é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IdProcesso {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IdProcesso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Campo Responsavel Acao Imediata..
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IdResponsavelInicarAcaoImediata {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IdResponsavelInicarAcaoImediata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Responsavel por Iniciar Ação Corretiva é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IdResponsavelIniciarAcaoCorretiva {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IdResponsavelIniciarAcaoCorretiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Site é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IdSite {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IdSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Tipo Melhoria é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IdTipoGestaoMelhoria {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IdTipoGestaoMelhoria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuario que incluiu é Obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IdUsuarioIncluiu {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IdUsuarioIncluiu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Responsavel por É Melhoria Auditoria  é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IsGestaoMelhoriaAuditoria {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IsGestaoMelhoriaAuditoria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Responsavel por É Melhoria Forcedor  é obrigatório.
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_IsGestaoMelhoriaFornecedor {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_IsGestaoMelhoriaFornecedor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O Campo Necessita Ação Corretiva é Obrigatório..
+        /// </summary>
+        public static string GestaoMelhoria_msg_erro_required_NecessitaAcaoCorretiva {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_erro_required_NecessitaAcaoCorretiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salvar e Notificar.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_btn_SalvarENotificar {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_btn_SalvarENotificar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O que falhou?.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_DescricaoRegistro {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_DescricaoRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data de Emissão:.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_DtEmissao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_DtEmissao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Melhoria de auditoria:.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Não.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria_Nao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria_Nao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sim.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria_Sim {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria_Sim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evidência (imagem/arquivo):.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_EvidenciaImg {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_EvidenciaImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Emissor - Melhoria:.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_IdEmissor {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_IdEmissor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processo:.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_IdProcesso {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_IdProcesso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsável por análise e definição de ação imediata:.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoCorretiva {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoCorretiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsável por análise e definição de ação imediata:.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoImediata {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoImediata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de Melhoria:.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_IdTipoGestaoMelhoria {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_IdTipoGestaoMelhoria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Número da Melhoria:.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_NuRegistro {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_NuRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string GestaoMelhoria_PrimeiraEtapa_lbl_Tags {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_PrimeiraEtapa_lbl_Tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deseja realmente, criar uma nao conformidade com o dia anterior a última cadastrada?.
+        /// </summary>
+        public static string GestaoMelhoria_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Justificativa.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_DescricaoAcao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_DescricaoAcao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Análise da Causa.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_DescricaoCausaAcaoCorretiva {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_DescricaoCausaAcaoCorretiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data da descrição da ação:.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_DtDescricaoAcao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_DtDescricaoAcao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ação imediata é uma correção?.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_ECorrecao {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_ECorrecao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Não.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_ECorrecao_false {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_ECorrecao_false", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sim.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_ECorrecao_true {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_ECorrecao_true", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Melhoria é procedente?.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_EProcedente {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_EProcedente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Não.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_EProcedente_false {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_EProcedente_false", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sim.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_EProcedente_true {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_EProcedente_true", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsavel por iniciar a tratativa da ação corretiva.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_IdResponsavelPorIniciarAcaoCorretiva {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_IdResponsavelPorIniciarAcaoCorretiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Necessita ação correção?.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Não.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva_false {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva_false", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sim.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva_true {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva_true", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Número Ação Corretiva:.
+        /// </summary>
+        public static string GestaoMelhoria_SegundaEtapa_lbl_NumeroAcaoCorretiva {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_SegundaEtapa_lbl_NumeroAcaoCorretiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsavel por reverificação.
+        /// </summary>
+        public static string GestaoMelhoria_TerceiraEtapa_lbl_IdResponsavelDefinir {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_TerceiraEtapa_lbl_IdResponsavelDefinir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Histórico de Avaliações.
         /// </summary>
         public static string HistoricoAvaliacao {

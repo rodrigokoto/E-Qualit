@@ -103,6 +103,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceLogin.en-US.resx</DependentUpon>
     </Compile>
+    <Compile Include="GestaoMelhoria\ResourceGestaoMelhoria.Designer.cs">
+      <DependentUpon>ResourceGestaoMelhoria.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="NaoConformidade\ResourceNaoConformidade.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -195,6 +200,7 @@
     <EmbeddedResource Include="AcaoCorretiva\ResourceAcaoCorretiva.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceAcaoCorretiva.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Cargo\ResourceCargo.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -219,6 +225,10 @@
     <EmbeddedResource Include="Login\ResourceLogin.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceLogin.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestaoMelhoria\ResourceGestaoMelhoria.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceGestaoMelhoria.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="NaoConformidade\ResourceNaoConformidade.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

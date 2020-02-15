@@ -171,7 +171,28 @@ namespace ApplicationService.Servico
 
             return objCtx;
         }
+        private RegistroConformidade TrataGM(RegistroConformidade gestaoDeRisco)
+        {
+            var objCtx = _registroConformidadesRepositorio.GetById(gestaoDeRisco.IdRegistroConformidade);
 
+            var listaAcaoImediataUpdate = gestaoDeRisco.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
+            var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
+
+            if (gestaoDeRisco.OStatusEImplementacao() && temAcoesImediataParaAtualizar == false)
+            {
+                TrataRegistroQuandoEntraEmFaseDeImplementacao(gestaoDeRisco, objCtx);
+
+            }
+            else if (gestaoDeRisco.OStatusEImplementacao() && temAcoesImediataParaAtualizar == true)
+            {
+                TrataQuandoResponsavelPorAcaoImediataAtualizaADataDeImplementacao(gestaoDeRisco, listaAcaoImediataUpdate, objCtx);
+            }
+            else
+            {
+                TrataRegistroAprovacaoReverificador(gestaoDeRisco, listaAcaoImediataUpdate.ToList(), objCtx);
+            }
+            return objCtx;
+        }
         private RegistroConformidade TrataGR(RegistroConformidade gestaoDeRisco)
         {
             var objCtx = _registroConformidadesRepositorio.GetById(gestaoDeRisco.IdRegistroConformidade);
@@ -443,6 +464,9 @@ namespace ApplicationService.Servico
 
                 case "gr":
                     registroConformidade = TrataGR(registroConformidade);
+                    break;
+                case "gm":
+                    registroConformidade = TrataGM(registroConformidade);
                     break;
 
                 default:

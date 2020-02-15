@@ -1,0 +1,67 @@
+﻿@{
+
+    var url = Url.Action("Grafico", "GestaoMelhoria", null, Request.Url.Scheme);
+}
+
+<!-- Modal content-->
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_tipo_grafico</label>
+                <select id="ddlTipoGrafico" class="form-control">
+                    <option value="">Selecione</option>
+                    <option value="1">Total de Melhorias geradas x Mês</option>
+                    <option value="2">Total de Melhorias geradas x Melhorias abertas x Melhorias fechadas</option>
+                    <option value="3">Total de Melhorias geradas x Tipo de Melhorias</option>
+                    <option value="4">Total de Melhorias geradas x Total de Melhorias com AC</option>
+                    <option value="5">Total de Melhorias geradas x Processo</option>
+                    <option value="6">Total de Melhorias geradas x Site</option>
+                    @*<option value="7">Comparativo do total de Melhorias gerado mês a mês x ano a ano</option>*@
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tipo</label>
+                <select id="ddlTipoNaoConformidade" class="form-control">
+                    <option value="0">@Traducao.Resource.Dropdown_name_select</option>
+                    @foreach (var item in ViewBag.TiposNaoConformidade.Items)
+                    {
+                        <option value="@item.IdControladorCategorias">@item.Descricao</option>
+                    }
+
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="form-group">
+                <label class="control-label">De</label>
+                <input type='text' maxlength="6" id="dtDe" class="form-control" onblur="dateFormat(this)" onfocus="removeNoNumerics(this)" />
+            </div>
+        </div>
+
+        <div class="col-xs-3">
+            <div class="form-group">
+                <label class="control-label">Até</label>
+                <input type='text' maxlength="6" id="dtAte" class="form-control" onblur="dateFormat(this)" onfocus="removeNoNumerics(this)" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <input name="estiloGrafico" value="1" id="graficoBarra" type="radio" checked/><i class="fa fa-bar-chart"></i>
+            <input name="estiloGrafico" value="2" id="graficoPizza" type="radio" /><i class="fa fa-pie-chart"></i>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+    <button type="button" class="btn btn-primary" onclick="abrirGrafico('@url')">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_grafico</button>
+</div>
+

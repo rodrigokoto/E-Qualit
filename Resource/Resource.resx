@@ -3448,4 +3448,181 @@ www.e-qualit.com.br
   <data name="Obsoletar" xml:space="preserve">
     <value>Tornar Obsoleto</value>
   </data>
+  <data name="GestaoMelhoria_Index_lbl_DtEmissao" xml:space="preserve">
+    <value>Data de Emissão</value>
+  </data>
+  <data name="GestaoMelhoria_Index_lbl_DtEnceramento" xml:space="preserve">
+    <value>Data de Encerramento</value>
+  </data>
+  <data name="GestaoMelhoria_Index_lbl_Emissor" xml:space="preserve">
+    <value>Emissor</value>
+  </data>
+  <data name="GestaoMelhoria_Index_lbl_NuRegistro" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="GestaoMelhoria_Index_lbl_ResponsavelImplementar" xml:space="preserve">
+    <value>Responsavel por Implementar</value>
+  </data>
+  <data name="GestaoMelhoria_Index_lbl_StatusEtapa" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="GestaoMelhoria_Index_msg_DesejaExcluirEssaNC" xml:space="preserve">
+    <value>Deseja realmente, excluir essa Melhoria?</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_Destravar" xml:space="preserve">
+    <value>Usuário logado não tem Permissão para destravar</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_min_e_max_DescricaoAcao" xml:space="preserve">
+    <value>Justificativa deve ter no minimo 4 caracteres</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_min_e_max_DescricaoAnaliseCausa" xml:space="preserve">
+    <value>O campo Descrição Analise da Casua de ter no minimo 4 caracteres e no maximo 2000</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_min_e_max_DescricaoRegistro" xml:space="preserve">
+    <value>O campo 'Registro' deve ter entre 4 e 2000 caracteres.</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_AcoesImediatas" xml:space="preserve">
+    <value>Pelo menos uma Ação Imediata deve ser incluída.</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_DescricaoAcao" xml:space="preserve">
+    <value>O Campo Justificativa é obrigatório.</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_DescricaoAnaliseCausa" xml:space="preserve">
+    <value>O Campo Descricao Analise Causa é Obrigatório.</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_DescricaoRegistro" xml:space="preserve">
+    <value> O campo O que falhou? é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_ECorrecao" xml:space="preserve">
+    <value>O Campo É Correção é Obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_EProcedente" xml:space="preserve">
+    <value>O Campo É Procedente é Obrigatorio</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_GestaoMelhoriaFornecedorEmail" xml:space="preserve">
+    <value>O campo Responsavel por E-mailForcedor é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_GestaoMelhoriaFornecedorName" xml:space="preserve">
+    <value>O campo Responsavel por Nome Forcedor é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IdEmissor" xml:space="preserve">
+    <value>O campo Emissor é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IdProcesso" xml:space="preserve">
+    <value>O campo Processo é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IdResponsavelInicarAcaoImediata" xml:space="preserve">
+    <value>Campo Responsavel Acao Imediata.</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IdResponsavelIniciarAcaoCorretiva" xml:space="preserve">
+    <value>O campo Responsavel por Iniciar Ação Corretiva é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IdSite" xml:space="preserve">
+    <value>O campo Site é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IdTipoGestaoMelhoria" xml:space="preserve">
+    <value>O campo Tipo Melhoria é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IdUsuarioIncluiu" xml:space="preserve">
+    <value>Usuario que incluiu é Obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IsGestaoMelhoriaAuditoria" xml:space="preserve">
+    <value>O campo Responsavel por É Melhoria Auditoria  é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_IsGestaoMelhoriaFornecedor" xml:space="preserve">
+    <value>O campo Responsavel por É Melhoria Forcedor  é obrigatório</value>
+  </data>
+  <data name="GestaoMelhoria_msg_erro_required_NecessitaAcaoCorretiva" xml:space="preserve">
+    <value>O Campo Necessita Ação Corretiva é Obrigatório.</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_btn_SalvarENotificar" xml:space="preserve">
+    <value>Salvar e Notificar</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_DescricaoRegistro" xml:space="preserve">
+    <value>O que falhou?</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_DtEmissao" xml:space="preserve">
+    <value>Data de Emissão:</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria" xml:space="preserve">
+    <value>Melhoria de auditoria:</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria_Nao" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_EGestaoMelhoriaAuditoria_Sim" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_EvidenciaImg" xml:space="preserve">
+    <value>Evidência (imagem/arquivo):</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_IdEmissor" xml:space="preserve">
+    <value>Emissor - Melhoria:</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_IdProcesso" xml:space="preserve">
+    <value>Processo:</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoCorretiva" xml:space="preserve">
+    <value>Responsável por análise e definição de ação imediata:</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_IdResponsavelInicarAcaoImediata" xml:space="preserve">
+    <value>Responsável por análise e definição de ação imediata:</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_IdTipoGestaoMelhoria" xml:space="preserve">
+    <value>Tipo de Melhoria:</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_NuRegistro" xml:space="preserve">
+    <value>Número da Melhoria:</value>
+  </data>
+  <data name="GestaoMelhoria_PrimeiraEtapa_lbl_Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="GestaoMelhoria_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" xml:space="preserve">
+    <value>Deseja realmente, criar uma nao conformidade com o dia anterior a última cadastrada?</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_DescricaoAcao" xml:space="preserve">
+    <value>Justificativa</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_DescricaoCausaAcaoCorretiva" xml:space="preserve">
+    <value>Análise da Causa</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_DtDescricaoAcao" xml:space="preserve">
+    <value>Data da descrição da ação:</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_ECorrecao" xml:space="preserve">
+    <value>Ação imediata é uma correção?</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_ECorrecao_false" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_ECorrecao_true" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_EProcedente" xml:space="preserve">
+    <value>Melhoria é procedente?</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_EProcedente_false" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_EProcedente_true" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_IdResponsavelPorIniciarAcaoCorretiva" xml:space="preserve">
+    <value>Responsavel por iniciar a tratativa da ação corretiva</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva" xml:space="preserve">
+    <value>Necessita ação correção?</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva_false" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_NecessitaAcaoCorretiva_true" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="GestaoMelhoria_SegundaEtapa_lbl_NumeroAcaoCorretiva" xml:space="preserve">
+    <value>Número Ação Corretiva:</value>
+  </data>
+  <data name="GestaoMelhoria_TerceiraEtapa_lbl_IdResponsavelDefinir" xml:space="preserve">
+    <value>Responsavel por reverificação</value>
+  </data>
 </root>

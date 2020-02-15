@@ -475,6 +475,11 @@
     <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoEtapa4Validation.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoImplementacaoDtEfetivaImplementacao.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoReverificacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa1Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa2Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa4Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaImplementacaoDtEfetivaImplementacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaReverificacao.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaCriarNovaAcaoCorretiva.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaExclusaoNaoConformidadeValidation.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaSalvarSegundaEtapaPerfilCoordenadorPorEtapaValidacao.cs" />
