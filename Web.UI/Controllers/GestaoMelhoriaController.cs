@@ -123,7 +123,7 @@ namespace Web.UI.Controllers
         }
 
 
-        public ActionResult Grafico(int tipoGrafico, int tipoNaoConformidade, string dtDe, string dtAte, int estiloGrafico)
+        public ActionResult Grafico(int tipoGrafico, string dtDe, string dtAte, int estiloGrafico, int tipoNaoConformidade = 0)
         {
             var diaDe = 1;
             var mesDe = Convert.ToInt32(dtDe.Substring(0, 2));
@@ -289,6 +289,7 @@ namespace Web.UI.Controllers
             ////};
 
             //return View("Exibir", analiseCritica);
+            ViewBag.Destravar = false;
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.UsuarioLogado = Util.ObterUsuario();
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
@@ -525,6 +526,12 @@ namespace Web.UI.Controllers
             }
         }
 
+        private void AlterarStatusEtapa(RegistroConformidade registro)
+        {
+            if (registro.StatusEtapa > 2 && registro.StatusEtapa < 4)
+                registro.StatusEtapa = Convert.ToByte(registro.StatusEtapa + 1);
+
+        }
         private void TrataDadosParaCriacao(RegistroConformidade nc)
         {
             nc.TipoRegistro = _tipoRegistro;
@@ -578,7 +585,7 @@ namespace Web.UI.Controllers
         public JsonResult SalvarSegundaEtapa(RegistroConformidade gestaoMelhoria)
         {
             var erros = new List<string>();
-           
+
             try
             {
                 var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == gestaoMelhoria.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
@@ -660,23 +667,10 @@ namespace Web.UI.Controllers
 
                     gestaoMelhoria = _registroConformidadesAppServico.SalvarSegundaEtapa(gestaoMelhoria, Funcionalidades.NaoConformidade);
 
-                    if (gestaoMelhoria.EProcedente == true)
-                        erros = EnviarNotificacao(gestaoMelhoria, erros);
-
                     var acoesIneficazes = gestaoMelhoria.AcoesImediatas.Where(x => x.Aprovado == false).ToList();
                     if (acoesIneficazes.Count > 0)
                     {
                         EnviarEmailAcaoIneficaz(gestaoMelhoria, acoesIneficazes);
-                    }
-
-
-                    if (gestaoMelhoria.NecessitaAcaoCorretiva != null && gestaoMelhoria.NecessitaAcaoCorretiva.Value)
-                    {
-                        if (idResponsavelAcaoCorrecao != gestaoMelhoria.IdResponsavelPorIniciarTratativaAcaoCorretiva)
-                        {
-                            var acaoCorretiva = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == gestaoMelhoria.IdRegistroConformidade && x.NuRegistro == gestaoMelhoria.IdNuRegistroFilho.Value).FirstOrDefault();
-                            EnviarEmailAcaoCorretivaResponsavel(gestaoMelhoria, acaoCorretiva);
-                        }
                     }
                 }
                 else
