@@ -1886,6 +1886,7 @@
     <Content Include="Views\Shared\Anexo\_AnexoSetup.cshtml" />
     <Content Include="Views\Licenca\Index.cshtml" />
     <Content Include="Views\Licenca\Criar.cshtml" />
+    <Content Include="Views\Licenca\Exibir.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

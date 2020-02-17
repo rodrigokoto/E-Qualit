@@ -7,6 +7,8 @@
 
 APP.controller.LicencaController = {
 
+
+
     init: function () {
         var page = APP.component.Util.getPage();
 
@@ -128,7 +130,7 @@ APP.controller.LicencaController = {
     getObjLicenca: function () {
 
 
-         Licenca = {
+        Licenca = {
             Idlicenca: $('[name=Idlicenca]').val(),
             Titulo: $('[name=Titulo]').val(),
             IdProcesso: $('[name=formCadastroProcesso] option:selected').val(),
@@ -192,20 +194,17 @@ APP.controller.LicencaController = {
                         success: function (data) {
                             if (data.StatusCode == 200) {
                                 tabelaLicenca.row($rowAtual).remove().draw();
+                                APP.component.Loading.hideLoading();
                                 bootbox.alert({
-                                    message: _options.LicencaExcluida,
-                                    callback: function () {
-                                        window.location.reload();
-                                    }
-                                });
+                                    message: _options.LicencaExcluida                                    
+                                })
+                                
                             }
                         },
                         beforeSend: function () {
                             APP.component.Loading.showLoading();
                         },
-                        complete: function () {
-                            APP.component.Loading.hideLoading();
-                        },
+                        
                     });
                 }
             });

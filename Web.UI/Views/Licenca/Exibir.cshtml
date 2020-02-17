@@ -92,38 +92,26 @@
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Licenca.ResourceLicenca.IN_lbl_Titulo</label>
-                                        <input name="Titulo" class="form-control form-parametro" data-val="true" type="text"
-                                               required
-                                               placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_PlaceholderTitulo"
-                                               data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Intrumento"
-                                               value="@Model.Titulo">
+                                        @Model.Titulo
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <!-- Processo -->
                                     <div class="form-group">
                                         <label for="form-cadastro-processo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Processo</label>
-                                        <select id="form-cadastro-processo" name="formCadastroProcesso" class="form-control" required data-msg-required="@Traducao.Resource.MsgProcessoPreenchido">
-                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                            @if (Model.Processo != null)
-                                            {
-                                                <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
-                                            }
-                                        </select>
+                                        @if (Model.Processo != null)
+                                        {
+                                            @Model.Processo.Nome
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Responsavel</label>
-                                        <select name="IdResponsavel" id="dropdown-responsavel" class="form-control form-parametro-instrumento-responsavel"
-                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Responsavel"
-                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Responsavel">
-                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                            @if (Model.Cliente != null)
-                                            {
-                                                <option value="@Model.IdResponsavel" selected>@ViewBag.Responsavel</option>
-                                            }
-                                        </select>
+                                        @if (Model.Cliente != null)
+                                        {
+                                            @ViewBag.Responsavel
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -132,10 +120,7 @@
                                         <label for="form-cadastro-dt-emissao">@Traducao.Licenca.ResourceLicenca.IN_lbl_DtEmissao</label>
                                         <br />
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' name="DataEmissao" id="form-cadastro-dt-emissao" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@(Model.DataEmissao == null ? "" : Model.DataEmissao.Value.ToString("dd/MM/yyyy"))" />
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            </span>
+                                            @Model.DataEmissao.Value.ToString("dd/MM/yyyy")
                                         </div>
                                     </div>
                                 </div>
@@ -145,10 +130,7 @@
                                         <label for="form-cadastro-dt-vencimento">@Traducao.Licenca.ResourceLicenca.IN_lbl_DtVencimento</label>
                                         <br />
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' name="DataVencimento" id="form-cadastro-dt-vencimento" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@(Model.DataVencimento  == null ? "" :Model.DataVencimento.Value.ToString("dd/MM/yyyy"))" />
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            </span>
+                                            @Model.DataVencimento.Value.ToString("dd/MM/yyyy")
                                         </div>
                                     </div>
                                 </div>
@@ -158,10 +140,7 @@
                                         <label for="form-cadastro-dt-notificacao">@Traducao.Licenca.ResourceLicenca.IN_lbl_Notificacao</label>
                                         <br />
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' name="DataProximaNotificacao" id="form-cadastro-dt-notificacao" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@(Model.DataProximaNotificacao == null ? "" :Model.DataProximaNotificacao.Value.ToString("dd/MM/yyyy"))" />
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            </span>
+                                            @Model.DataProximaNotificacao.Value.ToString("dd/MM/yyyy")
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +151,7 @@
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <label for="form-cadastro-dt-observacoes">@Traducao.Licenca.ResourceLicenca.IN_lbl_Observacao</label>
-                                    <textarea name="Obervacao" class="form-control form-group" rows="8" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_Observacao">@Model.Obervacao</textarea>
+                                    @Model.Obervacao
                                 </div>
                             </div>
                         </div>

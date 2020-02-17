@@ -61,7 +61,7 @@ namespace Traducao.Licenca {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Emissão.
+        ///   Looks up a localized string similar to Data Emissão.
         /// </summary>
         public static string IN_lbl_DtEmissao {
             get {
@@ -79,7 +79,7 @@ namespace Traducao.Licenca {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Notificação.
+        ///   Looks up a localized string similar to Data Notificação.
         /// </summary>
         public static string IN_lbl_Notificacao {
             get {

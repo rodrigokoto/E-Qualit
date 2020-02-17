@@ -37,7 +37,7 @@ namespace ApplicationService.Servico
                         //ninguem mais pode estar usando esse anexo
 
                         //tem que ser removida pelo servico, e não da lista
-                        _AnexoAppServico.Remove(_AnexoAppServico.GetById(licencaanexo.IdAnexo));
+                        _ArquivoLicencaAnexoRepositorio.Remove(_ArquivoLicencaAnexoRepositorio.Get(x =>x.IdAnexo == licencaanexo.IdAnexo).FirstOrDefault());
                         //remover tb da tabela intermediaria
                         //naõ precisa, ele remove sozinho!
                         //foi testado! é que o ínidce no SQL está para cascatear a exclusão
