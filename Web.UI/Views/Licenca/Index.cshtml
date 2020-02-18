@@ -71,7 +71,7 @@
                                                     <td>@licenca.Titulo</td>
                                                     <td>@licenca.IdProcesso</td>
                                                     <td>@licenca.Usuario.NmCompleto</td>
-                                                    <td>@licenca.DataVencimento.Value.ToString("dd/MM/yyyy")"</td>
+                                                    <td>@(licenca.DataVencimento != null ? licenca.DataVencimento.Value.ToString("dd/MM/yyyy") : "" )</td>
                                                     <td>
                                                         @if (licenca.DataVencimento > DateTime.Now)
                                                         {
