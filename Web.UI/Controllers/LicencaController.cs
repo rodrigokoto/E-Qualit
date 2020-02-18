@@ -66,14 +66,12 @@ namespace Web.UI.Controllers
 
             var comPermissao = EAdministradorOuCoordenador(idPerfil);
 
-            var model = _licencaAppServico.GetAll().ToList();
+            var model = _licencaAppServico.GetAll().Where(x => x.Idcliente == idSiteCorrente).ToList();
 
             ViewBag.UsuarioPodeAlterar = comPermissao ? comPermissao : _usuarioAppServico.PossuiAcesso(idUsuario, 9, 58);
             ViewBag.UsuarioPodeDeletar = comPermissao ? comPermissao : _usuarioAppServico.PossuiAcesso(idUsuario, 9, 59);
             ViewBag.IdPerfil = idPerfil;
-            ViewBag.FuncionalidadeCriarInstrumento = false;
-
-
+            
             return View(model);
         }
 
