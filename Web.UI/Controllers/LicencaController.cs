@@ -61,12 +61,13 @@ namespace Web.UI.Controllers
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var idSiteCorrente = Util.ObterSiteSelecionado();
             var idUsuario = Util.ObterCodigoUsuarioLogado();
+            var idCliente = Util.ObterClienteSelecionado();
 
             var idPerfil = Util.ObterPerfilUsuarioLogado();
 
             var comPermissao = EAdministradorOuCoordenador(idPerfil);
 
-            var model = _licencaAppServico.GetAll().Where(x => x.Idcliente == idSiteCorrente).ToList();
+            var model = _licencaAppServico.GetAll().Where(x => x.Idcliente == idCliente).ToList();
 
             ViewBag.UsuarioPodeAlterar = comPermissao ? comPermissao : _usuarioAppServico.PossuiAcesso(idUsuario, 9, 58);
             ViewBag.UsuarioPodeDeletar = comPermissao ? comPermissao : _usuarioAppServico.PossuiAcesso(idUsuario, 9, 59);
@@ -97,6 +98,8 @@ namespace Web.UI.Controllers
             try
             {
                 licenca.Idcliente = Util.ObterClienteSelecionado();
+
+                _licencaServico.Valido(licenca, ref erros);
 
                 if (erros.Count > 0)
                 {
@@ -170,6 +173,7 @@ namespace Web.UI.Controllers
             {
                 licenca.Idcliente = Util.ObterClienteSelecionado();
 
+                _licencaServico.Valido(licenca, ref erros);
                 if (erros.Count > 0)
                 {
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);

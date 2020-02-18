@@ -28,7 +28,6 @@ APP.controller.LicencaController = {
         //Licenca Criar
         this.buttonDelLicenca = $('.tb-Licenca-excluir');
         this.buttonSaveForm = $(".form-save");
-        this.buttonDelLicenca = $('.tb-Licenca-excluir');
         this.buttonModalCancelar = $(".btn-modal-cancelar");
     },
 
@@ -43,7 +42,7 @@ APP.controller.LicencaController = {
     //Chamadas
     IndexLicenca: function () {
 
-        APP.component.DataTable.init('#tb-licenca');
+        APP.component.DataTable.init('#tb-Licenca');
         this.delLicenca();
 
 
@@ -138,7 +137,7 @@ APP.controller.LicencaController = {
             ArquivosLicencaAnexos: APP.controller.LicencaController.getAnexosArquivosLicencaAnexos(),
             DataEmissao: $('#form-parametro-licenca').find('[name=DataEmissao]').val(),
             DataVencimento: $('#form-parametro-licenca').find('[name=DataVencimento]').val(),
-            DataProximaNotificacao: $('#form-parametro-licenca').find('[name=DataVencimento]').val(),
+            DataProximaNotificacao: $('#form-parametro-licenca').find('[name=DataProximaNotificacao]').val(),
             Obervacao: $('#form-parametro-licenca').find('[name=Obervacao]').val(),
         };
 

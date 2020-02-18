@@ -14,5 +14,20 @@ namespace Dominio.Servico
         public LicencaServico()
         {
         }
+
+        public void Valido(Licenca licenca, ref List<string> erros)
+        {
+            ValidaRegraTela(licenca, ref erros);
+        }
+
+        private void ValidaRegraTela(Licenca licenca, ref List<string> erros)
+        {
+
+            var camposObrigatrios = new CriarLicencaViewValidation().Validate(licenca);
+                
+
+            if (!camposObrigatrios.IsValid)
+                erros.AddRange(UtilsServico.PopularErros(camposObrigatrios.Errors));
+        }
     }
 }
