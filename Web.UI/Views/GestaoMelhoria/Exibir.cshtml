@@ -151,7 +151,7 @@
                             <div id="panel-naoconformidade">
                                 <div>
                                     <div>
-                                        <h4>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_titulo_identificacao</h4>
+                                        <h4>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_titulo_identificacao</h4>
                                     </div>
                                 </div>
 
@@ -161,20 +161,16 @@
                                         <div class="col-sm-2">
                                             <!-- Numero Registro -->
                                             <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-nm-registro">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro</label>
+                                                <label for="form-criar-nao-conformidade-nm-registro">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_NmRegistro</label>
                                                 <br />
                                                 @Model.NuRegistro
                                             </div>
                                         </div>
-
-
-
-
                                         <div class="col-sm-2">
                                             <!-- Data de Emissao -->
                                             <div>
                                                 <div class="form-group">
-                                                    <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtEmissao</label>
+                                                    <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DtEmissao</label>
                                                     <br />
                                                     @Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)
                                                 </div>
@@ -184,7 +180,7 @@
                                         <div class="col-sm-2">
                                             <div>
                                                 <div class="form-group">
-                                                    <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Processo</label>
+                                                    <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Processo</label>
                                                     @Model.Processo.Nome
                                                 </div>
                                             </div>
@@ -197,25 +193,13 @@
                                                 @Model.Emissor.NmCompleto
                                             </div>
                                         </div>
-
-                                        <div class="col-sm-2">
-                                            <!-- E Auditoria -->
-                                            <div>
-                                                <div class="form-group">
-                                                    <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_EAuditoria</label>
-                                                    <div class="">
-                                                        @(Model.ENaoConformidadeAuditoria == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="row">
 
                                         <!-- Responsavel -->
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_definir_AC</label>
+                                                <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Responsavel_definir_AC</label>
                                                 <br />
                                                 @if (Model.ResponsavelInicarAcaoImediata != null)
                                                 {
@@ -229,7 +213,7 @@
                                         <!-- Tags -->
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags</label>
+                                                <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Tags</label>
                                                 <br />
                                                 @Model.Tags
                                             </div>
@@ -239,7 +223,7 @@
                                         <!-- Descricao Registro -->
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DsRegistro</label>
+                                                <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DsRegistro</label>
                                                 <br />
                                                 @Model.DescricaoRegistro
                                             </div>
@@ -251,7 +235,7 @@
                                         @*<div class="col-lg-10 col-md-8 col-sm-12 col-xs-12">*@
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label for="form-cria-cliente-contrato" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Arquivo_evidencia</label>
+                                                <label for="form-cria-cliente-contrato" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Arquivo_evidencia</label>
                                                 <br />
                                                 <ul class="@(Model.IdRegistroConformidade > 0 ? "  4," : null)">
                                                     @if (listaEvidencias.Count > 0)
@@ -290,7 +274,7 @@
 
                                 <div>
                                     <div>
-                                        <h4>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Acao_imediata</h4>
+                                        <h4>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Acao_imediata</h4>
                                     </div>
                                 </div>
                                 <div class="caixa">
@@ -300,7 +284,7 @@
                                                 <!-- E Procedente -->
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_EProcedente</label>
+                                                        <label>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_EProcedente</label>
                                                         <div class="">
                                                             @(Model.EProcedente == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
                                                         </div>
@@ -309,7 +293,7 @@
                                                 <!-- Data Descricao Acao -->
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label for="form-acaoimediata-dt-descricao-acao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtDescricaoAcao</label>
+                                                        <label for="form-acaoimediata-dt-descricao-acao">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DtDescricaoAcao</label>
                                                         <br />
                                                         @(Model.DtDescricaoAcao.HasValue ? Model.DtDescricaoAcao.Value.ToString(@Traducao.Resource.dateFormat) : "")
                                                     </div>
@@ -323,7 +307,7 @@
                                                     <div>
                                                         <div class="col-sm-2">
                                                             <div class="form-group">
-                                                                <label for="form-acaoimediata-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_JustificativaControle</label>
+                                                                <label for="form-acaoimediata-justificativa" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_JustificativaControle</label>
                                                                 <br />
                                                                 @Model.DescricaoAcao
                                                             </div>
@@ -335,23 +319,23 @@
                                                 <div>
                                                     <div class="col-sm-2">
                                                         <div class="form-group">
-                                                            <label for="form-acaoimediata-Status" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_StatusEtapa</label>
+                                                            <label for="form-acaoimediata-Status" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_StatusEtapa</label>
                                                             <br />
                                                             @if (@Model.StatusEtapa == 1)
                                                             {
-                                                                <p class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Acao_imediata</p>
+                                                                <p class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Acao_imediata</p>
                                                             }
                                                             else if (@Model.StatusEtapa == 2)
                                                             {
-                                                                <p class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Implementacao</p>
+                                                                <p class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Implementacao</p>
                                                             }
                                                             else if (@Model.StatusEtapa == 3)
                                                             {
-                                                                <p class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Reverificacao</p>
+                                                                <p class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Reverificacao</p>
                                                             }
                                                             else if (@Model.StatusEtapa == 4)
                                                             {
-                                                                <p class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Encerrada</p>
+                                                                <p class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Encerrada</p>
                                                             }
 
                                                         </div>
@@ -370,12 +354,12 @@
                                                                 <table id="tb-acao-imediata" class="table table-striped table-bordered table-list" style="" name="formAcaoImadiata">
                                                                     <thead>
                                                                         <tr role="row">
-                                                                            <th class="w20">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Acao_descricao</th>
-                                                                            <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Prazo_implementacao</th>
-                                                                            <th class="w10">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Responsavel_implementar</th>
-                                                                            <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Efetiva_implementacao</th>
+                                                                            <th class="w20">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Acao_descricao</th>
+                                                                            <th class="w7">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Prazo_implementacao</th>
+                                                                            <th class="w10">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Responsavel_implementar</th>
+                                                                            <th class="w7">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Efetiva_implementacao</th>
                                                                             <th class="w7">Observação</th>
-                                                                            <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Arquivo_evidencia</th>
+                                                                            <th class="w7">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Arquivo_evidencia</th>
                                                                             <th class="w7"></th>
                                                                         </tr>
                                                                     </thead>
@@ -476,7 +460,7 @@
                                                         <!-- Responsavel Reverificacao -->
                                                         <div class="col-sm-2">
                                                             <div class="form-group">
-                                                                <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_reverificacao</label>
+                                                                <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Responsavel_reverificacao</label>
                                                                 <br />
                                                                 @if (@Model.ResponsavelReverificador != null)
                                                                 {
@@ -487,7 +471,7 @@
                                                         <!-- Foi Eficaz -->
                                                         <div class="col-sm-2">
                                                             <div class="form-group">
-                                                                <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Foi_eficaz</label>
+                                                                <label>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Foi_eficaz</label>
                                                                 <br />
                                                                 @(Model.FlEficaz == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
 
@@ -496,7 +480,7 @@
                                                         <!-- Responsavel Tratativa -->
                                                         <div class="col-sm-2">
                                                             <div class="form-group">
-                                                                <label for="form-acaoimediata-responsavel-tratativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_tratativa</label>
+                                                                <label for="form-acaoimediata-responsavel-tratativa" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Responsavel_tratativa</label>
                                                                 <br />
                                                                 @nomeResponsavelAcaoCorretiva
 
@@ -507,7 +491,7 @@
                                                         <!-- Numero Acao Corretiva -->
                                                         <div class="col-sm-2">
                                                             <div class="form-group">
-                                                                <label for="form-acaoimediata-numero-ac" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Nm_acao_corretiva</label>
+                                                                <label for="form-acaoimediata-numero-ac" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Nm_acao_corretiva</label>
                                                                 <br />
                                                                 @nuRegistro
                                                             </div>
@@ -516,7 +500,7 @@
                                                         <!-- Analise da Causa -->
                                                         <div class="col-sm-2">
                                                             <div class="form-group">
-                                                                <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Analise_causa</label>
+                                                                <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Analise_causa</label>
                                                                 <br />
                                                                 @descricaoRegistro
                                                             </div>
@@ -531,24 +515,12 @@
                             </div>
                         </form>
                         <div>
-                            <ul class="nav navbar-nav navbar-right ">
-
-                                <li class="botoes-button">
-                                    <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
-                                </li>
-
-                            </ul>
                         </div>
                         <div class="navbar navbar-inverse navbar-fixed-bottom">
                             <div class="row pull-right">
                                 <div class="col-md-12">
-
-                                    @if (ViewBag.IdPerfil != 4)
-                                    {
-                                        <button type="button" id="btn-destravar-view" onclick="location.href= '@Url.Action("Editar" , "NaoConformidade")' + '/@Model.IdRegistroConformidade' + '?destravar=True'" class="btn btn-primary btn-destravar-view">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
-                                    }
-
-                                    <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "NaoConformidade/Index")</button>
+                                    <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+                                    <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "GestaoMelhoria/Index")</button>
                                 </div>
                             </div>
                         </div>

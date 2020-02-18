@@ -281,8 +281,7 @@ APP.controller.GestaoMelhoriaController = {
 
         this.buttonImprimir.on('click', function () {
 
-            var IdGestaoMelhoria = $(".IdGestaoMelhoria").val();
-            APP.controller.GestaoMelhoriaController.imprimir(IdGestaoMelhoria);
+            window.print();
 
         });
 
@@ -339,6 +338,7 @@ APP.controller.GestaoMelhoriaController = {
                 this.setShowAndHideStatusEtapa3(); 
                 this.formEditarGestaoMelhoria();
                 this.formAcaoImediata();
+                this.setShowAndHideStatusEtapa4();
                 break;
             case 4:
                 this.setShowAndHideStatusEtapa4();
@@ -571,6 +571,7 @@ APP.controller.GestaoMelhoriaController = {
         this.setCheckHistorico();
         this.setIncluirComentario();
         this.setBackChecksOnPage();
+        this.setShowInputsEtapa4
 
     },
 

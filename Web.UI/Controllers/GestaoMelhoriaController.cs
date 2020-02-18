@@ -140,7 +140,7 @@ namespace Web.UI.Controllers
 
 
             var parametros = new Dictionary<string, string>();
-            parametros.Add("Tipo não conformidade", (tipoNaoConformidade > 0 ? _controladorCategoriasServico.GetById(tipoNaoConformidade).Descricao : "Todos"));
+            parametros.Add("Tipo gestão de melhoria", (tipoNaoConformidade > 0 ? _controladorCategoriasServico.GetById(tipoNaoConformidade).Descricao : "Todos"));
             parametros.Add("De", dataDe.ToString("MM/yyyy"));
             parametros.Add("Até", dataAte.ToString("MM/yyyy"));
 
@@ -478,7 +478,7 @@ namespace Web.UI.Controllers
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_criar_valid }, JsonRequestBehavior.AllowGet);
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_criar_valid }, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -667,11 +667,6 @@ namespace Web.UI.Controllers
 
                     gestaoMelhoria = _registroConformidadesAppServico.SalvarSegundaEtapa(gestaoMelhoria, Funcionalidades.NaoConformidade);
 
-                    var acoesIneficazes = gestaoMelhoria.AcoesImediatas.Where(x => x.Aprovado == false).ToList();
-                    if (acoesIneficazes.Count > 0)
-                    {
-                        EnviarEmailAcaoIneficaz(gestaoMelhoria, acoesIneficazes);
-                    }
                 }
                 else
                 {
