@@ -135,10 +135,12 @@ APP.controller.LicencaController = {
             IdProcesso: $('[name=formCadastroProcesso] option:selected').val(),
             IdResponsavel: $('[name=IdResponsavel] option:selected').val(),
             ArquivosLicencaAnexos: APP.controller.LicencaController.getAnexosArquivosLicencaAnexos(),
+            DataCriacao: $('[name=DataCriacao]').val(),
             DataEmissao: $('#form-parametro-licenca').find('[name=DataEmissao]').val(),
             DataVencimento: $('#form-parametro-licenca').find('[name=DataVencimento]').val(),
             DataProximaNotificacao: $('#form-parametro-licenca').find('[name=DataProximaNotificacao]').val(),
             Obervacao: $('#form-parametro-licenca').find('[name=Obervacao]').val(),
+            
         };
 
         return Licenca;

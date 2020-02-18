@@ -34,10 +34,14 @@ namespace Dominio.Validacao.Instrumentos.View
 
         protected bool ValidarData(string data)
         {
-            DateTime dataresult = new DateTime();
+            if (data != "")
+            {
+                DateTime dataresult = new DateTime();
+                return DateTime.TryParse(data, out dataresult);
+            }
+            else 
+                return true;
             
-            
-            return DateTime.TryParse(data, out dataresult);
         }
 
     }

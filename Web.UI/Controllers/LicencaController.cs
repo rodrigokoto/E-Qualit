@@ -121,15 +121,6 @@ namespace Web.UI.Controllers
             }
         }
 
-       
-        private void TrataDadoCricaoInstrumento(Instrumento instrumento)
-        {
-            instrumento.DataCriacao = DateTime.Now;
-            instrumento.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
-            instrumento.valorAceitacao = instrumento.valorAceitacao.Replace('.', ',');
-            instrumento.DataAlteracao = DateTime.Now;
-            instrumento.Status = (byte)EquipamentoStatus.NaoCalibrado;
-        }
         public ActionResult Exibir(int id) {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
 
@@ -172,15 +163,21 @@ namespace Web.UI.Controllers
             try
             {
                 licenca.Idcliente = Util.ObterClienteSelecionado();
+                var licencaInclusao = _licencaAppServico.GetById(licenca.IdLicenca);
+                licencaInclusao.DataEmissao = licenca.DataEmissao;
+                licencaInclusao.DataProximaNotificacao = licenca.DataProximaNotificacao;
+                licencaInclusao.DataVencimento = licenca.DataVencimento;
+                licencaInclusao.Obervacao = licenca.Obervacao;
+                licencaInclusao.Titulo = licenca.Titulo;
 
-                _licencaServico.Valido(licenca, ref erros);
+                _licencaServico.Valido(licencaInclusao, ref erros);
                 if (erros.Count > 0)
                 {
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    _licencaAppServico.Update(licenca);
+                    _licencaAppServico.Update(licencaInclusao);
                     foreach (var item in licenca.ArquivoLicenca)
                     {
                         _arquivoLicencaAnexoAppServico.Remove(item);
