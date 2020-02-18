@@ -69,7 +69,7 @@
                                             {
                                                 <tr class="odd">
                                                     <td>@licenca.Titulo</td>
-                                                    <td>@licenca.IdProcesso</td>
+                                                    <td>@licenca.Processo.Nome</td>
                                                     <td>@licenca.Usuario.NmCompleto</td>
                                                     <td>@(licenca.DataVencimento != null ? licenca.DataVencimento.Value.ToString("dd/MM/yyyy") : "" )</td>
                                                     <td>
@@ -91,21 +91,23 @@
                                                         @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Editar).Count() > 0 || ViewBag.IdPerfil != 4)
                                                         {
                                                             <a href="@Url.Action("Exibir", "Licenca", new { id = licenca.IdLicenca})" class="edit icon-cliente  editar-color">
-                                                                <i class="fa fa-search" )" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                                <i class="fa fa-search" )" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
                                                             </a>
                                                         }
 
                                                         @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Editar).Count() > 0 || ViewBag.IdPerfil != 4)
                                                         {
                                                             <a href="@Url.Action("Editar","Licenca", new {id = licenca.IdLicenca}) " class="edit icon-cliente editar-color">
-                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"
+                                                                   data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                             </a>
                                                         }
                                                         @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Excluir).Count() > 0 || ViewBag.IdPerfil != 4)
                                                         {
 
                                                             <a href="#" class="excluir icon-cliente trash-color tb-Licenca-excluir" data-id="@licenca.IdLicenca">
-                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"
+                                                                   data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                             </a>
                                                         }
 

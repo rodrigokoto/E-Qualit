@@ -40,7 +40,7 @@
         TextoLink = "Anexar",
         NumeroArquivos = Model.ArquivoLicenca.Count(),
         ModalTittle = "Anexos de Licenças",
-        PodeAnexar = true
+        PodeAnexar = false
     };
     compoenteUploadCabecalho.AnexosLista = Model.ArquivosLicencaAnexos.ToList().Select(r =>
     {
@@ -164,15 +164,7 @@
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-md-12">
-            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesLicenca.Editar)
-                || listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesLicenca.Incluir)
-                || ViewBag.IdPerfil != 4)
-            {
-
-                <button class="btn btn-primary btn-salvar form-save" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
-            }
-
-            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Licenca/Index")</button>
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_fechar, "Index", "Licenca/Index")</button>
         </div>
     </div>
 </div>

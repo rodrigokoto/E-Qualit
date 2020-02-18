@@ -195,10 +195,7 @@ APP.controller.LicencaController = {
                             if (data.StatusCode == 200) {
                                 tabelaLicenca.row($rowAtual).remove().draw();
                                 APP.component.Loading.hideLoading();
-                                bootbox.alert({
-                                    message: _options.LicencaExcluida                                    
-                                })
-                                
+                                bootbox.alert("Licença excluida com sucesso");
                             }
                         },
                         beforeSend: function () {
@@ -291,7 +288,7 @@ APP.controller.LicencaController = {
                                     message: result.Success,
                                     callback: function () {
 
-                                        window.location.href = "/Licenca/Editar/" + result.IdLicenca;
+                                        window.location.href = "/Licenca/Index/";
                                     }
                                 });
                             return;
