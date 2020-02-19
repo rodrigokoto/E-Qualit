@@ -99,6 +99,8 @@ namespace DAL.Context
 
         public DbSet<RegistroQualificacao> RegistroQualificacao { get; set; }
 
+        public DbSet<RegistroLicenca> RegistroLicenca { get; set; }
+
         #region RH
 
         public DbSet<SubModulo> SubModulo { get; set; }

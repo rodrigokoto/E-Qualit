@@ -48,11 +48,11 @@ namespace IsotecWindowsService
 
         protected override void OnStart(string[] args)
         {
-            IsotecServiceThread = new Thread(() => CalibracaoService());
-            IsotecServiceThread.Start();
+            //IsotecServiceThread = new Thread(() => CalibracaoService());
+            //IsotecServiceThread.Start();
 
-            IsotecFornecedorServiceThread = new Thread(() => QualificacaoService());
-            IsotecFornecedorServiceThread.Start();
+            //IsotecFornecedorServiceThread = new Thread(() => QualificacaoService());
+            //IsotecFornecedorServiceThread.Start();
 
 
             IsotecLicencaServiceThread = new Thread(() => LicencaService());
@@ -74,11 +74,11 @@ namespace IsotecWindowsService
         }
 
         private void QualificacaoService()
-        
+
         {
 
             while (true)
-            
+
             {
 
                 //var SysHour = ConfigurationManager.AppSettings["StartService"].Split(':');
@@ -96,7 +96,7 @@ namespace IsotecWindowsService
             }
         }
         private void LicencaService()
-         {
+        {
 
             while (true)
 

@@ -4,13 +4,15 @@
 | Controlador Licenca
 |--------------------------------------------------------------------------
 */
+var patternValidaData = /^(((0[1-9]|[12][0-9]|3[01])([-.\/])(0[13578]|10|12)([-.\/])(\d{4}))|(([0][1-9]|[12][0-9]|30)([-.\/])(0[469]|11)([-.\/])(\d{4}))|((0[1-9]|1[0-9]|2[0-8])([-.\/])(02)([-.\/])(\d{4}))|((29)(\.|-|\/)(02)([-.\/])([02468][048]00))|((29)([-.\/])(02)([-.\/])([13579][26]00))|((29)([-.\/])(02)([-.\/])([0-9][0-9][0][48]))|((29)([-.\/])(02)([-.\/])([0-9][0-9][2468][048]))|((29)([-.\/])(02)([-.\/])([0-9][0-9][13579][26])))$/;
 
 APP.controller.LicencaController = {
 
 
-
     init: function () {
         var page = APP.component.Util.getPage();
+
+        
 
         this.setup();
         if (page == "IndexLicencas") {
@@ -86,17 +88,14 @@ APP.controller.LicencaController = {
 
         var acoesPadraoFormCriarPadraoObj = {
             //formCriaClienteLogo: {required: true, minFiles: 1},
-            Equipamento: { required: true },
-            IdSigla: { required: true },
-            Numero: { required: true, number: true },
-            Marca: { required: true },
-            Modelo: { required: true },
+            Idlicenca: { required: true },
+            Titulo: { required: true },
+            IdProcesso: { required: true },
             IdResponsavel: { required: true },
-            LocalDeUso: { required: true },
-            Escala: { required: true },
-            MenorDivisao: { required: true },
-            valorAceitacao: { required: true, number: true },
-            DescricaoCriterio: { required: false },
+            ArquivosLicencaAnexos: { required: false },
+            DataEmissao: { required: false },
+            DataVencimento: { required: false },
+            DataProximaNotificacao: { required: false },
 
         };
 
@@ -140,7 +139,7 @@ APP.controller.LicencaController = {
             DataVencimento: $('#form-parametro-licenca').find('[name=DataVencimento]').val(),
             DataProximaNotificacao: $('#form-parametro-licenca').find('[name=DataProximaNotificacao]').val(),
             Obervacao: $('#form-parametro-licenca').find('[name=Obervacao]').val(),
-            
+
         };
 
         return Licenca;
@@ -202,7 +201,7 @@ APP.controller.LicencaController = {
                         beforeSend: function () {
                             APP.component.Loading.showLoading();
                         },
-                        
+
                     });
                 }
             });
@@ -272,6 +271,22 @@ APP.controller.LicencaController = {
             validacao = $('#form-parametro-licenca').valid();
         }
 
+        if (!patternValidaData.test($('#form-parametro-licenca').find('[name=DataEmissao]').val())) {
+            APP.component.Loading.hideLoading();
+            bootbox.alert("Há datas em formato inválido");
+            validacao = false;
+        }
+        if (!patternValidaData.test($('#form-parametro-licenca').find('[name=DataVencimento]').val())) {
+            APP.component.Loading.hideLoading();
+            bootbox.alert("Há datas em formato inválido");
+            validacao = false;
+        }
+        if (!patternValidaData.test($('#form-parametro-licenca').find('[name=DataProximaNotificacao]').val())) {
+            APP.component.Loading.hideLoading();
+            bootbox.alert("Há datas em formato inválido");
+            validacao = false;
+        }
+      
         if (validacao) {
             $.ajax({
                 type: "POST",

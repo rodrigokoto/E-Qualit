@@ -7,7 +7,6 @@ namespace Dominio.Validacao.Instrumentos.View
         public CriarLicencaViewValidation()
         {
             TituloObrigatorio();
-            ValidarDataCriacao();
             ValidarDataEmissao();
             ValidarDataProximaNotificacao();
             ValidarDataVencimento();
