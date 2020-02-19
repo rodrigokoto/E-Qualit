@@ -338,7 +338,6 @@ APP.controller.GestaoMelhoriaController = {
                 this.setShowAndHideStatusEtapa3(); 
                 this.formEditarGestaoMelhoria();
                 this.formAcaoImediata();
-                this.setShowAndHideStatusEtapa4();
                 break;
             case 4:
                 this.setShowAndHideStatusEtapa4();

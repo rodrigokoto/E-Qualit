@@ -2,16 +2,16 @@
 {
     public enum FuncoesGestaoMelhoria
     {
-        Cadastrar = 1114,
-        CriarTipoDeNC = 1115,
-        DefinirAcao = 1116,
-        ImplementarAcao = 1117,
-        Reverificacao = 1118,
-        VerificacaoDaEficacia = 1119,
-        Excluir = 1120,
-        Destravar = 1121, 
-        Editar = 1122,
-        AnaliseDaCausa = 1123,   
-        DefinirAsConsequencias = 1125, 
+        Cadastrar = 118,
+        CriarTipoDeNC = 119,
+        DefinirAcao = 120,
+        ImplementarAcao = 121,
+        Reverificacao = 122,
+        VerificacaoDaEficacia = 123,
+        Excluir = 124,
+        Destravar = 125, 
+        Editar = 126,
+        AnaliseDaCausa = 127,   
+        DefinirAsConsequencias = 128, 
     }   
 }

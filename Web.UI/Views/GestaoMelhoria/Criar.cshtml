@@ -165,31 +165,7 @@
                                             Html.RenderPartial("Anexo/_Anexo", compoenteUploadCabecalho);
                                         }
                                         @*
-                                            <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
-                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                            </a>
-
-                                            <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
-                                                @if (listaEvidencias.Count > 0)
-                                                {
-                                                    foreach (var evidencia in listaEvidencias)
-                                                    {
-                                                        <li>
-                                                            <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
-                                                            <input type="hidden" name="formCriarGestaoMelhoriaEvidenciaNome" value="@evidencia.Nome">
-                                                            <input type="hidden" name="formCriarGestaoMelhoriaEvidenciaIdAnexo" value="@evidencia.IdAnexo">
-                                                        </li>
-
-                                                    }
-                                                }
-
-                                            </ul>
-                                            <input type="file" name="formCriarGestaoMelhoriaEvidencia" id="form-criar-nao-conformidade-evidencia"
-                                                   class=""
-                                                   data-msg-required=""
-                                                   data-b64=""
-                                                   multiple="multiple">
-                                        *@
+                                                                                    *@
                                     </div>
                                 </div>
                             </div>
@@ -273,26 +249,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <!-- E Auditoria -->
-                            @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 ">
-                                    <div class="form-group">
-                                        <label>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_EAuditoria</label>
-                                        <div class="">
-                                            <label for="form-criar-nao-conformidade-eauditoria-sim">
-                                                <input type="radio" id="form-criar-nao-conformidade-eauditoria-sim" name="formCriarGestaoMelhoriaEAuditoria"
-                                                       data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_EAuditoria"
-                                                       value="true" @(Model.EGestaoMelhoriaAuditoria == true ? "checked" : "")>
-                                                @Traducao.Shared.ResourceLabel.Label_radio_Sim
-                                            </label>
-                                            <label for="form-criar-nao-conformidade-eauditoria-nao">
-                                                <input type="radio" id="form-criar-nao-conformidade-eauditoria-nao" name="formCriarGestaoMelhoriaEAuditoria"
-                                                       data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_EAuditoria"
-                                                       value="false" @(Model.EGestaoMelhoriaAuditoria == false ? "checked" : "")>
-                                                @Traducao.Shared.ResourceLabel.Label_radio_Nao
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>*@
+                          
                             <!-- Tipo Nao Conformidade -->
                             <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12 ">
                                 <div class="form-group">
@@ -500,58 +457,7 @@
                                                         Html.RenderPartial("Anexo/_Anexo", controleUploadArquuivos);
 
                                                     }
-                                                    @*
-                                                                                                            upload antigo
-                                                                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
-                                                                                                    </div>
-                                                                                                    @{
-
-                                                                                                        var base64 = "";
-                                                                                                        var dataB64 = "";
-                                                                                                        var nomeAnexo = "";
-                                                                                                        var extensao = "";
-                                                                                                        var idAnexo = 0;
-                                                                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
-                                                                                                        {
-                                                                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
-                                                                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                                                                            dataB64 = base64;
-                                                                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
-
-                                                                                                        }
-                                                                                                    }
-
-
-                                                        @if (acaoImediata.ArquivoEvidencia.Count == 0)
-                                                        {
-
-                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
-                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                                            </a>
-                                                            <i class="hide" name="Ianexo" style="display:none">@nomeAnexo</i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="hide" name="Ianexo" style="display:block">@nomeAnexo</i>
-                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:none">
-                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                                            </a>
-                                                        }
-                                                        <ul>
-                                                            <li>
-                                                                <a href="@base64" target="_blank" download="@nomeAnexo" name="IanexoLi">@nomeAnexo</a>
-                                                                <input type="hidden" name="formCriarGestaoMelhoriaEvidenciaNome" value="@nomeAnexo">
-                                                                <input type="hidden" name="formCriarGestaoMelhoriaEvidenciaIdAnexo" value="@idAnexo">
-                                                            </li>
-                                                        </ul>
-                                                        <input type="file" name="formCriarGestaoMelhoriaEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
-                                                               class=""
-                                                               data-msg-required=""
-                                                               data-b64="@dataB64">
-                                                    *@
-
+                                                   
                                                 </td>
                                                 <!-- Acoes -->
 
@@ -568,8 +474,7 @@
                                                     }
                                                 </td>
                                                 <td>
-                                                    @if (Model.ECorrecao.HasValue && Model.ECorrecao == true)
-                                                    {
+                                                  
                                                         if (acaoImediata.Aprovado.HasValue && (acaoImediata.Aprovado.Value == true && ViewBag.StatusEtapa == 2))
                                                         {
                                                             <div>
@@ -643,7 +548,7 @@
 
                                                             }
                                                         </div>
-                                                    }
+                                                    <!-- Encerra aqui -->
                                                 </td>
 
                                             </tr>
