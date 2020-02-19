@@ -13,6 +13,7 @@
 
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/GestaoMelhoriaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GestaoMelhoriaController.js")"></script>
     @*<script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>*@
     @*<script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>*@
 
@@ -20,7 +21,7 @@
 }
 
 @{
-    ViewBag.Title = "Não Conformidade";
+    ViewBag.Title = "Gestão de Melhorias";
     //Layout = null;
 
 
@@ -188,7 +189,7 @@
                                         <!-- Emissor -->
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdEmissor</label>
+                                                <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.GestaoMelhoria_Index_lbl_Emissor</label>
                                                 <br />
                                                 @Model.Emissor.NmCompleto
                                             </div>
@@ -281,15 +282,6 @@
                                     <div id="panel-form-acaoimediata">
                                         <div>
                                             <div class="row">
-                                                <!-- E Procedente -->
-                                                <div class="col-sm-2">
-                                                    <div class="form-group">
-                                                        <label>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_EProcedente</label>
-                                                        <div class="">
-                                                            @(Model.EProcedente == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <!-- Data Descricao Acao -->
                                                 <div class="col-sm-2">
                                                     <div class="form-group">

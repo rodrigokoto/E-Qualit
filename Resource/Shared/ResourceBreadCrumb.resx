@@ -234,4 +234,7 @@
   <data name="Controller_Licenca" xml:space="preserve">
     <value>Licença</value>
   </data>
+  <data name="Controller_gestaomelhoria" xml:space="preserve">
+    <value>Gestão de Melhoria</value>
+  </data>
 </root>

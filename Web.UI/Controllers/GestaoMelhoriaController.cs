@@ -603,16 +603,19 @@ namespace Web.UI.Controllers
 
                 for (int i = 0; i < gestaoMelhoria.AcoesImediatas.Count; i++)
                 {
-                    if (gestaoMelhoria.AcoesImediatas[i].Aprovado != null)
+                    if (gestaoMelhoria.StatusEtapa == 3)
                     {
-                        if (gestaoMelhoria.StatusEtapa == 3 && gestaoMelhoria.AcoesImediatas[i].Aprovado == false &&(string.IsNullOrEmpty(gestaoMelhoria.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(gestaoMelhoria.AcoesImediatas[i].Orientacao)))
+                        if (gestaoMelhoria.AcoesImediatas[i].Aprovado != null)
+                        {
+                            if (gestaoMelhoria.AcoesImediatas[i].Aprovado == false && (string.IsNullOrEmpty(gestaoMelhoria.AcoesImediatas[i].Motivo) || string.IsNullOrEmpty(gestaoMelhoria.AcoesImediatas[i].Orientacao)))
+                            {
+                                erros.Add("Favor preencher Motivo e Orientação.");
+                            }
+                        }
+                        else
                         {
                             erros.Add("Favor preencher Motivo e Orientação.");
                         }
-                    }
-                    else
-                    {
-                        erros.Add("Favor preencher Motivo e Orientação.");
                     }
                     if (gestaoMelhoria.AcoesImediatas[i].Motivo != null || gestaoMelhoria.AcoesImediatas[i].Orientacao != null)
                     {
