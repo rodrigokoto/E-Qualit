@@ -184,11 +184,13 @@ namespace Web.UI.Controllers
                 using (var db = new BaseContext())
                 {
 
+                    var idCliente = Util.ObterClienteSelecionado();
+                    var DtVencimento = DateTime.Now.AddDays(-1);
 
                     if (idSite != 0)
                     {
                         var result = (from lc in db.Licenca
-                                      where lc.DataVencimento.Value < DateTime.Now
+                                      where lc.DataVencimento.Value < DtVencimento && lc.Idcliente == idCliente
                                       select new PendenciaViewModel
                                       {
                                           Id = lc.IdLicenca,
