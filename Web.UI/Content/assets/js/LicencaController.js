@@ -12,7 +12,7 @@ APP.controller.LicencaController = {
     init: function () {
         var page = APP.component.Util.getPage();
 
-        
+
 
         this.setup();
         if (page == "IndexLicencas") {
@@ -271,22 +271,32 @@ APP.controller.LicencaController = {
             validacao = $('#form-parametro-licenca').valid();
         }
 
-        if (!patternValidaData.test($('#form-parametro-licenca').find('[name=DataEmissao]').val())) {
-            APP.component.Loading.hideLoading();
-            bootbox.alert("Há datas em formato inválido");
-            validacao = false;
+        var dtEmissao = $('#form-parametro-licenca').find('[name=DataEmissao]').val();
+        var dtVencimento = $('#form-parametro-licenca').find('[name=DataVencimento]').val();
+        var dtProximaNotificacao = $('#form-parametro-licenca').find('[name=DataProximaNotificacao]').val();
+
+        if (dtEmissao !== "") {
+            if (!patternValidaData.test(dtEmissao)) {
+                APP.component.Loading.hideLoading();
+                bootbox.alert("Há datas em formato inválido");
+                validacao = false;
+            }
         }
-        if (!patternValidaData.test($('#form-parametro-licenca').find('[name=DataVencimento]').val())) {
-            APP.component.Loading.hideLoading();
-            bootbox.alert("Há datas em formato inválido");
-            validacao = false;
+        if (dtVencimento !== "") {
+            if (!patternValidaData.test(dtVencimento)) {
+                APP.component.Loading.hideLoading();
+                bootbox.alert("Há datas em formato inválido");
+                validacao = false;
+            }
         }
-        if (!patternValidaData.test($('#form-parametro-licenca').find('[name=DataProximaNotificacao]').val())) {
-            APP.component.Loading.hideLoading();
-            bootbox.alert("Há datas em formato inválido");
-            validacao = false;
+        if (dtProximaNotificacao !== "") {
+            if (!patternValidaData.test(dtProximaNotificacao)) {
+                APP.component.Loading.hideLoading();
+                bootbox.alert("Há datas em formato inválido");
+                validacao = false;
+            }
         }
-      
+
         if (validacao) {
             $.ajax({
                 type: "POST",
