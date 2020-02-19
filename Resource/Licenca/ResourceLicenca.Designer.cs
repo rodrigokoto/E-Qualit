@@ -61,7 +61,7 @@ namespace Traducao.Licenca {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Emissão.
+        ///   Looks up a localized string similar to Data Emissão.
         /// </summary>
         public static string IN_lbl_DtEmissao {
             get {
@@ -79,7 +79,7 @@ namespace Traducao.Licenca {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Notificação.
+        ///   Looks up a localized string similar to Data Notificação.
         /// </summary>
         public static string IN_lbl_Notificacao {
             get {
@@ -106,7 +106,7 @@ namespace Traducao.Licenca {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digite o titulo.
+        ///   Looks up a localized string similar to Digite o título.
         /// </summary>
         public static string IN_lbl_PlaceholderTitulo {
             get {
@@ -142,7 +142,7 @@ namespace Traducao.Licenca {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Titulo.
+        ///   Looks up a localized string similar to Título.
         /// </summary>
         public static string IN_lbl_Titulo {
             get {
@@ -151,7 +151,7 @@ namespace Traducao.Licenca {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nova Licenca.
+        ///   Looks up a localized string similar to Nova Licença.
         /// </summary>
         public static string IN_lbl_titulo_nova_Licenca {
             get {
@@ -160,7 +160,7 @@ namespace Traducao.Licenca {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O Titulo é obrigatório.
+        ///   Looks up a localized string similar to O Título é obrigatório.
         /// </summary>
         public static string IN_msg_required_Licenca {
             get {

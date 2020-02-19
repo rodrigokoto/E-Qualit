@@ -2,9 +2,9 @@
 {
     public enum FuncoesLicenca
     {
-        Incluir = 101,
-        Editar = 102,
-        Visualizar = 103,
-        Excluir = 104
+        Incluir = 114,
+        Editar = 115,
+        Visualizar = 116,
+        Excluir = 117
     }
 }

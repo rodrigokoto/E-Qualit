@@ -1889,6 +1889,7 @@
     <Content Include="Views\Shared\Anexo\_AnexoSetup.cshtml" />
     <Content Include="Views\Licenca\Index.cshtml" />
     <Content Include="Views\Licenca\Criar.cshtml" />
+    <Content Include="Views\Licenca\Exibir.cshtml" />
     <Content Include="Views\GestaoMelhoria\Criar.cshtml" />
     <Content Include="Views\GestaoMelhoria\Exibir.cshtml" />
     <Content Include="Views\GestaoMelhoria\FiltroGrafico.cshtml" />

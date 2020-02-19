@@ -447,6 +447,8 @@
     <Compile Include="Validacao\Instrumentos\View\CriarInstrumentoViewValidation.cs" />
     <Compile Include="Validacao\Instrumentos\View\EditarInstrumentoViewValidation.cs" />
     <Compile Include="Validacao\Instrumentos\View\ValidaCampoInstrumento.cs" />
+    <Compile Include="Validacao\Licenca\ValidaCampoLicenca.cs" />
+    <Compile Include="Validacao\Licenca\View\CriarLicencaViewValidation.cs" />
     <Compile Include="Validacao\Normas\AptoParaCadastroValidation.cs" />
     <Compile Include="Validacao\NotificacoesMensagem\AptoParaCadastroNotificacaoMensagemValidation.cs" />
     <Compile Include="Validacao\NotificacoesSmtp\AptoParaCadastroNotificacaoSmtp.cs" />

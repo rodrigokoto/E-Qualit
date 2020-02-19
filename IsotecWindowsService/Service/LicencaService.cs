@@ -10,38 +10,35 @@ using System.Threading.Tasks;
 
 namespace IsotecWindowsService.Service
 {
-    public class LicencaService : ILicencaService                                                               
+    public class LicencaService : ILicencaService
 
     {
         private readonly ILicencaAppServico _licencaAppServico;
         private readonly IFilaEnvioServico _filaEnvioServico;
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IRegistroLicencaServico _registroLicencaServico;
-        private readonly IProdutoAppServico _produtoAppServico;
-        private readonly IProdutoFornecedorAppServico _produtoFornecedorAppServico;
-        
+
+
 
         public LicencaService(ILicencaAppServico licencaAppServico,
             IFilaEnvioServico filaEnvioServico,
             IUsuarioAppServico usuarioAppServico,
-            IRegistroLicencaServico registroLicencaServico,
-            IProdutoAppServico produtoAppServico,
-            IProdutoFornecedorAppServico produtoFornecedorAppServico)
+            IRegistroLicencaServico registroLicencaServico
+           )
         {
 
             _licencaAppServico = licencaAppServico;
             _filaEnvioServico = filaEnvioServico;
             _usuarioAppServico = usuarioAppServico;
             _registroLicencaServico = registroLicencaServico;
-            _produtoAppServico = produtoAppServico;
-            _produtoFornecedorAppServico = produtoFornecedorAppServico;
-            
+
+
         }
 
         public void EnfileirarEmail()
         {
             EnfileirarEmailLicenca();
- 
+
 
         }
         public void EnfileirarEmailLicenca()
@@ -53,11 +50,13 @@ namespace IsotecWindowsService.Service
                 var data30d = DateTime.Now.AddDays(30);
                 data30d = new DateTime(data30d.Year, data30d.Month, data30d.Day, 0, 0, 0);
 
-                var AgendarHoje = _licencaAppServico.Get().Where(x => x.DataVencimento.Value.Date == DateTime.Now.Date).ToList();
-                
-                var avaHj = AgendarHoje.Select(x => new { x.IdLicenca, x.DataVencimento, x.IdResponsavel}).Distinct().ToList();
+                var AgendarHoje = _licencaAppServico.GetAll().Where(x => x.DataProximaNotificacao != null).ToList();
 
-             
+                AgendarHoje = AgendarHoje.Where(x => x.DataProximaNotificacao.Value.Date == DateTime.Now.Date).ToList();
+
+                var avaHj = AgendarHoje.Select(x => new { x.IdLicenca, x.DataVencimento, x.IdResponsavel }).Distinct().ToList();
+
+
                 List<Licenca> lstLicenca = new List<Licenca>();
 
                 foreach (var Licenca in avaHj)
@@ -67,12 +66,12 @@ namespace IsotecWindowsService.Service
                     licenca.IdLicenca = Licenca.IdLicenca;
                     licenca.DataVencimento = Licenca.DataVencimento;
                     licenca.IdResponsavel = (int)Licenca.IdResponsavel;
-                    
+
                     lstLicenca.Add(licenca);
                 }
 
                 AgendaEmail(ValidaAgendamento(lstLicenca), DateTime.Now);
-                
+
 
             }
             catch (Exception ex)
@@ -80,7 +79,7 @@ namespace IsotecWindowsService.Service
                 FileLogger.Log("Erro ao enfileirar os e-mails", ex);
             }
         }
-       
+
         public List<Licenca> ValidaAgendamento(List<Licenca> avaliaCriterioLicencas)
         {
 
@@ -107,9 +106,9 @@ namespace IsotecWindowsService.Service
 
         public void AgendaEmail(IEnumerable<Licenca> ListEmail, DateTime date)
         {
-                string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Licenca-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Licenca-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
 
-                EnfileirarEmail(ListEmail, path);
+            EnfileirarEmail(ListEmail, path);
         }
 
         public void EnfileirarEmail(IEnumerable<Licenca> ListEmail, string path)
@@ -130,7 +129,7 @@ namespace IsotecWindowsService.Service
                 var Responsavel = _usuarioAppServico.GetById((int)licenca.IdResponsavel);
 
                 conteudo = conteudo.Replace("#Responsavel#", Responsavel.NmCompleto);
-                conteudo = conteudo.Replace("#IdLicenca#", relation.IdLicenca.ToString());
+                conteudo = conteudo.Replace("#Titulo#", relation.Titulo.ToString());
 
 
                 FilaEnvio filaEnvio = new FilaEnvio();
@@ -146,7 +145,7 @@ namespace IsotecWindowsService.Service
 
                 RegistroLicenca registro = new RegistroLicenca();
 
-                registro.GuidLicenca = Guid.NewGuid().ToString();
+                registro.GuidLicenca = licenca.IdLicenca.ToString();
                 registro.IdFilaEnvio = filaEnvio.Id;
                 registro.IdRegLicenca = licenca.IdLicenca;
                 registro.DtInclusao = DateTime.Now;

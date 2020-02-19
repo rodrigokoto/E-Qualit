@@ -21,8 +21,8 @@
     <div class="content-painel">
         <!-- Formulario Licenca -->
         <form id="form-list-">
-            <div class="panel panel-default" id="panel-Licenca">
-                <div class="panel-body" id="panel-form-Licenca">
+            <div class="panel panel-default" id="panel-licenca">
+                <div class="panel-body" id="panel-form-licenca">
                     <div class="row">
                         <div class="barra-busca">
                             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesLicenca.Incluir) || ViewBag.IdPerfil != 4)
@@ -36,16 +36,16 @@
                                 <table id="tb-Licenca" class="display table table-striped table-bordered dt-responsive" style="width:100% !important;">
                                     <thead>
                                         <tr id="hr1" class="bg">
-                                            <th class="w10 with-input">
+                                            <th class="w15 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_Titulo">
                                             </th>
-                                            <th class="w15 with-input">
+                                            <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_Processo">
                                             </th>
-                                            <th class="w15 with-input">
+                                            <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_Responsavel">
                                             </th>
-                                            <th class="w15 with-input">
+                                            <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Licenca.ResourceLicenca.IN_lbl_DtVencimento">
                                             </th>
                                             <th class="w10 with-input">
@@ -69,22 +69,45 @@
                                             {
                                                 <tr class="odd">
                                                     <td>@licenca.Titulo</td>
-                                                    <td>@licenca.IdProcesso</td>
+                                                    <td>@licenca.Processo.Nome</td>
                                                     <td>@licenca.Usuario.NmCompleto</td>
-                                                    <td>@licenca.DataVencimento</td>
-                                                    <td>Status</td>
+                                                    <td>@(licenca.DataVencimento != null ? licenca.DataVencimento.Value.ToString("dd/MM/yyyy") : "" )</td>
                                                     <td>
+                                                        @if (licenca.DataVencimento >= DateTime.Now.Date)
+                                                        {
+                                                            <p style="color:green">Atualizado</p>
+                                                        }
+                                                        else if (licenca.DataVencimento == null && licenca.DataProximaNotificacao == null && licenca.DataEmissao == null)
+                                                        {
+                                                            <p style="color:goldenrod">Renovação</p>
+                                                        }
+                                                        else 
+                                                        {
+                                                            <p style="color:red">Vencido</p>
+                                                        }
+                                                    </td>
+                                                    <td>
+
+                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Editar).Count() > 0 || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="@Url.Action("Exibir", "Licenca", new { id = licenca.IdLicenca})" class="edit icon-cliente  editar-color">
+                                                                <i class="fa fa-search" )" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
+                                                            </a>
+                                                        }
+
                                                         @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Editar).Count() > 0 || ViewBag.IdPerfil != 4)
                                                         {
                                                             <a href="@Url.Action("Editar","Licenca", new {id = licenca.IdLicenca}) " class="edit icon-cliente editar-color">
-                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"
+                                                                   data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                             </a>
                                                         }
                                                         @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Excluir).Count() > 0 || ViewBag.IdPerfil != 4)
                                                         {
 
                                                             <a href="#" class="excluir icon-cliente trash-color tb-Licenca-excluir" data-id="@licenca.IdLicenca">
-                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"
+                                                                   data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                             </a>
                                                         }
 
