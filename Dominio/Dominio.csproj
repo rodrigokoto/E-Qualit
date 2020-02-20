@@ -482,6 +482,7 @@
     <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa4Validation.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaImplementacaoDtEfetivaImplementacao.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaReverificacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CriacaoGestaoMelhoriaViewValidation.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaCriarNovaAcaoCorretiva.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaExclusaoNaoConformidadeValidation.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaSalvarSegundaEtapaPerfilCoordenadorPorEtapaValidacao.cs" />

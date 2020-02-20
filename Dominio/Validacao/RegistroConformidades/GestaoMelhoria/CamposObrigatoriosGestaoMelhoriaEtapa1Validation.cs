@@ -13,7 +13,7 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
 
             RuleFor(x => x.StatusEtapa)
                 .Must(x => x.Equals((byte)EtapasRegistroConformidade.AcaoImediata))
-                .When(x=>x.IdResponsavelEtapa != null)
+                .When(x => x.IdResponsavelEtapa != null)
                 .WithMessage(Traducao.Resource.StatusInvalido);
 
             RuleFor(x => x.IdEmissor)
@@ -28,9 +28,15 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
             //RuleFor(x => x.CriticidadeGestaoMelhoria)
             //    .NotEmpty().WithMessage("Cor da criticidade é obrigatório.");
 
-                RuleFor(x => x.TipoRegistro)
-                 .Must(x => x.Equals("gm"))
-                 .WithMessage(Traducao.Resource.TraducaoTipoDeRegistro);
+            RuleFor(x => x.TipoRegistro)
+             .Must(x => x.Equals("gm"))
+             .WithMessage(Traducao.Resource.TraducaoTipoDeRegistro);
+
+            RuleFor(x => x.DescricaoRegistro)
+                .NotEmpty()
+                .WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_DescricaoRegistro);
+
+            
         }
     }
 }

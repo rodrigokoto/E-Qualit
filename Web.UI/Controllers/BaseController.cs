@@ -201,7 +201,7 @@ namespace Web.UI.Controllers
 
                                       });
 
-                        if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 2)
+                        if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 2 || usuarioLogadoBase.IdPerfil == 3)
                         {
                             ViewBag.Pendencia = result.ToList();
                         }

@@ -3479,7 +3479,7 @@ www.e-qualit.com.br
     <value>O campo Descrição Analise da Casua de ter no minimo 4 caracteres e no maximo 2000</value>
   </data>
   <data name="GestaoMelhoria_msg_erro_min_e_max_DescricaoRegistro" xml:space="preserve">
-    <value>O campo 'Registro' deve ter entre 4 e 2000 caracteres.</value>
+    <value>O campo 'Registro' deve ter entre 4 e 1000 caracteres.</value>
   </data>
   <data name="GestaoMelhoria_msg_erro_required_AcoesImediatas" xml:space="preserve">
     <value>Pelo menos uma Ação Imediata deve ser incluída.</value>
@@ -3491,7 +3491,7 @@ www.e-qualit.com.br
     <value>O Campo Descricao Analise Causa é Obrigatório.</value>
   </data>
   <data name="GestaoMelhoria_msg_erro_required_DescricaoRegistro" xml:space="preserve">
-    <value> O campo O que falhou? é obrigatório</value>
+    <value>O campo descrição Registro é Obrigatório.</value>
   </data>
   <data name="GestaoMelhoria_msg_erro_required_ECorrecao" xml:space="preserve">
     <value>O Campo É Correção é Obrigatório</value>

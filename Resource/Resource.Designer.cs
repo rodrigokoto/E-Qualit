@@ -4901,7 +4901,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to O campo &apos;Registro&apos; deve ter entre 4 e 2000 caracteres..
+        ///   Looks up a localized string similar to O campo &apos;Registro&apos; deve ter entre 4 e 1000 caracteres..
         /// </summary>
         public static string GestaoMelhoria_msg_erro_min_e_max_DescricaoRegistro {
             get {
@@ -4937,7 +4937,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  O campo O que falhou? é obrigatório.
+        ///   Looks up a localized string similar to O campo descrição Registro é Obrigatório..
         /// </summary>
         public static string GestaoMelhoria_msg_erro_required_DescricaoRegistro {
             get {
