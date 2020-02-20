@@ -158,13 +158,13 @@ namespace Web.UI.Controllers
                     retorno = "Total de GestaoMelhoria geradas x Mês";
                     break;
                 case 2:
-                    retorno = "Total de GestaoMelhoria geradas x GestaoMelhoria abertas x GestaoMelhoria fechadas";
+                    retorno = "Total de GestaoMelhoria geradas x Gestao Melhoria abertas x Gestao Melhoria fechadas";
                     break;
                 case 3:
-                    retorno = "Total de GestaoMelhoria geradas x Tipo de NC";
+                    retorno = "Total de GestaoMelhoria geradas x Tipo de Melhoria";
                     break;
                 case 4:
-                    retorno = "Total de GestaoMelhoria geradas x Total de NC com AC";
+                    retorno = "Total de GestaoMelhoria geradas x Total de Melhoria com AC";
                     break;
                 case 5:
                     retorno = "Total de GestaoMelhoria geradas x Departamento";
