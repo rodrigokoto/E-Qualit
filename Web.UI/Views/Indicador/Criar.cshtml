@@ -87,15 +87,15 @@
 
     var habilitaLoad = "";
 
-    if ("@ViewBag.ScriptCall" == @Traducao.Resource.botao_sim)
+    if ("@ViewBag.ScriptCall" == '@Traducao.Resource.botao_sim')
     {
 
-        habilitaLoad = @Traducao.Resource.botao_sim;
+        habilitaLoad = '@Traducao.Resource.botao_sim';
 
     }
     else
     {
-        habilitaLoad = @Traducao.Resource.botao_nao;
+        habilitaLoad = '@Traducao.Resource.botao_nao';
     }
 
 </script>
@@ -135,7 +135,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                                 <div class="form-group">
                                     <label for="form-criar-indicador-responsavel" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Responsavel</label>
-                                    <select id="form-criar-indicador-responsavel" name="formCriarIndicadorResponsavel" class="form-control"
+                                    <select id="form-criar-indicador-responsavel" name="formCriarIndicadorResponsavel" class="form-control" 
                                             data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Responsavel">
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Id > 0)
@@ -201,18 +201,21 @@
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
                                 <div class="form-group">
                                     <label for="form-criar-indicador-ano" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Ano</label>
-                                    <input type="text" id="form-criar-indicador-ano" name="formCriarIndicadorAno" class="form-control" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                    <input type="number" id="form-criar-indicador-ano" maxlength="4" min="@DateTime.Now.AddYears(-1).Year" name="formCriarIndicadorAno" class="form-control" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                            placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Ano"
                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Ano"
-                                           value="@(Model.Ano > 0? Model.Ano.ToString():null)" />
+                                           data-msg-number="Ano dever ser maior que @DateTime.Now.AddYears(-1).Year"
+                                           value="@(Model.Ano > 0? Model.Ano.ToString():DateTime.Now.Year.ToString())" />
                                 </div>
                             </div>
                             <!-- Meta -->
                             <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12 ">
                                 <div class="form-group">
                                     <label for="form-criar-indicador-meta" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Meta</label>
-                                    <input type="text" id="form-criar-indicador-meta" name="formCriarIndicadorMeta" class="form-control" onkeyup="SubstituiVirgulaPorPonto(this)"
-                                           placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Meta"
+                                    <input type="number" id="form-criar-indicador-meta" maxlength="50" name="formCriarIndicadorMeta" class="form-control" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+        type = "number"                    placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Meta"
                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Meta"
                                            data-msg-number="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_number_Meta"
                                            value="@Model.MetaAnual" />
@@ -222,7 +225,7 @@
                             <div class="col-lg-6 col-md-2 col-sm-4 col-xs-12 ">
                                 <div class="form-group">
                                     <label for="form-criar-indicador-unidade" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Unidade</label>
-                                    <input type="text" id="form-criar-indicador-unidade" name="formCriarIndicadorUnidade" class="form-control"
+                                    <input type="text" id="form-criar-indicador-unidade" maxlength="50" name="formCriarIndicadorUnidade" class="form-control"
                                            placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Unidade"
                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Unidade"
                                            value="@Model.Unidade" />

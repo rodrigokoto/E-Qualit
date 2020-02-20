@@ -125,7 +125,7 @@ APP.controller.IndicadorController = {
 
         this.setDestravarCamposIndicador();
 
-        if (habilitaLoad == 'sim') {
+        if (habilitaLoad == 'Sim') {
 
             this.HabilitaCamposIndicador(perfil);
         }

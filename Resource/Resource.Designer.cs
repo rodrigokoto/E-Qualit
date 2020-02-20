@@ -6314,6 +6314,33 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to O campo objetivo deve haver no máximo 1000 caracteres..
+        /// </summary>
+        public static string Msg_Max1000Objetivo {
+            get {
+                return ResourceManager.GetString("Msg_Max1000Objetivo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo periodicidade é obrigatório..
+        /// </summary>
+        public static string Msg_Periodicidade {
+            get {
+                return ResourceManager.GetString("Msg_Periodicidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo sentido da meta é obrigatório..
+        /// </summary>
+        public static string Msg_SentidoMeta {
+            get {
+                return ResourceManager.GetString("Msg_SentidoMeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to É necessario ter pelo menos uma Ação Imediata.
         /// </summary>
         public static string MsgAcaoImediataNecessaria {

@@ -3625,4 +3625,13 @@ www.e-qualit.com.br
   <data name="GestaoMelhoria_TerceiraEtapa_lbl_IdResponsavelDefinir" xml:space="preserve">
     <value>Responsavel por reverificação</value>
   </data>
+  <data name="Msg_Max1000Objetivo" xml:space="preserve">
+    <value>O campo objetivo deve haver no máximo 1000 caracteres.</value>
+  </data>
+  <data name="Msg_Periodicidade" xml:space="preserve">
+    <value>O campo periodicidade é obrigatório.</value>
+  </data>
+  <data name="Msg_SentidoMeta" xml:space="preserve">
+    <value>O campo sentido da meta é obrigatório.</value>
+  </data>
 </root>

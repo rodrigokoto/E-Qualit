@@ -7,6 +7,22 @@ namespace Dominio.Validacao.Indicadores
     {
         public AptoParaCadastroValidation()
         {
+            RuleFor(x => x.Processo)
+                .NotNull()
+                .WithMessage(Traducao.Resource.AcaoCorretiva_msg_erro_required_IdProcesso);
+
+            RuleFor(x => x.Direcao)
+                .NotNull()
+                .WithMessage(Traducao.Resource.Msg_SentidoMeta);
+
+            RuleFor(x => x.Periodicidade)
+                .NotNull()
+                .WithMessage(Traducao.Resource.Msg_Periodicidade);
+
+            RuleFor(x => x.Objetivo)
+                .MaximumLength(1000)
+                .WithMessage(Traducao.Resource.Msg_Max1000Objetivo);
+
             RuleFor(indicador => indicador.Descricao)
               .NotEmpty().WithMessage(Traducao.Resource.MsgCampoDescricao);
 
