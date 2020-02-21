@@ -5072,6 +5072,24 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to O Id do responsável é obrigatório..
+        /// </summary>
+        public static string GestaoMelhoria_msg_required_IdResponsavelEtapa {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_required_IdResponsavelEtapa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo melhoria é obrigatório..
+        /// </summary>
+        public static string GestaoMelhoria_msg_required_TipoMelhoria {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_required_TipoMelhoria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Salvar e Notificar.
         /// </summary>
         public static string GestaoMelhoria_PrimeiraEtapa_lbl_btn_SalvarENotificar {

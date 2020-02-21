@@ -75,15 +75,15 @@
                                                     <td>
                                                         @if (licenca.DataVencimento >= DateTime.Now.Date)
                                                         {
-                                                            <p style="color:green">Atualizado</p>
+                                                            <p style="color:green;font-weight:bold">Atualizado</p>
                                                         }
                                                         else if (licenca.DataVencimento == null && licenca.DataProximaNotificacao == null && licenca.DataEmissao == null)
                                                         {
-                                                            <p style="color:goldenrod">Renovação</p>
+                                                            <p style="color:goldenrod;font-weight:bold">Renovação</p>
                                                         }
                                                         else 
                                                         {
-                                                            <p style="color:red">Vencido</p>
+                                                            <p style="color:red;font-weight:bold">Vencido</p>
                                                         }
                                                     </td>
                                                     <td>

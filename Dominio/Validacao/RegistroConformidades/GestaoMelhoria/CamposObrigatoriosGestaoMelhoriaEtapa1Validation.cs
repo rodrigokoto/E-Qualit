@@ -16,6 +16,28 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
                 .When(x => x.IdResponsavelEtapa != null)
                 .WithMessage(Traducao.Resource.StatusInvalido);
 
+
+            RuleFor(x => x.IdTipoNaoConformidade)
+                .NotNull()
+                .WithMessage(Traducao.Resource.GestaoMelhoria_msg_required_TipoMelhoria);
+
+            //RuleFor(x => x.IdResponsavelEtapa)
+            //    .NotEmpty()
+            //    .NotNull()
+            //    .WithMessage(Traducao.Resource.GestaoMelhoria_msg_required_IdResponsavelEtapa);
+
+            RuleFor(x => x.DtEmissao)
+                .NotEmpty()
+                .WithMessage(Traducao.Resource.MsgDataEmissao);
+
+            RuleFor(x => x.IdProcesso)
+                .NotNull()
+                .WithMessage(Traducao.Resource.GestaoDeRisco_msg_erro_required_IdProcesso);
+
+            RuleFor(x => x.IdEmissor)
+                   .NotNull()
+                   .WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_IdEmissor);
+
             RuleFor(x => x.IdEmissor)
                 .NotEmpty().WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_IdEmissor);
 

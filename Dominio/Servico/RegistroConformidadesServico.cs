@@ -920,7 +920,34 @@ namespace Dominio.Servico
             return registroConformidade.NuRegistro;
         }
 
+        public DataTable RetornarDadosGraficoMelhoria(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int? idCliente, int idSite, int tipoGrafico)
+        {
+            var dtDados = new DataTable();
 
+            switch (tipoGrafico)
+            {
+                case 1:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoMelhoriaMes(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 2:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoMelhoriaAbertasFechadas(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 3:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoMelhoriaTipo(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 5:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoMelhoriaProcesso(dtDe, dtAte, idTipoNaoConformidade, idSite);
+                    break;
+                case 6:
+                    dtDados = _registroConformidadesRepositorio.RetornarDadosGraficoMelhoriasSite(dtDe, dtAte, idTipoNaoConformidade, idCliente.Value);
+                    break;
+
+                default:
+                    break;
+            }
+
+            return dtDados;
+        }
         public DataTable RetornarDadosGrafico(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int? idCliente, int idSite, int tipoGrafico)
         {
             var dtDados = new DataTable();

@@ -3625,4 +3625,10 @@ www.e-qualit.com.br
   <data name="GestaoMelhoria_TerceiraEtapa_lbl_IdResponsavelDefinir" xml:space="preserve">
     <value>Responsavel por reverificação</value>
   </data>
+  <data name="GestaoMelhoria_msg_required_IdResponsavelEtapa" xml:space="preserve">
+    <value>O Id do responsável é obrigatório.</value>
+  </data>
+  <data name="GestaoMelhoria_msg_required_TipoMelhoria" xml:space="preserve">
+    <value>Tipo melhoria é obrigatório.</value>
+  </data>
 </root>

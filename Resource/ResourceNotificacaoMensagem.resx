@@ -165,4 +165,7 @@ Não responda a esta mensagem.</value>
   <data name="msgNotificacaoControlDoc" xml:space="preserve">
     <value>Notificação de Controle de Documentos</value>
   </data>
+  <data name="MsgNotificacaoGestaoMelhoria" xml:space="preserve">
+    <value>Notificação de Gestão de Melhoria</value>
+  </data>
 </root>

@@ -47,11 +47,14 @@ APP.controller.LicencaController = {
         APP.component.DataTable.init('#tb-Licenca');
         this.delLicenca();
 
-
     },
 
     CriarLicenca: function () {
 
+        $("#form-cadastro-dt-emissao").datepicker({
+            startView: "months",
+            minViewMode: "months"
+        });
 
         //GETs
         this.getResponsavel();

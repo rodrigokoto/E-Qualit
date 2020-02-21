@@ -85,8 +85,8 @@ abrirGrafico = (function (url) {
         parametros += '&dtAte=' + dtAte;
         parametros += '&estiloGrafico=' + estiloGrafico;
         parametros += '&tipoGestaoMelhoria=' + idTipoGestaoMelhoria;
-
-        window.open(url + parametros, '_blank');
+        var openUrl = url + parametros;
+        window.open(openUrl, '_blank');
     }
 });
 
@@ -119,7 +119,7 @@ APP.controller.GestaoMelhoriaController = {
             this.acoesGestaoMelhoria();
 		}
 		//typeof (destavar) != "undefined" && 
-		if (destravar === 'True') {
+		if (destravar === 'true') {
 
 			
 			this.setDestravarCamposGestaoMelhoria();
@@ -1322,7 +1322,7 @@ APP.controller.GestaoMelhoriaController = {
                     IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
                     EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
-                    IdTipoGestaoMelhoria: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarGestaoMelhoriaResponsavel] :selected').val(),
                     Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
                     Causa: $('[name=formCausa]').val(),
@@ -1347,7 +1347,7 @@ APP.controller.GestaoMelhoriaController = {
                     IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
                     EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
-                    IdTipoGestaoMelhoria: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarGestaoMelhoriaResponsavel] :selected').val(),
                     Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
                     Causa: $('[name=formCausa]').val(),
@@ -1378,7 +1378,7 @@ APP.controller.GestaoMelhoriaController = {
                     IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
                     EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
-                    IdTipoGestaoMelhoria: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarGestaoMelhoriaResponsavel] :selected').val(),
                     Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
                     Causa: $('[name=formCausa]').val(),
@@ -1407,7 +1407,7 @@ APP.controller.GestaoMelhoriaController = {
                     EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
-                    IdTipoGestaoMelhoria: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarGestaoMelhoriaResponsavel] :selected').val(),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
@@ -1429,7 +1429,7 @@ APP.controller.GestaoMelhoriaController = {
 					Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
 					IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
 					IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
-					IdTipoGestaoMelhoria: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
 					DtEmissao: $('[name=formCriarGestaoMelhoriaDtEmissao]').val(),
 					EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
 					NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
@@ -1462,7 +1462,7 @@ APP.controller.GestaoMelhoriaController = {
                     Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
                     IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
-                    IdTipoGestaoMelhoria: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
                     DtEmissao: $('[name=formCriarGestaoMelhoriaDtEmissao]').val(),
                     EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),

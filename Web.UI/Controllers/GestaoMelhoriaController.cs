@@ -155,25 +155,22 @@ namespace Web.UI.Controllers
             switch (tipoGrafico)
             {
                 case 1:
-                    retorno = "Total de GestaoMelhoria geradas x Mês";
+                    retorno = "Total de Gestâo Melhoria geradas x Mês";
                     break;
                 case 2:
-                    retorno = "Total de GestaoMelhoria geradas x Gestao Melhoria abertas x Gestao Melhoria fechadas";
+                    retorno = "Total de Gestâo Melhoria geradas x Gestâo Melhoria abertas x Gestâo Melhoria fechadas";
                     break;
                 case 3:
-                    retorno = "Total de GestaoMelhoria geradas x Tipo de Melhoria";
-                    break;
-                case 4:
-                    retorno = "Total de GestaoMelhoria geradas x Total de Melhoria com AC";
+                    retorno = "Total de Gestâo Melhoria geradas x Tipo de Melhoria";
                     break;
                 case 5:
-                    retorno = "Total de GestaoMelhoria geradas x Departamento";
+                    retorno = "Total de Gestâo Melhoria geradas x Departamento";
                     break;
                 case 6:
-                    retorno = "Total de GestaoMelhoria geradas x Unidade";
+                    retorno = "Total de Gestâo Melhoria geradas x Unidade";
                     break;
                 case 7:
-                    retorno = "Comparativo do total de GestaoMelhoria gerado mês a mês x ano a ano";
+                    retorno = "Comparativo do total de Gestâo Melhoria gerado mês a mês x ano a ano";
                     break;
                 default:
                     break;
@@ -486,9 +483,9 @@ namespace Web.UI.Controllers
         {
             var idCliente = Util.ObterClienteSelecionado();
             Cliente cliente = _clienteServico.GetById(idCliente);
-            var urlAcesso = MontarUrlAcesso(gestaoMelhoria.IdRegistroConformidade);
+            var urlAcesso = MontarUrlAcessoGestaoMelhoria(gestaoMelhoria.IdRegistroConformidade);
 
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeResponsavel-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\GestaoMelhoriaResponsavel-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
             string template = System.IO.File.ReadAllText(path);
             string conteudo = template;
 
@@ -498,7 +495,7 @@ namespace Web.UI.Controllers
             var responsavelAcaoImediata = _usuarioAppServico.GetById(gestaoMelhoria.IdResponsavelInicarAcaoImediata.Value);
             Email _email = new Email();
 
-            _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoNaoConformidade;
+            _email.Assunto = Traducao.ResourceNotificacaoMensagem.MsgNotificacaoGestaoMelhoria;
             _email.De = ConfigurationManager.AppSettings["EmailDE"];
             _email.Para = responsavelAcaoImediata.CdIdentificacao;
             _email.Conteudo = conteudo;
@@ -783,7 +780,7 @@ namespace Web.UI.Controllers
             var idCliente = Util.ObterClienteSelecionado();
             Cliente cliente = _clienteServico.GetById(idCliente);
             var urlAcesso = MontarUrlAcesso(gestaoMelhoria.IdRegistroConformidade);
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\NaoConformidadeAcaoDataImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
+            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\GestaoMelhoriaDataImplementacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
 
             foreach (var acao in acoesImediatasNova)
             {
@@ -798,7 +795,7 @@ namespace Web.UI.Controllers
                     conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
 
                     var filaEnvio = new FilaEnvio();
-                    filaEnvio.Assunto = "Notificação de Não Conformidade";
+                    filaEnvio.Assunto = "Notificação de Gestão de Melhoria";
                     filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
                     filaEnvio.DataInclusao = DateTime.Now;
                     filaEnvio.Destinatario = destinatario;
@@ -1152,7 +1149,12 @@ namespace Web.UI.Controllers
             return dominio + "AcaoCorretiva/Editar/" + idRegistro.ToString();
         }
 
+        private string MontarUrlAcessoGestaoMelhoria(int idMelhoria) {
 
+            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+
+            return dominio + "GestaoMelhoria/Editar/" + idMelhoria.ToString();
+        }
         private void EnviaEmail(RegistroConformidade nc)
         {
             var idCliente = Util.ObterClienteSelecionado();
@@ -1211,7 +1213,7 @@ namespace Web.UI.Controllers
             var dtDados = new DataTable();
             int? idTipoGestaoMelhoria = (tipoGestaoMelhoria == 0 ? null : tipoGestaoMelhoria);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoGestaoMelhoria, Util.ObterClienteSelecionado(), Util.ObterSiteSelecionado(), tipoGrafico);
+            dtDados = _registroConformidadesServico.RetornarDadosGraficoMelhoria(dtDe, dtAte, idTipoGestaoMelhoria, Util.ObterClienteSelecionado(), Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsBarra(dtDados);
 
@@ -1225,7 +1227,7 @@ namespace Web.UI.Controllers
             List<object> dataPoints = null;
             int? idTipoGestaoMelhoria = (tipoGestaoMelhoria == 0 ? null : tipoGestaoMelhoria);
 
-            dtDados = _registroConformidadesServico.RetornarDadosGrafico(dtDe, dtAte, idTipoGestaoMelhoria, Util.ObterClienteSelecionado(), Util.ObterSiteSelecionado(), tipoGrafico);
+            dtDados = _registroConformidadesServico.RetornarDadosGraficoMelhoria(dtDe, dtAte, idTipoGestaoMelhoria, Util.ObterClienteSelecionado(), Util.ObterSiteSelecionado(), tipoGrafico);
 
             dataPoints = GerarDataPointsPizza(dtDados);
 
