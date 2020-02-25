@@ -5072,6 +5072,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsável Ação Imediata.
+        /// </summary>
+        public static string GestaoMelhoria_msg_required_ResponsavelIniciaAcaoImediata {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_required_ResponsavelIniciaAcaoImediata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Salvar e Notificar.
         /// </summary>
         public static string GestaoMelhoria_PrimeiraEtapa_lbl_btn_SalvarENotificar {

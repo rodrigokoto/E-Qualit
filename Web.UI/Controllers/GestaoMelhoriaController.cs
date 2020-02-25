@@ -798,7 +798,7 @@ namespace Web.UI.Controllers
                     conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
 
                     var filaEnvio = new FilaEnvio();
-                    filaEnvio.Assunto = "Notificação de Não Conformidade";
+                    filaEnvio.Assunto = "Notificação de Gestão de Melhoria";
                     filaEnvio.DataAgendado = acao.DtPrazoImplementacao.Value.AddDays(1);
                     filaEnvio.DataInclusao = DateTime.Now;
                     filaEnvio.Destinatario = destinatario;
