@@ -281,7 +281,8 @@ APP.controller.GestaoMelhoriaController = {
 
         this.buttonImprimir.on('click', function () {
 
-            window.print();
+            var IdGestaoMelhoria = $(".IdNaoConformidade").val();
+            APP.controller.GestaoMelhoriaController.imprimir(IdGestaoMelhoria);
 
         });
 

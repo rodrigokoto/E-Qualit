@@ -155,22 +155,22 @@ namespace Web.UI.Controllers
             switch (tipoGrafico)
             {
                 case 1:
-                    retorno = "Total de Gestâo Melhoria geradas x Mês";
+                    retorno = "Total de Gestão Melhoria geradas x Mês";
                     break;
                 case 2:
-                    retorno = "Total de Gestâo Melhoria geradas x Gestâo Melhoria abertas x Gestâo Melhoria fechadas";
+                    retorno = "Total de Gestão Melhoria geradas x Gestão Melhoria abertas x Gestâo Melhoria fechadas";
                     break;
                 case 3:
-                    retorno = "Total de Gestâo Melhoria geradas x Tipo de Melhoria";
+                    retorno = "Total de Gestão Melhoria geradas x Tipo de Melhoria";
                     break;
                 case 5:
-                    retorno = "Total de Gestâo Melhoria geradas x Departamento";
+                    retorno = "Total de Gestão Melhoria geradas x Departamento";
                     break;
                 case 6:
-                    retorno = "Total de Gestâo Melhoria geradas x Unidade";
+                    retorno = "Total de Gestão Melhoria geradas x Unidade";
                     break;
                 case 7:
-                    retorno = "Comparativo do total de Gestâo Melhoria gerado mês a mês x ano a ano";
+                    retorno = "Comparativo do total de Gestão Melhoria gerado mês a mês x ano a ano";
                     break;
                 default:
                     break;

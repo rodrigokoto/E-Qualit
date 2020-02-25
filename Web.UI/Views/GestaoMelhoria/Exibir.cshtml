@@ -186,6 +186,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <!-- Emissor -->
                                         <div class="col-sm-2">
                                             <div class="form-group">
@@ -198,7 +199,7 @@
                                     <div class="row">
 
                                         <!-- Responsavel -->
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Responsavel_definir_AC</label>
                                                 <br />
@@ -210,7 +211,14 @@
 
                                             </div>
                                         </div>
-
+                                        <!-- Tipo Melhoria -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Tipo</label>
+                                                <br />
+                                                @Model.TipoNaoConformidade.Descricao
+                                            </div>
+                                        </div>
                                         <!-- Tags -->
                                         <div class="col-sm-2">
                                             <div class="form-group">
@@ -259,11 +267,6 @@
 
 
                                 </div>
-
-
-
-
-
 
                             </div>
                         </form>

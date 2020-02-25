@@ -20,15 +20,9 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
                 .When(x => x.IdResponsavelEtapa != null)
                 .WithMessage(Traducao.Resource.StatusInvalido);
 
-
             RuleFor(x => x.IdTipoNaoConformidade)
                 .NotNull()
                 .WithMessage(Traducao.Resource.GestaoMelhoria_msg_required_TipoMelhoria);
-
-            //RuleFor(x => x.IdResponsavelEtapa)
-            //    .NotEmpty()
-            //    .NotNull()
-            //    .WithMessage(Traducao.Resource.GestaoMelhoria_msg_required_IdResponsavelEtapa);
 
             RuleFor(x => x.DtEmissao)
                 .NotEmpty()
@@ -39,8 +33,8 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
                 .WithMessage(Traducao.Resource.GestaoDeRisco_msg_erro_required_IdProcesso);
 
             RuleFor(x => x.IdEmissor)
-                   .NotNull()
-                   .WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_IdEmissor);
+                .NotNull()
+                .WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_IdEmissor);
 
             RuleFor(x => x.IdEmissor)
                 .NotEmpty().WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_IdEmissor);
@@ -62,11 +56,7 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
              .Must(x => x.Equals("gm"))
              .WithMessage(Traducao.Resource.TraducaoTipoDeRegistro);
 
-            RuleFor(x => x.DescricaoRegistro)
-                .NotEmpty()
-                .WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_DescricaoRegistro);
 
-            
             RuleFor(x => x.TipoRegistro)
              .Must(x => x.Equals("gm"))
              .WithMessage(Traducao.Resource.TraducaoTipoDeRegistro);
