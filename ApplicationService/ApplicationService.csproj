@@ -61,6 +61,7 @@
     <Compile Include="Entidade\ProcessoApp.cs" />
     <Compile Include="Entidade\SiteModuloApp.cs" />
     <Compile Include="Entidade\UsuarioApp.cs" />
+    <Compile Include="Enum\FuncoesIndicadores.cs" />
     <Compile Include="Enum\FuncoesLicenca.cs" />
     <Compile Include="Enum\FuncoesFornecedores.cs" />
     <Compile Include="Enum\FuncoesAuditoria.cs" />

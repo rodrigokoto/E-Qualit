@@ -11,6 +11,10 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
             //RuleFor(x => x.DescricaoRegistro)                
             //    .Length(4, 1000).WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_min_e_max_DescricaoRegistro);
 
+            RuleFor(x => x.DescricaoRegistro)
+                .NotEmpty()
+                .WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_min_e_max_DescricaoAcao);
+
             RuleFor(x => x.StatusEtapa)
                 .Must(x => x.Equals((byte)EtapasRegistroConformidade.AcaoImediata))
                 .When(x => x.IdResponsavelEtapa != null)
@@ -41,6 +45,10 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
             RuleFor(x => x.IdEmissor)
                 .NotEmpty().WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_IdEmissor);
 
+            RuleFor(x => x.IdTipoNaoConformidade)
+                .NotEmpty()
+                .WithMessage("Tipo de melhoria é obrigatório.");
+
             //RuleFor(x => x.IdProcesso)
             //    .NotEmpty().WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_IdProcesso);
 
@@ -59,6 +67,13 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
                 .WithMessage(Traducao.Resource.GestaoMelhoria_msg_erro_required_DescricaoRegistro);
 
             
+            RuleFor(x => x.TipoRegistro)
+             .Must(x => x.Equals("gm"))
+             .WithMessage(Traducao.Resource.TraducaoTipoDeRegistro);
+
+            RuleFor(x => x.IdResponsavelInicarAcaoImediata)
+                .NotEmpty()
+                .WithMessage(Traducao.Resource.GestaoMelhoria_msg_required_ResponsavelIniciaAcaoImediata);
         }
     }
 }

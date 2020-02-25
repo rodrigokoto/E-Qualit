@@ -5090,6 +5090,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsável Ação Imediata.
+        /// </summary>
+        public static string GestaoMelhoria_msg_required_ResponsavelIniciaAcaoImediata {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_required_ResponsavelIniciaAcaoImediata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Salvar e Notificar.
         /// </summary>
         public static string GestaoMelhoria_PrimeiraEtapa_lbl_btn_SalvarENotificar {
@@ -6328,6 +6337,33 @@ namespace Traducao {
         public static string Minuto {
             get {
                 return ResourceManager.GetString("Minuto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo objetivo deve haver no máximo 1000 caracteres..
+        /// </summary>
+        public static string Msg_Max1000Objetivo {
+            get {
+                return ResourceManager.GetString("Msg_Max1000Objetivo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo periodicidade é obrigatório..
+        /// </summary>
+        public static string Msg_Periodicidade {
+            get {
+                return ResourceManager.GetString("Msg_Periodicidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo sentido da meta é obrigatório..
+        /// </summary>
+        public static string Msg_SentidoMeta {
+            get {
+                return ResourceManager.GetString("Msg_SentidoMeta", resourceCulture);
             }
         }
         

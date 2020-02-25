@@ -28,7 +28,7 @@
                 <div class="panel-body" id="panel-form-indicador">
                     <div class="row">
                         <div class="barra-busca">
-                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.Cadastrar) || ViewBag.IdPerfil != 4)
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.DefinirAcao) || ViewBag.IdPerfil != 4)
                             {
                                 <p class="novo">
                                     @Html.ActionLink(Traducao.Indicador.ResourceIndicador.Indicador_lbl_novo_indicador, "Criar", "Indicador")
@@ -39,6 +39,9 @@
                                 <table id="tb-index-indicador" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
                                     <thead>
                                         <tr class="bg">
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Processo" />
+                                            </th>
                                             <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Objetivo" />
                                             </th>
@@ -57,6 +60,9 @@
                                             <th class="w5 with-input"></th>
                                         </tr>
                                         <tr class="bg">
+                                            <th>
+                                                @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Processo
+                                            </th>
                                             <th>
                                                 @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Objetivo
                                             </th>
@@ -80,39 +86,42 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Objetivo)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.MetaAnual)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Unidade)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Responsavel.NmCompleto)
-                                                </td>
-                                                <td>
-                                                    @if (item.Direcao == (int)DirecaoIndicador.MelhoParaCima)
-                                                    {
-                                                        @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_cima
-                                                    }
-                                                    else
-                                                    {
-                                                        @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_baixo
-                                                    }
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Processo.Nome)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Objetivo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MetaAnual)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Unidade)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Responsavel.NmCompleto)
+                                            </td>
+                                            <td>
+                                                @if (item.Direcao == (int)DirecaoIndicador.MelhoParaCima)
+                                                {
+                                                    @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_cima
+                                                }
+                                                else
+                                                {
+                                                    @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_baixo
+                                                }
 
-                                                </td>
-                                                <td>
-                                                    <a href="@Url.Action("Editar", "Indicador", new { id = item.Id })" class="edit icon-cliente  editar-color">
-                                                        <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
-                                                    </a>
-                                                    <a href="#" class="icon-cliente trash-color del-indicador" data-id-indicador="@item.Id">
-                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Editar", "Indicador", new { id = item.Id })" class="edit icon-cliente  editar-color">
+                                                    <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                </a>
+                                                <a href="#" class="icon-cliente trash-color del-indicador" data-id-indicador="@item.Id">
+                                                    <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

@@ -257,10 +257,10 @@
                                     <select id="form-criar-nao-conformidade-tipo" name="formCriarGestaoMelhoriaTipo" class="form-control"
                                             data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_Tipo">
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                        @*@if (Model.IdTipoGestaoMelhoria != null)
-                                            {
-                                                <option value="@Model.IdTipoGestaoMelhoria" selected>@Model.TipoGestaoMelhoria.Descricao</option>
-                                            }*@
+                                        @if (Model.IdTipoNaoConformidade != null)
+                                        {
+                                            <option value="@Model.IdTipoNaoConformidade" selected>@Model.TipoNaoConformidade.Descricao</option>
+                                        }
                                     </select>
                                     @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesGestaoMelhoria.CriarTipoDeNC) || ViewBag.IdPerfil != 4)
                                     {

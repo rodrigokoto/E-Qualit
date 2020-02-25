@@ -1429,7 +1429,7 @@ APP.controller.GestaoMelhoriaController = {
 					Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
 					IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
 					IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
-                    IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
+					IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
 					DtEmissao: $('[name=formCriarGestaoMelhoriaDtEmissao]').val(),
 					EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
 					NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
