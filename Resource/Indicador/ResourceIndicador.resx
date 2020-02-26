@@ -231,4 +231,7 @@
   <data name="Indicador_msg_icone_delete" xml:space="preserve">
     <value>Deseja mesmo Deletar este Indicador?</value>
   </data>
+  <data name="Indicador_lbl_Periodicidade_bimestral" xml:space="preserve">
+    <value>Bimestral</value>
+  </data>
 </root>

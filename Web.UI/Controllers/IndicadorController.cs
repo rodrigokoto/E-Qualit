@@ -90,7 +90,6 @@ namespace Web.UI.Controllers
         [HttpPost]
         public JsonResult Salvar(Indicador indicador)
         {
-
             var erros = new List<string>();
 
             try
@@ -99,11 +98,7 @@ namespace Web.UI.Controllers
                 indicador.DataAlteracao = DateTime.Now;
                 indicador.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
                 indicador.StatusRegistro = 1;
-
-                //ESSE CÓDIGO AQUI TEM QUE TIRAR DAQUI
-                //MAS COMO EU NÃO ESTOU AQUI, ESTOU REMOTO
-                //VC TIRA ACIOLE
-
+                
                 foreach (var periodicidadeDeAnalises in indicador.PeriodicidadeDeAnalises)
                 {
                     periodicidadeDeAnalises.Inicio = DateTime.Now;
@@ -120,11 +115,7 @@ namespace Web.UI.Controllers
                         metaRealizada.DataInclusao = DateTime.Now;
                         metaRealizada.DataAlteracao = DateTime.Now;
                     }
-
-
                 }
-
-
 
                 _indicadorServico.Valido(indicador, ref erros);
 
@@ -151,10 +142,7 @@ namespace Web.UI.Controllers
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
-
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Indicador.ResourceIndicador.Indicador_msg_save_valid, IdIndicador = indicador.Id }, JsonRequestBehavior.AllowGet);
-
-
         }
 
         public ActionResult Excluir(Indicador indicador)
@@ -173,9 +161,7 @@ namespace Web.UI.Controllers
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
-
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Norma.ResourceNorma.Norma_msg_del_valid }, JsonRequestBehavior.AllowGet);
-
         }
 
         public ActionResult PDF(int id)

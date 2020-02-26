@@ -135,7 +135,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
                                 <div class="form-group">
                                     <label for="form-criar-indicador-responsavel" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Responsavel</label>
-                                    <select id="form-criar-indicador-responsavel" name="formCriarIndicadorResponsavel" class="form-control" 
+                                    <select id="form-criar-indicador-responsavel" name="formCriarIndicadorResponsavel" class="form-control"
                                             data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Responsavel">
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Id > 0)
@@ -156,6 +156,21 @@
                                         <option value="2" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Trimestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral</option>
                                         <option value="3" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Semestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral</option>
                                         <option value="4" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Anual ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Periodicidade -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-periodicidade-medicao" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade</label>
+                                    <select id="form-criar-indicador-periodicidade-medicao" name="formCriarIndicadorPeriodicidadeMedicao" class="form-control"
+                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Periodicidade">
+                                        <option value=""> @Traducao.Resource.Dropdown_name_select</option>
+                                        <option value="1" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Mensal ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_mensal</option>
+                                        <option value="2" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Bimestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_bimestral</option>
+                                        <option value="2" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Trimestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral</option>
+                                        <option value="3" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Semestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral</option>
+                                        <option value="4" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Anual ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual</option>
                                     </select>
                                 </div>
                             </div>

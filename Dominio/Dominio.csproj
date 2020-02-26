@@ -176,6 +176,7 @@
     <Compile Include="Enumerado\DirecaoIndicador.cs" />
     <Compile Include="Enumerado\CriticidadeGestaoDeRisco.cs" />
     <Compile Include="Enumerado\Funcionalidades.cs" />
+    <Compile Include="Enumerado\PeriodicidadeMedicao.cs" />
     <Compile Include="Enumerado\PeriodicidadeIndicador.cs" />
     <Compile Include="Enumerado\PeriodoAnalise.cs" />
     <Compile Include="Enumerado\EquipamentoStatus.cs" />

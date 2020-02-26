@@ -133,6 +133,15 @@ namespace Traducao.Indicador {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bimestral.
+        /// </summary>
+        public static string Indicador_lbl_Periodicidade_bimestral {
+            get {
+                return ResourceManager.GetString("Indicador_lbl_Periodicidade_bimestral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mensal.
         /// </summary>
         public static string Indicador_lbl_Periodicidade_mensal {

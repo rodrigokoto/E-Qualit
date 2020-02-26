@@ -248,13 +248,14 @@ APP.controller.IndicadorController = {
             Id: $('[name=IdIndicador]').val(),
             IdResponsavel: $('[name=formCriarIndicadorResponsavel] :selected').val(),
             Periodicidade: $('[name=formCriarIndicadorPeriodicidade] :selected').val(),
+            PeriodicidadeMedicao: $('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val(),
             Direcao: $('[name=formCriarIndicadorSentido] :selected').val(),
             Ano: $('[name=formCriarIndicadorAno]').val(),
             MetaAnual: $('[name=formCriarIndicadorMeta]').val(),
             Unidade: $('[name=formCriarIndicadorUnidade]').val(),
             Objetivo: $('[name=formCriarIndicadorObjetivo]').val(),
             Descricao: $('[name=formCriarIndicadorIndicador]').val(),
-
+            
             PeriodicidadeDeAnalises: [{
                 Id: $('[name=IdPeriodicidade]').val(),
                 PlanoDeVoo: APP.controller.IndicadorController.getObjFormMetaArray(),

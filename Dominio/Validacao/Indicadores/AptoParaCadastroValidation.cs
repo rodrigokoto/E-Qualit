@@ -7,13 +7,9 @@ namespace Dominio.Validacao.Indicadores
     {
         public AptoParaCadastroValidation()
         {
-            RuleFor(x => x.Processo)
-                .NotNull()
-                .WithMessage(Traducao.Resource.AcaoCorretiva_msg_erro_required_IdProcesso);
-
             RuleFor(x => x.Direcao)
-                .NotNull()
-                .WithMessage(Traducao.Resource.Msg_SentidoMeta);
+            .NotNull()
+            .WithMessage(Traducao.Resource.Msg_SentidoMeta);
 
             RuleFor(x => x.Periodicidade)
                 .NotNull()
