@@ -131,7 +131,7 @@ APP.controller.GestaoMelhoriaController = {
 
 			var idSite = $('#nao-conformidade-site').val();
 			processoSelecionado = $('[name=formCriarGestaoMelhoriaProcesso]').find(':selected').val();
-			var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
+			var idFuncao = 121; // Funcionalidade(Define aÃ§Ã£o)
 			$.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
 				if (result.StatusCode == 200) {
 					//$('[name=formCriarGestaoMelhoriaResponsavel] option').not(':first-child').remove();
@@ -1238,7 +1238,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formCriarGestaoMelhoriaProcesso]').on('change', function () {
             var idSite = $('#nao-conformidade-site').val();
             processoSelecionado = $(this).find(':selected').val();
-            var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
+            var idFuncao = 121; // Funcionalidade(Define aÃ§Ã£o)
             $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
                 if (result.StatusCode == 200) {
                     $('[name=formCriarGestaoMelhoriaResponsavel] option').not(':first-child').remove();
@@ -1668,7 +1668,7 @@ APP.controller.GestaoMelhoriaController = {
 
     getResponsavelImplementarAcaoImediata: function () {
         var idSite = $('#nao-conformidade-site').val();
-        var idFuncao = 15; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
+        var idFuncao = 122; // Funcionalidade(Implementar aÃ§Ã£o) que permite usuario Implementar aÃ§Ã£o NC
         var idProcesso = $('[name=IdProcesso]').val();
         $.ajax({
             type: "GET",
@@ -1701,7 +1701,7 @@ APP.controller.GestaoMelhoriaController = {
     getResponsavelReverificarAcaoImediata: function () {
         var idSite = $('#nao-conformidade-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
-        var idFuncao = 16; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique NC
+        var idFuncao = 123; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique NC
         $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=idProcesso&idSite=' + idSite + '&idFuncao=' + idFuncao, function (result) {
             if (result.StatusCode == 200) {
 
@@ -1720,7 +1720,7 @@ APP.controller.GestaoMelhoriaController = {
 
         var idSite = $('#nao-conformidade-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
-        var idFuncao = 20; // Funcionalidade(AnÃ¡lise da Causa) que permite usuario Criar nova AC
+        var idFuncao = 120; // Funcionalidade(AnÃ¡lise da Causa) que permite usuario Criar nova AC
         $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=idProcesso&idSite=' + idSite + '&idFuncao=' + idFuncao + '', function (result) {
             if (result.StatusCode == 200) {
                 $(result.Lista).each(function (key, value) {
