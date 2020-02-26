@@ -60,7 +60,7 @@ abrirModalGrafico = (function () {
 abrirGrafico = (function (url) {
 
     var idTipoGrafico = $("#ddlTipoGrafico").val();
-    var idTipoGestaoMelhoria = $("#ddlTipoGestaoMelhoria").val();
+    var idTipoGestaoMelhoria = $("#ddlTipoNaoConformidade").val();
     var dtDe = soNumeros($("#dtDe").val());
     var dtAte = soNumeros($("#dtAte").val());
     var estiloGrafico = $('input[name=estiloGrafico]:checked').val();
