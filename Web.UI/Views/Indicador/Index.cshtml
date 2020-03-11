@@ -18,6 +18,8 @@
 <input type="hidden" name="msgIconeDeleteIndicador" value="@Traducao.Indicador.ResourceIndicador.Indicador_msg_icone_delete" />
 @section scripts {
     <script src="@Url.Content("~/Content/assets/js/IndicadorController.js")"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 }
 <div id="main">
@@ -120,6 +122,10 @@
                                                     <a href="#" class="icon-cliente trash-color del-indicador" data-id-indicador="@item.Id">
                                                         <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                     </a>
+                                                    <a href="#" class="icon-cliente trash-color black-color" data-id-indicador="@item.Id" onclick="AbrirRelatorio(@item.Id)">
+                                                        <i class="fa fa-bar-chart" aria-hidden="true" data-toggle="modal" data-target=".bd-example-modal-lg" title="Relatório"></i>
+                                                    </a>
+
                                                 </td>
                                             </tr>
                                         }
@@ -133,28 +139,33 @@
     </div>
 </div>
 
-
-<form id="form-dashboard">
-    <div class="panel panel-default" id="panel-dashboard">
-        <div class="panel-heading">
-            <div class="panel-title">
-                <h2>Relatório</h2>
-            </div>
-        </div>
-        <div class="panel-body" id="panel-form-dashboard">
-            <div class="barra-busca">
-                <div class="row">
-                    <!-- Painel Dashboard -->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div id="relatorios" class="col-md-12">
-                                <ul></ul>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="form-dashboard">
+                <div class="panel panel-default" id="panel-dashboard">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>Relatório</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="panel-form-dashboard">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <!-- Painel Dashboard -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div id="relatorios" class="col-md-12">
+                                            <ul></ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-</form>
+</div>

@@ -58,7 +58,7 @@ function setPlanoDeVooDisabled() {
         default:
     }
 
-  
+
 }
 function setDisabledMetaRealizado(meses, medicao) {
     if (!isNaN(medicao)) {
@@ -278,6 +278,15 @@ function getAnaliseResultado(mes, idPlanoVoo) {
 
 
     });
+}
+function AbrirRelatorio(idIndicador) {
+
+    APP.controller.IndicadorController.jsonGlobal = [];
+    APP.controller.IndicadorController.jsonGlobal = APP.controller.IndicadorController.getJSONRelatorios(idIndicador);
+
+
+    APP.controller.IndicadorController.setPreencherQtdContainerPagina();
+    APP.controller.IndicadorController.setRelatorioPlanoDeVoo();
 }
 
 
@@ -802,7 +811,7 @@ APP.controller.IndicadorController = {
         var total = parseInt($('[name=formPlanoDeVooTotal]').val());
         if (total !== parseInt(0)) {
             valid = false;
-            bootbox.alert("O total da meta deve ser igual a 0");
+            bootbox.alert("Preencha todos os campos do plano de vôo , total da meta deve ser maior que 0");
         }
 
         return valid;
@@ -892,24 +901,43 @@ APP.controller.IndicadorController = {
     getJSONRelatorios: function (idIndicador) {
 
         var jsonRelatorioBarras = '';
+        if (!isNaN(idIndicador))
+        {
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                async: false,
+                url: '/Indicador/RelatorioBarrasJSON',
+                data: { IdIndicador: idIndicador },
+                success: function (result) {
+                    if (result.StatusCode == 200) {
 
-        $.ajax({
-            type: "GET",
-            dataType: 'json',
-            async: false,
-            url: '/Indicador/RelatorioBarrasJSON',
-            data: { IdIndicador: $('[name=IdIndicador]').val() },
-            success: function (result) {
-                if (result.StatusCode == 200) {
-
-                    jsonRelatorioBarras = result.Indicadores;
+                        jsonRelatorioBarras = result.Indicadores;
+                    }
+                },
+                error: function (result) {
+                    bootbox.alert(_options.MsgOcorreuErro);
                 }
-            },
-            error: function (result) {
-                bootbox.alert(_options.MsgOcorreuErro);
-            }
-        });
+            });
+        }
+        else {
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                async: false,
+                url: '/Indicador/RelatorioBarrasJSON',
+                data: { IdIndicador: $('[name=IdIndicador]').val() },
+                success: function (result) {
+                    if (result.StatusCode == 200) {
 
+                        jsonRelatorioBarras = result.Indicadores;
+                    }
+                },
+                error: function (result) {
+                    bootbox.alert(_options.MsgOcorreuErro);
+                }
+            });
+        }
         return jsonRelatorioBarras;
     },
 

@@ -22,12 +22,12 @@ namespace DAL.Repository
                         if (planoDeVooCtx.IdGestaoRisco != null)
                             planoDeVooCtx.GestaoDeRisco = context.Set<RegistroConformidade>().Find(planoDeVooCtx.IdGestaoRisco);
 
+                        planoDeVooCtx.Analise = metaRealizada.Analise;
 
                         if (metaRealizada.Realizado != null)
                         {
                             planoDeVooCtx.Realizado = metaRealizada.Realizado;
                             planoDeVooCtx.CorRisco = metaRealizada.CorRisco;
-                            planoDeVooCtx.Analise = metaRealizada.Analise;
                             planoDeVooCtx.IdProcesso = indicador.IdProcesso;
 
                             if (metaRealizada.GestaoDeRisco != null)
