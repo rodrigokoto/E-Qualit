@@ -189,25 +189,136 @@ namespace Web.UI.Controllers
 
                     if (idSite != 0)
                     {
-                        var result = (from lc in db.Licenca
-                                      where lc.DataVencimento.Value < DtVencimento && lc.Idcliente == idCliente
-                                      select new PendenciaViewModel
-                                      {
-                                          Id = lc.IdLicenca,
-                                          Titulo = lc.Titulo,
-                                          IdResponsavel = lc.IdResponsavel, 
-                                          Modulo  = "Licenca"
-                                          
+                        var licenca = (from lc in db.Licenca
+                                       where lc.DataVencimento.Value < DtVencimento && lc.Idcliente == idCliente
+                                       select new PendenciaViewModel
+                                       {
+                                           Id = lc.IdLicenca,
+                                           Titulo = lc.Titulo,
+                                           IdResponsavel = lc.IdResponsavel,
+                                           Modulo = "Licenca"
 
-                                      });
+
+                                       });
+
+                        var indicadores = (from ind in db.Indicador
+                                           join per in db.PeriodicidaDeAnalise on ind.Id equals per.IdIndicador
+                                           join meta in db.PlanoVoo on per.Id equals meta.IdPeriodicidadeAnalise
+                                           where meta.DataReferencia < DateTime.Now && meta.Realizado == null
+                                           select new PendenciaViewModel
+                                           {
+                                               Id = ind.Id,
+                                               Titulo = ind.Objetivo,
+                                               IdResponsavel = ind.IdResponsavel,
+                                               Modulo = "indicador"
+                                           });
+
+
+                        Dictionary<int, bool> queryIndicadores = new Dictionary<int, bool>();
+
+                        var indicadores1 = (from ind in db.Indicador
+                                            select ind).ToList();
+                        List<PendenciaViewModel> lstPendencia = new List<PendenciaViewModel>();
+
+                        foreach (var indicador in indicadores1)
+                        {
+                            foreach (var periodo in indicador.PeriodicidadeDeAnalises)
+                            {
+                                var query = periodo.MetasRealizadas.Where(x => x.DataReferencia < DateTime.Now && x.Realizado == null).ToList();
+
+                                if (query.Count > 0)
+                                {
+                                    foreach (var plano in query)
+                                    {
+                                        var mes = plano.DataReferencia.Date.Month;
+
+                                        switch (indicador.PeriodicidadeMedicao)
+                                        {
+                                            case 1:
+                                                if ((mes % 1) == 0)
+                                                {
+                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    {
+                                                        Id = indicador.Id,
+                                                        IdResponsavel = indicador.IdResponsavel,
+                                                        Titulo = indicador.Objetivo,
+                                                        Modulo = "Indicador"
+                                                    };
+
+                                                    lstPendencia.Add(pendenciaViewModel);
+                                                }
+                                                break;
+                                            case 2:
+                                                if ((mes % 2) == 0)
+                                                {
+                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    {
+                                                        Id = indicador.Id,
+                                                        IdResponsavel = indicador.IdResponsavel,
+                                                        Titulo = indicador.Objetivo,
+                                                        Modulo = "Indicador"
+                                                    };
+
+                                                    lstPendencia.Add(pendenciaViewModel);
+                                                }
+                                                break;
+                                            case 3:
+                                                if ((mes % 3) == 0)
+                                                {
+                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    {
+                                                        Id = indicador.Id,
+                                                        IdResponsavel = indicador.IdResponsavel,
+                                                        Titulo = indicador.Objetivo,
+                                                        Modulo = "Indicador"
+                                                    };
+
+                                                    lstPendencia.Add(pendenciaViewModel);
+                                                }
+                                                break;
+                                            case 4:
+                                                if ((mes % 6) == 0)
+                                                {
+                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    {
+                                                        Id = indicador.Id,
+                                                        IdResponsavel = indicador.IdResponsavel,
+                                                        Titulo = indicador.Objetivo,
+                                                        Modulo = "Indicador"
+                                                    };
+
+                                                    lstPendencia.Add(pendenciaViewModel);
+                                                }
+                                                break;
+                                            case 5:
+                                                if ((mes % 12) == 0)
+                                                {
+                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    {
+                                                        Id = indicador.Id,
+                                                        IdResponsavel = indicador.IdResponsavel,
+                                                        Titulo = indicador.Objetivo,
+                                                        Modulo = "Indicador"
+                                                    };
+
+                                                    lstPendencia.Add(pendenciaViewModel);
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        lstPendencia.AddRange(licenca.ToList());
 
                         if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 2 || usuarioLogadoBase.IdPerfil == 3)
                         {
-                            ViewBag.Pendencia = result.ToList();
+                            ViewBag.Pendencia = lstPendencia;
                         }
                         else
                         {
-                            ViewBag.Pendencia = result.Where(x => x.IdResponsavel == usuarioLogadoBase.IdUsuario).ToList();
+                            ViewBag.Pendencia = lstPendencia.Where(x => x.IdResponsavel == usuarioLogadoBase.IdUsuario).ToList();
                         }
                     }
                     else

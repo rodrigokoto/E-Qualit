@@ -86,42 +86,42 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Processo.Nome)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Objetivo)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.MetaAnual)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Unidade)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Responsavel.NmCompleto)
-                                            </td>
-                                            <td>
-                                                @if (item.Direcao == (int)DirecaoIndicador.MelhoParaCima)
-                                                {
-                                                    @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_cima
-                                                }
-                                                else
-                                                {
-                                                    @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_baixo
-                                                }
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Processo.Nome)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Objetivo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MetaAnual)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Unidade)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Responsavel.NmCompleto)
+                                                </td>
+                                                <td>
+                                                    @if (item.Direcao == (int)DirecaoIndicador.MelhoParaCima)
+                                                    {
+                                                        @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_cima
+                                                    }
+                                                    else
+                                                    {
+                                                        @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_baixo
+                                                    }
 
-                                            </td>
-                                            <td>
-                                                <a href="@Url.Action("Editar", "Indicador", new { id = item.Id })" class="edit icon-cliente  editar-color">
-                                                    <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
-                                                </a>
-                                                <a href="#" class="icon-cliente trash-color del-indicador" data-id-indicador="@item.Id">
-                                                    <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action("Editar", "Indicador", new { id = item.Id })" class="edit icon-cliente  editar-color">
+                                                        <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                    </a>
+                                                    <a href="#" class="icon-cliente trash-color del-indicador" data-id-indicador="@item.Id">
+                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -129,7 +129,32 @@
                         </div>
                     </div>
                 </div>
-                <div>
         </form>
     </div>
 </div>
+
+
+<form id="form-dashboard">
+    <div class="panel panel-default" id="panel-dashboard">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h2>Relatório</h2>
+            </div>
+        </div>
+        <div class="panel-body" id="panel-form-dashboard">
+            <div class="barra-busca">
+                <div class="row">
+                    <!-- Painel Dashboard -->
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div id="relatorios" class="col-md-12">
+                                <ul></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

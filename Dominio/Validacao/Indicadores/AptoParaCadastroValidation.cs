@@ -31,6 +31,9 @@ namespace Dominio.Validacao.Indicadores
             RuleFor(indicador => indicador.PeriodicidadeDeAnalises)
               .NotEmpty().WithMessage(Traducao.Resource.MsgPeriodo);
 
+            RuleFor(indicador => indicador.PeriodicidadeMedicao)
+                .NotEmpty().WithMessage(Traducao.Resource.Msg_Periodicidade);
+
             RuleFor(indicador => indicador.Objetivo)
               .NotEmpty().WithMessage(Traducao.Resource.MsgObjetivoInformado);
 
@@ -39,6 +42,7 @@ namespace Dominio.Validacao.Indicadores
 
             RuleFor(indicador => indicador.IdSite)
              .NotEmpty().WithMessage(Traducao.Resource.MsgSiteInformado);
+
         }
     }
 }

@@ -1901,6 +1901,7 @@
     <Content Include="Views\GestaoMelhoria\Grafico.cshtml" />
     <Content Include="Views\GestaoMelhoria\Index.cshtml" />
     <Content Include="Views\GestaoMelhoria\PDF.cshtml" />
+    <Content Include="Views\Shared\GestaoDeRiscoIndicador.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

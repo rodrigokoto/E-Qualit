@@ -5081,20 +5081,20 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tipo melhoria é obrigatório..
-        /// </summary>
-        public static string GestaoMelhoria_msg_required_TipoMelhoria {
-            get {
-                return ResourceManager.GetString("GestaoMelhoria_msg_required_TipoMelhoria", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Responsável Ação Imediata.
         /// </summary>
         public static string GestaoMelhoria_msg_required_ResponsavelIniciaAcaoImediata {
             get {
                 return ResourceManager.GetString("GestaoMelhoria_msg_required_ResponsavelIniciaAcaoImediata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo melhoria é obrigatório..
+        /// </summary>
+        public static string GestaoMelhoria_msg_required_TipoMelhoria {
+            get {
+                return ResourceManager.GetString("GestaoMelhoria_msg_required_TipoMelhoria", resourceCulture);
             }
         }
         
@@ -6355,6 +6355,15 @@ namespace Traducao {
         public static string Msg_Periodicidade {
             get {
                 return ResourceManager.GetString("Msg_Periodicidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Periodicidade Medição é obrigatório..
+        /// </summary>
+        public static string Msg_PeriodicidadeMedicao {
+            get {
+                return ResourceManager.GetString("Msg_PeriodicidadeMedicao", resourceCulture);
             }
         }
         

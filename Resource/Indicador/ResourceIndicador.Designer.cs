@@ -88,6 +88,15 @@ namespace Traducao.Indicador {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Média.
+        /// </summary>
+        public static string Indicador_lbl_media {
+            get {
+                return ResourceManager.GetString("Indicador_lbl_media", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meta.
         /// </summary>
         public static string Indicador_lbl_Meta {
@@ -165,6 +174,15 @@ namespace Traducao.Indicador {
         public static string Indicador_lbl_Periodicidade_trimestral {
             get {
                 return ResourceManager.GetString("Indicador_lbl_Periodicidade_trimestral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Peridocidade Medição.
+        /// </summary>
+        public static string Indicador_lbl_PeriodicidadeMedicao {
+            get {
+                return ResourceManager.GetString("Indicador_lbl_PeriodicidadeMedicao", resourceCulture);
             }
         }
         
@@ -354,6 +372,15 @@ namespace Traducao.Indicador {
         public static string Indicador_msg_required_Periodicidade {
             get {
                 return ResourceManager.GetString("Indicador_msg_required_Periodicidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Periodicidade Medição é obrigatório..
+        /// </summary>
+        public static string Indicador_msg_required_PeriodicidadeMedicao {
+            get {
+                return ResourceManager.GetString("Indicador_msg_required_PeriodicidadeMedicao", resourceCulture);
             }
         }
         

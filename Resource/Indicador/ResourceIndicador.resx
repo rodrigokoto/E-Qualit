@@ -234,4 +234,13 @@
   <data name="Indicador_lbl_Periodicidade_bimestral" xml:space="preserve">
     <value>Bimestral</value>
   </data>
+  <data name="Indicador_lbl_PeriodicidadeMedicao" xml:space="preserve">
+    <value>Peridocidade Medição</value>
+  </data>
+  <data name="Indicador_msg_required_PeriodicidadeMedicao" xml:space="preserve">
+    <value>O campo Periodicidade Medição é obrigatório.</value>
+  </data>
+  <data name="Indicador_lbl_media" xml:space="preserve">
+    <value>Média</value>
+  </data>
 </root>

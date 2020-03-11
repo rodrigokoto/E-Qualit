@@ -3643,4 +3643,7 @@ www.e-qualit.com.br
   <data name="GestaoMelhoria_msg_required_TipoMelhoria" xml:space="preserve">
     <value>Tipo melhoria é obrigatório.</value>
   </data>
+  <data name="Msg_PeriodicidadeMedicao" xml:space="preserve">
+    <value>Periodicidade Medição é obrigatório.</value>
+  </data>
 </root>

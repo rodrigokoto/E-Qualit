@@ -41,49 +41,16 @@
 }
 @section scripts {
     <script src="@Url.Content("~/Content/assets/js/IndicadorController.js")"></script>
-
+    <script src="@Url.Content("~/ckeditor/ckeditor.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 }
+
+
 <script type="text/javascript">
     var perfil = '@ViewBag.IdPerfil';
-
-    function allnumeric(inputtxt) {
-        var numbers = /^[1-9]+$/;
-        if (inputtxt.value.match(numbers)) {
-            Soma();
-            return true;
-        }
-        else {
-            inputtxt.focus();
-             return false;
-        }
-    }
-
-
-    function SubstituiVirgulaPorPonto(campo) {
-        campo.value = campo.value.replace(/,/gi, ".");
-        campo.value = campo.value.replace(/[A-Za-z]/gi, "");
-    }
-
-
-    function Soma() {
-        var jan = parseInt($('#form-planodevoo-meta-jan').val());
-        var fev = parseInt($('#form-planodevoo-meta-fev').val());
-        var mar = parseInt($('#form-planodevoo-meta-mar').val());
-        var abr = parseInt($('#form-planodevoo-meta-abr').val());
-        var mai = parseInt($('#form-planodevoo-meta-mai').val());
-        var jun = parseInt($('#form-planodevoo-meta-jun').val());
-        var jul = parseInt($('#form-planodevoo-meta-jul').val());
-        var ago = parseInt($('#form-planodevoo-meta-ago').val());
-        var set = parseInt($('#form-planodevoo-meta-set').val());
-        var out = parseInt($('#form-planodevoo-meta-out').val());
-        var nov = parseInt($('#form-planodevoo-meta-nov').val());
-        var dez = parseInt($('#form-planodevoo-meta-dez').val());
-
-        var total = jan + fev + mar + abr + mai + jun + jul + ago + set + out + nov + dez;
-
-        $('#form-planodevoo-meta-total').val(total);
-
-    }
 
     var habilitaLoad = "";
 
@@ -98,6 +65,12 @@
         habilitaLoad = '@Traducao.Resource.botao_nao';
     }
 
+    function PeriodicidadeSet(periodicidade)
+    {
+        var value = periodicidade.val();
+    }
+
+
 </script>
 
 <div id="main">
@@ -106,6 +79,7 @@
         <input type="hidden" name="IdSite" value="@ViewBag.IdSite" />
         <input type="hidden" name="IdIndicador" value="@Model.Id" />
         <input type="hidden" name="IdPeriodicidade" value="@(listaPeriodicidade.Count > 0 ? Model.PeriodicidadeDeAnalises[0].Id.ToString() : null)" />
+        <input type="hidden" name="getMonth" value="" />
         <!-- Formulario Indicador -->
         <form id="form-criar-indicador">
             <div class="panel panel-default" id="panel-indicador">
@@ -145,37 +119,53 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- Periodicidade -->
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                            <!-- Periodicidade Medição -->
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
                                 <div class="form-group">
-                                    <label for="form-criar-indicador-periodicidade" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade</label>
-                                    <select id="form-criar-indicador-periodicidade" name="formCriarIndicadorPeriodicidade" class="form-control"
-                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Periodicidade">
-                                        <option value=""> @Traducao.Resource.Dropdown_name_select</option>
-                                        <option value="1" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Mensal ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_mensal</option>
-                                        <option value="2" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Trimestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral</option>
-                                        <option value="3" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Semestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral</option>
-                                        <option value="4" @(Model.Periodicidade == (int)PeriodicidadeIndicador.Anual ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- Periodicidade -->
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-                                <div class="form-group">
-                                    <label for="form-criar-indicador-periodicidade-medicao" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade</label>
+                                    <label for="form-criar-indicador-periodicidade-medicao" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_PeriodicidadeMedicao</label>
                                     <select id="form-criar-indicador-periodicidade-medicao" name="formCriarIndicadorPeriodicidadeMedicao" class="form-control"
-                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Periodicidade">
+                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_PeriodicidadeMedicao">
                                         <option value=""> @Traducao.Resource.Dropdown_name_select</option>
                                         <option value="1" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Mensal ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_mensal</option>
                                         <option value="2" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Bimestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_bimestral</option>
-                                        <option value="2" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Trimestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral</option>
-                                        <option value="3" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Semestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral</option>
-                                        <option value="4" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Anual ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual</option>
+                                        <option value="3" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Trimestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral</option>
+                                        <option value="4" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Semestral ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral</option>
+                                        <option value="5" @(Model.Periodicidade == (int)PeriodicidadeMedicao.Anual ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual</option>
                                     </select>
                                 </div>
                             </div>
+                            <!-- Periodicidade -->
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-periodicidade" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade</label>
+                                    <select id="form-criar-indicador-periodicidade" name="formCriarIndicadorPeriodicidade" class="form-control" disabled
+                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Periodicidade" onselect="PeriodicidadeSet(this)">
+                                        @if (Model.Periodicidade == 1)
+                                        {
+                                            <option value="@Model.Periodicidade" selected> @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_mensal</option>
+                                        }
+                                        else if (Model.Periodicidade == 2)
+                                        {
+                                            <option value="@Model.Periodicidade" selected> @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_bimestral</option>
+                                        }
+                                        else if (Model.Periodicidade == 3)
+                                        {
+                                            <option value="@Model.Periodicidade" selected> @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral</option>
+                                        }
+                                        else if (Model.Periodicidade == 4)
+                                        {
+                                            <option value="@Model.Periodicidade" selected> @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral</option>
+                                        }
+                                        else if (Model.Periodicidade == 5)
+                                        {
+                                            <option value="@Model.Periodicidade" selected> @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Sentido da Meta -->
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
                                 <div class="form-group">
                                     <label for="form-criar-indicador-sentido" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido</label>
                                     <select id="form-criar-indicador-sentido" name="formCriarIndicadorSentido" class="form-control"
@@ -229,8 +219,8 @@
                                 <div class="form-group">
                                     <label for="form-criar-indicador-meta" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Meta</label>
                                     <input type="number" id="form-criar-indicador-meta" maxlength="50" name="formCriarIndicadorMeta" class="form-control" onkeyup="SubstituiVirgulaPorPonto(this)"
-                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-        type = "number"                    placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Meta"
+                                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           type="number" placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_placeholder_Meta"
                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Meta"
                                            data-msg-number="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_number_Meta"
                                            value="@Model.MetaAnual" />
@@ -423,6 +413,10 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jan"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 0 && realizados[0].Realizado.HasValue ? realizados[0].Realizado.Value.ToString():null)" />
+
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoJan" onclick="getAnaliseResultado(1 , @(realizados.Count > 0 && realizados[0].Id > 0 ? realizados[0].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Fevereiro -->
@@ -433,6 +427,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Fev"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 1  && realizados[1].Realizado.HasValue ? realizados[1].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoFev" onclick="getAnaliseResultado(2 , @(realizados.Count > 1 && realizados[1].Id > 0 ? realizados[1].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Março -->
@@ -443,6 +440,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mar"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 2  && realizados[2].Realizado.HasValue ? realizados[2].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoMar" onclick="getAnaliseResultado(3 ,@(realizados.Count > 2 && realizados[2].Id > 0 ? realizados[2].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Abril -->
@@ -453,6 +453,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Abr"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 3  && realizados[3].Realizado.HasValue ? realizados[3].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoAbr" onclick="getAnaliseResultado(4 , @(realizados.Count > 3 && realizados[3].Id > 0 ? realizados[3].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Maio -->
@@ -463,6 +466,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mai"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 4  && realizados[4].Realizado.HasValue ? realizados[4].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoMai" onclick="getAnaliseResultado(5 , @(realizados.Count > 4 && realizados[4].Id > 0 ? realizados[4].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Jun -->
@@ -473,6 +479,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jun"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 5  && realizados[5].Realizado.HasValue ? realizados[5].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoJun" onclick="getAnaliseResultado(6 , @(realizados.Count > 5 && realizados[5].Id > 0 ? realizados[5].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Julho -->
@@ -483,6 +492,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jul"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 6  && realizados[6].Realizado.HasValue ? realizados[6].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoJul" onclick="getAnaliseResultado(7 , @(realizados.Count > 6 && realizados[6].Id > 0 ? realizados[6].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Agosto -->
@@ -493,6 +505,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Ago"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 7  && realizados[7].Realizado.HasValue ? realizados[7].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoAgo" onclick="getAnaliseResultado(8 , @(realizados.Count > 7 && realizados[7].Id > 0 ? realizados[7].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Setembro -->
@@ -503,6 +518,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Set"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 8  && realizados[8].Realizado.HasValue ? realizados[8].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoSet" onclick="getAnaliseResultado(9 ,@(realizados.Count > 8 && realizados[8].Id > 0 ? realizados[8].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Outubro -->
@@ -513,6 +531,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Out"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 9  && realizados[9].Realizado.HasValue ? realizados[9].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoOut" onclick="getAnaliseResultado(10 ,@(realizados.Count > 9 && realizados[9].Id > 0 ? realizados[9].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Novembro -->
@@ -523,6 +544,9 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Nov"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 10  && realizados[10].Realizado.HasValue ? realizados[10].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoNov" onclick="getAnaliseResultado(11  , @(realizados.Count > 10 && realizados[10].Id > 0 ? realizados[10].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <!-- Dezembro -->
@@ -533,8 +557,12 @@
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Dez"
                                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
                                                            value="@(realizados.Count > 11  && realizados[11].Realizado.HasValue ? realizados[11].Realizado.Value.ToString():null)" />
+                                                    <div class="row text-center">
+                                                        <a href="#" name="formGraphPlanoDeVooRealizadoDez" onclick="getAnaliseResultado(12 , @(realizados.Count > 11 && realizados[11].Id > 0 ? realizados[11].Id:0))"><span class="fa fa-plus-circle"></span></a>
+                                                    </div>
                                                 </div>
                                             </td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -544,6 +572,45 @@
                 </div>
             </div>
         </form>
+
+        <!-- Gestão de Risco-->
+        <div class="panel panel-default hidden" id="panel-dashboard">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h2>Análise de Resultado</h2>
+                </div>
+            </div>
+            <div class="panel-body" id="panel-form-dashboard">
+                <div class="barra-busca">
+                    <div class="row">
+                        <div class="form-group">
+
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <label for="media-analise-resultado" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_media</label>
+                                        <div style="overflow-x: auto; display:inline-block; ">
+                                            <input type="number" id="media-analise-resultado" name="MediaAnaliseResultado" class="form-control" style="float:left; width:70%" />
+                                            <i class="fa fa-times-circle" id="media-analise-resultado-icon" style="float:left;padding: 4px;"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div id="content-gr"></div>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <a href="#" name="formGraphPlanoDeVooRealizadoDez"><span class="fa fa-plus-circle"></span></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Relatorio -->
         <form id="form-dashboard">
@@ -570,6 +637,8 @@
                 </div>
             </div>
         </form>
+
+
 
     </div>
 </div>

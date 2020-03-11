@@ -4,6 +4,283 @@
 | Controlador Indicador
 |--------------------------------------------------------------------------
 */
+function allnumeric(inputtxt) {
+    var numbers = /^[1-9]+$/;
+    if (inputtxt.value.match(numbers)) {
+        return true;
+    }
+    else {
+        //    inputtxt.focus();
+        return false;
+    }
+}
+
+function SubstituiVirgulaPorPonto(campo) {
+    campo.value = campo.value.replace(/,/gi, ".");
+    campo.value = campo.value.replace(/[A-Za-z]/gi, "");
+}
+function setPlanoDeVooDisabled() {
+
+    var per = $('[name=formCriarIndicadorPeriodicidade]');
+    var meses = $('[name^=formPlanoDeVooRealizado]');
+
+    var medicao = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+    var $option = $('<option></option>');
+
+    per.find('option').remove().end();
+    per.prop('disabled', false);
+    switch (medicao) {
+        case 1:
+            per.append('<option value="1">Mensal</option>');
+            per.append('<option value="2">Bimestral</option>');
+            per.append('<option value="3">Trimestral</option>');
+            per.append('<option value="4">Semestral</option>');
+            per.append('<option value="5">Anual</option>');
+            break;
+        case 2:
+            per.append('<option value="2">Bimestral</option>');
+            per.append('<option value="3">Trimestral</option>');
+            per.append('<option value="4">Semestral</option>');
+            per.append('<option value="5">Anual</option>');
+            break;
+        case 3:
+            per.append('<option value="3">Trimestral</option>');
+            per.append('<option value="4">Semestral</option>');
+            per.append('<option value="5">Anual</option>');
+            break;
+        case 4:
+            per.append('<option value="4">Semestral</option>');
+            per.append('<option value="5">Anual</option>');
+            break;
+        case 5:
+            per.append('<option value="5">Anual</option>');
+            break;
+        default:
+    }
+
+  
+}
+function setDisabledMetaRealizado(meses, medicao) {
+    if (!isNaN(medicao)) {
+        switch (medicao) {
+            case 1:
+                meses.each(function (index, item) {
+                    $(this).prop('disabled', false);
+                });
+                break;
+            case 2:
+                meses.each(function (index, item) {
+                    if ((index + 1) % 2 === 0)
+                        $(this).prop('disabled', false);
+                    else {
+                        $(this).val('');
+                        $(this).prop('disabled', true);
+                    }
+                });
+                break;
+            case 3:
+                meses.each(function (index, item) {
+                    if ((index + 1) % 3 === 0)
+                        $(this).prop('disabled', false);
+                    else {
+                        $(this).val('');
+                        $(this).prop('disabled', true);
+                    }
+                });
+                break;
+            case 4:
+                meses.each(function (index, item) {
+                    if ((index + 1) % 6 === 0)
+                        $(this).prop('disabled', false);
+                    else {
+                        $(this).val('');
+                        $(this).prop('disabled', true);
+                    }
+                });
+                break;
+            case 5:
+                meses.each(function (index, item) {
+                    if ((index + 1) % 12 === 0)
+                        $(this).prop('disabled', false);
+                    else {
+                        $(this).val('');
+                        $(this).prop('disabled', true);
+                    }
+                });
+                break;
+            default:
+                meses.each(function (index, item) {
+                    $(this).prop('disabled', true);
+                });
+                break;
+        }
+    }
+}
+function setIconPlusPlanoDeVooDisabled(Icon, periodo) {
+    if (!isNaN(periodo)) {
+        switch (periodo) {
+            case 1:
+                Icon.each(function (index, item) {
+                    $(this).show();
+                });
+                break;
+            case 2:
+                Icon.each(function (index, item) {
+                    if ((index + 1) % 2 === 0)
+                        $(this).show();
+                    else {
+                        $(this).hide();
+                    }
+                });
+                break;
+            case 3:
+                Icon.each(function (index, item) {
+                    if ((index + 1) % 3 === 0)
+                        $(this).show();
+                    else {
+                        $(this).hide();
+                    }
+                });
+                break;
+            case 4:
+                Icon.each(function (index, item) {
+                    if ((index + 1) % 6 === 0)
+                        $(this).show();
+                    else {
+                        $(this).hide();
+                    }
+                });
+                break;
+            case 5:
+                Icon.each(function (index, item) {
+                    if ((index + 1) % 12 === 0)
+                        $(this).show();
+                    else {
+                        $(this).hide();
+                    }
+                });
+                break;
+            default:
+                Icon.each(function (index, item) {
+                    $(this).show();
+                });
+                break;
+        }
+    }
+}
+function getAnaliseResultado(mes, idPlanoVoo) {
+    var meses = $('[name^=formPlanoDeVoo]');
+    var mesesRealizados = $('[name^=formPlanoDeVooRealizado]');
+
+    var per = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+
+    $('#panel-dashboard').removeClass('hidden');
+    $('[name=getMonth]').val(mes);
+
+
+    var media = 0;
+    var mediaRealizada = 0;
+    var counter = 0;
+    var multiplicador = 0;
+    meses.each(function (e) {
+        if ((e + 1) <= mes) {
+            if (!isNaN(parseInt(this.value))) {
+                media = media + parseInt(this.value);
+                counter++;
+            }
+        }
+    });
+
+    mesesRealizados.each(function (e) {
+        if ((e + 1) <= mes) {
+            if (!isNaN(parseInt(this.value))) {
+                mediaRealizada = mediaRealizada + parseInt(this.value);
+            }
+        }
+    });
+
+    switch (per) {
+        case 1:
+            multiplicador = counter;
+            break;
+        case 2:
+            multiplicador = 2;
+            break;
+        case 3:
+            multiplicador = 3;
+            break;
+        case 4:
+            multiplicador = 6;
+            break;
+        case 5:
+            multiplicador = 12;
+            break;
+        default:
+            multiplicador = counter;
+            break;
+    }
+
+    var total = media / multiplicador;
+    var totalRealizado = mediaRealizada / multiplicador;
+
+    var sentidoMeta = $('[name=formCriarIndicadorSentido]').val();
+
+    if (sentidoMeta == 1) {
+        if (total < totalRealizado) {
+            $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
+            $('#media-analise-resultado-icon').css('color', 'forestgreen');
+        }
+        else {
+            $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
+            $('#media-analise-resultado-icon').css('color', 'red');
+        }
+    }
+    else {
+        if (total > totalRealizado) {
+            $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
+            $('#media-analise-resultado-icon').css('color', 'red');
+        }
+        else {
+            $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
+            $('#media-analise-resultado-icon').css('color', 'forestgreen');
+        }
+    }
+
+    $('[name=MediaAnaliseResultado]').val(totalRealizado);
+    var IdPeriodicidade = $('[name=IdPeriodicidade]').val();
+    var url = '/Indicador/GerarPartialGestaoRisco?Periodicidade=' + IdPeriodicidade + '&mes=' + mes + '&idplanovoo=' + idPlanoVoo
+    var grDiv = $('#content-gr');
+
+    $.get(url, function (data) {
+        grDiv.html(data);
+
+        APP.controller.IndicadorController.getTemasDescricao();
+        APP.controller.IndicadorController.getTemasCores();
+
+        APP.controller.IndicadorController.getTemasPossuiGestaoDeRisco();
+        APP.controller.IndicadorController.setPossuiGestaoDeRisco();
+
+        $('[name^=formGestaoDeRiscoRisco]:checked').each(function () {
+            var teste = this.name;
+            APP.controller.IndicadorController.getPossuiGestaoDeRiscoInformar(this);
+        });
+
+        APP.controller.IndicadorController.setPossuiGestaoDeRiscoInformar();
+
+        APP.controller.IndicadorController.setHidePossuiGestaoDeRisco();
+
+        APP.controller.IndicadorController.setHidePossuiGestaoDeRiscoInformar();
+
+        APP.controller.IndicadorController.getTodosResponsaveisPorAcaoImediata();
+
+        $('.formGestaoDeRiscoRisco').select('false');
+        $('.formGestaoDeRiscoRisco').trigger('change');
+
+
+    });
+}
+
+
 
 APP.controller.IndicadorController = {
 
@@ -19,6 +296,8 @@ APP.controller.IndicadorController = {
             this.acoesIndicador();
         }
 
+
+
     },
 
     setup: function () {
@@ -33,7 +312,7 @@ APP.controller.IndicadorController = {
         this.buttonGetRelatorioBarras = $('#relatorioBarras');
         this.buttonGetRelatorioColunas = $('#relatorioColunas');
         this.buttonDestravar = $("#btn-destravar");
-       
+
     },
 
     //Models
@@ -48,7 +327,6 @@ APP.controller.IndicadorController = {
 
         APP.component.DataTable.init('#tb-index-indicador');
         this.delIndicador();
-
     },
 
     delIndicador: function () {
@@ -111,7 +389,13 @@ APP.controller.IndicadorController = {
     //Acoes Padrao
     acoesIndicador: function () {
 
+
+
         APP.component.AtivaLobiPanel.init();
+        APP.component.Datapicker.init();
+        APP.component.FileUpload.init();
+        APP.component.Mascaras.init();
+
         this.setAndHide();
 
         this.setValidateForms();
@@ -129,6 +413,17 @@ APP.controller.IndicadorController = {
 
             this.HabilitaCamposIndicador(perfil);
         }
+
+        $('[name^=formPlanoDeVooMeta]').each(function (i) {
+
+            var valor = $(this).val();
+
+            if (valor === "0") {
+                $(this).val('');
+            }
+
+        });
+
 
     },
 
@@ -155,7 +450,21 @@ APP.controller.IndicadorController = {
         this.getResponsavel();
         this.getTotalPlanoDeVoo();
         this.setTotalPlanoDeVoo();
+        this.setPeriodicidadeAnalise();
 
+        var idIndicador = $('[name=IdIndicador]').val();
+
+        if (idIndicador > 0) {
+            var per = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+
+            var months = $('[name^=formPlanoDeVooRealizado]');
+            var icons = $('[name^=formGraphPlanoDeVooRealizado]');
+
+            //setPlanoDeVooDisabled(months, per);
+            setIconPlusPlanoDeVooDisabled(icons, per);
+
+            this.setDestravarCamposIndicador();
+        }
     },
 
     setAndHideCriarIndicador: function () {
@@ -187,7 +496,7 @@ APP.controller.IndicadorController = {
 
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 27; // Funcionalidade(Cadastrar) que permite usuario criar nc
-        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao +'', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name=formCriarIndicadorResponsavel] option'), $('[name=formCriarIndicadorResponsavel]'), 'IdUsuario', 'NmCompleto');
             }
@@ -255,7 +564,7 @@ APP.controller.IndicadorController = {
             Unidade: $('[name=formCriarIndicadorUnidade]').val(),
             Objetivo: $('[name=formCriarIndicadorObjetivo]').val(),
             Descricao: $('[name=formCriarIndicadorIndicador]').val(),
-            
+
             PeriodicidadeDeAnalises: [{
                 Id: $('[name=IdPeriodicidade]').val(),
                 PlanoDeVoo: APP.controller.IndicadorController.getObjFormMetaArray(),
@@ -292,14 +601,59 @@ APP.controller.IndicadorController = {
         var arrayFormPlanoDeVooObj = [];
         var formPlanoDeVooObj = {};
 
-        $('[name^=formPlanoDeVooRealizado]').each(function (i) {
+        var teste = $('[name^=formPlanoDeVooRealizado]');
 
-            formPlanoDeVooObj = {
-                Id: $(this).closest('div').find('[name^=IdPlanoDeVoo]').val(),
-                DataReferencia: APP.controller.IndicadorController.getDataProMes(i),
-                Realizado: $(this).val() != '' ? $(this).val() : null,
-            };
-            arrayFormPlanoDeVooObj.push(formPlanoDeVooObj);
+        $('[name^=formPlanoDeVooRealizado]').each(function (i) {
+            var idCkEditor = $('[name=formGestaoDeRiscoDescricao]').attr('id');
+            var dataref = APP.controller.IndicadorController.getDataProMes(i);
+            var dtAtual = new Date();
+            var ano = dtAtual.getFullYear()
+
+            var mes = $('input[name=getMonth]').val();
+            var mes = '01/' + mes + '/' + ano;
+
+
+            if (dataref == mes) {
+                if (idCkEditor == undefined) {
+                    formPlanoDeVooObj = {
+                        Id: $(this).closest('div').find('[name^=IdPlanoDeVoo]').val(),
+                        DataReferencia: dataref,
+                        Realizado: $(this).val() != '' ? $(this).val() : null,
+                    };
+                    arrayFormPlanoDeVooObj.push(formPlanoDeVooObj);
+                }
+                else {
+                    formPlanoDeVooObj = {
+                        Id: $(this).closest('div').find('[name^=IdPlanoDeVoo]').val(),
+                        DataReferencia: dataref,
+                        Analise: CKEDITOR.instances[idCkEditor].getData(),
+                        CorRisco: $("[name=formGestaoDeRiscoCriticidade] :selected").val(),
+                        IdProcesso: $('[name=formCriarIndicadorProcesso] :selected').val(),
+
+                        Realizado: $(this).val() != '' ? $(this).val() : null,
+                        GestaoDeRisco:
+                        {
+                            CriticidadeGestaoDeRisco: $('.br-current').data('rating-value') == undefined ? 0 : $("[name^=formGestaoDeRiscoCriticidade] :selected").val(),
+                            //TipoRegistro: 'gr',
+                            IdResponsavelInicarAcaoImediata: $('[name=formGestaoDeRiscoResponsavelDefinicao]').val(),
+                            DescricaoRegistro: $('[name=formGestaoDeRiscoIdentificacao]').val(),
+
+                            Causa: $('[name=formGestaoDeRiscoCausa]').val() == undefined ? "" : $('[name=formGestaoDeRiscoCausa]').val(),
+                            DsJustificativa: $('[name=formGestaoDeRiscojustificativa]').val() == undefined ? "" : $('[name=formGestaoDeRiscojustificativa]').val(),
+                        }
+                    };
+                    arrayFormPlanoDeVooObj.push(formPlanoDeVooObj);
+                }
+            }
+            else {
+                formPlanoDeVooObj = {
+                    Id: $(this).closest('div').find('[name^=IdPlanoDeVoo]').val(),
+                    DataReferencia: APP.controller.IndicadorController.getDataProMes(i),
+                    Realizado: $(this).val() != '' ? $(this).val() : null,
+                };
+                arrayFormPlanoDeVooObj.push(formPlanoDeVooObj);
+            }
+
 
         });
 
@@ -311,9 +665,14 @@ APP.controller.IndicadorController = {
 
         var meses = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         var data = new Date();
+        //var ano = data.getFullYear();
+
+        var ano = $('#form-criar-indicador-ano').val();
+
         for (i = 0; i < meses.length; i++) {
             if (meses[i] == _mes) {
-                return data = '01/' + (i + 1) + '/2018';
+                return data = '01/' + (i + 1) + '/' + ano;
+
             }
         }
     },
@@ -333,6 +692,7 @@ APP.controller.IndicadorController = {
 
             var meta = parseInt($('[name=formCriarIndicadorMeta]').val());
             var total = parseInt(0);
+
             $('[name^=formPlanoDeVooMeta]').each(function () {
                 var val = parseInt($(this).val());
                 if (!isNaN(val)) {
@@ -377,6 +737,7 @@ APP.controller.IndicadorController = {
         $('[name=formCriarIndicadorIndicador]').prop('disabled', true);
         $('[name^=formPlanoDeVooMeta]').prop('disabled', true);
         $('[name=formPlanoDeVooTotal]').prop('disabled', true);
+        $('[name=formCriarIndicadorPeriodicidadeMedicao]').prop('disabled', true);
         this.setDisableMes();
 
     },
@@ -386,12 +747,23 @@ APP.controller.IndicadorController = {
         var data = new Date();
         data = data.getMonth();
 
+        var meses = $('[name^=formPlanoDeVooRealizado]');
+        var medicao = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+
+        setDisabledMetaRealizado(meses, medicao);
+
         $('[name^=formPlanoDeVooRealizado]').each(function (e) {
             if (e > data) {
                 $(this).prop('disabled', true);
             }
         });
 
+        $('[name^=formGraphPlanoDeVooRealizado]').each(function (e) {
+            if (e > data) {
+                $(this).hide();
+            }
+
+        });
     },
 
     //Todos
@@ -415,21 +787,22 @@ APP.controller.IndicadorController = {
 
         var valid = true;
         $('[id^=panel-form]').each(function () {
+            var panels = $('[id^=panel-form]');
             var isVisible = $(this).is(':visible');
-            if (isVisible) {
-                var validate = $(this).closest('form').valid();
-                if (validate != true) {
-                    valid = false;
+            if ($(this).prop('id') !== 'panel-form-dashboard') {
+                if (isVisible) {
+                    var validate = $(this).closest('form').valid();
+                    if (validate != true) {
+                        valid = false;
+                    }
                 }
-
             }
         });
-
-
-        if (parseInt($('#form-planodevoo-meta-total').val()) != parseInt($('#form-criar-indicador-meta').val()))
-        {
+        $('[name=formPlanoDeVooTotal]').val()
+        var total = parseInt($('[name=formPlanoDeVooTotal]').val());
+        if (total !== parseInt(0)) {
             valid = false;
-            bootbox.alert(_options.MsgMetaTotal);
+            bootbox.alert("O total da meta deve ser igual a 0");
         }
 
         return valid;
@@ -472,7 +845,7 @@ APP.controller.IndicadorController = {
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
-                   var id = result.IdIndicador;
+                    var id = result.IdIndicador;
                     bootbox.alert(result.Success, function (result) {
                         window.location.href = "/Indicador/Editar/" + id;
                     });
@@ -626,9 +999,9 @@ APP.controller.IndicadorController = {
     },
 
     HabilitaCamposIndicador: function (perfil) {
-        
+
         if (perfil == '4') {
-        
+
             $('#main').find('input, textarea, button, select').removeAttr('disabled');
             $("#form-criar-nao-conformidade-processo").attr("disabled", true);
             $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
@@ -639,28 +1012,51 @@ APP.controller.IndicadorController = {
         }
     },
 
-  
     setDestravarCamposIndicador: function () {
 
         this.buttonDestravar.on('click', function () {
-      
+
 
             if (perfil == '4') {
-             
+
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
                 $("#form-criar-nao-conformidade-processo").attr("disabled", true);
-                $("#form-criar-nao-conformidade-emissor").attr("disabled", true); 
+                $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
 
 
             }
             else {
-              
+
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
             }
 
 
-            var idIndicador = $('[name=IdIndicador]').val(); 
+            var idIndicador = $('[name=IdIndicador]').val();
             var data = { "idIndicador": idIndicador };
+
+            var per = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+
+            var months = $('[name^=formPlanoDeVooRealizado]');
+            var icons = $('[name^=formGraphPlanoDeVooRealizado]');
+
+            //setPlanoDeVooDisabled(months, per);
+            setIconPlusPlanoDeVooDisabled(icons, per);
+
+            var data = new Date();
+            data = data.getMonth();
+
+            months.each(function (e) {
+                if (e > data) {
+                    $(this).prop('disabled', true);
+                }
+            });
+
+            icons.each(function (e) {
+                if (e > data) {
+                    $(this).hide();
+                }
+
+            });
 
             $.ajax({
                 type: "POST",
@@ -690,6 +1086,193 @@ APP.controller.IndicadorController = {
 
 
         });
+    },
+
+    setPeriodicidadeAnalise: function () {
+
+        $('[name=formCriarIndicadorPeriodicidadeMedicao]').on('change', function () {
+
+            var per = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+
+            var months = $('[name^=formPlanoDeVooMeta]');
+
+            setPlanoDeVooDisabled();
+        });
+    },
+
+
+
+    ///Inicio dos métodos de gestão de riscos
+    getDescricao: function () {
+
+        $('[name=formGestaoDeRiscoDescricao]').each(function (index, element) {
+
+            $(".excluir-tema").hide();
+            $(".editar-tema").hide();
+
+            var idDescricao = $(element).attr('id');
+            CKEDITOR.replace(idDescricao);
+        });
+
+    },
+
+
+    getTemasCores: function () {
+
+        var divBarRating = $('.barraRating');
+        APP.component.BarRating.setBarRatingGestaoDeRisco(divBarRating, 'bars-1to10');
+
+        $('[name=formGestaoDeRiscoDescricao]').each(function (index, element) {
+
+            var divContext = $(element).closest('[name=GestaoDeRisco]');
+
+            var corRisco = divContext.find('[name=formGestaoDeRiscoCriticidadeCor]').val();
+            var lastCores = divContext.find("[data-rating-value='" + corRisco + "']").last().index();
+            for (i = 0; i <= lastCores; i++) {
+                $(divContext.find('.br-theme-bars-1to10').find('.br-widget a')[i]).addClass('br-selected');
+            }
+            $(divContext.find('.br-theme-bars-1to10').find('.br-widget a')[lastCores]).trigger("click");
+            divContext.find('.br-theme-bars-1to10').find("[data-rating-value='" + corRisco + "']").addClass('br-current');
+            $('.br-widget').addClass('barRating-disabled');
+        });
+    },
+
+    getTemasPossuiGestaoDeRisco: function () {
+        $('[name=formGestaoDeRiscoDescricao]').each(function (index, element) {
+
+            var divContext = $(element).closest('[name=GestaoDeRisco]');
+            var temGestaoDeRisco = divContext.find('[name=formGestaoDeRiscoRisco]').val();
+            divContext.find('[name=formGestaoDeRiscoResponsavelDefinicao][value=' + temGestaoDeRisco + ']').prop('checked', temGestaoDeRisco);
+        });
+    },
+
+    setPossuiGestaoDeRisco: function () {
+        $('.formGestaoDeRiscoRisco').change(function () {
+
+            var possuiGestaoDeRisco = APP.controller.IndicadorController.getPossuiGestaoDeRisco(this);
+            APP.controller.IndicadorController.setRulesPossuiGestaoDeRisco(possuiGestaoDeRisco, this);
+
+        });
+
+    },
+
+    setHidePossuiGestaoDeRisco: function () {
+
+
+        $('[name^=formGestaoDeRiscoRisco]:checked').each(function () {
+            var teste = this.name;
+            $('[name=' + teste + ']').trigger('change');
+            //var isVisible = $(this).is(':visible');
+            //if (isVisible) {
+            //	var validate = $(this).closest('form').valid();
+            //	if (validate != true) {
+            //		valid = false;
+            //	}
+
+            //}
+        });
+
+        //$('[name^=formGestaoDeRiscoRisco]').trigger('change');
+
+    },
+
+
+    getPossuiGestaoDeRisco: function (_this) {
+
+        var possuiGestaoDeRisco = APP.component.Radio.init(_this.name);
+        return possuiGestaoDeRisco;
+
+    },
+
+    getPossuiGestaoDeRiscoInformar: function (_this) {
+        var possuiGestaoDeRisco = APP.component.Radio.init(_this.name);
+        return possuiGestaoDeRisco;
+
+    },
+
+    setPossuiGestaoDeRiscoInformar: function () {
+
+        $('.formInformarGestaoDeRiscoRisco').change(function () {
+
+            var possuiGestaoDeRisco = APP.controller.IndicadorController.getPossuiGestaoDeRiscoInformar(this);
+            APP.controller.IndicadorController.setRulesPossuiGestaoDeRiscoInformar(possuiGestaoDeRisco, this);
+
+        });
+
+    },
+
+    getTemasDescricao: function () {
+
+        //$('[name=formGestaoDeRiscoDescricao]').each(function (index, element) {
+
+        //    var idDescricao = $(element).attr('id');
+        //    CKEDITOR.replace(idDescricao);
+        //});
+
+        var descricao = $('[name=formGestaoDeRiscoDescricao]');
+
+        var idDescricao = descricao.attr('id');
+        CKEDITOR.replace(idDescricao);
+
+
+
+    },
+
+    setHidePossuiGestaoDeRiscoInformar: function () {
+
+        $('[name^=formInformarGestaoDeRiscoRisco]:checked').each(function () {
+            var teste = this.name;
+            $('[name=' + teste + ']').trigger('change');
+            //var isVisible = $(this).is(':visible');
+            //if (isVisible) {
+            //	var validate = $(this).closest('form').valid();
+            //	if (validate != true) {
+            //		valid = false;
+            //	}
+
+            //}
+        });
+
+
+        //$('[name^=formInformarGestaoDeRiscoRisco]').trigger('change');
+
+    },
+
+    setRulesPossuiGestaoDeRisco: function (_possuiGestaoDeRisco) {
+
+        if (_possuiGestaoDeRisco == "true") {
+            $('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").show();
+            $('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").show();
+            $('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").show();
+            $('[name=formGestaoDeRiscoCriticidade]').closest("[class^=col]").show();
+            $('.br-widget').removeClass('barRating-disabled');
+        } else {
+            $('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").hide();
+            $('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").hide();
+            $('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").hide();
+            $('[name=formGestaoDeRiscoCriticidade]').closest("[class^=col]").hide();
+            $('.br-widget').addClass('barRating-disabled');
+        }
+
+    },
+
+    getTodosResponsaveisPorAcaoImediata: function (_this) {
+
+        var idSite = $('[name=IdSite]').val();
+        var idFuncao = 49; // Funcionalidade(Implementar aÃ§Ã£o) que permite Criar aÃ§Ãµes Corretivas
+        var idProcesso = $('[name=IdProcesso]').val();
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '}', (result) => {
+            if (result.StatusCode == 200) {
+
+                if ($(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"]').find("option").length <= 1) {
+                    var comboResponsavel = $(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"] option');
+                    var idComboResponsavel = $(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"]');
+                    APP.component.SelectListCompare.selectList(result.Lista, comboResponsavel, idComboResponsavel, 'IdUsuario', 'NmCompleto');
+                }
+
+            }
+        });
+
     },
 
 };
