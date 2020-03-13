@@ -133,6 +133,14 @@ namespace Web.UI.Controllers
                     else
                     {
                         _indicadorAppServico.Atualizar(indicador);
+
+                        var ind = _indicadorAppServico.GetById(indicador.Id);
+                        ind.IdProcesso = indicador.IdProcesso;
+                        ind.IdResponsavel = indicador.IdResponsavel;
+                        ind.PeriodicidadeMedicao = indicador.PeriodicidadeMedicao;
+                        ind.Periodicidade = indicador.Periodicidade;
+
+                        _indicadorAppServico.Update(ind);
                     }
                 }
                 else

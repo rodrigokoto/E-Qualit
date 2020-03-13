@@ -4,11 +4,10 @@
     {
         RealizarMedicao = 27,
         RealizarAnalise = 28,
-        AnaliseDaCausa = 29,
-        DefinirAcao = 30,
-        VerificacaoDaEficacia = 31,
+        Cadastrar = 29,
+        Excluir = 30,
         Destravar = 32,
-        AlterarMeta = 33,
+        VisualizarGrafico = 33,
         Editar = 34,
     }
 }

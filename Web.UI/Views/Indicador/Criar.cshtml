@@ -9,15 +9,14 @@
     //Funcoes
     var funcoes = new List<int>
 {
-(int)FuncoesNaoConformidade.Cadastrar,
-(int)FuncoesNaoConformidade.CriarTipoDeNC,
-(int)FuncoesNaoConformidade.DefinirAcao,
-(int)FuncoesNaoConformidade.ImplementarAcao,
-(int)FuncoesNaoConformidade.Reverificacao,
-(int)FuncoesNaoConformidade.VerificacaoDaEficacia,
-(int)FuncoesNaoConformidade.Destravar,
-(int)FuncoesNaoConformidade.Editar,
-(int)FuncoesNaoConformidade.AnaliseDaCausa,
+(int)FuncoesIndicadores.RealizarMedicao,
+(int)FuncoesIndicadores.RealizarAnalise,
+(int)FuncoesIndicadores.AnaliseDaCausa,
+(int)FuncoesIndicadores.DefinirAcao,
+(int)FuncoesIndicadores.Destravar,
+(int)FuncoesIndicadores.AlterarMeta,
+(int)FuncoesIndicadores.Editar,
+
 };
 
     var listaPermissoes = new List<PermissoesApp>();
@@ -285,7 +284,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-jan" name="formPlanoDeVooMetaJan" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jan"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[0].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -294,7 +293,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-fev" name="formPlanoDeVooMetaFev" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Fev"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[1].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -303,7 +302,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-mar" name="formPlanoDeVooMetaMar" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mar"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[2].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -312,7 +311,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-abr" name="formPlanoDeVooMetaAbr" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Abr"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[3].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -321,7 +320,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-mai" name="formPlanoDeVooMetaMai" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mai"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[4].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -330,7 +329,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-jun" name="formPlanoDeVooMetaJun" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jun"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[5].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -339,7 +338,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-jul" name="formPlanoDeVooMetaJul" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jul"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[6].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -348,7 +347,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-ago" name="formPlanoDeVooMetaAgo" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Ago"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[7].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -357,7 +356,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-set" name="formPlanoDeVooMetaSet" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Set"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[8].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -366,7 +365,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-out" name="formPlanoDeVooMetaOut" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Out"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[9].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -375,7 +374,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-nov" name="formPlanoDeVooMetaNov" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Nov"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[10].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -384,7 +383,7 @@
                                                 <div class="form-group">
                                                     <input type="text" id="form-planodevoo-meta-dez" name="formPlanoDeVooMetaDez" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
                                                            placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Dez"
-                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                           data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:77px;"
                                                            value="@(metas.Count > 0 ? metas[11].Valor.ToString():null)" />
                                                 </div>
                                             </td>
@@ -651,11 +650,15 @@
             {
                 if (ViewBag.IdPerfil != 4)
                 {
-                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+
+                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.Destravar) || ViewBag.IdPerfil != 4)
+                    {
+                        <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                    }
                 }
             }
 
-            <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+            <button type="button" id="btn-imprimir" onclick="window.print()" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
             @if (listaPermissoes.Where(x => funcoes.Any(y => y == x.IdFuncao)).Any() || ViewBag.IdPerfil != 4)
             {
                 <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
