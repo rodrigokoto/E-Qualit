@@ -14,6 +14,7 @@ namespace Dominio.Entidade
         public double RealAcumulado { get; set; }
         public double MetaEstimulada { get; set; }
 
+
         public virtual List<Meta> PlanoDeVoo { get; set; }
 
         public virtual List<PlanoVoo> MetasRealizadas { get; set; }

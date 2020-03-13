@@ -8,9 +8,7 @@ namespace Dominio.Validacao.RegistroConformidades.NaoConformidades
     {
         public CamposObrigatoriosNaoConformidadeReverificacao()
         {
-            RuleFor(x => x.AcoesImediatas)
-                .Must(x => x.Count == x.Where(y => y.Aprovado != null).Count()).WithMessage(Traducao.Resource.MsgCampoAprovacaoPreenchido);
-
+           
             RuleFor(x => x.FlEficaz)
                 .NotNull().WithMessage(Traducao.Resource.MsgNaoPodeVazio);
         }

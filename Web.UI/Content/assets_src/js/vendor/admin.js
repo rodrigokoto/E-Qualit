@@ -19,7 +19,8 @@ var _options = {
     tabelaSearch: "",
     tabelaSearchPlaceholder: "Busca",
     tabelaPaginateNext: "Próximo",
-    tabelaPaginatePrevious: "Anterior"
+    tabelaPaginatePrevious: "Anterior", 
+    LicencaExcluida: "Licença excluida com sucesso"
 
 };
 

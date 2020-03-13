@@ -10,7 +10,7 @@ namespace Dominio.Entidade
     public class RegistroLicenca
     {
         [Key]
-        public long IdRegLicenca { get; set; }
+        public int IdRegLicenca { get; set; }
         
         public string GuidLicenca { get; set; }
         public DateTime? DtInclusao { get; set; }

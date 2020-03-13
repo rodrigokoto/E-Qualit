@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="IN_lbl_DtEmissao" xml:space="preserve">
-    <value>Emissão</value>
+    <value>Data Emissão</value>
   </data>
   <data name="IN_lbl_DtVencimento" xml:space="preserve">
     <value>Data de Vencimento</value>
   </data>
   <data name="IN_lbl_Notificacao" xml:space="preserve">
-    <value>Notificação</value>
+    <value>Data Notificação</value>
   </data>
   <data name="IN_lbl_Observacao" xml:space="preserve">
     <value>Escreva uma observação</value>
@@ -133,7 +133,7 @@
     <value>Cadastro de Licenças</value>
   </data>
   <data name="IN_lbl_PlaceholderTitulo" xml:space="preserve">
-    <value>Digite o titulo</value>
+    <value>Digite o título</value>
   </data>
   <data name="IN_lbl_Processo" xml:space="preserve">
     <value>Processo</value>
@@ -145,12 +145,12 @@
     <value>Status</value>
   </data>
   <data name="IN_lbl_Titulo" xml:space="preserve">
-    <value>Titulo</value>
+    <value>Título</value>
   </data>
   <data name="IN_lbl_titulo_nova_Licenca" xml:space="preserve">
-    <value>Nova Licenca</value>
+    <value>Nova Licença</value>
   </data>
   <data name="IN_msg_required_Licenca" xml:space="preserve">
-    <value>O Titulo é obrigatório</value>
+    <value>O Título é obrigatório</value>
   </data>
 </root>

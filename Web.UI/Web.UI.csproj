@@ -210,6 +210,7 @@
     <Compile Include="Controllers\LicencaController.cs" />
     <Compile Include="Controllers\InstrumentoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\GestaoMelhoriaController.cs" />
     <Compile Include="Controllers\NaoConformidadeController.cs" />
     <Compile Include="Controllers\NormaController.cs" />
     <Compile Include="Controllers\NotificacaoController.cs" />
@@ -1001,6 +1002,7 @@
     <Content Include="Content\assets\js\GeneralController.js" />
     <Content Include="Content\assets\js\GerarPdfDocumento.js" />
     <Content Include="Content\assets\js\GestaoDeRiscoController.js" />
+    <Content Include="Content\assets\js\GraficoGestaoMelhoria.js" />
     <Content Include="Content\assets\js\GraficoNaoConformidade.js" />
     <Content Include="Content\assets\js\HomeController.js" />
     <Content Include="Content\assets\js\IndicadorController.js" />
@@ -1012,6 +1014,7 @@
     <Content Include="Content\assets\js\Jquery.js" />
     <Content Include="Content\assets\js\LoginController.js" />
     <Content Include="Content\assets\js\Model.js" />
+    <Content Include="Content\assets\js\GestaoMelhoriaController.js" />
     <Content Include="Content\assets\js\NaoConformidadeController.js" />
     <Content Include="Content\assets\js\NormaController.js" />
     <Content Include="Content\assets\js\NotificacaoController.js" />
@@ -1840,14 +1843,19 @@
     <Content Include="Templates\GestaoRiscoAcaoDataImplementacao-pt-BR.html" />
     <Content Include="Templates\InstrumentoCalibracao-pt-BR.html" />
     <Content Include="Templates\Auditoria-pt-BR.html" />
+    <Content Include="Templates\GestaoMelhoriaDataImplementacao-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeAcaoDataImplementacao-pt-BR.html" />
     <Content Include="Templates\AcaoCorretivaAcaoIneficaz-pt-BR.html" />
     <Content Include="Templates\GestaoRiscoAcaoIneficaz-pt-BR.html" />
+    <Content Include="Templates\GestaoMelhoriaAcaoIneficaz-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeAcaoIneficaz-pt-BR.html" />
     <Content Include="Templates\AcaoCorretivaImplementacao-pt-BR.html" />
     <Content Include="Templates\AcaoCorretivaReverificador-pt-BR.html" />
+    <Content Include="Templates\GestaoMelhoriaImplementacao-pt-BR.html" />
+    <Content Include="Templates\GestaoMelhoriaResponsavel-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeResponsavel-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeImplementacao-pt-BR.html" />
+    <Content Include="Templates\GestaoMelhoriaVerificacao-pt-BR.html" />
     <Content Include="Templates\NaoConformidadeVerificacao-pt-BR.html" />
     <Content Include="Templates\NotificacaoElaboracaoDocumento-pt-BR.html" />
     <Content Include="Templates\NotificacaoDocumento-pt-BR.html" />
@@ -1886,6 +1894,14 @@
     <Content Include="Views\Shared\Anexo\_AnexoSetup.cshtml" />
     <Content Include="Views\Licenca\Index.cshtml" />
     <Content Include="Views\Licenca\Criar.cshtml" />
+    <Content Include="Views\Licenca\Exibir.cshtml" />
+    <Content Include="Views\GestaoMelhoria\Criar.cshtml" />
+    <Content Include="Views\GestaoMelhoria\Exibir.cshtml" />
+    <Content Include="Views\GestaoMelhoria\FiltroGrafico.cshtml" />
+    <Content Include="Views\GestaoMelhoria\Grafico.cshtml" />
+    <Content Include="Views\GestaoMelhoria\Index.cshtml" />
+    <Content Include="Views\GestaoMelhoria\PDF.cshtml" />
+    <Content Include="Views\Shared\GestaoDeRiscoIndicador.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

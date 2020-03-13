@@ -11,6 +11,8 @@ using Rotativa;
 using Rotativa.Options;
 using Web.UI.Helpers;
 using System.Linq;
+using DAL.Context;
+using System.Data.Entity;
 
 namespace Web.UI.Controllers
 {
@@ -59,19 +61,18 @@ namespace Web.UI.Controllers
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var idSiteCorrente = Util.ObterSiteSelecionado();
             var idUsuario = Util.ObterCodigoUsuarioLogado();
+            var idCliente = Util.ObterClienteSelecionado();
 
             var idPerfil = Util.ObterPerfilUsuarioLogado();
 
             var comPermissao = EAdministradorOuCoordenador(idPerfil);
 
-            var model = _licencaAppServico.GetAll().ToList();
+            var model = _licencaAppServico.GetAll().Where(x => x.Idcliente == idCliente).ToList();
 
             ViewBag.UsuarioPodeAlterar = comPermissao ? comPermissao : _usuarioAppServico.PossuiAcesso(idUsuario, 9, 58);
             ViewBag.UsuarioPodeDeletar = comPermissao ? comPermissao : _usuarioAppServico.PossuiAcesso(idUsuario, 9, 59);
             ViewBag.IdPerfil = idPerfil;
-            ViewBag.FuncionalidadeCriarInstrumento = false;
-
-
+            
             return View(model);
         }
 
@@ -93,10 +94,12 @@ namespace Web.UI.Controllers
         public JsonResult Criar(Licenca licenca)
         {
             var erros = new List<string>();
-
+            licenca.DataCriacao = DateTime.Now;
             try
             {
                 licenca.Idcliente = Util.ObterClienteSelecionado();
+
+                _licencaServico.Valido(licenca, ref erros);
 
                 if (erros.Count > 0)
                 {
@@ -118,49 +121,21 @@ namespace Web.UI.Controllers
             }
         }
 
-        //[HttpPost]
-        //[AutorizacaoUsuario((int)FuncoesInstrumento.CadastroDeInstrumento, (int)Funcionalidades.Instrumentos)]
-        //public JsonResult Criar(Instrumento instrumento)
-        //{
-        //    var erros = new List<string>();
+        public ActionResult Exibir(int id) {
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
 
-        //    try
-        //    {
-        //        instrumento.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
 
-        //        _instrumentoServico.Valido(instrumento, ref erros);
-        //        var instrumentoByCodSigla = _instrumentoAppServico.Get(s => s.Numero == instrumento.Numero && s.IdSigla == instrumento.IdSigla).FirstOrDefault();
+            var licenca = _licencaAppServico.GetById(id);
+            licenca.ArquivosLicencaAux.AddRange(licenca.ArquivoLicenca.Select(x => x.Anexo));
+            licenca.ArquivosLicencaAnexos = _arquivoLicencaAnexoAppServico.Get(r => r.IdLicenca == licenca.IdLicenca);
 
-        //        if (instrumentoByCodSigla != null)
-        //            erros.Add("Não foi possível salvar, pois já existe um Instrumento cadastrado com a mesma Sigla e Número.");
 
-        //        if (erros.Count > 0)
-        //        {
-        //            return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            _instrumentoAppServico.Add(instrumento);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        GravaLog(ex);
-        //        erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
-        //        return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
-        //    }
 
-        //    return Json(new { StatusCode = 200, IdInstrumento = instrumento.IdInstrumento, Success = Traducao.Instrumentos.ResourceInstrumentos.IN_msg_create_valid }, JsonRequestBehavior.AllowGet);
-        //}
+            ViewBag.Responsavel = _usuarioAppServico.GetById(licenca.IdResponsavel).NmCompleto;
 
-        private void TrataDadoCricaoInstrumento(Instrumento instrumento)
-        {
-            instrumento.DataCriacao = DateTime.Now;
-            instrumento.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
-            instrumento.valorAceitacao = instrumento.valorAceitacao.Replace('.', ',');
-            instrumento.DataAlteracao = DateTime.Now;
-            instrumento.Status = (byte)EquipamentoStatus.NaoCalibrado;
+            return View("Exibir", licenca);
         }
+
 
         public ActionResult Editar(int id)
         {
@@ -170,16 +145,8 @@ namespace Web.UI.Controllers
             var licenca = _licencaAppServico.GetById(id);
             licenca.ArquivosLicencaAux.AddRange(licenca.ArquivoLicenca.Select(x => x.Anexo));
             licenca.ArquivosLicencaAnexos = _arquivoLicencaAnexoAppServico.Get(r => r.IdLicenca == licenca.IdLicenca);
-                        
-                /*
-                 
-              naoConformidade.ArquivosNaoConformidadeAnexos = _arquivoNaoConformidadeAnexoRepositorio.Get(r => r.IdRegistroConformidade == naoConformidade.IdRegistroConformidade);
 
-            if(carregarArquivosDeEvidenciaAux)
-            {
-                naoConformidade.ArquivosDeEvidenciaAux.AddRange(naoConformidade.ArquivosNaoConformidadeAnexos.Select(x => x.Anexo));
-            }
-            */
+     
 
             ViewBag.Responsavel = _usuarioAppServico.GetById(licenca.IdResponsavel).NmCompleto;
 
@@ -196,14 +163,25 @@ namespace Web.UI.Controllers
             try
             {
                 licenca.Idcliente = Util.ObterClienteSelecionado();
+                var licencaInclusao = _licencaAppServico.GetById(licenca.IdLicenca);
+                licencaInclusao.DataEmissao = licenca.DataEmissao;
+                licencaInclusao.DataProximaNotificacao = licenca.DataProximaNotificacao;
+                licencaInclusao.DataVencimento = licenca.DataVencimento;
+                licencaInclusao.Obervacao = licenca.Obervacao;
+                licencaInclusao.Titulo = licenca.Titulo;
 
+                _licencaServico.Valido(licencaInclusao, ref erros);
                 if (erros.Count > 0)
                 {
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    _licencaAppServico.Update(licenca);
+                    _licencaAppServico.Update(licencaInclusao);
+                    foreach (var item in licenca.ArquivoLicenca)
+                    {
+                        _arquivoLicencaAnexoAppServico.Remove(item);
+                    }
                     _licencaAppServico.SalvarArquivoLicenca(licenca);
                 }
                 return Json(new { StatusCode = 200, IdLicenca = licenca.IdLicenca, Success = "Licença alterada com sucesso" }, JsonRequestBehavior.AllowGet);
@@ -221,11 +199,22 @@ namespace Web.UI.Controllers
         public JsonResult Excluir(int id)
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
-            var licencaParaDeletar = _licencaAppServico.GetById(id);
+
+            
 
             try
             {
-                _licencaAppServico.Remove(licencaParaDeletar);
+
+                RemoverFilhos(id);
+
+              
+
+                var ctx = new BaseContext();
+
+                var licenca = ctx.Licenca.Find(id);
+                ctx.Entry(licenca).State = EntityState.Deleted;
+                ctx.SaveChanges();
+
                 return Json(new { StatusCode = 200 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -236,6 +225,22 @@ namespace Web.UI.Controllers
             }
         }
 
+
+        public void RemoverFilhos(int id)
+        {
+            var licencaParaDeletar = _licencaAppServico.GetById(id);
+
+            foreach (var item in licencaParaDeletar.ArquivoLicenca)
+            {
+                _arquivoLicencaAnexoAppServico.Remove(_arquivoLicencaAnexoAppServico.GetById(item.IdArquivoLicencaAnexo));
+
+            }
+
+        }
+        public void RemoverLicenca(Licenca licenca)
+        {
+            _licencaAppServico.Remove(licenca);
+        }
         public ActionResult Detalhe(int id)
         {
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Instrumentos.ResourceInstrumentos.IN_msg_save_valid }, JsonRequestBehavior.AllowGet);
@@ -268,37 +273,7 @@ namespace Web.UI.Controllers
             return pdf;
         }
 
-        private void DeletarInstrumentoERelacionamentos(Instrumento objetoParaRemover)
-        {
-            //try
-            //{
-            //    if (objetoParaRemover != null)
-            //    {
-            //        List<int> idsCalibracao = new List<int>();
-            //        List<int> idsCriterio = new List<int>();
 
-            //        foreach (var calibracao in objetoParaRemover.Calibracao)
-            //        {
-            //            foreach (var criterio in calibracao.CriterioAceitacao)
-            //                idsCriterio.Add(criterio.IdCriterioAceitacao);
-
-            //            idsCalibracao.Add(calibracao.IdCalibracao);
-            //        }
-
-            //        _instrumentoAppServico.DeletarInstrumentoEDependencias(objetoParaRemover.IdInstrumento);
-
-            //        for (int i = 0; i < idsCalibracao.Count; i++)
-            //            _calibracaoAppServico.RemoverComRelacionamentos(idsCalibracao[i]);
-
-            //        for (int i = 0; i < idsCriterio.Count; i++)
-            //            _criterioAceitacaoAppServico.Remove(new CriterioAceitacao() { IdCriterioAceitacao = idsCriterio[i] });
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-        }
 
         bool EAdministradorOuCoordenador(int perfil)
         {

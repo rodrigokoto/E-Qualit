@@ -7,7 +7,6 @@ namespace DAL.EntityConfig
     {
         public LicencaMap()
         {
-            Ignore(x => x.ArquivosLicencaAnexos);
             Ignore(x => x.ArquivosLicencaAux);
             Ignore(x => x.ValidationResult);
             HasKey(x => x.IdLicenca);

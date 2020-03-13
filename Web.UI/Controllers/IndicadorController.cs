@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using Web.UI.Helpers;
 using Dominio.Interface.Servico;
 using System.Net;
+using System.Data.Entity;
+using DAL.Context;
+using Newtonsoft.Json;
 
 namespace Web.UI.Controllers
 {
@@ -48,11 +51,11 @@ namespace Web.UI.Controllers
 
         public ActionResult Index()
         {
-            
+
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var idSite = Util.ObterSiteSelecionado();
-            
-            
+
+
             var indicadores = _indicadorAppServico.Get(x => x.IdSite == idSite).ToList();
 
             return View(indicadores);
@@ -88,9 +91,9 @@ namespace Web.UI.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public JsonResult Salvar(Indicador indicador)
         {
-
             var erros = new List<string>();
 
             try
@@ -100,17 +103,13 @@ namespace Web.UI.Controllers
                 indicador.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
                 indicador.StatusRegistro = 1;
 
-                //ESSE CÓDIGO AQUI TEM QUE TIRAR DAQUI
-                //MAS COMO EU NÃO ESTOU AQUI, ESTOU REMOTO
-                //VC TIRA ACIOLE
-
                 foreach (var periodicidadeDeAnalises in indicador.PeriodicidadeDeAnalises)
                 {
                     periodicidadeDeAnalises.Inicio = DateTime.Now;
                     periodicidadeDeAnalises.Fim = DateTime.Now.AddYears(1);
 
-                    var metasRealizadas = periodicidadeDeAnalises.MetasRealizadas
-                            .Where(x => x.Realizado != null).ToList();
+                    var metasRealizadas = periodicidadeDeAnalises.MetasRealizadas;
+
 
                     metasRealizadas.ForEach(metaRealizada => metaRealizada.IdPeriodicidadeAnalise = periodicidadeDeAnalises.Id);
                     periodicidadeDeAnalises.MetasRealizadas = metasRealizadas;
@@ -120,11 +119,7 @@ namespace Web.UI.Controllers
                         metaRealizada.DataInclusao = DateTime.Now;
                         metaRealizada.DataAlteracao = DateTime.Now;
                     }
-
-
                 }
-
-
 
                 _indicadorServico.Valido(indicador, ref erros);
 
@@ -138,6 +133,14 @@ namespace Web.UI.Controllers
                     else
                     {
                         _indicadorAppServico.Atualizar(indicador);
+
+                        var ind = _indicadorAppServico.GetById(indicador.Id);
+                        ind.IdProcesso = indicador.IdProcesso;
+                        ind.IdResponsavel = indicador.IdResponsavel;
+                        ind.PeriodicidadeMedicao = indicador.PeriodicidadeMedicao;
+                        ind.Periodicidade = indicador.Periodicidade;
+
+                        _indicadorAppServico.Update(ind);
                     }
                 }
                 else
@@ -151,10 +154,7 @@ namespace Web.UI.Controllers
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
-
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Indicador.ResourceIndicador.Indicador_msg_save_valid, IdIndicador = indicador.Id }, JsonRequestBehavior.AllowGet);
-
-
         }
 
         public ActionResult Excluir(Indicador indicador)
@@ -164,8 +164,37 @@ namespace Web.UI.Controllers
 
             try
             {
-                var ObjIndicador = _indicadorAppServico.GetById(indicador.Id);
-                _indicadorAppServico.Remove(ObjIndicador);
+                using (var db = new BaseContext())
+                {
+                    var ObjIndicador = _indicadorAppServico.GetById(indicador.Id);
+
+                    foreach (var periodicidaDe in ObjIndicador.PeriodicidadeDeAnalises)
+                    {
+
+                        if (periodicidaDe.MetasRealizadas.Count > 0)
+                        {
+
+                            foreach (var item in periodicidaDe.MetasRealizadas)
+                            {
+                                var planovoo = db.PlanoVoo.Where(x => x.Id == item.Id).FirstOrDefault();
+                                db.PlanoVoo.Remove(planovoo);
+                            }
+                        }
+                        if (periodicidaDe.PlanoDeVoo.Count > 0)
+                        {
+                            foreach (var item in periodicidaDe.PlanoDeVoo)
+                            {
+                                var meta = db.Meta.Where(x => x.Id == item.Id).FirstOrDefault();
+                                db.Meta.Remove(meta);
+                            }
+                        }
+                        var periodicidade = db.PeriodicidaDeAnalise.Where(x => x.Id == periodicidaDe.Id).FirstOrDefault();
+                        db.PeriodicidaDeAnalise.Remove(periodicidade);
+
+                    }
+                    db.Indicador.Remove(db.Indicador.Where(x => x.Id == ObjIndicador.Id).FirstOrDefault());
+                    db.SaveChanges();
+                }
             }
             catch (Exception ex)
             {
@@ -173,9 +202,7 @@ namespace Web.UI.Controllers
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
-
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Norma.ResourceNorma.Norma_msg_del_valid }, JsonRequestBehavior.AllowGet);
-
         }
 
         public ActionResult PDF(int id)
@@ -210,6 +237,34 @@ namespace Web.UI.Controllers
         }
 
         // GET: Indicador
+        [HttpGet]
+        public ActionResult GerarPartialGestaoRisco(int Periodicidade, int mes, int? idplanovoo)
+        {
+
+            if (idplanovoo == null)
+            {
+                return PartialView("GestaoDeRiscoIndicador", new PlanoVoo());
+            }
+            else
+            {
+                using (var db = new BaseContext())
+                {
+                    var result = (from pl in db.PlanoVoo
+                                  where pl.IdPeriodicidadeAnalise == Periodicidade &&
+                                  pl.Id == idplanovoo
+                                  select pl).FirstOrDefault();
+
+                    if (result.GestaoDeRisco != null)
+                    {
+                        if (result.GestaoDeRisco.IdResponsavelInicarAcaoImediata != null)
+                        {
+                            result.GestaoDeRisco.ResponsavelInicarAcaoImediata = _usuarioAppServico.GetById((int)result.GestaoDeRisco.IdResponsavelInicarAcaoImediata);
+                        }
+                    }
+                    return PartialView("GestaoDeRiscoIndicador", result);
+                }
+            }
+        }
         public ActionResult RelatorioBarras()
         {
             return View();
@@ -224,10 +279,26 @@ namespace Web.UI.Controllers
                 //var idProcessoCorrente = Util.ObterProcessoSelecionado();
 
                 IEnumerable<Indicador> indicadores;
-
+                List<PlanoVoo> planoVoos = new List<PlanoVoo>();
                 if (IdIndicador != null)
                 {
-                    indicadores = _indicadorAppServico.IndicadoresPorProcessoESiteEIndicador(IdIndicador.Value);
+                    var result = _indicadorAppServico.Get(x => x.Id == IdIndicador).ToList();
+
+                    foreach (var indicador in result)
+                    {
+                        foreach (var periodicidade in indicador.PeriodicidadeDeAnalises)
+                        {
+                            periodicidade.PlanoDeVoo = periodicidade.PlanoDeVoo.Where(x => x.Valor > 0).ToList();
+
+
+                            foreach (var plano in periodicidade.PlanoDeVoo)
+                            {
+                                planoVoos.Add(periodicidade.MetasRealizadas.Where(x => x.DataReferencia == plano.DataReferencia).FirstOrDefault());
+                            }
+                            periodicidade.MetasRealizadas = planoVoos;
+                        }
+                    }
+                    indicadores = result;
                 }
                 else
                 {
@@ -248,6 +319,7 @@ namespace Web.UI.Controllers
                         periodicidaDeAnalise.IdIndicador = 0;
                         periodicidaDeAnalise.Indicador = null;
 
+
                         foreach (var meta in periodicidaDeAnalise.PlanoDeVoo)
                         {
                             meta.IdPeriodicidadeAnalise = 0;
@@ -258,9 +330,15 @@ namespace Web.UI.Controllers
                         {
                             planoDeVoo.IdPeriodicidadeAnalise = 0;
                             planoDeVoo.PeriodicidadeAnalise = null;
+                            planoDeVoo.IdGestaoRisco = 0;
+                            planoDeVoo.GestaoDeRisco = null;
+                            planoDeVoo.IdProcesso = 0;
+                            planoDeVoo.Processo = null;
                         }
                     }
                 }
+
+              
 
                 return Json(new { StatusCode = 200, Indicadores = indicadores }, JsonRequestBehavior.AllowGet);
             }

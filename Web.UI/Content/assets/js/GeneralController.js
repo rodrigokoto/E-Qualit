@@ -65,6 +65,10 @@ APP.controller.General = {
         if (page == "IndexNaoConformidade" || page == "CriarNaoConformidade" || page == "EditarNaoConformidade") {
             this.naoConformidadeController();
         }
+
+        if (page == "IndexGestaoMelhoria" || page == "CriarGestaoMelhoria" || page == "EditarGestaoMelhoria") {
+            this.gestaoMelhoriaController();
+        }
         
         //Gestao de Risco
         if (page == "IndexGestaoDeRisco" || page == "CriarGestaoDeRisco") {
@@ -137,6 +141,10 @@ APP.controller.General = {
 
         APP.controller.ClienteController.init();
 
+    },
+
+    gestaoMelhoriaController: function () {
+        APP.controller.GestaoMelhoriaController.init();
     },
 
     naoConformidadeController: function () {

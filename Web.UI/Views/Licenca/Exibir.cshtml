@@ -1,0 +1,184 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@model Dominio.Entidade.Licenca
+@{
+    ViewBag.Title = "Licenca";
+    var funcoes = new List<int>
+{
+(int)FuncoesLicenca.Incluir,
+(int)FuncoesLicenca.Editar,
+(int)FuncoesLicenca.Excluir,
+(int)FuncoesLicenca.Visualizar,
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+
+    var listaEvidencias = new List<Anexo>();
+
+    if (Model.ArquivosLicencaAux.Count > 0)
+    {
+        Model.ArquivosLicencaAux.ToList().ForEach(licenca =>
+        {
+            listaEvidencias.Add(new Anexo
+            {
+                IdAnexo = licenca.IdAnexo,
+                Nome = licenca.Nome,
+                Extensao = licenca.Extensao,
+                ArquivoB64 = String.Format("data:application/" + licenca.Extensao + ";base64," + Convert.ToBase64String(licenca.Arquivo)),
+            });
+        });
+
+    }
+
+    var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
+    {
+        IdentificadorInicial = "ncabeca",
+        TextoLink = "Anexar",
+        NumeroArquivos = Model.ArquivoLicenca.Count(),
+        ModalTittle = "Anexos de Licenças",
+        PodeAnexar = false
+    };
+    compoenteUploadCabecalho.AnexosLista = Model.ArquivosLicencaAnexos.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoLicencaAnexo,
+        IdChave2 = r.IdLicenca
+    };
+    }).ToList();
+
+}
+@section Metas {
+    <meta name="page" content="CriarLicencas" />
+}
+@section scripts {
+
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/LicencaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+
+}
+
+
+
+<div id="main" style="margin: 40px 0 0 0 !important;">
+    <div class="content-painel">
+        <!-- Formulario Parametro Instrumento -->
+        <form id="form-parametro-licenca">
+            <input name="Idlicenca" type="hidden" id="IdILicenca" value="@Model.IdLicenca" />
+            <input name="IdSite" type="hidden" id="IdSite" value="@ViewBag.IdSite" />
+            <input name="idFuncao" type="hidden" id="idFuncao" value="@ViewBag.IdFuncao" />
+            <input name="IdProcesso" type="hidden" id="IdProcesso" value="@Model.IdProcesso" />
+            <input name="DataCriacao" type="hidden" id="DataCriacao" value="@Model.DataCriacao" />
+            <input name="IdResponsavelHidden" type="hidden" id="IdResponsavelHidden" value="@Model.IdResponsavel" />
+            <!-- Inicio Panel -->
+            <div class="content-painel">
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-target="parametro-instrumento">
+                        <div class="panel-title">
+                            <h2>@Traducao.Licenca.ResourceLicenca.IN_lbl_Panel_Licenca</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="parametro-instrumento">
+                        <div class="barra-busca">
+                            <div class="row base-senhas">
+                                <!-- Licenca -->
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Licenca.ResourceLicenca.IN_lbl_Titulo</label>
+                                        @Model.Titulo
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <!-- Processo -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-processo">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Processo</label>
+                                        @if (Model.Processo != null)
+                                        {
+                                            @Model.Processo.Nome
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Responsavel</label>
+                                        @if (Model.Cliente != null)
+                                        {
+                                            @ViewBag.Responsavel
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <!-- Data Notificacao -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-dt-emissao">@Traducao.Licenca.ResourceLicenca.IN_lbl_DtEmissao</label>
+                                        <br />
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            @(Model.DataEmissao != null ? Model.DataEmissao.Value.ToString("dd/MM/yyyy") : "")
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <!-- Data Notificacao -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-dt-vencimento">@Traducao.Licenca.ResourceLicenca.IN_lbl_DtVencimento</label>
+                                        <br />
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            @(Model.DataVencimento != null ? Model.DataVencimento.Value.ToString("dd/MM/yyyy") : "")
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <!-- Data Notificacao -->
+                                    <div class="form-group">
+                                        <label for="form-cadastro-dt-notificacao">@Traducao.Licenca.ResourceLicenca.IN_lbl_Notificacao</label>
+                                        <br />
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            @(Model.DataProximaNotificacao != null ? Model.DataProximaNotificacao.Value.ToString("dd/MM/yyyy") : "")
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    @{
+                                        if (Model.ArquivoLicenca.Count > 0)
+                                        {
+                                            Html.RenderPartial("Anexo/_Anexo", compoenteUploadCabecalho);
+                                        }
+                                        else
+                                        {
+                                            <p>Não há anexos disponíveis.</p>
+                                        }
+
+                                    }
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label for="form-cadastro-dt-observacoes">Observação</label>
+                                    @Model.Obervacao
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_fechar, "Index", "Licenca/Index")</button>
+        </div>
+    </div>
+</div>
+
+@{
+    Html.RenderPartial("Anexo/_AnexoSetup");
+    Html.RenderPartial("Anexo/_ModalAnexo", compoenteUploadCabecalho);
+}

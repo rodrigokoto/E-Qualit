@@ -1,0 +1,767 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@model Dominio.Entidade.RegistroConformidade
+
+
+
+@{
+    ViewBag.Title = "Gestão de Melhoria";
+
+    var funcoes = new List<int>
+{
+(int)FuncoesGestaoMelhoria.Cadastrar,
+(int)FuncoesGestaoMelhoria.CriarTipoDeNC,
+(int)FuncoesGestaoMelhoria.DefinirAcao,
+(int)FuncoesGestaoMelhoria.ImplementarAcao,
+(int)FuncoesGestaoMelhoria.Reverificacao,
+(int)FuncoesGestaoMelhoria.VerificacaoDaEficacia,
+(int)FuncoesGestaoMelhoria.Destravar,
+(int)FuncoesGestaoMelhoria.Editar,
+(int)FuncoesGestaoMelhoria.AnaliseDaCausa,
+};
+
+    var listaPermissoes = new List<PermissoesApp>();
+
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+    var listaEvidencias = new List<Anexo>();
+
+    if (Model.ArquivosDeEvidenciaAux.Count > 0)
+    {
+        Model.ArquivosDeEvidenciaAux.ToList().ForEach(evidencia =>
+        {
+            listaEvidencias.Add(new Anexo
+            {
+                IdAnexo = evidencia.IdAnexo,
+                Nome = evidencia.Nome,
+                Extensao = evidencia.Extensao,
+                ArquivoB64 = String.Format("data:application/" + evidencia.Extensao + ";base64," + Convert.ToBase64String(evidencia.Arquivo)),
+            });
+        });
+
+    }
+
+    var eAdminOuCordenador = (ViewBag.IdPerfil != 4) ? true : false;
+    var eResponsavel = Model.IdEmissor != ViewBag.IdUsuarioLogado ? false : true;
+    var eDestravado = Model.FlDesbloqueado == 0 ? false : true;
+    var eDisabled = (eDestravado && (eResponsavel || eAdminOuCordenador)) ? null : "disabled";
+    var eResponsavellInicarAcaoImediata = Model.IdResponsavelInicarAcaoImediata != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario) ? false : true;
+    var eResponsavelPorAcaoImediata = Model.AcoesImediatas.Any(x => x.IdResponsavelImplementar != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario)) ? false : true;
+
+    var eDisabledIdResponsavelIniciarAcaoImediata = (eDestravado && (eResponsavellInicarAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+    var eDisabledEditarAcaoImediata = (eDestravado && (eResponsavelPorAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+
+    var temAcaoCorretiva = ViewBag.AcaoCorretiva != null ? ViewBag.AcaoCorretiva : null;
+    var disabled = temAcaoCorretiva != null ? "disabled" : null;
+
+    var nuRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.NuRegistro : null;
+    var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
+    var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
+    var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
+
+
+    var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
+    {
+        IdentificadorInicial = "ncabeca",
+        TextoLink = "Anexar",
+        NumeroArquivos = Model.ArquivosNaoConformidadeAnexos.Count(),
+        ModalTittle = "Anexos da Melhorias",
+        PodeAnexar = true
+    };
+    compoenteUploadCabecalho.AnexosLista = Model.ArquivosNaoConformidadeAnexos.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoNaoConformidadeAnexo,
+        IdChave2 = r.IdRegistroConformidade
+    };
+    }).ToList();
+
+
+
+    //para os anexos das acoes imediatas
+    var listaBotoesAcaoImeidataUpload = new List<Web.UI.Models.ArquivoAnexoViewModel>();
+
+}
+@section Metas {
+    <meta name="page" content="CriarGestaoMelhoria" />
+}
+
+@section scripts {
+
+
+    <script type="text/javascript">
+        var destravar = '@ViewBag.Destravar';
+        var perfil = '@ViewBag.IdPerfil';
+    </script>
+
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GestaoMelhoriaController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+
+
+
+}
+
+@{
+    Html.RenderPartial("Anexo/_AnexoSetup");
+    Html.RenderPartial("Anexo/_ModalAnexo", compoenteUploadCabecalho);
+}
+
+
+<div id="main">
+    <div class="content-painel">
+        <!-- hidden -->
+        <input type="hidden" name="StatusEtapa" value="@ViewBag.StatusEtapa" />
+        <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
+        <input type="hidden" name="IdSite" id="nao-conformidade-site" value="@ViewBag.IdSite" />
+        <input type="hidden" name="TipoRegistro" value="nc" />
+        <input type="hidden" name="IdGestaoMelhoria" class="IdGestaoMelhoria" value="@Model.IdRegistroConformidade" />
+        <input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
+        <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
+        <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
+        <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+        <input type="hidden" id="acaoImediataAtual" />
+
+
+        @{
+
+        }
+
+        <!-- Formulario Nao Conformidade -->
+        <form id="form-criar-GestaoMelhoria">
+            <div class="panel panel-default" id="panel-GestaoMelhoria">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_titulo_identificacao</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-GestaoMelhoria">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Descricao Registro -->
+                            <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DsRegistro</label>
+                                    <textarea id="form-criar-nao-conformidade-ds-registro" name="formCriarGestaoMelhoriaDsRegistro" class="form-control"
+                                              placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_placeholder_Descricao_registro"
+                                              data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_DsRegistro"
+                                              data-msg-minlength="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_minlength_DsRegistro"
+                                              value=""
+                                              rows="7">@Model.DescricaoRegistro</textarea>
+                                </div>
+                            </div>
+                            <!-- Arquivo de Evidencia -->
+                            <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-cria-cliente-contrato" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Arquivo_evidencia</label>
+                                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)" style="border: 0 !important;">
+
+                                        @{
+                                            Html.RenderPartial("Anexo/_Anexo", compoenteUploadCabecalho);
+                                        }
+                                        @*
+                                        *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Data de Emissao -->
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DtEmissao</label>
+                                    <br />
+                                    <div class='input-group input-group-datepicker'>
+                                        <input type='text' name="formCriarGestaoMelhoriaDtEmissao" id="form-criar-nao-conformidade-dt-emissao"
+                                               class="form-control datepicker data largura-calendario"
+                                               placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_placeholder_DtEmissao"
+                                               data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_DtEmissao"
+                                               value="@Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Processo -->
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Processo</label>
+                                    <select id="form-criar-nao-conformidade-processo" name="formCriarGestaoMelhoriaProcesso" class="form-control"
+                                            data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_Processo">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdProcesso != 0 && Model.IdProcesso != null)
+                                        {
+                                            <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Emissor -->
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.GestaoMelhoria_PrimeiraEtapa_lbl_IdEmissor</label>
+                                    @if (ViewBag.IdPerfil != 4)
+                                    {
+
+                                        <select id="form-criar-nao-conformidade-emissor" name="formCriarGestaoMelhoriaEmissor" class="form-control"
+                                                data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_Emissor">
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            @if (Model.IdEmissor != 0)
+                                            {
+                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                            }
+                                            @*[ver]*@
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
+                                            }
+                                            @*@if (ViewBag.IdPerfil == 4 && Model.IdRegistroConformidade == 0)
+                                                {
+                                                    <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                                }*@
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select id="form-criar-nao-conformidade-emissor" disabled name="formCriarGestaoMelhoriaEmissor" class="form-control"
+                                                data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_Emissor">
+                                            @if (Model.IdEmissor != 0)
+                                            {
+                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
+                                            }
+                                        </select>
+
+
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <!-- Tipo Nao Conformidade -->
+                            <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-tipo" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Tipo</label>
+                                    <select id="form-criar-nao-conformidade-tipo" name="formCriarGestaoMelhoriaTipo" class="form-control"
+                                            data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_Tipo">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdTipoNaoConformidade != null)
+                                        {
+                                            <option value="@Model.IdTipoNaoConformidade" selected>@Model.TipoNaoConformidade.Descricao</option>
+                                        }
+                                    </select>
+                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesGestaoMelhoria.CriarTipoDeNC) || ViewBag.IdPerfil != 4)
+                                    {
+                                        <button type="button" class="btn btn-primary add-tipo-nao-conformidade" data-tipo="tgm" data-site="@ViewBag.IdSite">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
+                                    }
+                                </div>
+                            </div>
+                            <!-- Responsavel -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Responsavel_definir_AC</label>
+                                    <select id="form-criar-nao-conformidade-responsavel" name="formCriarGestaoMelhoriaResponsavel" class="form-control"
+                                            data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_Responsavel_definir_AC">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdResponsavelInicarAcaoImediata != null)
+                                        {
+                                            <option value="@Model.IdResponsavelInicarAcaoImediata" selected>@Model.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Tags -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Tags</label>
+                                    <textarea id="form-criar-nao-conformidade-tags" name="formCriarGestaoMelhoriaTags" class="form-control"
+                                              placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_placeholder_Tags"
+                                              data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_Tags"
+                                              value="" rows="5">@Model.Tags</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Formulario Acao Imediata -->
+        <form id="form-acaoimediata">
+            <div class="panel panel-default" id="panel-acaoimediata">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Acao_imediata</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-acaoimediata">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- E Procedente -->
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-acaoimediata-dt-descricao-acao">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DtDescricaoAcao</label>
+                                    <br />
+                                    <div class='input-group date input-group-datepicker'>
+                                        <input type='text' name="formAcaoImadiataDtDescricaoAcao" id="form-acaoimediata-dt-descricao-acao" class="form-control data datepicker largura-calendario"
+                                               data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_DtDescricao"
+                                               value="@(Model.DtDescricaoAcao.HasValue?Model.DtDescricaoAcao.Value.ToString(@Traducao.Resource.dateFormat):"")" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Painel Acao Imediata -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <table id="tb-acao-imediata" class="display dataTable no-footer dtr-inline table-bordered table" style="" name="formAcaoImadiata">
+                                    <thead class="titulo-tabela">
+                                        <tr class="bg" role="row">
+                                            <th class="w13">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Acao_descricao</th>
+                                            <th class="w7">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Prazo_implementacao</th>
+                                            <th class="w15">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Responsavel_implementar</th>
+                                            <th class="w7">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Efetiva_implementacao</th>
+                                            <th class="w7">Observação</th>
+                                            <th class="w7">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_AI_Arquivo_evidencia</th>
+                                            <th class="w7"></th>
+                                            <th class="w7"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{var count = 0;}
+                                        @foreach (var acaoImediata in Model.AcoesImediatas)
+                                        {
+                                            count++;
+                                            var aprovadoAux = acaoImediata.Aprovado == true ? "true" : "false";
+                                            <tr role="row" class="odd">
+                                                <!-- Descricao -->
+                                                <td>
+
+                                                    @{ var formAcaoImadiataTbDescricao = "formAcaoImadiataTbDescricao" + count; }
+                                                    <textarea type="text" id="@formAcaoImadiataTbDescricao" name="formAcaoImadiataTbDescricao" class="form-control"
+                                                              placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_placeholder_AI_Descricao"
+                                                              data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_AI_Descricao">@acaoImediata.Descricao</textarea>
+                                                    <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
+                                                    <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
+                                                    <input type="hidden" name="formAcaoImediataIdFilaEnvio" value="@acaoImediata.IdFilaEnvio" />
+                                                    @*value="@acaoImediata.IdFilaEnvio" />*@
+                                                    <input type="hidden" name="formAcaoImediataIdComentario" id="" value="" />
+                                                    <input type="hidden" name="formAcaoImediataComentarioMotivo" value="" />
+                                                    <input type="hidden" name="formAcaoImediataComentarioOrientacao" value="" />
+
+                                                    @if (acaoImediata.Aprovado.HasValue)
+                                                    {
+                                                        if (acaoImediata.Aprovado.Value == true)
+                                                        {
+                                                            <input type="hidden" name="desabilitaData" value="true" />
+                                                        }
+                                                    }
+
+                                                </td>
+
+                                                <!-- Prazo Implementacao -->
+                                                <td>
+                                                    <div class='input-group input-group-datepicker'>
+                                                        @{ var formAcaoImadiataTbDtPrazoImplementacao = "formAcaoImadiataTbDtPrazoImplementacao" + count; }
+                                                        <input type='text' name="formAcaoImadiataTbDtPrazoImplementacao" id="@formAcaoImadiataTbDtPrazoImplementacao" class="form-control data datepicker largura-calendario"
+                                                               placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_placeholder_AI_Prazo_implementacao"
+                                                               data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_AI_Prazo_implementacao"
+                                                               value="@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)" />
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar" teste="" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <!-- Responsavel Implementar -->
+                                                <td>
+                                                    @{ var formAcaoImadiataTbResponsavelImplementar = "formAcaoImadiataTbResponsavelImplementar" + count; }
+                                                    <select id="@formAcaoImadiataTbResponsavelImplementar" name="formAcaoImadiataTbResponsavelImplementar" class="form-control"
+                                                            data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_AI_Responsavel_implementar">
+                                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                                        @if (acaoImediata.ResponsavelImplementar.IdUsuario != 0)
+                                                        {
+                                                            <option value="@acaoImediata.ResponsavelImplementar.IdUsuario" selected>@acaoImediata.ResponsavelImplementar.NmCompleto</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <!-- Data Efetiva Implementacao -->
+                                                <td>
+                                                    <div class='input-group input-group-datepicker'>
+                                                        @{ var formAcaoImadiataTbDtEfetivaImplementacao = "formAcaoImadiataTbDtEfetivaImplementacao" + count;
+
+                                                        }
+
+
+                                                        <input type='text' name="formAcaoImadiataTbDtEfetivaImplementacao" id="@formAcaoImadiataTbDtEfetivaImplementacao" class="form-control data datepicker largura-calendario dataEfetivaImplementacaoDatePicker"
+                                                               placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_placeholder_AI_Efetiva_implementacao"
+                                                               data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_AI_Efetiva_implementacao"
+                                                               value="@(acaoImediata.DtEfetivaImplementacao != null?acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+                                                <!-- Prazo Observacao -->
+                                                <td>
+                                                    <div>
+                                                        <textarea type="text" name="formAcaoImadiataTbObservacao" class="form-control">@acaoImediata.Observacao</textarea>
+                                                    </div>
+                                                </td>
+
+                                                <!-- Arquivo de Evidencia -->
+                                                @{
+                                                    var chaveDestecontroleUploadArquuivos = "upacaoimeidata" + count.ToString();
+                                                }
+                                                <td class="IdentificadorInicialupload" data-identificador="@(chaveDestecontroleUploadArquuivos )">
+
+                                                    @{
+                                                        int nroArquivos = acaoImediata.ArquivoEvidencia?.Count ?? 0;
+
+                                                        var controleUploadArquuivos = new Web.UI.Models.ArquivoAnexoViewModel()
+                                                        {
+                                                            IdentificadorInicial = chaveDestecontroleUploadArquuivos,
+                                                            TextoLink = Traducao.Resource.UploadArquivos,
+                                                            ModalTittle = Traducao.Resource.UploadArquivos,
+                                                            NumeroArquivos = nroArquivos,
+                                                            PodeAnexar = true
+                                                        };
+                                                        controleUploadArquuivos.AnexosLista = acaoImediata.ArquivoEvidencia?.ToList().Select(r =>
+                                                        {
+                                                            return
+                                                        new Web.UI.Models.ArquivoAnexoItemViewModel()
+                                                        {
+                                                            AnexoDados = r.Anexo,
+                                                            IdChave1 = r.IdArquivoDeEvidenciaAcaoImediata,
+                                                            IdChave2 = r.IdAcaoImediata
+                                                        };
+                                                        }).ToList();
+
+                                                        listaBotoesAcaoImeidataUpload.Add(controleUploadArquuivos);
+                                                        Html.RenderPartial("Anexo/_Anexo", controleUploadArquuivos);
+
+                                                    }
+
+                                                </td>
+                                                <!-- Acoes -->
+
+                                                <td>
+                                                    @if (ViewBag.StatusEtapa == 3 || ViewBag.StatusEtapa == 2)
+                                                    {
+                                                        <button type="button" class="btn btn-historico">
+                                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                                        </button>
+                                                    }
+                                                    @if (ViewBag.StatusEtapa == 2)
+                                                    {
+                                                        <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                    }
+                                                </td>
+                                                <td>
+
+                                                    @if (acaoImediata.Aprovado.HasValue && (acaoImediata.Aprovado.Value == true && ViewBag.StatusEtapa == 2))
+                                                    {
+                                                        <div>
+                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    }
+
+                                                    <div class="botoesTd">
+                                                        @if (ViewBag.StatusEtapa != 2)
+                                                        {
+                                                            <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
+                                                        }
+                                                        @*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
+                                                        <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+                                                        @if (ViewBag.StatusEtapa == 3 && !Convert.ToBoolean(aprovadoAux))
+                                                        {
+                                                            <button type="button" class="btn btn-confirm-acao-imediata ativo-color">
+                                                                <i class="fa fa-check " aria-hidden="true"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-denied-acao-imediata trash-color">
+                                                                <i class="fa fa-close " aria-hidden="true"></i>
+                                                            </button>
+
+                                                        }
+                                                        @if (acaoImediata.Aprovado.HasValue)
+                                                        {
+
+
+
+                                                            if (acaoImediata.Aprovado.Value == true)
+                                                            {
+                                                                <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                    <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                </button>
+
+                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color hidden">
+                                                                    <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                                </button>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:none;">
+                                                                    <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                </button>
+
+                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display:none;">
+                                                                    <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                                </button>
+                                                            }
+                                                        }
+                                                        else if (ViewBag.StatusEtapa == 4 && !acaoImediata.Aprovado.HasValue)
+                                                        {
+                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display:block;">
+                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                            </button>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color" style="display: none;">
+                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color" style="display: none;">
+                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                            </button>
+
+                                                        }
+                                                    </div>
+                                                    <!-- Encerra aqui -->
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesGestaoMelhoria.DefinirAcao) && Model.IdRegistroConformidade > 0 || ViewBag.IdPerfil != 4)
+                                {
+                                    <button type="button" class="btn btn-primary add-acao-imediata pull-right">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Responsavel Reverificacao -->
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Responsavel_reverificacao</label>
+                                    <select id="form-acaoimediata-responsavel-reverificacao" name="formAcaoImadiataResponsavelReverificacao" class="form-control"
+                                            data-msg-required="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_required_Responsavel_reverificacao">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (@Model.IdResponsavelReverificador != null)
+                                        {
+                                            <option value="@Model.IdResponsavelReverificador" selected>@Model.ResponsavelReverificador.NmCompleto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Foi Eficaz -->
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label>@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Foi_eficaz</label>
+                                    <div class="">
+                                        <label for="form-acaoimediata-foi-eficaz-sim">
+                                            <input type="radio" id="form-acaoimediata-foi-eficaz-sim" name="formAcaoImadiataFoiEficaz" value="true"
+                                                   @((Model.FlEficaz.HasValue) && Model.FlEficaz == true ? "checked" : null)>
+                                            @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                                        </label>
+                                        <label for="form-acaoimediata-foi-eficaz-nao">
+                                            <input type="radio" id="form-acaoimediata-foi-eficaz-nao" name="formAcaoImadiataFoiEficaz" value="false"
+                                                   @((Model.FlEficaz.HasValue) && Model.FlEficaz == false ? "checked" : null)>
+                                            @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (Model.StatusEtapa == 4)
+                            {
+                                <div class="row">
+                                    <!-- Status -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group pull-right">
+                                            <p class="status-encerrada">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Encerrada</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+        </form>
+
+    </div>
+</div>
+
+@{
+    //caixas de dialogo das acoes imediatas anexos
+    foreach (var botao in listaBotoesAcaoImeidataUpload)
+    {
+        Html.RenderPartial("Anexo/_ModalAnexo", botao);
+    }
+}
+
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            @if (Model.IdRegistroConformidade > 0)
+            {
+
+                if ((listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.Destravar) || ViewBag.IdPerfil != 4) && ViewBag.StatusEtapa != 4)
+                {
+                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                }
+
+
+                if (Model.StatusEtapa == 4)
+                {
+                    <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+                }
+
+            }
+            @if (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.Cadastrar)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.Editar)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.DefinirAcao)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.ImplementarAcao)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.VerificacaoDaEficacia)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.Reverificacao)
+                || ViewBag.IdPerfil != 4)
+            {
+                <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            }
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "GestaoMelhoria/Index")</button>
+        </div>
+    </div>
+</div>
+
+
+
+<form id="form-emissao-documento-cargos2">
+    <div id="modal-panel-form-cargos2" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos2" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Histórico</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca" style="box-shadow: none">
+                            <div class="form-group" id="painelComentarios">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+<form id="form-emissao-documento-cargos">
+    <div id="modal-panel-form-cargos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Comentários</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca" style="box-shadow: none">
+                            <div class="form-group">
+
+                                <div class="row tabela-cargo-check">
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="form-GestaoMelhoria-comentario-motivo">Motivo</label>
+                                            <textarea rows="4" name="formGestaoMelhoriaComentarioMotivo" id="form-GestaoMelhoria-comentario-motivo" class="form-control" value=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="form-GestaoMelhoria-comentario-orientacao">Orientação</label>
+                                            <textarea rows="4" name="formGestaoMelhoriaComentarioOrientacao" id="form-GestaoMelhoria-comentario-orientacao" class="form-control" value=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btn-new-comentario" class="btn btn-primary btnControladorCategoria">Salvar</button>
+                    <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+@*<form id="form-emissao-documento-cargos">
+    <div id="modal-panel-form-cargos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Cargos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca">
+                            <div class="form-group">*@
+
+
+
+
+<script>
+                                                                                                                                                                //$(".fa-calendar").click(function () {
+                                                                                                                                                                //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                                                                                //});
+</script>
+

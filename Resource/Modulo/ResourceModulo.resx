@@ -165,4 +165,7 @@
   <data name="Modulo_lbl_Modulo_RH" xml:space="preserve">
     <value>Recursos Humanos</value>
   </data>
+  <data name="Modulo_lbl_Modulo_gestao_melhoria" xml:space="preserve">
+    <value>Gestão de Melhoria</value>
+  </data>
 </root>

@@ -1,0 +1,201 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model IEnumerable<Dominio.Entidade.RegistroConformidade>
+@{
+    ViewBag.Title = "Gestão de Melhoria";
+
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+
+}
+@section Metas {
+    <meta name="page" content="IndexGestaoMelhoria" />
+}
+
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/GeneralController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GestaoMelhoriaController.js")"></script>
+    @*<script src="@Url.Content("~/Content/assets/js/CanvasJS/canvasjs.min.js")"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery.ui.1.12.1.min.js")"></script>
+
+}
+
+@Html.AntiForgeryToken()
+<input type="hidden" name="msgIconeDeleteNC" value="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_msg_icone_delete" />
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Nao Conformidade -->
+        <form id="form-GestaoMelhoria">
+            <div class="panel panel-default" id="panel-GestaoMelhoria">
+                <div class="panel-body" id="panel-form-GestaoMelhoria">
+                    <div class="row">
+
+                        <div class="barra-busca">
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesGestaoMelhoria.Cadastrar) || ViewBag.IdPerfil != 4)
+                            {
+                                <p class="novo">
+                                    @Html.ActionLink(Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_nova_nao_conformidade, "Criar", "GestaoMelhoria")
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
+                            <p class="novo">
+                                <a href="#" onclick="abrirModalGrafico();">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_grafico</a>
+                                @*@Html.ActionLink(Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_grafico, "Graficos", "GestaoMelhoria")*@
+                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            </p>
+                            <div class="col-lg-12">
+                                <table id="tb-index-nao-conformidade" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
+                                    <thead>
+                                        <tr class="bg">
+                                            <th class="w8 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_NmRegistro" />
+                                            </th>
+                                            <th class="w13 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Emissor" />
+                                            </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DtEmissao" />
+                                            </th>
+                                            <th class="w16 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DtEncerramento" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_StatusEtapa" />
+                                            </th>
+                                            <th class="w21 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_ResponsavelImplementar" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Tags" />
+                                            </th>
+                                            <th class="w7 with-input"></th>
+                                        </tr>
+                                        <tr class="bg">
+                                            <th>
+                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_NmRegistro
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Emissor
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DtEmissao
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_DtEncerramento
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_StatusEtapa
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_ResponsavelImplementar
+                                            </th>
+                                            <th class="">
+                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Tags
+                                            </th>
+                                            <th>
+                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Acoes
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.NuRegistro.ToString().Trim()
+                                                </td>
+                                                <td>
+
+                                                    @item.Emissor.NmCompleto.ToString().Trim()
+                                                </td>
+                                                <td>
+                                                    @item.DtEmissao.ToString(@Traducao.Resource.dateFormat).Trim()
+                                                </td>
+                                                <td>
+                                                    @if (item.DtEnceramento != null)
+                                                    {
+                                                        @item.DtEnceramento.Value.ToString(@Traducao.Resource.dateFormat).Trim()
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.StatusEtapa == 1)
+                                                    {
+                                                        <p class="status-acao-imediata">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Acao_imediata</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 2)
+                                                    {
+                                                        <p class="status-implementacao">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Implementacao</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 3)
+                                                    {
+                                                        <p class="status-reverificacao">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Reverificacao</p>
+                                                    }
+                                                    else if (item.StatusEtapa == 4)
+                                                    {
+                                                        <p class="status-encerrada">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Encerrada</p>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @item.ResponsavelInicarAcaoImediata.NmCompleto.Trim()
+                                                </td>
+                                                <td class="">
+                                                    @(item.Tags != null ? item.Tags.ToString().Trim() : "")
+                                                </td>
+                                                <td>
+
+                                                    @if (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.Editar)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.DefinirAcao)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.ImplementarAcao)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.VerificacaoDaEficacia)
+                                                        || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.Reverificacao)
+                                                        || ViewBag.IdPerfil != 4)
+                                                    {
+                                                        @*<a href="@Url.Action("Editar", "GestaoMelhoria", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
+                                                                <i class="fa @(item.StatusEtapa == 4 ? "fa-search" : "fa-pencil")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                            </a>*@
+                                                        if (item.StatusEtapa == 4)
+                                                        {
+                                                            <a href="@Url.Action("Exibir", "GestaoMelhoria", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
+                                                                <i class="fa fa-search" )" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                            </a>
+                                                        }
+                                                        if (item.StatusEtapa != 4)
+                                                        {
+                                                            <a href="@Url.Action("Editar", "GestaoMelhoria", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
+                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                            </a>
+                                                        }
+                                                    }
+                                                    @if (ViewBag.UltimoRegistro == item.NuRegistro && (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesGestaoMelhoria.Excluir) || ViewBag.IdPerfil != 4))
+                                                    {
+                                                        <a href="#" class="icon-cliente trash-color del-nao-conformidade" data-id-nao-conformidade="@item.IdRegistroConformidade">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalGrafico" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    @Html.Partial("FiltroGrafico")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -22,7 +22,7 @@ namespace Dominio.Entidade
 
         public int Ano { get; set; }
         public int Periodicidade { get; set; }
-
+        public int PeriodicidadeMedicao { get; set; }
         public int IdSite { get; set; }
         public int IdUsuarioIncluiu { get; set; }
         public DateTime DataAlteracao { get; set; }

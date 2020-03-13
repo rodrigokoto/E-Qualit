@@ -176,6 +176,7 @@
     <Compile Include="Enumerado\DirecaoIndicador.cs" />
     <Compile Include="Enumerado\CriticidadeGestaoDeRisco.cs" />
     <Compile Include="Enumerado\Funcionalidades.cs" />
+    <Compile Include="Enumerado\PeriodicidadeMedicao.cs" />
     <Compile Include="Enumerado\PeriodicidadeIndicador.cs" />
     <Compile Include="Enumerado\PeriodoAnalise.cs" />
     <Compile Include="Enumerado\EquipamentoStatus.cs" />
@@ -447,6 +448,8 @@
     <Compile Include="Validacao\Instrumentos\View\CriarInstrumentoViewValidation.cs" />
     <Compile Include="Validacao\Instrumentos\View\EditarInstrumentoViewValidation.cs" />
     <Compile Include="Validacao\Instrumentos\View\ValidaCampoInstrumento.cs" />
+    <Compile Include="Validacao\Licenca\ValidaCampoLicenca.cs" />
+    <Compile Include="Validacao\Licenca\View\CriarLicencaViewValidation.cs" />
     <Compile Include="Validacao\Normas\AptoParaCadastroValidation.cs" />
     <Compile Include="Validacao\NotificacoesMensagem\AptoParaCadastroNotificacaoMensagemValidation.cs" />
     <Compile Include="Validacao\NotificacoesSmtp\AptoParaCadastroNotificacaoSmtp.cs" />
@@ -475,6 +478,12 @@
     <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoEtapa4Validation.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoImplementacaoDtEfetivaImplementacao.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoDeRiscos\CamposObrigatoriosGestaoDeRiscoReverificacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa1Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa2Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa4Validation.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaImplementacaoDtEfetivaImplementacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaReverificacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CriacaoGestaoMelhoriaViewValidation.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaCriarNovaAcaoCorretiva.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaExclusaoNaoConformidadeValidation.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaSalvarSegundaEtapaPerfilCoordenadorPorEtapaValidacao.cs" />

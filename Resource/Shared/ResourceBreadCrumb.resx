@@ -231,7 +231,16 @@
   <data name="Action_IndexFornecedores" xml:space="preserve">
     <value>Fornecedores</value>
   </data>
-  <data name="Controller_Licenca" xml:space="preserve">
+  <data name="Controller_licenca" xml:space="preserve">
     <value>Licença</value>
+  </data>
+  <data name="Controller_gestaomelhoria" xml:space="preserve">
+    <value>Gestao Melhoria</value>
+  </data>
+  <data name="Licenca" xml:space="preserve">
+    <value>Licenca</value>
+  </data>
+  <data name="Controller_gestaomelhoria" xml:space="preserve">
+    <value>Gestão de Melhoria</value>
   </data>
 </root>

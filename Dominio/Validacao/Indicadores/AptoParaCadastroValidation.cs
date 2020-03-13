@@ -7,6 +7,18 @@ namespace Dominio.Validacao.Indicadores
     {
         public AptoParaCadastroValidation()
         {
+            RuleFor(x => x.Direcao)
+            .NotNull()
+            .WithMessage(Traducao.Resource.Msg_SentidoMeta);
+
+            RuleFor(x => x.Periodicidade)
+                .NotNull()
+                .WithMessage(Traducao.Resource.Msg_Periodicidade);
+
+            RuleFor(x => x.Objetivo)
+                .MaximumLength(1000)
+                .WithMessage(Traducao.Resource.Msg_Max1000Objetivo);
+
             RuleFor(indicador => indicador.Descricao)
               .NotEmpty().WithMessage(Traducao.Resource.MsgCampoDescricao);
 
@@ -19,6 +31,9 @@ namespace Dominio.Validacao.Indicadores
             RuleFor(indicador => indicador.PeriodicidadeDeAnalises)
               .NotEmpty().WithMessage(Traducao.Resource.MsgPeriodo);
 
+            RuleFor(indicador => indicador.PeriodicidadeMedicao)
+                .NotEmpty().WithMessage(Traducao.Resource.Msg_Periodicidade);
+
             RuleFor(indicador => indicador.Objetivo)
               .NotEmpty().WithMessage(Traducao.Resource.MsgObjetivoInformado);
 
@@ -27,6 +42,7 @@ namespace Dominio.Validacao.Indicadores
 
             RuleFor(indicador => indicador.IdSite)
              .NotEmpty().WithMessage(Traducao.Resource.MsgSiteInformado);
+
         }
     }
 }

@@ -4,11 +4,15 @@
 | Controlador Licenca
 |--------------------------------------------------------------------------
 */
+var patternValidaData = /^(((0[1-9]|[12][0-9]|3[01])([-.\/])(0[13578]|10|12)([-.\/])(\d{4}))|(([0][1-9]|[12][0-9]|30)([-.\/])(0[469]|11)([-.\/])(\d{4}))|((0[1-9]|1[0-9]|2[0-8])([-.\/])(02)([-.\/])(\d{4}))|((29)(\.|-|\/)(02)([-.\/])([02468][048]00))|((29)([-.\/])(02)([-.\/])([13579][26]00))|((29)([-.\/])(02)([-.\/])([0-9][0-9][0][48]))|((29)([-.\/])(02)([-.\/])([0-9][0-9][2468][048]))|((29)([-.\/])(02)([-.\/])([0-9][0-9][13579][26])))$/;
 
 APP.controller.LicencaController = {
 
+
     init: function () {
         var page = APP.component.Util.getPage();
+
+
 
         this.setup();
         if (page == "IndexLicencas") {
@@ -26,7 +30,6 @@ APP.controller.LicencaController = {
         //Licenca Criar
         this.buttonDelLicenca = $('.tb-Licenca-excluir');
         this.buttonSaveForm = $(".form-save");
-        this.buttonDelLicenca = $('.tb-Licenca-excluir');
         this.buttonModalCancelar = $(".btn-modal-cancelar");
     },
 
@@ -41,14 +44,17 @@ APP.controller.LicencaController = {
     //Chamadas
     IndexLicenca: function () {
 
-        APP.component.DataTable.init('#tb-licenca');
+        APP.component.DataTable.init('#tb-Licenca');
         this.delLicenca();
-
 
     },
 
     CriarLicenca: function () {
 
+        $("#form-cadastro-dt-emissao").datepicker({
+            startView: "months",
+            minViewMode: "months"
+        });
 
         //GETs
         this.getResponsavel();
@@ -85,17 +91,14 @@ APP.controller.LicencaController = {
 
         var acoesPadraoFormCriarPadraoObj = {
             //formCriaClienteLogo: {required: true, minFiles: 1},
-            Equipamento: { required: true },
-            IdSigla: { required: true },
-            Numero: { required: true, number: true },
-            Marca: { required: true },
-            Modelo: { required: true },
+            Idlicenca: { required: true },
+            Titulo: { required: true },
+            IdProcesso: { required: true },
             IdResponsavel: { required: true },
-            LocalDeUso: { required: true },
-            Escala: { required: true },
-            MenorDivisao: { required: true },
-            valorAceitacao: { required: true, number: true },
-            DescricaoCriterio: { required: false },
+            ArquivosLicencaAnexos: { required: false },
+            DataEmissao: { required: false },
+            DataVencimento: { required: false },
+            DataProximaNotificacao: { required: false },
 
         };
 
@@ -128,16 +131,18 @@ APP.controller.LicencaController = {
     getObjLicenca: function () {
 
 
-         Licenca = {
+        Licenca = {
             Idlicenca: $('[name=Idlicenca]').val(),
             Titulo: $('[name=Titulo]').val(),
             IdProcesso: $('[name=formCadastroProcesso] option:selected').val(),
             IdResponsavel: $('[name=IdResponsavel] option:selected').val(),
             ArquivosLicencaAnexos: APP.controller.LicencaController.getAnexosArquivosLicencaAnexos(),
+            DataCriacao: $('[name=DataCriacao]').val(),
             DataEmissao: $('#form-parametro-licenca').find('[name=DataEmissao]').val(),
             DataVencimento: $('#form-parametro-licenca').find('[name=DataVencimento]').val(),
-            DataProximaNotificacao: $('#form-parametro-licenca').find('[name=DataVencimento]').val(),
+            DataProximaNotificacao: $('#form-parametro-licenca').find('[name=DataProximaNotificacao]').val(),
             Obervacao: $('#form-parametro-licenca').find('[name=Obervacao]').val(),
+
         };
 
         return Licenca;
@@ -192,20 +197,14 @@ APP.controller.LicencaController = {
                         success: function (data) {
                             if (data.StatusCode == 200) {
                                 tabelaLicenca.row($rowAtual).remove().draw();
-                                bootbox.alert({
-                                    message: _options.LicencaExcluida,
-                                    callback: function () {
-                                        window.location.reload();
-                                    }
-                                });
+                                APP.component.Loading.hideLoading();
+                                bootbox.alert("Licença excluida com sucesso");
                             }
                         },
                         beforeSend: function () {
                             APP.component.Loading.showLoading();
                         },
-                        complete: function () {
-                            APP.component.Loading.hideLoading();
-                        },
+
                     });
                 }
             });
@@ -275,6 +274,32 @@ APP.controller.LicencaController = {
             validacao = $('#form-parametro-licenca').valid();
         }
 
+        var dtEmissao = $('#form-parametro-licenca').find('[name=DataEmissao]').val();
+        var dtVencimento = $('#form-parametro-licenca').find('[name=DataVencimento]').val();
+        var dtProximaNotificacao = $('#form-parametro-licenca').find('[name=DataProximaNotificacao]').val();
+
+        if (dtEmissao !== "") {
+            if (!patternValidaData.test(dtEmissao)) {
+                APP.component.Loading.hideLoading();
+                bootbox.alert("Há datas em formato inválido");
+                validacao = false;
+            }
+        }
+        if (dtVencimento !== "") {
+            if (!patternValidaData.test(dtVencimento)) {
+                APP.component.Loading.hideLoading();
+                bootbox.alert("Há datas em formato inválido");
+                validacao = false;
+            }
+        }
+        if (dtProximaNotificacao !== "") {
+            if (!patternValidaData.test(dtProximaNotificacao)) {
+                APP.component.Loading.hideLoading();
+                bootbox.alert("Há datas em formato inválido");
+                validacao = false;
+            }
+        }
+
         if (validacao) {
             $.ajax({
                 type: "POST",
@@ -292,7 +317,7 @@ APP.controller.LicencaController = {
                                     message: result.Success,
                                     callback: function () {
 
-                                        window.location.href = "/Licenca/Editar/" + result.IdLicenca;
+                                        window.location.href = "/Licenca/Index/";
                                     }
                                 });
                             return;

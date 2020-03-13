@@ -181,6 +181,85 @@ namespace DAL.Repository
 
         }
 
+        public DataTable RetornarDadosGraficoMelhoriaMes(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var parametros = new Dictionary<string, object>();
+            parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
+            parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
 
+            if (idTipoNaoConformidade.HasValue)
+                parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);
+
+            parametros.Add("IdSite", idSite);
+
+            var dtDados = base.GetDataTable("SP_GRAFICO_GM_MES", CommandType.StoredProcedure, parametros);
+
+            return dtDados;
+
+        }
+
+        public DataTable RetornarDadosGraficoMelhoriaTipo(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var parametros = new Dictionary<string, object>();
+            parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
+            parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
+
+            if (idTipoNaoConformidade.HasValue)
+                parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);
+
+            parametros.Add("IdSite", idSite);
+
+            var dtDados = base.GetDataTable("SP_GRAFICO_GM_TIPO", CommandType.StoredProcedure, parametros);
+
+            return dtDados;
+        }
+
+        public DataTable RetornarDadosGraficoMelhoriaAbertasFechadas(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var parametros = new Dictionary<string, object>();
+            parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
+            parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
+
+            if (idTipoNaoConformidade.HasValue)
+                parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);
+
+            parametros.Add("IdSite", idSite);
+
+            var dtDados = base.GetDataTable("SP_GRAFICO_GM_GERADAS_ABERTAS_FECHADAS", CommandType.StoredProcedure, parametros);
+
+            return dtDados; ;
+        }
+
+        public DataTable RetornarDadosGraficoMelhoriaProcesso(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idSite)
+        {
+            var parametros = new Dictionary<string, object>();
+            parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
+            parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
+
+            if (idTipoNaoConformidade.HasValue)
+                parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);
+
+            parametros.Add("IdSite", idSite);
+
+            var dtDados = base.GetDataTable("SP_GRAFICO_GM_PROCESSO", CommandType.StoredProcedure, parametros);
+
+            return dtDados;
+        }
+
+        public DataTable RetornarDadosGraficoMelhoriasSite(DateTime dtDe, DateTime dtAte, int? idTipoNaoConformidade, int idCliente)
+        {
+            var parametros = new Dictionary<string, object>();
+            parametros.Add("DtDe", dtDe.ToString("yyyy-MM-dd 00:00:00"));
+            parametros.Add("DtAte", dtAte.ToString("yyyy-MM-dd 23:59:59"));
+            parametros.Add("IdCliente", idCliente);
+
+            if (idTipoNaoConformidade.HasValue)
+                parametros.Add("IdTipoNaoConformidade", idTipoNaoConformidade.Value);
+
+            var dtDados = base.GetDataTable("SP_GRAFICO_GM_SITE", CommandType.StoredProcedure, parametros);
+
+            return dtDados;
+
+        }
     }
 }

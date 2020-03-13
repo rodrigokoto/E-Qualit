@@ -304,6 +304,15 @@ namespace Traducao.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gestão de Melhoria.
+        /// </summary>
+        public static string Controller_gestaomelhoria {
+            get {
+                return ResourceManager.GetString("Controller_gestaomelhoria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Erro.
         /// </summary>
         public static string Controller_home {
@@ -333,9 +342,9 @@ namespace Traducao.Shared {
         /// <summary>
         ///   Looks up a localized string similar to Licença.
         /// </summary>
-        public static string Controller_Licenca {
+        public static string Controller_licenca {
             get {
-                return ResourceManager.GetString("Controller_Licenca", resourceCulture);
+                return ResourceManager.GetString("Controller_licenca", resourceCulture);
             }
         }
         
@@ -399,6 +408,15 @@ namespace Traducao.Shared {
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Licenca.
+        /// </summary>
+        public static string Licenca {
+            get {
+                return ResourceManager.GetString("Licenca", resourceCulture);
             }
         }
         

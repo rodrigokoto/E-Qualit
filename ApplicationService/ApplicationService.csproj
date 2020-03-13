@@ -61,6 +61,7 @@
     <Compile Include="Entidade\ProcessoApp.cs" />
     <Compile Include="Entidade\SiteModuloApp.cs" />
     <Compile Include="Entidade\UsuarioApp.cs" />
+    <Compile Include="Enum\FuncoesIndicadores.cs" />
     <Compile Include="Enum\FuncoesLicenca.cs" />
     <Compile Include="Enum\FuncoesFornecedores.cs" />
     <Compile Include="Enum\FuncoesAuditoria.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Enum\FuncoesControlDoc.cs" />
     <Compile Include="Enum\FuncoesGestaoDeRisco.cs" />
     <Compile Include="Enum\FuncoesInstrumento.cs" />
+    <Compile Include="Enum\FuncoesGestaoMelhoria.cs" />
     <Compile Include="Enum\FuncoesNaoConformidade.cs" />
     <Compile Include="Enum\TempletesDisparoDeEmail.cs" />
     <Compile Include="Interface\IAnaliseCriticaFuncionarioAppServico.cs" />

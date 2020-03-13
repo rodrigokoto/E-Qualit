@@ -132,7 +132,7 @@
                                         <label for="form-cadastro-dt-emissao">@Traducao.Licenca.ResourceLicenca.IN_lbl_DtEmissao</label>
                                         <br />
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' name="DataEmissao" id="form-cadastro-dt-emissao" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@Model.DataEmissao" />
+                                            <input type='text' name="DataEmissao" id="form-cadastro-dt-emissao" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@(Model.DataEmissao == null ? "" : Model.DataEmissao.Value.ToString("dd/MM/yyyy"))" />
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
                                             </span>
@@ -145,7 +145,7 @@
                                         <label for="form-cadastro-dt-vencimento">@Traducao.Licenca.ResourceLicenca.IN_lbl_DtVencimento</label>
                                         <br />
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' name="DataVencimento" id="form-cadastro-dt-vencimento" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@Model.DataVencimento" />
+                                            <input type='text' name="DataVencimento" id="form-cadastro-dt-vencimento" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@(Model.DataVencimento  == null ? "" :Model.DataVencimento.Value.ToString("dd/MM/yyyy"))" />
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
                                             </span>
@@ -155,10 +155,10 @@
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <!-- Data Notificacao -->
                                     <div class="form-group">
-                                        <label for="form-cadastro-dt-notificacao">@Traducao.Licenca.ResourceLicenca.IN_lbl_DtVencimento</label>
+                                        <label for="form-cadastro-dt-notificacao">@Traducao.Licenca.ResourceLicenca.IN_lbl_Notificacao</label>
                                         <br />
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' name="DataProximaNotificacao" id="form-cadastro-dt-notificacao" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@Model.DataProximaNotificacao" />
+                                            <input type='text' name="DataProximaNotificacao" id="form-cadastro-dt-notificacao" class="form-control data" data-msg-required="@Traducao.Resource.DataNotObrigatorio" value="@(Model.DataProximaNotificacao == null ? "" :Model.DataProximaNotificacao.Value.ToString("dd/MM/yyyy"))" />
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
                                             </span>
@@ -193,7 +193,7 @@
                 <button class="btn btn-primary btn-salvar form-save" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
             }
 
-            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Licenca/Index")</button>
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_fechar, "Index", "Licenca/Index")</button>
         </div>
     </div>
 </div>

@@ -19,7 +19,7 @@ namespace Traducao.Indicador {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ResourceIndicador {
@@ -88,6 +88,15 @@ namespace Traducao.Indicador {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Média.
+        /// </summary>
+        public static string Indicador_lbl_media {
+            get {
+                return ResourceManager.GetString("Indicador_lbl_media", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meta.
         /// </summary>
         public static string Indicador_lbl_Meta {
@@ -133,6 +142,15 @@ namespace Traducao.Indicador {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bimestral.
+        /// </summary>
+        public static string Indicador_lbl_Periodicidade_bimestral {
+            get {
+                return ResourceManager.GetString("Indicador_lbl_Periodicidade_bimestral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mensal.
         /// </summary>
         public static string Indicador_lbl_Periodicidade_mensal {
@@ -156,6 +174,15 @@ namespace Traducao.Indicador {
         public static string Indicador_lbl_Periodicidade_trimestral {
             get {
                 return ResourceManager.GetString("Indicador_lbl_Periodicidade_trimestral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Peridocidade Medição.
+        /// </summary>
+        public static string Indicador_lbl_PeriodicidadeMedicao {
+            get {
+                return ResourceManager.GetString("Indicador_lbl_PeriodicidadeMedicao", resourceCulture);
             }
         }
         
@@ -345,6 +372,15 @@ namespace Traducao.Indicador {
         public static string Indicador_msg_required_Periodicidade {
             get {
                 return ResourceManager.GetString("Indicador_msg_required_Periodicidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Periodicidade Medição é obrigatório..
+        /// </summary>
+        public static string Indicador_msg_required_PeriodicidadeMedicao {
+            get {
+                return ResourceManager.GetString("Indicador_msg_required_PeriodicidadeMedicao", resourceCulture);
             }
         }
         

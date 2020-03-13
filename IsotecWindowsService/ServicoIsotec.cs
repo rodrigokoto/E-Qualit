@@ -74,11 +74,11 @@ namespace IsotecWindowsService
         }
 
         private void QualificacaoService()
-        
+
         {
 
             while (true)
-            
+
             {
 
                 //var SysHour = ConfigurationManager.AppSettings["StartService"].Split(':');
@@ -96,7 +96,7 @@ namespace IsotecWindowsService
             }
         }
         private void LicencaService()
-         {
+        {
 
             while (true)
 
