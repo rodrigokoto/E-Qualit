@@ -47,18 +47,18 @@ namespace DAL.Repository
                                 }
                                 else
                                 {
-                                    planoDeVooCtx.GestaoDeRisco = metaRealizada.GestaoDeRisco;
-                                    planoDeVooCtx.GestaoDeRisco.TipoRegistro = "gr";
-                                    planoDeVooCtx.GestaoDeRisco.IdSite = indicador.IdSite;
-                                    planoDeVooCtx.GestaoDeRisco.IdUsuarioIncluiu = indicador.IdUsuarioIncluiu;
-                                    planoDeVooCtx.GestaoDeRisco.IdProcesso = indicador.IdProcesso;
-                                    planoDeVooCtx.GestaoDeRisco.IdUsuarioAlterou = indicador.IdUsuarioIncluiu;
-                                    planoDeVooCtx.GestaoDeRisco.IdEmissor = indicador.IdUsuarioIncluiu;
-                                    planoDeVooCtx.GestaoDeRisco.IdResponsavelInicarAcaoImediata = indicador.IdResponsavel;
-                                    planoDeVooCtx.IdProcesso = indicador.IdProcesso;
-                                    planoDeVooCtx.GestaoDeRisco.StatusEtapa = 1;
+                                        planoDeVooCtx.GestaoDeRisco = metaRealizada.GestaoDeRisco;
+                                        planoDeVooCtx.GestaoDeRisco.TipoRegistro = "gr";
+                                        planoDeVooCtx.GestaoDeRisco.IdSite = indicador.IdSite;
+                                        planoDeVooCtx.GestaoDeRisco.IdUsuarioIncluiu = indicador.IdUsuarioIncluiu;
+                                        planoDeVooCtx.GestaoDeRisco.IdProcesso = indicador.IdProcesso;
+                                        planoDeVooCtx.GestaoDeRisco.IdUsuarioAlterou = indicador.IdUsuarioIncluiu;
+                                        planoDeVooCtx.GestaoDeRisco.IdEmissor = indicador.IdUsuarioIncluiu;
+                                        planoDeVooCtx.GestaoDeRisco.IdResponsavelInicarAcaoImediata = indicador.IdResponsavel;
+                                        planoDeVooCtx.IdProcesso = indicador.IdProcesso;
+                                        planoDeVooCtx.GestaoDeRisco.StatusEtapa = 1;
 
-                                    planoDeVooCtx.GestaoDeRisco = new RegistroConformidadesRepositorio().GerarNumeroSequencialPorSite(planoDeVooCtx.GestaoDeRisco);
+                                        planoDeVooCtx.GestaoDeRisco = new RegistroConformidadesRepositorio().GerarNumeroSequencialPorSite(planoDeVooCtx.GestaoDeRisco);
                                 }
                             }
                             //gestão de risco

@@ -225,27 +225,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
 
     var sentidoMeta = $('[name=formCriarIndicadorSentido]').val();
 
-    if (sentidoMeta == 1) {
-        if (total < totalRealizado) {
-            $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
-            $('#media-analise-resultado-icon').css('color', 'forestgreen');
-        }
-        else {
-            $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
-            $('#media-analise-resultado-icon').css('color', 'red');
-        }
-    }
-    else {
-        if (total > totalRealizado) {
-            $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
-            $('#media-analise-resultado-icon').css('color', 'red');
-        }
-        else {
-            $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
-            $('#media-analise-resultado-icon').css('color', 'forestgreen');
-        }
-    }
-
+   
     $('[name=MediaAnaliseResultado]').val(totalRealizado);
     var IdPeriodicidade = $('[name=IdPeriodicidade]').val();
     var url = '/Indicador/GerarPartialGestaoRisco?Periodicidade=' + IdPeriodicidade + '&mes=' + mes + '&idplanovoo=' + idPlanoVoo
@@ -273,9 +253,36 @@ function getAnaliseResultado(mes, idPlanoVoo) {
 
         APP.controller.IndicadorController.getTodosResponsaveisPorAcaoImediata();
 
-        $('.formGestaoDeRiscoRisco').select('false');
-        $('.formGestaoDeRiscoRisco').trigger('change');
+        if (sentidoMeta == 1) {
+            if (total < totalRealizado) {
+                $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
+                $('#media-analise-resultado-icon').css('color', 'forestgreen');
+                $('#form-gestao-de-risco-risco-nao').prop('checked', true).attr('checked', 'checked');
+                $('.formGestaoDeRiscoRisco').trigger('change');
+            }
+            else {
+                $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
+                $('#media-analise-resultado-icon').css('color', 'red');
+                $('#form-gestao-de-risco-risco-sim').prop('checked', true).attr('checked', 'checked');
+                $('.formGestaoDeRiscoRisco').trigger('change');
+            }
+        }
+        else {
+            if (total > totalRealizado) {
+                $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
+                $('#media-analise-resultado-icon').css('color', 'red');
+                $('#form-gestao-de-risco-risco-sim').prop('checked', true).attr('checked', 'checked');
+                $('.formGestaoDeRiscoRisco').trigger('change');
 
+            }
+            else {
+                $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
+                $('#media-analise-resultado-icon').css('color', 'forestgreen');
+                $('#form-gestao-de-risco-risco-nao').attr('checked', 'checked');
+                $('.formGestaoDeRiscoRisco').trigger('change');
+
+            }
+        }
 
     });
 }
@@ -342,10 +349,10 @@ APP.controller.IndicadorController = {
         this.buttonDelIndicadore.on('click', function () {
 
             var msgIconeDeleteIndicador = $('[name=msgIconeDeleteIndicador]').val();
-
+            var id = $(this).data("id-indicador");
             bootbox.confirm(msgIconeDeleteIndicador, function (result) {
                 if (result == true) {
-                    APP.controller.IndicadorController.setDelIndicador();
+                    APP.controller.IndicadorController.setDelIndicador(id);
                 }
             });
 
@@ -353,9 +360,7 @@ APP.controller.IndicadorController = {
 
     },
 
-    setDelIndicador: function () {
-
-        var idIndicador = $('.del-indicador').data("id-indicador");
+    setDelIndicador: function (idIndicador) {
         var data = {
             "Id": idIndicador,
             "__RequestVerificationToken": $("[name=__RequestVerificationToken]").val()
@@ -464,7 +469,7 @@ APP.controller.IndicadorController = {
         var idIndicador = $('[name=IdIndicador]').val();
 
         if (idIndicador > 0) {
-            var per = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+            var per = parseInt($('[name=formCriarIndicadorPeriodicidade] :selected').val());
 
             var months = $('[name^=formPlanoDeVooRealizado]');
             var icons = $('[name^=formGraphPlanoDeVooRealizado]');
@@ -755,6 +760,11 @@ APP.controller.IndicadorController = {
 
         var data = new Date();
         data = data.getMonth();
+        var ano = $('#form-criar-indicador-ano').val();
+        var datayear = new Date();
+        var year = datayear.getFullYear();
+
+        var boolYear = (ano < year);
 
         var meses = $('[name^=formPlanoDeVooRealizado]');
         var medicao = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
@@ -762,16 +772,19 @@ APP.controller.IndicadorController = {
         setDisabledMetaRealizado(meses, medicao);
 
         $('[name^=formPlanoDeVooRealizado]').each(function (e) {
-            if (e > data) {
-                $(this).prop('disabled', true);
+            if (!boolYear) {
+                if (e > data) {
+                    $(this).prop('disabled', true);
+                }    
             }
         });
 
         $('[name^=formGraphPlanoDeVooRealizado]').each(function (e) {
-            if (e > data) {
-                $(this).hide();
+            if (!boolYear) {
+                if (e > data) {
+                    $(this).hide();
+                }
             }
-
         });
     },
 
@@ -901,8 +914,7 @@ APP.controller.IndicadorController = {
     getJSONRelatorios: function (idIndicador) {
 
         var jsonRelatorioBarras = '';
-        if (!isNaN(idIndicador))
-        {
+        if (!isNaN(idIndicador)) {
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -1063,28 +1075,34 @@ APP.controller.IndicadorController = {
             var data = { "idIndicador": idIndicador };
 
             var per = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+            var perAnalise = parseInt($('[name=formCriarIndicadorPeriodicidade] :selected').val());
 
             var months = $('[name^=formPlanoDeVooRealizado]');
             var icons = $('[name^=formGraphPlanoDeVooRealizado]');
 
             //setPlanoDeVooDisabled(months, per);
-            setIconPlusPlanoDeVooDisabled(icons, per);
+            setIconPlusPlanoDeVooDisabled(icons, perAnalise);
+            APP.controller.IndicadorController.setDisableMes();
+            //var data = new Date();
+            //data = data.getMonth();
+            //var ano = $('#form-criar-indicador-ano').val();
+            //var datayear = new Date();
+            //var year = datayear.getFullYear();
 
-            var data = new Date();
-            data = data.getMonth();
+            //var boolYear = (ano < year);
+            //months.each(function (e) {
+               
+            //    if (e > data) {
+            //        $(this).prop('disabled', true);
+            //    }
+            //});
 
-            months.each(function (e) {
-                if (e > data) {
-                    $(this).prop('disabled', true);
-                }
-            });
+            //icons.each(function (e) {
+            //    if (e > data) {
+            //        $(this).hide();
+            //    }
 
-            icons.each(function (e) {
-                if (e > data) {
-                    $(this).hide();
-                }
-
-            });
+            //});
 
             $.ajax({
                 type: "POST",

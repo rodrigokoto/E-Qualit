@@ -11,7 +11,7 @@ namespace Dominio.Servico
     {
         private readonly IIndicadorRepostorio _indicadorRepositorio;
 
-        public IndicadorServico(IIndicadorRepostorio indicadorRepositorio) 
+        public IndicadorServico(IIndicadorRepostorio indicadorRepositorio)
         {
             _indicadorRepositorio = indicadorRepositorio;
         }
@@ -19,6 +19,21 @@ namespace Dominio.Servico
         public void Valido(Indicador indicador, ref List<string> erros)
         {
             var validacao = new AptoParaCadastroValidation().Validate(indicador);
+
+
+            foreach (var periodicidade in indicador.PeriodicidadeDeAnalises)
+            {
+                var per = periodicidade.MetasRealizadas.Where(x => x.Realizado > 0).ToList();
+
+                per = per.Where(x => x.Analise == null).ToList();
+                if (per.Count > 0)
+                {
+                    if (per.Where(x => x.GestaoDeRisco != null).ToList().Count > 0)
+                    {
+                        erros.Add("Preencha a descrição da análise de resultado.");
+                    }
+                }
+            }
 
             if (!validacao.IsValid)
             {
@@ -36,9 +51,10 @@ namespace Dominio.Servico
             return _indicadorRepositorio.Get(x => x.IdProcesso == idProcesso && x.Id == id);
         }
 
-        public void BateuAMeta(string seta,List<Meta> metas, List<PlanoVoo> realizado)
+        public void BateuAMeta(string seta, List<Meta> metas, List<PlanoVoo> realizado)
         {
-            metas.ForEach(x => {
+            metas.ForEach(x =>
+            {
 
                 var planodeVooRealizado = realizado.Where(r => r.IdPeriodicidadeAnalise == x.IdPeriodicidadeAnalise).FirstOrDefault();
 
@@ -56,6 +72,6 @@ namespace Dominio.Servico
                     }
                 }
             });
-        } 
+        }
     }
 }
