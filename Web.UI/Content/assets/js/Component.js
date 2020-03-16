@@ -1783,6 +1783,8 @@ APP.component.UserMenu = {
                         img = val.SiteLogoAux.ArquivoB64;
                     }
 
+                    document.cookie = "siteSelecionado=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
                     htmlSites += '<!-- Site - ' + val.NmFantasia + ' -->';
                     htmlSites += '<div class="col-md-2">';
                     htmlSites += '<div class="box-clientes">';

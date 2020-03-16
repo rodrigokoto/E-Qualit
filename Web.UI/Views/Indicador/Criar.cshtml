@@ -646,18 +646,16 @@
             @*<button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_destravar, "Destravar", "Indicador")</button>*@
             @if (Model.Id > 0)
             {
-                if (ViewBag.IdPerfil != 4)
-                {
 
-                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.Destravar) || ViewBag.IdPerfil != 4)
-                    {
-                        <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
-                    }
+                if (listaPermissoes.Any(x => (x.IdFuncao == (int)FuncoesIndicadores.Destravar) || x.IdFuncao == (int)FuncoesIndicadores.Editar || x.IdFuncao == (int)FuncoesIndicadores.Cadastrar) || ViewBag.IdPerfil != 4)
+                {
+                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
                 }
             }
 
+
             <button type="button" id="btn-imprimir" onclick="window.print()" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
-            @if (listaPermissoes.Where(x => funcoes.Any(y => y == x.IdFuncao)).Any() || ViewBag.IdPerfil != 4)
+            @if (listaPermissoes.Where(x => (x.IdFuncao == (int)FuncoesIndicadores.Editar || x.IdFuncao == (int)FuncoesIndicadores.Cadastrar) || funcoes.Any(y => y == x.IdFuncao)).Any() || ViewBag.IdPerfil != 4)
             {
                 <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
             }

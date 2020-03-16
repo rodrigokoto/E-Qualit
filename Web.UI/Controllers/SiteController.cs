@@ -182,11 +182,18 @@ namespace Web.UI.Controllers
 
                     HttpCookie cookie = Request.Cookies["siteSelecionado"];
 
+                    if (cookie == null)
+                    {
+                        cookie = new HttpCookie("siteSelecionado");
+                    }
+                  
                     cookie.Value = site.IdSite.ToString();
                     cookie.Expires = DateTime.Now.AddDays(1);
                     Response.Cookies.Add(cookie);
 
                     SetCookieClienteSelecionado(site.IdCliente);
+
+                    HttpCookie cookie1 = Request.Cookies["siteSelecionado"];
 
                     Session.Add("siteFrase", site.DsFrase);
 
