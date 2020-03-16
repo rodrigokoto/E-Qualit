@@ -42,11 +42,14 @@ namespace DAL.Repository
                                     planoDeVooCtx.GestaoDeRisco.IdEmissor = indicador.IdUsuarioIncluiu;
                                     planoDeVooCtx.IdProcesso = indicador.IdProcesso;
                                     planoDeVooCtx.GestaoDeRisco.StatusEtapa = 1;
+                                    planoDeVooCtx.GestaoDeRisco.EProcedente = true;
 
                                     context.Entry(planoDeVooCtx.GestaoDeRisco).State = EntityState.Modified;
                                 }
                                 else
                                 {
+                                    if (metaRealizada.GestaoDeRisco.DescricaoRegistro != null)
+                                    {
                                         planoDeVooCtx.GestaoDeRisco = metaRealizada.GestaoDeRisco;
                                         planoDeVooCtx.GestaoDeRisco.TipoRegistro = "gr";
                                         planoDeVooCtx.GestaoDeRisco.IdSite = indicador.IdSite;
@@ -57,8 +60,10 @@ namespace DAL.Repository
                                         planoDeVooCtx.GestaoDeRisco.IdResponsavelInicarAcaoImediata = indicador.IdResponsavel;
                                         planoDeVooCtx.IdProcesso = indicador.IdProcesso;
                                         planoDeVooCtx.GestaoDeRisco.StatusEtapa = 1;
+                                        planoDeVooCtx.GestaoDeRisco.EProcedente = true;
 
                                         planoDeVooCtx.GestaoDeRisco = new RegistroConformidadesRepositorio().GerarNumeroSequencialPorSite(planoDeVooCtx.GestaoDeRisco);
+                                    }
                                 }
                             }
                             //gestão de risco

@@ -1834,6 +1834,7 @@
     <Content Include="Scripts\flot\jquery.flot.time.js" />
     <Content Include="Scripts\flot\jquery.flot.time.min.js" />
     <Content Include="Scripts\Fornecedor.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Templates\AnaliseCriticaDataProximaAta-pt-BR.html" />
     <Content Include="Templates\GestaoRiscoReverificador-pt-BR.html" />
     <Content Include="Templates\GestaoRiscoImplementacao-pt-BR.html" />
