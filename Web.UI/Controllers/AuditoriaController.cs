@@ -12,6 +12,7 @@ using Web.UI.Helpers;
 namespace Web.UI.Controllers
 {
     [VerificaIntegridadeLogin]
+    [SitePossuiModulo(6)]
     public class AuditoriaController : BaseController
     {
         private readonly IPaiAppServico _paiAppServico;

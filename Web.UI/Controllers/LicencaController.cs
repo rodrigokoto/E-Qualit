@@ -17,6 +17,7 @@ using System.Data.Entity;
 namespace Web.UI.Controllers
 {
     [VerificaIntegridadeLogin]
+    [SitePossuiModulo(8)]
     public class LicencaController : BaseController
     {
 

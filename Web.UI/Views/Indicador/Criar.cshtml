@@ -647,7 +647,7 @@
             @if (Model.Id > 0)
             {
 
-                if (listaPermissoes.Exists(x => x.IdFuncao == (int)FuncoesIndicadores.Destravar))
+                if (listaPermissoes.Exists(x => x.IdFuncao == (int)FuncoesIndicadores.Destravar || ViewBag.IdPerfil != 4))
                 {
                     <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
                 }

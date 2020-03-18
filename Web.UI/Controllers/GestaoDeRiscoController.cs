@@ -20,6 +20,7 @@ namespace Web.UI.Controllers
 {
     //[ProcessoSelecionado]
     [VerificaIntegridadeLogin]
+    [SitePossuiModulo(11)]
     public class GestaoDeRiscoController : BaseController
     {
         private readonly IAnaliseCriticaTemaAppServico _analiseCriticaTemaAppServico;

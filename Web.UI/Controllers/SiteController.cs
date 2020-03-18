@@ -299,6 +299,10 @@ namespace Web.UI.Controllers
         {
             HttpCookie cookie = Request.Cookies["clienteSelecionado"];
 
+            if (cookie == null)
+            {
+                cookie = new HttpCookie("clienteSelecionado");
+            }
 
             cookie.Value = idCliente.ToString();
 
