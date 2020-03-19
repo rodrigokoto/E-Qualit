@@ -72,7 +72,8 @@ namespace Web.UI.Controllers
 
                     foreach (var norma in plai.PlaiProcessoNorma)
                     {
-                        norma.NomeProcesso = norma.Processo.Nome;
+                        if (norma.Processo != null)
+                            norma.NomeProcesso = norma.Processo.Nome;
                     }
 
                 });

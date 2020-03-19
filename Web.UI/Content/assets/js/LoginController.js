@@ -278,6 +278,8 @@ APP.controller.LoginController = {
 
     saveFormLogin: function (loginObj) {
 
+        document.cookie = "siteModulos=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
         $.ajax({
             type: "GET",
             data: loginObj,
