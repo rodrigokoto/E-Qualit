@@ -12,6 +12,7 @@ using Web.UI.Helpers;
 namespace Web.UI.Controllers
 {
     [VerificaIntegridadeLogin]
+    [SitePossuiModulo(6)]
     public class AuditoriaController : BaseController
     {
         private readonly IPaiAppServico _paiAppServico;
@@ -71,7 +72,8 @@ namespace Web.UI.Controllers
 
                     foreach (var norma in plai.PlaiProcessoNorma)
                     {
-                        norma.NomeProcesso = norma.Processo.Nome;
+                        if (norma.Processo != null)
+                            norma.NomeProcesso = norma.Processo.Nome;
                     }
 
                 });

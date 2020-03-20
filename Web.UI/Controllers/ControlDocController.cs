@@ -22,6 +22,7 @@ namespace Web.UI.Controllers
     //[SitePossuiModulo((int)Funcionalidades.ControlDoc)]
     //[ProcessoSelecionado]
     [VerificaIntegridadeLogin]
+    [SitePossuiModulo(2)]
     public class ControlDocController : BaseController
     {
         private int _funcaoImprimir = 8;

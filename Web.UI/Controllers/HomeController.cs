@@ -87,7 +87,7 @@ namespace Web.UI.Controllers
                 EscolheSite(sitesUsuario.FirstOrDefault().Site);
 
                 listaProcessos.AddRange(_processoAppServico.ListaProcessosPorUsuario(idUsuario));
-                ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidasPorSite(idSite);
+                ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidas(idUsuario);
 
             }
 
@@ -138,12 +138,12 @@ namespace Web.UI.Controllers
 
         public ActionResult BloqueioModulo()
         {
-            return View();
+            return View("BloqueioModulo");
         }
 
         public ActionResult BloqueioProcesso()
         {
-            return View();
+            return View("BloqueioProcesso");
         }
 
         public bool EAdministrador()

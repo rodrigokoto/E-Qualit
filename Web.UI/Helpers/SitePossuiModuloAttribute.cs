@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Linq;
+using DAL.Repository;
 
 namespace Web.UI.Helpers
 {
@@ -20,9 +21,14 @@ namespace Web.UI.Helpers
             {
                 var idSiteSelecionado = Util.ObterSiteSelecionado();
 
-                var sitesModulos = Util.ObterSiteModuloSelecionado();
 
-                var total = sitesModulos.Where(x => x.IdSite == idSiteSelecionado && x.IdFuncionalidade == _idModulo).Count();
+                SiteModuloRepositorio repo = new SiteModuloRepositorio();
+
+                var sitesModulos1 = repo.GetAll();
+
+                //var sitesModulos = Util.ObterSiteModuloSelecionado();
+
+                var total = sitesModulos1.Where(x => x.IdSite == idSiteSelecionado && x.IdFuncionalidade == _idModulo).Count();
 
                 if (total > 0)
                 {
@@ -31,7 +37,7 @@ namespace Web.UI.Helpers
 
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

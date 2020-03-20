@@ -17,6 +17,7 @@ namespace Web.UI.Controllers
 {
     //[ProcessoSelecionado]
     [VerificaIntegridadeLogin]
+    [SitePossuiModulo(5)]
     public class IndicadorController : BaseController
     {
 

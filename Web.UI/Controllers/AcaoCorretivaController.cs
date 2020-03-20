@@ -19,6 +19,7 @@ namespace Web.UI.Controllers
 {
     //[ProcessoSelecionado]
     [VerificaIntegridadeLogin]
+    [SitePossuiModulo(4)]
     public class AcaoCorretivaController : BaseController
     {
         private readonly IRegistroConformidadesAppServico _registroConformidadesAppServico;

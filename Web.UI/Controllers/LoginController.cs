@@ -482,8 +482,8 @@ namespace Web.UI.Controllers
                 Expires = DateTime.Now.AddDays(1)
             };
 
-
             Response.Cookies.Add(siteModulo);
+            //Response.Cookies.Add(modulo);
 
         }
 

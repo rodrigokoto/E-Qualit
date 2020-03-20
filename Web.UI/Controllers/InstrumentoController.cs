@@ -15,6 +15,7 @@ using System.Linq;
 namespace Web.UI.Controllers
 {    
     [VerificaIntegridadeLogin]
+    [SitePossuiModulo(9)]
     public class InstrumentoController : BaseController
     {
         private readonly IInstrumentoAppServico _instrumentoAppServico;
