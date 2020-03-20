@@ -88,11 +88,20 @@ namespace Traducao.Indicador {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Média.
+        ///   Looks up a localized string similar to Média Realizada.
         /// </summary>
         public static string Indicador_lbl_media {
             get {
                 return ResourceManager.GetString("Indicador_lbl_media", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Media Planoo de Voo.
+        /// </summary>
+        public static string Indicador_lbl_mediaPlano {
+            get {
+                return ResourceManager.GetString("Indicador_lbl_mediaPlano", resourceCulture);
             }
         }
         

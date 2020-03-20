@@ -288,7 +288,7 @@ namespace Web.UI.Controllers
                     {
                         foreach (var periodicidade in indicador.PeriodicidadeDeAnalises)
                         {
-                            periodicidade.PlanoDeVoo = periodicidade.PlanoDeVoo.Where(x => x.Valor > 0).ToList();
+                            //periodicidade.PlanoDeVoo = periodicidade.PlanoDeVoo.Where(x => x.Valor > 0).ToList();
 
 
                             foreach (var plano in periodicidade.PlanoDeVoo)

@@ -225,7 +225,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
 
     var sentidoMeta = $('[name=formCriarIndicadorSentido]').val();
 
-   
+
     $('[name=MediaAnaliseResultado]').val(totalRealizado);
     var IdPeriodicidade = $('[name=IdPeriodicidade]').val();
     var url = '/Indicador/GerarPartialGestaoRisco?Periodicidade=' + IdPeriodicidade + '&mes=' + mes + '&idplanovoo=' + idPlanoVoo
@@ -268,7 +268,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
             }
         }
         else {
-            if (total > totalRealizado) {
+            if (total < totalRealizado) {
                 $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
                 $('#media-analise-resultado-icon').css('color', 'red');
                 $('#form-gestao-de-risco-risco-sim').prop('checked', true).attr('checked', 'checked');
@@ -428,15 +428,16 @@ APP.controller.IndicadorController = {
             this.HabilitaCamposIndicador(perfil);
         }
 
-        $('[name^=formPlanoDeVooMeta]').each(function (i) {
+        //$('[name^=formPlanoDeVooMeta]').each(function (i) {
 
-            var valor = $(this).val();
+        //    var valor = $(this).val();
 
-            if (valor === "0") {
-                $(this).val('');
-            }
+        //    if (valor === "0") {
+        //        $(this).val('');
+        //    }
 
-        });
+
+        //});
 
 
     },
@@ -775,7 +776,7 @@ APP.controller.IndicadorController = {
             if (!boolYear) {
                 if (e > data) {
                     $(this).prop('disabled', true);
-                }    
+                }
             }
         });
 
@@ -1091,7 +1092,7 @@ APP.controller.IndicadorController = {
 
             //var boolYear = (ano < year);
             //months.each(function (e) {
-               
+
             //    if (e > data) {
             //        $(this).prop('disabled', true);
             //    }
