@@ -10481,6 +10481,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1.1.0.1.
+        /// </summary>
+        public static string Versao {
+            get {
+                return ResourceManager.GetString("Versao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Visualizar.
         /// </summary>
         public static string Visualizar {

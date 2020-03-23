@@ -103,27 +103,27 @@
                         <!-- Captcha -->
                         <div class="form-group captcha">
                             @*@if (Model != null)
-                                {
-                                    if (Model.FlTemCaptcha)
-                                    {
+            {
+                if (Model.FlTemCaptcha)
+                {
 
-                                        <div class="input-group">
-                                            <div class="g-recaptcha" data-sitekey="6Le38m8UAAAAAM2t-B4wAoLaTcOaXIwYM1shs90s" data-callback="recaptchaCallback">
-                                            </div>
-                                            <input type="hidden" id="hiddenRecaptcha" name="hiddenRecaptcha" class="hiddenRecaptcha required"
-                                                   data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Recaptcha">
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="input-group">
-                                        <div class="g-recaptcha" data-sitekey="6Le38m8UAAAAAM2t-B4wAoLaTcOaXIwYM1shs90s" data-callback="recaptchaCallback">
-                                        </div>
-                                        <input type="hidden" id="hiddenRecaptcha" name="hiddenRecaptcha" class="hiddenRecaptcha required"
-                                               data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Recaptcha">
-                                    </div>
-                                }*@
+                    <div class="input-group">
+                        <div class="g-recaptcha" data-sitekey="6Le38m8UAAAAAM2t-B4wAoLaTcOaXIwYM1shs90s" data-callback="recaptchaCallback">
+                        </div>
+                        <input type="hidden" id="hiddenRecaptcha" name="hiddenRecaptcha" class="hiddenRecaptcha required"
+                               data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Recaptcha">
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="input-group">
+                    <div class="g-recaptcha" data-sitekey="6Le38m8UAAAAAM2t-B4wAoLaTcOaXIwYM1shs90s" data-callback="recaptchaCallback">
+                    </div>
+                    <input type="hidden" id="hiddenRecaptcha" name="hiddenRecaptcha" class="hiddenRecaptcha required"
+                           data-msg-required="@Traducao.Login.ResourceLogin.Login_msg_required_Recaptcha">
+                </div>
+            }*@
                         </div>
 
                         <div class="bg-btn">
@@ -133,10 +133,9 @@
                             <a href="@Url.Action("RecuperarSenha", "Login")">@Traducao.Resource.login_esqueci_senha_lbl</a>
                         </div>
                         <div role="separator" class="divider"></div>
-                        @*<ul class=" menu-login nav nav-pills">
-                            <li><a href="http://www.equalit.com.br/site" target="_blank">@Traducao.Resource.SaibaMais</a></li>
-                            <li><a href="mailto:faleconosco@equalit.com.br">@Traducao.Resource.FaleConosco</a></li>
-                        </ul>*@
+                        <ul class=" menu-login nav nav-pills">
+                            <li>@Traducao.Resource.Versao</li>
+                        </ul>
                         <div>
                         </div>
                     </div>
