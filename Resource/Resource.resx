@@ -3646,4 +3646,7 @@ www.e-qualit.com.br
   <data name="Msg_PeriodicidadeMedicao" xml:space="preserve">
     <value>Periodicidade Medição é obrigatório.</value>
   </data>
+  <data name="Versao" xml:space="preserve">
+    <value>1.0.0</value>
+  </data>
 </root>
