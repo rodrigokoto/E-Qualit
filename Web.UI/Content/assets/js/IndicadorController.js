@@ -172,17 +172,23 @@ function getAnaliseResultado(mes, idPlanoVoo) {
     var meses = $('[name^=formPlanoDeVoo]');
     var mesesRealizados = $('[name^=formPlanoDeVooRealizado]');
 
-    var per = parseInt($('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').val());
+    var per = parseInt($('[name=formCriarIndicadorPeriodicidade] :selected').val());
 
     $('#panel-dashboard').removeClass('hidden');
     $('[name=getMonth]').val(mes);
 
-
     var media = 0;
     var mediaRealizada = 0;
     var counter = 0;
+    var val1 = 0;
+    var val2 = 0;
     var multiplicador = 0;
     meses.each(function (e) {
+        if (per == 1) {
+            if ((e + 1) == mes) {
+                val1 = parseInt(this.value);
+            }
+        }
         if ((e + 1) <= mes) {
             if (!isNaN(parseInt(this.value))) {
                 media = media + parseInt(this.value);
@@ -192,6 +198,11 @@ function getAnaliseResultado(mes, idPlanoVoo) {
     });
 
     mesesRealizados.each(function (e) {
+        if (per == 1) {
+            if ((e + 1) == mes) {
+                val2 = parseInt(this.value);
+            }
+        }
         if ((e + 1) <= mes) {
             if (!isNaN(parseInt(this.value))) {
                 mediaRealizada = mediaRealizada + parseInt(this.value);
@@ -220,13 +231,25 @@ function getAnaliseResultado(mes, idPlanoVoo) {
             break;
     }
 
+
     var total = media / multiplicador;
     var totalRealizado = mediaRealizada / multiplicador;
 
     var sentidoMeta = $('[name=formCriarIndicadorSentido]').val();
+    
 
+    if (per == 1) {
+        $('[name=MediaAnaliseResultadoMeta]').val(val1);
+    } else {
+        $('[name=MediaAnaliseResultadoMeta]').val(total);
+    }
 
-    $('[name=MediaAnaliseResultado]').val(totalRealizado);
+    if (per == 1) {
+        $('[name=MediaAnaliseResultado]').val(val2);
+    } else {
+        $('[name=MediaAnaliseResultado]').val(totalRealizado);
+    }
+    
     var IdPeriodicidade = $('[name=IdPeriodicidade]').val();
     var url = '/Indicador/GerarPartialGestaoRisco?Periodicidade=' + IdPeriodicidade + '&mes=' + mes + '&idplanovoo=' + idPlanoVoo
     var grDiv = $('#content-gr');

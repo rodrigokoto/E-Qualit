@@ -97,7 +97,7 @@ namespace Traducao.Indicador {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Media Planoo de Voo.
+        ///   Looks up a localized string similar to Média Plano de Vôo.
         /// </summary>
         public static string Indicador_lbl_mediaPlano {
             get {
