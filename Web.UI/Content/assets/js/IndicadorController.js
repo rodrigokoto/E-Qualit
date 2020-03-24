@@ -326,7 +326,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
         APP.controller.IndicadorController.getTodosResponsaveisPorAcaoImediata();
 
         if (sentidoMeta == 1) {
-            if (total < totalRealizado) {
+            if (total <= totalRealizado) {
                 $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
                 $('#media-analise-resultado-icon').css('color', 'forestgreen');
                 $('#form-gestao-de-risco-risco-nao').prop('checked', true).attr('checked', 'checked');
@@ -340,7 +340,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
             }
         }
         else {
-            if (total < totalRealizado) {
+            if (total <= totalRealizado) {
                 $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
                 $('#media-analise-resultado-icon').css('color', 'red');
                 $('#form-gestao-de-risco-risco-sim').prop('checked', true).attr('checked', 'checked');

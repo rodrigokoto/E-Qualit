@@ -140,8 +140,11 @@ namespace Web.UI.Controllers
                         ind.IdResponsavel = indicador.IdResponsavel;
                         ind.PeriodicidadeMedicao = indicador.PeriodicidadeMedicao;
                         ind.Periodicidade = indicador.Periodicidade;
-
+                        ind.Direcao = indicador.Direcao;
+                        ind.Ano = indicador.Ano;
+                        
                         _indicadorAppServico.Update(ind);
+                        
                     }
                 }
                 else
