@@ -189,12 +189,37 @@ function getAnaliseResultado(mes, idPlanoVoo) {
                 val1 = parseInt(this.value);
             }
         }
-        if ((e + 1) <= mes) {
-            if (!isNaN(parseInt(this.value))) {
-                media = media + parseInt(this.value);
-                counter++;
+        if (per == 2) {
+            if ((e + 1) >= (mes - 1) && (e + 1) <= mes) {
+                if (!isNaN(parseInt(this.value))) {
+                    media = media + parseInt(this.value);
+                }
             }
         }
+        if (per == 3) {
+            if ((e + 1) >= (mes - 2) && (e + 1) <= mes) {
+                if (!isNaN(parseInt(this.value))) {
+                    media = media + parseInt(this.value);
+                }
+            }
+        }
+        if (per == 4) {
+            if ((e + 1) >= (mes - 5) && (e + 1) <= mes) {
+                if (!isNaN(parseInt(this.value))) {
+                    media = media + parseInt(this.value);
+                }
+            }
+        }
+        if (per == 5) {
+            if ((e + 1) >= (mes - 11) && (e + 1) <= mes) {
+                if (!isNaN(parseInt(this.value))) {
+                    media = media + parseInt(this.value);
+                }
+            }
+        }
+
+
+
     });
 
     mesesRealizados.each(function (e) {
@@ -203,9 +228,33 @@ function getAnaliseResultado(mes, idPlanoVoo) {
                 val2 = parseInt(this.value);
             }
         }
-        if ((e + 1) <= mes) {
-            if (!isNaN(parseInt(this.value))) {
-                mediaRealizada = mediaRealizada + parseInt(this.value);
+        if (per == 2) {
+            if ((e + 1) >= (mes - 1) && (e + 1) <= mes) {
+                if (!isNaN(parseInt(this.value))) {
+                    mediaRealizada = mediaRealizada + parseInt(this.value);
+                }
+            }
+        }
+        if (per == 3)
+        {
+            if ((e + 1) >= (mes - 2) && (e + 1) <= mes) {
+                if (!isNaN(parseInt(this.value))) {
+                    mediaRealizada = mediaRealizada + parseInt(this.value);
+                }
+            }
+        }
+        if (per == 4) {
+            if ((e + 1) >= (mes - 5) && (e + 1) <= mes) {
+                if (!isNaN(parseInt(this.value))) {
+                    mediaRealizada = mediaRealizada + parseInt(this.value);
+                }
+            }
+        }
+        if (per == 5) {
+            if ((e + 1) >= (mes - 11) && (e + 1) <= mes) {
+                if (!isNaN(parseInt(this.value))) {
+                    mediaRealizada = mediaRealizada + parseInt(this.value);
+                }
             }
         }
     });
