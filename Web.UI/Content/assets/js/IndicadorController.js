@@ -39,7 +39,6 @@ function setPlanoDeVooDisabled() {
             break;
         case 2:
             per.append('<option value="2">Bimestral</option>');
-            per.append('<option value="3">Trimestral</option>');
             per.append('<option value="4">Semestral</option>');
             per.append('<option value="5">Anual</option>');
             break;
@@ -327,12 +326,14 @@ function getAnaliseResultado(mes, idPlanoVoo) {
 
         if (sentidoMeta == 1) {
             if (total <= totalRealizado) {
+                $('#media-analise-resultado-icon').removeClass('fa fa-times-circle');
                 $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
                 $('#media-analise-resultado-icon').css('color', 'forestgreen');
                 $('#form-gestao-de-risco-risco-nao').prop('checked', true).attr('checked', 'checked');
                 $('.formGestaoDeRiscoRisco').trigger('change');
             }
             else {
+                $('#media-analise-resultado-icon').removeClass('fa fa-check-circle');
                 $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
                 $('#media-analise-resultado-icon').css('color', 'red');
                 $('#form-gestao-de-risco-risco-sim').prop('checked', true).attr('checked', 'checked');
@@ -340,7 +341,8 @@ function getAnaliseResultado(mes, idPlanoVoo) {
             }
         }
         else {
-            if (total <= totalRealizado) {
+            if (total < totalRealizado) {
+                $('#media-analise-resultado-icon').removeClass('fa fa-check-circle');
                 $('#media-analise-resultado-icon').addClass('fa fa-times-circle');
                 $('#media-analise-resultado-icon').css('color', 'red');
                 $('#form-gestao-de-risco-risco-sim').prop('checked', true).attr('checked', 'checked');
@@ -348,6 +350,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
 
             }
             else {
+                $('#media-analise-resultado-icon').removeClass('fa fa-times-circle');
                 $('#media-analise-resultado-icon').addClass('fa fa-check-circle');
                 $('#media-analise-resultado-icon').css('color', 'forestgreen');
                 $('#form-gestao-de-risco-risco-nao').attr('checked', 'checked');
