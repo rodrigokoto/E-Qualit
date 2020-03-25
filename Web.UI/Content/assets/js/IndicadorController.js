@@ -179,13 +179,11 @@ function getAnaliseResultado(mes, idPlanoVoo) {
     var media = 0;
     var mediaRealizada = 0;
     var counter = 0;
-    var val1 = 0;
-    var val2 = 0;
     var multiplicador = 0;
     meses.each(function (e) {
         if (per == 1) {
             if ((e + 1) == mes) {
-                val1 = parseInt(this.value);
+                media = parseInt(this.value);
             }
         }
         if (per == 2) {
@@ -224,7 +222,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
     mesesRealizados.each(function (e) {
         if (per == 1) {
             if ((e + 1) == mes) {
-                val2 = parseInt(this.value);
+                mediaRealizada = parseInt(this.value);
             }
         }
         if (per == 2) {
@@ -260,7 +258,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
 
     switch (per) {
         case 1:
-            multiplicador = counter;
+            multiplicador = 1;
             break;
         case 2:
             multiplicador = 2;
@@ -287,13 +285,13 @@ function getAnaliseResultado(mes, idPlanoVoo) {
     
 
     if (per == 1) {
-        $('[name=MediaAnaliseResultadoMeta]').val(val1);
+        $('[name=MediaAnaliseResultadoMeta]').val(total);
     } else {
         $('[name=MediaAnaliseResultadoMeta]').val(total);
     }
 
     if (per == 1) {
-        $('[name=MediaAnaliseResultado]').val(val2);
+        $('[name=MediaAnaliseResultado]').val(totalRealizado);
     } else {
         $('[name=MediaAnaliseResultado]').val(totalRealizado);
     }
