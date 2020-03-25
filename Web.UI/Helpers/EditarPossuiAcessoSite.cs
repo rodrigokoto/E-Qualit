@@ -12,6 +12,7 @@ namespace Web.UI.Helpers
     {
 
         private readonly IUsuarioClienteSiteRepositorio _usuarioClienteSiteRepositorio = new UsuarioClienteSiteRepositorio();
+   
 
         public EditarPossuiAcessoSite()
         {
@@ -22,8 +23,38 @@ namespace Web.UI.Helpers
 
             var httpContext = filterContext.RequestContext.HttpContext;
             var request = httpContext.Request;
+            var router = request.RequestContext.RouteData;
+            string action = router.GetRequiredString("action");
+            string controller = router.GetRequiredString("controller");
+            var idSite = 0;
+            var id = 0;
+            if (action == "Editar")
+            {
+                switch (controller)
+                {
+                    case "AnaliseCritica":
+                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                        break;
+                    case "ControlDoc":
+                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                        break;
+                    case "Instrumento":
+                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                        break;
+                    case "GestaoDeRisco":
+                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                        break;
+                    case "Licenca":
+                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
 
-            base.OnAuthorization(filterContext);
+            //ilterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
@@ -47,7 +78,7 @@ namespace Web.UI.Helpers
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Result = new RedirectResult("/Home/BloqueioModulo");
+            filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
         }
     }
 }

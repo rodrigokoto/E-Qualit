@@ -3649,4 +3649,7 @@ www.e-qualit.com.br
   <data name="Versao" xml:space="preserve">
     <value>1.2.01</value>
   </data>
+  <data name="ContatoAdmUnauthorized" xml:space="preserve">
+    <value>Não autorizado ,entre em contato com o administrador</value>
+  </data>
 </root>

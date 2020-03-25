@@ -145,6 +145,10 @@ namespace Web.UI.Controllers
         {
             return View("BloqueioProcesso");
         }
+        public ActionResult BloqueioUnauthorized()
+        {
+            return View("BloqueioUnauthorized");
+        }
 
         public bool EAdministrador()
         {
