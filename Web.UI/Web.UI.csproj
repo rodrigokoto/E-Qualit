@@ -233,6 +233,7 @@
     <Compile Include="Helpers\AcessoCliente.cs" />
     <Compile Include="Helpers\AcessoUsuarioSite.cs" />
     <Compile Include="Helpers\CriptografarSenhas.cs" />
+    <Compile Include="Helpers\EditarPossuiAcessoSite.cs" />
     <Compile Include="Helpers\SitePossuiModuloAttribute.cs" />
     <Compile Include="Helpers\ProcessoSelecionadoAttribute.cs" />
     <Compile Include="Helpers\AutorizacaoUsuarioAttribute.cs" />
