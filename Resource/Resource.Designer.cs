@@ -7835,6 +7835,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Não Autorizado..
+        /// </summary>
+        public static string NaoAutorizado {
+            get {
+                return ResourceManager.GetString("NaoAutorizado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Não Conformidade.
         /// </summary>
         public static string NaoConformidade {
@@ -10490,7 +10499,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.2.01.
+        ///   Looks up a localized string similar to 1.2.02.
         /// </summary>
         public static string Versao {
             get {
