@@ -185,12 +185,16 @@ namespace Web.UI.Controllers
                 {
 
                     var idCliente = Util.ObterClienteSelecionado();
+                    
+
                     var DtVencimento = DateTime.Now.AddDays(-1);
+
 
                     if (idSite != 0)
                     {
                         var licenca = (from lc in db.Licenca
-                                       where lc.DataVencimento.Value < DtVencimento && lc.Idcliente == idCliente
+                                       where lc.DataVencimento.Value < DtVencimento && lc.Idcliente == idCliente && lc.Idcliente == idCliente
+
                                        select new PendenciaViewModel
                                        {
                                            Id = lc.IdLicenca,
@@ -204,7 +208,8 @@ namespace Web.UI.Controllers
                         var indicadores = (from ind in db.Indicador
                                            join per in db.PeriodicidaDeAnalise on ind.Id equals per.IdIndicador
                                            join meta in db.PlanoVoo on per.Id equals meta.IdPeriodicidadeAnalise
-                                           where meta.DataReferencia < DateTime.Now && meta.Realizado == null
+                                           where meta.DataReferencia < DateTime.Now && meta.Realizado == null && ind.IdSite == idSite
+
                                            select new PendenciaViewModel
                                            {
                                                Id = ind.Id,
