@@ -3,6 +3,7 @@ using Dominio.Entidade;
 using Dominio.Interface.Repositorio;
 using System;
 using System.Data.Entity;
+using System.Linq;
 
 namespace DAL.Repository
 {
@@ -22,7 +23,18 @@ namespace DAL.Repository
                         if (planoDeVooCtx.IdGestaoRisco != null)
                             planoDeVooCtx.GestaoDeRisco = context.Set<RegistroConformidade>().Find(planoDeVooCtx.IdGestaoRisco);
 
+                        foreach (var periodicidade in indicador.PeriodicidadeDeAnalises)
+                        {
+                            foreach (var pv in periodicidade.PlanoDeVoo)
+                            {
+                                planoDeVooCtx.PeriodicidadeAnalise.PlanoDeVoo.Where(x => x.DataReferencia == pv.DataReferencia).First().Valor = pv.Valor;
+                            }
+                            
+                        }
+                        
+
                         planoDeVooCtx.Analise = metaRealizada.Analise;
+
 
                         if (metaRealizada.Realizado != null)
                         {

@@ -29,6 +29,7 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
 
+
         public IndicadorController(IIndicadorAppServico indicadorAppServico,
                                    ILogAppServico logAppServico,
                                    IIndicadorServico indicadorServico,
@@ -111,6 +112,20 @@ namespace Web.UI.Controllers
 
                     var metasRealizadas = periodicidadeDeAnalises.MetasRealizadas;
 
+                    var periodicidadeObj = _indicadorAppServico.GetById(indicador.Id);
+
+                    if (periodicidadeObj != null)
+                    {
+                        foreach (var item in periodicidadeObj.PeriodicidadeDeAnalises)
+                        {
+                            var analise = item.MetasRealizadas.Where(x => x.Analise != null).ToList();
+
+                            foreach (var meta in analise)
+                            {
+                                metasRealizadas.Where(x => x.Id == meta.Id).First().Analise = meta.Analise;
+                            }
+                        }
+                    }
 
                     metasRealizadas.ForEach(metaRealizada => metaRealizada.IdPeriodicidadeAnalise = periodicidadeDeAnalises.Id);
                     periodicidadeDeAnalises.MetasRealizadas = metasRealizadas;
@@ -142,9 +157,10 @@ namespace Web.UI.Controllers
                         ind.Periodicidade = indicador.Periodicidade;
                         ind.Direcao = indicador.Direcao;
                         ind.Ano = indicador.Ano;
-                        
+                        ind.MetaAnual = indicador.MetaAnual;
+
                         _indicadorAppServico.Update(ind);
-                        
+
                     }
                 }
                 else
@@ -342,7 +358,7 @@ namespace Web.UI.Controllers
                     }
                 }
 
-              
+
 
                 return Json(new { StatusCode = 200, Indicadores = indicadores }, JsonRequestBehavior.AllowGet);
             }

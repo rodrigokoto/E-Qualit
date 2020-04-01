@@ -694,8 +694,17 @@ APP.controller.IndicadorController = {
         $('[name^=formPlanoDeVooRealizado]').each(function (i) {
             var idCkEditor = $('[name=formGestaoDeRiscoDescricao]').attr('id');
             var dataref = APP.controller.IndicadorController.getDataProMes(i);
+
+            var d = new Date(dataref);
+
+            var dYear = d.getFullYear();
+
             var dtAtual = new Date();
             var ano = dtAtual.getFullYear()
+
+            if (dYear == (ano - 1)) {
+                ano = (ano - 1);
+            }
 
             var mes = $('input[name=getMonth]').val();
             var mes = '01/' + mes + '/' + ano;
@@ -1246,14 +1255,15 @@ APP.controller.IndicadorController = {
 
             var divContext = $(element).closest('[name=GestaoDeRisco]');
 
-            var corRisco = divContext.find('[name=formGestaoDeRiscoCriticidadeCor]').val();
-            var lastCores = divContext.find("[data-rating-value='" + corRisco + "']").last().index();
+            var corRisco = $('[name=formGestaoDeRiscoCriticidadeCor]').val();
+            var lastCores = $("[data-rating-value='" + corRisco + "']").last().index();
             for (i = 0; i <= lastCores; i++) {
-                $(divContext.find('.br-theme-bars-1to10').find('.br-widget a')[i]).addClass('br-selected');
+                $($('.br-theme-bars-1to10').find('.br-widget a')[i]).addClass('br-selected');
             }
-            $(divContext.find('.br-theme-bars-1to10').find('.br-widget a')[lastCores]).trigger("click");
-            divContext.find('.br-theme-bars-1to10').find("[data-rating-value='" + corRisco + "']").addClass('br-current');
-            $('.br-widget').addClass('barRating-disabled');
+            $($('.br-theme-bars-1to10').find('.br-widget a')[lastCores]).trigger("click");
+            $('.br-theme-bars-1to10').find("[data-rating-value='" + corRisco + "']").addClass('br-current');
+            var widget = $('.br-widget');
+            widget.addClass('barRating-disabled');
         });
     },
 
@@ -1365,12 +1375,14 @@ APP.controller.IndicadorController = {
             $('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").show();
             $('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").show();
             $('[name=formGestaoDeRiscoCriticidade]').closest("[class^=col]").show();
+            $('[name=formGestaoDeRiscoCausa]').closest("[class^=col]").show();
             $('.br-widget').removeClass('barRating-disabled');
         } else {
             $('[name=formGestaoDeRiscoResponsavelDefinicao]').closest("[class^=col]").hide();
             $('[name=formGestaoDeRiscoNumero]').closest("[class^=col]").hide();
             $('[name=formGestaoDeRiscoIdentificacao]').closest("[class^=col]").hide();
             $('[name=formGestaoDeRiscoCriticidade]').closest("[class^=col]").hide();
+            $('[name=formGestaoDeRiscoCausa]').closest("[class^=col]").hide();
             $('.br-widget').addClass('barRating-disabled');
         }
 
