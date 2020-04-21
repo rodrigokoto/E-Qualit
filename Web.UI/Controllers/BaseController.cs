@@ -222,6 +222,7 @@ namespace Web.UI.Controllers
                         Dictionary<int, bool> queryIndicadores = new Dictionary<int, bool>();
 
                         var indicadores1 = (from ind in db.Indicador
+                                            where ind.IdSite == idSite
                                             select ind).ToList();
                         List<PendenciaViewModel> lstPendencia = new List<PendenciaViewModel>();
 

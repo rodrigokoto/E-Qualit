@@ -122,7 +122,11 @@ namespace Web.UI.Controllers
 
                             foreach (var meta in analise)
                             {
-                                metasRealizadas.Where(x => x.Id == meta.Id).First().Analise = meta.Analise;
+                                var teste = metasRealizadas.Where(x => x.Id == meta.Id).First();
+
+                                if (teste.Analise == null) {
+                                    metasRealizadas.Where(x => x.Id == meta.Id).First().Analise = meta.Analise;
+                                }
                             }
                         }
                     }

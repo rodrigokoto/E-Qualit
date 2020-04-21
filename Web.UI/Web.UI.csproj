@@ -211,6 +211,7 @@
     <Compile Include="Controllers\InstrumentoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\GestaoMelhoriaController.cs" />
+    <Compile Include="Controllers\MigracaoController.cs" />
     <Compile Include="Controllers\NaoConformidadeController.cs" />
     <Compile Include="Controllers\NormaController.cs" />
     <Compile Include="Controllers\NotificacaoController.cs" />
@@ -2009,6 +2010,7 @@
     <Folder Include="Content\ImagensCkEditor\" />
     <Folder Include="fonts\" />
     <Folder Include="Log\" />
+    <Folder Include="Views\Migracao\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
