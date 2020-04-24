@@ -18,6 +18,7 @@ namespace Web.UI.Controllers
 {
     [VerificaIntegridadeLogin]
     [SitePossuiModulo(8)]
+    [ValidaUsuario]
     public class LicencaController : BaseController
     {
 

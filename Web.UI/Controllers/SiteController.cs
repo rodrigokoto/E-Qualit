@@ -18,6 +18,7 @@ using System.Data.Entity.Infrastructure;
 namespace Web.UI.Controllers
 {
     [VerificaIntegridadeLogin]
+    [ValidaUsuario]
     public class SiteController : BaseController
     {
         public readonly ISiteAppServico _siteAppServico;
