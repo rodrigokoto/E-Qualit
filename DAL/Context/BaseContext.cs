@@ -3,6 +3,7 @@ using DAL.EntityConfig.RH;
 using Dominio.Entidade;
 using Dominio.Entidade.RH;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace DAL.Context
@@ -13,6 +14,7 @@ namespace DAL.Context
         {
             Database.SetInitializer<BaseContext>(null);
 
+            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
         }
 
         public DbSet<RegistroConformidade> RegistroConformidade { get; set; }
