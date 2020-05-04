@@ -33,76 +33,78 @@ namespace Web.UI.Helpers
             string controller = router.GetRequiredString("controller");
             var idSite = 0;
             var id = router.Values["id"];
-            if (action == "Editar")
+
+            switch (controller)
             {
-                switch (controller)
-                {
-                    case "AnaliseCritica":
-                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
-                        var analise = analiseCriticaRepositorio.GetById(Convert.ToInt32(id));
-                        if (analise.IdSite != idSite)
-                        {
-                            filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
-                        }
-                        break;
-                    case "ControlDoc":
-                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
-                        var docdocumento = docDocumentoRepositorio.GetById(Convert.ToInt32(id));
-                        if (docdocumento.IdSite != idSite)
-                        {
-                            filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
-                        }
-                        break;
-                    case "Instrumento":
-                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
-                        var instrumento = instrumentoRepositorio.GetById(Convert.ToInt32(id));
-                        if (instrumento.IdSite != idSite)
-                        {
-                            filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
-                        }
-                        break;
-                    case "GestaoDeRisco":
-                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
-                        var gestaoRisco = registroConformidadesRepositorio.GetById(Convert.ToInt32(id));
+                case "AnaliseCritica":
+                    idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                    var analise = analiseCriticaRepositorio.GetById(Convert.ToInt32(id));
+                    if (analise != null && analise.IdSite != idSite)
+                    {
+                        filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+                    }
+                    break;
+                case "ControlDoc":
+                    idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                    var docdocumento = docDocumentoRepositorio.GetById(Convert.ToInt32(id));
+                    if (docdocumento != null && docdocumento.IdSite != idSite)
+                    {
+                        filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+                    }
+                    break;
+                case "Instrumento":
+                    idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                    var instrumento = instrumentoRepositorio.GetById(Convert.ToInt32(id));
+                    if (instrumento != null && instrumento.IdSite != idSite)
+                    {
+                        filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+                    }
+                    break;
+                case "GestaoDeRisco":
+                    idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                    var gestaoRisco = registroConformidadesRepositorio.GetById(Convert.ToInt32(id));
 
-                        if (gestaoRisco.IdSite != idSite)
-                        {
-                            filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
-                        }
-                        break;
-                    case "Licenca":
-                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
-                        var licenca = licencaRepositorio.GetById(Convert.ToInt32(id));
+                    if (gestaoRisco != null && gestaoRisco.IdSite != idSite)
+                    {
+                        filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+                    }
+                    break;
+                case "Licenca":
+                    idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                    var licenca = licencaRepositorio.GetById(Convert.ToInt32(id));
 
+                    if (licenca != null)
+                    {
                         var usuariocliente = usuarioClienteSiteRepositorio.GetAll().Where(x => x.IdCliente == licenca.Idcliente).FirstOrDefault();
 
-                        if (usuariocliente.IdSite != idSite)
+                        if (usuariocliente != null && usuariocliente.IdSite != idSite)
                         {
                             filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
                         }
 
-                        break;
-                    case "Indicador":
-                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
-                        var indicador = indicadorRepostorio.GetById(Convert.ToInt32(id));
-                        if (indicador.IdSite != idSite)
-                        {
-                            filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
-                        }
-                        break;
-                    case "AcaoCorretiva":
-                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
-                        var acao = registroConformidadesRepositorio.GetById(Convert.ToInt32(id));
+                    }
 
-                        if (acao.IdSite != idSite)
-                        {
-                            filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
-                        }
+                    break;
+                case "Indicador":
+                    idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                    var indicador = indicadorRepostorio.GetById(Convert.ToInt32(id));
+                    if (indicador != null && indicador.IdSite != idSite)
+                    {
+                        filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+                    }
+                    break;
+                case "AcaoCorretiva":
+                    idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                    var acao = registroConformidadesRepositorio.GetById(Convert.ToInt32(id));
 
-                        break;
-                    default:
-                        break;
-                }
+                    if (acao != null && acao.IdSite != idSite)
+                    {
+                        filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+                    }
+
+                    break;
+                default:
+                    break;
             }
 
 

@@ -24,14 +24,18 @@ namespace Web.UI.Helpers
             var idSite = Util.ObterSiteSelecionado();
             var idUsuario = Util.ObterCodigoUsuarioLogado();
             var id = router.Values["id"];
+            var idSiteUrl = request.QueryString["idSite"];
 
 
-            if (action == "Editar")
+            SiteModuloRepositorio siterepo = new SiteModuloRepositorio();
+            UsuarioClienteSiteRepositorio clieSite = new UsuarioClienteSiteRepositorio();
+
+
+            var teste = clieSite.GetAll().ToList();
+
+            var usuSite = clieSite.GetAll().Where(x => x.IdUsuario == idUsuario).FirstOrDefault();
+            if (usuSite != null)
             {
-                SiteModuloRepositorio siterepo = new SiteModuloRepositorio();
-                UsuarioClienteSiteRepositorio clieSite = new UsuarioClienteSiteRepositorio();
-
-                var usuSite = clieSite.GetAll().Where(x => x.IdUsuario == idUsuario).FirstOrDefault();
                 switch (controller)
                 {
                     case "Site":
@@ -56,14 +60,12 @@ namespace Web.UI.Helpers
                         CargoRepositorio cargoRepositorio = new CargoRepositorio();
                         var cargo = cargoRepositorio.GetById(Convert.ToInt32(id));
 
-                        if (id != null)
+                        if (action == "Index")
                         {
-                            if (cargo.IdSite == Convert.ToInt32(idSite))
+                            if (Convert.ToInt32(id) == Convert.ToInt32(idSite))
                             {
                                 return true;
-
                             }
-
                             else
                             {
                                 return false;
@@ -71,10 +73,26 @@ namespace Web.UI.Helpers
                         }
                         else
                         {
-                            return true;
+
+                            if (id != null)
+                            {
+                                if (cargo.IdSite == Convert.ToInt32(idSite))
+                                {
+                                    return true;
+
+                                }
+
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                return true;
+                            }
+
                         }
-
-
                     case "usuario":
                         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
                         var usuario = usuarioRepositorio.GetById(Convert.ToInt32(id));
@@ -178,12 +196,12 @@ namespace Web.UI.Helpers
 
                         LicencaRepositorio licencaRepositorio = new LicencaRepositorio();
 
-                        var licenca = licencaRepositorio.GetById(Convert.ToInt32(id));
-
-                        var LicencaSite = clieSite.Get(x => x.IdCliente == licenca.Idcliente).FirstOrDefault();
-
                         if (id != null)
                         {
+                            var licenca = licencaRepositorio.GetById(Convert.ToInt32(id));
+
+                            var LicencaSite = clieSite.Get(x => x.IdCliente == licenca.Idcliente).FirstOrDefault();
+
                             if (LicencaSite.IdSite == Convert.ToInt32(idSite))
                             {
                                 return true;
@@ -230,9 +248,45 @@ namespace Web.UI.Helpers
                     case "GestaoDeRisco":
 
                     case "GestaoMelhoria":
-                    default:
+                        RegistroConformidadesRepositorio conformidadeRepositoriogm = new RegistroConformidadesRepositorio();
+                        var gestaoMelhoria = conformidadeRepositoriogm.GetById(Convert.ToInt32(id));
+
+
+                        if (id != null)
+                        {
+                            if (gestaoMelhoria.IdSite == Convert.ToInt32(idSite))
+                            {
+                                return true;
+
+                            }
+
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    case "Usuario":
+                        if (idSiteUrl != null) {
+
+                            if (usuSite.IdSite == Convert.ToInt32(idSiteUrl))
+                            {
+
+
+                                return true;
+
+
+                            }
+                            else {
+                                return false;
+                            }
+                        }
                         break;
                 }
+                
             }
             else
             {
