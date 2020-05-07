@@ -848,6 +848,8 @@ namespace Web.UI.Controllers
             {
                 var ResultCategoria = _controladorCategoriasAppServico.GetAll().Where(x => x.TipoTabela == Sigla).FirstOrDefault();
 
+                var teste1 = _controladorCategoriasAppServico.GetAll().ToList();
+
                 if (ResultCategoria != null)
                 {
                     return Json(new { StatusCode = (int)HttpStatusCode.OK, IdControladora = ResultCategoria.IdControladorCategorias });
@@ -865,7 +867,7 @@ namespace Web.UI.Controllers
 
                     _controladorCategoriasAppServico.Add(categoria);
 
-                    return Json(new { StatusCode = (int)HttpStatusCode.OK , IdControladora = categoria.IdControladorCategorias });
+                    return Json(new { StatusCode = (int)HttpStatusCode.OK, IdControladora = categoria.IdControladorCategorias });
                 }
             }
             else
@@ -978,6 +980,14 @@ namespace Web.UI.Controllers
                         else
                             return Criar(doc);
                     }
+                case StatusDocumento.Obsoleto:
+                    {
+                        if (doc.IdDocumento != 0)
+                            return Editar(doc, validarAssunto);
+                        else
+                            return Criar(doc);
+                    }
+
             }
 
 

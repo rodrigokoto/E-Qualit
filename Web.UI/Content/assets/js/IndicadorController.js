@@ -60,50 +60,79 @@ function setPlanoDeVooDisabled() {
 
 }
 function setDisabledMetaRealizado(meses, medicao) {
+    var datMonth = new Date();
+    var mes = datMonth.getMonth() + 1;
+
+
     if (!isNaN(medicao)) {
         switch (medicao) {
             case 1:
                 meses.each(function (index, item) {
-                    $(this).prop('disabled', false);
+                    if ((index + 1) == mes) {
+                        $(this).prop('disabled', true);
+                    }
+                    else {
+                        $(this).prop('disabled', false);
+                    }
                 });
                 break;
             case 2:
                 meses.each(function (index, item) {
-                    if ((index + 1) % 2 === 0)
-                        $(this).prop('disabled', false);
-                    else {
-                        $(this).val('');
+                    if ((index + 1) == mes) {
                         $(this).prop('disabled', true);
+                    }
+                    else {
+                        if ((index + 1) % 2 === 0)
+                            $(this).prop('disabled', false);
+                        else {
+                            $(this).val('');
+                            $(this).prop('disabled', true);
+                        }
                     }
                 });
                 break;
             case 3:
                 meses.each(function (index, item) {
-                    if ((index + 1) % 3 === 0)
-                        $(this).prop('disabled', false);
-                    else {
-                        $(this).val('');
+                    if ((index + 1) == mes) {
                         $(this).prop('disabled', true);
+                    }
+                    else {
+                        if ((index + 1) % 3 === 0)
+                            $(this).prop('disabled', false);
+                        else {
+                            $(this).val('');
+                            $(this).prop('disabled', true);
+                        }
                     }
                 });
                 break;
             case 4:
                 meses.each(function (index, item) {
-                    if ((index + 1) % 6 === 0)
-                        $(this).prop('disabled', false);
-                    else {
-                        $(this).val('');
+                    if ((index + 1) == mes) {
                         $(this).prop('disabled', true);
+                    }
+                    else {
+                        if ((index + 1) % 6 === 0)
+                            $(this).prop('disabled', false);
+                        else {
+                            $(this).val('');
+                            $(this).prop('disabled', true);
+                        }
                     }
                 });
                 break;
             case 5:
                 meses.each(function (index, item) {
-                    if ((index + 1) % 12 === 0)
-                        $(this).prop('disabled', false);
-                    else {
-                        $(this).val('');
+                    if ((index + 1) == mes) {
                         $(this).prop('disabled', true);
+                    }
+                    else {
+                        if ((index + 1) % 12 === 0)
+                            $(this).prop('disabled', false);
+                        else {
+                            $(this).val('');
+                            $(this).prop('disabled', true);
+                        }
                     }
                 });
                 break;
@@ -232,8 +261,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
                 }
             }
         }
-        if (per == 3)
-        {
+        if (per == 3) {
             if ((e + 1) >= (mes - 2) && (e + 1) <= mes) {
                 if (!isNaN(parseInt(this.value))) {
                     mediaRealizada = mediaRealizada + parseInt(this.value);
@@ -282,7 +310,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
     var totalRealizado = mediaRealizada / multiplicador;
 
     var sentidoMeta = $('[name=formCriarIndicadorSentido]').val();
-    
+
 
     if (per == 1) {
         $('[name=MediaAnaliseResultadoMeta]').val(total);
@@ -295,7 +323,7 @@ function getAnaliseResultado(mes, idPlanoVoo) {
     } else {
         $('[name=MediaAnaliseResultado]').val(totalRealizado);
     }
-    
+
     var IdPeriodicidade = $('[name=IdPeriodicidade]').val();
     var url = '/Indicador/GerarPartialGestaoRisco?Periodicidade=' + IdPeriodicidade + '&mes=' + mes + '&idplanovoo=' + idPlanoVoo
     var grDiv = $('#content-gr');

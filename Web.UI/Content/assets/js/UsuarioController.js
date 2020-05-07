@@ -756,11 +756,11 @@ APP.controller.UsuarioController = {
 
         var perfill = $('[name=formCriaUsuarioPerfil] :selected').val();
 
-        if (perfill != "") {
-            if (!$('#panel-form-clientes input[type="checkbox"]').is(':checked')) {
-                bootbox.alert("Selecione ao menos um cliente");
-            }
-        }
+        //if (perfill != "") {
+        //    if (!$('#panel-form-clientes input[type="checkbox"]').is(':checked')) {
+        //        bootbox.alert("Selecione ao menos um cliente");
+        //    }
+        //}
 
         if (valid) {
             if (perfill == "") {

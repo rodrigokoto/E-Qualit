@@ -354,7 +354,7 @@
                                 <label for="form-fornecedores-historico-dt-avaliaca">Data da Próxima Avaliação</label>
                                 <div class='input-group' id=''>
                                     @{ var ultimaAvaliacao = Model.AvaliaCriteriosAvaliacao.OrderByDescending(x => x.IdAvaliaCriterioAvaliacao).FirstOrDefault(); }
-                                    <input type='text' id="form-fornecedores-dt-proxima-avaliacao" name="formFornecedoresDtProximaAvaliacao" class="form-control data datepicker" placeholder="" data-msg-required="" value="@(ultimaAvaliacao.DtProximaAvaliacao != default(DateTime) ? ultimaAvaliacao.DtProximaAvaliacao.ToString(Traducao.Resource.dateFormat) : "" )" />
+                                    <input type='text' id="form-fornecedores-dt-proxima-avaliacao" name="formFornecedoresDtProximaAvaliacao" class="form-control data datepicker" placeholder="" data-msg-required="" value="@(ultimaAvaliacao != null && ultimaAvaliacao.DtProximaAvaliacao != default(DateTime) ? ultimaAvaliacao.DtProximaAvaliacao.ToString(Traducao.Resource.dateFormat) : "" )" />
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar" aria-hidden="true"></i>
                                     </span>
