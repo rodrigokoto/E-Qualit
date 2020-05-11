@@ -10499,7 +10499,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.2.04.
+        ///   Looks up a localized string similar to 1.2.05.
         /// </summary>
         public static string Versao {
             get {

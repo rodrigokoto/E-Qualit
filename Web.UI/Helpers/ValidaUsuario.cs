@@ -41,7 +41,7 @@ namespace Web.UI.Helpers
                     case "Site":
                         if (id != null)
                         {
-                            if (usuSite.IdSite == Convert.ToInt32(idSite))
+                            if (usuSite.IdSite == Convert.ToInt32(id))
                             {
                                 return true;
 
@@ -272,15 +272,30 @@ namespace Web.UI.Helpers
                     case "Usuario":
                         if (idSiteUrl != null) {
 
+                            UsuarioClienteSiteRepositorio clienteSite = new UsuarioClienteSiteRepositorio();
+                            var IdValue = Convert.ToInt32(id);
+                            var usuarioSite = clienteSite.GetAll().Where(x => x.IdUsuario == IdValue).FirstOrDefault();
+
                             if (usuSite.IdSite == Convert.ToInt32(idSiteUrl))
                             {
-
-
-                                return true;
-
-
+                                if (action != "Index")
+                                {
+                                    if (usuarioSite.IdSite != usuSite.IdSite)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else {
+                                    
+                                    return true;
+                                }
                             }
-                            else {
+                            else
+                            {
                                 return false;
                             }
                         }
