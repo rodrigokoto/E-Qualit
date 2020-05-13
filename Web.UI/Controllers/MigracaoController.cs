@@ -1007,6 +1007,42 @@ namespace Web.UI.Controllers
 
                 doc.Assuntos.Add(new DocumentoAssunto { DataAssunto = DateTime.Now, Descricao = Traducao.Resource.DescricaoRevisaoEmissaoInicial, Revisao = "0" });
 
+                if (doc.DocCargo.Count == 0)
+                {
+
+                    var cargoResult = _cargoAppServico.GetAll().Where(x => x.NmNome == "Isotec Migration" && x.IdSite == doc.IdSite).FirstOrDefault();
+
+                    if (cargoResult != null)
+                    {
+                        DocumentoCargo DocCargo = new DocumentoCargo();
+
+                        DocCargo.IdCargo = cargoResult.IdCargo;
+
+                        doc.DocCargo.Add(DocCargo);
+
+                    }
+                    else
+                    {
+                        var cargo = new Cargo()
+                        {
+                            IdSite = doc.IdSite,
+                            NmNome = "Isotec Migration",
+                            Ativo = true,
+                            IdUsuarioIncluiu = null,
+                            DtInclusao = DateTime.Now
+                        };
+
+                        _cargoAppServico.Add(cargo);
+
+
+                        DocumentoCargo DocCargo = new DocumentoCargo();
+
+                        DocCargo.IdCargo = cargoResult.IdCargo;
+
+                        doc.DocCargo.Add(DocCargo);
+                    }
+                }
+
                 TrataCriacaoDoc(doc, ref erros);
 
                 _documentoServico.Valido(doc, ref erros);
