@@ -115,7 +115,15 @@
                                                     <tr role="row" class="odd">
                                                         <td>@produtoFornecedor.Fornecedor.Nome</td>
                                                         <td>@(ultimaQualificacao != null && ultimaQualificacao.IdAvaliaCriterioQualificacao != 0 ? ultimaQualificacao.ResponsavelPorQualificar.NmCompleto : Traducao.Resource.lbl_adefinir)</td>
-                                                        <td>@(ultimaQualificacao != null && ultimaQualificacao.Aprovado == true ? Traducao.Resource.lbl_Aprovado : Traducao.Resource.lbl_Reprovado)</td>
+                                                        @if (ultimaQualificacao == null)
+                                                        {
+                                                            <td>@Traducao.Resource.lbl_adefinir</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@(ultimaQualificacao != null && ultimaQualificacao.Aprovado == true ? Traducao.Resource.lbl_Aprovado : Traducao.Resource.lbl_Reprovado)</td>
+                                                        }
+
                                                         <td>@(ultimaQualificacao != null && ultimaQualificacao.DtQualificacaoVencimento != null ? ultimaQualificacao.DtQualificacaoVencimento.Value.ToString(Traducao.Resource.dateFormat) : "-")</td>
 
                                                         <td>@produtoFornecedor.Produto.Responsavel.NmCompleto</td>
@@ -125,7 +133,7 @@
                                                             if (ultimaAvaliacao.IdCriterioAvaliacao != null)
                                                             {
 
-                                                                 string SemNota = Traducao.Resource.lbl_Sem_Nota;
+                                                                string SemNota = Traducao.Resource.lbl_Sem_Nota;
                                                                 <td>@(MediaAvaliacao != null && ultimaAvaliacao != null ? MediaAvaliacao.Value.ToString() : @Traducao.Resource.lbl_Sem_Nota)</td>
                                                             }
                                                             else
@@ -137,7 +145,7 @@
                                                         {
                                                             <td>@Traducao.Resource.lbl_Sem_Nota</td>
                                                         }
-                                                            
+
                                                         <td>@(ultimaAvaliacao != null && ultimaAvaliacao.DtAvaliacao != default(DateTime) ? ultimaAvaliacao.DtAvaliacao.ToString(@Traducao.Resource.dateFormat) : "-")</td>
                                                         <td class="text-nowrap">
                                                             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeFornecedoresEditar) || ViewBag.IdPerfil != 4)

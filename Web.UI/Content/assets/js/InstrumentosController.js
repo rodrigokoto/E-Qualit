@@ -58,6 +58,13 @@ APP.controller.InstrumentosController = {
 
     CriarInstrumentos: function () {
 
+        if (dtCalibracao !== null) {
+            $("input[name='DtRegistro']").datepicker({
+                dateFormat: _options.datepicker,
+                minDate: dtCalibracao,
+                pickTime: true,
+            });
+        }
 
         //GETs
         this.getResponsavel();
@@ -336,11 +343,11 @@ APP.controller.InstrumentosController = {
         if (temCriterioAceitacao) {
 
             PosCalibracao.Instrumento =
-                {
-                    SistemaDefineStatus: $("[name=SistemaDefineStatus]:checked").val(),
-                    valorAceitacao: $("[name=valorAceitacao]").val(),
-                    IdInstrumento: $("#IdInstrumento").val()
-                };
+            {
+                SistemaDefineStatus: $("[name=SistemaDefineStatus]:checked").val(),
+                valorAceitacao: $("[name=valorAceitacao]").val(),
+                IdInstrumento: $("#IdInstrumento").val()
+            };
 
             $('.campos-tabela').each(function (i) {
 

@@ -79,7 +79,8 @@ namespace Web.UI.Controllers
             });
 
             ViewBag.Gestores = _usuarioAppServico.ObterUsuariosPorPerfilESite(IdSite, 3, IdPerfil);
-            ViewBag.Editar = (plai.DataReuniaoEncerramento >= DateTime.Now).ToString();
+            //ViewBag.Editar = (plai.DataReuniaoEncerramento >= DateTime.Now).ToString();
+            ViewBag.Editar = "True";
 
             return View("Criar", plai);
         }

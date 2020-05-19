@@ -13,7 +13,7 @@ using Web.UI.Helpers;
 using System.Linq;
 
 namespace Web.UI.Controllers
-{    
+{
     [VerificaIntegridadeLogin]
     [SitePossuiModulo(9)]
     public class InstrumentoController : BaseController
@@ -58,13 +58,13 @@ namespace Web.UI.Controllers
 
         // GET: Instrumentos
         public ActionResult Index()
-        {            
+        {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var idSiteCorrente = Util.ObterSiteSelecionado();
             var idUsuario = Util.ObterCodigoUsuarioLogado();
-            
 
-            var instrumentos = _instrumentoAppServico.Get(x=>x.IdSite == idSiteCorrente).OrderByDescending(x=> x.IdInstrumento).ToList();
+
+            var instrumentos = _instrumentoAppServico.Get(x => x.IdSite == idSiteCorrente).OrderByDescending(x => x.IdInstrumento).ToList();
 
             var idPerfil = Util.ObterPerfilUsuarioLogado();
 
@@ -105,13 +105,13 @@ namespace Web.UI.Controllers
             try
             {
                 instrumento.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
-                
+
                 _instrumentoServico.Valido(instrumento, ref erros);
                 var instrumentoByCodSigla = _instrumentoAppServico.Get(s => s.Numero == instrumento.Numero && s.IdSigla == instrumento.IdSigla).FirstOrDefault();
 
                 if (instrumentoByCodSigla != null)
                     erros.Add("Não foi possível salvar, pois já existe um Instrumento cadastrado com a mesma Sigla e Número.");
-                
+
                 if (erros.Count > 0)
                 {
                     return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
@@ -150,7 +150,16 @@ namespace Web.UI.Controllers
             var instrumento = _instrumentoAppServico.GetById(id);
 
             ViewBag.Responsavel = _usuarioAppServico.GetById(instrumento.IdResponsavel.Value).NmCompleto;
-            
+
+            if (instrumento.Calibracao.Count == 0)
+            {
+                ViewBag.DtUltimaCalibracao = DateTime.Now;
+            }
+            else
+            {
+                ViewBag.DtUltimaCalibracao = (DateTime)instrumento.Calibracao.Last().DataProximaCalibracao;
+            }
+
             return View("Criar", instrumento);
         }
 
@@ -224,7 +233,7 @@ namespace Web.UI.Controllers
         [HttpPost]
         public JsonResult Editar(Instrumento instrumento)
         {
-            
+
             var erros = new List<string>();
 
             try
@@ -240,7 +249,7 @@ namespace Web.UI.Controllers
                     instrumento.DataAlteracao = DateTime.Now;
                     instrumento.IdProcesso = instrumento.IdProcesso == 0 ? null : instrumento.IdProcesso;
                     _instrumentoAppServico.Update(instrumento);
-                    
+
                 }
                 else
                 {
@@ -275,7 +284,7 @@ namespace Web.UI.Controllers
         }
 
 
-        
+
 
 
         public JsonResult Excluir(int id)
@@ -294,7 +303,7 @@ namespace Web.UI.Controllers
 
             return View(instrumentoDetalhe);
         }
-               
+
 
         public ActionResult SalvaPDF(int id)
         {

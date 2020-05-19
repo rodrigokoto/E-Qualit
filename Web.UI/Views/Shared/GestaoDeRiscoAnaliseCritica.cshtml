@@ -69,7 +69,7 @@
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="form-group">
 						<label for="form-gestao-de-risco-criticidade" class="control-label">Classificação do risco</label>
-						<input type="hidden" name="formGestaoDeRiscoCriticidadeCor-@Model.IdTema" value="@(Model.GestaoDeRisco != null ?Model.GestaoDeRisco.CriticidadeGestaoDeRisco:Model.CorRisco)" />
+						<input type="hidden" name="formGestaoDeRiscoCriticidadeCor" value="@(Model.GestaoDeRisco != null ?Model.GestaoDeRisco.CriticidadeGestaoDeRisco:Model.CorRisco)" />
 						<select id="risco-1to10-@Model.IdTema" class="barraRating @(Model.GestaoDeRisco != null ? "barRating-disabled" : null)" name="formGestaoDeRiscoCriticidade" autocomplete="off"
 								@(Model.GestaoDeRisco != null ? "disabled" : null)>
 							<option value="1" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>

@@ -23,6 +23,7 @@
 @section Metas {
     <meta name="page" content="CriarInstrumentos" />
 }
+
 <!--
 <div class="row header-fixo" style="top: 123px;">
      Tabs
@@ -46,6 +47,10 @@
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/InstrumentosController.js?rnd=2")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+
+    <script type="text/javascript">
+        var dtCalibracao = '@(ViewBag.DtUltimaCalibracao)';
+    </script>
 
 }
 
