@@ -693,12 +693,14 @@ APP.controller.GestaoMelhoriaController = {
 
     setIncluirComentario: function () {
         $('#btn-new-comentario').on('click', function () {
-            var motivo = $('[name=formGestaoMelhoriaComentarioMotivo]').val();
-            var orientacao = $('[name=formGestaoMelhoriaComentarioOrientacao]').val();
+            $('#modal-panel-form-cargos').modal("hide");
+        });
+        $('#modal-panel-form-cargos').on('hidden.bs.modal', function () {
+            var motivo = $('[name=formNaoConformidadeComentarioMotivo]').val();
+            var orientacao = $('[name=formNaoConformidadeComentarioOrientacao]').val();
             $('#' + $('#acaoImediataAtual').val()).closest('tr').find('[name=formAcaoImediataComentarioMotivo]').val(motivo);
             $('#' + $('#acaoImediataAtual').val()).closest('tr').find('[name=formAcaoImediataComentarioOrientacao]').val(orientacao);
             //alert($('#acaoImediataAtual').val());
-            $('#modal-panel-form-cargos').modal("hide");
         });
     },
 
@@ -1406,6 +1408,7 @@ APP.controller.GestaoMelhoriaController = {
                     IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
                     IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
                     EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),

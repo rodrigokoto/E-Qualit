@@ -60,6 +60,7 @@
             .form-group {
                 margin-bottom: 20px;
                 font-size: medium;
+                color:#000000;
             }
 
             .tabela-check {
@@ -89,8 +90,7 @@
                                 <div class="col-xs-12">
                                     <table>
                                         <tr>
-                                            <td><img src="data:image/png;base64, @Model.LogoCliente" width="120" height="100" /></td>
-                                        </tr>
+                                            <td><img src="data:image/png;base64, @Model.LogoCliente" width="120" height="100" /></td>asd
                                     </table>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                                     <div class="caixa">
                                         <div class="col-xs-4">
                                             <!-- Titulo do Documento -->
-                                            <div class="form-group">
+                                            <div class="form-group" style="color:#000000!important">
                                                 <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_TituloDocumento</label>
                                                 <br />
                                                 @Model.Documento.Titulo
@@ -120,7 +120,7 @@
                                         </div>
                                         <div class="col-xs-4">
                                             <!-- Sigla -->
-                                            <div class="form-group">
+                                            <div class="form-group" style="color:#000000!important">
                                                 <label for="form-cadastro-sigla">
                                                     @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Sigla
                                                 </label>
@@ -130,7 +130,7 @@
                                         </div>
                                         <div class="col-xs-4">
                                             <!-- Numero Documento -->
-                                            <div class="form-group">
+                                            <div class="form-group" style="color:#000000!important">
                                                 <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
                                                 <br />
                                                 @{

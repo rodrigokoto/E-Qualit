@@ -81,10 +81,10 @@
             <li role="presentation" class="col-md-1" id="panel-tab-registros" style="@(Model.DocTemplate.Find(x => x.TpTemplate == "R") != null ? "" : "display: none;")">
                 <a href="#panel-form-registros" data-toggle="#panel-form-registros">Registros</a>
             </li>
-            
+
             @*<li role="presentation" class="col-md-1" id="panel-tab-indicadores" style="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "" : "display: none;")">
-                <a href="#panel-form-indicadores" data-toggle="#panel-form-indicadores">Indicadores</a>
-            </li>*@
+                    <a href="#panel-form-indicadores" data-toggle="#panel-form-indicadores">Indicadores</a>
+                </li>*@
             <li role="presentation" class="col-md-1" id="panel-tab-recursos" style="@(Model.DocTemplate.Find(x => x.TpTemplate == "RE") != null ? "" : "display: none;")">
                 <a href="#panel-form-recursos" data-toggle="#panel-form-recursos">Recursos</a>
             </li>
@@ -215,9 +215,9 @@
                                         </div>
                                         <!-- Indicadores -->
                                         @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-            <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="form-control" value="IN" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
-            <label for="form-cadastro-escolha-indicadores">Indicadores</label>
-        </div>*@
+                                                <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="form-control" value="IN" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
+                                                <label for="form-cadastro-escolha-indicadores">Indicadores</label>
+                                            </div>*@
 
 
                                         <!-- Recursos -->
@@ -344,11 +344,11 @@
                                             </select>
                                         </div>
                                         @*<div class="col-md-1 text-sm-center">
-                                        <div class="btn-group-vertical m-b">
-                                            <button id="up" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp; </button>
-                                            <button id="down" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
-                                        </div>
-                                    </div>*@
+                                                <div class="btn-group-vertical m-b">
+                                                    <button id="up" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp; </button>
+                                                    <button id="down" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
+                                                </div>
+                                            </div>*@
 
                                     </div>
 
@@ -390,11 +390,11 @@
                                         </div>
 
                                         @*<div class="col-md-1 text-sm-center">
-                                        <div class="btn-group-vertical m-b">
-                                            <button id="upAprovador" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp;</button>
-                                            <button id="downAprovador" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
-                                        </div>
-                                    </div>*@
+                                                <div class="btn-group-vertical m-b">
+                                                    <button id="upAprovador" type="button" class="btn info"><i class="fa fa-chevron-up"></i> Up&nbsp;&nbsp;&nbsp;</button>
+                                                    <button id="downAprovador" type="button" class="btn danger"><i class="fa fa-chevron-down"></i> Down</button>
+                                                </div>
+                                            </div>*@
                                     </div>
 
                                 </div>
@@ -759,7 +759,26 @@
                                                         </td>
 
                                                         <td>
-                                                            <input type="text" name="formRiscosRisco" if="form-riscos-risco" class="form-control" disabled value="@risco.CriticidadeGestaoDeRisco">
+                                                            @*<input type="text" name="formRiscosRisco" if="form-riscos-risco" class="form-control" disabled value="@risco.CriticidadeGestaoDeRisco">
+                                                            <input type="hidden" name="formGestaoDeRiscoCriticidadeCor" value="@(risco.CriticidadeGestaoDeRisco != null ?risco.CriticidadeGestaoDeRisco:0)" />*@
+                                                            
+                                                            <select class="form-control" name="formRiscosRisco" autocomplete="off" @(risco.CriticidadeGestaoDeRisco != null ? "disabled" : null)>
+                                                                <option value="1" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                                <option value="2" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 2 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                                <option value="3" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 3 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                                <option value="4" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 4 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                                <option value="5" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 5 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                                <option value="6" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 6 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                                <option value="7" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 7 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                                <option value="8" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 8 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                                <option value="9" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 9 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                                <option value="10" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 10 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                                <option value="11" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 11 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                                <option value="12" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 12 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                                <option value="13" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 13 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                                <option value="14" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 14 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                                <option value="15" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 15 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                            </select>
                                                         </td>
 
                                                         <td>
@@ -815,197 +834,197 @@
 
 
                     @*<div class="panel-body">
-                    <div class="barra-busca gestao-de-risco">
-                        <div class="row top-buffer">
+                            <div class="barra-busca gestao-de-risco">
+                                <div class="row top-buffer">
 
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                            <div class="form-group">
+                                                @Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                            <div class="form-group">
+                                                <!-- Identificacao -->
+                                                <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
+                                                <textarea name="formRiscosIdentificacao" class="form-control" id="form-riscos-identificacao" rows="7" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro:null)</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Criticidade -->
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
+                                            <input type="hidden" name="formRiscosCriticidade" value="@(Model.GestaoDeRisco != null? Model.GestaoDeRisco.CriticidadeGestaoDeRisco:0)" />
+                                            <select id="risco-1to10" class="barraRating form-control" name="formCriarNaoConformidadeCriticidade" autocomplete="off"
+                                                    placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_placeholder_Criticidade"
+                                                    data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Criticidade">
+                                                <option value="1" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="2" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 2 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="3" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 3 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="4" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 4 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="5" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 5 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                                                <option value="6" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 6 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="7" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 7 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="8" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 8 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="9" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 9 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="10" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 10 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                                                <option value="11" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 11 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                <option value="12" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 12 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                <option value="13" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 13 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                <option value="14" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 14 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                                <option value="15" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 15 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Necessita Acao -->
+                                <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12 ">
                                     <div class="form-group">
-                                        @Html.HiddenFor(model => model.IdGestaoDeRisco, new { @id = "idgestaorisco" })
+                                        <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
+                                        <div class="">
+                                            <label for="form-riscos-necessita-acao-sim">
+                                                <input type="radio" id="form-riscos-necessita-acao-sim" name="formRiscosNecessitaAcao"
+                                                       data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EProcedente"
+                                                       value="true"
+                                                       @(Model.PossuiGestaoRisco == true ? "checked" : null) />
+                                                @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                                            </label>
+                                            <label for="form-riscos-necessita-acao-nao">
+                                                <input type="radio" id="form-riscos-necessita-acao-nao" name="formRiscosNecessitaAcao"
+                                                       data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EProcedente"
+                                                       value="false"
+                                                       @(Model.PossuiGestaoRisco == false ? "checked" : null) />
+                                                @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
+
                                     <div class="form-group">
-                                        <!-- Identificacao -->
-                                        <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
-                                        <textarea name="formRiscosIdentificacao" class="form-control" id="form-riscos-identificacao" rows="7" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DescricaoRegistro:null)</textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <!-- Criticidade -->
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                <div class="form-group">
-                                    <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
-                                    <input type="hidden" name="formRiscosCriticidade" value="@(Model.GestaoDeRisco != null? Model.GestaoDeRisco.CriticidadeGestaoDeRisco:0)" />
-                                    <select id="risco-1to10" class="barraRating form-control" name="formCriarNaoConformidadeCriticidade" autocomplete="off"
-                                            placeholder="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_placeholder_Criticidade"
-                                            data-msg-required="@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_required_Criticidade">
-                                        <option value="1" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                        <option value="2" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 2 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                        <option value="3" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 3 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                        <option value="4" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 4 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                        <option value="5" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 5 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-                                        <option value="6" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 6 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                        <option value="7" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 7 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                        <option value="8" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 8 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                        <option value="9" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 9 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                        <option value="10" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 10 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-                                        <option value="11" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 11 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                        <option value="12" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 12 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                        <option value="13" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 13 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                        <option value="14" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 14 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                        <option value="15" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 15 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Necessita Acao -->
-                        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12 ">
-                            <div class="form-group">
-                                <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
-                                <div class="">
-                                    <label for="form-riscos-necessita-acao-sim">
-                                        <input type="radio" id="form-riscos-necessita-acao-sim" name="formRiscosNecessitaAcao"
-                                               data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EProcedente"
-                                               value="true"
-                                               @(Model.PossuiGestaoRisco == true ? "checked" : null) />
-                                        @Traducao.Shared.ResourceLabel.Label_radio_Sim
-                                    </label>
-                                    <label for="form-riscos-necessita-acao-nao">
-                                        <input type="radio" id="form-riscos-necessita-acao-nao" name="formRiscosNecessitaAcao"
-                                               data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EProcedente"
-                                               value="false"
-                                               @(Model.PossuiGestaoRisco == false ? "checked" : null) />
-                                        @Traducao.Shared.ResourceLabel.Label_radio_Nao
-                                    </label>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
-
-                            <div class="form-group">
-                                @if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.IdRegistroConformidade > 0)
-                                {
-                                    <div>
-                                        <label for="form-riscos-numeroAcao" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroAcao</label>
-                                        <br />
-                                        <input type="text" disabled value="@ViewBag.NumeroRisco" />
-                                        <br />
-                                        <br />
-
-                                    </div>
-                                }
-                                <label for="form-riscos-responsavel" class="control-label">Responsável</label>
-                                <select id="form-riscos-responsavel" name="formRiscosResponsavel" class="form-control"
-                                        data-msg-required="" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>
-                                    <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                    @if (Model.GestaoDeRisco != null)
-                                    {
-                                        if (Model.GestaoDeRisco.IdRegistroConformidade > 0 && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
+                                        @if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.IdRegistroConformidade > 0)
                                         {
-                                            <option value="@Model.GestaoDeRisco.IdResponsavelInicarAcaoImediata" selected>@Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                                            <div>
+                                                <label for="form-riscos-numeroAcao" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroAcao</label>
+                                                <br />
+                                                <input type="text" disabled value="@ViewBag.NumeroRisco" />
+                                                <br />
+                                                <br />
+
+                                            </div>
                                         }
-                                    }
-                                </select>
+                                        <label for="form-riscos-responsavel" class="control-label">Responsável</label>
+                                        <select id="form-riscos-responsavel" name="formRiscosResponsavel" class="form-control"
+                                                data-msg-required="" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            @if (Model.GestaoDeRisco != null)
+                                            {
+                                                if (Model.GestaoDeRisco.IdRegistroConformidade > 0 && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
+                                                {
+                                                    <option value="@Model.GestaoDeRisco.IdResponsavelInicarAcaoImediata" selected>@Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                                                }
+                                            }
+                                        </select>
 
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <!-- Causa -->
+                                        <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
+                                        <textarea name="formRiscosCausa" class="form-control" id="form-riscos-causa" rows="7">@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa:null)</textarea>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
+                                    <div class="form-group">
+                                        <!-- Justificativa -->
+                                        <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
+                                        <textarea name="formRiscosJustificativa" class="form-control" id="form-riscos-justificativa" rows="7" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa:null)</textarea>
+                                    </div>
+                                </div>
                             </div>
-
-
-                            <div class="form-group">
-                                <!-- Causa -->
-                                <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
-                                <textarea name="formRiscosCausa" class="form-control" id="form-riscos-causa" rows="7">@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa:null)</textarea>
-                            </div>
-
-
-
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12 ">
-                            <div class="form-group">
-                                <!-- Justificativa -->
-                                <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
-                                <textarea name="formRiscosJustificativa" class="form-control" id="form-riscos-justificativa" rows="7" @(Model.IdGestaoDeRisco > 0 && Model.FlStatus > 0 ? "disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa:null)</textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
+                        </div>*@
                 </div>
             </form>
 
             <!-- Formulario LICENÇA -->
-           @*<form id="form-emissao-documento-licenca">
-                <div class="panel panel-default" id="panel-form-licenca">
-                    <div class="panel-heading">
-                        <div class="panel-title">
-                            <h2>@Traducao.Resource.licencaa</h2>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="barra-busca">
-                            <!-- Data de Emissao -->
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="form-dt-de-emissao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_DataEmissao</label>
-                                    <div class='input-group date' id='form-dt-de-emissao'>
-                                        <input type='text' name="formLicencaDtEmissao" class="form-control data datepicker" value="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? @Model.Licenca.DataEmissao.ToString(Traducao.Resource.formato_data) : "" ) " />
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Data de Vencimento -->
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="form-licenca-dt-vencimento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_DataVencimento</label>
-                                    <div class='input-group date' id='form-licenca-dt-vencimento'>
-                                        <input type='text' name="formLicencaDtVencimento" class="form-control data datepicker" value="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? @Model.Licenca.DataVencimento.ToString(Traducao.Resource.formato_data) : "" ) " />
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Arquivo de Licença -->
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-licensa-anexo" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NovoFluxo</label>
-                                    <div class="upload-arq form-control @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
-                                        <a class="btn-upload-file-form-licensa-anexo">
-                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                        </a>
-
-                                        <ul class="@(Model.IdDocumento > 0 ? "dashed" : null)">
-                                            @if (Model.Licenca != null)
-                                            {
-                                                <li>
-                                                    <a href="@Model.Licenca.Anexo.ArquivoB64" target="_blank" download="@Model.Licenca.Anexo.Nome">@Model.Licenca.Anexo.Nome</a>
-                                                    <input type="hidden" name="formLicensaAnexoaNome" value="@Model.Licenca.Anexo.Nome">
-                                                    <input type="hidden" name="formLicensaAnexoIdAnexo" value="@Model.Licenca.Anexo.IdAnexo">
-                                                </li>
-                                            }
-
-
-                                        </ul>
-                                        <input type="file" name="formLicensaAnexo" id="form-licensa-anexo"
-                                               class=""
-                                               data-msg-required=""
-                                               data-b64="" />
-                                    </div>
-                                </div>
+            @*<form id="form-emissao-documento-licenca">
+                    <div class="panel panel-default" id="panel-form-licenca">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h2>@Traducao.Resource.licencaa</h2>
                             </div>
                         </div>
+                        <div class="panel-body">
+                            <div class="barra-busca">
+                                <!-- Data de Emissao -->
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="form-dt-de-emissao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_DataEmissao</label>
+                                        <div class='input-group date' id='form-dt-de-emissao'>
+                                            <input type='text' name="formLicencaDtEmissao" class="form-control data datepicker" value="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? @Model.Licenca.DataEmissao.ToString(Traducao.Resource.formato_data) : "" ) " />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Data de Vencimento -->
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="form-licenca-dt-vencimento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_DataVencimento</label>
+                                        <div class='input-group date' id='form-licenca-dt-vencimento'>
+                                            <input type='text' name="formLicencaDtVencimento" class="form-control data datepicker" value="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? @Model.Licenca.DataVencimento.ToString(Traducao.Resource.formato_data) : "" ) " />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Arquivo de Licença -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form-licensa-anexo" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NovoFluxo</label>
+                                        <div class="upload-arq form-control @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
+                                            <a class="btn-upload-file-form-licensa-anexo">
+                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                            </a>
+
+                                            <ul class="@(Model.IdDocumento > 0 ? "dashed" : null)">
+                                                @if (Model.Licenca != null)
+                                                {
+                                                    <li>
+                                                        <a href="@Model.Licenca.Anexo.ArquivoB64" target="_blank" download="@Model.Licenca.Anexo.Nome">@Model.Licenca.Anexo.Nome</a>
+                                                        <input type="hidden" name="formLicensaAnexoaNome" value="@Model.Licenca.Anexo.Nome">
+                                                        <input type="hidden" name="formLicensaAnexoIdAnexo" value="@Model.Licenca.Anexo.IdAnexo">
+                                                    </li>
+                                                }
+
+
+                                            </ul>
+                                            <input type="file" name="formLicensaAnexo" id="form-licensa-anexo"
+                                                   class=""
+                                                   data-msg-required=""
+                                                   data-b64="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>*@
+                </form>*@
             <!-- Formulario DOCS.EXTERNOS -->
             <form id="form-emissao-documento-docsexternos">
                 <div class="panel panel-default" id="panel-form-docsexternos">
@@ -1021,38 +1040,38 @@
                                 <div class="form-group">
                                     <!-- Arquivo -->
                                     @*
-                                <label>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Arquivo</label>
-                                    <div class="upload-arq form-control @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
-                                        <a class="btn-file-form-docexterno-anexo">
-                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-                                        </a>
+                                        <label>@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Arquivo</label>
+                                            <div class="upload-arq form-control @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
+                                                <a class="btn-file-form-docexterno-anexo">
+                                                    <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                                </a>
 
-                                        <ul class="@(Model.IdDocumento > 0 ? "dashed" : null)">
-                                            @if (Model.DocExterno != null)
-                                            {
-                                                <li>
-                                                    <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome" id="formDocExternoAnexoUpload">@Model.DocExterno.Anexo.Nome</a>
-                                                    <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
-                                                    <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
-                                                    <input type="hidden" name="formDocExternoAnexoIdDocExterno" value="@Model.DocExterno.IdDocExterno">
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li>
-                                                    <a href="" target="_blank" download="" id="formDocExternoAnexoUpload"></a>
-                                                    <input type="hidden" name="formDocExternoAnexoNome" value="">
-                                                    <input type="hidden" name="formDocExternoAnexoIdAnexo" value="">
-                                                    <input type="hidden" name="formDocExternoAnexoIdDocExterno" value="">
-                                                </li>
-                                            }
+                                                <ul class="@(Model.IdDocumento > 0 ? "dashed" : null)">
+                                                    @if (Model.DocExterno != null)
+                                                    {
+                                                        <li>
+                                                            <a href="@Model.DocExterno.Anexo.ArquivoB64" target="_blank" download="@Model.DocExterno.Anexo.Nome" id="formDocExternoAnexoUpload">@Model.DocExterno.Anexo.Nome</a>
+                                                            <input type="hidden" name="formDocExternoAnexoNome" value="@Model.DocExterno.Anexo.Nome">
+                                                            <input type="hidden" name="formDocExternoAnexoIdAnexo" value="@Model.DocExterno.Anexo.IdAnexo">
+                                                            <input type="hidden" name="formDocExternoAnexoIdDocExterno" value="@Model.DocExterno.IdDocExterno">
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a href="" target="_blank" download="" id="formDocExternoAnexoUpload"></a>
+                                                            <input type="hidden" name="formDocExternoAnexoNome" value="">
+                                                            <input type="hidden" name="formDocExternoAnexoIdAnexo" value="">
+                                                            <input type="hidden" name="formDocExternoAnexoIdDocExterno" value="">
+                                                        </li>
+                                                    }
 
-                                        </ul>
-                                        <input type="file" name="formDocExternoAnexoAnexo" id="form-docexterno-anexo"
-                                               class=""
-                                               data-msg-required=""
-                                               data-b64="" />
-                                    </div>
+                                                </ul>
+                                                <input type="file" name="formDocExternoAnexoAnexo" id="form-docexterno-anexo"
+                                                       class=""
+                                                       data-msg-required=""
+                                                       data-b64="" />
+                                            </div>
                                     *@
                                     <div class="upload-arq @(Model.IdDocumento > 0 ? "box-upload-arq" : null)">
                                         @*form-control *@
@@ -1116,11 +1135,11 @@
                 <div class="modal-body">
                     <div class="barra-busca">
                         @*@if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Revisar) || ViewBag.IdPerfil != 4)
-                        {
-                            <p class="novo">
-                                <a href="#" class="form-assuntos-add-assunto"><i class="fa fa-plus-circle" aria-hidden="true"></i>Nova Revisão</a>
-                            </p>
-                        }*@
+                            {
+                                <p class="novo">
+                                    <a href="#" class="form-assuntos-add-assunto"><i class="fa fa-plus-circle" aria-hidden="true"></i>Nova Revisão</a>
+                                </p>
+                            }*@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <table id="tb-emissao-documento-form-assuntos" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">

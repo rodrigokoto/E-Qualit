@@ -369,6 +369,22 @@ namespace Web.UI.Controllers
 
             try
             {
+
+                foreach (var acao in acaoCorretiva.AcoesImediatas)
+                {
+
+                    if (acao.Motivo == null && acao.Orientacao == null)
+                    {
+                        if (acaoCorretiva.StatusEtapa == 3)
+                        {
+                            var AcaoPreview = _registroRegistroAcaoImediataServico.GetById(acao.IdAcaoImediata);
+
+                            acao.DtEfetivaImplementacao = AcaoPreview.DtEfetivaImplementacao;
+                            acao.Observacao = AcaoPreview.Observacao;
+                        }
+                    }
+                }
+
                 acaoCorretiva.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
                 acaoCorretiva.FlDesbloqueado = acaoCorretiva.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 acaoCorretiva.TipoRegistro = _tipoRegistro;

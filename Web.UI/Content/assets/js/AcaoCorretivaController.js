@@ -471,13 +471,15 @@ APP.controller.AcaoCorretivaController = {
     },
 
     setIncluirComentario: function () {
-        $('#btn-new-comentario').on('click', function () {
+         $('#btn-new-comentario').on('click', function () {
+            $('#modal-panel-form-cargos').modal("hide");
+        });
+        $('#modal-panel-form-cargos').on('hidden.bs.modal', function () {
             var motivo = $('[name=formNaoConformidadeComentarioMotivo]').val();
             var orientacao = $('[name=formNaoConformidadeComentarioOrientacao]').val();
             $('#' + $('#acaoImediataAtual').val()).closest('tr').find('[name=formAcaoImediataComentarioMotivo]').val(motivo);
             $('#' + $('#acaoImediataAtual').val()).closest('tr').find('[name=formAcaoImediataComentarioOrientacao]').val(orientacao);
             //alert($('#acaoImediataAtual').val());
-            $('#modal-panel-form-cargos').modal("hide");
         });
     },
 
@@ -888,6 +890,7 @@ APP.controller.AcaoCorretivaController = {
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.AcaoCorretivaController.getAnexosEvidencias(),
@@ -1118,7 +1121,6 @@ APP.controller.AcaoCorretivaController = {
     },
 
     getResponsavelReverificarAcaoImediata: function () {
-        debugger;
         var idSite = $('#nao-conformidade-site').val();
         var idProcesso = $('[name=IdProcesso]').val();
         var idFuncao = 24; // Funcionalidade(ReverificaÃ§Ã£o) que permite usuario Reverifique NC

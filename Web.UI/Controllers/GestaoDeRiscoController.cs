@@ -655,6 +655,11 @@ namespace Web.UI.Controllers
 
                     var acoesEfetivadas = gestaoDeRisco.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
 
+                    AtualizarDatasAgendadas(gestaoDeRisco);
+
+                    gestaoDeRisco.StatusRegistro = 1;
+                    gestaoDeRisco = _registroConformidadesAppServico.SalvarSegundaEtapa(gestaoDeRisco, Funcionalidades.GestaoDeRiscos);
+                    erros = EnviarNotificacao(gestaoDeRisco, erros);
 
                     RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
 
@@ -668,12 +673,6 @@ namespace Web.UI.Controllers
                     {
                         EnviarEmailResponsavelReverificacao(gestaoDeRisco);
                     }
-
-                    AtualizarDatasAgendadas(gestaoDeRisco);
-
-                    gestaoDeRisco.StatusRegistro = 1;
-                    gestaoDeRisco = _registroConformidadesAppServico.SalvarSegundaEtapa(gestaoDeRisco, Funcionalidades.GestaoDeRiscos);
-                    erros = EnviarNotificacao(gestaoDeRisco, erros);
 
                     var acoesIneficazes = gestaoDeRisco.AcoesImediatas.Where(x => x.Aprovado == false).ToList();
                     if (acoesIneficazes.Count > 0)

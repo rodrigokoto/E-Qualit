@@ -61,7 +61,6 @@ APP.controller.InstrumentosController = {
         if (dtCalibracao !== null) {
             $("input[name='DtRegistro']").datepicker({
                 dateFormat: _options.datepicker,
-                minDate: dtCalibracao,
                 pickTime: true,
             });
         }

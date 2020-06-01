@@ -1000,12 +1000,31 @@ namespace Web.UI.Controllers
         [ValidateInput(false)]
         public ActionResult Criar(DocDocumento doc)
         {
-            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.IdSite = doc.IdSite;
             try
             {
                 var erros = new List<string>();
 
                 doc.Assuntos.Add(new DocumentoAssunto { DataAssunto = DateTime.Now, Descricao = Traducao.Resource.DescricaoRevisaoEmissaoInicial, Revisao = "0" });
+
+                if (doc.Elaborador == null) {
+
+                    if (doc.IdElaborador != 0) {
+
+                        var elaborador = _usuarioAppServico.GetById(doc.IdElaborador);
+
+                        if (elaborador == null)
+                        {
+                            doc.IdElaborador = 1;
+                        }
+                    }
+                }
+
+                foreach (var comentario in doc.Comentarios)
+                {
+                    comentario.DataComentario = DateTime.Now;
+                    comentario.IdUsuario = doc.IdElaborador;
+                }
 
                 if (doc.DocCargo.Count == 0)
                 {
@@ -1094,9 +1113,6 @@ namespace Web.UI.Controllers
                     }
 
                 }
-
-
-                EnviaNotificacaoPorEmail(doc);
             }
             catch (Exception ex)
             {

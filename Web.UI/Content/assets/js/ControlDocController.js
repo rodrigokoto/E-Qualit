@@ -2605,8 +2605,28 @@ APP.controller.ControlDocController = {
             html += '<textarea type="text" name="formRiscosIdentificacao" maxlength="8000" rows="5" if="form-riscos-identificacao" class="form-control"></textarea>';
             html += '</td>';
 
+            //html += '<td>';
+            //html += '<input type="text" name="formRiscosRisco" if="form-riscos-risco" class="form-control">';
+            //html += '</td>';
+
             html += '<td>';
-            html += '<input type="text" name="formRiscosRisco" if="form-riscos-risco" class="form-control">';
+            html += '<select class="form-control" name="formRiscosRisco" autocomplete="off" @(risco.CriticidadeGestaoDeRisco != null ? "disabled" : null) >';
+            html += '<option value="1">1</option >';
+            html += '<option value="2">2</option >';
+            html += '<option value="3">3</option >';
+            html += '<option value="4">4</option >';
+            html += '<option value="5">5</option >';
+            html += '<option value="6">6</option >';
+            html += '<option value="7">7</option >';
+            html += '<option value="8">8</option >';
+            html += '<option value="9">9</option >';
+            html += '<option value="10">10</option >';
+            html += '<option value="11">11</option >';
+            html += '<option value="12">12</option >';
+            html += '<option value="13">13</option >';
+            html += '<option value="14">14</option >';
+            html += '<option value="15">15</option >';
+            html += '</select >';
             html += '</td>';
 
             html += '<td>';

@@ -586,6 +586,22 @@ namespace Web.UI.Controllers
 
             try
             {
+
+                foreach (var acao in gestaoMelhoria.AcoesImediatas)
+                {
+
+                    if (acao.Motivo == null && acao.Orientacao == null)
+                    {
+                        if (gestaoMelhoria.StatusEtapa == 3)
+                        {
+                            var AcaoPreview = _registroRegistroAcaoImediataServico.GetById(acao.IdAcaoImediata);
+
+                            acao.DtEfetivaImplementacao = AcaoPreview.DtEfetivaImplementacao;
+                            acao.Observacao = AcaoPreview.Observacao;
+                        }
+                    }
+                }
+
                 var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == gestaoMelhoria.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
                 var idResponsavelAcaoCorrecao = (responsavelAcaoCorrecao != null ? responsavelAcaoCorrecao.IdResponsavelInicarAcaoImediata : 0);
 

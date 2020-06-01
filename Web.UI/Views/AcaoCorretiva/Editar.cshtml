@@ -293,9 +293,9 @@
                                                         <input type='text' name="formAcaoImadiataTbDtPrazoImplementacao" id="form-acaoimediata-tb-dt-prazo-implementacao" class="form-control data datepicker"
                                                                placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Prazo_implementacao"
                                                                data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Prazo_implementacao"
-                                                               value="@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat) />
+                                                               value="@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)  />
                                                         <span class="input-group-addon">
-                                                        <i class="fa fa-calendar" teste="" aria-hidden="true"></i>
+                                                            <i class="fa fa-calendar" teste="" aria-hidden="true"></i>
                                                         </span>
                                                     </div>
                                                 </td>
@@ -356,49 +356,49 @@
 
                                                     }
                                                     @*
-                                                                                                                                            upload antigo
-                                                                                                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
-                                                                                                                                    </div>
-                                                                                                                                    @{
+                                                                                                                                                    upload antigo
+                                                                                                                                            <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
+                                                                                                                                            </div>
+                                                                                                                                            @{
 
 
 
-                                                <td>
-                                                    @{
-                                                        var base64 = "";
-                                                        var nomeAnexo = "";
-                                                        var extensao = "";
-                                                        var idAnexo = 0;
-                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
-                                                        {
-                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
-                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+                                                        <td>
+                                                            @{
+                                                                var base64 = "";
+                                                                var nomeAnexo = "";
+                                                                var extensao = "";
+                                                                var idAnexo = 0;
+                                                                if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                {
+                                                                    idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                                    extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                                    nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
+                                                                    base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                    base64 = String.Format("data:application/" + extensao + ";base64," + base64);
 
-                                                        }
-                                                    }
+                                                                }
+                                                            }
 
-                                                    <div class="upload-arq form-control">
-                                                        @if (acaoImediata.ArquivoEvidencia.Count == 0)
-                                                        {
-                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata">
-                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Resource.Anexar
-                                                            </a>
-                                                        }
-                                                        <ul>
-                                                            <li>
-                                                                <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
-                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
-                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
-                                                            </li>
-                                                        </ul>
-                                                        <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
-                                                               class=""
-                                                               data-msg-required=""
-                                                               data-b64="@base64">
-                                                    </div>
+                                                            <div class="upload-arq form-control">
+                                                                @if (acaoImediata.ArquivoEvidencia.Count == 0)
+                                                                {
+                                                                    <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata">
+                                                                        <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Resource.Anexar
+                                                                    </a>
+                                                                }
+                                                                <ul>
+                                                                    <li>
+                                                                        <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
+                                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                                        <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                                    </li>
+                                                                </ul>
+                                                                <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
+                                                                       class=""
+                                                                       data-msg-required=""
+                                                                       data-b64="@base64">
+                                                            </div>
                                                     *@
                                                 </td>
                                                 <!-- Acoes -->
@@ -441,54 +441,53 @@
 
                                                     }
                                                 </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.DefinirAcao) && Model.IdRegistroConformidade > 0 || ViewBag.IdPerfil != 4)
-                                {
-                                    <button type="button" class="btn btn-primary add-acao-imediata pull-right">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
-                                }
+                                            }
+                                </tbody>
+                            </table>
+                            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.DefinirAcao) && Model.IdRegistroConformidade > 0 || ViewBag.IdPerfil != 4)
+                            {
+                                <button type="button" class="btn btn-primary add-acao-imediata pull-right">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
+                            }
+                        </div>
+                        <!-- Responsavel Reverificacao -->
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_reverificacao</label>
+                                <select id="form-acaoimediata-responsavel-reverificacao" name="formAcaoImadiataResponsavelReverificacao" class="form-control"
+                                        data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Responsavel_reverificacao">
+                                    <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                    @if (@Model.IdResponsavelReverificador != null)
+                                    {
+                                        <option value="@Model.IdResponsavelReverificador" selected>@Model.ResponsavelReverificador.NmCompleto</option>
+                                    }
+                                </select>
                             </div>
-                            <!-- Responsavel Reverificacao -->
-                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_reverificacao</label>
-                                    <select id="form-acaoimediata-responsavel-reverificacao" name="formAcaoImadiataResponsavelReverificacao" class="form-control"
-                                            data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Responsavel_reverificacao">
-                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
-                                        @if (@Model.IdResponsavelReverificador != null)
-                                        {
-                                            <option value="@Model.IdResponsavelReverificador" selected>@Model.ResponsavelReverificador.NmCompleto</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- Foi Eficaz -->
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-                                <div class="form-group">
-                                    <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Foi_eficaz</label>
-                                    <div class="">
-                                        <label for="form-acaoimediata-foi-eficaz-sim">
-                                            <input type="radio" id="form-acaoimediata-foi-eficaz-sim" name="formAcaoImadiataFoiEficaz" value="true"
-                                                   @((Model.FlEficaz.HasValue) && Model.FlEficaz == true ? "checked" : null)>
-                                            @Traducao.Shared.ResourceLabel.Label_radio_Sim
-                                        </label>
-                                        <label for="form-acaoimediata-foi-eficaz-nao">
-                                            <input type="radio" id="form-acaoimediata-foi-eficaz-nao" name="formAcaoImadiataFoiEficaz" value="false"
-                                                   @((Model.FlEficaz.HasValue) && Model.FlEficaz == false ? "checked" : null)>
-                                            @Traducao.Shared.ResourceLabel.Label_radio_Nao
-                                        </label>
-                                    </div>
+                        </div>
+                        <!-- Foi Eficaz -->
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Foi_eficaz</label>
+                                <div class="">
+                                    <label for="form-acaoimediata-foi-eficaz-sim">
+                                        <input type="radio" id="form-acaoimediata-foi-eficaz-sim" name="formAcaoImadiataFoiEficaz" value="true"
+                                               @((Model.FlEficaz.HasValue) && Model.FlEficaz == true ? "checked" : null)>
+                                        @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                                    </label>
+                                    <label for="form-acaoimediata-foi-eficaz-nao">
+                                        <input type="radio" id="form-acaoimediata-foi-eficaz-nao" name="formAcaoImadiataFoiEficaz" value="false"
+                                               @((Model.FlEficaz.HasValue) && Model.FlEficaz == false ? "checked" : null)>
+                                        @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                                    </label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
 
-    </div>
+</div>
 </div>
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
