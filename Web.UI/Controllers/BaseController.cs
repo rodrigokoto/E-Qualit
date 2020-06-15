@@ -17,7 +17,7 @@ using Web.UI.Models;
 
 namespace Web.UI.Controllers
 {
-    
+    [EditarPossuiAcessoSite]
     public class BaseController : Controller
     {
         private string controller;

@@ -13,6 +13,7 @@ using System.Web;
 namespace Web.UI.Controllers
 {
     [VerificaIntegridadeLogin]
+    [ValidaUsuario]
     public class CargoController : BaseController
     {
         private readonly ILogAppServico _logAppServico;

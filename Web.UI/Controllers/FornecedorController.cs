@@ -13,6 +13,7 @@ namespace Web.UI.Controllers
     //[ProcessoSelecionado]
     [VerificaIntegridadeLogin]
     [SitePossuiModulo(10)]
+    [ValidaUsuario]
     public class FornecedorController : BaseController
     {
         private readonly ICriterioAvaliacaoAppServico _qualificaAvaliacaoCriticidadeAppServico;

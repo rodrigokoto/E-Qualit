@@ -15,6 +15,7 @@ using System.Web;
 namespace Web.UI.Controllers
 {
     [VerificaIntegridadeLogin]
+    [ValidaUsuario]
     public class UsuarioController : BaseController
     {
         private readonly ISiteAppServico _siteAppServico;

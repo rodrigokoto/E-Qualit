@@ -1402,6 +1402,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Não autorizado ,entre em contato com o administrador.
+        /// </summary>
+        public static string ContatoAdmUnauthorized {
+            get {
+                return ResourceManager.GetString("ContatoAdmUnauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Acesso ao Sistema e-Qualit.
         /// </summary>
         public static string ControleAcesso_assunto_email_novosusuario {
@@ -7822,6 +7831,15 @@ namespace Traducao {
         public static string NaoAtivo {
             get {
                 return ResourceManager.GetString("NaoAtivo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Não Autorizado..
+        /// </summary>
+        public static string NaoAutorizado {
+            get {
+                return ResourceManager.GetString("NaoAutorizado", resourceCulture);
             }
         }
         

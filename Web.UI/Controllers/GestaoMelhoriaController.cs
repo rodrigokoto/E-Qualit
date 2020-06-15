@@ -23,6 +23,7 @@ namespace Web.UI.Controllers
     //[ProcessoSelecionado]
     [VerificaIntegridadeLogin]
     [SitePossuiModulo(14)]
+    [ValidaUsuario]
     public class GestaoMelhoriaController : BaseController
     {
         private readonly IRegistroConformidadesAppServico _registroConformidadesAppServico;

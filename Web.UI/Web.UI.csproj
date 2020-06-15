@@ -234,6 +234,8 @@
     <Compile Include="Helpers\AcessoCliente.cs" />
     <Compile Include="Helpers\AcessoUsuarioSite.cs" />
     <Compile Include="Helpers\CriptografarSenhas.cs" />
+    <Compile Include="Helpers\EditarPossuiAcessoSite.cs" />
+    <Compile Include="Helpers\ValidaUsuario.cs" />
     <Compile Include="Helpers\SitePossuiModuloAttribute.cs" />
     <Compile Include="Helpers\ProcessoSelecionadoAttribute.cs" />
     <Compile Include="Helpers\AutorizacaoUsuarioAttribute.cs" />
@@ -1910,6 +1912,7 @@
     <Content Include="Views\GestaoMelhoria\Index.cshtml" />
     <Content Include="Views\GestaoMelhoria\PDF.cshtml" />
     <Content Include="Views\Shared\GestaoDeRiscoIndicador.cshtml" />
+    <Content Include="Views\Home\BloqueioUnauthorized.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
