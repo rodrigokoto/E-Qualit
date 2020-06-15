@@ -369,6 +369,11 @@ namespace Dominio.Servico
 
         public void Valido(DocDocumento documento, ref List<string> erros)
         {
+            if (documento.IdDocIdentificador == 0) {
+
+                documento.IdDocIdentificador = 1;
+            }
+
             var camposObrigatoriosDoc = new CamposObrigatoriosValidation();
 
             var validacao = camposObrigatoriosDoc.Validate(documento);

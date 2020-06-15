@@ -16,6 +16,9 @@ using System.Web.Routing;
 using System.Threading;
 using System.Threading.Tasks;
 using DAL.Context;
+using System.Web.Helpers;
+using Microsoft.Ajax.Utilities;
+using System.Web.Script.Serialization;
 
 namespace Web.UI.Controllers
 {
@@ -102,10 +105,17 @@ namespace Web.UI.Controllers
             _controladorCategoriasServico = controladorCategoriasServico;
             _docUsuarioVerificaAprovaServico = docUsuarioVerificaAprovaServico;
             _controladorCategoriasAppServico = controladorCategoriasAppServico;
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = 2147483644;
+
+
         }
 
         public ActionResult Index(string Mensagem = "")
         {
+
+            
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
 
@@ -933,7 +943,7 @@ namespace Web.UI.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Salvar(DocDocumento doc, bool validarAssunto = false)
+        public JsonResult Salvar(DocDocumento doc, bool validarAssunto = false)
         {
             var erros = new List<string>();
 
@@ -941,24 +951,15 @@ namespace Web.UI.Controllers
             {
                 case StatusDocumento.Elaboracao:
                     {
-                        if (doc.IdDocumento != 0)
-                            return Editar(doc, validarAssunto);
-                        else
-                            return Criar(doc);
+                        return Criar(doc);
                     }
                 case StatusDocumento.Verificacao:
                     {
-                        if (doc.IdDocumento != 0)
-                            return Editar(doc, validarAssunto);
-                        else
-                            return Criar(doc);
+                        return Criar(doc);
                     }
                 case StatusDocumento.Aprovacao:
                     {
-                        if (doc.IdDocumento != 0)
-                            return Editar(doc, validarAssunto);
-                        else
-                            return Criar(doc);
+                        return Criar(doc);
                     }
                 case StatusDocumento.Aprovado:
                     {
@@ -975,30 +976,33 @@ namespace Web.UI.Controllers
                         }
                         doc.FlStatus = (int)StatusDocumento.Aprovado;
 
-                        if (doc.IdDocumento != 0)
-                            return Editar(doc, validarAssunto);
-                        else
-                            return Criar(doc);
+                        return Criar(doc);
                     }
                 case StatusDocumento.Obsoleto:
                     {
-                        if (doc.IdDocumento != 0)
-                            return Editar(doc, validarAssunto);
-                        else
-                            return Criar(doc);
+                        return Criar(doc);
                     }
+                default:
+                    return Criar(doc);
 
             }
+        }
 
-
-
-            List<DocDocumento> listaResult = _documentoAppServico.ListaDocumentosStatusProcessoSite(Util.ObterSiteSelecionado(), (int)StatusDocumento.Elaboracao).ToList();
-            return View("ListDocumentos", listaResult);
+        protected override JsonResult Json(object data, string contentType, System.Text.Encoding contentEncoding, JsonRequestBehavior behavior)
+        {
+            return new JsonResult()
+            {
+                Data = data,
+                ContentType = contentType,
+                ContentEncoding = contentEncoding,
+                JsonRequestBehavior = behavior,
+                MaxJsonLength = Int32.MaxValue // Use this value to set your maximum size for all of your Requests
+            };
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Criar(DocDocumento doc)
+        public JsonResult Criar(DocDocumento doc)
         {
             ViewBag.IdSite = doc.IdSite;
             try
@@ -1007,9 +1011,11 @@ namespace Web.UI.Controllers
 
                 doc.Assuntos.Add(new DocumentoAssunto { DataAssunto = DateTime.Now, Descricao = Traducao.Resource.DescricaoRevisaoEmissaoInicial, Revisao = "0" });
 
-                if (doc.Elaborador == null) {
+                if (doc.Elaborador == null)
+                {
 
-                    if (doc.IdElaborador != 0) {
+                    if (doc.IdElaborador != 0)
+                    {
 
                         var elaborador = _usuarioAppServico.GetById(doc.IdElaborador);
 
@@ -2029,11 +2035,7 @@ namespace Web.UI.Controllers
         {
             var idUsuarioLogado = Util.ObterCodigoUsuarioLogado();
 
-
-            doc.NuRevisao = 0;
-            doc.DtInclusao = DateTime.Now;
-            doc.DtAlteracao = DateTime.Now;
-            doc.IdUsuarioIncluiu = idUsuarioLogado;
+            doc.IdUsuarioIncluiu = 1;
             doc.XmlMetadata = Util.EscreveXML(doc.ConteudoDocumento);
 
             TrataObjetoApartirDoTipoTemplate(doc, idUsuarioLogado, ref erros);
@@ -2050,27 +2052,8 @@ namespace Web.UI.Controllers
 
         private void DefineStatus(DocDocumento doc)
         {
-            if (!doc.FlWorkFlow)
-            {
-                doc.FlStatus = (int)StatusDocumento.Aprovado;
-
-            }
-            else
-            {
-
-                if (doc.DocUsuarioVerificaAprova.Count == 0)
-                {
-                    doc.DocUsuarioVerificaAprova.AddRange(doc.Verificadores);
-                    doc.DocUsuarioVerificaAprova.AddRange(doc.Aprovadores);
-
-                }
 
 
-
-
-                //if (doc.FlStatus == 0)
-                //    doc.FlStatus = (int)StatusDocumento.Elaboracao;
-            }
         }
 
         private void TrataAnexos(DocDocumento doc)

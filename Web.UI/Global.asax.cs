@@ -24,6 +24,17 @@ namespace Web.UI
 
                     GlobalConfiguration.Configuration.Formatters.Clear();
 
+            // Increase max Json length  
+            foreach (var factory in ValueProviderFactories.Factories)
+            {
+                if (factory is JsonValueProviderFactory)
+                {
+                    ValueProviderFactories.Factories.Remove(factory as JsonValueProviderFactory);
+                    break;
+                }
+            }
+            ValueProviderFactories.Factories.Add(new App_Start.CustomJsonValueProviderFactory());
+
         }
     }
 }
