@@ -18514,6 +18514,7 @@ input:required:valid {
     }
 }
 
+
 @media screen and (max-width: 600px) {
     .slogan {
         font-size: 14px;
@@ -18778,7 +18779,7 @@ input:required:valid {
 /* Menu User */
 /* Logo */
 .logo-cliente {
-    width: 45px!important;
+    width: 45px !important;
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }
@@ -19554,7 +19555,13 @@ label .error {
     background-color: white;
 }
 
+
+
+
+
 @media (min-width: 768px) {
+
+    
     #page-wrapper {
         position: inherit;
         margin: 0 0 0 250px;

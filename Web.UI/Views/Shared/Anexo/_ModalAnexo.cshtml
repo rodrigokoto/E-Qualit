@@ -3,6 +3,21 @@
 @* dialogo do anexo
     nao pode estar no meio do HTML principal, tem que estar fora do div main
 *@
+
+<script>
+    function openBase64InNewTab(data, mimeType) {
+        var byteCharacters = atob(data);
+        var byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        var byteArray = new Uint8Array(byteNumbers);
+        var file = new Blob([byteArray], { type: mimeType + ';base64' });
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+    }
+</script>
+
 <div id="modal-rai@(Model.IdentificadorInicial)" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -56,27 +71,52 @@
                     foreach (var anexo in Model.AnexosLista)
                     {
                         @*
-                cada arquivo estara agrupado por classe, para montar os dados precisa ler por classe e depois os itens dentro dessa classe
+                            cada arquivo estara agrupado por classe, para montar os dados precisa ler por classe e depois os itens dentro dessa classe
                         *@
-                        <div class="upload-arq upload-arq-rai uploadrai@(Model.IdentificadorInicial)" style="text-align: left">
-                            @if (Model.PodeAnexar)
-                            {
-                                <a href="#" class="btn-delete2-rai linksemcor latalixo"
-                                   data-spannroarquivos="raiNroArquivos@(Model.IdentificadorInicial)"><i class="fa fa-trash fa-1" aria-hidden="true" title="Excluir anexo" data-original-title=""></i></a>
-                            }
-                            @{
-                                var ArquivoB64 = String.Format("data:application/" + (anexo.AnexoDados.Arquivo != null ? anexo.AnexoDados.Extensao : "") + ";base64," + (anexo.AnexoDados.Arquivo != null ? Convert.ToBase64String(anexo.AnexoDados.Arquivo) : ""));
-                            }
-                            <a href="@ArquivoB64" class="downrai linksemcor" target="_blank" download="@anexo.AnexoDados.Nome">Anexo: @anexo.AnexoDados.Nome</a>
-                            <input type="hidden" name="IdAnexo" value="@anexo.AnexoDados.IdAnexo" />
-                            <input type="hidden" name="NomeAnexo" value="@anexo.AnexoDados.Nome" />
-                            <input type="hidden" name="ApagarAnexo" value="0" />
-                            <input type="hidden" name="IdArquivoPlaiAnexo" value="@anexo.IdChave1" />
-                            <input type="hidden" name="IdPlai" value="@anexo.IdChave2" />
-                            <input type="file" class="anexo-plai"
-                                   data-msg-required=""
-                                   data-b64="@(anexo.AnexoDados.Arquivo != null && anexo.AnexoDados.IdAnexo > 0 ? Convert.ToBase64String(anexo.AnexoDados.Arquivo) : "")">
-                        </div>
+            <div class="upload-arq upload-arq-rai uploadrai@(Model.IdentificadorInicial)" style="text-align: left">
+                @if (Model.PodeAnexar)
+                {
+                    <a href="#" class="btn-delete2-rai linksemcor latalixo"
+                       data-spannroarquivos="raiNroArquivos@(Model.IdentificadorInicial)"><i class="fa fa-trash fa-1" aria-hidden="true" title="Excluir anexo" data-original-title=""></i></a>
+                }
+                @{
+                    var ArquivoB64 = String.Format("data:application/" + (anexo.AnexoDados.Arquivo != null ? anexo.AnexoDados.Extensao : "") + ";base64," + (anexo.AnexoDados.Arquivo != null ? Convert.ToBase64String(anexo.AnexoDados.Arquivo) : ""));
+
+
+                    switch (anexo.AnexoDados.Extensao)
+                    {
+                        case ".png":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/png')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".pdf":
+                            <a href="javascript:void(0)" class="downrai linksemcor"  onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/pdf')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".jpg":
+                            <a href="javascript:void(0)" class="downrai linksemcor"  onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/jpg')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (anexo.AnexoDados.Extensao == ".pdf")
+                    {
+
+
+                    }
+
+                }
+
+
+                @*<a href="@ArquivoB64" class="downrai linksemcor" target="_blank" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">Anexo: @anexo.AnexoDados.Nome</a>*@
+                <input type="hidden" name="IdAnexo" value="@anexo.AnexoDados.IdAnexo" />
+                <input type="hidden" name="NomeAnexo" value="@anexo.AnexoDados.Nome" />
+                <input type="hidden" name="ApagarAnexo" value="0" />
+                <input type="hidden" name="IdArquivoPlaiAnexo" value="@anexo.IdChave1" />
+                <input type="hidden" name="IdPlai" value="@anexo.IdChave2" />
+                <input type="file" class="anexo-plai"
+                       data-msg-required=""
+                       data-b64="@(anexo.AnexoDados.Arquivo != null && anexo.AnexoDados.IdAnexo > 0 ? Convert.ToBase64String(anexo.AnexoDados.Arquivo) : "")">
+            </div>
                     }
                 }
 
