@@ -191,6 +191,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AcaoCorretivaController.cs" />
+    <Compile Include="Controllers\MigracaoAnaliseCriticaController.cs" />
     <Compile Include="Controllers\AnaliseCriticaController.cs" />
     <Compile Include="Controllers\AvaliacaoCriticidadeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -208,6 +209,8 @@
     <Compile Include="Controllers\GestaoDeRiscoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndicadorController.cs" />
+    <Compile Include="Controllers\MigracaoInstrumentoController.cs" />
+    <Compile Include="Controllers\MigracaoLicencaController.cs" />
     <Compile Include="Controllers\LicencaController.cs" />
     <Compile Include="Controllers\InstrumentoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
