@@ -149,7 +149,7 @@ namespace Web.UI.Controllers
 
             var instrumento = _instrumentoAppServico.GetById(id);
 
-            ViewBag.Responsavel = _usuarioAppServico.GetById(instrumento.IdResponsavel.Value).NmCompleto;
+            ViewBag.Responsavel = _usuarioAppServico.GetById(1).NmCompleto;
 
             if (instrumento.Calibracao.Count == 0)
             {
@@ -157,7 +157,11 @@ namespace Web.UI.Controllers
             }
             else
             {
-                ViewBag.DtUltimaCalibracao = (DateTime)instrumento.Calibracao.Last().DataProximaCalibracao;
+             
+                if (instrumento.Calibracao.Last().DataProximaCalibracao != null)
+                    ViewBag.DtUltimaCalibracao = (DateTime)instrumento.Calibracao.Last().DataProximaCalibracao;
+                else
+                    ViewBag.DtUltimaCalibracao = string.Empty;
             }
 
             return View("Criar", instrumento);

@@ -23,6 +23,8 @@ namespace Web.UI.Helpers
         {
         }
 
+        [ValidateInput(false)]
+        [HttpPost]
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
 

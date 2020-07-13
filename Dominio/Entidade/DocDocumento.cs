@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using DomainValidation.Validation;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace Dominio.Entidade
 {
@@ -67,6 +68,7 @@ namespace Dominio.Entidade
 
         public string EntradaTextoDoc { get; set; }
         public string SaidaTextoDoc { get; set; }
+        [AllowHtml]
         public string TextoDoc { get; set; }
         public string FluxoDoc { get; set; }
         [NotMapped]

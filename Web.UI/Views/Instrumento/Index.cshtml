@@ -36,6 +36,9 @@
                                     <thead>
                                         <tr id="hr1" class="bg">
                                             <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="Sigla">
+                                            </th>
+                                            <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Numero">
                                             </th>
                                             <th class="w15 with-input">
@@ -53,6 +56,7 @@
                                             <th class="w10"></th>
                                         </tr>
                                         <tr class="bg">
+                                            <th>Sigla</th>
                                             <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_CdNumero</th>
                                             <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Local_de_uso</th>
                                             <th>@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Intrumento</th>
@@ -65,14 +69,16 @@
                                         @foreach (var instrumento in Model)
                                         {
                                             <tr class="odd">
+                                                <td>@instrumento.Sigla.Descricao</td>
                                                 <td>
-                                                    @instrumento.Sigla.Descricao - @instrumento.Numero
+                                                    @instrumento.Numero
                                                 </td>
                                                 <td>@instrumento.LocalDeUso</td>
                                                 <td>@instrumento.Equipamento</td>
                                                 @if (instrumento.Calibracao.Count > 0 && instrumento.Calibracao.LastOrDefault() != null && instrumento.Calibracao.LastOrDefault().DataProximaCalibracao != null)
                                                 {
-                                                    <td>@instrumento.Calibracao.LastOrDefault().DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data)</td>
+                                                    
+                                                    <td>@instrumento.Calibracao.OrderByDescending(x => x.DataProximaCalibracao).FirstOrDefault().DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data)</td>
                                                 }
                                                 else
                                                 {
