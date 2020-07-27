@@ -149,6 +149,8 @@ namespace Web.UI.Controllers
 
             var instrumento = _instrumentoAppServico.GetById(id);
 
+            instrumento.Calibracao = instrumento.Calibracao.OrderBy(x => x.DataProximaCalibracao).ToList();
+
             ViewBag.Responsavel = _usuarioAppServico.GetById(1).NmCompleto;
 
             if (instrumento.Calibracao.Count == 0)

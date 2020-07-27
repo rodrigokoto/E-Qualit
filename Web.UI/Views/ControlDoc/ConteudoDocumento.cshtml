@@ -172,6 +172,14 @@
                                 <div class="col-sm-2">
                                     <!-- Titulo do Documento -->
                                     <div class="form-group">
+                                        <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Revisao</label>
+                                        <br />
+                                       @(Model.NuRevisao == null? 0 : Model.NuRevisao)                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <!-- Titulo do Documento -->
+                                    <div class="form-group">
                                         <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_TituloDocumento</label>
                                         <br />
                                         @Model.Titulo
@@ -261,9 +269,9 @@
                                             @*@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina*@
                                             <!-- Indicadores -->
                                             @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                                <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="" value="IN" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
-                                                <label for="form-cadastro-escolha-indicadores">Indicadores</label>
-                                            </div>*@
+                        <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="" value="IN" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
+                        <label for="form-cadastro-escolha-indicadores">Indicadores</label>
+                    </div>*@
 
 
                                             <!-- Recursos -->
@@ -278,9 +286,9 @@
                                             </div>
                                             <!-- Licenca -->
                                             @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                                    <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
-                                                    <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
-                                                </div>*@
+                        <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
+                        <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
+                    </div>*@
                                             <!-- Docs Externos -->
                                             <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
                                                 <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-docsexternos" class="" value="DE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "DE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? "checked" : "")>

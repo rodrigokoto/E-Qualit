@@ -97,6 +97,10 @@ APP.controller.InstrumentosController = {
         APP.component.FileUpload.init();
         APP.component.Datapicker.init();
         APP.component.DataTable.init('#tb-calibracao');
+
+        tabelaCalibracao = $('#tb-calibracao').DataTable();
+        tabelaCalibracao.order([2, 'desc']);
+        tabelaCalibracao.draw();
         // APP.controller.InstrumentosController.setupUploadArquivoCalibracao();
         //OUTRASfimp
         this.changeCadastroSigla();

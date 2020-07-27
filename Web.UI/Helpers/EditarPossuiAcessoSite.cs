@@ -33,7 +33,7 @@ namespace Web.UI.Helpers
             var router = request.RequestContext.RouteData;
             string action = router.GetRequiredString("action");
             string controller = router.GetRequiredString("controller");
-            var idSite = 0;
+            var idSite = Util.ObterSiteSelecionado();
             var id = router.Values["id"];
 
             switch (controller)
@@ -47,13 +47,18 @@ namespace Web.UI.Helpers
                     }
                     break;
                 case "ControlDoc":
-                    idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
-                    var docdocumento = docDocumentoRepositorio.GetById(Convert.ToInt32(id));
-                    if (docdocumento != null && docdocumento.IdSite != idSite)
+                    if (action != "DocumentosAprovados")
                     {
-                        filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+                        idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
+                        var docdocumento = docDocumentoRepositorio.GetById(Convert.ToInt32(id));
+                        if (docdocumento != null && docdocumento.IdSite != idSite)
+                        {
+                            filterContext.Result = new RedirectResult("/Home/BloqueioUnauthorized");
+                        }
+                        break;
                     }
-                    break;
+                    else break;
+                        
                 case "Instrumento":
                     idSite = Convert.ToInt32(request.Params["siteSelecionado"]);
                     var instrumento = instrumentoRepositorio.GetById(Convert.ToInt32(id));

@@ -16,6 +16,8 @@ using System.Web.Routing;
 using System.Threading;
 using System.Threading.Tasks;
 using DAL.Context;
+using System.Activities.Debugger;
+using System.Data.Entity;
 
 namespace Web.UI.Controllers
 {
@@ -813,16 +815,74 @@ namespace Web.UI.Controllers
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             try
             {
-                var documento = _documentoAppServico.GetById(id);
 
-                _documentoAppServico.Remove(documento);
+                using (var db = new BaseContext())
+                {
 
-                return Json(new { StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                    var documento = (from dc in db.DocDocumento
+                                     where dc.IdDocumento == id
+                                     select dc).FirstOrDefault();
+
+                    List<ArquivoDocDocumentoAnexo> lstExclusao = documento.ArquivoDocDocumentoAnexo.ToList();
+
+                    foreach (var arquivo in lstExclusao)
+                    {
+                        db.ArquivoDocDocumentoAnexo.Remove(arquivo);
+                    }
+
+                    db.Entry(documento).State = EntityState.Modified;
+                    db.SaveChanges();
+
+
+                    db.DocDocumento.Remove(documento);
+                    db.SaveChanges();
+
+                    return Json(new { StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                }
             }
+
+            //    var documento = _documentoAppServico.GetById(id);
+
+            //    foreach (var estearquivo in documento.ArquivoDocDocumentoAnexo)
+            //    {
+            //        _AnexoAppServico.Remove(_AnexoAppServico.GetById(estearquivo.IdAnexo));
+            //    }
+
+
+            //    if (RemoverArquivo(id))
+            //    {
+            //        return Json(new { StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+            //    }
+            //    else
+            //    {
+            //        return Json(new { StatusCode = (int)HttpStatusCode.InternalServerError }, JsonRequestBehavior.AllowGet);
+            //    }
+            //}
             catch (Exception ex)
             {
                 GravaLog(ex);
                 return Json(new { StatusCode = (int)HttpStatusCode.InternalServerError }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public bool RemoverArquivo(int id)
+        {
+            try
+            {
+                using (var db = new BaseContext())
+                {
+                    var doc = (from dc in db.DocDocumento
+                               where dc.IdDocumento == id
+                               select dc).FirstOrDefault();
+
+                    _documentoAppServico.Remove(doc);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
             }
         }
 

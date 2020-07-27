@@ -121,24 +121,30 @@ namespace Web.UI.Helpers
                         DocDocumentoRepositorio docDocumentoRepositorio = new DocDocumentoRepositorio();
                         var doc = docDocumentoRepositorio.GetById(Convert.ToInt32(id));
 
-                        if (id != null)
+                        if (router.Values["action"].ToString() == "RetornaNumeroPorSigla" || router.Values["action"].ToString() == "DocumentosAprovados")
                         {
-                            if (doc.IdSite == Convert.ToInt32(idSite))
-                            {
-                                return true;
-
-                            }
-
-                            else
-                            {
-                                return false;
-                            }
+                            return true;  
                         }
                         else
                         {
-                            return true;
-                        }
+                            if (id != null)
+                            {
+                                if (doc.IdSite == Convert.ToInt32(idSite))
+                                {
+                                    return true;
 
+                                }
+
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }
 
                     case "NaoConformidade":
                         RegistroConformidadesRepositorio conformidadeRepositorio = new RegistroConformidadesRepositorio();
@@ -270,10 +276,16 @@ namespace Web.UI.Helpers
                             return true;
                         }
                     case "Usuario":
-                        if (idSiteUrl != null) {
+                        if (idSiteUrl != null)
+                        {
 
                             UsuarioClienteSiteRepositorio clienteSite = new UsuarioClienteSiteRepositorio();
-                            var IdValue = Convert.ToInt32(id);
+                            var IdValue = 0;
+                            if (id != null)
+                                IdValue = Convert.ToInt32(id);
+                            else
+                                IdValue = idUsuario;
+
                             var usuarioSite = clienteSite.GetAll().Where(x => x.IdUsuario == IdValue).FirstOrDefault();
 
                             if (usuSite.IdSite == Convert.ToInt32(idSiteUrl))
@@ -289,10 +301,13 @@ namespace Web.UI.Helpers
                                         return true;
                                     }
                                 }
-                                else {
-                                    
+                                else
+                                {
+
                                     return true;
                                 }
+
+
                             }
                             else
                             {
@@ -301,7 +316,7 @@ namespace Web.UI.Helpers
                         }
                         break;
                 }
-                
+
             }
             else
             {

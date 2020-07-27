@@ -79,6 +79,10 @@ APP.controller.InstrumentosController = {
         APP.component.FileUpload.init();
         APP.component.Datapicker.init();
         APP.component.DataTable.init('#tb-calibracao');
+
+        $('#tb-calibracao').DataTable({
+            "order": [[3, "desc"]]
+        });
         // APP.controller.InstrumentosController.setupUploadArquivoCalibracao();
         //OUTRAS
         this.setCalibracaoVisivel();
