@@ -1848,12 +1848,30 @@ APP.controller.ControlDocController = {
         this.buttonSaveNovoRegistroFormRegistro.on('click', function () {
             event.preventDefault();
 
-            $(this).closest('tr').find('[name=formRegistrosIdentificar]').prop('disabled', true);
-            $(this).closest('tr').find('[name=formRegistrosArmazenar]').prop('disabled', true);
-            $(this).closest('tr').find('[name=formRegistrosProteger]').prop('disabled', true);
-            $(this).closest('tr').find('[name=formRegistrosRecuperar]').prop('disabled', true);
-            $(this).closest('tr').find('[name=formRegistrosRetencao]').prop('disabled', true);
-            $(this).closest('tr').find('[name=formRegistrosDisposicao]').prop('disabled', true);
+            if ($(this).closest('tr').find('[name=formRegistrosIdentificar]').text !== "") {
+                $(this).closest('tr').find('[name=formRegistrosIdentificar]').prop('disabled', true);
+            }
+            if ($(this).closest('tr').find('[name=formRegistrosArmazenar]').text !== "") {
+                $(this).closest('tr').find('[name=formRegistrosArmazenar]').prop('disabled', true);
+            }
+            if ($(this).closest('tr').find('[name=formRegistrosProteger]').text !== "") {
+                $(this).closest('tr').find('[name=formRegistrosProteger]').prop('disabled', true);
+            }
+            if ($(this).closest('tr').find('[name=formRegistrosRecuperar]').text !== "") {
+                $(this).closest('tr').find('[name=formRegistrosRecuperar]').prop('disabled', true);
+            }
+            if ($(this).closest('tr').find('[name=formRegistrosRetencao]').text !== "") {
+                $(this).closest('tr').find('[name=formRegistrosRetencao]').prop('disabled', true);
+            }
+            if ($(this).closest('tr').find('[name=formRegistrosDisposicao]').text !== "") {
+                $(this).closest('tr').find('[name=formRegistrosDisposicao]').prop('disabled', true);
+            }
+
+            //$(this).closest('tr').find('[name=formRegistrosArmazenar]').prop('disabled', true);
+            //$(this).closest('tr').find('[name=formRegistrosProteger]').prop('disabled', true);
+            //$(this).closest('tr').find('[name=formRegistrosRecuperar]').prop('disabled', true);
+            //$(this).closest('tr').find('[name=formRegistrosRetencao]').prop('disabled', true);
+            //$(this).closest('tr').find('[name=formRegistrosDisposicao]').prop('disabled', true);
             editor.graph.setEnabled(false);
         });
 

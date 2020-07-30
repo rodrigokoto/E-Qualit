@@ -98,8 +98,10 @@ APP.controller.InstrumentosController = {
         APP.component.Datapicker.init();
         APP.component.DataTable.init('#tb-calibracao');
 
+        $.fn.dataTable.moment('DD/MM/YYYY');    //Formatação sem Hora
+
         tabelaCalibracao = $('#tb-calibracao').DataTable();
-        tabelaCalibracao.order([2, 'desc']);
+        tabelaCalibracao.order([3, 'desc']);
         tabelaCalibracao.draw();
         // APP.controller.InstrumentosController.setupUploadArquivoCalibracao();
         //OUTRASfimp
