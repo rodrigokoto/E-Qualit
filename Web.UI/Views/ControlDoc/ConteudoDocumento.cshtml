@@ -174,7 +174,7 @@
                                     <div class="form-group">
                                         <label for="form-cadastro-titulo-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Revisao</label>
                                         <br />
-                                       @(Model.NuRevisao == null? 0 : Model.NuRevisao)                                        
+                                        @(Model.Assuntos.Count > 0 ? Model.Assuntos.Max(x => Convert.ToInt32(x.Revisao)) : (Model.NuRevisao == null ? 0 : Convert.ToInt32(Model.NuRevisao)))
                                     </div>
                                 </div>
                                 <div class="col-sm-2">

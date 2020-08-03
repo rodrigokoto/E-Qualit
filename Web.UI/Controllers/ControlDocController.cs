@@ -178,6 +178,9 @@ namespace Web.UI.Controllers
 
             documento = AdicionarUsuario(documento);
 
+            documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Usuario.NmCompleto).ToList();
+            documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
+
             if (documento.DocRisco.Count > 0)
             {
                 var lista = documento.DocRisco.ToList();
@@ -585,7 +588,43 @@ namespace Web.UI.Controllers
             ViewBag.PodeImprimir = true;
             ViewBag.EstaEmElaboracao = true;
             CarregarDropDownUsuarios();
-            return View("ListDocumentos", listaResult);
+            return View("ListaMestra", listaResult);
+        }
+
+        public ActionResult DocumentoListaMestra(int? id = null, int? idProcesso = null)
+        {
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.FlStatus = (int)StatusDocumento.Aprovado;
+
+            List<DocDocumento> listaResult = _documentoAppServico.ListaDocumentosAprovadosMaiorRevisao(Util.ObterSiteSelecionado(), idProcesso).Where(x => x.IdCategoria == id || id == null).ToList();
+
+            var idPerfil = Util.ObterPerfilUsuarioLogado();
+
+            var comPermissao = ECoordenadorOuAdministrador(idPerfil);
+
+            var comPermissaoDeRevisar = _usuarioAppServico.ObterUsuariosPorFuncao(Util.ObterSiteSelecionado(), _funcaoRevisar).Where(s => s.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault();
+            ViewBag.PodeRevisar = comPermissaoDeRevisar != null || idPerfil != 4 ? true : false;
+            var comPermissaoDeImprimir = _usuarioAppServico.ObterUsuariosPorFuncao(Util.ObterSiteSelecionado(), _funcaoImprimir).Where(s => s.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault();
+            ViewBag.PodeImprimir = comPermissaoDeImprimir != null ? true : false;
+
+            ViewBag.EstaEmElaboracao = false;
+            // chumbado
+            ViewBag.PodeRevisar = id == null && idProcesso == null && ViewBag.PodeRevisar == true ? true : false;
+            ViewBag.UsuarioPodeAlterar = comPermissao ? comPermissao : _usuarioAppServico.PossuiAcesso(Util.ObterCodigoUsuarioLogado(), (int)Funcionalidades.ControlDoc, 100);
+            if (idProcesso != null)
+            {
+                ViewBag.Revisao = false;
+            }
+            else
+            {
+                ViewBag.Revisao = true;
+            }
+
+            ViewBag.PodeImprimir = true;
+            ViewBag.PodeImprimir = true;
+            ViewBag.EstaEmElaboracao = true;
+            CarregarDropDownUsuarios();
+            return View("ListaMestra", listaResult);
         }
 
         public ActionResult DocumentosRevisao()

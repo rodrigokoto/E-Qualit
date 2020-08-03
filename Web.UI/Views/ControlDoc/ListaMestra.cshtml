@@ -1,0 +1,180 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model IEnumerable<Dominio.Entidade.DocDocumento>
+@using Dominio.Enumerado;
+@{
+    ViewBag.Title = "Lista de Documentos";
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+}
+@section Metas{
+    <meta name="page" content="ListDocumentos" />
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxClient.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxApplication.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/util/mxImageExport.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/util/mxUtils.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GerarPdfDocumento.js")"></script>
+}
+
+<script type="text/javascript">
+    var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
+    mxDefaultLanguage = 'pt';
+
+
+
+</script>
+
+
+<div id="main">
+    <div class="content-painel">
+        @*@Html.Partial("_Menu")*@
+        <!-- Formulario ControlDoc -->
+        <form id="form-controldoc">
+            <div class="row containerGraph" style="display:none">
+                <div class="col-md-1 col-xs-2 tollbarGraph">
+                    <div id="toolbar" valign="top"></div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                    <input type="hidden" id="form-emissao-documento-fluxo-conteudo" />
+                    <div id="graphContainer"></div>
+                </div>
+                <img id="imgCanvas" />
+            </div>
+
+            <div class="panel panel-default" id="panel-controldoc">
+                <div class="panel-body" id="panel-form-controldoc">
+                    <div class="row">
+                        <div class="barra-busca">
+                            @if (ViewBag.Mensagem != null && !String.IsNullOrEmpty(ViewBag.Mensagem))
+                            {
+                                <p class="msg">
+                                    <div class="alert alert-warning" role="alert">
+                                        @ViewBag.Mensagem
+                                    </div>
+                                </p>
+                            }
+                            <p class="novo">
+                                @Html.ActionLink("Novo Documento", "EmissaoDocumento")
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </p>
+
+                            <div class="col-lg-12">
+                                <table id="tb-list-documentos" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr id="hr1" class="bg">
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Sigla" />
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Titulo" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Processo" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Categoria" />
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Responsavel" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Revisao" />
+                                            </th>
+                                            <th class="w10 text-nowrap"></th>
+                                        </tr>
+                                        <tr class="bg">
+                                            <th>@Traducao.Resource.DocDocumento_lbl_CdNumero</th>
+                                            <th>@Traducao.Resource.DocDocumento_lbl_NmTitulo</th>
+                                            <th>@Traducao.Resource.DocDocumento_lbl_IdProcesso</th>
+                                            <th>@Traducao.Resource.DocDocumento_lbl_IdCategoria</th>
+                                            <th>@Traducao.Resource.CtrlUsuario_lbl_NmCompleto</th>
+                                            <th>@Traducao.Resource.DocDocumento_lbl_NuRevisao</th>
+                                            <th>@Traducao.Resource.Acoes</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @{
+                                                        string numeroDocumento = ((item.NumeroDocumento % 2).Equals(1) || (item.NumeroDocumento % 2).Equals(0) ? item.NumeroDocumento.ToString("000") : item.NumeroDocumento.ToString().Replace(".", ","));
+                                                    }
+
+                                                    @item.Sigla.Descricao - @numeroDocumento
+                                                </td>
+                                                <td>
+                                                    @item.Titulo
+                                                </td>
+                                                <td>
+                                                    @if (item.Processo != null)
+                                                    {
+                                                        @item.Processo.Nome
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @item.Categoria.Descricao
+
+                                                </td>
+                                                <td>
+                                                    @item.Elaborador.NmCompleto
+                                                </td>
+                                                <td>
+                                                    <p> @(item.Assuntos.Count > 0 ? item.Assuntos.Max(x => Convert.ToInt32(x.Revisao)) : (item.NuRevisao == null ? 0 : Convert.ToInt32(item.NuRevisao))) </p>
+                                                </td>
+                                                <td class="text-nowrap">
+
+                                                    @if (item.FlStatus == (int)StatusDocumento.Aprovado)
+                                                    {
+                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="#" data-IdDocumento="@item.IdDocumento" data-Perfil="@ViewBag.IdPerfil" title="@Traducao.Resource.Imprimir" class="imprimir-documento icon-cliente view-color">
+                                                                <i class="fa fa-print" aria-hidden="true" data-toggle="tooltip" data-original-title="Imprimir"></i>
+                                                            </a>
+                                                        }
+                                                    }
+                                                   
+                                                </td>
+
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="modal-impressao" style="display:none;">
+            <form class="form" role="form">
+                <div class="form-group">
+                    <label for="email">@Traducao.Resource.CopiaControlada </label>
+                    <select class="form-control" id="ddlCopiaControlada" name="ddlCopiaControlada" placeholder="Selecione">
+                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.CopiaControlada) || ViewBag.IdPerfil != 4)
+                        {
+                            <option value="true">@Traducao.Resource.Sim</option>
+                        }
+                        @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.CopiaNaoControlada) || ViewBag.IdPerfil != 4)
+                        {
+                            <option value="false">@Traducao.Resource.Nao</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group usuarioDestinoCopiaControlada">
+                    <label for="password">@Traducao.Resource.UsuarioDestino </label>
+                    @Html.DropDownList("ddlUsuarioDestino", (List<SelectListItem>)ViewBag.usuarios, new { @class = "form-control" })
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

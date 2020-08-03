@@ -118,33 +118,38 @@ namespace Web.UI.Helpers
                         }
 
                     case "ControlDoc":
-                        DocDocumentoRepositorio docDocumentoRepositorio = new DocDocumentoRepositorio();
-                        var doc = docDocumentoRepositorio.GetById(Convert.ToInt32(id));
-
-                        if (router.Values["action"].ToString() == "RetornaNumeroPorSigla" || router.Values["action"].ToString() == "DocumentosAprovados")
+                        if (action != "RetornaNumeroPorSigla")
                         {
-                            return true;  
-                        }
-                        else
-                        {
-                            if (id != null)
-                            {
-                                if (doc.IdSite == Convert.ToInt32(idSite))
-                                {
-                                    return true;
+                            DocDocumentoRepositorio docDocumentoRepositorio = new DocDocumentoRepositorio();
+                            var doc = docDocumentoRepositorio.GetById(Convert.ToInt32(id));
 
-                                }
-
-                                else
-                                {
-                                    return false;
-                                }
-                            }
-                            else
+                            if (router.Values["action"].ToString() == "RetornaNumeroPorSigla" || router.Values["action"].ToString() == "DocumentosAprovados")
                             {
                                 return true;
                             }
+                            else
+                            {
+                                if (id != null)
+                                {
+                                    if (doc.IdSite == Convert.ToInt32(idSite))
+                                    {
+                                        return true;
+
+                                    }
+
+                                    else
+                                    {
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
                         }
+                        else
+                            return true;
 
                     case "NaoConformidade":
                         RegistroConformidadesRepositorio conformidadeRepositorio = new RegistroConformidadesRepositorio();
@@ -229,12 +234,36 @@ namespace Web.UI.Helpers
                     case "Fornecedor":
                         FornecedorRepositorio fornecedorRepositorio = new FornecedorRepositorio();
 
-                        var fornecedor = fornecedorRepositorio.GetById(Convert.ToInt32(id));
+                        ProdutoRepositorio produtoRepositorio = new ProdutoRepositorio();
 
+                        var produto = produtoRepositorio.GetById(Convert.ToInt32(id));
+
+
+                        if (action == "AcoesFornecedores")
+                        {
+                            if (id != null)
+                            {
+                                var fornecedor = fornecedorRepositorio.GetById(Convert.ToInt32(id));
+
+                                if (fornecedor.IdSite == Convert.ToInt32(idSite))
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                return true;
+                            }
+
+                        }
 
                         if (id != null)
                         {
-                            if (fornecedor.IdSite == Convert.ToInt32(idSite))
+                            if (produto.IdSite == Convert.ToInt32(idSite))
                             {
                                 return true;
 

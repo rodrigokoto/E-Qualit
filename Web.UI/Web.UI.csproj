@@ -1916,6 +1916,7 @@
     <Content Include="Views\GestaoMelhoria\PDF.cshtml" />
     <Content Include="Views\Shared\GestaoDeRiscoIndicador.cshtml" />
     <Content Include="Views\Home\BloqueioUnauthorized.cshtml" />
+    <Content Include="Views\ControlDoc\ListaMestra.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -1848,23 +1848,43 @@ APP.controller.ControlDocController = {
         this.buttonSaveNovoRegistroFormRegistro.on('click', function () {
             event.preventDefault();
 
-            if ($(this).closest('tr').find('[name=formRegistrosIdentificar]').text !== "") {
+            var errorDisabled = 0;
+
+            var teste = ($(this).closest('tr').find('[name=formRegistrosIdentificar]')).val();
+
+            if ($(this).closest('tr').find('[name=formRegistrosIdentificar]').val() !== "") {
                 $(this).closest('tr').find('[name=formRegistrosIdentificar]').prop('disabled', true);
+            } else {
+                errorDisabled = 1;
             }
-            if ($(this).closest('tr').find('[name=formRegistrosArmazenar]').text !== "") {
+            if ($(this).closest('tr').find('[name=formRegistrosArmazenar]').val() !== "") {
                 $(this).closest('tr').find('[name=formRegistrosArmazenar]').prop('disabled', true);
+            } else {
+                errorDisabled = 1;
             }
-            if ($(this).closest('tr').find('[name=formRegistrosProteger]').text !== "") {
+            if ($(this).closest('tr').find('[name=formRegistrosProteger]').val() !== "") {
                 $(this).closest('tr').find('[name=formRegistrosProteger]').prop('disabled', true);
+            } else {
+                errorDisabled = 1;
             }
-            if ($(this).closest('tr').find('[name=formRegistrosRecuperar]').text !== "") {
+            if ($(this).closest('tr').find('[name=formRegistrosRecuperar]').val() !== "") {
                 $(this).closest('tr').find('[name=formRegistrosRecuperar]').prop('disabled', true);
+            } else {
+                errorDisabled = 1;
             }
-            if ($(this).closest('tr').find('[name=formRegistrosRetencao]').text !== "") {
+            if ($(this).closest('tr').find('[name=formRegistrosRetencao]').val() !== "") {
                 $(this).closest('tr').find('[name=formRegistrosRetencao]').prop('disabled', true);
+            } else {
+                errorDisabled = 1;
             }
-            if ($(this).closest('tr').find('[name=formRegistrosDisposicao]').text !== "") {
+            if ($(this).closest('tr').find('[name=formRegistrosDisposicao]').val() !== "") {
                 $(this).closest('tr').find('[name=formRegistrosDisposicao]').prop('disabled', true);
+            } else {
+                errorDisabled = 1;
+            }
+
+            if (errorDisabled == 1) {
+                bootbox.alert("Existem campos do registro sem preenchimento");
             }
 
             //$(this).closest('tr').find('[name=formRegistrosArmazenar]').prop('disabled', true);

@@ -6188,6 +6188,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lista Mestra.
+        /// </summary>
+        public static string MenuControleDocumentosListaMestra {
+            get {
+                return ResourceManager.GetString("MenuControleDocumentosListaMestra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Revisar.
         /// </summary>
         public static string MenuControleDocumentosRevisar {
@@ -10499,7 +10508,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.3.3.
+        ///   Looks up a localized string similar to 4.3.4.
         /// </summary>
         public static string Versao {
             get {
