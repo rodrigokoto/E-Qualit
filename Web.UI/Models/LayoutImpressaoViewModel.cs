@@ -11,5 +11,6 @@ namespace Web.UI.Models
         public bool IsImpressaoControlada { get; set; }
         public string LogoCliente { get; set; }
         public DocDocumento Documento { get; set; }
+        public List<DocDocumento> docDocumentos { get; set; }
     }
 }

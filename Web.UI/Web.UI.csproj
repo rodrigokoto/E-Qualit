@@ -1008,6 +1008,7 @@
     <Content Include="Content\assets\js\FornecedoresController.js" />
     <Content Include="Content\assets\js\FuncionarioController.js" />
     <Content Include="Content\assets\js\GeneralController.js" />
+    <Content Include="Content\assets\js\GerarPdfDocumentoList.js" />
     <Content Include="Content\assets\js\GerarPdfDocumento.js" />
     <Content Include="Content\assets\js\GestaoDeRiscoController.js" />
     <Content Include="Content\assets\js\GraficoGestaoMelhoria.js" />
@@ -1917,6 +1918,7 @@
     <Content Include="Views\Shared\GestaoDeRiscoIndicador.cshtml" />
     <Content Include="Views\Home\BloqueioUnauthorized.cshtml" />
     <Content Include="Views\ControlDoc\ListaMestra.cshtml" />
+    <Content Include="Views\ControlDoc\PDFList.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

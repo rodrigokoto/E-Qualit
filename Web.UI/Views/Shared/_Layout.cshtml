@@ -466,7 +466,7 @@
                                         }
                                         @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Revisar) || ViewBag.IdPerfil != 4)
                                         {
-                                            <li><a href="@Url.Action("DocumentosAprovados", "ControlDoc", null, null)" class="">@Traducao.Resource.MenuControleDocumentosListaMestra</a></li>
+                                            <li><a href="@Url.Action("DocumentoListaMestra", "ControlDoc", null, null)" class="">@Traducao.Resource.MenuControleDocumentosListaMestra</a></li>
                                         }
                                     </ul>
                                 </div>

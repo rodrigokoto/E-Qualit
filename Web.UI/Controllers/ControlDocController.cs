@@ -146,10 +146,75 @@ namespace Web.UI.Controllers
         }
 
 
+
         public ActionResult Header()
         {
 
             return View("Header");
+        }
+
+
+        [HttpPost]
+        public ActionResult PDFList()
+        {
+            ApplicationService.Entidade.UsuarioApp UsuarioLogado = (ApplicationService.Entidade.UsuarioApp)ViewBag.UsuarioLogado;
+
+            bool controlada = false;
+
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.FlStatus = (int)StatusDocumento.Aprovado;
+
+            List<DocDocumento> listaResult = _documentoAppServico.ListaDocumentosAprovadosMaiorRevisao(Util.ObterSiteSelecionado(), null).ToList();
+
+            var Id = Convert.ToInt32(Util.ObterClienteSelecionado());
+          
+            var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == Id);
+
+            var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
+
+            LayoutImpressaoViewModel model = new LayoutImpressaoViewModel()
+            {
+                LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo),
+                docDocumentos = listaResult,
+                IsImpressaoControlada = controlada
+            };
+
+            string header = string.Empty;
+
+            if (controlada)
+            {
+                header = string.Format("{0} - Copia controlada", DateTime.Now.ToString("dd/MM/yyyy"));
+            }
+            else
+            {
+                header = string.Format("{0} - Copia não controlada", DateTime.Now.ToString("dd/MM/yyyy"));
+            }
+
+            string customSwitches = string.Format("--header-center \"{0}\" " +
+                "--header-font-size \"8\" " +
+                "--footer-right \"[page] / [topage]\" " +
+                "--footer-font-size \"8\" "
+                , header);
+
+            var pdf = new ViewAsPdf
+            {
+                ViewName = "PDFList",
+                Model = model,
+                PageOrientation = Orientation.Portrait,
+                PageSize = Size.A4,
+                PageMargins = new Margins(10, 15, 10, 15),
+                FileName = "Documento.pdf",
+                CustomSwitches = customSwitches
+
+
+
+            };
+
+            ViewBag.CopiaControlada = controlada;
+
+            return pdf;
+
+            //return View("PDF", model);
         }
 
         [HttpPost]
@@ -588,7 +653,7 @@ namespace Web.UI.Controllers
             ViewBag.PodeImprimir = true;
             ViewBag.EstaEmElaboracao = true;
             CarregarDropDownUsuarios();
-            return View("ListaMestra", listaResult);
+            return View("ListDocumentos", listaResult);
         }
 
         public ActionResult DocumentoListaMestra(int? id = null, int? idProcesso = null)

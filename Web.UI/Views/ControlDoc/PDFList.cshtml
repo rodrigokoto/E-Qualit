@@ -1,0 +1,173 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model Web.UI.Models.LayoutImpressaoViewModel
+
+
+
+@{
+    ViewBag.Title = "EmissaoDocumento";
+    Layout = null;
+
+    var listaPermissoes = new List<PermissoesApp>();
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+}
+<html>
+<head>
+    <meta name="page" content="ConteudoDocumento" />
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @Styles.Render("~/Content/assets/css")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+
+</head>
+<body style="background:white !important">
+    <div class="container">
+
+
+
+        <style>
+            body {
+                font-size: 10px;
+            }
+
+            .ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+                /*overflow: auto;*/
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }
+
+            .caixa {
+                font-family: 'Abel-Regular', sans-serif !important;
+                width: 100%;
+                padding: 12px 10px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+                background: #fff;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+                font-size: medium;
+                color: #000000;
+            }
+
+            .tabela-check {
+                background-color: white !important;
+            }
+
+            #main {
+                max-height: 700px !important;
+            }
+        </style>
+
+
+        <div class="" id="main1" style="top: 140px; ">
+            <div id="main">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table>
+                                    <tr>
+                                        <td><img src="data:image/png;base64, @Model.LogoCliente" width="120" height="100" /></td>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table id="tb-list-documentos" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%;">
+                            <thead>
+                                <tr class="bg">
+                                    <th>@Traducao.Resource.Categoria</th>
+                                    <th>@Traducao.Resource.Sigla</th>
+                                    <th>@Traducao.Resource.Numero</th>
+                                    <th>@Traducao.Resource.Titulo</th>
+                                    <th>@Traducao.Resource.Revisao</th>
+                                    <th>@Traducao.Resource.Processo</th>
+                                    <th>@Traducao.Resource.DocDocumento_lbl_DtAprovacao</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.docDocumentos)
+                                {
+                                    <tr>
+                                        <td>@item.Categoria.Descricao</td>
+                                        <td>@item.Sigla.Descricao</td>
+
+                                        <td>
+                                            @{
+                                                string numeroDocumento = ((item.NumeroDocumento % 2).Equals(1) || (item.NumeroDocumento % 2).Equals(0) ? item.NumeroDocumento.ToString("000") : item.NumeroDocumento.ToString().Replace(".", ","));
+                                            }
+                                            @numeroDocumento
+                                        </td>
+                                        <td>@item.Titulo</td>
+                                        <td>
+                                            <p> @(item.Assuntos.Count > 0 ? item.Assuntos.Max(x => Convert.ToInt32(x.Revisao)) : (item.NuRevisao == null ? 0 : Convert.ToInt32(item.NuRevisao))) </p>
+                                        </td>
+                                        <td>@item.Processo.Nome</td>
+                                        <td>
+                                            @if (item.DtAprovacao != null)
+                                            {
+                                                @item.DtAprovacao.Value.Date.ToString("dd/MM/yyyy")
+                                            }
+                                            else
+                                            {
+                                                @item.DtAlteracao.Date.ToString("dd/MM/yyyy")
+                                            }
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @Html.Partial("_OpcoesScripts")
+
+        <script type="text/javascript">
+            var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
+            mxDefaultLanguage = 'pt';
+
+            var APP = {
+                core: {},
+                model: {},
+                component: {},
+                controller: {}
+            };
+
+        </script>
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="@Url.Content("~/Content/assets/js/jquery.min.js")"></script>
+        <script src="@Url.Content("~/Content/assets/js/Core.js")"></script>
+        <script src="@Url.Content("~/Content/assets/js/Model.js")"></script>
+        <script src="@Url.Content("~/Content/assets/js/Component.js")"></script>
+        <script src="@Url.Content("~/Content/assets/js/GeneralController.js")"></script>
+        <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxClient.js")"></script>
+        <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxApplication.js")"></script>
+        <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+        <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
+        <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+        <script src="@Url.Content("~/Content/assets/js/GerarPdfDocumentoList.js")"></script>
+</body>
+</html>

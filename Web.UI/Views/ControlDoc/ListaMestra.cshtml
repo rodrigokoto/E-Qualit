@@ -19,7 +19,7 @@
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControlDocController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
-    <script src="@Url.Content("~/Content/assets/js/GerarPdfDocumento.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/GerarPdfDocumentoList.js")"></script>
 }
 
 <script type="text/javascript">
@@ -60,8 +60,8 @@
                                 </p>
                             }
                             <p class="novo">
-                                @Html.ActionLink("Novo Documento", "EmissaoDocumento")
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                <a href="#" onclick="imprimir()">Gerar Pdf</a>
+                                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                             </p>
 
                             <div class="col-lg-12">
@@ -69,80 +69,65 @@
                                     <thead>
                                         <tr id="hr1" class="bg">
                                             <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Sigla" />
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Categoria" />
                                             </th>
                                             <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Sigla" />
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Numero" />
+                                            </th>
+                                            <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Resource.Titulo" />
+                                            </th>
+                                            <th class="w20 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Revisao" />
                                             </th>
                                             <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Resource.Processo" />
                                             </th>
                                             <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Categoria" />
+                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.DocDocumento_lbl_DtAprovacao" />
                                             </th>
-                                            <th class="w20 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Responsavel" />
-                                            </th>
-                                            <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.Resource.Revisao" />
-                                            </th>
-                                            <th class="w10 text-nowrap"></th>
                                         </tr>
                                         <tr class="bg">
-                                            <th>@Traducao.Resource.DocDocumento_lbl_CdNumero</th>
-                                            <th>@Traducao.Resource.DocDocumento_lbl_NmTitulo</th>
-                                            <th>@Traducao.Resource.DocDocumento_lbl_IdProcesso</th>
-                                            <th>@Traducao.Resource.DocDocumento_lbl_IdCategoria</th>
-                                            <th>@Traducao.Resource.CtrlUsuario_lbl_NmCompleto</th>
-                                            <th>@Traducao.Resource.DocDocumento_lbl_NuRevisao</th>
-                                            <th>@Traducao.Resource.Acoes</th>
-
+                                            <th>@Traducao.Resource.Categoria</th>
+                                            <th>@Traducao.Resource.Sigla</th>
+                                            <th>@Traducao.Resource.Numero</th>
+                                            <th>@Traducao.Resource.Titulo</th>
+                                            <th>@Traducao.Resource.Revisao</th>
+                                            <th>@Traducao.Resource.Processo</th>
+                                            <th>@Traducao.Resource.DocDocumento_lbl_DtAprovacao</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
                                             <tr>
+                                                <td>@item.Categoria.Descricao</td>
+                                                <td>@item.Sigla.Descricao</td>
+
                                                 <td>
                                                     @{
                                                         string numeroDocumento = ((item.NumeroDocumento % 2).Equals(1) || (item.NumeroDocumento % 2).Equals(0) ? item.NumeroDocumento.ToString("000") : item.NumeroDocumento.ToString().Replace(".", ","));
                                                     }
-
-                                                    @item.Sigla.Descricao - @numeroDocumento
+                                                    @numeroDocumento
                                                 </td>
-                                                <td>
-                                                    @item.Titulo
-                                                </td>
-                                                <td>
-                                                    @if (item.Processo != null)
-                                                    {
-                                                        @item.Processo.Nome
-                                                    }
-                                                </td>
-                                                <td>
-                                                    @item.Categoria.Descricao
-
-                                                </td>
-                                                <td>
-                                                    @item.Elaborador.NmCompleto
-                                                </td>
+                                                <td>@item.Titulo</td>
                                                 <td>
                                                     <p> @(item.Assuntos.Count > 0 ? item.Assuntos.Max(x => Convert.ToInt32(x.Revisao)) : (item.NuRevisao == null ? 0 : Convert.ToInt32(item.NuRevisao))) </p>
                                                 </td>
-                                                <td class="text-nowrap">
-
-                                                    @if (item.FlStatus == (int)StatusDocumento.Aprovado)
+                                                <td>@item.Processo.Nome</td>
+                                                <td>
+                                                    @if (item.DtAprovacao != null)
                                                     {
-                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <a href="#" data-IdDocumento="@item.IdDocumento" data-Perfil="@ViewBag.IdPerfil" title="@Traducao.Resource.Imprimir" class="imprimir-documento icon-cliente view-color">
-                                                                <i class="fa fa-print" aria-hidden="true" data-toggle="tooltip" data-original-title="Imprimir"></i>
-                                                            </a>
-                                                        }
+                                                        @item.DtAprovacao.Value.Date.ToString("dd/MM/yyyy")
                                                     }
-                                                   
+                                                    else
+                                                    {
+                                                        @item.DtAlteracao.Date.ToString("dd/MM/yyyy")
+                                                    }
                                                 </td>
-
                                             </tr>
 
                                         }
