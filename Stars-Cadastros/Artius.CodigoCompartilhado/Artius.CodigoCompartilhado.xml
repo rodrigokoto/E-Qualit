@@ -1,0 +1,1881 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Artius.CodigoCompartilhado</name>
+    </assembly>
+    <members>
+        <member name="T:Artius.CodigoCompartilhado.Atributos.CompareNumberAttribute">
+            <summary>
+            Valida se a propriedade informada é número e seu valor é maior que zero, ou maior igual a zero.  
+            Operador padrão é Maior que zero.
+            </summary>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Atributos.CompareNumberAttribute.IsValid(System.Object)">
+            <summary>
+            Valida a propriedade
+            </summary>
+            <param name="value"></param>
+            <returns>
+            True - Válido
+            False - Inválido
+            </returns>
+        </member>
+        <member name="T:Artius.CodigoCompartilhado.Atributos.OperadorNumeric">
+            <summary>
+            Enumerador do operador utilizado para comparar numeros
+            </summary>
+        </member>
+        <member name="F:Artius.CodigoCompartilhado.Atributos.OperadorNumeric.MaiorQueZero">
+            <summary>
+            Operador utilizado para comparar se um número é maior que zero
+            </summary>
+        </member>
+        <member name="F:Artius.CodigoCompartilhado.Atributos.OperadorNumeric.MaiorIgualZero">
+            <summary>
+            Operador utilizado para comparar se um número é maior ou igual zero
+            </summary>
+        </member>
+        <member name="T:Artius.CodigoCompartilhado.Captcha.Recaptcha">
+            <summary>
+            Define se o CAPTCHA está ativo
+            </summary>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Captcha.Recaptcha.#ctor(Artius.CodigoCompartilhado.Servico.IParametrosSistema)">
+            <summary>
+            Contrutor
+            </summary>
+            <param name="parametroCaptcha"></param>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Captcha.Recaptcha.Erros">
+            <summary>
+            Lista de erros
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Captcha.Recaptcha.ValidateTokenAsync(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+            Valida se o token do captcha é validao
+            </summary>
+            <param name="form"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Artius.CodigoCompartilhado.Controller.PrincipalControllerApi">
+            <summary>
+            Empacota os metodos padrão de todas as API dos sitemas Stars
+            </summary>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Controller.PrincipalControllerApi.#ctor">
+            <summary>
+            contrutor
+            </summary>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Controller.PrincipalControllerApi.ConfiguraLog4Net(System.String,System.String)">
+            <summary>
+            Configura o log4net
+            </summary>
+            <param name="repositorio"></param>
+            <param name="descricaoLog"></param>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Controller.PrincipalControllerApi.RespostaErroPadrao(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+            <summary>
+            Formata um resposta de erro padrão a partir dos Erros do ModelState
+            </summary>
+            <param name="modelState">Objeto ModelState</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Controller.PrincipalControllerApi.RespostaErroPadrao(System.Collections.Generic.List{Artius.CodigoCompartilhado.Model.MensagemErroModeView})">
+            <summary>
+            Formata um respota de erro padrão a partir de uma lista de erros
+            </summary>
+            <param name="erros"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Controller.PrincipalControllerApi.RespostaSucessoPadrao(System.Object)">
+            <summary>
+            Formata uma resposta de sucesso
+            </summary>
+            <param name="resultado"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Controller.PrincipalControllerApi.TrataResultadoAplicacao(System.Boolean,System.Collections.Generic.List{Artius.CodigoCompartilhado.Model.MensagemErroModeView},System.Object)">
+            <summary>
+            Formata um resposta padrão de sucesso ou falha
+            </summary>
+            <param name="sucesso"></param>
+            <param name="erros"></param>
+            <param name="dados"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Controller.PrincipalControllerApi.ObtemErros">
+            <summary>
+            Lista de erros
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Artius.CodigoCompartilhado.Helpers.TemplateHelper">
+            <summary>
+            Lê arquivos de templates de e-mail
+            </summary>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Helpers.TemplateHelper.HtmlEmailRecuperarSenha(System.String)">
+            <summary>
+            Le o template HTML de recuperação de senha
+            </summary>
+            <param name="lingua">O padrão é pt-BR.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Helpers.TemplateHelper.HtmlEmailResetarSenha(System.String)">
+            <summary>
+            Le o template HTML de recuperação de senha
+            </summary>
+            <param name="lingua">O padrão é pt-BR.</param>
+            <returns>
+            
+            </returns>
+        </member>
+        <member name="M:Artius.CodigoCompartilhado.Helpers.TemplateHelper.HtmlEmailConfirmacaoDeCadastro(System.String)">
+            <summary>
+            Le o template HTML de confirmação de cadastro
+            </summary>
+            <param name="lingua">O padrão é pt-BR.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Artius.CodigoCompartilhado.Model.AppEmailSettings">
+            <summary>
+            Parâmetros de configuração para envio de e-mail
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.Usuario">
+            <summary>
+            Nome do usuário
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.Senha">
+            <summary>
+            Senha do usuário
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.EmailEnvio">
+            <summary>
+            Email utilizado para envio da mensagem
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.Servidor">
+            <summary>
+            Servidor
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.Porta">
+            <summary>
+            Porta
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.AtivaSsl">
+            <summary>
+            SSL Ativado
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.EscreverEmailArquivo">
+            <summary>
+            Informe um diretório para que o email seja grava em disco, esta opção não deve estar preenchida em produção
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.UrlLogo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.UrlBackgroundImagemBotao">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.Endereco">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.AppEmailSettings.EmailFaleConosco">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Artius.CodigoCompartilhado.Model.LoginModeView">
+            <summary>
+            Modelo de dados utilizado para autenticação dos usuários
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.LoginModeView.Usuario">
+            <summary>
+            Usuário do sistema
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Model.LoginModeView.Senha">
+            <summary>
+            Senha do usuário
+            </summary>
+        </member>
+        <member name="T:Artius.CodigoCompartilhado.Resource.Dominio">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_lbl_ContextKey">
+            <summary>
+              Looks up a localized string similar to ContextKey.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_lbl_MigrationId">
+            <summary>
+              Looks up a localized string similar to MigrationId.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_lbl_Model">
+            <summary>
+              Looks up a localized string similar to Model.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_lbl_ProductVersion">
+            <summary>
+              Looks up a localized string similar to ProductVersion.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_msg_erro_length_ContextKey">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 600 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_msg_erro_length_MigrationId">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 300 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_msg_erro_length_ProductVersion">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 64 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_msg_erro_required_ContextKey">
+            <summary>
+              Looks up a localized string similar to O campo &quot;ContextKey&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_msg_erro_required_MigrationId">
+            <summary>
+              Looks up a localized string similar to O campo &quot;MigrationId&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_msg_erro_required_Model">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Model&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_msg_erro_required_ProductVersion">
+            <summary>
+              Looks up a localized string similar to O campo &quot;ProductVersion&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.__MigrationHistory_PK_dbo_MigrationHistory">
+            <summary>
+              Looks up a localized string similar to PK_dbo.__MigrationHistory já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_CdOperacao">
+            <summary>
+              Looks up a localized string similar to Operação.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_DsValorAnterior">
+            <summary>
+              Looks up a localized string similar to Valor Anterior.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_DsValorAtual">
+            <summary>
+              Looks up a localized string similar to Valor Atual.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_DtOperacao">
+            <summary>
+              Looks up a localized string similar to Data da Operação.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_IdLog">
+            <summary>
+              Looks up a localized string similar to Id.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_IdTabela">
+            <summary>
+              Looks up a localized string similar to PK Tabela.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_IdUsuario">
+            <summary>
+              Looks up a localized string similar to Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_NmColuna">
+            <summary>
+              Looks up a localized string similar to Coluna.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_NmTabela">
+            <summary>
+              Looks up a localized string similar to Tabela.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_operacao_atualizar">
+            <summary>
+              Looks up a localized string similar to Alteração.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_operacao_deletado">
+            <summary>
+              Looks up a localized string similar to Deleção.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_lbl_operacao_incluir">
+            <summary>
+              Looks up a localized string similar to Inclusão.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_length_CdOperacao">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_length_DsValorAnterior">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_length_DsValorAtual">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_length_IdUsuario">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_length_NmColuna">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_length_NmTabela">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_required_CdOperacao">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Operação&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_required_DtOperacao">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Data da Operação&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_required_IdLog">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Id&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_required_NmColuna">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Coluna&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_msg_erro_required_NmTabela">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Tabela&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.LogAuditoria_PK_LogAuditoria">
+            <summary>
+              Looks up a localized string similar to PK_LogAuditoria já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.login_captcha_invalido">
+            <summary>
+              Looks up a localized string similar to Código de segurança inválido.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.login_msg_erro_codigo_invalido">
+            <summary>
+              Looks up a localized string similar to Código inválido.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.login_msg_erro_usuario_senha_invalido">
+            <summary>
+              Looks up a localized string similar to Usuário ou senha inválido.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.mensagem_cpf_invalido">
+            <summary>
+              Looks up a localized string similar to CPF inválido..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.mensagem_data_invalida">
+            <summary>
+              Looks up a localized string similar to Data inválida.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.mensagem_registro_alterado">
+            <summary>
+              Looks up a localized string similar to Registro atualizado com sucesso.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.mensagem_registro_excluido">
+            <summary>
+              Looks up a localized string similar to Registro excluído com sucesso.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.mensagem_registro_incluido">
+            <summary>
+              Looks up a localized string similar to Registro incluído com sucesso.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.mensagem_registros_alterados">
+            <summary>
+              Looks up a localized string similar to Registros atualizados com sucesso.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.messagem_email_invalido">
+            <summary>
+              Looks up a localized string similar to E-mail Inválido.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_lbl_CdCodigo">
+            <summary>
+              Looks up a localized string similar to Código da Lista.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_lbl_CdTabela">
+            <summary>
+              Looks up a localized string similar to Código da Tabela.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_lbl_DsDescricao">
+            <summary>
+              Looks up a localized string similar to Descrição.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_lbl_FlExigeAPI">
+            <summary>
+              Looks up a localized string similar to Exige API.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_lbl_FlExigeCC">
+            <summary>
+              Looks up a localized string similar to Exige Conta Corrente.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_lbl_FlExigeCompRenda">
+            <summary>
+              Looks up a localized string similar to Exige Comprovante de Renda.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_lbl_IdListaValor">
+            <summary>
+              Looks up a localized string similar to Id.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_msg_erro_length_CdCodigo">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 40 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_msg_erro_length_CdTabela">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 10 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_msg_erro_length_DsDescricao">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_msg_erro_required_CdCodigo">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Código da Lista&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_msg_erro_required_CdTabela">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Código da Tabela&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_msg_erro_required_DsDescricao">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Descrição&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_msg_erro_required_IdListaValor">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Id&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametro_PK_ListaValor">
+            <summary>
+              Looks up a localized string similar to PK_ListaValor já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.Parametror_msg_erro_length_DsDescricao">
+            <summary>
+              Looks up a localized string similar to Valor do Parâmetro.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Dominio.ResetPassword_lbl_alterar_senha_expirada">
+            <summary>
+              Looks up a localized string similar to Sua senha expirou, antes de prosseguir você deve alterá-la..
+            </summary>
+        </member>
+        <member name="T:Artius.CodigoCompartilhado.Resource.Identity">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AddPhoneNumber_lbl_telefone">
+            <summary>
+              Looks up a localized string similar to Telefone.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AddPhoneNumber_msg_erro_required_TpDocumento">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Telefone&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUser_erro_msg_length_AdminID">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 20 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUser_erro_msg_length_cpf">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 11 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUser_erro_msg_length_DiretorioGeracaoArquivoEDI">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 250 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUser_erro_msg_length_nome">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 30 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUser_erro_msg_length_SobreNome">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 30 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUser_erro_msg_length_UpdateBy">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 20 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUser_erro_msg_Required_DiretorioGeracaoArquivoEDI">
+            <summary>
+              Looks up a localized string similar to O campo é obrigatório quando a opção &quot;Disponibilizar Arquivo&quot; está selecionado.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUserManager_BodyFormat">
+            <summary>
+              Looks up a localized string similar to Seu código de segurança é {0}.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUserManager_ChangePasswordAsync">
+            <summary>
+              Looks up a localized string similar to Você não pode reutilizar uma das {0} utilizadas recentemente.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUserManager_MessageFormat">
+            <summary>
+              Looks up a localized string similar to Seu código de segurança é {0}.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ApplicationUserManager_Subject">
+            <summary>
+              Looks up a localized string similar to Código de Segurança.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_lbl_CreateDate">
+            <summary>
+              Looks up a localized string similar to Data de criação.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_lbl_IdPreviousPassword">
+            <summary>
+              Looks up a localized string similar to Id.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_lbl_PasswordHash">
+            <summary>
+              Looks up a localized string similar to Hash da senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_lbl_UserId">
+            <summary>
+              Looks up a localized string similar to Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_msg_erro_length_PasswordHash">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_msg_erro_length_UserId">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_msg_erro_required_CreateDate">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Data de criação&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_msg_erro_required_IdPreviousPassword">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Id&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetPreviousPasswords_PK_dbo_AspNetPreviousPasswords">
+            <summary>
+              Looks up a localized string similar to PK_dbo.AspNetPreviousPasswords já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetRoles_FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <summary>
+              Looks up a localized string similar to Um erro de integridade detectado entre a tabela AspNetRoles e a tabela AspNetUserRoles.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetRoles_lbl_Id">
+            <summary>
+              Looks up a localized string similar to Id.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetRoles_lbl_Name">
+            <summary>
+              Looks up a localized string similar to Papel.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetRoles_msg_erro_length_Id">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetRoles_msg_erro_length_Name">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 512 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetRoles_msg_erro_required_Id">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Id&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetRoles_msg_erro_required_Name">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Papel&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetRoles_PK_dbo_AspNetRoles">
+            <summary>
+              Looks up a localized string similar to PK_dbo.AspNetRoles já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_lbl_ClaimType">
+            <summary>
+              Looks up a localized string similar to Tipo Claim.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_lbl_ClaimValue">
+            <summary>
+              Looks up a localized string similar to Valor Claim.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_lbl_Id">
+            <summary>
+              Looks up a localized string similar to Id.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_lbl_UserId">
+            <summary>
+              Looks up a localized string similar to Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_msg_erro_length_ClaimType">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_msg_erro_length_ClaimValue">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_msg_erro_length_UserId">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_msg_erro_required_Id">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Id&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_msg_erro_required_UserId">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Usuário&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserClaims_PK_dbo_AspNetUserClaims">
+            <summary>
+              Looks up a localized string similar to PK_dbo.AspNetUserClaims já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_lbl_LoginProvider">
+            <summary>
+              Looks up a localized string similar to Provedor do Login.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_lbl_ProviderKey">
+            <summary>
+              Looks up a localized string similar to Chave do Provedor.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_lbl_UserId">
+            <summary>
+              Looks up a localized string similar to Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_msg_erro_length_LoginProvider">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_msg_erro_length_ProviderKey">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_msg_erro_length_UserId">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_msg_erro_required_LoginProvider">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Provedor do Login&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_msg_erro_required_ProviderKey">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Chave do Provedor&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_msg_erro_required_UserId">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Usuário&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserLogins_PK_dbo_AspNetUserLogins">
+            <summary>
+              Looks up a localized string similar to PK_dbo.AspNetUserLogins já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_lbl_IdFornecedor">
+            <summary>
+              Looks up a localized string similar to Fornecedor.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_lbl_IdOrigem">
+            <summary>
+              Looks up a localized string similar to Origem.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_lbl_RoleId">
+            <summary>
+              Looks up a localized string similar to Papel.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_lbl_UserId">
+            <summary>
+              Looks up a localized string similar to Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_msg_erro_length_RoleId">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_msg_erro_length_UserId">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_msg_erro_required_IdFornecedor">
+            <summary>
+              Looks up a localized string similar to Id do Fornecedor.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_msg_erro_required_IdOrigem">
+            <summary>
+              Looks up a localized string similar to A origem é um campo obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_msg_erro_required_RoleId">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Papel&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_msg_erro_required_UserId">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Usuário&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUserRoles_PK_dbo_AspNetUserRoles">
+            <summary>
+              Looks up a localized string similar to PK_dbo.AspNetUserRoles já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_FK_dbo_AspNetPreviousPasswords_dbo_AspNetUsers_UserId">
+            <summary>
+              Looks up a localized string similar to Um erro de integridade detectado entre a tabela AspNetUsers e a tabela AspNetPreviousPasswords.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <summary>
+              Looks up a localized string similar to Um erro de integridade detectado entre a tabela AspNetUsers e a tabela AspNetUserClaims.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <summary>
+              Looks up a localized string similar to Um erro de integridade detectado entre a tabela AspNetUsers e a tabela AspNetUserLogins.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <summary>
+              Looks up a localized string similar to Um erro de integridade detectado entre a tabela AspNetUsers e a tabela AspNetUserRoles.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_AccessFailedCount">
+            <summary>
+              Looks up a localized string similar to Número de tentativas erradas.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_AdminID">
+            <summary>
+              Looks up a localized string similar to Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_CdContrato">
+            <summary>
+              Looks up a localized string similar to Número do Contrato.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_CPF">
+            <summary>
+              Looks up a localized string similar to CPF.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_CreateOn">
+            <summary>
+              Looks up a localized string similar to Criado por.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_DiretorioGeracaoArquivoEDI">
+            <summary>
+              Looks up a localized string similar to Diretório do Arquivo.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_Dominio">
+            <summary>
+              Looks up a localized string similar to Dominio.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_Email">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_EmailConfirmed">
+            <summary>
+              Looks up a localized string similar to E-mail confirmado?.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_Enabled">
+            <summary>
+              Looks up a localized string similar to Ativo.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_EnviarPedidoPorEmail">
+            <summary>
+              Looks up a localized string similar to Enviar pedido por e-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_Expiration">
+            <summary>
+              Looks up a localized string similar to Data de expiração.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_GeraPedido">
+            <summary>
+              Looks up a localized string similar to Disponibilizar Arquivo.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_Id">
+            <summary>
+              Looks up a localized string similar to Id.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_IdParceiro">
+            <summary>
+              Looks up a localized string similar to Id Parceiro.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_LockoutEnabled">
+            <summary>
+              Looks up a localized string similar to Bloqueio ativado?.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_LockoutEndDateUtc">
+            <summary>
+              Looks up a localized string similar to Data de bloqueio.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_Nome">
+            <summary>
+              Looks up a localized string similar to Nome.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_NomeParceiro">
+            <summary>
+              Looks up a localized string similar to Nome do Parceiro.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_PasswordHash">
+            <summary>
+              Looks up a localized string similar to Hash da senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_PhoneNumber">
+            <summary>
+              Looks up a localized string similar to Telefone.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_PhoneNumberConfirmed">
+            <summary>
+              Looks up a localized string similar to Telefone confirmado?.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_SecurityStamp">
+            <summary>
+              Looks up a localized string similar to Carimbo de segurança.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_SobreNome">
+            <summary>
+              Looks up a localized string similar to Sobrenome.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_titulo_alteracaosenhaparceiro">
+            <summary>
+              Looks up a localized string similar to ALTERAÇÃO DE SENHA - PARCEIRO.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_titulo_desabilitado">
+            <summary>
+              Looks up a localized string similar to Usuário - Desativado.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_titulo_lockedout">
+            <summary>
+              Looks up a localized string similar to Bloqueado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_TwoFactorEnabled">
+            <summary>
+              Looks up a localized string similar to Validação em duas etapas?.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_UpdateBy">
+            <summary>
+              Looks up a localized string similar to Atualizado em.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_UpdateOn">
+            <summary>
+              Looks up a localized string similar to Data de Atualização.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_lbl_UserName">
+            <summary>
+              Looks up a localized string similar to ADMINID.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_alteracaosenhaparceiro">
+            <summary>
+              Looks up a localized string similar to Foi enviado ao e-mail de cadastro instruções para alteração da senha, verifique a sua caixa de entrada..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_desabilitado">
+            <summary>
+              Looks up a localized string similar to Sua conta foi desativada..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_duplicado_Email">
+            <summary>
+              Looks up a localized string similar to O e-mail {0} já está sendo utilizado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_duplicado_UserName">
+            <summary>
+              Looks up a localized string similar to O ADMINID {0} já está sendo utilizado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_invalido_Email">
+            <summary>
+              Looks up a localized string similar to O {0} não é um e-mail válido..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_invalido_UserName">
+            <summary>
+              Looks up a localized string similar to O ADMINID {0} está inválido, pode conter apenas letras e dígitos..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_length_CPF">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 22 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_length_Email">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 512 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_length_Id">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 256 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_length_Nome">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 60 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_length_PasswordHash">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_length_PhoneNumber">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_length_SecurityStamp">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de -1 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_length_UserName">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 512 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_AccessFailedCount">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Número de tentativas erradas&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_CPF">
+            <summary>
+              Looks up a localized string similar to O campo &quot;CPF&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_Email">
+            <summary>
+              Looks up a localized string similar to O campo {0} é obrigatório..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_EmailConfirmed">
+            <summary>
+              Looks up a localized string similar to O campo &quot;E-mail confirmado?&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_Enabled">
+            <summary>
+              Looks up a localized string similar to O campo&quot;Ativo&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_Id">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Id&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_LockoutEnabled">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Bloqueio ativado?&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_Nome">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Nome&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_PhoneNumberConfirmed">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Telefone confirmado?&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_SobreNome">
+            <summary>
+              Looks up a localized string similar to O sobrenome é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_erro_required_UserName">
+            <summary>
+              Looks up a localized string similar to O campo &quot;ADMINID&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_msg_lockedout">
+            <summary>
+              Looks up a localized string similar to O login foi temporáriamente bloqueado, tente novamente daqui {0} minutos..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.AspNetUsers_PK_dbo_AspNetUsers">
+            <summary>
+              Looks up a localized string similar to PK_dbo.AspNetUsers já cadastrado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ChangePassword_lbl_ConfirmPassword">
+            <summary>
+              Looks up a localized string similar to Confirmar Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ChangePassword_lbl_NewPassword">
+            <summary>
+              Looks up a localized string similar to Nova Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ChangePassword_lbl_OldPassword">
+            <summary>
+              Looks up a localized string similar to Senha Atual.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ChangePassword_msg_erro_length_NewPassword">
+            <summary>
+              Looks up a localized string similar to O {0} deve ter pelo menos {2} caracteres..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ChangePassword_msg_erro_required_NewPassword">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Nova Senha&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ChangePassword_msg_erro_required_OldPassword">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Senha Atual&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ChangePassword_msg_inconsistencia_ConfirmPassword">
+            <summary>
+              Looks up a localized string similar to A senha e a confirmação de senha estão diferentes.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ContolaAcesso_autenticacao_Login">
+            <summary>
+              Looks up a localized string similar to Autenticação.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ContolaAcesso_btn_cadastrar_Login">
+            <summary>
+              Looks up a localized string similar to Novo Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ContolaAcesso_btn_Login">
+            <summary>
+              Looks up a localized string similar to Login.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ContolaAcesso_txt_naoCli_Login">
+            <summary>
+              Looks up a localized string similar to Ainda não sou cliente.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_botao_novo_administrador">
+            <summary>
+              Looks up a localized string similar to Novo Administrador.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_botao_novo_fornecedor">
+            <summary>
+              Looks up a localized string similar to Novo Fornecedor.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_botao_novo_gerente_produto">
+            <summary>
+              Looks up a localized string similar to Novo Gerente de Produto.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_ChangePasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Voltar.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_Email">
+            <summary>
+              Looks up a localized string similar to Voltar.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_ExternalLoginConfirmation">
+            <summary>
+              Looks up a localized string similar to Registre-se.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_ForgotPassword">
+            <summary>
+              Looks up a localized string similar to RECUPERAR MINHA SENHA.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_ForgotPasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Voltar.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_Register">
+            <summary>
+              Looks up a localized string similar to Confirmar Cadastro.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_RegisterInactive">
+            <summary>
+              Looks up a localized string similar to Voltar.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_ResertPassword">
+            <summary>
+              Looks up a localized string similar to Redefinir minha senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_btn_ResertPasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Voltar.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ChangePasswordConfirmation_titulo">
+            <summary>
+              Looks up a localized string similar to Alteração de senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ConfirmEmail_titulo">
+            <summary>
+              Looks up a localized string similar to Confirmação - Novo Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_DisplayEmail_titulo">
+            <summary>
+              Looks up a localized string similar to Autenticação - Novo Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ExternalLoginConfirmation_titulo_parte1">
+            <summary>
+              Looks up a localized string similar to Associe sua.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ExternalLoginConfirmation_titulo_parte2">
+            <summary>
+              Looks up a localized string similar to conta..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ExternalLoginFailure_titulo">
+            <summary>
+              Looks up a localized string similar to Login sem êxito com o serviço..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ExternalLoginsListPartial_titulo">
+            <summary>
+              Looks up a localized string similar to Utilize outro serviço para iniciar sessão.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ForgotPassword_titulo">
+            <summary>
+              Looks up a localized string similar to ESQUECI MINHA SENHA.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ForgotPasswordConfirmation_titulo">
+            <summary>
+              Looks up a localized string similar to Esqueci minha senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_h4_ExternalLoginConfirmation">
+            <summary>
+              Looks up a localized string similar to Formulário de associação.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_h4_titulo_ChangePasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Senha alterada com sucesso!.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_h4_titulo_ForgotPasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Redefinição feita com sucesso!.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_h4_titulo_RegisterInactive">
+            <summary>
+              Looks up a localized string similar to Seu cadastro ainda não foi validado!.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_h4_titulo_ResertPasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Redefinição feita com sucesso!.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_instrucao">
+            <summary>
+              Looks up a localized string similar to Para iniciar seu cadastro junto à Leo Madeiras é necessário primeiramente criar seu usuário de acesso..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_lbl_perfil_admin">
+            <summary>
+              Looks up a localized string similar to Admin.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_lbl_perfil_solicitante">
+            <summary>
+              Looks up a localized string similar to Solicitante.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_lbl_titulo_parte1_ExternalLoginsListPartial">
+            <summary>
+              Looks up a localized string similar to Faça login usando seu.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_lbl_titulo_parte2_ExternalLoginsListPartial">
+            <summary>
+              Looks up a localized string similar to conta.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_link_RegisterEmail">
+            <summary>
+              Looks up a localized string similar to Clique aqui para validar a sua conta.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_login">
+            <summary>
+              Looks up a localized string similar to Iniciar o cadastro.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_alert_RegisterEmail">
+            <summary>
+              Looks up a localized string similar to Atenção: Caso tenha problema para clicar, copie e cole o conteúdo abaixo na barra de seu navegador de preferência..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_aviso_RegisterEmail">
+            <summary>
+              Looks up a localized string similar to Você solicitou um cadastro no Leo Madeiras. Para dar continuidade ao processo, por favor clique no link a seguir para ativar sua conta..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_ChangePasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Será necessário realizar um novo login com a sua nova senha..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_ConfirmEmail">
+            <summary>
+              Looks up a localized string similar to Seu cadastro já está ativo e pronto para ser utilizado. Basta clicar no botão abaixo e iniciar seu cadastro na Leo Madeiras..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_ForgotPassword">
+            <summary>
+              Looks up a localized string similar to Para receber uma nova senha em seu e-mail cadastrado, preencha as informações abaixo.  Em caso de dúvidas, entre em contato conosco..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_ForgotPasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Foi enviado ao e-mail de cadastro instruções para alteração da senha, verifique a sua caixa de entrada..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte1_DisplayEmail">
+            <summary>
+              Looks up a localized string similar to Enviamos um e-mail de confirmação para o seu endereço eletrônico informado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte1_ExternalLoginConfirmation">
+            <summary>
+              Looks up a localized string similar to Você foi autenticado com êxito.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte1_ExternalLoginsListPartial">
+            <summary>
+              Looks up a localized string similar to Não há serviços de autenticação externos configurados. Consulte.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte1_RegisterInactive">
+            <summary>
+              Looks up a localized string similar to Nós lhe enviamos um e-mail de confirmação para o e-mail informado em seu cadastro..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte2_DisplayEmail">
+            <summary>
+              Looks up a localized string similar to Para continuar seu cadastro, é necessário clicar no link de confirmação enviado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte2_ExternalLoginConfirmation">
+            <summary>
+              Looks up a localized string similar to Você foi autenticado com êxito. Digite um nome de usuário para este site abaixo e clique no botão Registrar para concluir o login..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte2_ExternalLoginsListPartial">
+            <summary>
+              Looks up a localized string similar to este artigo.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte2_RegisterInactive">
+            <summary>
+              Looks up a localized string similar to Para prosseguir é necessário clicar no link de confirmação enviado..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_parte3_ExternalLoginsListPartial">
+            <summary>
+              Looks up a localized string similar to Para obter detalhes sobre a configuração deste aplicativo ASP.NET para oferecer suporte ao logon através de serviços externos..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_RegisterConfirmation">
+            <summary>
+              Looks up a localized string similar to Verifique seu e-mail para redefinir sua senha..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_msg_ResertPasswordConfirmation">
+            <summary>
+              Looks up a localized string similar to Agora basta voltar a página inicial e preencha seus dados para acessar sua conta..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Parametros_Titulo">
+            <summary>
+              Looks up a localized string similar to Parâmetro de Controle de Acesso.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Register_administrador_titulo">
+            <summary>
+              Looks up a localized string similar to Usuários - Novo  Administrador de Sistema.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Register_fornecedor_titulo">
+            <summary>
+              Looks up a localized string similar to Usuários - Novo Fornecedor.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Register_gerenteproduto_titulo">
+            <summary>
+              Looks up a localized string similar to Usuários - Novo Gerente de Produto.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Register_titulo">
+            <summary>
+              Looks up a localized string similar to CADASTRO DE UM NOVO USUÁRIO.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_RegisterInactive_titulo">
+            <summary>
+              Looks up a localized string similar to Autenticação - Cadastro de Novo Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ResertPassword_titulo">
+            <summary>
+              Looks up a localized string similar to Redefinir sua senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_ResertPasswordConfirmation_titulo">
+            <summary>
+              Looks up a localized string similar to Redefinir sua senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_titulo_h4_ConfirmEmail">
+            <summary>
+              Looks up a localized string similar to Usuário autenticado com sucesso!.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_titulo_h4_DisplayEmail">
+            <summary>
+              Looks up a localized string similar to Usuário criado com sucesso!.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_Bloqueado">
+            <summary>
+              Looks up a localized string similar to Bloqueado.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_Desbloqueado">
+            <summary>
+              Looks up a localized string similar to Desbloqueado.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_confirmado">
+            <summary>
+              Looks up a localized string similar to Confirmado.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_cpf">
+            <summary>
+              Looks up a localized string similar to CPF.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_data_bloqueio">
+            <summary>
+              Looks up a localized string similar to Data de Bloqueio.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_email">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_firstname">
+            <summary>
+              Looks up a localized string similar to Nome.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_lastname">
+            <summary>
+              Looks up a localized string similar to Sobrenome.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_nome">
+            <summary>
+              Looks up a localized string similar to Usuário.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_num_falhas">
+            <summary>
+              Looks up a localized string similar to Nº Falhas de Login.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_perfil">
+            <summary>
+              Looks up a localized string similar to Perfil.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_tabela_username">
+            <summary>
+              Looks up a localized string similar to ADMINID.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControlaAcesso_Usuario_Titulo">
+            <summary>
+              Looks up a localized string similar to Administração de Usuários.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControleAcesso_btn_SendCode">
+            <summary>
+              Looks up a localized string similar to Enviar.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControleAcesso_btn_VerifyCode">
+            <summary>
+              Looks up a localized string similar to Enviar.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControleAcesso_msg_SendCode">
+            <summary>
+              Looks up a localized string similar to Selecione o provedor de autenticação de dois fatores:.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControleAcesso_msg_VerifyCode">
+            <summary>
+              Looks up a localized string similar to Digite o código de verificação.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ControleAcesso_SendCode_titulo">
+            <summary>
+              Looks up a localized string similar to Enviar código de confirmação.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ExternalLogin_erro_msg_required_email">
+            <summary>
+              Looks up a localized string similar to O campo &quot;E-mail&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ExternalLogin_lbl_email">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Forgot_erro_msg_required_email">
+            <summary>
+              Looks up a localized string similar to O campo &quot;E-mail&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Forgot_erro_msg_required_email1">
+            <summary>
+              Looks up a localized string similar to O campo &quot;E-mail&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Forgot_lbl_email">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Forgot_lbl_email1">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ForgotPassaword_erro_msg_required_email">
+            <summary>
+              Looks up a localized string similar to O campo &quot;E-mail&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ForgotPassaword_erro_msg_required_email1">
+            <summary>
+              Looks up a localized string similar to O campo &quot;E-mail&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ForgotPassaword_lbl_email">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ForgotPassaword_lbl_email1">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Login_erro_lbl_senha">
+            <summary>
+              Looks up a localized string similar to Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Login_erro_msg_required_email">
+            <summary>
+              Looks up a localized string similar to O campo &quot;E-mail&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Login_erro_msg_required_senha">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Senha&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Login_lbl_email">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Login_lbl_rememberMe">
+            <summary>
+              Looks up a localized string similar to Lembre de mim.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Login_lbl_senha">
+            <summary>
+              Looks up a localized string similar to Senha .
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Parametros_alterados_sucesso">
+            <summary>
+              Looks up a localized string similar to Parâmetros alterados com sucesso..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.password_For_data_content">
+            <summary>
+              Looks up a localized string similar to A senha dever ter pelo menos 6 caracteres.&lt;br&gt;As senhas devem ter pelo menos um caractere que não seja letra ou um caractere de dígito.&lt;br&gt;As senhas devem ter pelo menos um caractere em letra minúscula (&apos;a&apos;-&apos;z&apos;).&lt;br&gt;As senhas devem ter pelo menos um caractere em letra maiúscula (&apos;A&apos;-&apos;Z&apos;)..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.password_For_data_content1">
+            <summary>
+              Looks up a localized string similar to A senha dever ter pelo menos 8 caracteres.&lt;br&gt;As senhas devem ter pelo menos um caractere que não seja letra ou um caractere de dígito.&lt;br&gt;As senhas devem ter pelo menos um caractere em letra minúscula (&apos;a&apos;-&apos;z&apos;).&lt;br&gt;As senhas devem ter pelo menos um caractere em letra maiúscula (&apos;A&apos;-&apos;Z&apos;)..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_erro_msg_ConfirmPassword">
+            <summary>
+              Looks up a localized string similar to A senha e a confirmação da senha estão diferentes.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_erro_msg_length_senha">
+            <summary>
+              Looks up a localized string similar to O {0} deve ter pelo menos {2} caracteres..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_erro_msg_required_email">
+            <summary>
+              Looks up a localized string similar to O campo &quot;E-mail&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_erro_msg_required_senha">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Senha&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_lbl_ConfirmPassword">
+            <summary>
+              Looks up a localized string similar to Confirme a Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_lbl_cpf">
+            <summary>
+              Looks up a localized string similar to CPF.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_lbl_email">
+            <summary>
+              Looks up a localized string similar to E-mail.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_lbl_Nome">
+            <summary>
+              Looks up a localized string similar to Digite seu nome completo.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_lbl_senha">
+            <summary>
+              Looks up a localized string similar to Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_msg_erro_length_Nome">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 40 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_msg_erro_length_Nucpf">
+            <summary>
+              Looks up a localized string similar to O tamanho máximo permitido é de 14 caracteres.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_msg_erro_required_IdParceiro">
+            <summary>
+              Looks up a localized string similar to É obrigatório a identificação do parceiro.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_msg_erro_required_Nome">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Nome&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Register_msg_erro_required_Nucpf">
+            <summary>
+              Looks up a localized string similar to O &quot;CPF&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ResetPassWord_erro_msg_ConfirmPassword">
+            <summary>
+              Looks up a localized string similar to A senha e a corfirmação de senha estão diferentes.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ResetPassword_erro_msg_length_senha">
+            <summary>
+              Looks up a localized string similar to O {0} deve ter pelo menos {2} caracteres..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ResetPassword_lbl_alterar_senha_expirada">
+            <summary>
+              Looks up a localized string similar to Sua senha expirou, antes de prosseguir você deve alterá-la..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ResetPassword_lbl_ConfirmPassword">
+            <summary>
+              Looks up a localized string similar to Confirmar Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ResetPassword_lbl_ReusePassword">
+            <summary>
+              Looks up a localized string similar to Você não pode reutilizar uma senha já utilizada recentemente..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.ResetPassword_lbl_senha">
+            <summary>
+              Looks up a localized string similar to Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.Role_lbl_nomeRole">
+            <summary>
+              Looks up a localized string similar to Perfil.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.SetPassword_erro_msg_length_confirmSenha">
+            <summary>
+              Looks up a localized string similar to O {0} deve ter pelo menos {2} caracteres..
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.SetPassword_erro_msg_required_novaSenha">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Nova Senha&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.SetPassword_lbl_confirmSenha">
+            <summary>
+              Looks up a localized string similar to Confirme a Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.SetPassword_lbl_novaSenha">
+            <summary>
+              Looks up a localized string similar to Nova Senha.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.VerifyCode_erro_msg_required_code">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Código&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.VerifyCode_lbl_code">
+            <summary>
+              Looks up a localized string similar to Código.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.VerifyCode_lbl_rememberBrowser">
+            <summary>
+              Looks up a localized string similar to Lembra-se deste navegador?.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.VerifyPhone_erro_msg_required_code">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Código&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.VerifyPhone_erro_msg_required_PhoneNumber">
+            <summary>
+              Looks up a localized string similar to O campo &quot;Número do Telefone&quot; é obrigatório.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.VerifyPhone_lbl_code">
+            <summary>
+              Looks up a localized string similar to Código.
+            </summary>
+        </member>
+        <member name="P:Artius.CodigoCompartilhado.Resource.Identity.VerifyPhone_lbl_PhoneNumber">
+            <summary>
+              Looks up a localized string similar to Número do Telefone.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -50,6 +50,8 @@ namespace Dominio.Entidade
         public byte? NuRevisao { get; set; }
         public int? IdUsuarioIncluiu { get; set; }
         public bool? PossuiGestaoRisco { get; set; }
+
+        public bool? DocHome { get; set; }
         public DateTime? DtPedidoVerificacao { get; set; }
         public DateTime? DtVerificacao { get; set; }
         public DateTime? DtVencimento { get; set; }

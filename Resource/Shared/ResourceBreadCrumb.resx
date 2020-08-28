@@ -235,12 +235,15 @@
     <value>Licença</value>
   </data>
   <data name="Controller_gestaomelhoria" xml:space="preserve">
-    <value>Gestao Melhoria</value>
+    <value>Gestão de Melhoria</value>
   </data>
   <data name="Licenca" xml:space="preserve">
     <value>Licenca</value>
   </data>
-  <data name="Controller_gestaomelhoria" xml:space="preserve">
-    <value>Gestão de Melhoria</value>
+  <data name="Action_documentosobsoletos" xml:space="preserve">
+    <value>Documentos Obsoletos</value>
+  </data>
+  <data name="Action_documentosrevisao" xml:space="preserve">
+    <value>Documentos em Revisão</value>
   </data>
 </root>

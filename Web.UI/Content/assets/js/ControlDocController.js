@@ -234,6 +234,7 @@ APP.controller.ControlDocController = {
         this.setRevisarDocumento();
         this.setExcluirDocumento();
         this.setObsoletarDocumento();
+        this.setDocHome();
         this.setImprimirDocumento();
         this.imprimir();
     },
@@ -407,6 +408,64 @@ APP.controller.ControlDocController = {
             });
         });
 
+    },
+
+    setDocHome: function () {
+        $('#tb-list-documentos').on('click', '.controldoc-home', function () {
+            var tabela = $('#tb-list-documentos').DataTable();
+
+            var idDoc = $(this).data('id-doc');
+
+            var $rowAtual = $(this).parents('tr');
+
+            var dialog = bootbox.dialog({
+                title: 'Documento Home',
+                message: "<p>Deseja definir o documento como pagina Home?.</p>",
+                size: 'sm',
+                buttons: {
+                    cancel: {
+                        label: "Cancel",
+                        className: 'btn-danger',
+                        callback: function () {
+                            console.log('Custom cancel clicked');
+                        }
+                    },
+
+                    ok: {
+                        label: "Ok",
+                        className: 'btn-info',
+                        callback: function () {
+                            $.post('/ControlDoc/DocumentoHome/' + idDoc, function (data, status) { }).done(function (data) {
+                                if (data.StatusCode == "200") {
+                                    bootbox.alert("Documento definido como pagina Home.");
+                                }
+                                if (data.StatusCode == "500") {
+                                    bootbox.alert("Erro ao tornar o documento como pagina Home , contacte o administrador.");
+                                }
+                            });
+                            location.reload();
+                        }
+                    }
+                }
+            });
+
+
+            //bootbox.confirm("Deseja definir o documento como pagina Home?", function (result) {
+            //    if (result) {
+            //        $.post('/ControlDoc/DocumentoHome/' + idDoc, function (data, status) { }).done(function (data) {
+            //            if (data.StatusCode == "200") {
+            //                bootbox.alert("Documento definido como pagina Home.");
+            //            }
+            //            if (data.StatusCode == "500") {
+            //                bootbox.alert("Erro ao tornar o documento como pagina Home , contacte o administrador.");
+            //            }
+            //        });
+            //    }
+            //    if (!result) {
+            //        bootbox.hideAll();
+            //    }
+            //});
+        })
     },
 
     setObsoletarDocumento: function () {

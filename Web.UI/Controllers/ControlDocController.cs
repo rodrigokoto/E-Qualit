@@ -166,8 +166,8 @@ namespace Web.UI.Controllers
 
             List<DocDocumento> listaResult = _documentoAppServico.ListaDocumentosAprovadosMaiorRevisao(Util.ObterSiteSelecionado(), null).ToList();
 
-            var Id = Convert.ToInt32(Util.ObterClienteSelecionado());
-          
+            var Id = Convert.ToInt32(Util.ObterSiteSelecionado());
+
             var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == Id);
 
             var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
@@ -914,6 +914,39 @@ namespace Web.UI.Controllers
             return Json(new { StatusCode = 200, IdRevisao = docRevisao.IdDocumento }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult DocumentoHome(int id)
+        {
+            var erros = new List<string>();
+
+            var doc = _documentoAppServico.GetById(id);
+            var idSite = Util.ObterSiteSelecionado();
+
+            var docList = _documentoAppServico.GetAll().Where(x => x.DocHome == true && x.IdSite == idSite).ToList();
+
+            try
+            {
+                if (docList.Count > 0)
+                {
+                    foreach (var docDocumento in docList)
+                    {
+                        docDocumento.DocHome = false;
+                        _documentoAppServico.Update(docDocumento);
+                    }
+                }
+
+                doc.DocHome = true;
+                _documentoAppServico.Update(doc);
+
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+
+                return Json(new { StatusCode = (int)HttpStatusCode.InternalServerError, Erro = ex.ToString(), JsonRequestBehavior.AllowGet });
+            }
+            return Json(new { StatusCode = 200 }, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult Excluir(int id)
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
@@ -1068,6 +1101,7 @@ namespace Web.UI.Controllers
 
             ViewBag.StatusDocumento = status;
 
+            doc.DocHome = false;
 
             switch (status)
             {
@@ -1791,6 +1825,8 @@ namespace Web.UI.Controllers
 
                 documento.GestaoDeRisco = null;
 
+                documento.DocHome = false;
+
                 BaseContext db = new BaseContext();
 
                 db.Entry(documento).State = System.Data.Entity.EntityState.Modified;
@@ -1806,7 +1842,7 @@ namespace Web.UI.Controllers
 
             return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Aprovacao, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
 
-        }
+            }
 
         [HttpPost]
         [ValidateInput(false)]
@@ -1827,7 +1863,8 @@ namespace Web.UI.Controllers
                     if (documentoatual.IdDocumentoPai != null)
                         docBase = _documentoAppServico.Get(x => x.IdDocumento == documentoatual.IdDocumentoPai).First();
                     documento.DocUsuarioVerificaAprova.AddRange(documento.Aprovadores);
-                    documentoatual.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
+
+                    //documentoatual.DocUsuarioVerificaAprova.AddRange(documento.Verificadores);
                     //documento.XmlMetadata = Util.EscreveXML(documento.ConteudoDocumento);
                     //_documentoAppServico.VerificarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());
                     //_documentoAppServico.AprovarDocumentoPorUsuario(documento, Util.ObterCodigoUsuarioLogado());

@@ -8,6 +8,8 @@ using Web.UI.Helpers;
 using ApplicationService.Interface;
 using System.Web;
 using System.Text;
+using Dominio.Interface.Servico;
+using System.Web.Routing;
 
 namespace Web.UI.Controllers
 {
@@ -20,6 +22,7 @@ namespace Web.UI.Controllers
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly ILogAppServico _logAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IDocDocumentoAppServico _docDocumentoServico;
 
         private int idPerfil;
         private int idSite;
@@ -27,7 +30,9 @@ namespace Web.UI.Controllers
         public HomeController(IClienteAppServico clienteAppServico, IProcessoAppServico processoAppServico,
                               IUsuarioClienteSiteAppServico usuarioClienteAppServico, ILogAppServico logAppServico,
                               IUsuarioAppServico usuarioAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IControladorCategoriasAppServico controladorCategoriasServico,
+            IDocDocumentoAppServico docDocumentoServico
+            ) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _clienteAppServico = clienteAppServico;
             _processoAppServico = processoAppServico;
@@ -35,6 +40,7 @@ namespace Web.UI.Controllers
             _logAppServico = logAppServico;
             _usuarioAppServico = usuarioAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _docDocumentoServico = docDocumentoServico;
         }
 
         // GET: Home
@@ -42,10 +48,11 @@ namespace Web.UI.Controllers
         {
             var idUsuario = Util.ObterCodigoUsuarioLogado();
             idPerfil = Util.ObterPerfilUsuarioLogado();
+            idSite = Util.ObterSiteSelecionado();
             ViewBag.IdPerfil = idPerfil;
             var listaProcessos = new List<Processo>();
 
-
+            var doc = _docDocumentoServico.GetAll().Where(x => x.IdSite == idSite && x.DocHome == true).FirstOrDefault();
             Usuario usuario = _usuarioAppServico.GetById(idUsuario);
             Cliente cliente = _clienteAppServico.ObterClientesPorUsuario(idUsuario).FirstOrDefault();
 
@@ -90,16 +97,18 @@ namespace Web.UI.Controllers
                 ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidas(idUsuario);
 
             }
-
-            return View(listaProcessos);
-
+            if (doc != null)
+                return RedirectToAction("ConteudoDocumento", "ControlDoc", new { id = doc.IdDocumento });
+            else
+                return View(listaProcessos);
         }
 
         private void EscolheSite(Site site)
         {
             try
             {
-                var anexo = new Anexo() {
+                var anexo = new Anexo()
+                {
                     Arquivo = site.SiteAnexo.FirstOrDefault().Anexo.Arquivo,
                     Extensao = site.SiteAnexo.FirstOrDefault().Anexo.Extensao,
                     Nome = site.SiteAnexo.FirstOrDefault().Anexo.Nome
@@ -113,7 +122,7 @@ namespace Web.UI.Controllers
                 cookie.Expires = DateTime.Now.AddDays(1);
 
                 Response.Cookies.Set(cookie);
-                                
+
                 Session.Add("siteFrase", site.DsFrase);
 
                 Session["siteImg"] = String.Format("data:application/" + anexo.Extensao + ";base64," + Convert.ToBase64String(anexo.Arquivo));
@@ -128,10 +137,10 @@ namespace Web.UI.Controllers
         public ActionResult HomeProcesso(int idSite)
         {
             var listaProcessos = new List<Processo>();
-        
+
             listaProcessos.AddRange(_processoAppServico.ListaProcessosPorSite(idSite));
 
-           
+
 
             return View("Index", listaProcessos);
         }
@@ -188,7 +197,7 @@ namespace Web.UI.Controllers
 
         public int DiasParaTrocaDeSenha(DateTime data1, DateTime data2)
         {
-            return (data1 - data2).Days * - 1;
+            return (data1 - data2).Days * -1;
         }
     }
 }

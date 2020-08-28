@@ -43,6 +43,8 @@
                         <div class="barra-busca">
                             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.Cadastrar) || ViewBag.IdPerfil != 4)
                             {
+
+
                                 <p class="novo">
                                     @Html.ActionLink(Traducao.Indicador.ResourceIndicador.Indicador_lbl_novo_indicador, "Criar", "Indicador")
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -165,6 +167,9 @@
                 <div class="panel panel-default" id="panel-dashboard">
                     <div class="panel-heading">
                         <div class="panel-title">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" style="color:black">&times;</span>
+                            </button>
                             <h2>Relatório</h2>
                         </div>
                     </div>

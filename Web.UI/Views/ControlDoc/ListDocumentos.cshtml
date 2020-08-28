@@ -59,11 +59,17 @@
                                     </div>
                                 </p>
                             }
-                            <p class="novo">
-                                @Html.ActionLink("Novo Documento", "EmissaoDocumento")
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                            </p>
+                            @{
+                                var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
 
+                                if (action == "documentoselaboracao")
+                                {
+                                    <p class="novo">
+                                        @Html.ActionLink("Novo Documento", "EmissaoDocumento")
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    </p>
+                                }
+                            }
                             <div class="col-lg-12">
                                 <table id="tb-list-documentos" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%;">
                                     <thead>
@@ -147,9 +153,11 @@
                                                         {
                                                             if (ViewBag.UsuarioPodeAlterar && (ViewBag.Obsoletos == null || ViewBag.Obsoletos == false))
                                                             {
-                                                                <a href="@Url.Action("Editar", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.btn_lbl_editar" class="edit icon-cliente editar-color">
-                                                                    <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="Editar"></i>
-                                                                </a>
+                                                               
+                                                                    <a href="@Url.Action("Editar", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.btn_lbl_editar" class="edit icon-cliente editar-color">
+                                                                        <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="Editar"></i>
+                                                                    </a>
+                                                                
                                                             }
                                                         }
                                                     }
@@ -183,11 +191,12 @@
                                                                 <i class="fa fa-files-o" aria-hidden="true"></i>
                                                             </a>
                                                         }
-
+                                                        if (ViewBag.IdPerfil != 4)
+                                                        {
                                                         <a href="#" data-id-doc="@item.IdDocumento" title="@Traducao.Resource.Obsoletar" class="icon-cliente controldoc-obsoletar">
                                                             <i class="fa fa-flag" aria-hidden="true"></i>
                                                         </a>
-
+                                                        }
                                                     }
 
                                                     @if (item.FlStatus == (int)StatusDocumento.Obsoleto)
@@ -200,7 +209,6 @@
                                                         }
 
                                                     }
-
                                                     @if (item.Assuntos.Count > 0)
                                                     {
                                                         <a href="" class="icon-cliente user-color" title="@Traducao.Resource.VisualizarRevisoes">
@@ -246,6 +254,20 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    }
+                                                    @if (item.DocHome == true)
+                                                    {
+                                                        <a href="#" data-id-doc="@item.IdDocumento" title="Home" style="color:green" class="icon-cliente controldoc-home">
+                                                            <i class="fa fa-home" aria-hidden="true"></i>
+
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" data-id-doc="@item.IdDocumento" title="Home" class="icon-cliente controldoc-home view-color">
+                                                            <i class="fa fa-home" aria-hidden="true"></i>
+
+                                                        </a>
                                                     }
                                                 </td>
 

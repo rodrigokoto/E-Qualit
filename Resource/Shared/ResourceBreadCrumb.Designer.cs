@@ -124,6 +124,24 @@ namespace Traducao.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documentos Obsoletos.
+        /// </summary>
+        public static string Action_documentosobsoletos {
+            get {
+                return ResourceManager.GetString("Action_documentosobsoletos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documentos em Revisão.
+        /// </summary>
+        public static string Action_documentosrevisao {
+            get {
+                return ResourceManager.GetString("Action_documentosrevisao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documentos em Verificação.
         /// </summary>
         public static string Action_documentosverificacao {

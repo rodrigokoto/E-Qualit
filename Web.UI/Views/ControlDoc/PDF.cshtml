@@ -267,6 +267,69 @@
                         </div>
                     }
 
+                    @if (Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RO") != null)
+                    {
+                        <div class="row">
+                            <!-- Formulario ROTINA -->
+                            <form id="form-emissao-documento-rotina">
+                                <div id="panel-form-rotina">
+                                    <div>
+                                        <div>
+                                            <h4>@Traducao.Resource.Rotina</h4>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="caixa">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <table id="tb-form-rotina" class="table table-striped table-bordered table-list">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="w10 with-input">@Traducao.Resource.Item</th>
+                                                                <th class="w10 with-input">@Traducao.Resource.Oque</th>
+                                                                <th class="w10 with-input">@Traducao.Resource.Quem</th>
+                                                                <th class="w10 with-input">@Traducao.Resource.Registro</th>
+                                                                <th class="w10 with-input">@Traducao.Resource.Como?</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @if (Model.Documento.DocTemplate.Find(t => t.TpTemplate == "RO") != null)
+                                                            {
+                                                                foreach (var rotina in Model.Documento.Rotinas)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdDocRotina" />
+                                                                            @rotina.Item
+                                                                        </td>
+                                                                        <td>
+                                                                            @rotina.OQue
+                                                                        </td>
+                                                                        <td>
+                                                                            @rotina.Quem
+                                                                        </td>
+                                                                        <td>
+                                                                            @rotina.Registro
+                                                                        </td>
+                                                                        <td>
+                                                                            @rotina.Como
+                                                                        </td>
+
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    }
+
+
                     <!-- Formulario REGISTROS -->
                     @if (Model.Documento.DocTemplate.Find(x => x.TpTemplate == "R") != null)
                     {
@@ -416,67 +479,6 @@
 
 
 
-                    @if (Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RO") != null)
-                    {
-                        <div class="row">
-                            <!-- Formulario ROTINA -->
-                            <form id="form-emissao-documento-rotina">
-                                <div id="panel-form-rotina">
-                                    <div>
-                                        <div>
-                                            <h4>@Traducao.Resource.Rotina</h4>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="caixa">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <table id="tb-form-rotina" class="table table-striped table-bordered table-list">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="w10 with-input">@Traducao.Resource.Item</th>
-                                                                <th class="w10 with-input">@Traducao.Resource.Oque</th>
-                                                                <th class="w10 with-input">@Traducao.Resource.Quem</th>
-                                                                <th class="w10 with-input">@Traducao.Resource.Registro</th>
-                                                                <th class="w10 with-input">@Traducao.Resource.Como?</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @if (Model.Documento.DocTemplate.Find(t => t.TpTemplate == "RO") != null)
-                                                            {
-                                                                foreach (var rotina in Model.Documento.Rotinas)
-                                                                {
-                                                                    <tr>
-                                                                        <td>
-                                                                            <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdDocRotina" />
-                                                                            @rotina.Item
-                                                                        </td>
-                                                                        <td>
-                                                                            @rotina.OQue
-                                                                        </td>
-                                                                        <td>
-                                                                            @rotina.Quem
-                                                                        </td>
-                                                                        <td>
-                                                                            @rotina.Registro
-                                                                        </td>
-                                                                        <td>
-                                                                            @rotina.Como
-                                                                        </td>
-
-                                                                    </tr>
-                                                                }
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    }
 
 
                     @if (Model.Documento.DocTemplate.Find(x => x.TpTemplate == "RE") != null)

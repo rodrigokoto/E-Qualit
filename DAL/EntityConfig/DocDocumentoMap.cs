@@ -31,6 +31,9 @@ namespace DAL.EntityConfig
             Property(t => t.IdDocIdentificador)
                 .HasColumnName("IdDocIdentificador");
 
+            Property(t => t.DocHome)
+                .HasColumnName("DocHome");
+
             Property(t => t.IdProcesso)
                 .HasColumnName("IdProcesso");
 

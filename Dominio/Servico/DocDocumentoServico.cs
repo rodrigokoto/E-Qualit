@@ -221,6 +221,7 @@ namespace Dominio.Servico
                 IdGestaoDeRisco = documentoAtual.IdGestaoDeRisco,
                 IdLicenca = documentoAtual.IdLicenca,
                 IdDocExterno = documentoAtual.IdDocExterno,
+                DocHome = documentoAtual.DocHome,
 
                 TextoDoc = documentoAtual.TextoDoc,
                 FluxoDoc = documentoAtual.FluxoDoc,

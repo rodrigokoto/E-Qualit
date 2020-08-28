@@ -149,13 +149,30 @@ function setIconPlusPlanoDeVooDisabled(Icon, periodo) {
         switch (periodo) {
             case 1:
                 Icon.each(function (index, item) {
-                    $(this).show();
+                    var data = new Date();
+                    data = data.getMonth() + 1;
+
+                    if ((index + 1) === data) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
                 });
                 break;
             case 2:
                 Icon.each(function (index, item) {
-                    if ((index + 1) % 2 === 0)
-                        $(this).show();
+                    if ((index + 1) % 2 === 0) {
+                        var data = new Date();
+                        data = data.getMonth() + 1;
+
+                        if ((index + 1) === data) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
                     else {
                         $(this).hide();
                     }
@@ -163,8 +180,17 @@ function setIconPlusPlanoDeVooDisabled(Icon, periodo) {
                 break;
             case 3:
                 Icon.each(function (index, item) {
-                    if ((index + 1) % 3 === 0)
-                        $(this).show();
+                    if ((index + 1) % 3 === 0) {
+                        var data = new Date();
+                        data = data.getMonth() + 1;
+
+                        if ((index + 1) === data) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
                     else {
                         $(this).hide();
                     }
@@ -172,8 +198,17 @@ function setIconPlusPlanoDeVooDisabled(Icon, periodo) {
                 break;
             case 4:
                 Icon.each(function (index, item) {
-                    if ((index + 1) % 6 === 0)
-                        $(this).show();
+                    if ((index + 1) % 6 === 0) {
+                        var data = new Date();
+                        data = data.getMonth() + 1;
+
+                        if ((index + 1) === data) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
                     else {
                         $(this).hide();
                     }
@@ -181,8 +216,17 @@ function setIconPlusPlanoDeVooDisabled(Icon, periodo) {
                 break;
             case 5:
                 Icon.each(function (index, item) {
-                    if ((index + 1) % 12 === 0)
-                        $(this).show();
+                    if ((index + 1) % 12 === 0) {
+                        var data = new Date();
+                        data = data.getMonth() + 1;
+
+                        if ((index + 1) === data) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
                     else {
                         $(this).hide();
                     }
