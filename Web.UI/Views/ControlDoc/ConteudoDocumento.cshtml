@@ -118,8 +118,8 @@
                 <a href="#panel-form-rotina" data-toggle="#panel-form-rotina">@Traducao.Resource.Rotina</a>
             </li>
             @*<li role="presentation" class="col-md-1" id="panel-tab-indicadores" style="display: none;">
-                <a href="#panel-form-indicadores" data-toggle="#panel-form-indicadores">Indicadores</a>
-            </li>*@
+                    <a href="#panel-form-indicadores" data-toggle="#panel-form-indicadores">Indicadores</a>
+                </li>*@
             <li role="presentation" class="col-md-1" id="panel-tab-recursos" style="display: none;">
                 <a href="#panel-form-recursos" data-toggle="#panel-form-recursos">@Traducao.Resource.Recursos</a>
             </li>
@@ -200,10 +200,7 @@
                                     <div class="form-group">
                                         <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
                                         <br />
-                                        @{
-                                            string numeroDocumento = ((Model.NumeroDocumento % 2).Equals(1) || (Model.NumeroDocumento % 2).Equals(0) ? @Model.NumeroDocumento.ToString("000") : @Model.NumeroDocumento.ToString().Replace(".", ","));
-                                        }
-                                        @numeroDocumento
+                                        @Model.NumeroDocumento
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -269,9 +266,9 @@
                                             @*@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Rotina*@
                                             <!-- Indicadores -->
                                             @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                        <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="" value="IN" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
-                        <label for="form-cadastro-escolha-indicadores">Indicadores</label>
-                    </div>*@
+                                                    <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-indicadores" class="" value="IN" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "IN").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "IN") != null ? "checked" : "")>
+                                                    <label for="form-cadastro-escolha-indicadores">Indicadores</label>
+                                                </div>*@
 
 
                                             <!-- Recursos -->
@@ -286,9 +283,9 @@
                                             </div>
                                             <!-- Licenca -->
                                             @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                        <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
-                        <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
-                    </div>*@
+                                                    <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
+                                                    <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
+                                                </div>*@
                                             <!-- Docs Externos -->
                                             <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
                                                 <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-docsexternos" class="" value="DE" data-id="@(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? Model.DocTemplate.Find(x => x.TpTemplate == "DE").IdDocTemplate.ToString() : "")" @(Model.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? "checked" : "")>
@@ -613,7 +610,7 @@
                                                         foreach (var rotina in Model.Rotinas)
                                                         {
                                                             <tr>
-                                                                <td style="width:10%" >
+                                                                <td style="width:10%">
                                                                     <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdDocRotina" />
                                                                     <label name="formRotinaItem" if="form-rotina-item" class="" disabled="">@rotina.Item</label>
                                                                 </td>

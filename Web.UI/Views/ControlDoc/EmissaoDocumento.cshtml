@@ -143,18 +143,7 @@
                                 <!-- Numero Documento -->
                                 <div class="form-group">
                                     <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
-
-                                    @{
-                                        string numeroDocumento = ((Model.NumeroDocumento % 2).Equals(1) || (Model.NumeroDocumento % 2).Equals(0) ? @Model.NumeroDocumento.ToString("000") : @Model.NumeroDocumento.ToString().Replace(".", ","));
-
-                                        if (Model.IdDocumento == 0)
-                                        {
-                                            numeroDocumento = "";
-                                        }
-
-                                    }
-
-                                    <input type="text" name="formCadastroNmDocumento" class="form-control" id="form-cadastro-numero-documento" value="@numeroDocumento" required data-msg-required="@Traducao.Resource.NDoc" data-msg-maxlength=@Traducao.Resource.NDocMax15>
+                                    <input type="text" name="formCadastroNmDocumento" class="form-control" id="form-cadastro-numero-documento" value="" required data-msg-required="@Traducao.Resource.NDoc" data-msg-maxlength=@Traducao.Resource.NDocMax15>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -760,8 +749,8 @@
 
                                                         <td>
                                                             @*<input type="text" name="formRiscosRisco" if="form-riscos-risco" class="form-control" disabled value="@risco.CriticidadeGestaoDeRisco">
-                                                            <input type="hidden" name="formGestaoDeRiscoCriticidadeCor" value="@(risco.CriticidadeGestaoDeRisco != null ?risco.CriticidadeGestaoDeRisco:0)" />*@
-                                                            
+                                                                <input type="hidden" name="formGestaoDeRiscoCriticidadeCor" value="@(risco.CriticidadeGestaoDeRisco != null ?risco.CriticidadeGestaoDeRisco:0)" />*@
+
                                                             <select class="form-control" name="formRiscosRisco" autocomplete="off" @(risco.CriticidadeGestaoDeRisco != null ? "disabled" : null)>
                                                                 <option value="1" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
                                                                 <option value="2" @(risco.CriticidadeGestaoDeRisco != null && risco.CriticidadeGestaoDeRisco == 2 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>

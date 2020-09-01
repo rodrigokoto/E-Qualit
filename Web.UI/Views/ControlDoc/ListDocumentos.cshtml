@@ -110,11 +110,7 @@
                                         {
                                             <tr>
                                                 <td>
-                                                    @{
-                                                        string numeroDocumento = ((item.NumeroDocumento % 2).Equals(1) || (item.NumeroDocumento % 2).Equals(0) ? item.NumeroDocumento.ToString("000") : item.NumeroDocumento.ToString().Replace(".", ","));
-                                                    }
-
-                                                    @item.Sigla.Descricao - @numeroDocumento
+                                                    @item.NumeroDocumento
                                                 </td>
                                                 <td>
                                                     @item.Titulo

@@ -309,7 +309,7 @@ namespace Web.UI.Controllers
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
-            documento.NumeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado());
+            documento.NumeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado()).ToString();
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.EColaborador = Util.ObterPerfilUsuarioLogado() == (int)PerfisAcesso.Colaborador ? "true" : "false";
@@ -391,7 +391,7 @@ namespace Web.UI.Controllers
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
-            documento.NumeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado());
+            documento.NumeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado()).ToString();
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.EColaborador = Util.ObterPerfilUsuarioLogado() == (int)PerfisAcesso.Colaborador ? "true" : "false";
@@ -420,7 +420,7 @@ namespace Web.UI.Controllers
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
-            documento.NumeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado());
+            documento.NumeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado()).ToString();
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.EColaborador = Util.ObterPerfilUsuarioLogado() == (int)PerfisAcesso.Colaborador ? "true" : "false";
@@ -891,11 +891,28 @@ namespace Web.UI.Controllers
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             try
             {
-                decimal numeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado(), null, id);
+                decimal saida = 0;
 
-                var numeroEhInteiro = verificaSeEhInteiro(numeroDocumento);
+                string numeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado(), null, id);
 
-                return Json(new { StatusCode = (int)HttpStatusCode.OK, Retorno = (numeroEhInteiro ? numeroDocumento.ToString("000") : numeroDocumento.ToString().Replace(".", ",")) }, JsonRequestBehavior.AllowGet);
+                var result = decimal.TryParse(numeroDocumento, out saida);
+
+                if (result)
+                {
+
+                    var numeroEhInteiro = verificaSeEhInteiro(saida);
+
+                    var resposta = Convert.ToDecimal(numeroDocumento);
+
+                    return Json(new { StatusCode = (int)HttpStatusCode.OK, Retorno = (numeroEhInteiro ? resposta.ToString("000") : resposta.ToString().Replace(".", ",")) }, JsonRequestBehavior.AllowGet);
+
+                }
+                else
+                {
+                    return Json(new { StatusCode = (int)HttpStatusCode.OK, Retorno = (numeroDocumento.ToString()) }, JsonRequestBehavior.AllowGet);
+                }
+
+
             }
             catch (Exception ex)
             {
@@ -1010,6 +1027,8 @@ namespace Web.UI.Controllers
                 var erros = new List<string>();
 
                 doc.Assuntos.Add(new DocumentoAssunto { DataAssunto = DateTime.Now, Descricao = Traducao.Resource.DescricaoRevisaoEmissaoInicial, Revisao = "0" });
+
+                doc.DocHome = false;
 
                 if (doc.Elaborador == null)
                 {

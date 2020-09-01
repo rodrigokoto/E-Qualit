@@ -7,6 +7,7 @@ using Dominio.Validacao.DocDocumentos.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Dominio.Servico
 {
@@ -332,7 +333,7 @@ namespace Dominio.Servico
                 return;
 
             documentoNovo.ArquivoDocDocumentoAnexo = new List<ArquivoDocDocumentoAnexo>();
-            
+
             foreach (var arquivo in documentoAtual.ArquivoDocDocumentoAnexo)
             {
                 ArquivoDocDocumentoAnexo arquivoDocDocumentoAnexo = new ArquivoDocDocumentoAnexo();
@@ -370,7 +371,8 @@ namespace Dominio.Servico
 
         public void Valido(DocDocumento documento, ref List<string> erros)
         {
-            if (documento.IdDocIdentificador == 0) {
+            if (documento.IdDocIdentificador == 0)
+            {
 
                 documento.IdDocIdentificador = 1;
             }
@@ -894,9 +896,10 @@ namespace Dominio.Servico
         }
 
 
-        public decimal GeraProximoNumeroRegistro(int idSite, int? idProcesso = null, int? idSigla = null)
+        public string GeraProximoNumeroRegistro(int idSite, int? idProcesso = null, int? idSigla = null)
         {
             decimal saida = 0;
+            string saidas = string.Empty;
 
             var item = _documentoRepositorio.GetAll()
                 .Where(x => x.IdSite == idSite &&
@@ -906,22 +909,35 @@ namespace Dominio.Servico
                 .OrderByDescending(x => x.NumeroDocumento).FirstOrDefault();
             if (item != null)
             {
-                if (item.NumeroDocumento != 0)
+
+                var result = decimal.TryParse(item.NumeroDocumento, out saida);
+
+                if (result)
                 {
-                    saida = item.NumeroDocumento + 1;
+
+                    if (saida == 0)
+                    {
+
+                        saida = 1;
+                        return saida.ToString();
+                    }
+                    else
+                    {
+
+                        saida = saida + 1;
+                        return saida.ToString();
+                    }
                 }
                 else
-                { saida = 1; }
+                {
+
+                    return item.NumeroDocumento;
+                }
             }
             else
             {
-                saida = 1;
+                return string.Empty;
             }
-
-            return saida;
         }
-
-
-
     }
 }

@@ -51,7 +51,7 @@ namespace Dominio.Interface.Servico
         // Listas Por Template
         IEnumerable<DocDocumento> ListaDocumentosPorTemplateSiteEProcesso(int idsite, int idprocesso, string template);
 
-        decimal GeraProximoNumeroRegistro(int idSite, int? idProcesso = null, int? idSigla = null);
+        string GeraProximoNumeroRegistro(int idSite, int? idProcesso = null, int? idSigla = null);
 
         void AtualizaPaiParaObsoleto(DocDocumento documento);
     }

@@ -39,7 +39,7 @@ namespace Dominio.Entidade
         public int? IdDocumentoPai { get; set; }
 
         public string Titulo { get; set; }
-        public decimal NumeroDocumento { get; set; }
+        public string NumeroDocumento { get; set; }
         public bool FlWorkFlow { get; set; }
         public bool FlRevisaoPeriodica { get; set; }
         public byte FlStatus { get; set; }
