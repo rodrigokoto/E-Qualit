@@ -185,7 +185,7 @@ namespace Web.UI.Controllers
                 {
 
                     var idCliente = Util.ObterClienteSelecionado();
-                    
+
 
                     var DtVencimento = DateTime.Now.AddDays(-1);
 
@@ -243,71 +243,86 @@ namespace Web.UI.Controllers
                                             case 1:
                                                 if ((mes % 1) == 0)
                                                 {
-                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    if (mes != DateTime.Now.Month)
                                                     {
-                                                        Id = indicador.Id,
-                                                        IdResponsavel = indicador.IdResponsavel,
-                                                        Titulo = indicador.Objetivo,
-                                                        Modulo = "Indicador"
-                                                    };
+                                                        PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                        {
+                                                            Id = indicador.Id,
+                                                            IdResponsavel = indicador.IdResponsavel,
+                                                            Titulo = indicador.Objetivo,
+                                                            Modulo = "Indicador"
+                                                        };
 
-                                                    lstPendencia.Add(pendenciaViewModel);
+                                                        lstPendencia.Add(pendenciaViewModel);
+                                                    }
                                                 }
                                                 break;
                                             case 2:
                                                 if ((mes % 2) == 0)
                                                 {
-                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    if (mes != DateTime.Now.Month)
                                                     {
-                                                        Id = indicador.Id,
-                                                        IdResponsavel = indicador.IdResponsavel,
-                                                        Titulo = indicador.Objetivo,
-                                                        Modulo = "Indicador"
-                                                    };
+                                                        PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                        {
+                                                            Id = indicador.Id,
+                                                            IdResponsavel = indicador.IdResponsavel,
+                                                            Titulo = indicador.Objetivo,
+                                                            Modulo = "Indicador"
+                                                        };
 
-                                                    lstPendencia.Add(pendenciaViewModel);
+                                                        lstPendencia.Add(pendenciaViewModel);
+                                                    }
                                                 }
                                                 break;
                                             case 3:
                                                 if ((mes % 3) == 0)
                                                 {
-                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    if (mes != DateTime.Now.Month)
                                                     {
-                                                        Id = indicador.Id,
-                                                        IdResponsavel = indicador.IdResponsavel,
-                                                        Titulo = indicador.Objetivo,
-                                                        Modulo = "Indicador"
-                                                    };
+                                                        PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                        {
+                                                            Id = indicador.Id,
+                                                            IdResponsavel = indicador.IdResponsavel,
+                                                            Titulo = indicador.Objetivo,
+                                                            Modulo = "Indicador"
+                                                        };
 
-                                                    lstPendencia.Add(pendenciaViewModel);
+                                                        lstPendencia.Add(pendenciaViewModel);
+                                                    }
                                                 }
                                                 break;
                                             case 4:
                                                 if ((mes % 6) == 0)
                                                 {
-                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    if (mes != DateTime.Now.Month)
                                                     {
-                                                        Id = indicador.Id,
-                                                        IdResponsavel = indicador.IdResponsavel,
-                                                        Titulo = indicador.Objetivo,
-                                                        Modulo = "Indicador"
-                                                    };
+                                                        PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                        {
+                                                            Id = indicador.Id,
+                                                            IdResponsavel = indicador.IdResponsavel,
+                                                            Titulo = indicador.Objetivo,
+                                                            Modulo = "Indicador"
+                                                        };
 
-                                                    lstPendencia.Add(pendenciaViewModel);
+                                                        lstPendencia.Add(pendenciaViewModel);
+                                                    }
                                                 }
                                                 break;
                                             case 5:
                                                 if ((mes % 12) == 0)
                                                 {
-                                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                    if (mes != DateTime.Now.Month)
                                                     {
-                                                        Id = indicador.Id,
-                                                        IdResponsavel = indicador.IdResponsavel,
-                                                        Titulo = indicador.Objetivo,
-                                                        Modulo = "Indicador"
-                                                    };
+                                                        PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                                        {
+                                                            Id = indicador.Id,
+                                                            IdResponsavel = indicador.IdResponsavel,
+                                                            Titulo = indicador.Objetivo,
+                                                            Modulo = "Indicador"
+                                                        };
 
-                                                    lstPendencia.Add(pendenciaViewModel);
+                                                        lstPendencia.Add(pendenciaViewModel);
+                                                    }
                                                 }
                                                 break;
                                         }

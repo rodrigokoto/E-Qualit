@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApplicationService.Interface;
+using System;
 using System.IO;
 using System.Web.Mvc;
 
@@ -6,7 +7,12 @@ namespace Web.UI.Controllers
 {
 	public class CkeditorController : Controller
 	{
+		private readonly IClienteAppServico _clienteAppServico;
 
+		public CkeditorController(IClienteAppServico clienteAppServico)
+		{
+			_clienteAppServico = clienteAppServico;
+		}
 
 		// GET: Ckeditor
 		public ActionResult Index()
@@ -17,6 +23,14 @@ namespace Web.UI.Controllers
 		[HttpPost]
 		public ActionResult UploadImageCkEditor(string CKEditorFuncNum, string CKEditor, string langCode)
 		{
+			var idCliente = Web.UI.Helpers.Util.ObterClienteSelecionado();
+
+			string path = System.Web.HttpContext.Current.Server.MapPath("~\\Content\\ImagensCkEditor\\Arquivos\\" + idCliente + "\\DocDocumento\\");
+			DirectoryInfo di = new DirectoryInfo(path);
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
 
 			var output = string.Empty;
 
@@ -34,11 +48,15 @@ namespace Web.UI.Controllers
 			}
 			// here logic to upload image
 			// and get file path of the image
+			 
+			string pastaUpload = "/Content/ImagensCkEditor/Arquivos/" + idCliente + "/DocDocumento";
 
-			const string pastaUpload = "/Content/ImagensCkEditor/";
+			Random _rdm = new Random();
+			int hash = _rdm.Next(1000, 9999);
 
-			var nomeArquivo = Path.GetFileName(arquivo.FileName);
-			var caminhoImagemServidor = Path.Combine(Server.MapPath(string.Format("~/{0}", pastaUpload)), nomeArquivo);
+			var nomeArquivo = hash.ToString() + "-" + Path.GetFileName(arquivo.FileName);
+			path = path.Replace("\\", "/");
+			var caminhoImagemServidor = Path.Combine(Server.MapPath(string.Format("~/{0}", pastaUpload)),  nomeArquivo );
 			arquivo.SaveAs(caminhoImagemServidor);
 
 			var urlRetorno = string.Format("{0}{1}/{2}/{3}", Request.Url.GetLeftPart(UriPartial.Authority),

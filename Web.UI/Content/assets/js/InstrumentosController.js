@@ -96,11 +96,15 @@ APP.controller.InstrumentosController = {
         APP.component.AtivaLobiPanel.init();
         APP.component.FileUpload.init();
         APP.component.Datapicker.init();
-        APP.component.DataTable.init('#tb-calibracao');
 
         $.fn.dataTable.moment('DD/MM/YYYY');    //Formatação sem Hora
 
-        tabelaCalibracao = $('#tb-calibracao').DataTable();
+        tabelaCalibracao = $('#tb-calibracao').DataTable({
+            columnDefs: [{
+                target: 3,
+                type: 'datetime-moment'
+            }]
+        });
         tabelaCalibracao.order([3, 'desc']);
         tabelaCalibracao.draw();
         // APP.controller.InstrumentosController.setupUploadArquivoCalibracao();
@@ -565,7 +569,8 @@ APP.controller.InstrumentosController = {
     delCalibracao: function () {
 
 
-        tabelaCalibracao = $('#tb-calibracao').DataTable();
+
+
 
         this.buttonDelCalibracao.unbind("click");
         this.buttonDelCalibracao.bind('click', function (event) {
@@ -1004,7 +1009,7 @@ APP.controller.InstrumentosController = {
     addCalibracaoTabela: function (calibracao) {
 
 
-        var tabelaCalibracao = $('#tb-calibracao').DataTable();
+       
 
         var newRow =
             [

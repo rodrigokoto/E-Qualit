@@ -60,7 +60,7 @@
             .form-group {
                 margin-bottom: 20px;
                 font-size: medium;
-                color:#000000;
+                color: #000000;
             }
 
             .tabela-check {
@@ -133,10 +133,7 @@
                                             <div class="form-group" style="color:#000000!important">
                                                 <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
                                                 <br />
-                                                @{
-                                                    string numeroDocumento = ((Model.Documento.NumeroDocumento % 2).Equals(1) || (Model.Documento.NumeroDocumento % 2).Equals(0) ? @Model.Documento.NumeroDocumento.ToString("000") : @Model.Documento.NumeroDocumento.ToString().Replace(".", ","));
-                                                }
-                                                @numeroDocumento
+                                                @Model.Documento.NumeroDocumento
                                             </div>
                                         </div>
 
@@ -185,9 +182,9 @@
                                                     </div>
                                                     <!-- Licenca -->
                                                     @*<div class="col-lg-2 col-md-3 col-xs-6 col-xs-12 checkbox">
-                                            <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.Documento.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
-                                            <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
-                                        </div>*@
+                                                            <input type="checkbox" name="formCadastroEscolha" id="form-cadastro-escolha-licenca" class="" value="L" data-id="@(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "L") != null ? Model.Documento.DocTemplate.Find(x => x.TpTemplate == "L").IdDocTemplate.ToString() : "")" @(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "L") != null ? "checked" : "")>
+                                                            <label for="form-cadastro-escolha-licenca">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Licenca</label>
+                                                        </div>*@
                                                     <!-- Docs Externos -->
                                                     <div class="col-lg-2 col-md-3 col-xs-6 col-xs-12 checkbox">
                                                         <input type="checkbox" disabled name="formCadastroEscolha" id="form-cadastro-escolha-docsexternos" class="" value="DE" data-id="@(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? Model.Documento.DocTemplate.Find(x => x.TpTemplate == "DE").IdDocTemplate.ToString() : "")" @(Model.Documento.DocTemplate.Find(x => x.TpTemplate == "DE") != null ? "checked" : "")>
@@ -416,10 +413,10 @@
                                                         <thead>
                                                             <tr>
                                                                 @*<th class="w10 with-input">@Traducao.Resource.Item</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Oque</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Quem</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Registro</th>
-                                                    <th class="w10 with-input">@Traducao.Resource.Como?</th>*@
+                                                                    <th class="w10 with-input">@Traducao.Resource.Oque</th>
+                                                                    <th class="w10 with-input">@Traducao.Resource.Quem</th>
+                                                                    <th class="w10 with-input">@Traducao.Resource.Registro</th>
+                                                                    <th class="w10 with-input">@Traducao.Resource.Como?</th>*@
 
                                                                 <th class="w10 with-input">Objetivo</th>
                                                                 <th class="w5 with-input">Responsável</th>
@@ -585,100 +582,100 @@
 
 
                         @*<div class="row">
-                <!-- Formulario RISCOS -->
-                <form id="form-emissao-documento-riscos">
-                    <div id="panel-form-riscos">
-                        <div>
-                            <div>
-                                <h4>@Traducao.Resource.Riscos</h4>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="caixa">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        @Html.HiddenFor(model => model.Documento.IdGestaoDeRisco, new { @id = "idgestaorisco" })
-                                        <!-- Identificacao -->
-                                        <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
-                                        <br />
-                                        @(Model.Documento.GestaoDeRisco != null ? Model.Documento.GestaoDeRisco.DescricaoRegistro : "")
-                                    </div>
-                                </div>
+                                <!-- Formulario RISCOS -->
+                                <form id="form-emissao-documento-riscos">
+                                    <div id="panel-form-riscos">
+                                        <div>
+                                            <div>
+                                                <h4>@Traducao.Resource.Riscos</h4>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="caixa">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        @Html.HiddenFor(model => model.Documento.IdGestaoDeRisco, new { @id = "idgestaorisco" })
+                                                        <!-- Identificacao -->
+                                                        <label for="form-riscos-identificacao">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_IdentificacaoRisco</label>
+                                                        <br />
+                                                        @(Model.Documento.GestaoDeRisco != null ? Model.Documento.GestaoDeRisco.DescricaoRegistro : "")
+                                                    </div>
+                                                </div>
 
-                                <!-- Criticidade -->
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
-                                        @{
-                                            var Criticidade = "";
-                                        }
-                                        @if (Model.Documento.GestaoDeRisco != null)
-                                        {
-                                            if (Model.Documento.GestaoDeRisco.CriticidadeGestaoDeRisco <= 5)
-                                            {
-                                                Criticidade = @Traducao.Resource.Leve;
-                                            }
-                                            else if (Model.Documento.GestaoDeRisco.CriticidadeGestaoDeRisco > 5 && Model.Documento.GestaoDeRisco.CriticidadeGestaoDeRisco <= 10)
-                                            {
-                                                Criticidade = Traducao.Resource.Medio;
-                                            }
-                                            else
-                                            {
-                                                Criticidade = Traducao.Resource.Auto;
-                                            }
-                                        }
+                                                <!-- Criticidade -->
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label for="form-riscos-criticidade" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Risco</label>
+                                                        @{
+                                                            var Criticidade = "";
+                                                        }
+                                                        @if (Model.Documento.GestaoDeRisco != null)
+                                                        {
+                                                            if (Model.Documento.GestaoDeRisco.CriticidadeGestaoDeRisco <= 5)
+                                                            {
+                                                                Criticidade = @Traducao.Resource.Leve;
+                                                            }
+                                                            else if (Model.Documento.GestaoDeRisco.CriticidadeGestaoDeRisco > 5 && Model.Documento.GestaoDeRisco.CriticidadeGestaoDeRisco <= 10)
+                                                            {
+                                                                Criticidade = Traducao.Resource.Medio;
+                                                            }
+                                                            else
+                                                            {
+                                                                Criticidade = Traducao.Resource.Auto;
+                                                            }
+                                                        }
 
-                                        <br />@Criticidade
-                                    </div>
-                                </div>
-                                <!-- Necessita Acao -->
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
-                                        <div class="">
-                                            @(Model.Documento.PossuiGestaoRisco == true ? Traducao.Resource.Sim : Traducao.Resource.Nao )
+                                                        <br />@Criticidade
+                                                    </div>
+                                                </div>
+                                                <!-- Necessita Acao -->
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
+                                                        <div class="">
+                                                            @(Model.Documento.PossuiGestaoRisco == true ? Traducao.Resource.Sim : Traducao.Resource.Nao )
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-sm-2">
+                                                    @if (Model.Documento.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.Documento.GestaoDeRisco.Causa))
+                                                    {
+                                                        <div class="form-group">
+                                                            <!-- Causa -->
+                                                            <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
+                                                            <br />
+                                                            @(Model.Documento.GestaoDeRisco != null ? Model.Documento.GestaoDeRisco.Causa : "" )
+                                                        </div>
+                                                    }
+                                                </div>
+                                                @if (Model.Documento.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.Documento.GestaoDeRisco.DsJustificativa))
+                                                {
+                                                    <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                            <!-- Justificativa -->
+                                                            <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
+                                                            <br />
+                                                            @(Model.Documento.GestaoDeRisco != null ? Model.Documento.GestaoDeRisco.DsJustificativa : "")
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <!-- Responsável -->
+                                                        <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Responsavel_Risco</label>
+                                                        <br />
+                                                        @((Model.Documento.GestaoDeRisco != null && Model.Documento.GestaoDeRisco.ResponsavelInicarAcaoImediata != null) ? Model.Documento.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto : "" )
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-
-                                </div>
-
-
-                                <div class="col-sm-2">
-                                    @if (Model.Documento.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.Documento.GestaoDeRisco.Causa))
-                                    {
-                                        <div class="form-group">
-                                            <!-- Causa -->
-                                            <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Causa</label>
-                                            <br />
-                                            @(Model.Documento.GestaoDeRisco != null ? Model.Documento.GestaoDeRisco.Causa : "" )
-                                        </div>
-                                    }
-                                </div>
-                                @if (Model.Documento.GestaoDeRisco != null && !string.IsNullOrEmpty(Model.Documento.GestaoDeRisco.DsJustificativa))
-                                {
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <!-- Justificativa -->
-                                            <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Justificativa</label>
-                                            <br />
-                                            @(Model.Documento.GestaoDeRisco != null ? Model.Documento.GestaoDeRisco.DsJustificativa : "")
-                                        </div>
-                                    </div>
-                                }
-
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <!-- Responsável -->
-                                        <label for="form-riscos-causa" class="control-label">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Responsavel_Risco</label>
-                                        <br />
-                                        @((Model.Documento.GestaoDeRisco != null && Model.Documento.GestaoDeRisco.ResponsavelInicarAcaoImediata != null) ? Model.Documento.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto : "" )
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>*@
+                                </form>
+                            </div>*@
 
                     }
                     <!-- Formulario DOCS.EXTERNOS -->
