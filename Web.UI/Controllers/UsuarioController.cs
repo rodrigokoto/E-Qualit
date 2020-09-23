@@ -25,6 +25,7 @@ namespace Web.UI.Controllers
         private readonly IUsuarioSenhaServico _usuarioSenhaServico;
         //private readonly IClienteAppServico _clienteAppServico;
         private readonly IUsuarioCargoAppServico _usuarioCargoAppServico;
+        private readonly ICargoAppServico _cargoAppServico;
         private readonly IAnexoAppServico _anexoAppServico;
         private readonly ILogAppServico _logAppServico;
         private readonly IUsuarioAnexoAppServico _usuarioAnexoAppServico;
@@ -37,6 +38,7 @@ namespace Web.UI.Controllers
                                 IUsuarioAppServico usuarioAppServico,
                                 IUsuarioCargoAppServico usuarioCargoAppServico,
                                 ILogAppServico logAppServico,
+                                ICargoAppServico cargoAppServico,
                                 IAnexoAppServico anexoAppServico,
                                 IUsuarioServico usuarioServico,
                                 IUsuarioSenhaServico usuarioSenhaServico,
@@ -55,6 +57,8 @@ namespace Web.UI.Controllers
             _usuarioServico = usuarioServico;
             _usuarioSenhaServico = usuarioSenhaServico;
             _usuarioAnexoAppServico = usuarioAnexoAppServico;
+            _cargoAppServico = cargoAppServico;
+
             //_clienteAppServico = clienteAppServico;
             _clienteServico = clienteServico;
             _processoAppServico = processoAppServico;
@@ -140,6 +144,7 @@ namespace Web.UI.Controllers
 
             ViewBag.IdCliente = id != 0 ? id : Util.ObterClienteSelecionado();
             ViewBag.IdSite = IdSite != 0 ? IdSite : Util.ObterSiteSelecionado();
+            ViewBag.Cargos = _cargoAppServico.GetAll().Where(x => x.IdSite == IdSite).ToList();
             var usuario = _usuarioAppServico.GetById(id);
 
             return View("Criar", usuario);
@@ -153,6 +158,7 @@ namespace Web.UI.Controllers
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
             ViewBag.IdCliente = idCliente != 0 ? idCliente : Util.ObterClienteSelecionado();
             ViewBag.IdSite = IdSite != 0 ? IdSite : Util.ObterSiteSelecionado();
+            ViewBag.Cargos = _cargoAppServico.GetAll().Where(x => x.IdSite == IdSite).ToList();
 
             return View(usuario);
         }
@@ -294,6 +300,26 @@ namespace Web.UI.Controllers
             usuario.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
         }
 
+        private void TratarUsuarioCargo(Usuario usuario) {
+
+            var cargos = _usuarioCargoAppServico.GetAll().Where(x => x.IdUsuario == usuario.IdUsuario).ToList();
+
+            var cargos_t = cargos;
+            
+            for (int i = 0; i < cargos.Count(); i++)
+            {
+                _usuarioCargoAppServico.Remove(cargos_t[i]);
+            }
+
+            foreach (var usuarioCargo in usuario.UsuarioCargoes)
+            {
+                usuarioCargo.IdUsuario = usuario.IdUsuario;
+
+                _usuarioCargoAppServico.Add(usuarioCargo);
+            }
+            
+        }
+
         [HttpPost]
         [AcessoUsuarioSite]
         public JsonResult Editar(Usuario usuario)
@@ -304,6 +330,7 @@ namespace Web.UI.Controllers
             {
 
                 TrataUsuarioEditar(usuario);
+                TratarUsuarioCargo(usuario);
 
                 _usuarioServico.Valido(usuario, ref erros);
 

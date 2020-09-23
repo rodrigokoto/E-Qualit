@@ -90,7 +90,7 @@ namespace Web.UI.Helpers
         public static int ObterClienteSelecionado()
         {
             var clienteSelecionado = HttpContext.Current.Request.Cookies["clienteSelecionado"];
-            if (clienteSelecionado == null)
+            if (clienteSelecionado == null || clienteSelecionado.Value == "")
                 return 0;
 
             return Convert.ToInt32(clienteSelecionado.Value);

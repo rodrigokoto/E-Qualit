@@ -232,6 +232,7 @@
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Helpers\AcessoAdmin.cs" />
     <Compile Include="Helpers\AcessoCliente.cs" />
@@ -1321,7 +1322,9 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
-    <Content Include="Global.asax" />
+    <Content Include="Global.asax">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="gulpfile.js" />
     <Content Include="img\add.png" />
     <Content Include="img\bandeira-pt-br.png" />

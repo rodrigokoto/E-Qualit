@@ -1320,7 +1320,7 @@ namespace Web.UI.Controllers
             documento = AdicionarUsuario(documento);
 
 
-            documento.Rotinas = documento.Rotinas.OrderBy(x => x.Item).ToList();
+            documento.Rotinas = documento.Rotinas.OrderBy(x => x.Item.Length).ThenBy(c => c.Item).ToList();
             documento.Verificadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Ordem).ToList();
             documento.Aprovadores = documento.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Ordem).ToList();
 
@@ -1574,18 +1574,7 @@ namespace Web.UI.Controllers
             List<DocRegistro> registros = dest.Registros.Where(s => !source.Registros.Any(a => s.IdDocRegistro == a.IdDocRegistro)).ToList();
             registros.ForEach(f => _documentoAppServico.RemoverGenerico(f));
 
-            dest.Registros.ForEach(x =>
-            {
-                var itemAtualizar = source.Registros.Where(y => y.IdDocRegistro == x.IdDocRegistro).FirstOrDefault();
-                x.Identificar = itemAtualizar.Identificar;
-                x.Armazenar = itemAtualizar.Armazenar;
-                x.Proteger = itemAtualizar.Proteger;
-                x.Recuperar = itemAtualizar.Recuperar;
-                x.Disposicao = itemAtualizar.Disposicao;
-                x.Retencao = itemAtualizar.Retencao;
-
-            });
-
+            
 
             //Indicadores
             if (source.Indicadores != null)
@@ -1612,28 +1601,7 @@ namespace Web.UI.Controllers
             List<DocRisco> riscos = dest.DocRisco.Where(s => !source.DocRisco.Any(a => s.IdDocRisco == a.IdDocRisco)).ToList();
             riscos.ForEach(f => _documentoAppServico.RemoverGenerico(f));
 
-            dest.DocRisco.ForEach(x =>
-            {
-                var itemAtualizar = source.DocRisco.Where(y => y.IdDocRisco == x.IdDocRisco).FirstOrDefault();
-
-                x.Causa = itemAtualizar.Causa;
-                x.CriticidadeGestaoDeRisco = itemAtualizar.CriticidadeGestaoDeRisco;
-                x.DescricaoRegistro = itemAtualizar.DescricaoRegistro;
-
-                //x.Documento = itemAtualizar.Documento;
-                //x.IdDocumento = itemAtualizar.IdDocumento;
-
-                x.DsJustificativa = itemAtualizar.DsJustificativa;
-                x.IdDocRisco = itemAtualizar.IdDocRisco;
-                x.IdDocumento = source.IdDocumento;
-                x.IdResponsavelInicarAcaoImediata = itemAtualizar.IdResponsavelInicarAcaoImediata;
-                x.PossuiGestaoRisco = itemAtualizar.PossuiGestaoRisco;
-
-            });
-
-
-
-
+           
             if (source.DocExterno != null && !string.IsNullOrEmpty(source.DocExterno.Anexo.ArquivoB64))
             {
                 if (dest.DocExterno == null || dest.DocExterno.IdDocExterno == 0)

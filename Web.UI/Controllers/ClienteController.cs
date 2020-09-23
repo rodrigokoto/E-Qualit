@@ -389,11 +389,23 @@ namespace Web.UI.Controllers
 
                 var clienteCTX = _clienteAppServico.GetById(idCliente);
 
-                cookie.Value = clienteCTX.IdCliente.ToString();
+                if (cookie != null)
+                {
+                    cookie.Value = clienteCTX.IdCliente.ToString();
 
-                cookie.Expires = DateTime.Now.AddDays(1);
+                    cookie.Expires = DateTime.Now.AddDays(1);
 
-                Response.Cookies.Set(cookie);
+                    Response.Cookies.Set(cookie);
+                }
+                else {
+                    cookie = new HttpCookie("clienteSelecionado");
+                    cookie.Expires = DateTime.Now.AddDays(1);
+                    Response.Cookies.Set(cookie);
+
+                }
+
+
+
 
 
             }

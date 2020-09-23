@@ -317,7 +317,7 @@
                 </div>
             </div>
         </form>
-        @if (Model.IdPerfil == 4)
+        @if (Model.IdPerfil != 3)
         {
             <!-- Formulario Site Cargos -->
             <form id="form-site-cargos">
@@ -337,12 +337,33 @@
                                     <label for="form-cria-usuario-escolha">@Traducao.Cargo.ResourceCargo.Cargo_lbl_Escolha_cargo @nomeSite</label>
                                     <div class="row tabela-check">
                                         <!-- Cargos -->
-                                        @foreach (var cargos in Model.UsuarioCargoes)
+
+                                        @foreach (var cargo_i in ViewBag.Cargos)
                                         {
-                                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                                <input type="checkbox" name="formSiteCargos" id="form-site-cargos-@cargos.IdCargo" class="form-control" value="@cargos.IdCargo" checked>
-                                                <label for="form-site-cargos-@cargos.IdCargo">@cargos.Cargo.NmNome</label>
-                                            </div>
+                                            if (Model.UsuarioCargoes.Count > 0)
+                                            {
+                                                if (Model.UsuarioCargoes.Where(x => x.Cargo.IdCargo == cargo_i.IdCargo).ToList().Count > 0)
+                                                {
+                                                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                        <input type="checkbox" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo" checked>
+                                                        <label for="form-site-cargos-@cargo_i.IdCargo">@cargo_i.NmNome</label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                        <input type="checkbox" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo">
+                                                        <label for="form-site-cargos-@cargo_i.IdCargo">@cargo_i.NmNome</label>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
+                                                    <input type="checkbox" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo">
+                                                    <label for="form-site-cargos-@cargo_i.IdCargo">@cargo_i.NmNome</label>
+                                                </div>
+                                            }
                                         }
                                     </div>
                                 </div>

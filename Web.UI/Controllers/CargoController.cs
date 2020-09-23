@@ -61,7 +61,7 @@ namespace Web.UI.Controllers
 
         private void SetCookieSiteSelecionado(int idSite)
         {
-            var site = _siteModuloAppServico.Get(x=>x.IdSite == idSite).FirstOrDefault().Site;
+            var site = _siteModuloAppServico.Get(x => x.IdSite == idSite).FirstOrDefault().Site;
 
             HttpCookie cookie = Request.Cookies["siteSelecionado"];
 
@@ -101,21 +101,23 @@ namespace Web.UI.Controllers
 
             List<Funcionalidade> funcionalidades = new List<Funcionalidade>();
 
-            modulos.ForEach(x => {
+            modulos.ForEach(x =>
+            {
                 x.Funcionalidade.Funcoes = x.Funcionalidade.Funcoes.OrderBy(s => s.NuOrdem).ToList();
             });
 
-            modulos.ForEach(x => {
+            modulos.ForEach(x =>
+            {
                 if (!funcionalidades.Select(y => y.IdFuncionalidade).Contains(x.IdFuncionalidade))
                 {
                     funcionalidades.Add(x.Funcionalidade);
                 }
             });
 
-            
+
 
             ViewBag.Modulos = modulos;
-            ViewBag.Funcionalidades = funcionalidades.Where(x=> x.Ativo == true).ToList();
+            ViewBag.Funcionalidades = funcionalidades.Where(x => x.Ativo == true).ToList();
 
             return View(cargo);
         }
@@ -129,7 +131,8 @@ namespace Web.UI.Controllers
 
             List<Funcionalidade> funcionalidades = new List<Funcionalidade>();
 
-            mudulos.ForEach(x => {
+            mudulos.ForEach(x =>
+            {
                 if (!funcionalidades.Select(y => y.IdFuncionalidade).Contains(x.IdFuncionalidade))
                 {
                     funcionalidades.Add(x.Funcionalidade);
@@ -204,11 +207,12 @@ namespace Web.UI.Controllers
 
             listaCtx.ForEach(x =>
             {
-                if(!listaCargoProcesso.Select(y=> y.IdFuncao).Contains(x.IdFuncao)) {
+                if (!listaCargoProcesso.Select(y => y.IdFuncao).Contains(x.IdFuncao))
+                {
                     listaQueSeraDeletados.Add(x.IdCargoProcesso);
                 }
             });
-            
+
 
             if (listaDosQueSeraoAdicionados.Count > 0)
             {
@@ -227,18 +231,18 @@ namespace Web.UI.Controllers
 
             if (listaQueSeraDeletados.Count > 0)
             {
-                foreach(var i in listaQueSeraDeletados)
+                foreach (var i in listaQueSeraDeletados)
                 {
 
                     var deletado = listaCtx.FirstOrDefault(x => x.IdCargoProcesso == i);
 
                     var deletados = _cargoProcessoAppServico.Get(x => x.IdCargo == deletado.IdCargo && x.IdFuncao == deletado.IdFuncao).ToList();
 
-                    foreach(var item in deletados)
+                    foreach (var item in deletados)
                     {
                         _cargoProcessoAppServico.Remove(item);
                     }
-                }                
+                }
             }
         }
 
@@ -281,7 +285,13 @@ namespace Web.UI.Controllers
 
             try
             {
-                _cargoServico.Excluir(id);
+                var incluisao = _cargoServico.Excluir(id);
+
+                if (incluisao == false)
+                {
+                    erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_erro_ExcluirCargo);
+                    return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception ex)
             {

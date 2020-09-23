@@ -43,16 +43,19 @@
             <summary>
             Nome da cidade
             </summary>
+            
         </member>
         <member name="P:Artius.Modelos.ModelView.Cadastro.CidadeModelView.CodigoIBGE">
             <summary>
             Código da cidade cadastrado no IBGE
             </summary>
+            
         </member>
         <member name="P:Artius.Modelos.ModelView.Cadastro.CidadeModelView.IdEstado">
             <summary>
             Código do Estado ao qual a cidade está vinculada
             </summary>
+            
         </member>
         <member name="P:Artius.Modelos.ModelView.Cadastro.CidadeModelView.IdPais">
             <summary>

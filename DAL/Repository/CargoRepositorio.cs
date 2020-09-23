@@ -85,7 +85,7 @@ namespace DAL.Repository
                         return true;
 
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         dbContextTransaction.Rollback();
                         return false;

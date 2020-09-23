@@ -83,41 +83,5 @@
 </div>
 <script>
 
-    $('.excluir').on('click', function () {
-
-        var idCargo = $(this).data('id');
-        var msgIconeExcluir = $(this).find('i').attr("title");
-
-        bootbox.confirm(msgIconeExcluir, function (result) {
-            if (result == true) {
-                APP.controller.CargoController.getMsgIconeExcluir(idCargo);
-            }
-        });
-
-    });
-
-    $('.ativoinativo').on('click', function () {
-
-        var idCargo = $(this).data('id');
-        var AtivoInativo = $(this).find('i').attr("title");
-
-        var msgIconeAtivoAtivar = $('[name=msgIconeAtivoAtivar]').val();
-        var msgIconeAtivoInativar = $('[name=msgIconeAtivoInativar]').val();
-
-        if (AtivoInativo != "Ativo") {
-            bootbox.confirm(msgIconeAtivoAtivar, function (result) {
-                if (result == true) {
-                    APP.controller.CargoController.getMsgIconeAtivo(idCargo);
-                }
-            });
-        } else {
-            bootbox.confirm(msgIconeAtivoInativar, function (result) {
-                if (result == true) {
-                    APP.controller.CargoController.getMsgIconeAtivo(idCargo);
-                }
-            });
-        }
-
-    });
-
+    
 </script>

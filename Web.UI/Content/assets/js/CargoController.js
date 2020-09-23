@@ -1,4 +1,57 @@
 ﻿
+$('.excluir').on('click', function (e) {
+    e.preventDefault();
+    var idCargo = $(this).data('id');
+    
+    bootbox.dialog({
+        title: 'Excluir',
+        message: "Gostaria de Excluir o cargo?",
+        onEscape: true,
+        backdrop: true,
+        buttons: {
+
+            Cancelar: {
+                label: 'Cancelar',
+                className: 'btn-primary',
+                callback: function (e) {
+                    e.preventDefault;
+                    bootbox.hideAll();
+                }
+            },
+            Ok: {
+                label: 'Ok',
+                className: 'btn-primary',
+                callback: function (e) {
+                    APP.controller.CargoController.getMsgIconeExcluir(idCargo);
+                }
+            }
+        }
+    });
+});
+
+$('.ativoinativo').on('click', function () {
+
+    var idCargo = $(this).data('id');
+    var AtivoInativo = $(this).find('i').attr("title");
+
+    var msgIconeAtivoAtivar = $('[name=msgIconeAtivoAtivar]').val();
+    var msgIconeAtivoInativar = $('[name=msgIconeAtivoInativar]').val();
+
+    if (AtivoInativo != "Ativo") {
+        bootbox.confirm(msgIconeAtivoAtivar, function (result) {
+            if (result == true) {
+                APP.controller.CargoController.getMsgIconeAtivo(idCargo);
+            }
+        });
+    } else {
+        bootbox.confirm(msgIconeAtivoInativar, function (result) {
+            if (result == true) {
+                APP.controller.CargoController.getMsgIconeAtivo(idCargo);
+            }
+        });
+    }
+
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -38,10 +91,10 @@ APP.controller.CargoController = {
     },
 
     setMsgIconeAtivo: function () {
-        
+
 
     },
-    
+
     getMsgIconeAtivo: function (_idCargo) {
 
         var erro = "";
@@ -78,7 +131,7 @@ APP.controller.CargoController = {
     },
 
     setMsgIconeExcluir: function () {
-        
+
 
     },
 
@@ -89,7 +142,7 @@ APP.controller.CargoController = {
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: '/Cargo/Excluir?id=' + idcargo ,
+            url: '/Cargo/Excluir?id=' + _idCargo,
             beforeSend: function () {
                 APP.component.Loading.showLoading();
             },

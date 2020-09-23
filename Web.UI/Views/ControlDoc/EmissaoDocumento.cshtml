@@ -143,7 +143,15 @@
                                 <!-- Numero Documento -->
                                 <div class="form-group">
                                     <label for="form-cadastro-numero-documento">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_NumeroDocumento</label>
-                                    <input type="text" name="formCadastroNmDocumento" class="form-control" id="form-cadastro-numero-documento" value="" required data-msg-required="@Traducao.Resource.NDoc" data-msg-maxlength=@Traducao.Resource.NDocMax15>
+                                    @if (ViewBag.Action != "Editar")
+                                    {
+                                        <input type="text" name="formCadastroNmDocumento" class="form-control" id="form-cadastro-numero-documento" value="" required data-msg-required="@Traducao.Resource.NDoc" data-msg-maxlength=@Traducao.Resource.NDocMax15>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="formCadastroNmDocumento" class="form-control" id="form-cadastro-numero-documento" value="@Model.NumeroDocumento" required data-msg-required="@Traducao.Resource.NDoc" data-msg-maxlength=@Traducao.Resource.NDocMax15>
+                                    }
+
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">

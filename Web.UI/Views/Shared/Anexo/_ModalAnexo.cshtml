@@ -122,6 +122,18 @@
                         case ".txt":
                             <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'text/plain')">Anexo: @anexo.AnexoDados.Nome</a>
                             break;
+                        case ".ppt":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-powerpoint')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".PPT":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-powerpoint')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".pptx":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-powerpoint')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".PPTX":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-powerpoint')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
                         default:
                             break;
 

@@ -389,7 +389,7 @@ namespace Web.UI.Controllers
 
             }
 
-
+            ViewBag.Action = action;
             ViewBag.Controller = controller;
 
             ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
