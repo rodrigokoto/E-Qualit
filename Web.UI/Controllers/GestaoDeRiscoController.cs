@@ -621,6 +621,18 @@ namespace Web.UI.Controllers
                 gestaoDeRisco.FlDesbloqueado = gestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
                 gestaoDeRisco.TipoRegistro = _tipoRegistro;
 
+                foreach (var acao in gestaoDeRisco.AcoesImediatas)
+                {
+
+                    if (gestaoDeRisco.StatusEtapa == 2)
+                    {
+                        if (acao.DtEfetivaImplementacao != null)
+                        {
+                            gestaoDeRisco.DtEfetivaImplementacao = acao.DtEfetivaImplementacao;
+                        }
+                    }
+                }
+
 
                 _registroConformidadesServico.ValidaGestaoDeRisco(gestaoDeRisco, Util.ObterCodigoUsuarioLogado(), ref erros);
 
@@ -644,9 +656,10 @@ namespace Web.UI.Controllers
                         ca.Orientacao = gestaoDeRisco.AcoesImediatas[i].Orientacao;
                         ca.DataComentario = DateTime.Now.ToString();
                         ca.UsuarioComentario = usuario.Nome;
-                       
+
                         gestaoDeRisco.AcoesImediatas[i].ComentariosAcaoImediata.Add(ca);
                     }
+
                 }
 
                 if (erros.Count == 0)

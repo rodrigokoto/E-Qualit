@@ -600,6 +600,10 @@ namespace Web.UI.Controllers
                             acao.DtEfetivaImplementacao = AcaoPreview.DtEfetivaImplementacao;
                             acao.Observacao = AcaoPreview.Observacao;
                         }
+                        if (gestaoMelhoria.StatusEtapa == 2)
+                        {
+                            gestaoMelhoria.DtEfetivaImplementacao = acao.DtEfetivaImplementacao;
+                        }
                     }
                 }
 

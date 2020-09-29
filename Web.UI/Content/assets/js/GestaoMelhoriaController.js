@@ -1555,8 +1555,8 @@ APP.controller.GestaoMelhoriaController = {
     getformCriarGestaoMelhoriaDtDescricaoAcao: function () {
         var statusEtapa = parseInt($('[name=StatusEtapa]').val());
 
-        if (statusEtapa <= 1)
-            $('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
+        //if (statusEtapa <= 1)
+        //    $('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
 
     },
 

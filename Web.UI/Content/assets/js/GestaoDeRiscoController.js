@@ -1227,7 +1227,7 @@ APP.controller.GestaoDeRiscoController = {
 
     getformCriarNaoConformidadeDtDescricaoAcao: function () {
 
-        $('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
+        //$('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
 
     },
 

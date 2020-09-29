@@ -62,6 +62,58 @@
             <response code="400">Existing products were successfully retrieved</response>
             <returns></returns>
         </member>
+        <member name="T:Artius.FxOuro.API.Controllers.OutorgadoController">
+            <summary>
+            API CRUD Cidade
+            </summary>
+        </member>
+        <member name="M:Artius.FxOuro.API.Controllers.OutorgadoController.#ctor(Artius.Infra.Contexto.ContextoArtius,Artius.Aplicacao.FxOuro.Servicos.OutorgadoServico)">
+            <summary>
+            Construtor
+            </summary>
+            <param name="contextoArtius"></param>
+            <param name="outorgado"></param>
+        </member>
+        <member name="M:Artius.FxOuro.API.Controllers.OutorgadoController.ObterTodas">
+            <summary>
+            Retorna Lista de Outorgados
+            </summary>
+            <returns>List Outorgados</returns>
+        </member>
+        <member name="M:Artius.FxOuro.API.Controllers.OutorgadoController.ObterPeloId(System.Int32)">
+            <summary>
+            Retorna Outorgado
+            </summary>
+            <param name="id"></param>
+            <returns>Outorgado</returns>
+        </member>
+        <member name="M:Artius.FxOuro.API.Controllers.OutorgadoController.Criar(Artius.Modelos.ModelView.Cadastro.OutorgadoModelView)">
+            <summary>
+            Cria um novo Outorgado
+            </summary>
+            <param name="outorgado"></param>
+            <response code="200">Retorna a Outorgado atualizada</response>
+            <response code="400">Erro Web Api</response>
+            <returns>Mensagem de sucesso / erro</returns>
+        </member>
+        <member name="M:Artius.FxOuro.API.Controllers.OutorgadoController.Atualizar(Artius.Modelos.ModelView.Cadastro.OutorgadoModelView)">
+            <summary>
+            Atualiza um Outorgado
+            </summary>
+            <param name="outorgado"></param>
+            <response code="200">Retorna a Outorgado atualizada</response>
+            <response code="400">Erro Web Api</response>
+            <returns>Mensagem de Sucesso / Error</returns>
+        </member>
+        <member name="M:Artius.FxOuro.API.Controllers.OutorgadoController.Apagar(System.Int32)">
+            <summary>
+            Apaga Elemento
+            </summary>
+            <param name="id"></param>
+            <response code="200">Retorna a Outorgado atualizada</response>
+            <response code="400">Erro Web Api</response>
+            <returns>Mensagem Sucesso / Erro</returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:Artius.FxOuro.API.Controllers.PaisController.Criar(Artius.Modelos.ModelView.Cadastro.PaisModelView)" -->
         <member name="M:Artius.FxOuro.API.Controllers.TabelaImpostoRendaController.Criar(Artius.Modelos.ModelView.Cadastro.ImpostoRendaModelView)">
             <summary>
@@ -78,6 +130,18 @@
             </summary>
         </member>
         <member name="M:Artius.FxOuro.API.Helper.CidadeMapeamento.ViewModelParaDominio(Artius.Modelos.ModelView.Cadastro.CidadeModelView)">
+            <summary>
+            Faz o mapeamento da entidade CidadeModelView para a entidade Cidade
+            </summary>
+            <param name="cidade">Recebe objeto CidadeModelView</param>
+            <returns>Devolve objeto Cidade</returns>
+        </member>
+        <member name="T:Artius.FxOuro.API.Helper.OutorgadoMapeamento">
+            <summary>
+            Faz o mapeamento da entidade CidadeModelView para a entidade Cidade
+            </summary>
+        </member>
+        <member name="M:Artius.FxOuro.API.Helper.OutorgadoMapeamento.ViewModelParaDominio(Artius.Modelos.ModelView.Cadastro.OutorgadoModelView)">
             <summary>
             Faz o mapeamento da entidade CidadeModelView para a entidade Cidade
             </summary>

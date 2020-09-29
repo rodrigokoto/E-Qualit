@@ -4,6 +4,20 @@
 |--------------------------------------------------------------------------
 */
 
+$(document).ready(function () {
+    var el = $('#myCarousel');
+    var originalelpos = el.offset().top; // take it where it originally is on the page
+
+    //run on scroll
+    $('#main').scroll(function () {
+        var el = $('#myCarousel'); // important! (local)
+        var elpos = el.offset().top; // take current situation
+        var windowpos = $('#main').scrollTop();
+        var finaldestination = windowpos + originalelpos;
+        el.stop().animate({ 'top': finaldestination }, 1000);
+    });
+});
+
 APP.controller.AuditoriaController = {
 
     init: function () {

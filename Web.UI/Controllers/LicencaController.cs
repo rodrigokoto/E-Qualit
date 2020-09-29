@@ -171,6 +171,7 @@ namespace Web.UI.Controllers
                 licencaInclusao.DataVencimento = licenca.DataVencimento;
                 licencaInclusao.Obervacao = licenca.Obervacao;
                 licencaInclusao.Titulo = licenca.Titulo;
+                licencaInclusao.IdResponsavel = licenca.IdResponsavel;
 
                 _licencaServico.Valido(licencaInclusao, ref erros);
                 if (erros.Count > 0)

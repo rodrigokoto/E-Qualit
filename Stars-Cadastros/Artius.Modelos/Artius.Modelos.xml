@@ -102,6 +102,56 @@
             Data final da vigência
             </summary>
         </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.Nome">
+            <summary>
+            Nome
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.Cpf">
+            <summary>
+            CPF
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.Rg">
+            <summary>
+            RG
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.Orgexp">
+            <summary>
+            Orgão Expeditor
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.DtNascimento">
+            <summary>
+            Data Nascimento
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.DtCadastro">
+            <summary>
+            Data Cadastro
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.DtDesativacao">
+            <summary>
+            Data Desativação
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.IdUsuarioInclusao">
+            <summary>
+            Usuario Inclusão
+            </summary>
+        </member>
+        <member name="P:Artius.Modelos.ModelView.Cadastro.OutorgadoModelView.IdUsuarioDesativacao">
+            <summary>
+            Usuario Exclusão
+            </summary>
+        </member>
         <member name="M:Artius.Modelos.ModelView.Cadastro.PaisModelView.#ctor(System.Int32,System.String)">
             <summary>
             Construtor
