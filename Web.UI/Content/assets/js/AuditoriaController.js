@@ -5,7 +5,7 @@
 */
 
 $(document).ready(function () {
-    var el = $('#myCarousel');
+    var el = $('#a_auditoria');
     var originalelpos = el.offset().top; // take it where it originally is on the page
 
     //run on scroll
@@ -13,7 +13,7 @@ $(document).ready(function () {
         var el = $('#myCarousel'); // important! (local)
         var elpos = el.offset().top; // take current situation
         var windowpos = $('#main').scrollTop();
-        var finaldestination = windowpos + originalelpos;
+        var finaldestination = windowpos;
         el.stop().animate({ 'top': finaldestination }, 1000);
     });
 });

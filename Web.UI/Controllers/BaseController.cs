@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -217,6 +218,228 @@ namespace Web.UI.Controllers
                                                IdResponsavel = ind.IdResponsavel,
                                                Modulo = "indicador"
                                            });
+                        var docDocumentoAprov = (from doc in db.DocDocumento
+                                                 where doc.StatusRegistro == (int)StatusDocumento.Aprovacao && doc.IdSite == idSite
+                                                 select doc);
+
+                        var docDocumentoVer = (from doc in db.DocDocumento
+                                               where doc.StatusRegistro == (int)StatusDocumento.Verificacao && doc.IdSite == idSite
+                                               select doc);
+
+                        var doDocumentoRev = (from doc in db.DocDocumento
+                                              where doc.FlRevisaoPeriodica == true && doc.DtNotificacao < DateTime.Now && doc.IdSite == idSite
+                                              select doc);
+
+
+
+
+                        var naoConformidade = (from nc in db.RegistroConformidade
+                                               where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.IdSite == idSite && nc.TipoRegistro == "nc"
+                                               select new PendenciaViewModel
+                                               {
+                                                   Id = (int)nc.IdRegistroConformidade,
+                                                   Titulo = nc.DescricaoRegistro,
+                                                   IdResponsavel = nc.ResponsavelAnalisar.IdUsuario,
+                                                   Modulo = "NaoConformidade"
+                                               });
+
+                        var naoConformidadePrazo = (from nc in db.RegistroConformidade
+                                                    where nc.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "nc"
+                                                    select new PendenciaViewModel
+                                                    {
+                                                        Id = (int)nc.IdRegistroConformidade,
+                                                        Titulo = nc.DescricaoRegistro,
+                                                        IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                                        Modulo = "NaoConformidade"
+                                                    });
+
+                        var naoConformidadeReverificacao = (from nc in db.RegistroConformidade
+                                                            where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && nc.TipoRegistro == "nc" && nc.IdSite == idSite
+                                                            select new PendenciaViewModel
+                                                            {
+                                                                Id = (int)nc.IdRegistroConformidade,
+                                                                Titulo = nc.DescricaoRegistro,
+                                                                IdResponsavel = nc.ResponsavelReverificador.IdUsuario,
+                                                                Modulo = "NaoConformidade"
+                                                            });
+
+                        var acaoCorretiva = (from ac in db.RegistroConformidade
+                                             where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ac.TipoRegistro == "ac" && ac.IdSite == idSite
+                                             select new PendenciaViewModel
+                                             {
+                                                 Id = ac.IdRegistroConformidade,
+                                                 Titulo = ac.DescricaoRegistro,
+                                                 IdResponsavel = ac.ResponsavelAnalisar.IdUsuario,
+                                                 Modulo = "AcaoCorretiva"
+                                             });
+
+                        var acaoCorretivaRev = (from ac in db.RegistroConformidade
+                                                where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && ac.TipoRegistro == "ac" && ac.DtPrazoImplementacao < DateTime.Now && ac.IdSite == idSite
+                                                select new PendenciaViewModel
+                                                {
+                                                    Id = ac.IdRegistroConformidade,
+                                                    Titulo = ac.DescricaoRegistro,
+                                                    IdResponsavel = ac.ResponsavelImplementar.IdUsuario,
+                                                    Modulo = "AcaoCorretiva"
+                                                });
+
+                        var Auditoria = (from plai in db.Plai
+                                         where plai.DataReuniaoAbertura.Day <= DateTime.Now.AddDays(-15).Day
+                                         select new PendenciaViewModel
+                                         { 
+                                         Id = plai.IdPlai,
+                                         Titulo = "Auditoria",
+                                         IdResponsavel = plai.IdElaborador,
+                                         Modulo = "Auditoria"
+                                         });
+                        var AnaliseCritica = (from anc in db.AnaliseCritica
+                                              where anc.IdSite == idSite
+                                              select anc);
+
+                        var Instrumento = (from ins in db.Instrumento
+                                           join cal in db.Calibracao on ins.IdInstrumento equals cal.IdInstrumento
+                                           where cal.DataProximaCalibracao < DateTime.Now
+                                           select new PendenciaViewModel
+                                           {
+                                               Id = ins.IdInstrumento,
+                                               Titulo = ins.Equipamento,
+                                               IdResponsavel = (int)ins.IdResponsavel,
+                                               Modulo = "Instrumento"
+                                           });
+
+
+
+                        var Fornecedores = (from forn in db.Fornecedor
+                                            join avaq in db.AvaliaCriterioQualificacao on forn.IdFornecedor equals avaq.IdFornecedor
+                                            where avaq.IdResponsavelPorControlarVencimento != null && avaq.DtVencimento != null && avaq.DtVencimento <= DateTime.Now
+                                            select new PendenciaViewModel
+                                            {
+                                                Id = forn.IdFornecedor,
+                                                Titulo = forn.Nome,
+                                                IdResponsavel = avaq.IdResponsavelPorQualificar,
+                                                Modulo = "Fornecedor"
+                                            });
+
+
+                        var gestaoRisco = (from nc in db.RegistroConformidade
+                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.IdSite == idSite && nc.TipoRegistro == "gr" && nc.IdResponsavelAnalisar != null
+                                           select new PendenciaViewModel
+                                           {
+                                               Id = (int)nc.IdRegistroConformidade,
+                                               Titulo = nc.DescricaoRegistro,
+                                               IdResponsavel = nc.ResponsavelAnalisar.IdUsuario,
+                                               Modulo = "GestaoDeRisco"
+                                           });
+
+                        var gestaoRiscoPrazo = (from nc in db.RegistroConformidade
+                                                where nc.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "gr"
+                                                select new PendenciaViewModel
+                                                {
+                                                    Id = (int)nc.IdRegistroConformidade,
+                                                    Titulo = nc.DescricaoRegistro,
+                                                    IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                                    Modulo = "GestaoDeRisco"
+                                                });
+
+                        var gestaoRiscoReverificacao = (from nc in db.RegistroConformidade
+                                                        where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && nc.TipoRegistro == "gr" && nc.IdSite == idSite
+                                                        select new PendenciaViewModel
+                                                        {
+                                                            Id = (int)nc.IdRegistroConformidade,
+                                                            Titulo = nc.DescricaoRegistro,
+                                                            IdResponsavel = nc.ResponsavelReverificador.IdUsuario,
+                                                            Modulo = "GestaoDeRisco"
+                                                        });
+
+
+
+                        var gestaoMelhoria = (from nc in db.RegistroConformidade
+                                              where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.IdSite == idSite && nc.TipoRegistro == "gm"
+                                              select new PendenciaViewModel
+                                              {
+                                                  Id = (int)nc.IdRegistroConformidade,
+                                                  Titulo = nc.DescricaoRegistro,
+                                                  IdResponsavel = nc.ResponsavelAnalisar.IdUsuario,
+                                                  Modulo = "GestaoMelhoria"
+                                              });
+
+                        var gestaoMelhoriaPrazo = (from nc in db.RegistroConformidade
+                                                   where nc.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "gm"
+                                                   select new PendenciaViewModel
+                                                   {
+                                                       Id = (int)nc.IdRegistroConformidade,
+                                                       Titulo = nc.DescricaoRegistro,
+                                                       IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                                       Modulo = "GestaoMelhoria"
+                                                   });
+
+                        var gestaoMelhoriaReverificacao = (from nc in db.RegistroConformidade
+                                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && nc.TipoRegistro == "gm" && nc.IdSite == idSite
+                                                           select new PendenciaViewModel
+                                                           {
+                                                               Id = (int)nc.IdRegistroConformidade,
+                                                               Titulo = nc.DescricaoRegistro,
+                                                               IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                                               Modulo = "GestaoMelhoria"
+                                                           });
+
+
+                        List<PendenciaViewModel> docPendencia = new List<PendenciaViewModel>();
+
+                        foreach (var docap in docDocumentoAprov.ToList())
+                        {
+                            if (docap.DocUsuarioVerificaAprova != null) 
+                            {
+                                var docResult = docap.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A").OrderBy(x => x.Usuario.NmCompleto).ToList();
+
+                                foreach (var res in docResult)
+                                {
+                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                    {
+                                        Id = docap.IdDocumento,
+                                        Titulo = docap.Titulo,
+                                        IdResponsavel = res.IdUsuario,
+                                        Modulo = "DocDocumento"
+                                    };
+
+                                    docPendencia.Add(pendenciaViewModel);
+                                }
+                            }
+                        }
+
+                        foreach (var docver in docDocumentoVer.ToList())
+                        {
+                            if (docver.DocUsuarioVerificaAprova != null)
+                            {
+                                var docResult = docver.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V").OrderBy(x => x.Usuario.NmCompleto).ToList();
+
+                                foreach (var res in docResult)
+                                {
+                                    PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                                    {
+                                        Id = docver.IdDocumento,
+                                        Titulo = docver.Titulo,
+                                        IdResponsavel = res.IdUsuario,
+                                        Modulo = "DocDocumento"
+                                    };
+
+                                    docPendencia.Add(pendenciaViewModel);
+                                }
+                            }
+                        }
+
+                        foreach (var docrev in doDocumentoRev.ToList())
+                        {
+                            PendenciaViewModel pendenciaViewModel = new PendenciaViewModel()
+                            {
+                                Id = docrev.IdDocumento,
+                                Titulo = docrev.Titulo,
+                                IdResponsavel = docrev.IdElaborador,
+                                Modulo = "DocDocumento"
+                            };
+
+                            docPendencia.Add(pendenciaViewModel);
+                        }
 
 
                         Dictionary<int, bool> queryIndicadores = new Dictionary<int, bool>();
@@ -332,6 +555,20 @@ namespace Web.UI.Controllers
                         }
 
                         lstPendencia.AddRange(licenca.ToList());
+                        lstPendencia.AddRange(naoConformidade.ToList());
+                        lstPendencia.AddRange(naoConformidadePrazo.ToList());
+                        lstPendencia.AddRange(naoConformidadeReverificacao.ToList());
+                        lstPendencia.AddRange(acaoCorretiva.ToList());
+                        lstPendencia.AddRange(acaoCorretivaRev.ToList());
+                        lstPendencia.AddRange(Instrumento.ToList());
+                        lstPendencia.AddRange(Fornecedores.ToList());
+                        lstPendencia.AddRange(gestaoRisco.ToList());
+                        lstPendencia.AddRange(gestaoRiscoPrazo.ToList());
+                        lstPendencia.AddRange(gestaoRiscoReverificacao.ToList());
+                        lstPendencia.AddRange(gestaoMelhoria.ToList());
+                        lstPendencia.AddRange(gestaoMelhoriaPrazo.ToList());
+                        lstPendencia.AddRange(gestaoMelhoriaReverificacao.ToList());
+                        lstPendencia.AddRange(docPendencia);
 
                         if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 2 || usuarioLogadoBase.IdPerfil == 3)
                         {
