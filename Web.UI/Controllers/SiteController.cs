@@ -122,7 +122,7 @@ namespace Web.UI.Controllers
             var sites = new List<Site>();
             var listaJson = new List<Site>();
 
-            if (idCliente == null)
+            if (idCliente == null || idCliente == 0)
             {
                 idCliente = Util.ObterClienteSelecionado();
                 sites.AddRange(_siteAppServico.ObterSitesPorCliente(Convert.ToInt32(idCliente)));

@@ -234,7 +234,8 @@ namespace Web.UI.Controllers
 
 
                         var naoConformidade = (from nc in db.RegistroConformidade
-                                               where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.IdSite == idSite && nc.TipoRegistro == "nc"
+                                               where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.IdSite == idSite && nc.TipoRegistro == "nc" && 
+                                               nc.IdResponsavelAnalisar != null
                                                select new PendenciaViewModel
                                                {
                                                    Id = (int)nc.IdRegistroConformidade,

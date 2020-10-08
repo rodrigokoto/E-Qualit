@@ -142,10 +142,16 @@ namespace Web.UI.Controllers
         public ActionResult Editar(int id, int IdSite = 0)
         {
 
-            ViewBag.IdCliente = id != 0 ? id : Util.ObterClienteSelecionado();
+            var cliente = Util.ObterClienteSelecionado();
+            var usuario = _usuarioAppServico.GetById(id);
+
+            var idCliente = usuario.UsuarioClienteSites.FirstOrDefault().IdCliente;
+            
+            ViewBag.IdCliente = cliente != 0 ? cliente : idCliente;
+
             ViewBag.IdSite = IdSite != 0 ? IdSite : Util.ObterSiteSelecionado();
             ViewBag.Cargos = _cargoAppServico.GetAll().Where(x => x.IdSite == IdSite).ToList();
-            var usuario = _usuarioAppServico.GetById(id);
+
 
             return View("Criar", usuario);
         }

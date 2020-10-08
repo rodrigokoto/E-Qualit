@@ -288,14 +288,22 @@ APP.controller.UsuarioController = {
             var codPerfil = $(this).val();
             var url = "";
 
-            if (codPerfil == perfil.Coordenador || codPerfil == perfil.Colaborador) {
-
+            if (codPerfil == perfil.Coordenador) {
+                $('#panel-form-sites').show();
+                $('#panel-form-cargos').hide();
+                url = "/Site/ObterSitesPorCliente";
+                APP.controller.UsuarioController.getComboPerfilUsuario(url, "Sites");
+            }
+            if (codPerfil == perfil.Colaborador) {
+                $('#panel-form-cargos').show();
                 $('#panel-form-sites').show();
                 url = "/Site/ObterSitesPorCliente";
                 APP.controller.UsuarioController.getComboPerfilUsuario(url, "Sites");
+                APP.controller.UsuarioController.getComboSiteCargoPerfil();
+
 
             } else if (codPerfil == perfil.Suporte) {
-
+                $('#panel-form-cargos').hide();
                 $('#panel-form-clientes').show();
                 url = "/Cliente/ObterClientes";
                 APP.controller.UsuarioController.getComboPerfilUsuario(url, "Clientes");
@@ -309,6 +317,9 @@ APP.controller.UsuarioController = {
         });
 
     },
+
+    
+
 
     getComboPerfilUsuario: function (_url, _box) {
 
@@ -354,6 +365,41 @@ APP.controller.UsuarioController = {
 
         APP.controller.UsuarioController.bind();
 
+    },
+    getComboSiteCargoPerfil: function () {
+
+        var idSite = $(this).closest('div').find('[name=idSiteBox]').val();
+        var nmSite = $(this).closest('div').find('[name=nameSiteBox]').val();
+        var checkedIs = $(this).is(':checked');
+        var idPerfilSelecionado = $('[name=formCriaUsuarioPerfil] :selected').val();
+
+        if (checkedIs && idPerfilSelecionado == 4) {
+            $.ajax({
+                type: "GET",
+                async: false,
+                data: {
+                    idSite: idSite
+                },
+                dataType: 'json',
+                url: "/Cargo/ObterPorSite",
+                beforeSend: function () { },
+                success: function (result) {
+                    if (checkedIs) {
+                        $('#panel-form-cargos').show();
+                        APP.controller.UsuarioController.setBoxSiteCargo(result, idSite, nmSite);
+                    }
+                },
+                error: function (result) { },
+                complete: function (result) { }
+            });
+        } else {
+            var boxContentCargos = $('#form-site-cargos [name=idCargoSiteBox-' + idSite + ']').closest('.panel-body');
+            boxContentCargos.remove();
+            if ($('#form-site-cargos .panel-body').size() == 0) {
+                $('#panel-form-clientes').hide();
+                $('#panel-form-cargos').hide();
+            }
+        }
     },
 
     getComboSiteCargo: function () {
