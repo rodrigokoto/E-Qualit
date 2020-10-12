@@ -147,6 +147,7 @@ namespace ApplicationService.Servico
         private RegistroConformidade TrataAC(RegistroConformidade acaoCorretiva)
         {
             var objCtx = _registroConformidadesRepositorio.GetById(acaoCorretiva.IdRegistroConformidade);
+            objCtx.Parecer = acaoCorretiva.Parecer;
 
             var listaAcaoImediataUpdate = acaoCorretiva.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
             var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
@@ -175,6 +176,7 @@ namespace ApplicationService.Servico
         private RegistroConformidade TrataGR(RegistroConformidade gestaoDeRisco)
         {
             var objCtx = _registroConformidadesRepositorio.GetById(gestaoDeRisco.IdRegistroConformidade);
+            objCtx.Parecer = gestaoDeRisco.Parecer;
 
             var listaAcaoImediataUpdate = gestaoDeRisco.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
             var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
@@ -197,6 +199,7 @@ namespace ApplicationService.Servico
         private RegistroConformidade TrataGM(RegistroConformidade gestaoDeRisco)
         {
             var objCtx = _registroConformidadesRepositorio.GetById(gestaoDeRisco.IdRegistroConformidade);
+            objCtx.Parecer = gestaoDeRisco.Parecer;
 
             var listaAcaoImediataUpdate = gestaoDeRisco.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
             var temAcoesImediataParaAtualizar = listaAcaoImediataUpdate.FirstOrDefault() != null;
@@ -332,6 +335,7 @@ namespace ApplicationService.Servico
                 objCtx.ECorrecao = naoConformidade.ECorrecao != null ? naoConformidade.ECorrecao : objCtx.ECorrecao;
                 objCtx.NecessitaAcaoCorretiva = naoConformidade.NecessitaAcaoCorretiva != null ? naoConformidade.NecessitaAcaoCorretiva : objCtx.NecessitaAcaoCorretiva;
                 objCtx.DescricaoAnaliseCausa = naoConformidade.DescricaoAnaliseCausa;
+                objCtx.Parecer = naoConformidade.Parecer;
                 objCtx.IdResponsavelPorIniciarTratativaAcaoCorretiva = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva;
                 objCtx.DtEfetivaImplementacao = naoConformidade.DtEfetivaImplementacao;
                 objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;
@@ -371,6 +375,7 @@ namespace ApplicationService.Servico
                 objCtx.ECorrecao = naoConformidade.ECorrecao != null ? naoConformidade.ECorrecao : objCtx.ECorrecao;
                 objCtx.NecessitaAcaoCorretiva = naoConformidade.NecessitaAcaoCorretiva != null ? naoConformidade.NecessitaAcaoCorretiva : objCtx.NecessitaAcaoCorretiva;
                 objCtx.DescricaoAnaliseCausa = naoConformidade.DescricaoAnaliseCausa;
+                objCtx.Parecer = naoConformidade.Parecer;
                 objCtx.IdResponsavelPorIniciarTratativaAcaoCorretiva = naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva != 0 ? naoConformidade.IdResponsavelPorIniciarTratativaAcaoCorretiva : objCtx.IdResponsavelPorIniciarTratativaAcaoCorretiva;
                 objCtx.DtEfetivaImplementacao = naoConformidade.DtEfetivaImplementacao;
                 objCtx.DescricaoAcao = naoConformidade.DescricaoAcao;

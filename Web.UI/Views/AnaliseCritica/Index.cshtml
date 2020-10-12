@@ -16,6 +16,9 @@
     <script src="@Url.Content("~/Content/assets/js/AnaliseCriticaController.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
 
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.10/sorting/datetime-moment.js"></script>
+
 }
 @Html.AntiForgeryToken()
 <div id="main">
@@ -90,7 +93,7 @@
                                                         <i class="fa fa-print" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_imprimir"></i>
                                                     </a>
                                                     <a href="@Url.Action("Visualizar", "AnaliseCritica", new { id = item.IdAnaliseCritica })" class="icon-cliente editar-analiseCritica editar-color" data-id-analiseCritica="@item.IdAnaliseCritica">
-                                                    <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
+                                                        <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
                                                     </a>
                                                     @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAnaliseCritica.Excluir) || ViewBag.IdPerfil != 4)
                                                     {

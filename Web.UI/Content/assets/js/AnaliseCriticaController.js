@@ -39,7 +39,18 @@ APP.controller.AnaliseCriticaController = {
     //Index Analise Critica
     indexAnaliseCritica: function () {
 
-        APP.component.DataTable.init('#tb-index-analise-critica');
+        //APP.component.DataTable.init('#tb-index-analise-critica');
+
+        $.fn.dataTable.moment('DD/MM/YYYY');    //Formatação sem Hora
+
+        tabelaCalibracao = $('#tb-index-analise-critica').DataTable({
+            columnDefs: [{
+                target: [2,3],
+                type: 'datetime-moment'
+            }]
+        });
+
+        tabelaCalibracao.draw();
         this.setExcluirAnaliseCritica();
         this.eventoImprimir();
     },

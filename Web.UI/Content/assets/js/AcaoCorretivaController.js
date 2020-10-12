@@ -722,6 +722,7 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataFoiEficaz]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -849,6 +850,7 @@ APP.controller.AcaoCorretivaController = {
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
@@ -881,6 +883,7 @@ APP.controller.AcaoCorretivaController = {
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
                     CriticidadeAcaoCorretiva: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
@@ -911,6 +914,7 @@ APP.controller.AcaoCorretivaController = {
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
                     DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
                     CriticidadeAcaoCorretiva: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
@@ -954,6 +958,7 @@ APP.controller.AcaoCorretivaController = {
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.AcaoCorretivaController.getAnexosEvidencias(),
                     Causa: $('[name=formCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                 };
                 break;
         }

@@ -19,7 +19,7 @@ namespace Traducao.NaoConformidade {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ResourceNaoConformidade {
@@ -295,6 +295,15 @@ namespace Traducao.NaoConformidade {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parecer.
+        /// </summary>
+        public static string NC_lbl_Parecer {
+            get {
+                return ResourceManager.GetString("NC_lbl_Parecer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Descrição.
         /// </summary>
         public static string NC_lbl_placeholder_AI_Descricao {
@@ -372,6 +381,15 @@ namespace Traducao.NaoConformidade {
         public static string NC_lbl_placeholder_NmRegistro {
             get {
                 return ResourceManager.GetString("NC_lbl_placeholder_NmRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Digite uma descrição para o parecer..
+        /// </summary>
+        public static string NC_lbl_placeholder_Parecer {
+            get {
+                return ResourceManager.GetString("NC_lbl_placeholder_Parecer", resourceCulture);
             }
         }
         

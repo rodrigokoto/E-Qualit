@@ -416,6 +416,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
+        $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
 
     },
 
@@ -424,6 +425,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
+        
 
     },
 
@@ -491,7 +493,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-
+        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
 
@@ -632,6 +634,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -941,6 +944,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataFoiEficaz]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -1013,14 +1017,17 @@ APP.controller.GestaoMelhoriaController = {
         if (_NecessitaAC == "true") {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').show();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').show();
+            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').show();
         } else if (_NecessitaAC == "false") {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
+            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
         } else {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
+            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
         }
 
     },
@@ -1031,6 +1038,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataNecessitaAC]').closest('[class^=col]').show();
         $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').show();
         $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').show();
+        $('[name=formAcaoImadiataParecer]').closest('[class^=col]').show();
 
         $('[name=formAcaoImadiataECorrecao]').trigger("change");
         $('[name=formAcaoImadiataNecessitaAC]').trigger("change");
@@ -1372,6 +1380,7 @@ APP.controller.GestaoMelhoriaController = {
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarGestaoMelhoriaDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
@@ -1415,6 +1424,7 @@ APP.controller.GestaoMelhoriaController = {
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarGestaoMelhoriaResponsavel] :selected').val(),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
                     Causa: $('[name=formCausa]').val(),
@@ -1452,7 +1462,8 @@ APP.controller.GestaoMelhoriaController = {
 					ArquivosDeEvidenciaAux: APP.controller.GestaoMelhoriaController.getAnexosEvidencias(),
                     ArquivosNaoConformidadeAnexos: APP.controller.GestaoMelhoriaController.getAnexosArquivosNaoConformidadeAnexos(),
 					Causa: $('[name=formCausa]').val(),
-					DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
 				};
 				break;
             case "fluxo-05":
@@ -1485,7 +1496,8 @@ APP.controller.GestaoMelhoriaController = {
                     ArquivosDeEvidenciaAux: APP.controller.GestaoMelhoriaController.getAnexosEvidencias(),
                     ArquivosNaoConformidadeAnexos: APP.controller.GestaoMelhoriaController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCausa]').val(),
-					DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
 
 					ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
 					

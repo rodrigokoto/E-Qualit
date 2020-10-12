@@ -304,7 +304,7 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-bell-o fa-2x" aria-hidden="true"><span class="badge">@ViewBag.Pendencia.Count</span></i><span>Pendências</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-user">
+                        <ul class="dropdown-menu dropdown-user pre-scrollable" style="max-height:300px; max-width: 500px;">
                             @foreach (var pendencia in ViewBag.Pendencia)
                             {
                                 <li><a href="@Url.Action("Editar", pendencia.Modulo , new { id = pendencia.Id })">@pendencia.Modulo - @pendencia.Titulo</a> </li>

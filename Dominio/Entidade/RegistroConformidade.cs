@@ -17,13 +17,13 @@ namespace Dominio.Entidade
             ArquivosDeEvidenciaAux = new List<Anexo>();
             ArquivosDeEvidencia = new List<ArquivosDeEvidencia>();
         }
-        
+
         public int IdSite { get; set; }
-        public int ? IdProcesso { get; set; }
+        public int? IdProcesso { get; set; }
         public int IdEmissor { get; set; }
         public int? IdNaoConformidade { get; set; }
 
-        
+
 
         public int? IdResponsavelAcaoCorretiva { get; set; } //
 
@@ -41,7 +41,7 @@ namespace Dominio.Entidade
         public int IdUsuarioIncluiu { get; set; }
         public int IdUsuarioAlterou { get; set; }
 
-        
+
         public string TipoRegistro { get; set; } // ac, gr, nc
         public int NuRegistro { get; set; }
         public string DsAcao { get; set; }
@@ -53,7 +53,7 @@ namespace Dominio.Entidade
 
 
 
-        
+
         public DateTime? DtAnalise { get; set; }
         public DateTime? DtDescricaoAcao { get; set; }
         public DateTime? DtEfetivaImplementacao { get; set; }
@@ -62,7 +62,7 @@ namespace Dominio.Entidade
         public DateTime? DtPrazoImplementacao { get; set; }
         public byte FlDesbloqueado { get; set; }
         public bool? FlEficaz { get; set; }
-        public byte? FlStatusAntesAnulacao { get; set; }    
+        public byte? FlStatusAntesAnulacao { get; set; }
         public byte? StatusEtapa { get; set; }
 
         public DateTime DtInclusao { get; set; }
@@ -70,9 +70,9 @@ namespace Dominio.Entidade
         public bool? EProcedente { get; set; }
         public bool? ECorrecao { get; set; }
         public string JustificativaAnulacao { get; set; }
-
+        public string Parecer { get; set; }
         public string DescricaoAcao { get; set; }
-        
+
 
         public bool? NecessitaAcaoCorretiva { get; set; }
         public bool? ENaoConformidadeAuditoria { get; set; }
@@ -86,7 +86,7 @@ namespace Dominio.Entidade
 
 
         public byte StatusRegistro { get; set; }
-        public int? IdRegistroPai { get; set; } 
+        public int? IdRegistroPai { get; set; }
 
         public string Tags { get; set; }
 

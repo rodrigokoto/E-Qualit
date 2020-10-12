@@ -368,28 +368,28 @@
                                                             }
 
                                                         </td>
-                                                        
+
                                                         <!-- Acoes -->
                                                         <td>
                                                             @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
                                                             {
-                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color">
-                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
-                                                            </button>
+                                                                <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                    <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                </button>
 
                                                             }
                                                             else
                                                             {
-                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color">
-                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
-                                                            </button>
+                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color">
+                                                                    <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                                </button>
                                                             }
                                                         </td>
                                                     </tr>
                                                 }
                                             </tbody>
                                         </table>
-                                       
+
                                     </div>
                                     <!-- Responsavel Reverificacao -->
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
@@ -398,7 +398,7 @@
                                             <br />
                                             @if (Model.ResponsavelReverificador != null)
                                             {
-                                            @Model.ResponsavelReverificador.NmCompleto
+                                                @Model.ResponsavelReverificador.NmCompleto
                                             }
                                         </div>
                                     </div>
@@ -408,7 +408,16 @@
                                             <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Foi_eficaz</label>
                                             <br />
                                             @((Model.FlEficaz.HasValue) && Model.FlEficaz == true ? Traducao.Shared.ResourceLabel.Label_radio_Sim : Traducao.Shared.ResourceLabel.Label_radio_Nao)
-                                           
+
+                                        </div>
+                                    </div>
+
+                                    <!-- Analise do Parecer -->
+                                    <div class="col-xs-2">
+                                        <div class="form-group">
+                                            <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
+                                            <br />
+                                            @Model.Parecer
                                         </div>
                                     </div>
                                 </div>                                

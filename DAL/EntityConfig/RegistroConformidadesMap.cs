@@ -57,7 +57,7 @@ namespace DAL.EntityConfig
             Property(t => t.TipoRegistro)
                 .HasColumnName("TpRegistro")
                 .HasMaxLength(2);
-                //.IsRequired();
+            //.IsRequired();
 
             Property(t => t.IdSite)
                 .HasColumnName("IdSite")
@@ -66,7 +66,7 @@ namespace DAL.EntityConfig
             Property(t => t.NuRegistro)
                 .HasColumnName("NuRegistro");
 
-      
+
             Property(t => t.IdResponsavelEtapa)
                 .HasColumnName("IdResponsavelEtapa")
                 .IsOptional();
@@ -91,7 +91,7 @@ namespace DAL.EntityConfig
 
             Property(t => t.JustificativaAnulacao)
                 .HasColumnName("DsJustificativaAnulacao");
-            
+
             Property(t => t.NecessitaAcaoCorretiva)
                 .HasColumnName("FlNecessitaAcaoCorretiva")
                 .IsOptional();
@@ -129,7 +129,7 @@ namespace DAL.EntityConfig
 
             Property(t => t.IdResponsavelImplementar)
                 .HasColumnName("IdResponsavelImplementar");
-           
+
             Property(t => t.FlDesbloqueado)
                 .HasColumnName("FlDesbloqueado");
 
@@ -166,7 +166,11 @@ namespace DAL.EntityConfig
 
             Property(t => t.IdRegistroPai)
             .HasColumnName("IdRegistroPai")
-            .IsOptional(); 
+            .IsOptional();
+
+            Property(t => t.Parecer)
+                .HasColumnName("Parecer")
+                .IsOptional();
 
             #region Relacionamentos
 
@@ -205,7 +209,7 @@ namespace DAL.EntityConfig
             HasRequired(t => t.Site)
                 .WithMany(t => t.Registros)
                 .HasForeignKey(d => d.IdSite);
-                //.WillCascadeOnDelete(true);
+            //.WillCascadeOnDelete(true);
 
 
             #endregion

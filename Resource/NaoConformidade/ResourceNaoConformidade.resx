@@ -381,4 +381,10 @@
   <data name="NC_lbl_JustificativaControle" xml:space="preserve">
     <value>Justificativa / Controle</value>
   </data>
+  <data name="NC_lbl_Parecer" xml:space="preserve">
+    <value>Parecer</value>
+  </data>
+  <data name="NC_lbl_placeholder_Parecer" xml:space="preserve">
+    <value>Digite uma descrição para o parecer.</value>
+  </data>
 </root>

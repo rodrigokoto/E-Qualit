@@ -793,6 +793,7 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeCausa]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -1060,6 +1061,7 @@ APP.controller.GestaoDeRiscoController = {
                     NecessitaAcaoCorretiva: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     Tags: $('[name=formCriarNaoConformidadeTags]').val(),
                     IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
                     IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
@@ -1096,6 +1098,7 @@ APP.controller.GestaoDeRiscoController = {
                     IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     CriticidadeGestaoDeRisco: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
                     DsJustificativa: $('[name=formCriarNaoConformidadeDsJustificativa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
@@ -1162,6 +1165,7 @@ APP.controller.GestaoDeRiscoController = {
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
