@@ -72,6 +72,7 @@ namespace Web.UI.Controllers
             var sites = _siteAppServico.Get(x => x.IdCliente == id.Value);
 
             ViewBag.IdCliente = id.Value;
+            ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
 
             return View(sites);
         }

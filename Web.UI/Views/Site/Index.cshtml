@@ -27,11 +27,14 @@
                 <div class="panel-body" id="panel-form-sites">
                     <div class="row">
                         <div class="barra-busca">
-                            <p class="novo" style="position:static !important; margin-bottom:5px !important;">
+                            @if (ViewBag.IdPerfil == 1)
+                            {
+                                <p class="novo" style="position:static !important; margin-bottom:5px !important;">
 
-                                @Html.ActionLink(@Traducao.Site.ResourceSite.Site_lbl_novo_site, "Criar", "Site", new { idCliente = idCliente }, null)
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                            </p>
+                                    @Html.ActionLink(@Traducao.Site.ResourceSite.Site_lbl_novo_site, "Criar", "Site", new { idCliente = idCliente }, null)
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </p>
+                            }
                             <div class="col-lg-12">
                                 <table id="tb-index-sites" class="display dataTable no-footer dtr-inline " style="width: 100% !important;">
                                     <thead>
