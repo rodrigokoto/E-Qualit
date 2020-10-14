@@ -620,10 +620,11 @@ namespace Dominio.Servico
             {
                 return new CamposObrigatoriosAcaoCorretivaReverificacao();
             }
-            else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada) {
+            else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada)
+            {
                 return new CamposObrigatoriosAcaoCorretivaEncerrada();
             }
-            
+
             return null;
         }
         private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoGM(RegistroConformidade gestaoDeRisco)
@@ -658,7 +659,10 @@ namespace Dominio.Servico
             //else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
             else
             {
-                return new CamposObrigatoriosGestaoMelhoriaReverificacao();
+                if (gestaoDeRisco.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
+                    return new CamposObrigatoriosGestaoMelhoriaReverificacao();
+                else
+                    return new CamposObrigatoriosAcaoCorretivaEncerrada();
             }
             //return null;
         }

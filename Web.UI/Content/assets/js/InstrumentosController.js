@@ -5,6 +5,31 @@
 |--------------------------------------------------------------------------
 */
 
+var _options = {
+    labelButtonYes: "Sim",
+    labelButtonNo: "Não",
+    labelButtonCancel: "Cancelar",
+    TitleDelete: "Confirmação",
+    TitleErro: "Aviso",
+    TitleSuccess: "Aviso",
+    TitleErroFormulario: "O formulário possui os seguintes erros:",
+    messageDelete: "Confirma a exclusão do projeto <strong>{{0}}}</strong>?",
+    MessageErro: "O seguinte erro ocorreu ao tentar atualizar os dados.<br>{{0}}",
+    RegistroExlcuido: "Registro excluído com sucesso",
+    verificationToken: "[name=__RequestVerificationToken]",
+    tabelaLengthMenu: "_MENU_ registros por página",
+    tabelaZeroRecords: "Nenhum registro encontrado",
+    tabelaInfo: "Mostrando página _PAGE_ de _PAGES_",
+    tabelaInfoEmpty: "Sem registros",
+    tabelaInfoFiltered: "(filtrando de _MAX_ registros)",
+    tabelaSearch: "",
+    tabelaSearchPlaceholder: "Busca",
+    tabelaPaginateNext: "Próximo",
+    tabelaPaginatePrevious: "Anterior",
+    LicencaExcluida: "Licença excluida com sucesso"
+
+};
+
 APP.controller.InstrumentosController = {
 
     init: function () {
@@ -102,9 +127,22 @@ APP.controller.InstrumentosController = {
         tabelaCalibracao = $('#tb-calibracao').DataTable({
             columnDefs: [{
                 target: 3,
-                type: 'datetime-moment'
-            }]
-        });
+                type: 'datetime-moment',
+            }],
+            "language": {
+                "lengthMenu": _options.tabelaLengthMenu,
+                "zeroRecords": _options.tabelaZeroRecords,
+                "info": _options.tabelaInfo,
+                "infoEmpty": _options.tabelaInfoEmpty,
+                "infoFiltered": _options.tabelaInfoFiltered,
+                "search": _options.tabelaSearch,
+                "searchPlaceholder": _options.tabelaSearchPlaceholder,
+                "paginate": {
+                    "next": _options.tabelaPaginateNext,
+                    "previous": _options.tabelaPaginatePrevious
+                }
+            },
+            });
         tabelaCalibracao.order([3, 'desc']);
         tabelaCalibracao.draw();
         // APP.controller.InstrumentosController.setupUploadArquivoCalibracao();
@@ -231,7 +269,7 @@ APP.controller.InstrumentosController = {
             LocalDeUso: { required: true },
             Escala: { required: true },
             MenorDivisao: { required: true },
-            valorAceitacao: { required: true, number: true },
+            //valorAceitacao: { required: true, number: true },
             DescricaoCriterio: { required: false },
 
         };
@@ -1009,7 +1047,7 @@ APP.controller.InstrumentosController = {
     addCalibracaoTabela: function (calibracao) {
 
 
-       
+
 
         var newRow =
             [

@@ -722,7 +722,7 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataFoiEficaz]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
+     
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },

@@ -417,8 +417,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-        $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
-
+        
     },
 
     setHideRowAcaoImediata: function () {
@@ -493,7 +492,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
+        
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -634,7 +633,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
+        
 
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
@@ -943,7 +942,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataFoiEficaz]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
+        
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -1016,17 +1015,17 @@ APP.controller.NaoConformidadeController = {
         if (_NecessitaAC == "true") {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').show();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').show();
-            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').show();
+        
         } else if (_NecessitaAC == "false") {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
+  
         } else {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
+   
         }
 
     },
@@ -1037,7 +1036,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataNecessitaAC]').closest('[class^=col]').show();
         $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').show();
         $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').show();
-        $('[name=formAcaoImadiataParecer]').closest('[class^=col]').show();
+       
 
         $('[name=formAcaoImadiataECorrecao]').trigger("change");
         $('[name=formAcaoImadiataNecessitaAC]').trigger("change");

@@ -1133,6 +1133,7 @@ APP.controller.GestaoDeRiscoController = {
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
                     Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
                     DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),

@@ -503,6 +503,7 @@
     <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa2Validation.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEtapa4Validation.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaImplementacaoDtEfetivaImplementacao.cs" />
+    <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaEncerrada.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CamposObrigatoriosGestaoMelhoriaReverificacao.cs" />
     <Compile Include="Validacao\RegistroConformidades\GestaoMelhoria\CriacaoGestaoMelhoriaViewValidation.cs" />
     <Compile Include="Validacao\RegistroConformidades\NaoConformidades\AptoParaCriarNovaAcaoCorretiva.cs" />

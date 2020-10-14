@@ -49,7 +49,7 @@ APP.controller.AnaliseCriticaController = {
                 type: 'datetime-moment'
             }]
         });
-
+        tabelaCalibracao.order([2, 'desc']);
         tabelaCalibracao.draw();
         this.setExcluirAnaliseCritica();
         this.eventoImprimir();

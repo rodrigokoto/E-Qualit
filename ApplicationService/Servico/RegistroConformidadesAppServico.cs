@@ -256,6 +256,8 @@ namespace ApplicationService.Servico
         {
             var objCtx = _registroConformidadesRepositorio.GetById(naoConformidade.IdRegistroConformidade);
 
+            objCtx.Parecer = naoConformidade.Parecer;
+
             var listaAcaoImediataUpdate = naoConformidade.AcoesImediatas.Where(x => x.Estado == EstadoObjetoEF.Modified);
             listaAcaoImediataUpdate.ToList().ForEach(x =>
             {
@@ -629,69 +631,71 @@ namespace ApplicationService.Servico
 			feito abaixo, mas nao funcinou, continua limpando em todas*/
 
 
-
-            //List<RegistroAcaoImediata> lista = new List<RegistroAcaoImediata>();
-            foreach (var item in listaAcaoImediataUpdate)
+            if (registroConformidade.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
             {
-
+                //List<RegistroAcaoImediata> lista = new List<RegistroAcaoImediata>();
+                foreach (var item in listaAcaoImediataUpdate)
                 {
-                    //estava limpando todas as ações imediatas
-                    var acaoImediata = item;
+
                     {
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Descricao = acaoImediata.Descricao;
-
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao;
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).IdResponsavelImplementar = acaoImediata.IdResponsavelImplementar;
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).DtEfetivaImplementacao = acaoImediata.DtEfetivaImplementacao;
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Observacao = acaoImediata.Observacao;
-                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).SubmitArquivoEvidencia = acaoImediata.SubmitArquivoEvidencia;
-
-                    }
-                }
-
-                if (item.Aprovado == false)
-                {
-                    //{
-                    //    //estava limpando todas as ações imediatas
-                    //    var acaoImediata = item;
-                    //    {
-                    //        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
-                    //        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
-                    //    }
-                    //}
-
-                    //tem que apagar os anexos dessa linha
-                    var acaoImediataparaLimpar = objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata);
-                    if (acaoImediataparaLimpar != null)
-                    {
-                        foreach (var arquivoAcaoImediata in acaoImediataparaLimpar.ArquivoEvidencia)
+                        //estava limpando todas as ações imediatas
+                        var acaoImediata = item;
                         {
-                            //apagamos deirtamente do anexo
-                            _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo));
+
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Descricao = acaoImediata.Descricao;
+
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).DtPrazoImplementacao = acaoImediata.DtPrazoImplementacao;
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).IdResponsavelImplementar = acaoImediata.IdResponsavelImplementar;
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).DtEfetivaImplementacao = acaoImediata.DtEfetivaImplementacao;
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Observacao = acaoImediata.Observacao;
+                            objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).SubmitArquivoEvidencia = acaoImediata.SubmitArquivoEvidencia;
+
                         }
                     }
 
-                    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).DtEfetivaImplementacao = null;
+                    if (item.Aprovado == false)
+                    {
+                        //{
+                        //    //estava limpando todas as ações imediatas
+                        //    var acaoImediata = item;
+                        //    {
+                        //        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).Aprovado = acaoImediata.Aprovado;
+                        //        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == acaoImediata.IdAcaoImediata).ComentariosAcaoImediata = acaoImediata.ComentariosAcaoImediata;
+                        //    }
+                        //}
 
-                    objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).Observacao = string.Empty;
+                        //tem que apagar os anexos dessa linha
+                        var acaoImediataparaLimpar = objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata);
+                        if (acaoImediataparaLimpar != null)
+                        {
+                            foreach (var arquivoAcaoImediata in acaoImediataparaLimpar.ArquivoEvidencia)
+                            {
+                                //apagamos deirtamente do anexo
+                                _AnexoAppServico.Remove(_AnexoAppServico.GetById(arquivoAcaoImediata.IdAnexo));
+                            }
+                        }
 
-                    //_anexoRepositorio.Remove(objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux);
+                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).DtEfetivaImplementacao = null;
+
+                        objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).Observacao = string.Empty;
+
+                        //_anexoRepositorio.Remove(objCtx.AcoesImediatas.FirstOrDefault(x => x.IdAcaoImediata == item.IdAcaoImediata).ArquivoEvidenciaAux);
+                    }
+
+                    //RegistroAcaoImediata local = new RegistroAcaoImediata();
+                    //local = item;
+                    //if (item.Aprovado != null && item.Aprovado == false)
+                    //{
+                    //local.DtEfetivaImplementacao = null;
+                    ////local.ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
+                    ////local.ArquivoEvidenciaAux = new Anexo();
+                    //}
+                    //lista.Add(local);
                 }
-
-                //RegistroAcaoImediata local = new RegistroAcaoImediata();
-                //local = item;
-                //if (item.Aprovado != null && item.Aprovado == false)
-                //{
-                //local.DtEfetivaImplementacao = null;
-                ////local.ArquivoEvidencia = new List<ArquivoDeEvidenciaAcaoImediata>();
-                ////local.ArquivoEvidenciaAux = new Anexo();
-                //}
-                //lista.Add(local);
+                //objCtx.AcoesImediatas = lista;
             }
-            //objCtx.AcoesImediatas = lista;
-
 
             //listaAcaoImediataUpdate.ToList().ForEach(acaoImediata =>
             //{
@@ -1147,7 +1151,7 @@ namespace ApplicationService.Servico
         {
             var registroAcaoCorretiva = _registroConformidadesRepositorio.Get(x => x.IdRegistroPai == objCtx.IdRegistroConformidade).FirstOrDefault();
 
-              if (registroAcaoCorretiva != null)
+            if (registroAcaoCorretiva != null)
             {
                 if (!naoConformidade.NecessitaAcaoCorretiva.Value || !naoConformidade.EProcedente.Value)
                 {

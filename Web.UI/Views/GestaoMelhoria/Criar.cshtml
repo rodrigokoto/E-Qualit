@@ -595,19 +595,22 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <!-- Analise da Parecer -->
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
-                                        <textarea id="form-acaoimediata-parecer" name="formAcaoImadiataParecer" class="form-control"
-                                                  placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Parecer"
-                                                  value=""
-                                                  rows="5">@Model.Parecer</textarea>
+                            @if (Model.StatusEtapa == (byte)Dominio.Enumerado.EtapasRegistroConformidade.Reverificacao || Model.StatusEtapa == (byte)Dominio.Enumerado.EtapasRegistroConformidade.Encerrada)
+                            {
+
+                                <div class="row">
+                                    <!-- Analise da Parecer -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
+                                            <textarea id="form-acaoimediata-parecer" name="formAcaoImadiataParecer" class="form-control"
+                                                      placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Parecer"
+                                                      value=""
+                                                      rows="5">@Model.Parecer</textarea>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
+                            }
                             @if (Model.StatusEtapa == 4)
                             {
                                 <div class="row">

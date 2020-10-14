@@ -219,10 +219,9 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label class="control-label">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Criterio_de_aceitacao</label>
-                                        <input name="valorAceitacao" @( Model.FlagTravado ? "readonly" : "") onkeyup="SubstituiVirgulaPorPonto(this)" class="form-control form-parametro-instrumento-criterio-aceitacao" data-val="true" title="" type="text"
+                                        <input name="valorAceitacao" @( Model.FlagTravado ? "readonly" : "") class="form-control form-parametro-instrumento-criterio-aceitacao" title="" type="text"
                                                placeholder="@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_placeholder_Criterio_de_aceitacao"
                                                data-msg-required="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_Criterio_de_aceitacao"
-                                               data-msg-number="@Traducao.Instrumentos.ResourceInstrumentos.IN_msg_required_number_Criterio_de_aceitacao"
                                                value="@Model.valorAceitacao" data-original-title="criteiro">
                                     </div>
                                 </div>

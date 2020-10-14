@@ -307,7 +307,16 @@
                         <ul class="dropdown-menu dropdown-user pre-scrollable" style="max-height:300px; max-width: 500px;">
                             @foreach (var pendencia in ViewBag.Pendencia)
                             {
-                                <li><a href="@Url.Action("Editar", pendencia.Modulo , new { id = pendencia.Id })">@pendencia.Modulo - @pendencia.Titulo</a> </li>
+                                if (pendencia.Modulo == "Fornecedor")
+                                {
+                                    <li>
+                                        <a href="@Url.Content("~/" + pendencia.Url)">@pendencia.Modulo - @pendencia.Titulo</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li><a href="@Url.Action("Editar", pendencia.Modulo , new { id = pendencia.Id })">@pendencia.Modulo - @pendencia.Titulo</a> </li>
+                                }
                             }
                         </ul>
                     </li>

@@ -11,5 +11,7 @@ namespace Web.UI.Models
         public string Titulo { get; set; }
         public int IdResponsavel { get; set; }
         public string Modulo { get; set; }
+
+        public string Url { get; set; }
     }
 }

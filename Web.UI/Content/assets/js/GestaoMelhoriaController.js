@@ -117,34 +117,34 @@ APP.controller.GestaoMelhoriaController = {
         }
         if (page == "CriarGestaoMelhoria") {
             this.acoesGestaoMelhoria();
-		}
-		//typeof (destavar) != "undefined" && 
-		if (destravar === 'true') {
+        }
+        //typeof (destavar) != "undefined" && 
+        if (destravar === 'true') {
 
-			
-			this.setDestravarCamposGestaoMelhoria();
-			this.HabilitaCamposGestaoMelhoria(perfil);
-			this.formEditarGestaoMelhoria();
-			this.formAcaoImediata();
-			//this.setAcaoImediata();
-			$('.botaouploadarquivos').removeAttr('disabled');
 
-			var idSite = $('#nao-conformidade-site').val();
-			processoSelecionado = $('[name=formCriarGestaoMelhoriaProcesso]').find(':selected').val();
-			var idFuncao = 121; // Funcionalidade(Define aÃ§Ã£o)
-			$.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
-				if (result.StatusCode == 200) {
-					//$('[name=formCriarGestaoMelhoriaResponsavel] option').not(':first-child').remove();
-					APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarGestaoMelhoriaResponsavel"] option'), $('[name="formCriarGestaoMelhoriaResponsavel"]'), 'IdUsuario', 'NmCompleto');
-				}
-			});
-			//this.setResponsavelAnaliseDefinicaoAC();
-			//var valor = $('[name=formCriarGestaoMelhoriaResponsavel]').val();
-			//$('[name=formCriarGestaoMelhoriaProcesso]').trigger('change');
-			//$('[name=formCriarGestaoMelhoriaResponsavel]').val(valor);
+            this.setDestravarCamposGestaoMelhoria();
+            this.HabilitaCamposGestaoMelhoria(perfil);
+            this.formEditarGestaoMelhoria();
+            this.formAcaoImediata();
+            //this.setAcaoImediata();
+            $('.botaouploadarquivos').removeAttr('disabled');
 
-			//this.setResponsavelAnaliseDefinicaoAC();
-			APP.controller.GestaoMelhoriaController.getResponsavelImplementarAcaoImediata();
+            var idSite = $('#nao-conformidade-site').val();
+            processoSelecionado = $('[name=formCriarGestaoMelhoriaProcesso]').find(':selected').val();
+            var idFuncao = 121; // Funcionalidade(Define aÃ§Ã£o)
+            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
+                if (result.StatusCode == 200) {
+                    //$('[name=formCriarGestaoMelhoriaResponsavel] option').not(':first-child').remove();
+                    APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarGestaoMelhoriaResponsavel"] option'), $('[name="formCriarGestaoMelhoriaResponsavel"]'), 'IdUsuario', 'NmCompleto');
+                }
+            });
+            //this.setResponsavelAnaliseDefinicaoAC();
+            //var valor = $('[name=formCriarGestaoMelhoriaResponsavel]').val();
+            //$('[name=formCriarGestaoMelhoriaProcesso]').trigger('change');
+            //$('[name=formCriarGestaoMelhoriaResponsavel]').val(valor);
+
+            //this.setResponsavelAnaliseDefinicaoAC();
+            APP.controller.GestaoMelhoriaController.getResponsavelImplementarAcaoImediata();
 
         }
 
@@ -336,7 +336,7 @@ APP.controller.GestaoMelhoriaController = {
                 this.formAcaoImediata();
                 break;
             case 3:
-                this.setShowAndHideStatusEtapa3(); 
+                this.setShowAndHideStatusEtapa3();
                 this.formEditarGestaoMelhoria();
                 this.formAcaoImediata();
                 break;
@@ -409,23 +409,23 @@ APP.controller.GestaoMelhoriaController = {
 
     setHidePanelEProcedenteSim: function () {
 
-        
+
         $('[name=formAcaoImadiataECorrecao]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataNecessitaAC]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-        $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
+
 
     },
 
     setHideRowAcaoImediata: function () {
-		//debugger;
+        //debugger;
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
-        
+
 
     },
 
@@ -493,7 +493,6 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
 
@@ -634,7 +633,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
+
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -944,7 +943,7 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataFoiEficaz]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        $('[name=formAcaoImadiataParecer]').prop('disabled', _disabled);
+        
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -1017,17 +1016,14 @@ APP.controller.GestaoMelhoriaController = {
         if (_NecessitaAC == "true") {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').show();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').show();
-            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').show();
         } else if (_NecessitaAC == "false") {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
         } else {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-            $('[name=formAcaoImadiataParecer]').closest('[class^=col]').hide();
         }
 
     },
@@ -1038,7 +1034,6 @@ APP.controller.GestaoMelhoriaController = {
         $('[name=formAcaoImadiataNecessitaAC]').closest('[class^=col]').show();
         $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').show();
         $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').show();
-        $('[name=formAcaoImadiataParecer]').closest('[class^=col]').show();
 
         $('[name=formAcaoImadiataECorrecao]').trigger("change");
         $('[name=formAcaoImadiataNecessitaAC]').trigger("change");
@@ -1431,43 +1426,43 @@ APP.controller.GestaoMelhoriaController = {
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val()
                 };
                 break;
-			case "fluxo-04":
-				//Obj enviado no fluxo 04 de edicao
-				acoesGestaoMelhoriaFormCriarGestaoMelhoriaObj = {
-					StatusEtapa: $('[name=StatusEtapa]').val(),
-					IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
-					AcoesImediatas: APP.controller.GestaoMelhoriaController.getObjFormAcaoImediata(),
-					ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
-					DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
-					FlEficaz: APP.controller.GestaoMelhoriaController.getFoiEficaz(),
-					Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
-					IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
-					IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
-					IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
-					DtEmissao: $('[name=formCriarGestaoMelhoriaDtEmissao]').val(),
-					EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
-					NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
-					IdResponsavelInicarAcaoImediata: $('[name=formCriarGestaoMelhoriaResponsavel] :selected').val(),
-					CriticidadeGestaoDeRisco: $('[name=formCriarGestaoMelhoriaCriticidade] :selected').val(),
-					DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
-					DescricaoRegistro: $('[name=formCriarGestaoMelhoriaDsRegistro]').val(),
-					DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
-					IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
-					IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-					DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
-					Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
-					DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
-					DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
-					EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
-					ArquivosDeEvidenciaAux: APP.controller.GestaoMelhoriaController.getAnexosEvidencias(),
+            case "fluxo-04":
+                //Obj enviado no fluxo 04 de edicao
+                acoesGestaoMelhoriaFormCriarGestaoMelhoriaObj = {
+                    StatusEtapa: $('[name=StatusEtapa]').val(),
+                    IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                    AcoesImediatas: APP.controller.GestaoMelhoriaController.getObjFormAcaoImediata(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
+                    DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
+                    FlEficaz: APP.controller.GestaoMelhoriaController.getFoiEficaz(),
+                    Tags: $('[name=formCriarGestaoMelhoriaTags]').val(),
+                    IdEmissor: $('[name=formCriarGestaoMelhoriaEmissor] :selected').val(),
+                    IdProcesso: $('[name=formCriarGestaoMelhoriaProcesso] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarGestaoMelhoriaTipo] :selected').val(),
+                    DtEmissao: $('[name=formCriarGestaoMelhoriaDtEmissao]').val(),
+                    EGestaoMelhoriaAuditoria: APP.component.Radio.init('formCriarGestaoMelhoriaEAuditoria'),
+                    NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
+                    IdResponsavelInicarAcaoImediata: $('[name=formCriarGestaoMelhoriaResponsavel] :selected').val(),
+                    CriticidadeGestaoDeRisco: $('[name=formCriarGestaoMelhoriaCriticidade] :selected').val(),
+                    DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
+                    DescricaoRegistro: $('[name=formCriarGestaoMelhoriaDsRegistro]').val(),
+                    DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
+                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
+                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
+                    DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                    DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
+                    EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
+                    ArquivosDeEvidenciaAux: APP.controller.GestaoMelhoriaController.getAnexosEvidencias(),
                     ArquivosNaoConformidadeAnexos: APP.controller.GestaoMelhoriaController.getAnexosArquivosNaoConformidadeAnexos(),
-					Causa: $('[name=formCausa]').val(),
+                    Causa: $('[name=formCausa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                     Parecer: $('[name=formAcaoImadiataParecer]').val(),
-				};
-				break;
+                };
+                break;
             case "fluxo-05":
-                
+
                 acoesGestaoMelhoriaFormCriarGestaoMelhoriaObj = {
                     StatusEtapa: $('[name=StatusEtapa]').val(),
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
@@ -1499,10 +1494,10 @@ APP.controller.GestaoMelhoriaController = {
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                     Parecer: $('[name=formAcaoImadiataParecer]').val(),
 
-					ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
-					
-					NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
-					IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
+
+                    NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
+                    IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
 
                 };
                 break;
@@ -1518,7 +1513,7 @@ APP.controller.GestaoMelhoriaController = {
         let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoDeEvidenciaAcaoImediata", "IdAcaoImediata");
         return ret;
     },
-    
+
     getAnexosArquivosNaoConformidadeAnexos() {
         let raiz = $("#modal-rai" + "ncabeca")[0];
         let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoNaoConformidadeAnexo", "IdRegistroConformidade");
@@ -1653,18 +1648,18 @@ APP.controller.GestaoMelhoriaController = {
             html += '</tr>';
 
             $('#tb-acao-imediata tbody').append(html);
-			$('.add-acao-imediata').removeClass('show').addClass('hide');
-			APP.controller.GestaoMelhoriaController.bind();
+            $('.add-acao-imediata').removeClass('show').addClass('hide');
+            APP.controller.GestaoMelhoriaController.bind();
 
-			
-			//if ($('[name=StatusEtapa]').val() == 1) {
-			//	APP.controller.GestaoMelhoriaController.bind();
-			//} else {
-			//	APP.controller.GestaoMelhoriaController.bindAcao();
-			//	//$('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
-			//	//$('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
-			//	$('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
-			//}
+
+            //if ($('[name=StatusEtapa]').val() == 1) {
+            //	APP.controller.GestaoMelhoriaController.bind();
+            //} else {
+            //	APP.controller.GestaoMelhoriaController.bindAcao();
+            //	//$('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
+            //	//$('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
+            //	$('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
+            //}
             _options.NumeroAcaoImediataGrid++;
 
         });
@@ -1693,21 +1688,21 @@ APP.controller.GestaoMelhoriaController = {
                 $('.add-acao-imediata').removeClass('show').addClass('hide');
             },
             success: function (result) {
-				if (result.StatusCode == 200) {
-					//debugger;
+                if (result.StatusCode == 200) {
+                    //debugger;
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
                     $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
                         APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
                     });
-                } 
+                }
             },
             error: function (result) {
                 bootbox.alert(_options.MsgOcorreuErro);
             },
-			complete: function (result) {
-				if ($('[name=StatusEtapa]').val() == "2" || $('[name=StatusEtapa]').val() == "1") {
-					$('.add-acao-imediata').removeClass('hide').addClass('show');
-				}
+            complete: function (result) {
+                if ($('[name=StatusEtapa]').val() == "2" || $('[name=StatusEtapa]').val() == "1") {
+                    $('.add-acao-imediata').removeClass('hide').addClass('show');
+                }
             }
         });
 
@@ -1758,20 +1753,20 @@ APP.controller.GestaoMelhoriaController = {
         APP.controller.GestaoMelhoriaController.setHideRowAcaoImediata();
         APP.controller.GestaoMelhoriaController.delAcaoImediata();
 
-	},
+    },
 
-	bindAcao: function () {
+    bindAcao: function () {
 
-		APP.component.Datapicker.init();
-		APP.controller.GestaoMelhoriaController.setup();
-		APP.controller.GestaoMelhoriaController.setAcaoImediata();
-		APP.controller.GestaoMelhoriaController.getResponsavelImplementarAcaoImediata();
-		APP.component.FileUpload.init();
-		APP.controller.GestaoMelhoriaController.setShowPanelEProcedenteSim();
-		//APP.controller.GestaoMelhoriaController.setHideRowAcaoImediata();
-		APP.controller.GestaoMelhoriaController.delAcaoImediata();
+        APP.component.Datapicker.init();
+        APP.controller.GestaoMelhoriaController.setup();
+        APP.controller.GestaoMelhoriaController.setAcaoImediata();
+        APP.controller.GestaoMelhoriaController.getResponsavelImplementarAcaoImediata();
+        APP.component.FileUpload.init();
+        APP.controller.GestaoMelhoriaController.setShowPanelEProcedenteSim();
+        //APP.controller.GestaoMelhoriaController.setHideRowAcaoImediata();
+        APP.controller.GestaoMelhoriaController.delAcaoImediata();
 
-	},
+    },
 
     getObjObjFormAcaoImediataValidate: function () {
 
@@ -1834,10 +1829,10 @@ APP.controller.GestaoMelhoriaController = {
                 };
             } else if (statusEtapa == 3) {
 
-				acoesGestaoMelhoriaFormAcaoImediataObj = {
-					Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
-					IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-					DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                acoesGestaoMelhoriaFormAcaoImediataObj = {
+                    Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
+                    IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
 
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
@@ -1856,12 +1851,12 @@ APP.controller.GestaoMelhoriaController = {
 
             } else {
 
-				acoesGestaoMelhoriaFormAcaoImediataObj = {
+                acoesGestaoMelhoriaFormAcaoImediataObj = {
 
 
-					
 
-					//Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
+
+                    //Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
@@ -1879,10 +1874,10 @@ APP.controller.GestaoMelhoriaController = {
                     SubmitArquivoEvidencia: APP.controller.GestaoMelhoriaController.getAnexosAcaoImediata($(tr).find(".IdentificadorInicialupload").data("identificador")),
 
 
-					
 
-					
-					
+
+
+
                     //ComentarioMotivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
                     //ComentarioOrientacao: $(tr).find('[nameformAcaoImediataComentarioOrientacaoformAcaoImadiataTbIdAcaoImediata]').val()
 
@@ -2007,7 +2002,7 @@ APP.controller.GestaoMelhoriaController = {
         return naoConformidadeObj;
 
     },
-        
+
     saveFormCriarGestaoMelhoria: function (registroMelhoriaObj, _fluxo) {
         var url = "";
 

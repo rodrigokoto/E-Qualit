@@ -6,9 +6,9 @@
 
 
 @{
-	ViewBag.Title = "Não Conformidade";
+    ViewBag.Title = "Não Conformidade";
 
-	var funcoes = new List<int>
+    var funcoes = new List<int>
 {
 (int)FuncoesNaoConformidade.Cadastrar,
 (int)FuncoesNaoConformidade.CriarTipoDeNC,
@@ -21,350 +21,350 @@
 (int)FuncoesNaoConformidade.AnaliseDaCausa,
 };
 
-	var listaPermissoes = new List<PermissoesApp>();
+    var listaPermissoes = new List<PermissoesApp>();
 
-	listaPermissoes.AddRange(ViewBag.Permissoes);
+    listaPermissoes.AddRange(ViewBag.Permissoes);
 
-	var listaEvidencias = new List<Anexo>();
+    var listaEvidencias = new List<Anexo>();
 
-	if (Model.ArquivosDeEvidenciaAux.Count > 0)
-	{
-		Model.ArquivosDeEvidenciaAux.ToList().ForEach(evidencia =>
-		{
-			listaEvidencias.Add(new Anexo
-			{
-				IdAnexo = evidencia.IdAnexo,
-				Nome = evidencia.Nome,
-				Extensao = evidencia.Extensao,
-				ArquivoB64 = String.Format("data:application/" + evidencia.Extensao + ";base64," + Convert.ToBase64String(evidencia.Arquivo)),
-			});
-		});
+    if (Model.ArquivosDeEvidenciaAux.Count > 0)
+    {
+        Model.ArquivosDeEvidenciaAux.ToList().ForEach(evidencia =>
+        {
+            listaEvidencias.Add(new Anexo
+            {
+                IdAnexo = evidencia.IdAnexo,
+                Nome = evidencia.Nome,
+                Extensao = evidencia.Extensao,
+                ArquivoB64 = String.Format("data:application/" + evidencia.Extensao + ";base64," + Convert.ToBase64String(evidencia.Arquivo)),
+            });
+        });
 
-	}
+    }
 
-	var eAdminOuCordenador = (ViewBag.IdPerfil != 4) ? true : false;
-	var eResponsavel = Model.IdEmissor != ViewBag.IdUsuarioLogado ? false : true;
-	var eDestravado = Model.FlDesbloqueado == 0 ? false : true;
-	var eDisabled = (eDestravado && (eResponsavel || eAdminOuCordenador)) ? null : "disabled";
-	var eResponsavellInicarAcaoImediata = Model.IdResponsavelInicarAcaoImediata != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario) ? false : true;
-	var eResponsavelPorAcaoImediata = Model.AcoesImediatas.Any(x => x.IdResponsavelImplementar != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario)) ? false : true;
+    var eAdminOuCordenador = (ViewBag.IdPerfil != 4) ? true : false;
+    var eResponsavel = Model.IdEmissor != ViewBag.IdUsuarioLogado ? false : true;
+    var eDestravado = Model.FlDesbloqueado == 0 ? false : true;
+    var eDisabled = (eDestravado && (eResponsavel || eAdminOuCordenador)) ? null : "disabled";
+    var eResponsavellInicarAcaoImediata = Model.IdResponsavelInicarAcaoImediata != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario) ? false : true;
+    var eResponsavelPorAcaoImediata = Model.AcoesImediatas.Any(x => x.IdResponsavelImplementar != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario)) ? false : true;
 
-	var eDisabledIdResponsavelIniciarAcaoImediata = (eDestravado && (eResponsavellInicarAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
-	var eDisabledEditarAcaoImediata = (eDestravado && (eResponsavelPorAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+    var eDisabledIdResponsavelIniciarAcaoImediata = (eDestravado && (eResponsavellInicarAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+    var eDisabledEditarAcaoImediata = (eDestravado && (eResponsavelPorAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
 
-	var temAcaoCorretiva = ViewBag.AcaoCorretiva != null ? ViewBag.AcaoCorretiva : null;
-	var disabled = temAcaoCorretiva != null ? "disabled" : null;
+    var temAcaoCorretiva = ViewBag.AcaoCorretiva != null ? ViewBag.AcaoCorretiva : null;
+    var disabled = temAcaoCorretiva != null ? "disabled" : null;
 
-	var nuRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.NuRegistro : null;
-	var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
+    var nuRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.NuRegistro : null;
+    var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
     var descricaoParecer = temAcaoCorretiva != null ? temAcaoCorretiva.Parecer : null;
-	var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
-	var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
+    var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
+    var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
 
 
-	var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
-	{
-		IdentificadorInicial = "ncabeca",
-		TextoLink = "Anexar",
-		NumeroArquivos = Model.ArquivosNaoConformidadeAnexos.Count(),
-		ModalTittle = "Anexos da Não Conformidade",
-		PodeAnexar = true
-	};
-	compoenteUploadCabecalho.AnexosLista = Model.ArquivosNaoConformidadeAnexos.ToList().Select(r =>
-	{
-		return
-	new Web.UI.Models.ArquivoAnexoItemViewModel()
-	{
-		AnexoDados = r.Anexo,
-		IdChave1 = r.IdArquivoNaoConformidadeAnexo,
-		IdChave2 = r.IdRegistroConformidade
-	};
-	}).ToList();
+    var compoenteUploadCabecalho = new Web.UI.Models.ArquivoAnexoViewModel()
+    {
+        IdentificadorInicial = "ncabeca",
+        TextoLink = "Anexar",
+        NumeroArquivos = Model.ArquivosNaoConformidadeAnexos.Count(),
+        ModalTittle = "Anexos da Não Conformidade",
+        PodeAnexar = true
+    };
+    compoenteUploadCabecalho.AnexosLista = Model.ArquivosNaoConformidadeAnexos.ToList().Select(r =>
+    {
+        return
+    new Web.UI.Models.ArquivoAnexoItemViewModel()
+    {
+        AnexoDados = r.Anexo,
+        IdChave1 = r.IdArquivoNaoConformidadeAnexo,
+        IdChave2 = r.IdRegistroConformidade
+    };
+    }).ToList();
 
 
 
-	//para os anexos das acoes imediatas
-	var listaBotoesAcaoImeidataUpload = new List<Web.UI.Models.ArquivoAnexoViewModel>();
+    //para os anexos das acoes imediatas
+    var listaBotoesAcaoImeidataUpload = new List<Web.UI.Models.ArquivoAnexoViewModel>();
 
 }
 @section Metas {
-	<meta name="page" content="CriarNaoConformidade" />
+    <meta name="page" content="CriarNaoConformidade" />
 }
 
 @section scripts {
 
 
-	<script type="text/javascript">
+    <script type="text/javascript">
         var destravar = '@ViewBag.Destravar';
         var perfil = '@ViewBag.IdPerfil';
-	</script>
+    </script>
 
-	<script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
-	<script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js?rnd=4")"></script>
-	<script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
-	<script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/NaoConformidadeController.js?rnd=4")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
 
 
 }
 
 @{
-	Html.RenderPartial("Anexo/_AnexoSetup");
-	Html.RenderPartial("Anexo/_ModalAnexo", compoenteUploadCabecalho);
+    Html.RenderPartial("Anexo/_AnexoSetup");
+    Html.RenderPartial("Anexo/_ModalAnexo", compoenteUploadCabecalho);
 }
 
 
 <div id="main">
-	<div class="content-painel">
-		<!-- hidden -->
-		<input type="hidden" name="StatusEtapa" value="@ViewBag.StatusEtapa" />
-		<input type="hidden" name="labelDesejaCriarNcDtEmissaoAnteriorAUltima" value="@Traducao.Resource.NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" />
-		<input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
-		<input type="hidden" name="IdSite" id="nao-conformidade-site" value="@ViewBag.IdSite" />
-		<input type="hidden" name="TipoRegistro" value="nc" />
-		<input type="hidden" name="IdNaoConformidade" class="IdNaoConformidade" value="@Model.IdRegistroConformidade" />
-		<input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
-		<input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
-		<input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
-		<input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
-		<input type="hidden" id="acaoImediataAtual" />
+    <div class="content-painel">
+        <!-- hidden -->
+        <input type="hidden" name="StatusEtapa" value="@ViewBag.StatusEtapa" />
+        <input type="hidden" name="labelDesejaCriarNcDtEmissaoAnteriorAUltima" value="@Traducao.Resource.NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" />
+        <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
+        <input type="hidden" name="IdSite" id="nao-conformidade-site" value="@ViewBag.IdSite" />
+        <input type="hidden" name="TipoRegistro" value="nc" />
+        <input type="hidden" name="IdNaoConformidade" class="IdNaoConformidade" value="@Model.IdRegistroConformidade" />
+        <input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
+        <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
+        <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
+        <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+        <input type="hidden" id="acaoImediataAtual" />
 
 
-		@{
+        @{
 
-		}
+        }
 
-		<!-- Formulario Nao Conformidade -->
-		<form id="form-criar-naoconformidade">
-			<div class="panel panel-default" id="panel-naoconformidade">
-				<div class="panel-heading">
-					<div class="panel-title">
-						<h2>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_titulo_identificacao</h2>
-					</div>
-				</div>
-				<div class="panel-body" id="panel-form-naoconformidade">
-					<div class="barra-busca">
-						<div class="row">
-							<!-- Numero Registro -->
+        <!-- Formulario Nao Conformidade -->
+        <form id="form-criar-naoconformidade">
+            <div class="panel panel-default" id="panel-naoconformidade">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_titulo_identificacao</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-naoconformidade">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Numero Registro -->
 
-							<div class="col-lg-offset-5 col-lg-2 col-md-offset-4 col-md-4 col-sm-12 col-xs-12 ">
-								<div class="form-group" id="numeroRegistro">
-									<label for="form-criar-nao-conformidade-nm-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro</label>
-									<input type="text" id="form-criar-nao-conformidade-nm-registro" name="formCriarNaoConformidadeNmRegistro" class="form-control"
-										   placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_NmRegistro"
-										   value="@Model.NuRegistro" disabled />
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<!-- Descricao Registro -->
-							<div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 ">
-								<div class="form-group">
-									<label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DsRegistro</label>
-									<textarea id="form-criar-nao-conformidade-ds-registro" name="formCriarNaoConformidadeDsRegistro" class="form-control"
-											  placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Descricao_registro"
-											  data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_DsRegistro"
-											  data-msg-minlength="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_minlength_DsRegistro"
-											  value=""
-											  rows="7">@Model.DescricaoRegistro</textarea>
-								</div>
-							</div>
-							<!-- Arquivo de Evidencia -->
-							<div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
-								<div class="form-group">
-									<label for="form-cria-cliente-contrato" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Arquivo_evidencia</label>
-									<div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)" style="border: 0 !important;">
+                            <div class="col-lg-offset-5 col-lg-2 col-md-offset-4 col-md-4 col-sm-12 col-xs-12 ">
+                                <div class="form-group" id="numeroRegistro">
+                                    <label for="form-criar-nao-conformidade-nm-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro</label>
+                                    <input type="text" id="form-criar-nao-conformidade-nm-registro" name="formCriarNaoConformidadeNmRegistro" class="form-control"
+                                           placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_NmRegistro"
+                                           value="@Model.NuRegistro" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Descricao Registro -->
+                            <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DsRegistro</label>
+                                    <textarea id="form-criar-nao-conformidade-ds-registro" name="formCriarNaoConformidadeDsRegistro" class="form-control"
+                                              placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Descricao_registro"
+                                              data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_DsRegistro"
+                                              data-msg-minlength="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_minlength_DsRegistro"
+                                              value=""
+                                              rows="7">@Model.DescricaoRegistro</textarea>
+                                </div>
+                            </div>
+                            <!-- Arquivo de Evidencia -->
+                            <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-cria-cliente-contrato" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Arquivo_evidencia</label>
+                                    <div class="upload-arq form-control @(Model.IdRegistroConformidade > 0 ? "box-upload-arq" : null)" style="border: 0 !important;">
 
-										@{
-											Html.RenderPartial("Anexo/_Anexo", compoenteUploadCabecalho);
-										}
-										@*
-											<a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
-												<i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
-											</a>
+                                        @{
+                                            Html.RenderPartial("Anexo/_Anexo", compoenteUploadCabecalho);
+                                        }
+                                        @*
+                                            <a class="btn-upload-multiple-form-criar-nao-conformidade-evidencia">
+                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i>@Traducao.Shared.ResourceButtons.btn_lbl_anexar
+                                            </a>
 
-											<ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
-												@if (listaEvidencias.Count > 0)
-												{
-													foreach (var evidencia in listaEvidencias)
-													{
-														<li>
-															<a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
-															<input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
-															<input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
-														</li>
+                                            <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
+                                                @if (listaEvidencias.Count > 0)
+                                                {
+                                                    foreach (var evidencia in listaEvidencias)
+                                                    {
+                                                        <li>
+                                                            <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
+                                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
+                                                        </li>
 
-													}
-												}
+                                                    }
+                                                }
 
-											</ul>
-											<input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
-												   class=""
-												   data-msg-required=""
-												   data-b64=""
-												   multiple="multiple">
-										*@
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<!-- Data de Emissao -->
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-								<div class="form-group">
-									<label for="form-criar-nao-conformidade-dt-emissao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtEmissao</label>
-									<br />
-									<div class='input-group input-group-datepicker'>
-										<input type='text' name="formCriarNaoConformidadeDtEmissao" id="form-criar-nao-conformidade-dt-emissao"
-											   class="form-control datepicker data largura-calendario"
-											   placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_DtEmissao"
-											   data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_DtEmissao"
-											   value="@Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)" />
-										<span class="input-group-addon">
-											<i class="fa fa-calendar" aria-hidden="true"></i>
-										</span>
-									</div>
-								</div>
-							</div>
-							<!-- Processo -->
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-								<div class="form-group">
-									<label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Processo</label>
-									<select id="form-criar-nao-conformidade-processo" name="formCriarNaoConformidadeProcesso" class="form-control"
-											data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Processo">
-										<option value="">@Traducao.Resource.Dropdown_name_select</option>
-										@if (Model.IdProcesso != 0 && Model.IdProcesso != null)
-										{
-											<option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
-										}
-									</select>
-								</div>
-							</div>
-							<!-- Emissor -->
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-								<div class="form-group">
-									<label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdEmissor</label>
-									@if (ViewBag.IdPerfil != 4)
-									{
+                                            </ul>
+                                            <input type="file" name="formCriarNaoConformidadeEvidencia" id="form-criar-nao-conformidade-evidencia"
+                                                   class=""
+                                                   data-msg-required=""
+                                                   data-b64=""
+                                                   multiple="multiple">
+                                        *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Data de Emissao -->
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtEmissao</label>
+                                    <br />
+                                    <div class='input-group input-group-datepicker'>
+                                        <input type='text' name="formCriarNaoConformidadeDtEmissao" id="form-criar-nao-conformidade-dt-emissao"
+                                               class="form-control datepicker data largura-calendario"
+                                               placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_DtEmissao"
+                                               data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_DtEmissao"
+                                               value="@Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Processo -->
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Processo</label>
+                                    <select id="form-criar-nao-conformidade-processo" name="formCriarNaoConformidadeProcesso" class="form-control"
+                                            data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Processo">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdProcesso != 0 && Model.IdProcesso != null)
+                                        {
+                                            <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Emissor -->
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdEmissor</label>
+                                    @if (ViewBag.IdPerfil != 4)
+                                    {
 
-										<select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
-												data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Emissor">
-											<option value="">@Traducao.Resource.Dropdown_name_select</option>
-											@if (Model.IdEmissor != 0)
-											{
-												<option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
-											}
-											@*[ver]*@
-											else
-											{
-												<option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
-											}
-											@*@if (ViewBag.IdPerfil == 4 && Model.IdRegistroConformidade == 0)
-												{
-													<option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
-												}*@
-										</select>
-									}
-									else
-									{
-										<select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
-												data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Emissor">
-											@if (Model.IdEmissor != 0)
-											{
-												<option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
-											}
-											else
-											{
-												<option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
-											}
-										</select>
-
-
-									}
+                                        <select id="form-criar-nao-conformidade-emissor" name="formCriarNaoConformidadeEmissor" class="form-control"
+                                                data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Emissor">
+                                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                            @if (Model.IdEmissor != 0)
+                                            {
+                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                            }
+                                            @*[ver]*@
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
+                                            }
+                                            @*@if (ViewBag.IdPerfil == 4 && Model.IdRegistroConformidade == 0)
+                                                {
+                                                    <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
+                                                }*@
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select id="form-criar-nao-conformidade-emissor" disabled name="formCriarNaoConformidadeEmissor" class="form-control"
+                                                data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Emissor">
+                                            @if (Model.IdEmissor != 0)
+                                            {
+                                                <option value="@Model.IdEmissor" selected>@Model.Emissor.NmCompleto</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.NomeUsuario</option>
+                                            }
+                                        </select>
 
 
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<!-- E Auditoria -->
-							<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 ">
-								<div class="form-group">
-									<label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_EAuditoria</label>
-									<div class="">
-										<label for="form-criar-nao-conformidade-eauditoria-sim">
-											<input type="radio" id="form-criar-nao-conformidade-eauditoria-sim" name="formCriarNaoConformidadeEAuditoria"
-												   data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EAuditoria"
-												   value="true" @(Model.ENaoConformidadeAuditoria == true ? "checked" : "")>
-											@Traducao.Shared.ResourceLabel.Label_radio_Sim
-										</label>
-										<label for="form-criar-nao-conformidade-eauditoria-nao">
-											<input type="radio" id="form-criar-nao-conformidade-eauditoria-nao" name="formCriarNaoConformidadeEAuditoria"
-												   data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EAuditoria"
-												   value="false" @(Model.ENaoConformidadeAuditoria == false ? "checked" : "")>
-											@Traducao.Shared.ResourceLabel.Label_radio_Nao
-										</label>
-									</div>
-								</div>
-							</div>
-							<!-- Tipo Nao Conformidade -->
-							<div class="col-lg-4 col-md-3 col-sm-6 col-xs-12 ">
-								<div class="form-group">
-									<label for="form-criar-nao-conformidade-tipo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tipo</label>
-									<select id="form-criar-nao-conformidade-tipo" name="formCriarNaoConformidadeTipo" class="form-control"
-											data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Tipo">
-										<option value="">@Traducao.Resource.Dropdown_name_select</option>
-										@if (Model.IdTipoNaoConformidade != null)
-										{
-											<option value="@Model.IdTipoNaoConformidade" selected>@Model.TipoNaoConformidade.Descricao</option>
-										}
-									</select>
-									@if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.CriarTipoDeNC) || ViewBag.IdPerfil != 4)
-									{
-										<button type="button" class="btn btn-primary add-tipo-nao-conformidade" data-tipo="tnc" data-site="@ViewBag.IdSite">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
-									}
-								</div>
-							</div>
-							<!-- Responsavel -->
-							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-								<div class="form-group">
-									<label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_definir_AC</label>
-									<select id="form-criar-nao-conformidade-responsavel" name="formCriarNaoConformidadeResponsavel" class="form-control"
-											data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Responsavel_definir_AC">
-										<option value="">@Traducao.Resource.Dropdown_name_select</option>
-										@if (Model.IdResponsavelInicarAcaoImediata != null)
-										{
-											<option value="@Model.IdResponsavelInicarAcaoImediata" selected>@Model.ResponsavelInicarAcaoImediata.NmCompleto</option>
-										}
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<!-- Tags -->
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-								<div class="form-group">
-									<label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags</label>
-									<textarea id="form-criar-nao-conformidade-tags" name="formCriarNaoConformidadeTags" class="form-control"
-											  placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Tags"
-											  data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Tags"
-											  value="" rows="5">@Model.Tags</textarea>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
+                                    }
 
-		<!-- Formulario Acao Imediata -->
-		<form id="form-acaoimediata">
-			<div class="panel panel-default" id="panel-acaoimediata">
-				<div class="panel-heading">
-					<div class="panel-title">
-						<h2>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Acao_imediata</h2>
-					</div>
-				</div>
-				<div class="panel-body" id="panel-form-acaoimediata">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- E Auditoria -->
+                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_EAuditoria</label>
+                                    <div class="">
+                                        <label for="form-criar-nao-conformidade-eauditoria-sim">
+                                            <input type="radio" id="form-criar-nao-conformidade-eauditoria-sim" name="formCriarNaoConformidadeEAuditoria"
+                                                   data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EAuditoria"
+                                                   value="true" @(Model.ENaoConformidadeAuditoria == true ? "checked" : "")>
+                                            @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                                        </label>
+                                        <label for="form-criar-nao-conformidade-eauditoria-nao">
+                                            <input type="radio" id="form-criar-nao-conformidade-eauditoria-nao" name="formCriarNaoConformidadeEAuditoria"
+                                                   data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_EAuditoria"
+                                                   value="false" @(Model.ENaoConformidadeAuditoria == false ? "checked" : "")>
+                                            @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tipo Nao Conformidade -->
+                            <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-tipo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tipo</label>
+                                    <select id="form-criar-nao-conformidade-tipo" name="formCriarNaoConformidadeTipo" class="form-control"
+                                            data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Tipo">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdTipoNaoConformidade != null)
+                                        {
+                                            <option value="@Model.IdTipoNaoConformidade" selected>@Model.TipoNaoConformidade.Descricao</option>
+                                        }
+                                    </select>
+                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesNaoConformidade.CriarTipoDeNC) || ViewBag.IdPerfil != 4)
+                                    {
+                                        <button type="button" class="btn btn-primary add-tipo-nao-conformidade" data-tipo="tnc" data-site="@ViewBag.IdSite">@Traducao.Shared.ResourceButtons.btn_lbl_adicionar</button>
+                                    }
+                                </div>
+                            </div>
+                            <!-- Responsavel -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_definir_AC</label>
+                                    <select id="form-criar-nao-conformidade-responsavel" name="formCriarNaoConformidadeResponsavel" class="form-control"
+                                            data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Responsavel_definir_AC">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        @if (Model.IdResponsavelInicarAcaoImediata != null)
+                                        {
+                                            <option value="@Model.IdResponsavelInicarAcaoImediata" selected>@Model.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Tags -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags</label>
+                                    <textarea id="form-criar-nao-conformidade-tags" name="formCriarNaoConformidadeTags" class="form-control"
+                                              placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Tags"
+                                              data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Tags"
+                                              value="" rows="5">@Model.Tags</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Formulario Acao Imediata -->
+        <form id="form-acaoimediata">
+            <div class="panel panel-default" id="panel-acaoimediata">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Acao_imediata</h2>
+                    </div>
+                </div>
+                <div class="panel-body" id="panel-form-acaoimediata">
                     <div class="barra-busca">
                         <div class="row">
                             <!-- E Procedente -->
@@ -552,55 +552,55 @@
 
                                                     }
                                                     @*
-                                                                                        upload antigo
-                                                                                <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
-                                                                                </div>
-                                                                                @{
+                                                                                                            upload antigo
+                                                                                                    <div class="upload-arq form-control" style="height: 40px !important" name="anxFile">
+                                                                                                    </div>
+                                                                                                    @{
 
-                                                                                    var base64 = "";
-                                                                                    var dataB64 = "";
-                                                                                    var nomeAnexo = "";
-                                                                                    var extensao = "";
-                                                                                    var idAnexo = 0;
-                                                                                    if (acaoImediata.ArquivoEvidencia.Count > 0)
-                                                                                    {
-                                                                                        idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                                                        extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                                                        nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
-                                                                                        base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                                                        dataB64 = base64;
-                                                                                        base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+                                                                                                        var base64 = "";
+                                                                                                        var dataB64 = "";
+                                                                                                        var nomeAnexo = "";
+                                                                                                        var extensao = "";
+                                                                                                        var idAnexo = 0;
+                                                                                                        if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                                                        {
+                                                                                                            idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                                                                                            extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                                                                                            nomeAnexo = acaoImediata.ArquivoEvidenciaAux != null ? acaoImediata.ArquivoEvidenciaAux.Nome : "Anexo";
+                                                                                                            base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                                                                                            dataB64 = base64;
+                                                                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
 
-                                                                                    }
-                                                                                }
+                                                                                                        }
+                                                                                                    }
 
 
-                                    @if (acaoImediata.ArquivoEvidencia.Count == 0)
-                                    {
+                                                        @if (acaoImediata.ArquivoEvidencia.Count == 0)
+                                                        {
 
-                                        <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
-                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                        </a>
-                                        <i class="hide" name="Ianexo" style="display:none">@nomeAnexo</i>
-                                    }
-                                    else
-                                    {
-                                        <i class="hide" name="Ianexo" style="display:block">@nomeAnexo</i>
-                                        <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:none">
-                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                        </a>
-                                    }
-                                    <ul>
-                                        <li>
-                                            <a href="@base64" target="_blank" download="@nomeAnexo" name="IanexoLi">@nomeAnexo</a>
-                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
-                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
-                                        </li>
-                                    </ul>
-                                    <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
-                                           class=""
-                                           data-msg-required=""
-                                           data-b64="@dataB64">
+                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:block">
+                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                                            </a>
+                                                            <i class="hide" name="Ianexo" style="display:none">@nomeAnexo</i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="hide" name="Ianexo" style="display:block">@nomeAnexo</i>
+                                                            <a class="btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" name="IanexoAnexar" style="display:none">
+                                                                <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                                            </a>
+                                                        }
+                                                        <ul>
+                                                            <li>
+                                                                <a href="@base64" target="_blank" download="@nomeAnexo" name="IanexoLi">@nomeAnexo</a>
+                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                            </li>
+                                                        </ul>
+                                                        <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
+                                                               class=""
+                                                               data-msg-required=""
+                                                               data-b64="@dataB64">
                                                     *@
 
                                                 </td>
@@ -803,18 +803,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <!-- Analise da Parecer -->
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
-                                    <textarea id="form-acaoimediata-parecer" name="formAcaoImadiataParecer" class="form-control"
-                                              placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Parecer"
-                                              value=""
-                                              rows="5">@Model.Parecer</textarea>
+                        @if (Model.StatusEtapa == (byte)Dominio.Enumerado.EtapasRegistroConformidade.Reverificacao || Model.StatusEtapa == (byte)Dominio.Enumerado.EtapasRegistroConformidade.Encerrada)
+                        {
+                            <div class="row">
+                                <!-- Analise da Parecer -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
+                                        <textarea id="form-acaoimediata-parecer" name="formAcaoImadiataParecer" class="form-control" 
+                                                  placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Parecer"
+                                                  value=""
+                                                  rows="5">@Model.Parecer</textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div class="row">
                             <!-- Analise da Causa -->
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -840,161 +843,161 @@
                             </div>
                         }
                     </div>
-				</div>
-			</div>
-		</form>
+                </div>
+            </div>
+        </form>
 
-	</div>
+    </div>
 </div>
 
 @{
-	//caixas de dialogo das acoes imediatas anexos
-	foreach (var botao in listaBotoesAcaoImeidataUpload)
-	{
-		Html.RenderPartial("Anexo/_ModalAnexo", botao);
-	}
+    //caixas de dialogo das acoes imediatas anexos
+    foreach (var botao in listaBotoesAcaoImeidataUpload)
+    {
+        Html.RenderPartial("Anexo/_ModalAnexo", botao);
+    }
 }
 
 <div class="navbar navbar-inverse navbar-fixed-bottom">
-	<div class="row pull-right">
-		<div class="col-md-12">
-			@if (Model.IdRegistroConformidade > 0)
-			{
+    <div class="row pull-right">
+        <div class="col-md-12">
+            @if (Model.IdRegistroConformidade > 0)
+            {
 
-				if ((listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Destravar) || ViewBag.IdPerfil != 4) && ViewBag.StatusEtapa != 4)
-				{
-					<button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
-				}
+                if ((listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Destravar) || ViewBag.IdPerfil != 4) && ViewBag.StatusEtapa != 4)
+                {
+                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                }
 
 
-				if (Model.StatusEtapa == 4)
-				{
-					<button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
-				}
+                if (Model.StatusEtapa == 4)
+                {
+                    <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+                }
 
-			}
-			@if (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Cadastrar)
-				|| listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Editar)
-				|| listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.DefinirAcao)
-				|| listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.ImplementarAcao)
-				|| listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.VerificacaoDaEficacia)
-				|| listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Reverificacao)
-				|| ViewBag.IdPerfil != 4)
-			{
-				<button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
-			}
-			<button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "NaoConformidade/Index")</button>
-		</div>
-	</div>
+            }
+            @if (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Cadastrar)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Editar)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.DefinirAcao)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.ImplementarAcao)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.VerificacaoDaEficacia)
+                || listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesNaoConformidade.Reverificacao)
+                || ViewBag.IdPerfil != 4)
+            {
+                <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+            }
+            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "NaoConformidade/Index")</button>
+        </div>
+    </div>
 </div>
 
 
 
 <form id="form-emissao-documento-cargos2">
-	<div id="modal-panel-form-cargos2" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close closeCargos2" data-dismiss="modal">
-						<i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
-					</button>
-					<h4 class="modal-title">Histórico</h4>
-				</div>
+    <div id="modal-panel-form-cargos2" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos2" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Histórico</h4>
+                </div>
 
-				<div class="modal-body">
-					<div class="panel">
-						<div class="barra-busca" style="box-shadow: none">
-							<div class="form-group" id="painelComentarios">
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca" style="box-shadow: none">
+                            <div class="form-group" id="painelComentarios">
 
-							</div>
-						</div>
+                            </div>
+                        </div>
 
-					</div>
+                    </div>
 
-				</div>
-				<div class="modal-footer">
-					<!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 
 
 
 <form id="form-emissao-documento-cargos">
-	<div id="modal-panel-form-cargos" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close closeCargos" data-dismiss="modal">
-						<i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
-					</button>
-					<h4 class="modal-title">Comentários</h4>
-				</div>
-				<div class="modal-body">
-					<div class="panel">
-						<div class="barra-busca" style="box-shadow: none">
-							<div class="form-group">
+    <div id="modal-panel-form-cargos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Comentários</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca" style="box-shadow: none">
+                            <div class="form-group">
 
-								<div class="row tabela-cargo-check">
-									<div class="col-md-12 ">
-										<div class="form-group">
-											<label for="form-naoconformidade-comentario-motivo">Motivo</label>
-											<textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value=""></textarea>
-										</div>
-									</div>
-									<div class="col-md-12 ">
-										<div class="form-group">
-											<label for="form-naoconformidade-comentario-orientacao">Orientação</label>
-											<textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value=""></textarea>
-										</div>
-									</div>
-								</div>
+                                <div class="row tabela-cargo-check">
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="form-naoconformidade-comentario-motivo">Motivo</label>
+                                            <textarea rows="4" name="formNaoConformidadeComentarioMotivo" id="form-naoconformidade-comentario-motivo" class="form-control" value=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="form-naoconformidade-comentario-orientacao">Orientação</label>
+                                            <textarea rows="4" name="formNaoConformidadeComentarioOrientacao" id="form-naoconformidade-comentario-orientacao" class="form-control" value=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
 
-							</div>
-						</div>
+                            </div>
+                        </div>
 
-					</div>
+                    </div>
 
-				</div>
+                </div>
 
-				<div class="modal-footer">
-					<button type="button" id="btn-new-comentario" class="btn btn-primary btnControladorCategoria">Salvar</button>
-					<!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-new-comentario" class="btn btn-primary btnControladorCategoria">Salvar</button>
+                    <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 
 
 @*<form id="form-emissao-documento-cargos">
-	<div id="modal-panel-form-cargos" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+    <div id="modal-panel-form-cargos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close closeCargos" data-dismiss="modal">
-						<i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
-					</button>
-					<h4 class="modal-title">Cargos</h4>
-				</div>
-				<div class="modal-body">
-					<div class="panel">
-						<div class="barra-busca">
-							<div class="form-group">*@
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Cargos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca">
+                            <div class="form-group">*@
 
 
 
 
 <script>
-																																								//$(".fa-calendar").click(function () {
-																																								//    $(this).parent().parent().find("input").datepicker("show");
-																																								//});
+                                                                                                                                                                //$(".fa-calendar").click(function () {
+                                                                                                                                                                //    $(this).parent().parent().find("input").datepicker("show");
+                                                                                                                                                                //});
 </script>
 
