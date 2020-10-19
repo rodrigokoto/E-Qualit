@@ -471,7 +471,7 @@ APP.controller.AcaoCorretivaController = {
     },
 
     setIncluirComentario: function () {
-         $('#btn-new-comentario').on('click', function () {
+        $('#btn-new-comentario').on('click', function () {
             $('#modal-panel-form-cargos').modal("hide");
         });
         $('#modal-panel-form-cargos').on('hidden.bs.modal', function () {
@@ -722,7 +722,7 @@ APP.controller.AcaoCorretivaController = {
         $('[name=formAcaoImadiataFoiEficaz]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-     
+
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -993,7 +993,12 @@ APP.controller.AcaoCorretivaController = {
 
     getformCriarNaoConformidadeDtDescricaoAcao: function () {
 
-        $('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
+        var dt = $('[name=formAcaoImadiataDtDescricaoAcao]').val();
+
+        //if ($('[name=formAcaoImadiataDtDescricaoAcao]').val() == "") {
+        //    $('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
+        //}
+
 
     },
 
