@@ -1574,6 +1574,21 @@ namespace Web.UI.Controllers
             List<DocRegistro> registros = dest.Registros.Where(s => !source.Registros.Any(a => s.IdDocRegistro == a.IdDocRegistro)).ToList();
             registros.ForEach(f => _documentoAppServico.RemoverGenerico(f));
 
+            dest.Registros.ForEach(x => {
+                
+                var itemAtualizar = source.Registros.Where(y => y.IdDocRegistro == x.IdDocRegistro).FirstOrDefault();
+
+                x.Armazenar = itemAtualizar.Armazenar;
+                x.Disposicao = itemAtualizar.Disposicao;
+                x.Identificar = itemAtualizar.Identificar;
+                x.Proteger = itemAtualizar.Proteger;
+                x.Recuperar = itemAtualizar.Recuperar;
+                x.Retencao = itemAtualizar.Retencao;
+                x.IdDocRegistro = itemAtualizar.IdDocRegistro;
+                x.IdDocumento = itemAtualizar.IdDocumento;
+
+            
+            });
             
 
             //Indicadores

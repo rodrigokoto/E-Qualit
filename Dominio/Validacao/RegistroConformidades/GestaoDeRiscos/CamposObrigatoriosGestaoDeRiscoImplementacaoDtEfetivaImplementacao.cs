@@ -7,8 +7,7 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoDeRiscos
     {
         public CamposObrigatoriosGestaoDeRiscoImplementacaoDtEfetivaImplementacao()
         {
-            RuleFor(x => x.DtEfetivaImplementacao.ToString())
-                .NotEmpty().WithMessage(Traducao.Resource.DtEfetivaImplementacaoObrigatoria);
+        
 
             RuleFor(x => x.IdResponsavelReverificador)
                 .NotNull().WithMessage(Traducao.Resource.MsgCampoReverificador)

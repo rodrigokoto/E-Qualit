@@ -160,6 +160,7 @@ APP.controller.GestaoDeRiscoController = {
 
         this.eventoImprimir();
 
+        this.setResponsavelAnaliseDefinicaoAC();
         this.setDestravarCamposGestaoRisco();
         this.sendFormCriarNaoConformidade();
         this.getEmissorPorSite();
@@ -925,13 +926,17 @@ APP.controller.GestaoDeRiscoController = {
             var idSite = $('#nao-conformidade-site').val();
             processoSelecionado = $(this).find(':selected').val();
             var idFuncao = 90; // Funcionalidade(Define aÃ§Ã£o)
+
+            APP.component.Loading.showLoading();
             $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
                 if (result.StatusCode == 200) {
                     $('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
                     APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
                 }
-            });
 
+                APP.component.Loading.hideLoading();
+            });
+            
         });
 
     },

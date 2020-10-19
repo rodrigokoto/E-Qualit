@@ -93,7 +93,7 @@ namespace DAL.Repository
             {
                 throw ex;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Db.Entry(obj).State = EntityState.Detached;
                 throw;

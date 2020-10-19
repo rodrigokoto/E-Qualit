@@ -369,7 +369,8 @@ APP.controller.InstrumentosController = {
         var PosCalibracao = {
             IdCalibracao: $("#IdCalibracao").val(),
             IdFilaEnvio: $("#IdFilaEnvio").val(),
-            IdInstrumento: $('#IdInstrumento').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
+            IdInstrumento: $('#IdInstrumento').val(),
+            //'required': true, 'minlength': 1, 'maxlength': 500,
             IdSigla: $('[name=IdSigla]').val(),
             DataRegistro: $('#form-pos-calibracao').find('[name=DtRegistro]').val(),
             DataNotificacao: $('#form-pos-calibracao').find('[name=DtNotificacao]').val(),
@@ -383,6 +384,7 @@ APP.controller.InstrumentosController = {
             SubmitArquivosCertificado: APP.controller.InstrumentosController.getArquivoCertificadoAnex2($("#IdCalibracao").val()),
             Observacoes: $('#form-pos-calibracao').find('[name=Observacoes]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
             NomeUsuarioAprovador: $('#form-pos-calibracao').find('[name=Aprovador] option:selected').text(),
+            valorAceitacao: $("[name=valorAceitacao]").val(),
         };
 
         var temCriterioAceitacao = $("[name=SistemaDefineStatus]:checked").val() == "true" ? true : false;
@@ -1011,20 +1013,20 @@ APP.controller.InstrumentosController = {
                 bootbox.alert(_options.labelValidaDataNotificacao);
             }
 
-            if (Aprovado < 2 && $('#IdInstrumento').val() != "0") {
+            //if (Aprovado < 2 && $('#IdInstrumento').val() != "0") {
 
-                if (OrgaoCalibrador == "" || OrgaoCalibrador == null || OrgaoCalibrador == undefined) {
-                    valido = false;
-                    $("#lblErroOrgaoCalibrador").show();
-                    APP.component.Loading.hideLoading();
-                }
+            //    if (OrgaoCalibrador == "" || OrgaoCalibrador == null || OrgaoCalibrador == undefined) {
+            //        valido = false;
+            //        $("#lblErroOrgaoCalibrador").show();
+            //        APP.component.Loading.hideLoading();
+            //    }
 
-                if (Certificado == "" || Certificado == null || Certificado == undefined) {
-                    valido = false;
-                    $("#lblErroNuCertificado").show();
-                    APP.component.Loading.hideLoading();
-                }
-            }
+            //    if (Certificado == "" || Certificado == null || Certificado == undefined) {
+            //        valido = false;
+            //        $("#lblErroNuCertificado").show();
+            //        APP.component.Loading.hideLoading();
+            //    }
+            //}
 
             if (valido) {
 

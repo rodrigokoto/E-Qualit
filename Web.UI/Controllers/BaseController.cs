@@ -204,7 +204,8 @@ namespace Web.UI.Controllers
                                            Id = lc.IdLicenca,
                                            Titulo = lc.Titulo,
                                            IdResponsavel = lc.IdResponsavel,
-                                           Modulo = "Licenca"
+                                           Modulo = "Licenca",
+                                           Url = "Licenca/Editar/" + lc.IdLicenca
 
 
                                        });
@@ -219,7 +220,8 @@ namespace Web.UI.Controllers
                                                Id = ind.Id,
                                                Titulo = ind.Objetivo,
                                                IdResponsavel = ind.IdResponsavel,
-                                               Modulo = "indicador"
+                                               Modulo = "Indicador",
+                                               Url = "Indicador/Editar/" + ind.Id
                                            });
                         var docDocumentoAprov = (from doc in db.DocDocumento
                                                  where doc.StatusRegistro == (int)StatusDocumento.Aprovacao && doc.IdSite == idSite
@@ -237,15 +239,15 @@ namespace Web.UI.Controllers
 
 
                         var naoConformidade = (from nc in db.RegistroConformidade
-                                               where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "nc" &&
-                                               nc.IdResponsavelAnalisar != null
+                                               where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "nc"
                                                select new PendenciaViewModel
                                                {
                                                    Id = (int)nc.IdRegistroConformidade,
                                                    Titulo = nc.DescricaoRegistro,
-                                                   IdResponsavel = nc.ResponsavelAnalisar.IdUsuario,
-                                                   Modulo = "NaoConformidade"
-                                               });
+                                                   IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                   Modulo = "Não Conformidade",
+                                                   Url = "NaoConformidade/Editar/"  + (int)nc.IdRegistroConformidade
+                                               }); ;
 
                         var naoConformidadePrazo = (from nc in db.RegistroConformidade
                                                     where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "nc"
@@ -254,7 +256,8 @@ namespace Web.UI.Controllers
                                                         Id = (int)nc.IdRegistroConformidade,
                                                         Titulo = nc.DescricaoRegistro,
                                                         IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
-                                                        Modulo = "NaoConformidade"
+                                                        Modulo = "Não Conformidade",
+                                                        Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                     });
 
                         var naoConformidadeReverificacao = (from nc in db.RegistroConformidade
@@ -264,17 +267,20 @@ namespace Web.UI.Controllers
                                                                 Id = (int)nc.IdRegistroConformidade,
                                                                 Titulo = nc.DescricaoRegistro,
                                                                 IdResponsavel = nc.ResponsavelReverificador.IdUsuario,
-                                                                Modulo = "NaoConformidade"
+                                                                Modulo = "Não Conformidade",
+                                                                Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                             });
 
                         var acaoCorretiva = (from ac in db.RegistroConformidade
-                                             where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ac.TipoRegistro == "ac" && ac.IdSite == idSite && ac.ResponsavelImplementar != null
+                                             where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ac.TipoRegistro == "ac" && ac.IdSite == idSite
                                              select new PendenciaViewModel
                                              {
                                                  Id = ac.IdRegistroConformidade,
                                                  Titulo = ac.DescricaoRegistro,
-                                                 IdResponsavel = ac.ResponsavelImplementar.IdUsuario,
-                                                 Modulo = "AcaoCorretiva"
+                                                 IdResponsavel = ac.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                 Modulo = "Ação Corretiva",
+                                                 Url = "AcaoCorretiva/Editar/" + ac.IdRegistroConformidade
+
                                              });
 
                         var acaoCorretivaRev = (from ac in db.RegistroConformidade
@@ -284,7 +290,8 @@ namespace Web.UI.Controllers
                                                     Id = ac.IdRegistroConformidade,
                                                     Titulo = ac.DescricaoRegistro,
                                                     IdResponsavel = ac.ResponsavelImplementar.IdUsuario,
-                                                    Modulo = "AcaoCorretiva"
+                                                    Modulo = "Ação Corretiva",
+                                                    Url = "AcaoCorretiva/Editar/" + ac.IdRegistroConformidade
                                                 });
 
                         var Auditoria = (from plai in db.Plai
@@ -294,7 +301,8 @@ namespace Web.UI.Controllers
                                              Id = plai.IdPlai,
                                              Titulo = "Auditoria",
                                              IdResponsavel = plai.IdElaborador,
-                                             Modulo = "Auditoria"
+                                             Modulo = "Auditoria",
+                                             Url = "Auditoria/Editar/" + plai.IdPlai
                                          });
 
                         var AnaliseCritica = (from anc in db.AnaliseCritica
@@ -304,7 +312,8 @@ namespace Web.UI.Controllers
                                                   Id = anc.IdAnaliseCritica,
                                                   Titulo = anc.Ata,
                                                   IdResponsavel = anc.IdResponsavel,
-                                                  Modulo = "AnaliseCritica"
+                                                  Modulo = "AnaliseCritica",
+                                                  Url = "AnaliseCritica/Editar/" + anc.IdAnaliseCritica
                                               }).ToList();
 
                         var InstrumentoQuery = (from ins in db.Instrumento
@@ -323,7 +332,8 @@ namespace Web.UI.Controllers
                                 Id = a.IdInstrumento,
                                 Titulo = a.Equipamento,
                                 IdResponsavel = (int)a.IdResponsavel,
-                                Modulo = "Instrumento"
+                                Modulo = "Instrumento",
+                                Url = "Instrumento/Editar/" + a.IdInstrumento
                             });
 
                         }
@@ -355,13 +365,14 @@ namespace Web.UI.Controllers
                                                });
 
                         var gestaoRisco = (from nc in db.RegistroConformidade
-                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "gr" && nc.IdResponsavelAnalisar != null
+                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "gr" 
                                            select new PendenciaViewModel
                                            {
                                                Id = (int)nc.IdRegistroConformidade,
                                                Titulo = nc.DescricaoRegistro,
-                                               IdResponsavel = nc.ResponsavelAnalisar.IdUsuario,
-                                               Modulo = "GestaoDeRisco"
+                                               IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                               Modulo = "Gestão De Risco",
+                                               Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                            });
 
                         var gestaoRiscoPrazo = (from nc in db.RegistroConformidade
@@ -371,7 +382,8 @@ namespace Web.UI.Controllers
                                                     Id = (int)nc.IdRegistroConformidade,
                                                     Titulo = nc.DescricaoRegistro,
                                                     IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
-                                                    Modulo = "GestaoDeRisco"
+                                                    Modulo = "Gestão De Risco",
+                                                    Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                                 });
 
                         var gestaoRiscoReverificacao = (from nc in db.RegistroConformidade
@@ -381,7 +393,8 @@ namespace Web.UI.Controllers
                                                             Id = (int)nc.IdRegistroConformidade,
                                                             Titulo = nc.DescricaoRegistro,
                                                             IdResponsavel = nc.ResponsavelReverificador.IdUsuario,
-                                                            Modulo = "GestaoDeRisco"
+                                                            Modulo = "Gestão De Risco",
+                                                            Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade,
                                                         });
 
 
@@ -393,7 +406,8 @@ namespace Web.UI.Controllers
                                                   Id = (int)nc.IdRegistroConformidade,
                                                   Titulo = nc.DescricaoRegistro,
                                                   IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
-                                                  Modulo = "GestaoMelhoria"
+                                                  Modulo = "Gestão De Melhoria",
+                                                  Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                               });
 
                         var gestaoMelhoriaPrazo = (from nc in db.RegistroConformidade
@@ -403,7 +417,8 @@ namespace Web.UI.Controllers
                                                        Id = (int)nc.IdRegistroConformidade,
                                                        Titulo = nc.DescricaoRegistro,
                                                        IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
-                                                       Modulo = "GestaoMelhoria"
+                                                       Modulo = "Gestão De Melhoria",
+                                                       Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                                    });
 
                         var gestaoMelhoriaReverificacao = (from nc in db.RegistroConformidade
@@ -413,7 +428,8 @@ namespace Web.UI.Controllers
                                                                Id = (int)nc.IdRegistroConformidade,
                                                                Titulo = nc.DescricaoRegistro,
                                                                IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
-                                                               Modulo = "GestaoMelhoria"
+                                                               Modulo = "Gestão De Melhoria",
+                                                               Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                                            });
 
 
@@ -432,7 +448,8 @@ namespace Web.UI.Controllers
                                         Id = docap.IdDocumento,
                                         Titulo = docap.Titulo,
                                         IdResponsavel = res.IdUsuario,
-                                        Modulo = "DocDocumento"
+                                        Modulo = "DocDocumento",
+                                        Url = "DocDocumento/Editar" + docap.IdDocumento
                                     };
 
                                     docPendencia.Add(pendenciaViewModel);
@@ -453,7 +470,8 @@ namespace Web.UI.Controllers
                                         Id = docver.IdDocumento,
                                         Titulo = docver.Titulo,
                                         IdResponsavel = res.IdUsuario,
-                                        Modulo = "DocDocumento"
+                                        Modulo = "DocDocumento",
+                                        Url = "DocDocumento/Editar" + docver.IdDocumento
                                     };
 
                                     docPendencia.Add(pendenciaViewModel);
@@ -468,7 +486,8 @@ namespace Web.UI.Controllers
                                 Id = docrev.IdDocumento,
                                 Titulo = docrev.Titulo,
                                 IdResponsavel = docrev.IdElaborador,
-                                Modulo = "DocDocumento"
+                                Modulo = "DocDocumento",
+                                Url = "DocDocumento/Editar" + docrev.IdDocumento
                             };
 
                             docPendencia.Add(pendenciaViewModel);
@@ -506,7 +525,8 @@ namespace Web.UI.Controllers
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
-                                                            Modulo = "Indicador"
+                                                            Modulo = "Indicador",
+                                                            Url = "Indicador/Editar/" + indicador.Id
                                                         };
 
                                                         lstPendencia.Add(pendenciaViewModel);
@@ -523,7 +543,8 @@ namespace Web.UI.Controllers
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
-                                                            Modulo = "Indicador"
+                                                            Modulo = "Indicador",
+                                                            Url = "Indicador/Editar/" + indicador.Id
                                                         };
 
                                                         lstPendencia.Add(pendenciaViewModel);
@@ -540,7 +561,8 @@ namespace Web.UI.Controllers
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
-                                                            Modulo = "Indicador"
+                                                            Modulo = "Indicador",
+                                                            Url = "Indicador/Editar/" + indicador.Id
                                                         };
 
                                                         lstPendencia.Add(pendenciaViewModel);
@@ -557,7 +579,8 @@ namespace Web.UI.Controllers
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
-                                                            Modulo = "Indicador"
+                                                            Modulo = "Indicador",
+                                                            Url = "Indicador/Editar/" + indicador.Id
                                                         };
 
                                                         lstPendencia.Add(pendenciaViewModel);
@@ -574,7 +597,8 @@ namespace Web.UI.Controllers
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
-                                                            Modulo = "Indicador"
+                                                            Modulo = "Indicador",
+                                                            Url = "Indicador/Editar/" + indicador.Id
                                                         };
 
                                                         lstPendencia.Add(pendenciaViewModel);
@@ -632,6 +656,7 @@ namespace Web.UI.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ModelState.Clear();
+
 
             controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             action = filterContext.ActionDescriptor.ActionName;
