@@ -250,12 +250,13 @@ namespace Web.UI.Controllers
                                                }); ;
 
                         var naoConformidadePrazo = (from nc in db.RegistroConformidade
-                                                    where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "nc"
+                                                    join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                                    where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "nc"
                                                     select new PendenciaViewModel
                                                     {
                                                         Id = (int)nc.IdRegistroConformidade,
                                                         Titulo = nc.DescricaoRegistro,
-                                                        IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                                        IdResponsavel = nc.ResponsavelAnalisar.IdUsuario,
                                                         Modulo = "Não Conformidade",
                                                         Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                     });

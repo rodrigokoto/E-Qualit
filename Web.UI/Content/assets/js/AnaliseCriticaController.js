@@ -82,12 +82,6 @@ APP.controller.AnaliseCriticaController = {
 
             APP.controller.AnaliseCriticaController.setPossuiGestaoDeRiscoInformar();
 
-
-
-
-
-
-
             APP.controller.AnaliseCriticaController.setHidePossuiGestaoDeRisco();
             APP.controller.AnaliseCriticaController.setHidePossuiGestaoDeRiscoInformar();
 
@@ -651,7 +645,7 @@ APP.controller.AnaliseCriticaController = {
             $(".editar-tema").hide();
 
             var idDescricao = $(element).attr('id');
-            CKEDITOR.replace(idDescricao);
+            //CKEDITOR.replace(idDescricao); <----
         });
 
     },

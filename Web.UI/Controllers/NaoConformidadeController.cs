@@ -423,8 +423,11 @@ namespace Web.UI.Controllers
 
             if (naoConformidade.IdNuRegistroFilho != null)
             {
-                ViewBag.AcaoCorretiva = _registroConformidadesAppServico.GetAll()
+                var AcaoCorretiva = _registroConformidadesAppServico.GetAll()
                     .FirstOrDefault(x => x.IdSite == naoConformidade.IdSite && x.TipoRegistro == "ac" && x.NuRegistro == naoConformidade.IdNuRegistroFilho);
+                ViewBag.AcaoCorretiva = AcaoCorretiva;
+
+                ViewBag.ResponsavelAcaoImediata = AcaoCorretiva.ResponsavelInicarAcaoImediata;
             }
             ViewBag.IdProcesso = naoConformidade.IdProcesso;
             ViewBag.StatusEtapa = naoConformidade.StatusEtapa;

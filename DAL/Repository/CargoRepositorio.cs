@@ -27,6 +27,7 @@ namespace DAL.Repository
 
                     try
                     {
+                        context.Configuration.AutoDetectChangesEnabled = false;
                         var cargos = context.Cargo.Where(x => x.IdCargo == id).ToList();
 
                         foreach (var cargo in cargos)
@@ -61,9 +62,9 @@ namespace DAL.Repository
 
                                     context.Entry(usuarioClienteSite).State = EntityState.Deleted;
 
-                                    var usuario = context.Usuario.Where(x => x.IdUsuario == usuarioClienteSite.IdUsuario).FirstOrDefault();
+                                    //    var usuario = context.Usuario.Where(x => x.IdUsuario == usuarioClienteSite.IdUsuario).FirstOrDefault();
 
-                                    context.Entry(usuario).State = EntityState.Deleted;
+                                    //    context.Entry(usuario).State = EntityState.Deleted;
                                 }
 
                                 context.Entry(usuarioCargo).State = EntityState.Deleted;
@@ -71,12 +72,11 @@ namespace DAL.Repository
 
                             var cargoProcessos = context.CargoProcesso.Where(x => x.IdCargo == cargo.IdCargo).ToList();
 
-                            foreach (var cargoProcesso in cargoProcessos)
-                            {
-                                context.Entry(cargoProcesso).State = EntityState.Deleted;
-                            }
+                            cargoProcessos.ForEach(l => context.Entry(l).State = EntityState.Deleted);
 
                             context.Entry(cargo).State = EntityState.Deleted;
+
+                            context.Configuration.AutoDetectChangesEnabled = true;
                         }
 
                         context.SaveChanges();

@@ -58,7 +58,18 @@
     var nuRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.NuRegistro : null;
     var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
     var descricaoParecer = temAcaoCorretiva != null ? temAcaoCorretiva.Parecer : null;
-    var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
+
+    var nomeResponsavelAcaoCorretiva = string.Empty;
+
+
+
+    if (ViewBag.ResponsavelAcaoImediata != null)
+    {
+
+        nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
+    }
+
+
     var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
 
 
@@ -96,7 +107,7 @@
 
     <script type="text/javascript">
         var destravar = '@ViewBag.Destravar';
-        var perfil = '@ViewBag.IdPerfil';
+                var perfil = '@ViewBag.IdPerfil';
     </script>
 
     <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
@@ -810,7 +821,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
-                                        <textarea id="form-acaoimediata-parecer" name="formAcaoImadiataParecer" class="form-control" 
+                                        <textarea id="form-acaoimediata-parecer" name="formAcaoImadiataParecer" class="form-control"
                                                   placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Parecer"
                                                   value=""
                                                   rows="5">@Model.Parecer</textarea>

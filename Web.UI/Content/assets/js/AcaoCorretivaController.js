@@ -996,10 +996,8 @@ APP.controller.AcaoCorretivaController = {
         var dt = $('[name=formAcaoImadiataDtDescricaoAcao]').val();
 
         if ($('[name=formAcaoImadiataDtDescricaoAcao]').val() == "") {
-            $('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
+            $('[name=formAcaoImadiataDtDescricaoAcao]').prop('disabled', false);
         }
-
-
     },
 
     setAcaoImediata: function () {

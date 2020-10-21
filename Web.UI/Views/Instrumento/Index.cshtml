@@ -75,39 +75,46 @@
                                                 </td>
                                                 <td>@instrumento.LocalDeUso</td>
                                                 <td>@instrumento.Equipamento</td>
-                                                @if (instrumento.Calibracao.Count > 0 && instrumento.Calibracao.LastOrDefault() != null && instrumento.Calibracao.LastOrDefault().DataProximaCalibracao != null)
+                                                @if (instrumento.Calibracao.Count > 0)
                                                 {
-                                                    
-                                                    <td>@instrumento.Calibracao.OrderByDescending(x => x.DataProximaCalibracao).FirstOrDefault().DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data)</td>
+                                                    if (instrumento.Calibracao.OrderByDescending(x => x.DataProximaCalibracao).FirstOrDefault().DataProximaCalibracao != null)
+                                                    {
+                                                        <td>@instrumento.Calibracao.OrderByDescending(x => x.DataProximaCalibracao).FirstOrDefault().DataProximaCalibracao.Value.ToString(Traducao.Resource.formato_data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td></td>
+                                                    }
+
                                                 }
                                                 else
                                                 {
                                                     <td></td>
                                                 }
-                                                    <td>
-                                                        @{
-                                                            if (instrumento.Status == 0)
-                                                            {
-                                                                <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
-                                                            }
-                                                            else if (instrumento.Status == 1)
-                                                            {
-                                                                <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
-                                                            }
-                                                            else if (instrumento.Status == 2)
-                                                            {
-                                                                <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
-                                                            }
-                                                            else if (instrumento.Status == 3)
-                                                            {
-                                                                <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
-                                                            }
-                                                            else
-                                                            {
-                                                                <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
-                                                            }
+                                                <td>
+                                                    @{
+                                                        if (instrumento.Status == 0)
+                                                        {
+                                                            <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
                                                         }
-                                                    </td>
+                                                        else if (instrumento.Status == 1)
+                                                        {
+                                                            <p class="status-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_calibrado</p>
+                                                        }
+                                                        else if (instrumento.Status == 2)
+                                                        {
+                                                            <p class="status-fora-de-uso">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_fora_de_uso</p>
+                                                        }
+                                                        else if (instrumento.Status == 3)
+                                                        {
+                                                            <p class="status-em-calibracao">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_em_calibracao</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="status-nao-calibrado">@Traducao.Instrumentos.ResourceInstrumentos.IN_lbl_Status_nao_calibrado</p>
+                                                        }
+                                                    }
+                                                </td>
 
                                                 <td>
                                                     @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesInstrumento.EditarInstrumento).Count() > 0 || ViewBag.IdPerfil != 4)
