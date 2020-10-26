@@ -645,7 +645,7 @@ APP.controller.AnaliseCriticaController = {
             $(".editar-tema").hide();
 
             var idDescricao = $(element).attr('id');
-            //CKEDITOR.replace(idDescricao); <----
+            CKEDITOR.replace(idDescricao);
         });
 
     },

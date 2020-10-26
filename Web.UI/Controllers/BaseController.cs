@@ -256,7 +256,7 @@ namespace Web.UI.Controllers
                                                     {
                                                         Id = (int)nc.IdRegistroConformidade,
                                                         Titulo = nc.DescricaoRegistro,
-                                                        IdResponsavel = nc.ResponsavelAnalisar.IdUsuario,
+                                                        IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                                         Modulo = "Não Conformidade",
                                                         Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                     });
