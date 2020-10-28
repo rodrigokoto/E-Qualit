@@ -223,25 +223,41 @@
                                 {
                                     foreach (var tema in Model.Temas)
                                     {
+
+
                                         <li class="row li-tema-AC">
-                                            <div class="barra-busca">
-                                                <!-- Titulo -->
-                                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                                    <label>@tema.ControladorCategoria.Descricao</label>
+                                            <div class="panel panel-default" id="panel-form-texto" data-state="collapsed">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title">
+                                                        <h2>@tema.ControladorCategoria.Descricao</h2>
+                                                    </div>
                                                 </div>
-                                                <!-- Acoes -->
-                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                    <a href="#" class="btn icon-analise editar-tema" data-toggle="collapse">
-                                                        <i class="fa fa-pencil fa-1" aria-hidden="true"></i>
-                                                    </a>
-                                                    <a href="#" class="btn icon-analise excluir-tema" data-toggle="collapse">
-                                                        <i class="fa fa-trash fa-1" aria-hidden="true"></i>
-                                                    </a>
-                                                </div>
-                                                <!-- Gestao de Risco -->
-                                                <div name="GestaoDeRisco" class="gestaoDeRiscoPartial" id="gestaoDeRiscoPartial-@tema.IdControladorCategoria" data-name=''>
-                                                    <input type="hidden" name="idControladorCategoria" value="@tema.IdControladorCategoria">
-                                                    @Html.Partial("GestaoDeRiscoAnaliseCritica", tema)
+                                                <div class="panel-body">
+                                                    <div class="barra-busca">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <!-- Titulo -->
+                                                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                                    <label>@tema.ControladorCategoria.Descricao</label>
+                                                                </div>
+                                                                <!-- Acoes -->
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                                    <a href="#" class="btn icon-analise editar-tema" data-toggle="collapse">
+                                                                        <i class="fa fa-pencil fa-1" aria-hidden="true"></i>
+                                                                    </a>
+                                                                    <a href="#" class="btn icon-analise excluir-tema" data-toggle="collapse">
+                                                                        <i class="fa fa-trash fa-1" aria-hidden="true"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <!-- Gestao de Risco -->
+                                                                <div name="GestaoDeRisco" class="gestaoDeRiscoPartial" id="gestaoDeRiscoPartial-@tema.IdControladorCategoria" data-name=''>
+                                                                    <input type="hidden" name="idControladorCategoria" value="@tema.IdControladorCategoria">
+                                                                    @Html.Partial("GestaoDeRiscoAnaliseCritica", tema)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
                                                 </div>
                                             </div>
                                         </li>
@@ -263,9 +279,9 @@
             {
 
                 @*if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAnaliseCritica.Destravar) || ViewBag.IdPerfil != 4)
-                {
-                    <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
-                }*@
+                    {
+                        <button type="button" id="btn-destravar" class="btn btn-primary btn-destravar">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                    }*@
                 <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
 
             }

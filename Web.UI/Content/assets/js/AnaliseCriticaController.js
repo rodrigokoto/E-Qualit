@@ -3,6 +3,20 @@
 | Controlador Analise Critica
 |--------------------------------------------------------------------------
 */
+$('.panel').on('beforeMaximize.lobiPanel', function (ev, lobiPanel) {
+    var id = $(this).closest('.li-tema-AC').find('[name=formGestaoDeRiscoDescricao]').attr("id");
+    if (id !== undefined) {
+        var Exists = CKEDITOR.instances[id];
+
+        if (Exists) {
+        }
+        else {
+            CKEDITOR.replace(id);
+        }
+
+        console.log("CkEditor Inicializado");
+    }
+});
 
 APP.controller.AnaliseCriticaController = {
 
@@ -45,7 +59,7 @@ APP.controller.AnaliseCriticaController = {
 
         tabelaCalibracao = $('#tb-index-analise-critica').DataTable({
             columnDefs: [{
-                target: [2,3],
+                target: [2, 3],
                 type: 'datetime-moment'
             }]
         });
@@ -66,6 +80,8 @@ APP.controller.AnaliseCriticaController = {
         this.setAndHide();
         this.setValidateForms();
         this.eventoImprimir();
+
+
 
         this.formCriarAnaliseCritica();
         if ($('[name=IdAnaliseCritica]').val() > 0) {
@@ -644,8 +660,8 @@ APP.controller.AnaliseCriticaController = {
             $(".excluir-tema").hide();
             $(".editar-tema").hide();
 
-            var idDescricao = $(element).attr('id');
-            CKEDITOR.replace(idDescricao);
+            //var idDescricao = $(element).attr('id');
+            //CKEDITOR.replace(idDescricao);
         });
 
     },
