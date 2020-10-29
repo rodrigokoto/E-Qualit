@@ -202,7 +202,7 @@ APP.controller.AnaliseCriticaController = {
         var idProcesso = $('[name=IdProcesso]').val();
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 48; // Funcionalidade(Registro da ata) que permite Criar Analise Critica;
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcessoAsync?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarAnaliseCriticaResponsavel"] option'), $('[name="formCriarAnaliseCriticaResponsavel"]'), 'IdUsuario', 'NmCompleto');
             }
@@ -431,7 +431,7 @@ APP.controller.AnaliseCriticaController = {
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 49; // Funcionalidade(Implementar aÃ§Ã£o) que permite Criar aÃ§Ãµes Corretivas
         var idProcesso = $('[name=IdProcesso]').val();
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '}', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcessoAsync?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '}', (result) => {
             if (result.StatusCode == 200) {
 
                 if ($(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"]').find("option").length <= 1) {

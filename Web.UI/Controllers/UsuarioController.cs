@@ -11,6 +11,7 @@ using ApplicationService.Servico;
 using Dominio.Servico;
 using Dominio.Interface.Servico;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace Web.UI.Controllers
 {
@@ -475,6 +476,18 @@ namespace Web.UI.Controllers
             var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
 
             return Json(new { StatusCode = HttpStatusCode.OK, Lista = usuariosLista }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ObterUsuariosPorFuncaoSiteEProcessoAsync(int? idProcesso = null, int? idSite = null, int? idFuncao = null)
+        {
+            var usuarios = new List<Usuario>();
+            
+            usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(idProcesso, idSite, idFuncao));
+
+            var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
+
+            return await Task.FromResult(Json(new { StatusCode = HttpStatusCode.OK, Lista = usuariosLista }, JsonRequestBehavior.AllowGet));
         }
 
         [HttpGet]
