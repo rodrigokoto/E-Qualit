@@ -354,4 +354,7 @@
   <data name="AC_lbl_acao_nao_encontrada" xml:space="preserve">
     <value>Nenhuma ação encontrada</value>
   </data>
+  <data name="AC_lbl_Status_Anulada" xml:space="preserve">
+    <value>Anulada</value>
+  </data>
 </root>

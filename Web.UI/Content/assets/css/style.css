@@ -19116,6 +19116,11 @@ input:required:valid {
     color: #1f7f19;
 }
 
+.status-anulada {
+    font-weight: bold;
+    color: red;
+}
+
 /* Instrumentos */
 .status-nao-calibrado {
     font-weight: bold;
