@@ -138,7 +138,7 @@ APP.controller.AcaoCorretivaController = {
 
             var dialog = bootbox.dialog({
                 title: 'Anular Ação corretiva',
-                message: "<p>Gostaria de anular essa Ação Imediata?.</p>",
+                message: "<p>Gostaria de anular essa Ação Corretiva?.</p>",
                 size: 'small',
                 buttons: {
                     cancel: {
@@ -149,6 +149,7 @@ APP.controller.AcaoCorretivaController = {
                             $('[name=StatusEtapa]').val('1');
                             $('[name=formCriarNaoConformidadeDsJustificativa]').hide();
 
+                            $('.add-acao-imediata').show();
                             $('.pnl-anular').show();
                         }
                     },
@@ -249,9 +250,11 @@ APP.controller.AcaoCorretivaController = {
                 break;
             case 4:
                 this.setShowAndHideStatusEtapa4();
+                $('.btn-anular').prop('disabled', true);
                 break;
             case 5:
                 this.setShowAndHideStatusEtapa5();
+                $('.btn-anular').prop('disabled', true);
                 break;
         }
 
@@ -1621,6 +1624,7 @@ APP.controller.AcaoCorretivaController = {
 
         this.buttonDestravar.on('click', function () {
 
+            $('.btn-anular').prop('disabled', false);
 
             if (perfil == '4') {
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
