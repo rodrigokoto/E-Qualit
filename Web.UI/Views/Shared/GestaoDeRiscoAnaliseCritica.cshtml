@@ -97,19 +97,25 @@
 
 			@*Processo*@
 			@*<div class="col-lg-4  col-sm-3 col-xs-12 responsavel-gestao-de-risco" @(Model.PossuiGestaoRisco == true ? "style='width:500px'" : "style='width:500px;display:none;'")>*@
-			<div class="form-group">
-				<label for="form-gestao-de-risco-processo-@Model.IdTema" class="control-label">Processo</label>
-				<select id="form-gestao-de-risco-processo-@Model.IdTema" name="formGestaoDeRiscoProcesso" class="form-control"
-						data-msg-required="Necessário escolher um processo"
-						@(Model.GestaoDeRisco != null ? "disabled" : null)>
-					<option value="">@Traducao.Resource.Dropdown_name_select</option>
+        <div class="form-group">
+            @*@Html.DropDownList("Processo" , ViewBag.Processo as SelectList, new { @id = "form-gestao-de-risco-processo-" + Model.IdTema , @name = "formGestaoDeRiscoProcesso" , @class = "form-control" })*@
+            <label for="form-gestao-de-risco-processo-@Model.IdTema" class="control-label">Processo</label>
+            @Html.DropDownListFor(p => p.Processo.IdProcesso, new SelectList(ViewBag.Processo, "IdProcesso", "Nome"),
+           new { @id = "form-gestao-de-risco-processo-" + Model.IdTema, @name = "formGestaoDeRiscoProcesso", @class = "form-control" });
 
-					@if (Model.GestaoDeRisco != null)
-					{
-						<option value="@Model.Processo.IdProcesso" selected>@Model.Processo.Nome</option>
-					}
-				</select>
-			</div>
+
+            @*<label for="form-gestao-de-risco-processo-@Model.IdTema" class="control-label">Processo</label>
+        <select id="form-gestao-de-risco-processo-@Model.IdTema" name="formGestaoDeRiscoProcesso" class="form-control"
+                data-msg-required="Necessário escolher um processo"
+                @(Model.GestaoDeRisco != null ? "disabled" : null)>
+            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+
+            @if (Model.GestaoDeRisco != null)
+            {
+                <option value="@Model.Processo.IdProcesso" selected>@Model.Processo.Nome</option>
+        }
+        </select>*@
+        </div>
 
 			@*</div>*@
 
@@ -147,19 +153,25 @@
 
 				<!-- Responsavel Definicao -->
 				<div class="col-lg-4  col-sm-3 col-xs-12 responsavel-gestao-de-risco" @(Model.PossuiGestaoRisco == true ? "style='width:500px'" : "style='width:500px;display:none;'")>
-					<div class="form-group">
-						<label for="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Responsavel_definicao</label>
-						<select id="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" name="formGestaoDeRiscoResponsavelDefinicao" class="form-control"
-								data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Responsavel_definicao"
-								@(Model.GestaoDeRisco != null ? "disabled" : null)>
-							<option value="">@Traducao.Resource.Dropdown_name_select</option>
+                    <div class="form-group">
+                        <label for="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Responsavel_definicao</label>
 
-							@if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
-							{
-								<option value="@Model.GestaoDeRisco.IdResponsavelInicarAcaoImediata" selected>@Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto</option>
-							}
-						</select>
-					</div>
+                        @Html.DropDownListFor(p => p.GestaoDeRisco.ResponsavelInicarAcaoImediata, new SelectList(ViewBag.UsuarioFuncao, "IdUsuario", "NmCompleto"),
+new { @id = "form-gestao-de-risco-responsavel-definicao-" + Model.IdTema, @name = "formGestaoDeRiscoResponsavelDefinicao", @class = "form-control" });
+
+
+                        @*<label for="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Responsavel_definicao</label>
+                        <select id="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" name="formGestaoDeRiscoResponsavelDefinicao" class="form-control"
+                                data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Responsavel_definicao"
+                                @(Model.GestaoDeRisco != null ? "disabled" : null)>
+                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+
+                            @if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
+                            {
+                                <option value="@Model.GestaoDeRisco.IdResponsavelInicarAcaoImediata" selected>@Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                            }
+                        </select>*@
+                    </div>
 
 				</div>
 

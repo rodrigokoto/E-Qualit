@@ -1290,9 +1290,9 @@ APP.component.GestaoDeRiscoPartial = {
     //Changes
     setCriticidade: function (value, text) {
 
-        $('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
-            APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(this);
-        });
+        //$('[name^=formGestaoDeRiscoCriticidade]').on('change', function () {
+        //    APP.controller.AnaliseCriticaController.getTodosResponsaveisPorAcaoImediata(this);
+        //});
 
     },
 

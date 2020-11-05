@@ -10,6 +10,10 @@ using Dominio.Servico;
 using System.Configuration;
 using ApplicationService.Entidade;
 using ApplicationService.Enum;
+using System.Threading.Tasks;
+using System.ComponentModel.Design;
+using System.Security.Cryptography;
+using System.Linq.Expressions;
 
 namespace ApplicationService.Servico
 {
@@ -190,17 +194,29 @@ namespace ApplicationService.Servico
 
             var usuarios = new List<Usuario>();
 
-            foreach (var cargoProcesso in cargoProcessos)
-            {
-                foreach (var usuarioCargo in cargoProcesso.Cargo.UsuarioCargos.Where(x => x.Usuario.FlAtivo == true).ToList())
-                {
-                    usuarios.Add(new Usuario
-                    {
-                        IdUsuario = usuarioCargo.Usuario.IdUsuario,
-                        NmCompleto = usuarioCargo.Usuario.NmCompleto
-                    });
-                }
-            }
+            var usuarios1 = cargoProcessos.SelectMany(x => x.Cargo.UsuarioCargos).ToList();
+
+            var user = (from a in usuarios1
+                        where a.Usuario.FlAtivo == true
+                        select new Usuario
+                        {
+                            IdUsuario = a.Usuario.IdUsuario,
+                            NmCompleto = a.Usuario.NmCompleto
+                        }).ToList();
+
+            usuarios.AddRange(user);
+
+            //foreach (var cargoProcesso in cargoProcessos)
+            //{
+            //    foreach (var usuarioCargo in cargoProcesso.Cargo.UsuarioCargos.Where(x => x.Usuario.FlAtivo == true).ToList())
+            //    {
+            //        usuarios.Add(new Usuario
+            //        {
+            //            IdUsuario = usuarioCargo.Usuario.IdUsuario,
+            //            NmCompleto = usuarioCargo.Usuario.NmCompleto
+            //        });
+            //    }
+            //}
 
             var coordenadores = cargoProcessos.Select(
                                       x => x.Processo.Site.UsuarioClienteSites

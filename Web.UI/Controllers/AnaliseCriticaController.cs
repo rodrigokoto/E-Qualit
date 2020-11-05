@@ -1,5 +1,6 @@
 ﻿using ApplicationService.Enum;
 using ApplicationService.Interface;
+using DAL.Context;
 using Dominio.Entidade;
 using Dominio.Enumerado;
 using Dominio.Interface.Servico;
@@ -11,6 +12,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Web.Mvc;
 using Web.UI.Helpers;
 
@@ -29,6 +31,7 @@ namespace Web.UI.Controllers
         private readonly IRegistroConformidadesAppServico _registroConformidadeAppServico;
         public readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IAnaliseCriticaTemaAppServico _analiseCriticaTemaAppServico;
+        private readonly IUsuarioClienteSiteAppServico _usuarioClienteSiteAppServico;
         private readonly IAnaliseCriticaFuncionarioAppServico _analiseCriticaFuncionarioAppServico;
         private readonly ILogAppServico _logAppServico;
         private readonly IProcessoAppServico _processoAppServico;
@@ -41,6 +44,7 @@ namespace Web.UI.Controllers
                                         IUsuarioAppServico usuarioAppServico,
                                         IAnaliseCriticaTemaAppServico analiseCriticaTemaAppServico,
                                         IAnaliseCriticaFuncionarioAppServico analiseCriticaFuncionarioAppServico,
+                                        IUsuarioClienteSiteAppServico usuarioClienteSiteAppServico,
                                         ILogAppServico logAppServico,
                                         IRegistroConformidadesServico registroConformidadesServico,
                                         IProcessoAppServico processoAppServico,
@@ -53,6 +57,7 @@ namespace Web.UI.Controllers
             _usuarioAppServico = usuarioAppServico;
             _analiseCriticaTemaAppServico = analiseCriticaTemaAppServico;
             _analiseCriticaFuncionarioAppServico = analiseCriticaFuncionarioAppServico;
+            _usuarioClienteSiteAppServico = usuarioClienteSiteAppServico;
             _logAppServico = logAppServico;
             _registroConformidadesServico = registroConformidadesServico;
             _processoAppServico = processoAppServico;
@@ -113,10 +118,40 @@ namespace Web.UI.Controllers
             {
                 analiseCritica = _analiseCriticaAppServico.GetById(Convert.ToInt32(id));
             }
-
-            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            var idSite = Util.ObterSiteSelecionado();
+            ViewBag.IdSite = idSite;
             ViewBag.Tema = "tema";
+
+            List<Processo> lista = _processoAppServico.ListaProcessosPorSite(analiseCritica.IdSite);
+
+            var usuarios = new List<Usuario>();
+
+            using (var db = new BaseContext())
+            {
+
+                var user = (from u in db.Usuario
+                            join uc in db.UsuarioClienteSite on u.IdUsuario equals uc.IdUsuario
+                            where uc.IdSite == idSite && u.FlAtivo == true
+                            select u).ToList();
+
+                usuarios.AddRange(user);
+            }
+
+
+
+            var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
+
+            ViewBag.Processo = lista;
+            ViewBag.UsuarioFuncao = usuariosLista;
             //ViewBag.IdProcesso = Util.ObterProcessoSelecionado();
+
+            //   if (((SelectList)ViewBag.Processo) == null)
+            //   {
+            //       ViewBag.Processo = new SelectList(new[] {
+            //new SelectListItem  { Value="0", Text="Valores não encontrados" }
+            //       }, "Value", "Text");
+            //   }
+
 
             analiseCritica.Temas.ForEach(tema =>
             {
@@ -207,7 +242,7 @@ namespace Web.UI.Controllers
                     }
                     else
                     {
-                        analiseCritica.DataCadastro = DateTime.Now;                        
+                        analiseCritica.DataCadastro = DateTime.Now;
                         _analiseCriticaAppServico.SalvarAnaliseCritica(analiseCritica);
                         EnfileirarEmailsAnaliseCritica(analiseCritica);
                         _analiseCriticaAppServico.AtualizaAnaliseCritica(analiseCritica);
@@ -274,31 +309,32 @@ namespace Web.UI.Controllers
             foreach (var tema in temas)
             {
 
-				if (tema.PossuiInformarGestaoRisco == true)
-				{
-					tema.GestaoDeRisco.IdEmissor = IdResponsavelPorCriacaoDaNova;
-					//tema.GestaoDeRisco.IdProcesso = Util.ObterProcessoSelecionado();
-					tema.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
-					tema.GestaoDeRisco.StatusEtapa = tema.PossuiGestaoRisco == true ? (byte)EtapasRegistroConformidade.AcaoImediata : (byte)EtapasRegistroConformidade.Encerrada;
-					tema.GestaoDeRisco.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
-					tema.GestaoDeRisco.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
-					if (tema.PossuiGestaoRisco == true)
-					{
-						tema.GestaoDeRisco.IdResponsavelEtapa = tema.GestaoDeRisco.IdResponsavelInicarAcaoImediata.Value;
-					}
+                if (tema.PossuiInformarGestaoRisco == true)
+                {
+                    tema.GestaoDeRisco.IdEmissor = IdResponsavelPorCriacaoDaNova;
+                    //tema.GestaoDeRisco.IdProcesso = Util.ObterProcessoSelecionado();
+                    tema.GestaoDeRisco.IdSite = Util.ObterSiteSelecionado();
+                    tema.GestaoDeRisco.StatusEtapa = tema.PossuiGestaoRisco == true ? (byte)EtapasRegistroConformidade.AcaoImediata : (byte)EtapasRegistroConformidade.Encerrada;
+                    tema.GestaoDeRisco.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
+                    tema.GestaoDeRisco.IdUsuarioAlterou = Util.ObterCodigoUsuarioLogado();
+                    if (tema.PossuiGestaoRisco == true)
+                    {
+                        tema.GestaoDeRisco.IdResponsavelEtapa = tema.GestaoDeRisco.IdResponsavelInicarAcaoImediata.Value;
+                    }
 
-					tema.GestaoDeRisco.TipoRegistro = "gr";
-					tema.GestaoDeRisco.FlDesbloqueado = tema.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
-					tema.GestaoDeRisco.EProcedente = tema.PossuiGestaoRisco;
-					tema.GestaoDeRisco.IdProcesso = tema.IdProcesso;
-					//tema.GestaoDeRisco.IdProcesso = tema.Processo.IdProcesso;
+                    tema.GestaoDeRisco.TipoRegistro = "gr";
+                    tema.GestaoDeRisco.FlDesbloqueado = tema.GestaoDeRisco.FlDesbloqueado > 0 ? (byte)0 : (byte)0;
+                    tema.GestaoDeRisco.EProcedente = tema.PossuiGestaoRisco;
+                    tema.GestaoDeRisco.IdProcesso = tema.IdProcesso;
+                    //tema.GestaoDeRisco.IdProcesso = tema.Processo.IdProcesso;
 
 
-					_registroConformidadeAppServico.GestaoDeRiscoValida(tema.GestaoDeRisco, ref erros);
-				}
-				else {
-					tema.GestaoDeRisco = null;
-				}
+                    _registroConformidadeAppServico.GestaoDeRiscoValida(tema.GestaoDeRisco, ref erros);
+                }
+                else
+                {
+                    tema.GestaoDeRisco = null;
+                }
             }
         }
 

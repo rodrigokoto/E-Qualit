@@ -77,7 +77,6 @@ APP.controller.AnaliseCriticaController = {
         APP.component.FileUpload.init();
         APP.component.Mascaras.init();
 
-        this.setAndHide();
         this.setValidateForms();
         this.eventoImprimir();
 
@@ -183,8 +182,7 @@ APP.controller.AnaliseCriticaController = {
         this.editTemas();
         this.setTemaBox();
         this.delTemaCombobox();
-        this.getTodosResponsaveisPorAcaoImediata();
-        this.getProcessosPorSite();
+        
 
     },
 
