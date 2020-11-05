@@ -624,6 +624,10 @@ namespace Dominio.Servico
             {
                 return new CamposObrigatoriosAcaoCorretivaEncerrada();
             }
+            else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Anulada) 
+            {
+                return new CamposObrigatoriosAcaoCorretivaEncerrada();
+            }
 
             return null;
         }

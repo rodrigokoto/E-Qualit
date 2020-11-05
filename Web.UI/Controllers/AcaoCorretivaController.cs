@@ -432,7 +432,8 @@ namespace Web.UI.Controllers
 
                     if (acoesEfetivadas.Count == acaoCorretiva.AcoesImediatas.Count)
                     {
-                        EnviarEmailResponsavelReverificacao(acaoCorretiva);
+                        if (acaoCorretiva.StatusEtapa != 5)
+                            EnviarEmailResponsavelReverificacao(acaoCorretiva);
                     }
 
                     AtualizarDatasAgendadas(acaoCorretiva);

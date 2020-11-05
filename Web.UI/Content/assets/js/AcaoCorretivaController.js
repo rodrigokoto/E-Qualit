@@ -26,6 +26,8 @@ APP.controller.AcaoCorretivaController = {
         //Index Acao Corretiva
         this.buttonDelAcaoCorretiva = $(".del-acao-corretiva");
 
+        this.buttonAnular = $(".btn-anular")
+
         //Criar Acao Corretiva
         this.buttonSalvar = $(".btn-salvar");
 
@@ -118,6 +120,7 @@ APP.controller.AcaoCorretivaController = {
         this.setAndHide();
         this.setValidateForms();
         this.eventoImprimir();
+        this.eventoAnular();
 
         this.sendFormCriarNaoConformidade();
 
@@ -130,7 +133,66 @@ APP.controller.AcaoCorretivaController = {
         }
 
     },
+    eventoAnular: function () {
+        this.buttonAnular.on('click', function () {
 
+            var dialog = bootbox.dialog({
+                title: 'Anular Ação corretiva',
+                message: "<p>Gostaria de anular essa Ação Corretiva?.</p>",
+                size: 'small',
+                buttons: {
+                    cancel: {
+                        label: "Não",
+                        className: 'btn-danger',
+                        callback: function () {
+                            $("#painel-acao-corretiva-nao").hide();
+                            $('[name=StatusEtapa]').val('1');
+                            $('[name=formCriarNaoConformidadeDsJustificativa]').hide();
+
+                            $('.add-acao-imediata').show();
+                            $('.pnl-anular').show();
+                        }
+                    },
+
+                    ok: {
+                        label: "Sim",
+                        className: 'btn-info',
+                        callback: function () {
+                            $("#painel-acao-corretiva-nao").show();
+                            $('[name=StatusEtapa]').val('5');
+                            $('[name=formCriarNaoConformidadeDsJustificativa]').show();
+                            $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', false);
+
+                            $('.pnl-anular').hide();
+                        }
+                    }
+                }
+            });
+
+            //bootbox.confirm("Gostaria de anular essa ação corretiva?", function (result) {
+            //    if (result == true) {
+            //        $("#painel-acao-corretiva-nao").show();
+            //        $('[name=StatusEtapa]').val('5');
+            //        $('[name=formCriarNaoConformidadeDsJustificativa]').show();
+            //        $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', false);
+
+            //        $('.pnl-anular').hide();
+            //    }
+            //    else {
+            //        $("#painel-acao-corretiva-nao").hide();
+            //        $('[name=StatusEtapa]').val('1');
+            //        $('[name=formCriarNaoConformidadeDsJustificativa]').hide();
+
+            //        $('.pnl-anular').show();
+            //    }
+            //});
+
+
+
+
+
+        });
+    },
     eventoImprimir: function () {
 
         this.buttonImprimir.on('click', function () {
@@ -188,6 +250,11 @@ APP.controller.AcaoCorretivaController = {
                 break;
             case 4:
                 this.setShowAndHideStatusEtapa4();
+                $('.btn-anular').prop('disabled', true);
+                break;
+            case 5:
+                this.setShowAndHideStatusEtapa5();
+                $('.btn-anular').prop('disabled', true);
                 break;
         }
 
@@ -644,6 +711,19 @@ APP.controller.AcaoCorretivaController = {
         });
     },
 
+    setShowAndHideStatusEtapa5: function () {
+
+
+        $("#painel-acao-corretiva-nao").show();
+        $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', false);
+
+        $('.pnl-anular').hide();
+
+        this.setHideStatusEtapa4();
+        this.setDisabledStatusEtapa4(true);
+        this.setShowInputsEtapa4();
+    },
+
     //Interacao de Tela - StatusEtapa 4
     setShowAndHideStatusEtapa4: function () {
 
@@ -932,6 +1012,35 @@ APP.controller.AcaoCorretivaController = {
                 };
                 break;
             case "fluxo-05":
+                //Obj enviado no fluxo 04 de edicao
+                acoesNaoConformidadeFormCriarNaoConformidadeObj = {
+                    StatusEtapa: $('[name=StatusEtapa]').val(),
+                    DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
+                    IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                    NuRegistro: $("#form-criar-nao-conformidade-nm-registro").val(),
+                    AcoesImediatas: APP.controller.AcaoCorretivaController.getObjFormAcaoImediata(),
+                    FlEficaz: APP.controller.AcaoCorretivaController.getFoiEficaz(),
+                    Tags: $('[name=formCriarNaoConformidadeTags]').val(),
+                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
+                    IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
+                    NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
+                    IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
+                    CriticidadeAcaoCorretiva: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
+                    DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
+                    DsJustificativa: $('[name=formCriarNaoConformidadeDsJustificativa]').val(),
+                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
+                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
+                    DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                    DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
+                    EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
+                    ArquivosDeEvidenciaAux: APP.controller.AcaoCorretivaController.getAnexosEvidencias(),
+                    Causa: $('[name=formCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
+                };
+            case "fluxo-06":
                 //Obj enviado no fluxo 04 de edicao
                 acoesNaoConformidadeFormCriarNaoConformidadeObj = {
                     StatusEtapa: $('[name=StatusEtapa]').val(),
@@ -1283,7 +1392,10 @@ APP.controller.AcaoCorretivaController = {
                     //Status 3 - ReverificaÃ§Ã£o
                     _004: ['fluxo-04'],
                     //Status 4 - Salvar
-                    _005: ['fluxo-05']
+                    _005: ['fluxo-05'],
+                    //Status 5 - Anular
+                    _006: ['fluxo-06'],
+
                 };
 
                 switch (statusEtapa) {
@@ -1303,6 +1415,10 @@ APP.controller.AcaoCorretivaController = {
                     case 4:
                         naoConformidade = APP.controller.AcaoCorretivaController.getCriarNaoConformidadeObj("fluxo-05");
                         APP.controller.AcaoCorretivaController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-05");
+                        break;
+                    case 5:
+                        naoConformidade = APP.controller.AcaoCorretivaController.getCriarNaoConformidadeObj("fluxo-06");
+                        APP.controller.AcaoCorretivaController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-06");
                         break;
                 }
             }
@@ -1508,6 +1624,7 @@ APP.controller.AcaoCorretivaController = {
 
         this.buttonDestravar.on('click', function () {
 
+            $('.btn-anular').prop('disabled', false);
 
             if (perfil == '4') {
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');

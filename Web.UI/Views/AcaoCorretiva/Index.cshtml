@@ -15,161 +15,165 @@
 
 
 
-    @section scripts {
-        <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js?rnd=3")"></script>
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js?rnd=3")"></script>
 
-    }
+}
 
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="msgIconeDeleteAC" value="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_icone_delete" />
-    <div id="main">
-        <div class="content-painel">
-            <!-- Formulario Acao Corretiva -->
-            <form id="form-acaocorretiva">
-                <div class="panel panel-default" id="panel-acaocorretiva">
-                    <div class="panel-body" id="panel-form-acaocorretiva">
-                        
-                        <div class="barra-busca">
-                            <div class="col-lg-12">
-                                <table id="tb-index-acao-corretiva" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
-                                    <thead>
-                                        <tr class="bg">
-                                            <th class="w8 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_NmRegistro" />
-                                            </th>
-                                            <th class="w13 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Emissor" />
-                                            </th>
-                                            <th class="w15 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEmissao" />
-                                            </th>
-                                            <th class="w16 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEncerramento" />
-                                            </th>
-                                            <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_StatusEtapa" />
-                                            </th>
-                                            <th class="w21 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_ResponsavelImplementar" />
-                                            </th>
-                                            <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Tags" />
-                                            </th>
-                                            <th class="w7 with-input"></th>
-                                        </tr>
-                                        <tr class="bg">
-                                            <th>
-                                                @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_NmRegistro
-                                            </th>
-                                            <th>
-                                                @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Emissor
-                                            </th>
-                                            <th>
-                                                @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEmissao
-                                            </th>
-                                            <th>
-                                                @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEncerramento
-                                            </th>
-                                            <th>
-                                                @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_StatusEtapa
-                                            </th>
-                                            <th>
-                                                @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_ResponsavelImplementar
-                                            </th>
-                                            <th class="">
-                                                @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Tags
-                                            </th>
-                                            <th>
-                                                @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Acoes
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.NuRegistro)
-                                                </td>
-                                                <td>
+@Html.AntiForgeryToken()
+<input type="hidden" name="msgIconeDeleteAC" value="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_icone_delete" />
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Acao Corretiva -->
+        <form id="form-acaocorretiva">
+            <div class="panel panel-default" id="panel-acaocorretiva">
+                <div class="panel-body" id="panel-form-acaocorretiva">
 
-                                                    @Html.DisplayFor(modelItem => item.Emissor.NmCompleto)
-                                                </td>
-                                                <td>
-                                                    @item.DtEmissao.ToString(@Traducao.Resource.dateFormat)
-                                                </td>
-                                                <td>
-                                                    @if (item.DtEnceramento != null)
-                                                    {
-                                                        @item.DtEnceramento.Value.ToString(@Traducao.Resource.dateFormat)
-                                                    }
-                                                </td>
-                                                <td>
-                                                    @if (item.StatusEtapa == 1)
-                                                    {
-                                                        <p class="status-acao-imediata">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Acao_imediata</p>
-                                                    }
-                                                    else if (item.StatusEtapa == 2)
-                                                    {
-                                                        <p class="status-implementacao">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Implementacao</p>
-                                                    }
-                                                    else if (item.StatusEtapa == 3)
-                                                    {
-                                                        <p class="status-reverificacao">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Reverificacao</p>
-                                                    }
-                                                    else if (item.StatusEtapa == 4)
-                                                    {
-                                                        <p class="status-encerrada">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Encerrada</p>
-                                                    }
-                                                </td>
-												<td>
-													@if (item.StatusEtapa == 3)
-													{
-														@Html.DisplayFor(modelItem => item.ResponsavelReverificador.NmCompleto)
-													}
-													else if (item.StatusEtapa == 2)
-													{
-														@Html.DisplayFor(modelItem => item.ResponsavelImplementar.NmCompleto)
-													}
-													else
-													{
-														@Html.DisplayFor(modelItem => item.ResponsavelEtapa.NmCompleto)
-													}
-												</td>
-                                                <td class="">
-                                                    @Html.DisplayFor(modelItem => item.Tags)
-                                                </td>
-                                                <td>
-                                                    @if(
-                                                        listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.DefinirAcao)
-                                                    ||  listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.ImplementarAcao)
-                                                    ||  listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.VerificacaoDaEficacia)
-                                                    ||  listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.Editar)
-                                                    ||  ViewBag.IdPerfil != 4
-                                                    )
-                                                    {
+                    <div class="barra-busca">
+                        <div class="col-lg-12">
+                            <table id="tb-index-acao-corretiva" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
+                                <thead>
+                                    <tr class="bg">
+                                        <th class="w8 with-input">
+                                            <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_NmRegistro" />
+                                        </th>
+                                        <th class="w13 with-input">
+                                            <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Emissor" />
+                                        </th>
+                                        <th class="w15 with-input">
+                                            <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEmissao" />
+                                        </th>
+                                        <th class="w16 with-input">
+                                            <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEncerramento" />
+                                        </th>
+                                        <th class="w10 with-input">
+                                            <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_StatusEtapa" />
+                                        </th>
+                                        <th class="w21 with-input">
+                                            <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_ResponsavelImplementar" />
+                                        </th>
+                                        <th class="w10 with-input">
+                                            <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Tags" />
+                                        </th>
+                                        <th class="w7 with-input"></th>
+                                    </tr>
+                                    <tr class="bg">
+                                        <th>
+                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_NmRegistro
+                                        </th>
+                                        <th>
+                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Emissor
+                                        </th>
+                                        <th>
+                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEmissao
+                                        </th>
+                                        <th>
+                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtEncerramento
+                                        </th>
+                                        <th>
+                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_StatusEtapa
+                                        </th>
+                                        <th>
+                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_ResponsavelImplementar
+                                        </th>
+                                        <th class="">
+                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Tags
+                                        </th>
+                                        <th>
+                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Acoes
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NuRegistro)
+                                            </td>
+                                            <td>
+
+                                                @Html.DisplayFor(modelItem => item.Emissor.NmCompleto)
+                                            </td>
+                                            <td>
+                                                @item.DtEmissao.ToString(@Traducao.Resource.dateFormat)
+                                            </td>
+                                            <td>
+                                                @if (item.DtEnceramento != null)
+                                                {
+                                                    @item.DtEnceramento.Value.ToString(@Traducao.Resource.dateFormat)
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.StatusEtapa == 1)
+                                                {
+                                                    <p class="status-acao-imediata">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Acao_imediata</p>
+                                                }
+                                                else if (item.StatusEtapa == 2)
+                                                {
+                                                    <p class="status-implementacao">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Implementacao</p>
+                                                }
+                                                else if (item.StatusEtapa == 3)
+                                                {
+                                                    <p class="status-reverificacao">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Reverificacao</p>
+                                                }
+                                                else if (item.StatusEtapa == 4)
+                                                {
+                                                    <p class="status-encerrada">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Encerrada</p>
+                                                }
+                                                else if (item.StatusEtapa == 5)
+                                                {
+                                                    <p class="status-anulada">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Anulada</p>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.StatusEtapa == 3)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.ResponsavelReverificador.NmCompleto)
+                                                }
+                                                else if (item.StatusEtapa == 2)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.ResponsavelImplementar.NmCompleto)
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.ResponsavelEtapa.NmCompleto)
+                                                }
+                                            </td>
+                                            <td class="">
+                                                @Html.DisplayFor(modelItem => item.Tags)
+                                            </td>
+                                            <td>
+                                                @if (
+                                                    listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.DefinirAcao)
+                                                || listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.ImplementarAcao)
+                                                || listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.VerificacaoDaEficacia)
+                                                || listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.Editar)
+                                                || ViewBag.IdPerfil != 4
+                                                )
+                                                {
 
                                                     <a href="@Url.Action("Editar", "AcaoCorretiva", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
                                                         <i class="fa @(item.StatusEtapa == 4 ? "fa-search" : "fa-pencil")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                     </a>
-                                                    }
+                                                }
 
-                                                    @if (ViewBag.UltimoRegistro == item.NuRegistro && listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.Excluir))
-                                                    {
-                                                        <a href="#" class="icon-cliente trash-color del-acao-corretiva" data-id-acao-corretiva="@item.IdRegistroConformidade">
-                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                        </a>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                                @if (ViewBag.UltimoRegistro == item.NuRegistro && listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.Excluir))
+                                                {
+                                                    <a href="#" class="icon-cliente trash-color del-acao-corretiva" data-id-acao-corretiva="@item.IdRegistroConformidade">
+                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div>
-            </form>
-        </div>
+            </div>
+            <div>
+        </form>
     </div>
+</div>

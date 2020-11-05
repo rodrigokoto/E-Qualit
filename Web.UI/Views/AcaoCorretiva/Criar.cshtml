@@ -227,7 +227,7 @@ else
                     <div class="barra-busca">
                         <div class="row">
                             <!-- Data Descricao Acao -->
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <div class="form-group">
                                     <label for="form-acaoimediata-dt-descricao-acao">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DtDescricaoAcao</label>
                                     <br />
@@ -241,8 +241,14 @@ else
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <div class="form-group pull-right">
+                                    <button type="button" id="btn-anular" class="btn btn-primary btn-anular">Anular</button>
+                                </div>
+
+                            </div>
                             <!-- Painel Acao Imediata -->
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pnl-anular">
                                 <table id="tb-acao-imediata" class="display dataTable no-footer dtr-inline table-bordered table" style="">
                                     <thead class="titulo-tabela">
                                         <tr class="bg" role="row">
@@ -514,7 +520,7 @@ else
                                 }
                             </div>
                             <!-- Responsavel Reverificacao -->
-                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 pnl-anular">
                                 <div class="form-group">
                                     <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Responsavel_reverificacao</label>
                                     <select id="form-acaoimediata-responsavel-reverificacao" name="formAcaoImadiataResponsavelReverificacao" class="form-control"
@@ -528,7 +534,7 @@ else
                                 </div>
                             </div>
                             <!-- Foi Eficaz -->
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 pnl-anular">
                                 <div class="form-group">
                                     <label>@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Foi_eficaz</label>
                                     <div class="">
@@ -562,6 +568,19 @@ else
                                 </div>
                             </div>
                         }
+                        <!-- Justificativa -->
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="painel-acao-corretiva-nao" style="display: none">
+                            <div class="form-group">
+                                <label for="form-criar-nao-conformidade-ds-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_JustificativaControle</label>
+                                <textarea id="form-criar-nao-conformidade-ds-justificativa" name="formCriarNaoConformidadeDsJustificativa" class="form-control"
+                                          placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_Justificativa"
+                                          data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_Justificativa"
+                                          data-msg-minlength="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_minlength_Justificativa."
+                                          data-msg-verifyTableAcaoImediata=""
+                                          value="" rows="5">@Model.DsJustificativa</textarea>
+                            </div>
+                        </div>
+
                         @if (Model.StatusEtapa == 4)
                         {
                             <div class="row">

@@ -5,6 +5,7 @@
         AcaoImediata =1,
         Implementacao,
         Reverificacao,
-        Encerrada
+        Encerrada,
+        Anulada
     }
 }

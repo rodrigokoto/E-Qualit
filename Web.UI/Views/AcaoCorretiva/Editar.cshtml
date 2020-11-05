@@ -115,6 +115,15 @@
                                            value="@Model.NuRegistro" disabled />
                                 </div>
                             </div>
+                            @if (Model.StatusEtapa != 4)
+                            {
+                                <div class="col-lg-offset-5 col-lg-2 col-md-offset-4 col-md-4 col-sm-12 col-xs-12 ">
+                                    <div class="form-group">
+                                        <input type="button" id="form-criar-nao-conformidade-nm-registro" name="btn_Anular" class="form-control"
+                                               value="Anular" />
+                                    </div>
+                                </div>
+                            }
                         </div>
                         <div class="row">
                             <!-- Descricao Registro -->
@@ -293,7 +302,7 @@
                                                         <input type='text' name="formAcaoImadiataTbDtPrazoImplementacao" id="form-acaoimediata-tb-dt-prazo-implementacao" class="form-control data datepicker"
                                                                placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Prazo_implementacao"
                                                                data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Prazo_implementacao"
-                                                               value="@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)  />
+                                                               value="@acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)    />
                                                         <span class="input-group-addon">
                                                             <i class="fa fa-calendar" teste="" aria-hidden="true"></i>
                                                         </span>

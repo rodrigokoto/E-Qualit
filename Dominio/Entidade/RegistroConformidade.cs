@@ -141,5 +141,10 @@ namespace Dominio.Entidade
         {
             return StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao;
         }
+
+        public bool OStatusAnulada() 
+        {
+            return StatusEtapa == (byte)EtapasRegistroConformidade.Anulada;
+        }
     }
 }
