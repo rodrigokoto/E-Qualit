@@ -88,7 +88,7 @@
                                                     </td>
                                                     <td>
 
-                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Editar).Count() > 0 || ViewBag.IdPerfil != 4)
+                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Visualizar).Count() > 0 || ViewBag.IdPerfil != 4)
                                                         {
                                                             <a href="@Url.Action("Exibir", "Licenca", new { id = licenca.IdLicenca})" class="edit icon-cliente  editar-color">
                                                                 <i class="fa fa-search" )" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
