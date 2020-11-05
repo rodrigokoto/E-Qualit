@@ -105,7 +105,7 @@
                                                         @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Excluir).Count() > 0 || ViewBag.IdPerfil != 4)
                                                         {
 
-                                                            <a href="#" class="excluir icon-cliente trash-color tb-Licenca-excluir" data-id="@licenca.IdLicenca">
+                                                            <a href="#" class="excluir icon-cliente trash-color " data-id="@licenca.IdLicenca">
                                                                 <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"
                                                                    data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
                                                             </a>

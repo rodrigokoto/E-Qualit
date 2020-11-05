@@ -4,6 +4,37 @@
 | Controlador Licenca
 |--------------------------------------------------------------------------
 */
+
+
+  $('.excluir').on('click', function (event) {
+        event.preventDefault();
+        var idLicenca = $(this).data('id');
+
+        bootbox.dialog({
+            message: _options.MsgDesejaExcluirRegistro,
+            onEscape: true,
+            backdrop: true,
+            buttons: {
+
+                Cancelar: {
+                    label: 'Cancelar',
+                    className: 'btn-primary',
+                    callback: function (e) {
+                        e.preventDefault;
+                        bootbox.hideAll();
+                    }
+                },
+                Ok: {
+                    label: 'Ok',
+                    className: 'btn-primary',
+                    callback: function (e) {
+                        APP.controller.LicencaController.getMsgIconeExcluir(idLicenca);
+                    }
+                }
+            }
+        });
+    });
+
 var patternValidaData = /^(((0[1-9]|[12][0-9]|3[01])([-.\/])(0[13578]|10|12)([-.\/])(\d{4}))|(([0][1-9]|[12][0-9]|30)([-.\/])(0[469]|11)([-.\/])(\d{4}))|((0[1-9]|1[0-9]|2[0-8])([-.\/])(02)([-.\/])(\d{4}))|((29)(\.|-|\/)(02)([-.\/])([02468][048]00))|((29)([-.\/])(02)([-.\/])([13579][26]00))|((29)([-.\/])(02)([-.\/])([0-9][0-9][0][48]))|((29)([-.\/])(02)([-.\/])([0-9][0-9][2468][048]))|((29)([-.\/])(02)([-.\/])([0-9][0-9][13579][26])))$/;
 
 APP.controller.LicencaController = {
@@ -175,39 +206,45 @@ APP.controller.LicencaController = {
 
     },
 
-    delLicenca: function () {
+     
+    
+    
+  
+ 
 
+    getMsgIconeExcluir: function (_idLicenca) {
+        var erro = "";
+        var idSite = $('[name=IdSite]').val();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: '/Licenca/Excluir?id=' + _idLicenca,
+            beforeSend: function () {
+                APP.component.Loading.showLoading();
+            },
+            success: function (result) {
+                if (result.StatusCode == 200) {
+                    window.location.href = "/Licenca/Index/";
+           
 
-        tabelaLicenca = $('#tb-Licenca').DataTable();
-
-        this.buttonDelLicenca.unbind("click");
-        this.buttonDelLicenca.bind('click', function (event) {
-            event.preventDefault();
-
-            var IdLicenca = $(this).data('id');
-            var $rowAtual = $(this).closest('tr');
-
-            bootbox.confirm(_options.MsgDesejaExcluirRegistro, function (result) {
-                if (result) {
-                    $.ajax({
-                        url: "/Licenca/Excluir/",
-                        dataType: 'JSON',
-                        type: 'POST',
-                        data: { id: IdLicenca },
-                        success: function (data) {
-                            if (data.StatusCode == 200) {
-                                tabelaLicenca.row($rowAtual).remove().draw();
-                                APP.component.Loading.hideLoading();
-                                bootbox.alert("Licença excluida com sucesso");
-                            }
-                        },
-                        beforeSend: function () {
-                            APP.component.Loading.showLoading();
-                        },
-
-                    });
+                } else if (result.StatusCode == 505) {
+                    erro = APP.component.ResultErros.init(result.Erro);
+                    bootbox.alert(erro);
+                } else if (result.StatusCode == 500) {
+                    erro = APP.component.ResultErros.init(result.Erro);
+                    bootbox.alert(erro);
                 }
-            });
+
+            },
+            error: function (result) {
+                erro = APP.component.ResultErros.init(result.Erro);
+                bootbox.alert(erro);
+            },
+            complete: function (result) {
+                APP.component.Loading.hideLoading();
+                bootbox.alert("Licença excluida com sucesso");
+
+            }
         });
     },
 
