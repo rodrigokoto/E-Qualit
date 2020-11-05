@@ -10508,7 +10508,7 @@ namespace Traducao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.9.6.5.
+        ///   Looks up a localized string similar to 5.0.
         /// </summary>
         public static string Versao {
             get {
