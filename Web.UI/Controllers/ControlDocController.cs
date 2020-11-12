@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using DAL.Context;
 using System.Activities.Debugger;
 using System.Data.Entity;
+using System.IO;
 
 namespace Web.UI.Controllers
 {
@@ -153,6 +154,22 @@ namespace Web.UI.Controllers
             return View("Header");
         }
 
+        public static string ImageToBase64(string _imagePath)
+        {
+            string _base64String = null;
+
+            using (System.Drawing.Image _image = System.Drawing.Image.FromFile(_imagePath))
+            {
+                using (MemoryStream _mStream = new MemoryStream())
+                {
+                    _image.Save(_mStream, _image.RawFormat);
+                    byte[] _imageBytes = _mStream.ToArray();
+                    _base64String = Convert.ToBase64String(_imageBytes);
+
+                    return "data:image/jpg;base64," + _base64String;
+                }
+            }
+        }
 
         [HttpPost]
         public ActionResult PDFList()
@@ -163,6 +180,7 @@ namespace Web.UI.Controllers
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.FlStatus = (int)StatusDocumento.Aprovado;
+
 
             List<DocDocumento> listaResult = _documentoAppServico.ListaDocumentosAprovadosMaiorRevisao(Util.ObterSiteSelecionado(), null).ToList();
 
@@ -178,6 +196,8 @@ namespace Web.UI.Controllers
                 docDocumentos = listaResult,
                 IsImpressaoControlada = controlada
             };
+
+            ViewBag.Controlada = controlada;
 
             string header = string.Empty;
 
@@ -209,6 +229,10 @@ namespace Web.UI.Controllers
 
 
             };
+
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content/assets_src/CNC.png");
+
+            var b64bg = ImageToBase64(path);
 
             ViewBag.CopiaControlada = controlada;
 
@@ -299,12 +323,23 @@ namespace Web.UI.Controllers
                 PageSize = Size.A4,
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Documento.pdf",
-                CustomSwitches = customSwitches
+                CustomSwitches = customSwitches,
+
 
 
 
             };
+            string path = string.Empty;
 
+            if (controlada)
+            {
+                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content\assets_src\imagens\CC.png");
+            }
+            else {
+                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content\assets_src\imagens\CNC.png");
+            }
+            var b64bg = ImageToBase64(path);
+            ViewData["background"] = b64bg;
             ViewBag.CopiaControlada = controlada;
 
             return pdf;
@@ -1574,8 +1609,9 @@ namespace Web.UI.Controllers
             List<DocRegistro> registros = dest.Registros.Where(s => !source.Registros.Any(a => s.IdDocRegistro == a.IdDocRegistro)).ToList();
             registros.ForEach(f => _documentoAppServico.RemoverGenerico(f));
 
-            dest.Registros.ForEach(x => {
-                
+            dest.Registros.ForEach(x =>
+            {
+
                 var itemAtualizar = source.Registros.Where(y => y.IdDocRegistro == x.IdDocRegistro).FirstOrDefault();
 
                 x.Armazenar = itemAtualizar.Armazenar;
@@ -1587,9 +1623,9 @@ namespace Web.UI.Controllers
                 x.IdDocRegistro = itemAtualizar.IdDocRegistro;
                 x.IdDocumento = itemAtualizar.IdDocumento;
 
-            
+
             });
-            
+
 
             //Indicadores
             if (source.Indicadores != null)
@@ -1616,7 +1652,7 @@ namespace Web.UI.Controllers
             List<DocRisco> riscos = dest.DocRisco.Where(s => !source.DocRisco.Any(a => s.IdDocRisco == a.IdDocRisco)).ToList();
             riscos.ForEach(f => _documentoAppServico.RemoverGenerico(f));
 
-           
+
             if (source.DocExterno != null && !string.IsNullOrEmpty(source.DocExterno.Anexo.ArquivoB64))
             {
                 if (dest.DocExterno == null || dest.DocExterno.IdDocExterno == 0)

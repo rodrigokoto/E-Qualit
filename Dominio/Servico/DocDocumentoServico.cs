@@ -936,7 +936,8 @@ namespace Dominio.Servico
             }
             else
             {
-                return string.Empty;
+                saida = 1;
+                return saida.ToString();
             }
         }
     }

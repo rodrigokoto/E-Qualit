@@ -262,7 +262,6 @@ namespace Web.UI.Controllers
 
         }
 
-
         public ActionResult Editar(int id)
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
@@ -310,6 +309,50 @@ namespace Web.UI.Controllers
             {
                 return View("Criar", acaoCorretiva);
             }
+
+        }
+
+
+        public ActionResult Exibir(int id)
+        {
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.UsuarioLogado = Util.ObterUsuario();
+            ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
+            ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
+            ViewBag.IdCliente = Util.ObterClienteSelecionado();
+
+            var acaoCorretiva = _registroConformidadesAppServico.GetById(id);
+
+            acaoCorretiva.ArquivosDeEvidenciaAux.AddRange(acaoCorretiva.ArquivosDeEvidencia.Select(x => x.Anexo));
+
+            if (acaoCorretiva.AcoesImediatas.Count > 0)
+            {
+                if (acaoCorretiva.AcoesImediatas.Any(x => x.ArquivoEvidencia.Count > 0))
+                {
+                    var listaAnexo = acaoCorretiva.AcoesImediatas.Where(x => x.ArquivoEvidencia.Count > 0);
+
+                    listaAnexo.ToList().ForEach(x =>
+                    {
+                        x.ArquivoEvidenciaAux = x.ArquivoEvidencia.FirstOrDefault().Anexo;
+                    });
+                }
+            }
+
+            if (acaoCorretiva.IdNuRegistroFilho != null)
+            {
+                ViewBag.AcaoCorretiva = _registroConformidadesAppServico.GetAll()
+                    .FirstOrDefault(x => x.IdSite == acaoCorretiva.IdSite && x.TipoRegistro == "ac" && x.NuRegistro == acaoCorretiva.IdNuRegistroFilho);
+            }
+            ViewBag.IdProcesso = acaoCorretiva.IdProcesso;
+            ViewBag.StatusEtapa = acaoCorretiva.StatusEtapa;
+
+
+            //if ((acaoCorretiva.StatusRegistro == 0) && (acaoCorretiva.IdEmissor == Util.ObterCodigoUsuarioLogado()))
+            //{
+            //    ViewBag.ScriptCall = "sim";
+            //}
+
+            return View("Exibir", acaoCorretiva);
 
         }
 

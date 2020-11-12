@@ -1,0 +1,163 @@
+﻿@model  Web.UI.Models.ArquivoAnexoViewModel
+
+@* dialogo do anexo
+    nao pode estar no meio do HTML principal, tem que estar fora do div main
+*@
+
+<script>
+    function openBase64InNewTab(data, mimeType) {
+        var byteCharacters = atob(data);
+        var byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        var byteArray = new Uint8Array(byteNumbers);
+        var file = new Blob([byteArray], { type: mimeType + ';base64' });
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+    }
+</script>
+
+<div id="modal-rai@(Model.IdentificadorInicial)" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close closeCargos2" data-dismiss="modal">
+                    <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                </button>
+                <h4 class="modal-title">@(Model.ModalTittle)</h4>
+            </div>
+
+            <div class="modal-body rai-modal-body droppableanexo">
+                @*este botao é para saber se está desabiltiado oou nao (usado na nao acoa imediata da acao corretiva)*@
+                <button type="button" class="botaouploadarquivos" style="display: none;"></button>
+
+
+                @* botao upload novo, fica no topo *@
+                @if (Model.PodeAnexar)
+                 {
+                    <div class="upload-arq upload-arq-rai raizdrop" style="text-align: left">
+                        
+                        <div class="templatenovoarquivo" style="display: none">
+                            <div class="upload-arq upload-arq-rai uploadrai@(Model.IdentificadorInicial)" style="text-align: left">
+                                @if (Model.PodeAnexar)
+                                {
+                                    <a href="#" class="btn-delete2-rai linksemcor latalixo"
+                                       data-spannroarquivos="raiNroArquivos@(Model.IdentificadorInicial)"></a>
+                                }
+                                <span class="downrai linksemcor">Visualizar : <span class="noemarquivo"></span></span>
+                                <input type="hidden" name="IdAnexo" value="0" />
+                                <input type="hidden" name="NomeAnexo" value="" />
+                                <input type="hidden" name="ApagarAnexo" value="0" />
+                                <input type="file" name="ConteudoAnexo" class="anexo-plai" data-msg-required="" data-b64="">
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+
+                @if (Model.AnexosLista != null)
+                {
+                    foreach (var anexo in Model.AnexosLista)
+                    {
+                        @*
+                            cada arquivo estara agrupado por classe, para montar os dados precisa ler por classe e depois os itens dentro dessa classe
+                        *@
+            <div class="upload-arq upload-arq-rai uploadrai@(Model.IdentificadorInicial)" style="text-align: left">
+                @if (Model.PodeAnexar)
+                {
+                    <a href="#" class="btn-delete2-rai linksemcor latalixo"
+                       data-spannroarquivos="raiNroArquivos@(Model.IdentificadorInicial)"></a>
+                }
+                @{
+                    var ArquivoB64 = String.Format("data:application/" + (anexo.AnexoDados.Arquivo != null ? anexo.AnexoDados.Extensao : "") + ";base64," + (anexo.AnexoDados.Arquivo != null ? Convert.ToBase64String(anexo.AnexoDados.Arquivo) : ""));
+
+
+                    switch (anexo.AnexoDados.Extensao)
+                    {
+                        case ".png":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/png')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".PNG":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/png')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+
+                        case ".pdf":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/pdf')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".jpg":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/jpg')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".JPG":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/jpg')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".xls":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-excel')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".xlsx":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-excel')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".doc":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/msword')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".DOC":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/msword')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".docx":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/msword')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".DOCX":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/msword')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".txt":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'text/plain')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".ppt":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-powerpoint')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".PPT":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-powerpoint')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".pptx":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-powerpoint')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".PPTX":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/vnd.ms-powerpoint')">Visualizar : @anexo.AnexoDados.Nome</a>
+                            break;
+                        default:
+                            break;
+
+                    }
+
+                    if (anexo.AnexoDados.Extensao == ".pdf")
+                    {
+
+
+                    }
+
+                }
+
+
+                @*<a href="@ArquivoB64" class="downrai linksemcor" target="_blank" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">Visualizar : @anexo.AnexoDados.Nome</a>*@
+                <input type="hidden" name="IdAnexo" value="@anexo.AnexoDados.IdAnexo" />
+                <input type="hidden" name="NomeAnexo" value="@anexo.AnexoDados.Nome" />
+                <input type="hidden" name="ApagarAnexo" value="0" />
+                <input type="hidden" name="IdArquivoPlaiAnexo" value="@anexo.IdChave1" />
+                <input type="hidden" name="IdPlai" value="@anexo.IdChave2" />
+                <input type="file" class="anexo-plai"
+                       data-msg-required=""
+                       data-b64="@(anexo.AnexoDados.Arquivo != null && anexo.AnexoDados.IdAnexo > 0 ? Convert.ToBase64String(anexo.AnexoDados.Arquivo) : "")">
+            </div>
+                    }
+                }
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+

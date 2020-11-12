@@ -1041,7 +1041,10 @@
     <Content Include="Content\assets_src\imagens\bandeira-es-es.png" />
     <Content Include="Content\assets_src\imagens\bandeira-pt-br.png" />
     <Content Include="Content\assets_src\imagens\bg.jpg" />
+    <Content Include="Content\assets_src\imagens\CC.png" />
     <Content Include="Content\assets_src\imagens\cliente-padrao.png" />
+    <Content Include="Content\assets_src\imagens\CNC.png" />
+    <Content Include="Content\assets_src\imagens\CopiaControlada.png" />
     <Content Include="Content\assets_src\imagens\logo-equalit-bg.png" />
     <Content Include="Content\assets_src\js\components\_print.min.js" />
     <Content Include="Content\assets_src\js\components\_dragAndDrop.js" />
@@ -1922,6 +1925,8 @@
     <Content Include="Views\Home\BloqueioUnauthorized.cshtml" />
     <Content Include="Views\ControlDoc\ListaMestra.cshtml" />
     <Content Include="Views\ControlDoc\PDFList.cshtml" />
+    <Content Include="Views\Shared\Anexo\_ModalAnexoVisualizar.cshtml" />
+    <Content Include="Views\AcaoCorretiva\Exibir.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

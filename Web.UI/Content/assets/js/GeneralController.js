@@ -37,7 +37,7 @@ APP.controller.General = {
         }
 
         //AcaoCorretiva
-        if (page == "CriarAcaoCorretiva" || page == "IndexAcaoCorretiva") {
+        if (page == "CriarAcaoCorretiva" || page == "IndexAcaoCorretiva" || page == "ExibirAcaoCorretiva") {
             this.acaoCorretivaController();
         }
 

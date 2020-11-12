@@ -323,13 +323,70 @@ APP.controller.ControlDocController = {
 
         this.buttonImprimirDocumento.unbind('click');
         this.buttonImprimirDocumento.bind('click', function () {
-            $(".usuarioDestinoCopiaControlada").show();
-            event.preventDefault();
-            APP.controller.ControlDocController.models.idDocumento = $(this).data("iddocumento");
             var perfil = $(this).data("perfil");
             var $rowAtual = $(this).parents("tr");
+            APP.controller.ControlDocController.models.idDocumento = $(this).data("iddocumento");
 
-            APP.controller.ControlDocController.solicitarImpressao(perfil, APP.controller.ControlDocController.models.idDocumento);
+
+            var dialog = bootbox.dialog({
+                title: 'Impressão de documento',
+                message: "<p>Deseja imprimir como cópia controlada.</p>",
+                size: 'medium',
+                buttons: {
+                    cancel: {
+                        label: "Não",
+                        className: 'btn-info',
+                        callback: function () {
+
+                            $(".usuarioDestinoCopiaControlada").show();
+                            event.preventDefault();
+                             
+                            APP.controller.ControlDocController.solicitarImpressao(perfil, APP.controller.ControlDocController.models.idDocumento);
+
+                        }
+                    },
+                    ok: {
+                        label: "Sim",
+                        className: 'btn-info',
+                        callback: function () {
+                            var modal = bootbox.dialog({
+                                title: "Impressão de Documentos",
+                                message: $(".modal-impressao").html(),
+                                buttons: [
+                                    {
+                                        label: _options.BtnImprimir,
+                                        className: "btn btn-primary pull-right",
+                                        callback: function () {
+                                            APP.controller.ControlDocController.imprimir(APP.controller.ControlDocController.models.idDocumento, true);
+                                        }
+                                    },
+                                    {
+                                        label: _options.botao_cancelar,
+                                        className: "btn btn-default pull-right",
+                                        callback: function () {
+                                            modal.modal("hide");
+                                        }
+                                    }
+                                ],
+                                show: false,
+                                onEscape: function () {
+                                    modal.modal("hide");
+                                }
+                            });
+                            modal.modal("show");
+                        }
+                    }
+                }
+            });
+
+
+            //$(".usuarioDestinoCopiaControlada").show();
+            //event.preventDefault();
+            //APP.controller.ControlDocController.models.idDocumento = $(this).data("iddocumento");
+            //var perfil = $(this).data("perfil");
+            //var $rowAtual = $(this).parents("tr");
+
+            //APP.controller.ControlDocController.solicitarImpressao(perfil, APP.controller.ControlDocController.models.idDocumento);
 
         });
     },

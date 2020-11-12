@@ -157,6 +157,12 @@
                                                         <i class="fa @(item.StatusEtapa == 4 ? "fa-search" : "fa-pencil")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                     </a>
                                                 }
+                                                @if (item.StatusEtapa == 4)
+                                                {
+                                                <a href="@Url.Action("Exibir", "AcaoCorretiva", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
+                                                    <i class="fa fa-search" )" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
+                                                </a>
+                                                }
 
                                                 @if (ViewBag.UltimoRegistro == item.NuRegistro && listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.Excluir))
                                                 {

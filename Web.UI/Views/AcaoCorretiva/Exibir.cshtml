@@ -1,0 +1,605 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@model Dominio.Entidade.RegistroConformidade
+
+@section Metas {
+    <meta name="page" content="ExibirAcaoCorretiva" />
+}
+
+
+@section scripts {
+
+
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/AcaoCorretivaController.js?rnd=4")"></script>
+    @*<script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>*@
+    @*<script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>*@
+
+
+}
+
+@{
+    ViewBag.Title = "Ação Corretiva";
+    //Layout = null;
+
+
+    var listaEvidencias = new List<Anexo>();
+
+    if (Model.ArquivosDeEvidenciaAux.Count > 0)
+    {
+        Model.ArquivosDeEvidenciaAux.ToList().ForEach(evidencia =>
+        {
+            listaEvidencias.Add(new Anexo
+            {
+                IdAnexo = evidencia.IdAnexo,
+                Nome = evidencia.Nome,
+                Extensao = evidencia.Extensao,
+                ArquivoB64 = String.Format("data:application/" + evidencia.Extensao + ";base64," + Convert.ToBase64String(evidencia.Arquivo)),
+            });
+        });
+
+    }
+
+    var eAdminOuCordenador = (ViewBag.IdPerfil != 4) ? true : false;
+    var eResponsavel = Model.IdEmissor != ViewBag.IdUsuarioLogado ? false : true;
+    var eDestravado = Model.FlDesbloqueado == 0 ? false : true;
+    var eDisabled = (eDestravado && (eResponsavel || eAdminOuCordenador)) ? null : "disabled";
+    var eResponsavellInicarAcaoImediata = Model.IdResponsavelInicarAcaoImediata != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario) ? false : true;
+    var eResponsavelPorAcaoImediata = Model.AcoesImediatas.Any(x => x.IdResponsavelImplementar != Convert.ToInt32(ViewBag.UsuarioLogado.IdUsuario)) ? false : true;
+
+    var eDisabledIdResponsavelIniciarAcaoImediata = (eDestravado && (eResponsavellInicarAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+    var eDisabledEditarAcaoImediata = (eDestravado && (eResponsavelPorAcaoImediata || eAdminOuCordenador)) ? null : "disabled";
+
+    var temAcaoCorretiva = ViewBag.AcaoCorretiva != null ? ViewBag.AcaoCorretiva : null;
+    var disabled = temAcaoCorretiva != null ? "disabled" : null;
+
+    var nuRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.NuRegistro : null;
+    var descricaoRegistro = temAcaoCorretiva != null ? temAcaoCorretiva.DescricaoRegistro : null;
+    var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
+    var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
+
+    <script type="text/javascript">
+        var destravar = @ViewBag.Destravar;
+        var perfil = '@ViewBag.IdPerfil';
+        var IdRegistro = @Model.IdRegistroConformidade;
+    </script>
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @Styles.Render("~/Content/assets/css")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+</head>
+<body style="background:white !important">
+    <div class="container" style="width:100%;padding-left: 0px;padding-right: 0px;">
+
+
+
+
+        <style>
+
+            .caixa {
+                font-family: 'Abel-Regular', sans-serif !important;
+                width: 100%;
+                padding: 12px 10px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+                background: #fff;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .tabela-check {
+                background-color: white !important;
+            }
+
+            #main {
+                padding-bottom: 120px !important;
+                max-height: 90vh !important;
+                overflow: auto !important;
+            }
+
+            #menu-graph {
+                /*padding-top: 4px;*/
+                padding-left: 0px;
+            }
+
+            /*.ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }*/
+        </style>
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        @*Inicio -----*@
+        <div class="top3" id="main1" style="top: 140px; ">
+            <div id="main">
+                <div class="content-painel">
+                    <!-- hidden -->
+                    <input type="hidden" name="Destravar" value="@ViewBag.Destravar" />
+                    <input type="hidden" name="StatusEtapa" value="@ViewBag.StatusEtapa" />
+                    <input type="hidden" name="labelDesejaCriarNcDtEmissaoAnteriorAUltima" value="@Traducao.Resource.NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" />
+                    <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
+                    <input type="hidden" name="IdSite" id="nao-conformidade-site" value="@ViewBag.IdSite" />
+                    <input type="hidden" name="TipoRegistro" value="nc" />
+                    <input type="hidden" name="IdNaoConformidade" value="" />
+                    <input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
+                    <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
+                    <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
+                    <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+                    <input type="hidden" name="IdNaoConformidade" class="IdNaoConformidade" value="@Model.IdRegistroConformidade" />
+                    <input type="hidden" name="IdAcaoCorretiva" class="IdAcaoCorretiva" value="@Model.IdRegistroConformidade" />
+                    <div class="row" style="background-color: white;padding-left: 20px;width:100%">
+                        <!-- Formulario Nao Conformidade -->
+                        <form id="form-criar-naoconformidade">
+                            <div id="panel-naoconformidade">
+                                <div>
+                                    <div>
+                                        <h4>@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_titulo_identificacao</h4>
+                                    </div>
+                                </div>
+
+                                <div class="caixa">
+
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <!-- Numero Registro -->
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-nm-registro">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_NmRegistro</label>
+                                                <br />
+                                                @Model.NuRegistro
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="col-sm-2">
+                                            <!-- Data de Emissao -->
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtEmissao</label>
+                                                    <br />
+                                                    @Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Processo -->
+                                        <div class="col-sm-2">
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Processo</label>
+                                                    @Model.Processo.Nome
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Emissor -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdEmissor</label>
+                                                <br />
+                                                @Model.Emissor.NmCompleto
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <!-- E Auditoria -->
+                                            <div>
+                                                <div class="form-group">
+                                                    <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_EAuditoria</label>
+                                                    <div class="">
+                                                        @(Model.ENaoConformidadeAuditoria == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- Tipo Nao Conformidade -->
+                                        @*<div class="col-sm-2">
+                                <div class="form-group">
+                                    <label for="form-criar-nao-conformidade-tipo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tipo</label>
+                                    <br />
+                                    @Model.TipoNaoConformidade.Descricao
+                                </div>
+                            </div>*@
+
+
+
+                                        <!-- Responsavel -->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_definir_AC</label>
+                                                <br />
+                                                @if (Model.ResponsavelInicarAcaoImediata != null)
+                                                {
+                                                    @Model.ResponsavelInicarAcaoImediata.NmCompleto
+
+                                                }
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Tags -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags</label>
+                                                <br />
+                                                @Model.Tags
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Descricao Registro -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DsRegistro</label>
+                                                <br />
+                                                @Model.DescricaoRegistro
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- Arquivo de Evidencia -->
+                                        @*<div class="col-lg-10 col-md-8 col-sm-12 col-xs-12">*@
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="form-cria-cliente-contrato" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Arquivo_evidencia</label>
+                                                <br />
+                                                <ul class="@(Model.IdRegistroConformidade > 0 ? "  4," : null)">
+                                                    @if (listaEvidencias.Count > 0)
+                                                    {
+                                                        foreach (var evidencia in listaEvidencias)
+                                                        {
+                                                            <li>
+                                                                <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome" disabled>@evidencia.Nome</a>
+                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@evidencia.Nome">
+                                                                <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@evidencia.IdAnexo">
+                                                            </li>
+
+                                                        }
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </form>
+
+                        <!-- Formulario Acao Imediata -->
+                        <form id="form-acaoimediata">
+                            <div id="panel-acaoimediata">
+
+
+                                <div>
+                                    <div>
+                                        <h4>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Acao_imediata</h4>
+                                    </div>
+                                </div>
+                                <div class="caixa">
+                                    <div id="panel-form-acaoimediata">
+                                        <div>
+                                            <div class="row">
+                                                <!-- E Procedente -->
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_EProcedente</label>
+                                                        <div class="">
+                                                            @(Model.EProcedente == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Data Descricao Acao -->
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label for="form-acaoimediata-dt-descricao-acao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DtDescricaoAcao</label>
+                                                        <br />
+                                                        @(Model.DtDescricaoAcao.HasValue ? Model.DtDescricaoAcao.Value.ToString(@Traducao.Resource.dateFormat) : "")
+                                                    </div>
+                                                </div>
+
+
+                                                @if (!string.IsNullOrEmpty(Model.DescricaoAcao))
+                                                {
+
+                                                    <!-- Justificativa -->
+                                                    <div>
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_JustificativaControle</label>
+                                                                <br />
+                                                                @Model.DescricaoAcao
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                }
+
+                                                <div>
+                                                    <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                            <label for="form-acaoimediata-Status" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_StatusEtapa</label>
+                                                            <br />
+                                                            @if (@Model.StatusEtapa == 1)
+                                                            {
+                                                                <p class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Acao_imediata</p>
+                                                            }
+                                                            else if (@Model.StatusEtapa == 2)
+                                                            {
+                                                                <p class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Implementacao</p>
+                                                            }
+                                                            else if (@Model.StatusEtapa == 3)
+                                                            {
+                                                                <p class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Reverificacao</p>
+                                                            }
+                                                            else if (@Model.StatusEtapa == 4)
+                                                            {
+                                                                <p class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Encerrada</p>
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            @if (Model.EProcedente == true)
+                                            {
+                                                <div>
+
+                                                    <div class="row">
+                                                        <!-- Painel Acao Imediata -->
+                                                        <div>
+                                                            <div class="form-group">
+                                                                <table id="tb-acao-imediata" class="table table-striped table-bordered table-list" style="" name="formAcaoImadiata">
+                                                                    <thead>
+                                                                        <tr role="row">
+                                                                            <th class="w20">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Acao_descricao</th>
+                                                                            <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Prazo_implementacao</th>
+                                                                            <th class="w10">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Responsavel_implementar</th>
+                                                                            <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Efetiva_implementacao</th>
+                                                                            <th class="w7">Observação</th>
+                                                                            <th class="w7">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Arquivo_evidencia</th>
+                                                                            <th class="w7"></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @{var count = 0;}
+                                                                        @foreach (var acaoImediata in Model.AcoesImediatas)
+                                                                        {
+                                                                            count++;
+                                                                            <tr role="row" class="odd">
+                                                                                <!-- Descricao -->
+                                                                                <td>
+
+                                                                                    @acaoImediata.Descricao
+                                                                                </td>
+                                                                                <!-- Prazo Implementacao -->
+                                                                                <td>
+                                                                                    @acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)
+                                                                                </td>
+                                                                                <!-- Responsavel Implementar -->
+                                                                                <td>
+                                                                                    @acaoImediata.ResponsavelImplementar.NmCompleto
+                                                                                </td>
+                                                                                <!-- Data Efetiva Implementacao -->
+                                                                                <td>
+                                                                                    @(acaoImediata.DtEfetivaImplementacao != null ? acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat) : null)
+                                                                                </td>
+                                                                                <!-- Observação-->
+                                                                                <td>
+                                                                                    @(acaoImediata.Observacao)
+                                                                                </td>
+                                                                                <!-- Arquivo de Evidencia -->
+                                                                                <td>
+                                                                                    @{
+                                                                                        foreach (var acaoImediataArquivoEvidencia in acaoImediata.ArquivoEvidencia)
+                                                                                        {
+                                                                                            var base64 = "";
+                                                                                            var dataB64 = "";
+                                                                                            var nomeAnexo = "";
+                                                                                            var extensao = "";
+                                                                                            var idAnexo = 0;
+                                                                                            idAnexo = acaoImediataArquivoEvidencia.Anexo.IdAnexo;
+                                                                                            extensao = acaoImediataArquivoEvidencia.Anexo.Extensao;
+                                                                                            nomeAnexo = acaoImediataArquivoEvidencia.Anexo.Nome;
+                                                                                            base64 = Convert.ToBase64String(acaoImediataArquivoEvidencia.Anexo.Arquivo);
+                                                                                            dataB64 = base64;
+                                                                                            base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+
+                                                                                            <i class="hide">@nomeAnexo</i>
+                                                                                            <ul>
+                                                                                                <li>
+                                                                                                    <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
+                                                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                                                                                </li>
+                                                                                            </ul>
+
+                                                                                            @*@nomeAnexo*@
+                                                                                        }
+                                                                                    }
+
+                                                                                </td>
+
+                                                                                <!-- Acoes -->
+                                                                                <td>
+                                                                                    @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
+                                                                                    {
+                                                                                        if (acaoImediata.Aprovado.Value == true)
+                                                                                        {
+                                                                                            <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                                                <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                                            </button>
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <button type="button" class="btn btn-notok-acao-imediata trash-color">
+                                                                                                <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                                                            </button>
+                                                                                        }
+
+                                                                                    }
+                                                                                    else if (acaoImediata.Aprovado == null && Model.StatusEtapa == 4)
+                                                                                    {
+                                                                                        <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                                            <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                                        </button>
+                                                                                    }
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <!-- E Correcao -->
+
+
+
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_ECorrecao</label>
+                                                                <br />
+                                                                @(Model.ECorrecao == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- Necessita Acao corretiva -->
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Necessita_AC</label>
+                                                                <br />
+                                                                @(Model.NecessitaAcaoCorretiva == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- Responsavel Reverificacao -->
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_reverificacao</label>
+                                                                <br />
+                                                                @if (@Model.ResponsavelReverificador != null)
+                                                                {
+                                                                    @Model.ResponsavelReverificador.NmCompleto
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <!-- Foi Eficaz -->
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Foi_eficaz</label>
+                                                                <br />
+                                                                @(Model.FlEficaz == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- Responsavel Tratativa -->
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-responsavel-tratativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_tratativa</label>
+                                                                <br />
+                                                                @nomeResponsavelAcaoCorretiva
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <!-- Numero Acao Corretiva -->
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-numero-ac" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Nm_acao_corretiva</label>
+                                                                <br />
+                                                                @nuRegistro
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Analise da Causa -->
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Analise_causa</label>
+                                                                <br />
+                                                                @descricaoRegistro
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Analise do Parecer -->
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
+                                                                <br />
+                                                                @Model.Parecer
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div>
+                            <ul class="nav navbar-nav navbar-right ">
+
+                                <li class="botoes-button">
+                                    <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="navbar navbar-inverse navbar-fixed-bottom">
+                            <div class="row pull-right">
+                                <div class="col-md-12">
+
+                                    @if (ViewBag.IdPerfil != 4)
+                                    {
+                                        <button type="button" id="btn-destravar-view" onclick="location.href= '@Url.Action("Editar" , "AcaoCorretiva")' + '/@Model.IdRegistroConformidade' " class="btn btn-primary btn-destravar-view">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                                    }
+
+                                    <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "AcaoCorretiva/Index")</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*Fim ----*@
+    </div>
+</body>
+</html>

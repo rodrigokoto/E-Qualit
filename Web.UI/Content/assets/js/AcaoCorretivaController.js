@@ -16,7 +16,7 @@ APP.controller.AcaoCorretivaController = {
         if (page == "IndexAcaoCorretiva") {
             this.indexAcaoCorretiva();
         }
-        if (page == "CriarAcaoCorretiva") {
+        if (page == "CriarAcaoCorretiva" || page == "ExibirAcaoCorretiva") {
             this.acoesAcaoCorretiva();
         }
 

@@ -10,6 +10,7 @@
 
 @section scripts {
 
+    
 
     <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxClient.js")"></script>
     <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxApplication.js")"></script>
@@ -36,6 +37,10 @@
             border-radius: 4px;
             background: #fff;
         }
+
+        /*.raizdrop, .btn-delete2-rai {
+            visibility: hidden;
+        }*/
 
         .form-group {
             margin-bottom: 20px;
@@ -809,7 +814,7 @@
                         }).ToList();
                         controleUploadArquuivos.PodeAnexar = true;
 
-                        Html.RenderPartial("Anexo/_ModalAnexo", controleUploadArquuivos);
+                        Html.RenderPartial("Anexo/_ModalAnexoVisualizar", controleUploadArquuivos);
                     }
                 </div>
             }

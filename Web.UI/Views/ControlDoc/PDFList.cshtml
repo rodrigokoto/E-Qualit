@@ -2,7 +2,18 @@
 @using ApplicationService.Enum
 @model Web.UI.Models.LayoutImpressaoViewModel
 
-
+@{
+    var yourStyle = "";
+    if (ViewBag.Controlada)
+    {
+        yourStyle = "background-image:url(../.../Content/assets_src/imagens/CopiaControlada.png);background:no-repeat";
+    }
+    else
+    {
+        yourStyle = "";
+        //any other conditions and logic
+    }
+}
 
 @{
     ViewBag.Title = "EmissaoDocumento";
@@ -21,11 +32,8 @@
     <link href="~/Content/assets/css/style.css" rel="stylesheet" />
 
 </head>
-<body style="background:white !important">
+<body style="background:white !important;@yourStyle">
     <div class="container">
-
-
-
         <style>
             body {
                 font-size: 10px;

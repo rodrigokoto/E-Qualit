@@ -333,6 +333,10 @@ namespace Web.UI.Controllers
                     produtoAtualiza.MaxAprovadoAnalise = produto.MaxAprovadoAnalise;
                     produtoAtualiza.MinReprovado = produto.MinReprovado;
                     produtoAtualiza.MaxReprovado = produto.MaxReprovado;
+                    produtoAtualiza.IdResponsavel = produto.IdResponsavel;
+                    produtoAtualiza.Especificacao = produto.Especificacao;
+                    produtoAtualiza.Nome = produto.Nome;
+
                     _produtoAppServico.Update(produtoAtualiza);
 
                     return Json(new { StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
