@@ -91,9 +91,9 @@ namespace IsotecWindowsService
         {
             // Code that runs every interval period
             _notificationService.SendNotification();
-            //_calibracaoService.AtualizaCalibracao();
-            //_qualificacaoService.EnfileirarEmail();
-            //_licencaService.EnfileirarEmail();
+            _calibracaoService.AtualizaCalibracao();
+            _qualificacaoService.EnfileirarEmail();
+            _licencaService.EnfileirarEmail();
         }
 
         public void IsotecService(object state)
