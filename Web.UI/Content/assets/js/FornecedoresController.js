@@ -56,6 +56,8 @@ APP.controller.FornecedoresController = {
         this.buttonSaveNovoCriterioAvaliacaoFormCriteriosAvaliacao = $('.btn-confirm-criterios-avaliacao');
         this.buttonDelNovoCriterioAvaliacaoFormCriteriosAvaliacao = $('.btn-del-criterios-avaliacao');
 
+        this.btnImprimir = $('.btn-imprimir');
+        
     },
 
     models: {
@@ -140,6 +142,7 @@ APP.controller.FornecedoresController = {
         this.formCriterioAvaliacao();
 
         this.sendFormAcoesProdutos();
+        this.eventoImprimir();
 
     },
 
@@ -521,7 +524,6 @@ APP.controller.FornecedoresController = {
             Tags: $('[name=formProdutosCodigo]').val(),
             IdResponsavel: $('[name=formProdutosResponsavel] :selected').val(),
             Especificacao: $('[name=formProdutosEspecificacao]').val(),
-
             MinAprovado: $('[name=MinAprovado]').val(),
             MaxAprovado: $('[name=MaxAprovado]').val(),
 
@@ -1251,6 +1253,7 @@ APP.controller.FornecedoresController = {
         this.formCriterioAvaliacao();
 
         this.sendFormAcoesProdutos();
+        this.eventoImprimir();
 
         //APP.controller.FornecedoresController.getCriterioQualificacaoFornecedorPadrao();
         //APP.controller.FornecedoresController.getCriterioAvaliacaoPadrao();
@@ -1290,6 +1293,48 @@ APP.controller.FornecedoresController = {
 
         this.sendFormAcoesFornecedores();
 
+        this.eventoImprimir();
+
+    },
+
+    eventoImprimir: function () {
+
+        this.btnImprimir.on('click', function () {
+
+
+            if ($('[name=IdFornecedor]').val() > 0) {
+
+                var IdFornecedor = $('[name=IdFornecedor]').val();
+                var IdProduto = $('[name=IdProduto]').val();
+
+                APP.controller.FornecedoresController.imprimir(IdFornecedor, IdProduto);
+            }
+        });
+
+    },
+    imprimir: function (IdFornecedor, IdProduto) {
+
+        if (IdFornecedor != null) {
+
+            APP.component.Loading.showLoading();
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Fornecedor/PDF?id=' + IdFornecedor + '&idProduto=' + IdProduto, true);
+            xhr.responseType = 'arraybuffer';
+            xhr.onload = function (e) {
+                if (this.status == 200) {
+                    var blob = new Blob([this.response], { type: "application/pdf" });
+                    var pdfUrl = URL.createObjectURL(blob);
+                    printJS(pdfUrl);
+                }
+
+                APP.component.Loading.hideLoading();
+
+            };
+
+            xhr.send();
+
+        }
     },
 
     setHideAndShowFornecedores: function () {
@@ -1656,6 +1701,7 @@ APP.controller.FornecedoresController = {
             IdUsuarioAvaliacao: $('[name=formFornecedoresAvaliacaoResponsavel]').val(),
             Telefone: $('[name=formFornecedoresCadastroContato]').val(),
             Email: $('[name=formFornecedoresCadastroEmail]').val(),
+            TipoFornecedor: $('[name=TipoFornecedor] :selected').val(),
             IdProcesso: $('[name=formFornecedoresCadastroDepartamento] :selected').val(),
             Produtos: [{
                 IdProduto: $('[name=IdProduto]').val()

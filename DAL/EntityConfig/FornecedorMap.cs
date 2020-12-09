@@ -33,6 +33,9 @@ namespace DAL.EntityConfig
             Property(t => t.IdUsuarioAvaliacao)
                 .HasColumnName("IdUsuarioAvaliacao");
 
+            Property(t => t.TipoFornecedor)
+                .HasColumnName("TpFornecedor");
+
             #region Relacionamentos
 
             HasRequired(t => t.Site)

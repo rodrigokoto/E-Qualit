@@ -23,17 +23,20 @@ namespace IsotecWindowsService
     public partial class ServicoIsotec : ServiceBase
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private readonly INotificationService _notificationService;
         private readonly ICalibracaoService _calibracaoService;
         private readonly IQualificacaoService _qualificacaoService;
         private readonly ILicencaService _licencaService;
         private Thread IsotecServiceThread;
         private Thread IsotecFornecedorServiceThread;
         private Thread IsotecLicencaServiceThread;
+        private Timer _timer = null;
 
         public ServicoIsotec()
         {
             var kernel = CreateKernel();
 
+            _notificationService = kernel.Get<INotificationService>();
             _calibracaoService = kernel.Get<ICalibracaoService>();
             _qualificacaoService = kernel.Get<IQualificacaoService>();
             _licencaService = kernel.Get<ILicencaService>();
@@ -48,77 +51,60 @@ namespace IsotecWindowsService
 
         protected override void OnStart(string[] args)
         {
-            IsotecServiceThread = new Thread(() => CalibracaoService());
+
+            //StartTimer(new TimeSpan(6, 0, 0), new TimeSpan(24, 0, 0));
+
+
+
+            IsotecServiceThread = new Thread(() => IsotecService());
             IsotecServiceThread.Start();
 
-            IsotecFornecedorServiceThread = new Thread(() => QualificacaoService());
-            IsotecFornecedorServiceThread.Start();
+            //IsotecFornecedorServiceThread = new Thread(() => QualificacaoService());
+            //IsotecFornecedorServiceThread.Start();
 
+            //IsotecLicencaServiceThread = new Thread(() => LicencaService());
+            //IsotecLicencaServiceThread.Start();
+        }
 
-            IsotecLicencaServiceThread = new Thread(() => LicencaService());
-            IsotecLicencaServiceThread.Start();
+        protected void StartTimer(TimeSpan scheduledRunTime, TimeSpan timeBetweenEachRun)
+        {
+            // Initialize timer
+            double current = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            double scheduledTime = scheduledRunTime.TotalMilliseconds;
+            double intervalPeriod = timeBetweenEachRun.TotalMilliseconds;
+            // calculates the first execution of the method, either its today at the scheduled time or tomorrow (if scheduled time has already occurred today)
+            double firstExecution = current > scheduledTime ? intervalPeriod - (current - scheduledTime) : scheduledTime - current;
+
+            // create callback - this is the method that is called on every interval
+            TimerCallback callback = new TimerCallback(IsotecService);
+
+            // create timer
+            _timer = new Timer(callback, null, Convert.ToInt32(firstExecution), Convert.ToInt32(intervalPeriod));
+
         }
 
         protected override void OnStop()
         {
 
         }
-
-        private void CalibracaoService()
+        public void IsotecService()
         {
-            while (true)
-            {
-                _calibracaoService.AtualizaCalibracao();
-                Thread.Sleep(1000);
-            }
+            // Code that runs every interval period
+            _notificationService.SendNotification();
+            //_calibracaoService.AtualizaCalibracao();
+            //_qualificacaoService.EnfileirarEmail();
+            //_licencaService.EnfileirarEmail();
         }
 
-        private void QualificacaoService()
-
+        public void IsotecService(object state)
         {
-
-            while (true)
-
-            {
-
-                //var SysHour = ConfigurationManager.AppSettings["StartService"].Split(':');
-
-                //var confighour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Convert.ToInt32(SysHour[0]), Convert.ToInt32(SysHour[1]), 0);
-
-                //if (DateTime.Now.Date == confighour.Date)
-                //{
-                //    if (DateTime.Now.Hour == confighour.Hour)
-                //    {
-                _qualificacaoService.EnfileirarEmail();
-                //    }
-                //}
-                Thread.Sleep(30000);
-            }
+            // Code that runs every interval period
+            _notificationService.SendNotification();
+            //_calibracaoService.AtualizaCalibracao();
+            //_qualificacaoService.EnfileirarEmail();
+            //_licencaService.EnfileirarEmail();
         }
-        private void LicencaService()
-        {
-
-            while (true)
-
-            {
-
-                //var SysHour = ConfigurationManager.AppSettings["StartService"].Split(':');
-
-                //var confighour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Convert.ToInt32(SysHour[0]), Convert.ToInt32(SysHour[1]), 0);
-
-                //if (DateTime.Now.Date == confighour.Date)
-                //{
-                //    if (DateTime.Now.Hour == confighour.Hour)
-                //    {
-                _licencaService.EnfileirarEmail();
-                //    }
-                //}
-                Thread.Sleep(30000);
-            }
-        }
-
-
-
+     
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();

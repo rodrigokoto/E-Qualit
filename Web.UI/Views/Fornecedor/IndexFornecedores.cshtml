@@ -1,5 +1,6 @@
 ﻿@using ApplicationService.Entidade
 @using ApplicationService.Enum
+@using Web.UI.Helpers
 
 @model Dominio.Entidade.Produto
 @{
@@ -57,14 +58,17 @@
                                         <table id="tb-index-fornecedores" class="display dataTable no-footer dtr-inline role=" grid"">
                                             <thead class="titulo-tabela">
                                                 <tr>
-                                                    <th class="w15"></th>
+                                                    <th colspan="2" class="w15"></th>
                                                     <th colspan="3" class="w30" style="background: #920620 !important; font-size: 20px; text-align: center;">@Traducao.Resource.DadosQualificacao</th>
                                                     <th colspan="3" class="w30" style="background: #3b7d00 !important; font-size: 20px; text-align: center;">@Traducao.Resource.DadosAvaliacao</th>
                                                     <th class="w10 "></th>
                                                 </tr>
                                                 <tr id="hr1" class="bg" role="row">
                                                     <th class="w15 with-input">
-                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Fornecedor">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.Empresa">
+                                                    </th>
+                                                    <th class="w15 with-input">
+                                                        <input type="text" class="form-control" placeholder="@Traducao.Resource.TpFornecedor">
                                                     </th>
                                                     <th class="w10 with-input" style="background: #920620 !important;">
                                                         <input type="text" class="form-control" placeholder="@Traducao.Resource.Responsavel" title="">
@@ -89,6 +93,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th class="w15 sorting">@Traducao.Resource.Fornecedor</th>
+                                                    <th class="w15 sorting">@Traducao.Resource.TpFornecedor</th>
                                                     <th class="w10 sorting" style="background: #920620 !important;">@Traducao.Resource.Responsavel</th>
                                                     <th class="w10 sorting" style="background: #920620 !important;">@Traducao.Resource.Status</th>
                                                     <th class="w10 sorting" style="background: #920620 !important;">@Traducao.Resource.Data</th>
@@ -114,6 +119,13 @@
 
                                                     <tr role="row" class="odd">
                                                         <td>@produtoFornecedor.Fornecedor.Nome</td>
+
+                                                        @{
+                                                           <td>
+                                                               @produtoFornecedor.Fornecedor.TipoFornecedor.ToName()
+                                                           </td>
+                                                        }
+
                                                         <td>@(ultimaQualificacao != null && ultimaQualificacao.IdAvaliaCriterioQualificacao != 0 ? ultimaQualificacao.ResponsavelPorQualificar.NmCompleto : Traducao.Resource.lbl_adefinir)</td>
                                                         @if (ultimaQualificacao == null)
                                                         {

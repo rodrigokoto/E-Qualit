@@ -1,0 +1,142 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@model Dominio.Entidade.Fornecedor
+@{
+
+    ViewBag.Title = "Fornecedor";
+
+    var produto = (Produto)ViewBag.Produto;
+    Layout = null;
+}
+
+<html>
+<head>
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/bootstrap")
+
+</head>
+<body style="background:white !important">
+    <div class="container">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+        <style>
+            .ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+                /*overflow: auto;*/
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+        <div id="main">
+            <div class="content-painel">
+                <!-- hidden -->
+                <input type="hidden" name="IdFornecedor" value="@Model.IdFornecedor" />
+                <input type="hidden" name="IdSite" id="fornecedores-site" value="@ViewBag.IdSite" />
+                <input type="hidden" name="idFuncao" id="fornecedores-funcao" value="@ViewBag.idFuncao" />
+                <input type="hidden" name="IdProcesso" id="fornecedores-processo" value="@ViewBag.IdProcesso" />
+                <input type="hidden" name="IdProduto" id="fornecedores-produto" value="@ViewBag.IdProduto" />
+                <input type="hidden" name="Ancora" id="Ancora" value="@ViewBag.Ancora" />
+
+                <div class="caixa">
+
+
+                    <!-- Produto -->
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="form-fornecedores-historico-nome">@Traducao.Resource.ProdutoServico</label>
+                            <br />
+                            @produto.Nome"
+                        </div>
+                    </div>
+                    <!-- Codigo -->
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="form-fornecedores-historico-codigo">@Traducao.Resource.DocDocumento_lbl_CdNumero</label>
+                            <br />
+                            @produto.Tags
+                        </div>
+                    </div>
+                    <!-- Fornecedor -->
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="form-fornecedores-historico-fornecedor">@Traducao.Resource.Fornecedor</label>
+                            <br />
+                            @Model.Nome"
+                        </div>
+                    </div>
+
+                    <!-- Tabela Lista Criterios -->
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <table id="tb-fornecedores-historico" class="table table-striped table-bordered table-list">
+                                <thead class="titulo-tabela">
+                                    <tr>
+                                        <th class="w10 sorting">Título</th>
+                                        <th class="w10 sorting">Data</th>
+                                        <th class="w10 sorting">Data Proxima Avaliação</th>
+                                        <th class="w10 sorting">Nota Avaliação</th>
+                                        <th class="w10 sorting">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.AvaliaCriteriosAvaliacao)
+                                    {
+                                        if (item.NotaAvaliacao != null)
+                                        {
+                                            if (item.CriterioAvaliacao != null)
+                                            {
+                                                <tr role="row" class="odd">
+                                                    <td>@item.CriterioAvaliacao.Titulo</td>
+                                                    <td>@item.DtAvaliacao.ToShortDateString()</td>
+                                                    <td>@item.DtProximaAvaliacao.ToShortDateString()</td>
+                                                    <td>@item.NotaAvaliacao</td>
+                                                    <td>
+
+                                                        @if (item.NotaAvaliacao >= produto.MinAprovado)
+                                                        {
+                                                            @Traducao.Resource.lbl_Aprovado
+                                                        }
+                                                        else if (item.NotaAvaliacao >= produto.MinAprovadoAnalise && item.NotaAvaliacao <= produto.MaxAprovadoAnalise)
+                                                        {
+                                                            @Traducao.Resource.lbl_AprovadoAnalise
+                                                        }
+                                                        else
+                                                        {
+                                                            @Traducao.Resource.lbl_Reprovado
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+</body>
+</html>

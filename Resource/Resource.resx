@@ -3658,4 +3658,13 @@ www.e-qualit.com.br
   <data name="MenuControleDocumentosListaMestra" xml:space="preserve">
     <value>Lista Mestra</value>
   </data>
+  <data name="Empresa" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="Fabricante" xml:space="preserve">
+    <value>Fabricante</value>
+  </data>
+  <data name="TpFornecedor" xml:space="preserve">
+    <value>Tipo Fornecedor</value>
+  </data>
 </root>

@@ -17,6 +17,7 @@ namespace IoC
     {
         public override void Load()
         {
+            Bind<INotificationService>().To<NotificationService>();
             Bind<ICalibracaoService>().To<CalibracaoService>();
             Bind<IQualificacaoService>().To<QualificacaoService>();
             Bind<ILicencaService>().To<LicencaService>();

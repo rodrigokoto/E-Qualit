@@ -239,6 +239,7 @@
     <Compile Include="Helpers\AcessoUsuarioSite.cs" />
     <Compile Include="Helpers\CriptografarSenhas.cs" />
     <Compile Include="Helpers\EditarPossuiAcessoSite.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ValidaUsuario.cs" />
     <Compile Include="Helpers\SitePossuiModuloAttribute.cs" />
     <Compile Include="Helpers\ProcessoSelecionadoAttribute.cs" />
@@ -1927,6 +1928,7 @@
     <Content Include="Views\ControlDoc\PDFList.cshtml" />
     <Content Include="Views\Shared\Anexo\_ModalAnexoVisualizar.cshtml" />
     <Content Include="Views\AcaoCorretiva\Exibir.cshtml" />
+    <Content Include="Views\Fornecedor\PDF.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

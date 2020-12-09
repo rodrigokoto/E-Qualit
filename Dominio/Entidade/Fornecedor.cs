@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Dominio.Enumerado;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dominio.Entidade
 {
@@ -14,7 +16,8 @@ namespace Dominio.Entidade
         public string Nome { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
-
+        [Display(Name = "Tipo Fornecedor")]
+        public TipoFornecedor TipoFornecedor { get; set; }
         public int IdSite { get; set; }
         public int ? IdProcesso { get; set; } //Departamento 
 

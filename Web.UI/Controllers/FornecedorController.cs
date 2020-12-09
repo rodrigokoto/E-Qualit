@@ -1,6 +1,8 @@
 ﻿using ApplicationService.Interface;
 using Dominio.Entidade;
 using Dominio.Interface.Servico;
+using Rotativa;
+using Rotativa.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -556,6 +558,80 @@ namespace Web.UI.Controllers
             return View(fornecedor);
         }
 
+        public ActionResult PDF(int id, int idProduto, string Ancora = "Historico")
+        {
+
+            var produto = new Produto();
+            var fornecedor = new Fornecedor();
+            ViewBag.idFuncao = EditarFornecedor;
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.Ancora = Ancora;
+            ViewBag.IdProduto = idProduto;
+
+            produto = _produtoAppServico.GetById(idProduto);
+            ViewBag.IdSite = produto.IdSite;
+
+            fornecedor = _fornecedorAppServico.GetById(id);
+            ViewBag.avaliacao = _avaliaCriterioAvaliacaoAppServico.Get().Where(x => fornecedor.IdFornecedor == x.IdFornecedor).ToList();
+            
+
+            var idscriteriosQualificacaoAtual = fornecedor.AvaliaCriteriosQualificacao.Select(avaliacaoCriterioQualificacao => avaliacaoCriterioQualificacao.CriterioQualificacao.IdCriterioQualificacao).ToList();
+            var criteriosQualificacaoAtual = fornecedor.AvaliaCriteriosQualificacao.ToList();
+            var idscriteriosQualificacao = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).Select(x => x.IdCriterioQualificacao).ToList();
+            if (fornecedor.AvaliaCriteriosQualificacao == null || fornecedor.AvaliaCriteriosQualificacao.Count == 0 || idscriteriosQualificacao.Count != idscriteriosQualificacaoAtual.Count)
+            {
+                var criteriosQualificacao = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).Where(x => !idscriteriosQualificacaoAtual.Contains(x.IdCriterioQualificacao)).ToList();
+
+                criteriosQualificacao.ForEach(criterioQualificacao =>
+                {
+                    if (criterioQualificacao.Ativo)
+                    {
+                        AvaliaCriterioQualificacao avaliaCriterioQualificacao = new AvaliaCriterioQualificacao();
+                        avaliaCriterioQualificacao.CriterioQualificacao = criterioQualificacao;
+                        fornecedor.AvaliaCriteriosQualificacao.Add(avaliaCriterioQualificacao);
+                    }
+                });
+            }
+
+            criteriosQualificacaoAtual.ForEach(criterioQualificacao =>
+            {
+
+                var criterioQualificacaoExcluir = _criterioQualificacaoAppServico.Get(x => x.IdProduto == produto.IdProduto && x.IdCriterioQualificacao == criterioQualificacao.IdCriterioQualificacao).FirstOrDefault();
+
+                if (criterioQualificacaoExcluir.Ativo == false)
+                {
+                    fornecedor.AvaliaCriteriosQualificacao.Remove(criterioQualificacao);
+                }
+
+            });
+
+            if (fornecedor.AvaliaCriteriosAvaliacao == null || fornecedor.AvaliaCriteriosAvaliacao.Count == 0)
+            {
+
+                AvaliaCriterioAvaliacao avaliaCriterioAvaliacao = new AvaliaCriterioAvaliacao();
+                _criterioAvaliacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).ToList().ForEach(criterioAvaliacao =>
+                {
+
+                    avaliaCriterioAvaliacao.CriterioAvaliacao = criterioAvaliacao;
+                    fornecedor.AvaliaCriteriosAvaliacao.Add(avaliaCriterioAvaliacao);
+                });
+
+            }
+            ViewBag.Produto = produto;
+
+            var pdf = new ViewAsPdf
+            {
+                ViewName = "PDF",
+                Model = fornecedor,
+                PageOrientation = Orientation.Portrait,
+                PageSize = Size.A4,
+                PageMargins = new Margins(10, 15, 10, 15),
+                FileName = "Historico Fornecedor " + fornecedor.Nome + ".pdf"
+            };
+
+            return pdf;
+        }
+
         [HttpPost]
         public JsonResult SalvaFornecedor(Fornecedor fornecedor)
         {
@@ -667,7 +743,7 @@ namespace Web.UI.Controllers
         public JsonResult SalvaAvaliacoes(List<AvaliaCriterioAvaliacao> avaliacoes)
         {
 
-            var guidAvaliacao = Guid.NewGuid(); 
+            var guidAvaliacao = Guid.NewGuid();
 
             var erros = new List<string>();
             try
@@ -685,7 +761,7 @@ namespace Web.UI.Controllers
                     erros.Add(Traducao.Resource.MsgResposavelObrigatorio);
                 }
 
-                
+
                 avaliacoes.ForEach(avaliaCriterioAvaliacao =>
                 {
                     avaliaCriterioAvaliacao.DtAvaliacao = DateTime.Now;

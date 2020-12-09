@@ -68,6 +68,36 @@ namespace Web.UI.Controllers
         [AutorizacaoUsuario((int)FuncoesAnaliseCritica.RegistroDaAta, (int)Funcionalidades.AnaliseCritica)]
         public ActionResult Criar()
         {
+            var idSite = Util.ObterSiteSelecionado();
+
+            List<Processo> lista = _processoAppServico.ListaProcessosPorSite(idSite);
+
+            var usuarios = new List<Usuario>();
+
+            using (var db = new BaseContext())
+            {
+
+                var user = (from u in db.Usuario
+                            join uc in db.UsuarioClienteSite on u.IdUsuario equals uc.IdUsuario
+                            where uc.IdSite == idSite && u.FlAtivo == true
+                            select u).ToList();
+
+                usuarios.AddRange(user);
+            }
+
+
+
+            var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
+
+            ViewBag.Processo = lista;
+            ViewBag.UsuarioFuncao = usuariosLista;
+
+            TempData["Processo"] = null;
+            TempData["Processo"] = ViewBag.Processo;
+
+            TempData["UsuarioFuncao"] = null;
+            TempData["UsuarioFuncao"] = ViewBag.UsuarioFuncao;
+            
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.Tema = "tema";
             //ViewBag.IdProcesso = Util.ObterProcessoSelecionado();
@@ -141,8 +171,8 @@ namespace Web.UI.Controllers
 
             var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
 
-            ViewBag.Processo = lista;
-            ViewBag.UsuarioFuncao = usuariosLista;
+            TempData["Processo"] = lista;
+            TempData["UsuarioFuncao"] = usuariosLista;
             //ViewBag.IdProcesso = Util.ObterProcessoSelecionado();
 
             //   if (((SelectList)ViewBag.Processo) == null)

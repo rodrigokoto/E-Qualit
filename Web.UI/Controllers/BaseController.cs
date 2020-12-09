@@ -243,9 +243,9 @@ namespace Web.UI.Controllers
                                                select new PendenciaViewModel
                                                {
                                                    Id = (int)nc.IdRegistroConformidade,
-                                                   Titulo = nc.DescricaoRegistro,
+                                                   Titulo = nc.NuRegistro.ToString(),
                                                    IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
-                                                   Modulo = "Não Conformidade",
+                                                   Modulo = "NC",
                                                    Url = "NaoConformidade/Editar/"  + (int)nc.IdRegistroConformidade
                                                }); ;
 
@@ -255,9 +255,9 @@ namespace Web.UI.Controllers
                                                     select new PendenciaViewModel
                                                     {
                                                         Id = (int)nc.IdRegistroConformidade,
-                                                        Titulo = nc.DescricaoRegistro,
+                                                        Titulo = nc.NuRegistro.ToString(),
                                                         IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
-                                                        Modulo = "Não Conformidade",
+                                                        Modulo = "NC",
                                                         Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                     });
 
@@ -266,9 +266,9 @@ namespace Web.UI.Controllers
                                                             select new PendenciaViewModel
                                                             {
                                                                 Id = (int)nc.IdRegistroConformidade,
-                                                                Titulo = nc.DescricaoRegistro,
+                                                                Titulo = nc.NuRegistro.ToString(),
                                                                 IdResponsavel = nc.ResponsavelReverificador.IdUsuario,
-                                                                Modulo = "Não Conformidade",
+                                                                Modulo = "NC",
                                                                 Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                             });
 
@@ -277,9 +277,9 @@ namespace Web.UI.Controllers
                                              select new PendenciaViewModel
                                              {
                                                  Id = ac.IdRegistroConformidade,
-                                                 Titulo = ac.DescricaoRegistro,
+                                                 Titulo = ac.NuRegistro.ToString(),
                                                  IdResponsavel = ac.ResponsavelInicarAcaoImediata.IdUsuario,
-                                                 Modulo = "Ação Corretiva",
+                                                 Modulo = "AC",
                                                  Url = "AcaoCorretiva/Editar/" + ac.IdRegistroConformidade
 
                                              });
@@ -289,9 +289,9 @@ namespace Web.UI.Controllers
                                                 select new PendenciaViewModel
                                                 {
                                                     Id = ac.IdRegistroConformidade,
-                                                    Titulo = ac.DescricaoRegistro,
+                                                    Titulo = ac.NuRegistro.ToString(),
                                                     IdResponsavel = ac.ResponsavelImplementar.IdUsuario,
-                                                    Modulo = "Ação Corretiva",
+                                                    Modulo = "AC",
                                                     Url = "AcaoCorretiva/Editar/" + ac.IdRegistroConformidade
                                                 });
 
@@ -370,9 +370,9 @@ namespace Web.UI.Controllers
                                            select new PendenciaViewModel
                                            {
                                                Id = (int)nc.IdRegistroConformidade,
-                                               Titulo = nc.DescricaoRegistro,
+                                               Titulo = nc.NuRegistro.ToString(),
                                                IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
-                                               Modulo = "Gestão De Risco",
+                                               Modulo = "GR",
                                                Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                            });
 
@@ -381,9 +381,9 @@ namespace Web.UI.Controllers
                                                 select new PendenciaViewModel
                                                 {
                                                     Id = (int)nc.IdRegistroConformidade,
-                                                    Titulo = nc.DescricaoRegistro,
+                                                    Titulo = nc.NuRegistro.ToString(),
                                                     IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
-                                                    Modulo = "Gestão De Risco",
+                                                    Modulo = "GR",
                                                     Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                                 });
 
@@ -392,9 +392,9 @@ namespace Web.UI.Controllers
                                                         select new PendenciaViewModel
                                                         {
                                                             Id = (int)nc.IdRegistroConformidade,
-                                                            Titulo = nc.DescricaoRegistro,
+                                                            Titulo = nc.NuRegistro.ToString(),
                                                             IdResponsavel = nc.ResponsavelReverificador.IdUsuario,
-                                                            Modulo = "Gestão De Risco",
+                                                            Modulo = "GR",
                                                             Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade,
                                                         });
 
@@ -405,9 +405,9 @@ namespace Web.UI.Controllers
                                               select new PendenciaViewModel
                                               {
                                                   Id = (int)nc.IdRegistroConformidade,
-                                                  Titulo = nc.DescricaoRegistro,
+                                                  Titulo = nc.NuRegistro.ToString(),
                                                   IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
-                                                  Modulo = "Gestão De Melhoria",
+                                                  Modulo = "GM",
                                                   Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                               });
 
@@ -416,9 +416,9 @@ namespace Web.UI.Controllers
                                                    select new PendenciaViewModel
                                                    {
                                                        Id = (int)nc.IdRegistroConformidade,
-                                                       Titulo = nc.DescricaoRegistro,
+                                                       Titulo = nc.NuRegistro.ToString(),
                                                        IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
-                                                       Modulo = "Gestão De Melhoria",
+                                                       Modulo = "GM",
                                                        Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                                    });
 
@@ -427,9 +427,9 @@ namespace Web.UI.Controllers
                                                            select new PendenciaViewModel
                                                            {
                                                                Id = (int)nc.IdRegistroConformidade,
-                                                               Titulo = nc.DescricaoRegistro,
+                                                               Titulo = nc.NuRegistro.ToString(),
                                                                IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
-                                                               Modulo = "Gestão De Melhoria",
+                                                               Modulo = "GM",
                                                                Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                                            });
 

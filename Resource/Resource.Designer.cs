@@ -3737,6 +3737,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empresa.
+        /// </summary>
+        public static string Empresa {
+            get {
+                return ResourceManager.GetString("Empresa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CdEstado.
         /// </summary>
         public static string Endereco_lbl_CdEstado {
@@ -4087,6 +4096,15 @@ namespace Traducao {
         public static string ExportarDiagramaparaPDF {
             get {
                 return ResourceManager.GetString("ExportarDiagramaparaPDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fabricante.
+        /// </summary>
+        public static string Fabricante {
+            get {
+                return ResourceManager.GetString("Fabricante", resourceCulture);
             }
         }
         
@@ -10270,6 +10288,15 @@ namespace Traducao {
         public static string TituloMenuNotificacoes {
             get {
                 return ResourceManager.GetString("TituloMenuNotificacoes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo Fornecedor.
+        /// </summary>
+        public static string TpFornecedor {
+            get {
+                return ResourceManager.GetString("TpFornecedor", resourceCulture);
             }
         }
         

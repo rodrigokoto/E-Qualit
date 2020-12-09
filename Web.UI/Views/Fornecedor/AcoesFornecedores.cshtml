@@ -19,6 +19,7 @@
 
 
 @section scripts {
+    <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
     <script src="@Url.Content("~/Content/assets/js/FornecedoresController.js")"></script>
 }
 
@@ -57,14 +58,14 @@
                             </div>
                         </div>
                         <!-- E-mail -->
-                        <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="form-fornecedores-cadastro-email" class="control-label">@Traducao.Resource.Fornecedor_lbl_Email</label>
                                 <input type="text" id="form-fornecedores-cadastro-email" name="formFornecedoresCadastroEmail" class="form-control" placeholder="@Traducao.Resource.EmailValido" data-msg-required="O @Traducao.Resource.Fornecedor_msg_erro_required_Email" value="@Model.Email">
                             </div>
                         </div>
                         <!-- Departamento -->
-                        <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="form-fornecedores-cadastro-departamento" class="control-label">Departamento</label>
                                 <select id="form-fornecedores-cadastro-departamento" name="formFornecedoresCadastroDepartamento" class="form-control" placeholder="Digite o Departamento" data-msg-required="O Departamento é obrigatório">
@@ -74,6 +75,13 @@
                                         <option value="@Model.IdProcesso" selected>@Model.Processo.Nome</option>
                                     }
                                 </select>
+                            </div>
+                        </div>
+                        <!-- Tipo Fornecedor -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.TipoFornecedor)
+                                @Html.DropDownListFor(x => x.TipoFornecedor , EnumHelper.GetSelectList(typeof(Dominio.Enumerado.TipoFornecedor)) , "Selecione" , new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -498,6 +506,7 @@
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-md-12">
+            <button class="btn btn-primary btn-imprimir" type="submit">@Traducao.Resource.Imprimir</button>
             <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Resource.botao_salvar</button>
             <button class="btn btn-primary" type="submit">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "IndexFornecedores", new { idProduto = ViewBag.IdProduto })</button>
         </div>

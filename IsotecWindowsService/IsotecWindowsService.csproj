@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="ConsoleDualOutput.cs" />
     <Compile Include="FileLogger.cs" />
+    <Compile Include="Interface\INotificationService.cs" />
     <Compile Include="Interface\ILicencaService.cs" />
     <Compile Include="Interface\IQualificacaoService.cs" />
     <Compile Include="Interface\ICalibracaoService.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
+    <Compile Include="Service\NotificationService.cs" />
     <Compile Include="Service\LicencaService.cs" />
     <Compile Include="Service\QualificacaoService.cs" />
     <Compile Include="Service\CalibracaoService.cs" />
@@ -100,6 +102,10 @@
       <Project>{c11eb225-bf41-4a74-854b-738129077634}</Project>
       <Name>ApplicationService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{0C54E06C-D4B2-4525-818C-1B0BAEEB1A43}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dominio\Dominio.csproj">
       <Project>{0CB075C2-B41C-40AF-9B82-1F6A586F6D0C}</Project>
       <Name>Dominio</Name>
@@ -107,6 +113,10 @@
     <ProjectReference Include="..\IoC\IoC.csproj">
       <Project>{7fab04d8-b4cc-446e-b808-0a479dbd9ca0}</Project>
       <Name>IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web.UI\Web.UI.csproj">
+      <Project>{57EE4648-710B-48CA-8503-CD386D06AD77}</Project>
+      <Name>Web.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +130,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Templates\Qualificacao-pt-BR.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\Notificacao-pt-BR.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Templates\Qualificacao30d-en-US.html">

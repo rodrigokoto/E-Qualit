@@ -207,6 +207,7 @@
     <Compile Include="Enumerado\StatusDocumento.cs" />
     <Compile Include="Enumerado\EtapasRegistroConformidade.cs" />
     <Compile Include="Enumerado\ModuloFilho.cs" />
+    <Compile Include="Enumerado\TipoFornecedor.cs" />
     <Compile Include="Enumerado\TipoNotificacao.cs" />
     <Compile Include="Enumerado\UnidadeDeMedida.cs" />
     <Compile Include="Especificacao\AnaliseCriticas\PossuiGestaoDeRiscoEspecification.cs" />

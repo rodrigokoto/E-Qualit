@@ -1,149 +1,154 @@
 ﻿@model Dominio.Entidade.AnaliseCriticaTema
+@{ 
+    ViewBag.Processo = TempData.Peek("Processo");
+    
+    ViewBag.UsuarioFuncao = TempData.Peek("UsuarioFuncao");
+}
 
 
 
 
 <div id="gestaoDeRisco" style="display:block;">
-	<input type="hidden" name="IdTema" value="@Model.IdTema" />
-	<input type="hidden" name="IdGestaoDeRisco" value="@Model.IdGestaoDeRisco" />
-	<input type="hidden" name="numeroAC" value="@TempData["NumeroRisco"]" />
+    <input type="hidden" name="IdTema" value="@Model.IdTema" />
+    <input type="hidden" name="IdGestaoDeRisco" value="@Model.IdGestaoDeRisco" />
+    <input type="hidden" name="numeroAC" value="@TempData["NumeroRisco"]" />
 
-	<div class="row" style="display:block;">
-		<!-- Descricao -->
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-			<div class="form-group">
-				@{
-					var idDescricao = "form-gestao-de-risco-descricao-" + @Model.IdTema;
-				}
-				<label for="@idDescricao">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Descricao</label>
-				<textarea id="@idDescricao" name="formGestaoDeRiscoDescricao" class="form-control"
-						  placeholder=">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_placeholder_Descricao"
-						  data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Descricao"
-						  rows="7" @*@(Model.GestaoDeRisco != null ? "disabled" : "")*@> @Model.Descricao
+    <div class="row" style="display:block;">
+        <!-- Descricao -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+            <div class="form-group">
+                @{
+                    var idDescricao = "form-gestao-de-risco-descricao-" + @Model.IdTema;
+                }
+                <label for="@idDescricao">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Descricao</label>
+                <textarea id="@idDescricao" name="formGestaoDeRiscoDescricao" class="form-control"
+                          placeholder=">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_placeholder_Descricao"
+                          data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Descricao"
+                          rows="7" @*@(Model.GestaoDeRisco != null ? "disabled" : "")*@> @Model.Descricao
                 </textarea>
-			</div>
-		</div>
-	</div>
-	<div class="divRisco">
-		@*novo*@
-		<div class="row">
-			<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-				<div class="form-group">
-					@*@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Gestao_de_risco Teste*@
-					<label>Informar Risco</label>
-					<div class="">
-						<label for="form-informar-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
-							<input type="radio" class="formInformarGestaoDeRiscoRisco" id="form-informar-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formInformarGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
-								   @*[now]*@
-								   @(Model.PossuiInformarGestaoRisco == true && Model.IdTema != 0 ? "checked" : null)
-								   value="true" @(Model.GestaoDeRisco != null ? "disabled" : null)>
-							@Traducao.Shared.ResourceLabel.Label_radio_Sim
-						</label>
-						<label for="form-informar-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
-							<input type="radio" class="formInformarGestaoDeRiscoRisco" id="form-Informargestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formInformarGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
-								   @*[now]*@
-								   @(Model.PossuiInformarGestaoRisco == false && Model.IdTema != 0 ? "checked" : null)
-								   value="false" @(Model.GestaoDeRisco != null ? "disabled" : null)>
-							@Traducao.Shared.ResourceLabel.Label_radio_Nao
-						</label>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div name="divEsconder">
-
-			<div class="row">
-				<!-- Identificacao -->
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group">
-						<label for="form-gestao-de-risco-identificacao-@Model.IdTema" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Identificacao_risco</label>
-						<textarea id="form-gestao-de-risco-identificacao-@Model.IdTema" name="formGestaoDeRiscoIdentificacao" class="form-control"
-								  placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_placeholder_Identificacao_risco"
-								  data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Identificacao_risco"
-								  rows="7"
-								  @(Model.GestaoDeRisco != null ? "disabled" : null)>@(Model.GestaoDeRisco != null? Model.GestaoDeRisco.DescricaoRegistro :null)</textarea>
-					</div>
-				</div>
-
-				<!-- Criticidade -->
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group">
-						<label for="form-gestao-de-risco-criticidade" class="control-label">Classificação do risco</label>
-						<input type="hidden" name="formGestaoDeRiscoCriticidadeCor" value="@(Model.GestaoDeRisco != null ?Model.GestaoDeRisco.CriticidadeGestaoDeRisco:Model.CorRisco)" />
-						<select id="risco-1to10-@Model.IdTema" class="barraRating @(Model.GestaoDeRisco != null ? "barRating-disabled" : null)" name="formGestaoDeRiscoCriticidade" autocomplete="off"
-								@(Model.GestaoDeRisco != null ? "disabled" : null)>
-							<option value="1" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-							<option value="2" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 2 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-							<option value="3" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 3 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-							<option value="4" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 4 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-							<option value="5" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 5 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
-							<option value="6" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 6 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-							<option value="7" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 7 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-							<option value="8" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 8 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-							<option value="9" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 9 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-							<option value="10" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 10 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
-							<option value="11" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 11 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-							<option value="12" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 12 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-							<option value="13" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 13 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-							<option value="14" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 14 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-							<option value="15" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 15 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
-						</select>
-					</div>
-				</div>
-
-			</div>
-
-
-
-			@*Processo*@
-			@*<div class="col-lg-4  col-sm-3 col-xs-12 responsavel-gestao-de-risco" @(Model.PossuiGestaoRisco == true ? "style='width:500px'" : "style='width:500px;display:none;'")>*@
-        <div class="form-group">
-            @*@Html.DropDownList("Processo" , ViewBag.Processo as SelectList, new { @id = "form-gestao-de-risco-processo-" + Model.IdTema , @name = "formGestaoDeRiscoProcesso" , @class = "form-control" })*@
-            <label for="form-gestao-de-risco-processo-@Model.IdTema" class="control-label">Processo</label>
-            @Html.DropDownListFor(p => p.Processo.IdProcesso, new SelectList(ViewBag.Processo, "IdProcesso", "Nome"),
-           new { @id = "form-gestao-de-risco-processo-" + Model.IdTema, @name = "formGestaoDeRiscoProcesso", @class = "form-control" });
-
-
-            @*<label for="form-gestao-de-risco-processo-@Model.IdTema" class="control-label">Processo</label>
-        <select id="form-gestao-de-risco-processo-@Model.IdTema" name="formGestaoDeRiscoProcesso" class="form-control"
-                data-msg-required="Necessário escolher um processo"
-                @(Model.GestaoDeRisco != null ? "disabled" : null)>
-            <option value="">@Traducao.Resource.Dropdown_name_select</option>
-
-            @if (Model.GestaoDeRisco != null)
-            {
-                <option value="@Model.Processo.IdProcesso" selected>@Model.Processo.Nome</option>
-        }
-        </select>*@
+            </div>
         </div>
+    </div>
+    <div class="divRisco">
+        @*novo*@
+        <div class="row">
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                <div class="form-group">
+                    @*@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Gestao_de_risco Teste*@
+                    <label>Informar Risco</label>
+                    <div class="">
+                        <label for="form-informar-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
+                            <input type="radio" class="formInformarGestaoDeRiscoRisco" id="form-informar-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formInformarGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
+                                   @*[now]*@
+                                   @(Model.PossuiInformarGestaoRisco == true && Model.IdTema != 0 ? "checked" : null)
+                                   value="true" @(Model.GestaoDeRisco != null ? "disabled" : null)>
+                            @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                        </label>
+                        <label for="form-informar-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
+                            <input type="radio" class="formInformarGestaoDeRiscoRisco" id="form-Informargestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formInformarGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
+                                   @*[now]*@
+                                   @(Model.PossuiInformarGestaoRisco == false && Model.IdTema != 0 ? "checked" : null)
+                                   value="false" @(Model.GestaoDeRisco != null ? "disabled" : null)>
+                            @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div name="divEsconder">
 
-			@*</div>*@
+            <div class="row">
+                <!-- Identificacao -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form-gestao-de-risco-identificacao-@Model.IdTema" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Identificacao_risco</label>
+                        <textarea id="form-gestao-de-risco-identificacao-@Model.IdTema" name="formGestaoDeRiscoIdentificacao" class="form-control"
+                                  placeholder="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_placeholder_Identificacao_risco"
+                                  data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Identificacao_risco"
+                                  rows="7"
+                                  @(Model.GestaoDeRisco != null ? "disabled" : null)>@(Model.GestaoDeRisco != null? Model.GestaoDeRisco.DescricaoRegistro :null)</textarea>
+                    </div>
+                </div>
+
+                <!-- Criticidade -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form-gestao-de-risco-criticidade" class="control-label">Classificação do risco</label>
+                        <input type="hidden" name="formGestaoDeRiscoCriticidadeCor" value="@(Model.GestaoDeRisco != null ?Model.GestaoDeRisco.CriticidadeGestaoDeRisco:Model.CorRisco)" />
+                        <select id="risco-1to10-@Model.IdTema" class="barraRating @(Model.GestaoDeRisco != null ? "barRating-disabled" : null)" name="formGestaoDeRiscoCriticidade" autocomplete="off"
+                                @(Model.GestaoDeRisco != null ? "disabled" : null)>
+                            <option value="1" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 1 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                            <option value="2" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 2 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                            <option value="3" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 3 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                            <option value="4" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 4 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                            <option value="5" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 5 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve</option>
+                            <option value="6" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 6 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                            <option value="7" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 7 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                            <option value="8" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 8 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                            <option value="9" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 9 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                            <option value="10" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 10 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio</option>
+                            <option value="11" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 11 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                            <option value="12" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 12 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                            <option value="13" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 13 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                            <option value="14" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 14 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                            <option value="15" @(Model.GestaoDeRisco != null && Model.GestaoDeRisco.CriticidadeGestaoDeRisco == 15 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            @*Processo*@
+            @*<div class="col-lg-4  col-sm-3 col-xs-12 responsavel-gestao-de-risco" @(Model.PossuiGestaoRisco == true ? "style='width:500px'" : "style='width:500px;display:none;'")>*@
+            <div class="form-group">
+                @*@Html.DropDownList("Processo" , ViewBag.Processo as SelectList, new { @id = "form-gestao-de-risco-processo-" + Model.IdTema , @name = "formGestaoDeRiscoProcesso" , @class = "form-control" })*@
+                <label for="form-gestao-de-risco-processo-@Model.IdTema" class="control-label">Processo</label>
+                @Html.DropDownListFor(p => p.Processo.IdProcesso, new SelectList(ViewBag.Processo, "IdProcesso", "Nome"),
+               new { @id = "form-gestao-de-risco-processo-" + Model.IdTema, @name = "formGestaoDeRiscoProcesso", @class = "form-control" });
+
+
+                @*<label for="form-gestao-de-risco-processo-@Model.IdTema" class="control-label">Processo</label>
+                    <select id="form-gestao-de-risco-processo-@Model.IdTema" name="formGestaoDeRiscoProcesso" class="form-control"
+                            data-msg-required="Necessário escolher um processo"
+                            @(Model.GestaoDeRisco != null ? "disabled" : null)>
+                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+
+                        @if (Model.GestaoDeRisco != null)
+                        {
+                            <option value="@Model.Processo.IdProcesso" selected>@Model.Processo.Nome</option>
+                    }
+                    </select>*@
+            </div>
+
+            @*</div>*@
 
 
 
 
-			<div class="row gestaoRisco">
-				<!-- Gestao de Risco -->
-				<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-					<div class="form-group">
-						@*@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Gestao_de_risco Teste*@
-						<label>Necessita gestão de risco</label>
-						<div class="">
-							<label for="form-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
-								<input type="radio" class="formGestaoDeRiscoRisco" id="form-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
-									   @(Model.PossuiGestaoRisco == true && Model.IdTema != 0 ? "checked" : null)
-									   value="true" @(Model.GestaoDeRisco != null ? "disabled" : null)>
-								@Traducao.Shared.ResourceLabel.Label_radio_Sim
-							</label>
-							<label for="form-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
-								<input type="radio" class="formGestaoDeRiscoRisco" id="form-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
-									   @(Model.PossuiGestaoRisco == false && Model.IdTema != 0 ? "checked" : null)
-									   value="false">
-								@Traducao.Shared.ResourceLabel.Label_radio_Nao
-							</label>
-						</div>
-					</div>
-				</div>
+            <div class="row gestaoRisco">
+                <!-- Gestao de Risco -->
+                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                    <div class="form-group">
+                        @*@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Gestao_de_risco Teste*@
+                        <label>Necessita gestão de risco</label>
+                        <div class="">
+                            <label for="form-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
+                                <input type="radio" class="formGestaoDeRiscoRisco" id="form-gestao-de-risco-risco-sim@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
+                                       @(Model.PossuiGestaoRisco == true && Model.IdTema != 0 ? "checked" : null)
+                                       value="true" @(Model.GestaoDeRisco != null ? "disabled" : null)>
+                                @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                            </label>
+                            <label for="form-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())">
+                                <input type="radio" class="formGestaoDeRiscoRisco" id="form-gestao-de-risco-risco-nao@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())" name="formGestaoDeRiscoRisco@(Model.IdTema == 0 ? "" : Model.IdTema.ToString())"
+                                       @(Model.PossuiGestaoRisco == false && Model.IdTema != 0 ? "checked" : null)
+                                       value="false">
+                                @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -151,8 +156,8 @@
 
 
 
-				<!-- Responsavel Definicao -->
-				<div class="col-lg-4  col-sm-3 col-xs-12 responsavel-gestao-de-risco" @(Model.PossuiGestaoRisco == true ? "style='width:500px'" : "style='width:500px;display:none;'")>
+                <!-- Responsavel Definicao -->
+                <div class="col-lg-4  col-sm-3 col-xs-12 responsavel-gestao-de-risco" @(Model.PossuiGestaoRisco == true ? "style='width:500px'" : "style='width:500px;display:none;'")>
                     <div class="form-group">
                         <label for="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Responsavel_definicao</label>
 
@@ -161,72 +166,72 @@ new { @id = "form-gestao-de-risco-responsavel-definicao-" + Model.IdTema, @name 
 
 
                         @*<label for="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Responsavel_definicao</label>
-                        <select id="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" name="formGestaoDeRiscoResponsavelDefinicao" class="form-control"
-                                data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Responsavel_definicao"
-                                @(Model.GestaoDeRisco != null ? "disabled" : null)>
-                            <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                            <select id="form-gestao-de-risco-responsavel-definicao-@Model.IdTema" name="formGestaoDeRiscoResponsavelDefinicao" class="form-control"
+                                    data-msg-required="@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_required_Responsavel_definicao"
+                                    @(Model.GestaoDeRisco != null ? "disabled" : null)>
+                                <option value="">@Traducao.Resource.Dropdown_name_select</option>
 
-                            @if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
-                            {
-                                <option value="@Model.GestaoDeRisco.IdResponsavelInicarAcaoImediata" selected>@Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto</option>
-                            }
-                        </select>*@
+                                @if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.ResponsavelInicarAcaoImediata != null)
+                                {
+                                    <option value="@Model.GestaoDeRisco.IdResponsavelInicarAcaoImediata" selected>@Model.GestaoDeRisco.ResponsavelInicarAcaoImediata.NmCompleto</option>
+                                }
+                            </select>*@
                     </div>
 
-				</div>
+                </div>
 
 
-				@if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.IdRegistroConformidade > 0)
-				{
-					<div class="row numeroGestaoRisco">
-						<!-- Numero -->
-						<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-							<div class="form-group">
-								<label for="form-gestao-de-risco-numero" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Numero</label>
-								<input type="text" id="form-gestao-de-risco-numero" name="formGestaoDeRiscoNumero" class="form-control"
-									   placeholder=""
-									   data-msg-required=""
-									   disabled value="@(Model.GestaoDeRisco != null ? @Model.GestaoDeRisco.NuRegistro.ToString() : "")" />
+                @if (Model.GestaoDeRisco != null && Model.GestaoDeRisco.IdRegistroConformidade > 0)
+                {
+                    <div class="row numeroGestaoRisco">
+                        <!-- Numero -->
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-gestao-de-risco-numero" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Numero</label>
+                                <input type="text" id="form-gestao-de-risco-numero" name="formGestaoDeRiscoNumero" class="form-control"
+                                       placeholder=""
+                                       data-msg-required=""
+                                       disabled value="@(Model.GestaoDeRisco != null ? @Model.GestaoDeRisco.NuRegistro.ToString() : "")" />
 
-							</div>
-						</div>
-					</div>
-				}
+                            </div>
+                        </div>
+                    </div>
+                }
 
 
-				@if (Model.PossuiGestaoRisco || Model.IdTema == 0)
-				{
-					<div class="row">
-						<!-- Causa -->
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="form-group">
-								<label for="form-gestao-de-risco-causa" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_causa</label>
-								<textarea type="text" id="form-gestao-de-risco-causa" name="formGestaoDeRiscoCausa" class="form-control"
-										  placeholder="" data-msg-required="" rows="7" @(Model.GestaoDeRisco != null ? " disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa : null)</textarea>
+                @if (Model.PossuiGestaoRisco || Model.IdTema == 0)
+                {
+                    <div class="row">
+                        <!-- Causa -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-gestao-de-risco-causa" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_causa</label>
+                                <textarea type="text" id="form-gestao-de-risco-causa" name="formGestaoDeRiscoCausa" class="form-control"
+                                          placeholder="" data-msg-required="" rows="7" @(Model.GestaoDeRisco != null ? " disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.Causa : null)</textarea>
 
-							</div>
-						</div>
-					</div>
-				}
+                            </div>
+                        </div>
+                    </div>
+                }
 
-				@if (!Model.PossuiGestaoRisco || Model.IdTema == 0)
-				{
-					<div class="row JustificativaGestaoDeRisco">
-						<!-- Causa -->
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="form-group">
-								<label for="form-gestao-de-risco-justificativa" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.Justificativa</label>
-								<textarea type="text" id="form-gestao-de-risco-justificativa" name="formGestaoDeRiscojustificativa" class="form-control"
-										  placeholder="" data-msg-required="" rows="7" @(Model.GestaoDeRisco != null ? " disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa : null)</textarea>
+                @if (!Model.PossuiGestaoRisco || Model.IdTema == 0)
+                {
+                    <div class="row JustificativaGestaoDeRisco">
+                        <!-- Causa -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="form-gestao-de-risco-justificativa" class="control-label">@Traducao.AnaliseCritica.ResourceAnaliseCritica.Justificativa</label>
+                                <textarea type="text" id="form-gestao-de-risco-justificativa" name="formGestaoDeRiscojustificativa" class="form-control"
+                                          placeholder="" data-msg-required="" rows="7" @(Model.GestaoDeRisco != null ? " disabled" : null)>@(Model.GestaoDeRisco != null ? Model.GestaoDeRisco.DsJustificativa : null)</textarea>
 
-							</div>
-						</div>
-					</div>
-				}
+                            </div>
+                        </div>
+                    </div>
+                }
 
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

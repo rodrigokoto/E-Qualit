@@ -1,0 +1,732 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Thundera.Models</name>
+    </assembly>
+    <members>
+        <member name="T:Thundera.Models.AccessControl.DTO.PermissionDTO">
+            <summary>
+            User Permission
+            </summary>
+        </member>
+        <member name="M:Thundera.Models.AccessControl.DTO.PermissionDTO.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.PermissionDTO.UserId">
+            <summary>
+            User id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.PermissionDTO.MenuClaims">
+            <summary>
+            Menu x claims that the user has access
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.PermissionDTO.Roles">
+            <summary>
+            Roles that the user has access
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.PermissionDTO.Menus">
+            <summary>
+            Menus that the user has access
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.PermissionDTO.Systems">
+            <summary>
+            List of systema that user has access
+            </summary>
+        </member>
+        <member name="M:Thundera.Models.AccessControl.DTO.PermissionDTO.CheckMenuPermission(System.String,System.String)">
+            <summary>
+            Verfica se o usuário tem acesso a opção da tela
+            </summary>
+            <param name="ClaimValue"></param>
+            <param name="ClaimType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Thundera.Models.AccessControl.DTO.RoleDTO">
+            <summary>
+            Dados de grupos de usuários
+            </summary>
+        </member>
+        <member name="M:Thundera.Models.AccessControl.DTO.RoleDTO.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.RoleDTO.Id">
+            <summary>
+            Id do grupo de usuários
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.RoleDTO.Name">
+            <summary>
+            Nome do grupo de usuários
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.RoleDTO.Description">
+            <summary>
+            Descrição ou finalizado o grupo de usuários
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.RoleDTO.Systems">
+            <summary>
+            List of systems
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.DTO.RoleDTO.RoleClaims">
+            <summary>
+            Lista de menus com permissão de acesso
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.AccessControl.ModelView.ClaimsModelView">
+            <summary>
+            Claims
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.ClaimsModelView.ClaimType">
+            <summary>
+            Claims type. Sample: Incluir, Alterar, Deletar, Visualizar
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.ClaimsModelView.ClaimValue">
+            <summary>
+            Claim value (IdMenu)
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.ClaimsModelView.Description">
+            <summary>
+            Description of claim
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.ClaimsModelView.Selected">
+            <summary>
+            Define whether claims have been defined for a role
+            </summary>
+        </member>
+        <member name="M:Thundera.Models.AccessControl.ModelView.ClaimsModelView.SetRoleClaims(System.Collections.Generic.List{Thundera.Models.AccessControl.ModelView.ClaimsModelView})">
+            <summary>
+            Set a lista of claims from a Role
+            </summary>
+            <param name="roleClaims"></param>
+        </member>
+        <member name="T:Thundera.Models.AccessControl.ModelView.RoleModelView">
+            <summary>
+            Role
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.RoleModelView.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.RoleModelView.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.RoleModelView.Description">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.RoleModelView.Systems">
+            <summary>
+            System with access permission
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.RoleModelView.RoleClaims">
+            <summary>
+             Menus with access permission
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.AccessControl.ModelView.UserGroupModelView">
+            <summary>
+            Dados de grupos de usuários
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.UserGroupModelView.Id">
+            <summary>
+            Id do grupo de usuários
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.UserGroupModelView.Name">
+            <summary>
+            Nome do grupo de usuários
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.AccessControl.ModelView.UserGroupModelView.Description">
+            <summary>
+            Descrição ou finalizado o grupo de usuários
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.DTO.Occurrence">
+            <summary>
+            Occurrence data
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.Id">
+            <summary>
+            Occurrance Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.IdCompany">
+            <summary>
+            Company ID
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.IdCamera">
+            <summary>
+            Company ID
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.CameraName">
+            <summary>
+            Company ID
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.CompanyName">
+            <summary>
+            Company name
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.AddDate">
+            <summary>
+            Add date
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.Status">
+            <summary>
+            Type of service
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.Priority">
+            <summary>
+            Priority
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.DTO.Occurrence.Description">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Core.CameraModelView">
+            <summary>
+            Camera model view
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.IdCompany">
+            <summary>
+            Company ID
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.Name">
+            <summary>
+            Camera name
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.Function">
+            <summary>
+            Funciton type
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.IP">
+            <summary>
+            Cameras´s IP address
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.Place">
+            <summary>
+            Camera location
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.ControllerBoard">
+            <summary>
+            Controler board
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.GateName">
+            <summary>
+            Gate name
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.AutomaticTransfer">
+            <summary>
+            Transshipment type
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.DoubleCheck">
+            <summary>
+            Double check required
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.Company">
+            <summary>
+            Company
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CameraModelView.Companies">
+            <summary>
+            Lisf of Company
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Core.CompanyModelView">
+            <summary>
+            Company
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CompanyModelView.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Core.CompanyModelView.Name">
+            <summary>
+            Company name
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Core.EFunction">
+            <summary>
+            Function type
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Register.ModelView.Core.EFunction.Biometry">
+            <summary>
+            Biometira
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Register.ModelView.Core.EFunction.Perimeter">
+            <summary>
+            Perimetro
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Register.ModelView.Core.EFunction.Garage">
+            <summary>
+            Garagem
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Core.ETranshipment">
+            <summary>
+            Transhipment type
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Register.ModelView.Core.ETranshipment.Automatic">
+            <summary>
+            Automátic
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Register.ModelView.Core.ETranshipment.Manual">
+            <summary>
+            Mantual
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView">
+            <summary>
+            Access permission data
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.VisitorOrSerivceProviderId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.StartDate">
+            <summary>
+            Start date
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.EndDate">
+            <summary>
+            End date
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.Days">
+            <summary>
+            Entry allowed on the following days of the week
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.CheckIn">
+            <summary>
+            Entry date
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.CheckOut">
+            <summary>
+            Departure date
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.PermissionToPark">
+            <summary>
+            Allow park
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.GarageType">
+            <summary>
+            Garage type
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.AllowCompanion">
+            <summary>
+            Allow Companion
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPermissionModelView.NumberOfCompanions">
+            <summary>
+            Number of Companions
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Occurrance.AccessPointEquipmentModelView">
+            <summary>
+            Equipament
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Occurrance.AccessPointModelView">
+            <summary>
+            Acccess point
+            </summary>
+        </member>
+        <member name="M:Thundera.Models.Register.ModelView.Occurrance.AccessPointModelView.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPointModelView.Name">
+            <summary>
+            Name of acccess point
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.AccessPointModelView.Equipaments">
+            <summary>
+            List of equipaments
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Occurrance.ApartmentModelView">
+            <summary>
+            Apartament data
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.ApartmentModelView.Id">
+            <summary>
+            Apartment id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.ApartmentModelView.BlockId">
+            <summary>
+            Block id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.ApartmentModelView.BlockName">
+            <summary>
+            Block name
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.ApartmentModelView.Number">
+            <summary>
+            Apartament number
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.EquipamentModelView.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.EquipamentModelView.Name">
+            <summary>
+            Camera name
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView">
+            <summary>
+            Occurrance
+            </summary>
+        </member>
+        <member name="M:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.Id">
+            <summary>
+            Occurrance Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.IdCompany">
+            <summary>
+            Company ID
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.IdCamera">
+            <summary>
+            Camera Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.AddDate">
+            <summary>
+            Add date
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.DateAttendence">
+            <summary>
+            Attendence start Date
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.ClosingDate">
+            <summary>
+            Closing date
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.Type">
+            <summary>
+            Type of service
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.Description">
+            <summary>
+            Description and observations made during the service
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.UserId">
+            <summary>
+            User responsible for Attendence
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.Priority">
+            <summary>
+            Priority
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.Status">
+            <summary>
+            Status Attendence
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.ReasonClosing">
+            <summary>
+            Reason closing
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.DwellerIdAutorized">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.CameraURL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.Company">
+            <summary>
+            Company data
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.AccessPoint">
+            <summary>
+            Access point data
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.DwellerAutorized">
+            <summary>
+            Dweller data
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.Equipment">
+            <summary>
+            Equipament data
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.OccurrenceModelView.OccurrenceVisitorOrServiceProviders">
+            <summary>
+            List of visitors or service providers
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView">
+            <summary>
+            Visitors or service providers data
+            </summary>
+        </member>
+        <member name="M:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.VisitorOrServiceProviderId">
+            <summary>
+            Id visitors or service providers
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.AutorizedByDwellerId">
+            <summary>
+            Dweller who authorized the entry of the service provider or visitor
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.IdApartment">
+            <summary>
+            Apartament Id
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.UserType">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.Name">
+            <summary>
+            Name of visitor ou service provider
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.DocNumber">
+            <summary>
+            Document number
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.DocNumber1">
+            <summary>
+            Type of document
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.Photo">
+            <summary>
+            Photo file name
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.PhotoBase64">
+            <summary>
+            Photo base64 format
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.PersonId">
+            <summary>
+            Person Id of 
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.OccurrenceId">
+            <summary>
+            Occurrence Id of 
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.CameraURL">
+            <summary>
+            URL da câmera
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.Apartment">
+            <summary>
+            Apartment data
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.VisitorOrServiceProviderPhones">
+            <summary>
+            List of phone numbers
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.AccessPermissions">
+            <summary>
+            Access Permissions data
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.TypeEnum">
+            <summary>
+            Define if the person who wants to enter is a Visitor or Service Provider
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.TypeEnum.Visitante">
+            <summary>
+            If the person is Visitor, then the code is 9
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Register.ModelView.Occurrance.VisitorOrServiceProviderModelView.TypeEnum.Prestador">
+            <summary>
+            If the person is Service Provider, then the code is 10
+            </summary>
+        </member>
+        <member name="T:Thundera.Models.Shared.Enumerador.UserType">
+            <summary>
+            Defines the type of the user of the system
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.Owner">
+            <summary>
+            Property´s owner
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.ApartmertLandLord">
+            <summary>
+            Apartmert LandLord
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.Father">
+            <summary>
+            Owner's Father
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.Mother">
+            <summary>
+            Owner's Mother
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.Son">
+            <summary>
+            Owner's Son
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.GrandFather">
+            <summary>
+            Owner's GrandFather
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.GrandMother">
+            <summary>
+            Owner's GrandMother
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.Others">
+            <summary>
+            Others
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.Visitor">
+            <summary>
+            Visitor
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.ServiceProvider">
+            <summary>
+            Service Provider
+            </summary>
+        </member>
+        <member name="F:Thundera.Models.Shared.Enumerador.UserType.UserTypeList">
+            <summary>
+            List of user´s types
+            </summary>
+        </member>
+        <member name="P:Thundera.Models.Shared.ModelView.MainModelView`1.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+    </members>
+</doc>

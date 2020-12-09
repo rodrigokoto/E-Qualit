@@ -214,6 +214,7 @@ namespace Web.UI.Controllers
                 }
             }
             catch (Exception ex)
+            
             {
                 GravaLog(ex);
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
