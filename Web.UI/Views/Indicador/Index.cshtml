@@ -74,6 +74,9 @@
                                             <th class="w15 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Responsavel" />
                                             </th>
+                                            <th class="w15 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Ano" />
+                                            </th>
                                             <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido" />
                                             </th>
@@ -87,6 +90,9 @@
                                                 @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Objetivo
                                             </th>
                                             <th>
+                                                @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Ano
+                                            </th>
+                                            <th>
                                                 @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Meta
                                             </th>
                                             <th>
@@ -95,6 +101,7 @@
                                             <th>
                                                 @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Responsavel
                                             </th>
+
                                             <th>
                                                 @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido
                                             </th>
@@ -106,54 +113,58 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Processo.Nome)
-                                                </td>
-                                                <td style="max-width:200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-                                                    @Html.DisplayFor(modelItem => item.Objetivo)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.MetaAnual)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Unidade)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Responsavel.NmCompleto)
-                                                </td>
-                                                <td>
-                                                    @if (item.Direcao == (int)DirecaoIndicador.MelhoParaCima)
-                                                    {
-                                                        @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_cima
-                                                    }
-                                                    else
-                                                    {
-                                                        @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_baixo
-                                                    }
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Processo.Nome)
+                                            </td>
+                                            <td style="max-width:200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                                                @Html.DisplayFor(modelItem => item.Objetivo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Ano)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MetaAnual)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Unidade)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Responsavel.NmCompleto)
+                                            </td>
 
-                                                </td>
-                                                <td>
-                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.Editar) || ViewBag.IdPerfil != 4)
-                                                    {
-                                                        <a href="@Url.Action("Editar", "Indicador", new { id = item.Id })" class="edit icon-cliente  editar-color">
-                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
-                                                        </a>
-                                                    }
-                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.Excluir) || ViewBag.IdPerfil != 4)
-                                                    {
-                                                        <a href="#" class="icon-cliente trash-color del-indicador" data-id-indicador="@item.Id">
-                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                        </a>
-                                                    }
-                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.VisualizarGrafico) || ViewBag.IdPerfil != 4)
-                                                    {
-                                                        <a href="#" class="icon-cliente trash-color black-color" data-id-indicador="@item.Id" onclick="AbrirRelatorio(@item.Id)">
-                                                            <i class="fa fa-bar-chart" aria-hidden="true" data-toggle="modal" data-target=".bd-example-modal-lg" title="Relatório"></i>
-                                                        </a>
-                                                    }
-                                                </td>
-                                            </tr>
+                                            <td>
+                                                @if (item.Direcao == (int)DirecaoIndicador.MelhoParaCima)
+                                                {
+                                                    @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_cima
+                                                }
+                                                else
+                                                {
+                                                    @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_baixo
+                                                }
+
+                                            </td>
+                                            <td>
+                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.Editar) || ViewBag.IdPerfil != 4)
+                                                {
+                                                    <a href="@Url.Action("Editar", "Indicador", new { id = item.Id })" class="edit icon-cliente  editar-color">
+                                                        <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                    </a>
+                                                }
+                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.Excluir) || ViewBag.IdPerfil != 4)
+                                                {
+                                                    <a href="#" class="icon-cliente trash-color del-indicador" data-id-indicador="@item.Id">
+                                                        <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                    </a>
+                                                }
+                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.VisualizarGrafico) || ViewBag.IdPerfil != 4)
+                                                {
+                                                    <a href="#" class="icon-cliente trash-color black-color" data-id-indicador="@item.Id" onclick="AbrirRelatorio(@item.Id)">
+                                                        <i class="fa fa-bar-chart" aria-hidden="true" data-toggle="modal" data-target=".bd-example-modal-lg" title="Relatório"></i>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

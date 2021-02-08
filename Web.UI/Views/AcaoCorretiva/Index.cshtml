@@ -49,9 +49,6 @@
                                         <th class="w10 with-input">
                                             <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_StatusEtapa" />
                                         </th>
-                                        <th class="w21 with-input">
-                                            <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_ResponsavelImplementar" />
-                                        </th>
                                         <th class="w10 with-input">
                                             <input type="text" class="form-control" placeholder="@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Tags" />
                                         </th>
@@ -72,9 +69,6 @@
                                         </th>
                                         <th>
                                             @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_StatusEtapa
-                                        </th>
-                                        <th>
-                                            @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_ResponsavelImplementar
                                         </th>
                                         <th class="">
                                             @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Tags
@@ -124,20 +118,6 @@
                                                 else if (item.StatusEtapa == 5)
                                                 {
                                                     <p class="status-anulada">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Anulada</p>
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (item.StatusEtapa == 3)
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.ResponsavelReverificador.NmCompleto)
-                                                }
-                                                else if (item.StatusEtapa == 2)
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.ResponsavelImplementar.NmCompleto)
-                                                }
-                                                else
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.ResponsavelEtapa.NmCompleto)
                                                 }
                                             </td>
                                             <td class="">

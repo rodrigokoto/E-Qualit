@@ -17,19 +17,23 @@ namespace IsotecWindowsService
         /// </summary>
         static void Main()
         {
-//#if DEBUG
 
-            ServicoIsotec servicoIsotec = new ServicoIsotec();
+            new ServicoIsotec().Processar();
+           
 
-           servicoIsotec.Debug();
-//#else
-//            ServiceBase[] ServicesToRun;
-//            ServicesToRun = new ServiceBase[]
-//            {
-//                new ServicoIsotec()
-//            };
-//            ServiceBase.Run(ServicesToRun);
-//#endif
+            //#if DEBUG
+
+            //            ServicoIsotec servicoIsotec = new ServicoIsotec();
+
+            //            servicoIsotec.IsotecService();
+            //#else
+            //                        ServiceBase[] ServicesToRun;
+            //                        ServicesToRun = new ServiceBase[]
+            //                        {
+            //                            new ServicoIsotec()
+            //                        };
+            //                        ServiceBase.Run(ServicesToRun);
+            //#endif
         }
     }
 }

@@ -251,7 +251,7 @@ namespace Web.UI.Controllers
 
                         var naoConformidadePrazo = (from nc in db.RegistroConformidade
                                                     join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
-                                                    where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "nc"
+                                                    where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.IdSite == idSite && nc.TipoRegistro == "nc"
                                                     select new PendenciaViewModel
                                                     {
                                                         Id = (int)nc.IdRegistroConformidade,
@@ -273,12 +273,13 @@ namespace Web.UI.Controllers
                                                             });
 
                         var acaoCorretiva = (from ac in db.RegistroConformidade
-                                             where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ac.TipoRegistro == "ac" && ac.IdSite == idSite
+                                             join ai in db.AcaoImediata on ac.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                             where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && ac.IdSite == idSite && ac.TipoRegistro == "ac"
                                              select new PendenciaViewModel
                                              {
                                                  Id = ac.IdRegistroConformidade,
                                                  Titulo = ac.NuRegistro.ToString(),
-                                                 IdResponsavel = ac.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                 IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                                  Modulo = "AC",
                                                  Url = "AcaoCorretiva/Editar/" + ac.IdRegistroConformidade
 
@@ -370,19 +371,20 @@ namespace Web.UI.Controllers
                                            select new PendenciaViewModel
                                            {
                                                Id = (int)nc.IdRegistroConformidade,
-                                               Titulo = nc.NuRegistro.ToString(),
+                                               Titulo = nc.NuRegistro.ToString() ,
                                                IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
                                                Modulo = "GR",
                                                Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                            });
 
                         var gestaoRiscoPrazo = (from nc in db.RegistroConformidade
-                                                where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "gr"
+                                                join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                                where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.IdSite == idSite && nc.TipoRegistro == "gr"
                                                 select new PendenciaViewModel
                                                 {
                                                     Id = (int)nc.IdRegistroConformidade,
                                                     Titulo = nc.NuRegistro.ToString(),
-                                                    IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                                    IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                                     Modulo = "GR",
                                                     Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                                 });
@@ -412,12 +414,13 @@ namespace Web.UI.Controllers
                                               });
 
                         var gestaoMelhoriaPrazo = (from nc in db.RegistroConformidade
-                                                   where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtPrazoImplementacao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "gm"
+                                                   join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                                   where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.IdSite == idSite && nc.TipoRegistro == "gm"
                                                    select new PendenciaViewModel
                                                    {
                                                        Id = (int)nc.IdRegistroConformidade,
                                                        Titulo = nc.NuRegistro.ToString(),
-                                                       IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                                       IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                                        Modulo = "GM",
                                                        Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                                    });
@@ -449,8 +452,8 @@ namespace Web.UI.Controllers
                                         Id = docap.IdDocumento,
                                         Titulo = docap.Titulo,
                                         IdResponsavel = res.IdUsuario,
-                                        Modulo = "DocDocumento",
-                                        Url = "DocDocumento/Editar" + docap.IdDocumento
+                                        Modulo = "ControlDoc",
+                                        Url = "ControlDoc/Editar/" + docap.IdDocumento
                                     };
 
                                     docPendencia.Add(pendenciaViewModel);
@@ -471,8 +474,8 @@ namespace Web.UI.Controllers
                                         Id = docver.IdDocumento,
                                         Titulo = docver.Titulo,
                                         IdResponsavel = res.IdUsuario,
-                                        Modulo = "DocDocumento",
-                                        Url = "DocDocumento/Editar" + docver.IdDocumento
+                                        Modulo = "ControlDoc",
+                                        Url = "ControlDoc/Editar/" + docver.IdDocumento
                                     };
 
                                     docPendencia.Add(pendenciaViewModel);
@@ -487,8 +490,8 @@ namespace Web.UI.Controllers
                                 Id = docrev.IdDocumento,
                                 Titulo = docrev.Titulo,
                                 IdResponsavel = docrev.IdElaborador,
-                                Modulo = "DocDocumento",
-                                Url = "DocDocumento/Editar" + docrev.IdDocumento
+                                Modulo = "ControlDoc",
+                                Url = "ControlDoc/Editar/" + docrev.IdDocumento
                             };
 
                             docPendencia.Add(pendenciaViewModel);
@@ -628,6 +631,15 @@ namespace Web.UI.Controllers
                         lstPendencia.AddRange(gestaoMelhoriaPrazo.ToList());
                         lstPendencia.AddRange(gestaoMelhoriaReverificacao.ToList());
                         lstPendencia.AddRange(docPendencia);
+
+                        lstPendencia = lstPendencia.GroupBy(x => x.Id).Select(j => new PendenciaViewModel()
+                        {
+                            Id = j.First().Id, 
+                            IdResponsavel = j.First().IdResponsavel,
+                            Modulo = j.First().Modulo , 
+                            Titulo = j.First().Titulo , 
+                            Url = j.First().Url
+                        }).ToList();
 
                         if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 2 || usuarioLogadoBase.IdPerfil == 3)
                         {

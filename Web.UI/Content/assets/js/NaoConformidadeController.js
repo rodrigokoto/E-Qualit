@@ -117,34 +117,34 @@ APP.controller.NaoConformidadeController = {
         }
         if (page == "CriarNaoConformidade") {
             this.acoesNaoConformidade();
-		}
-		//typeof (destavar) != "undefined" && 
-		if (destravar === 'True') {
+        }
+        //typeof (destavar) != "undefined" && 
+        if (destravar === 'True') {
 
-			
-			this.setDestravarCamposNaoConformidade();
-			this.HabilitaCamposNaoConformidade(perfil);
-			this.formEditarNaoConformidade();
-			this.formAcaoImediata();
-			//this.setAcaoImediata();
-			$('.botaouploadarquivos').removeAttr('disabled');
 
-			var idSite = $('#nao-conformidade-site').val();
-			processoSelecionado = $('[name=formCriarNaoConformidadeProcesso]').find(':selected').val();
-			var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
-			$.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
-				if (result.StatusCode == 200) {
-					//$('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
-					APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
-				}
-			});
-			//this.setResponsavelAnaliseDefinicaoAC();
-			//var valor = $('[name=formCriarNaoConformidadeResponsavel]').val();
-			//$('[name=formCriarNaoConformidadeProcesso]').trigger('change');
-			//$('[name=formCriarNaoConformidadeResponsavel]').val(valor);
+            this.setDestravarCamposNaoConformidade();
+            this.HabilitaCamposNaoConformidade(perfil);
+            this.formEditarNaoConformidade();
+            this.formAcaoImediata();
+            //this.setAcaoImediata();
+            $('.botaouploadarquivos').removeAttr('disabled');
 
-			//this.setResponsavelAnaliseDefinicaoAC();
-			APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+            var idSite = $('#nao-conformidade-site').val();
+            processoSelecionado = $('[name=formCriarNaoConformidadeProcesso]').find(':selected').val();
+            var idFuncao = 14; // Funcionalidade(Define aÃ§Ã£o)
+            $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + processoSelecionado + '&idSite=' + idSite + '&idFuncao=' + idFuncao, (result) => {
+                if (result.StatusCode == 200) {
+                    //$('[name=formCriarNaoConformidadeResponsavel] option').not(':first-child').remove();
+                    APP.component.SelectListCompare.selectList(result.Lista, $('[name="formCriarNaoConformidadeResponsavel"] option'), $('[name="formCriarNaoConformidadeResponsavel"]'), 'IdUsuario', 'NmCompleto');
+                }
+            });
+            //this.setResponsavelAnaliseDefinicaoAC();
+            //var valor = $('[name=formCriarNaoConformidadeResponsavel]').val();
+            //$('[name=formCriarNaoConformidadeProcesso]').trigger('change');
+            //$('[name=formCriarNaoConformidadeResponsavel]').val(valor);
+
+            //this.setResponsavelAnaliseDefinicaoAC();
+            APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
 
         }
 
@@ -336,7 +336,7 @@ APP.controller.NaoConformidadeController = {
                 this.formAcaoImediata();
                 break;
             case 3:
-                this.setShowAndHideStatusEtapa3(); 
+                this.setShowAndHideStatusEtapa3();
                 this.formEditarNaoConformidade();
                 this.formAcaoImediata();
                 break;
@@ -417,11 +417,11 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
         $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-        
+
     },
 
     setHideRowAcaoImediata: function () {
-		//debugger;
+        //debugger;
         $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
         $('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
@@ -446,7 +446,6 @@ APP.controller.NaoConformidadeController = {
             $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        $('.add-acao-imediata').hide();
 
     },
 
@@ -492,7 +491,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        
+
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -586,7 +585,7 @@ APP.controller.NaoConformidadeController = {
             //$(this).find('td')[6].hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        $('.add-acao-imediata').hide();
+
 
     },
 
@@ -633,7 +632,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        
+
 
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
@@ -942,7 +941,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataFoiEficaz]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
-        
+
 
         $('.botaouploadarquivos').prop('disabled', _disabled);
     },
@@ -1015,17 +1014,17 @@ APP.controller.NaoConformidadeController = {
         if (_NecessitaAC == "true") {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').show();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').show();
-        
+
         } else if (_NecessitaAC == "false") {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-  
+
         } else {
             $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataNumeroAC]').closest('[class^=col]').hide();
             $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').hide();
-   
+
         }
 
     },
@@ -1036,7 +1035,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataNecessitaAC]').closest('[class^=col]').show();
         $('[name=formAcaoImadiataResponsavelTratativa]').closest('[class^=col]').show();
         $('[name=formAcaoImadiataAnaliseCausa]').closest('[class^=col]').show();
-       
+
 
         $('[name=formAcaoImadiataECorrecao]').trigger("change");
         $('[name=formAcaoImadiataNecessitaAC]').trigger("change");
@@ -1375,7 +1374,7 @@ APP.controller.NaoConformidadeController = {
                     AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
                     ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
-                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
+                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao] :selected').val(),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                     Parecer: $('[name=formAcaoImadiataParecer]').val(),
@@ -1406,6 +1405,7 @@ APP.controller.NaoConformidadeController = {
                     AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
                     ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
+                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao] :selected').val(),
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
@@ -1426,43 +1426,43 @@ APP.controller.NaoConformidadeController = {
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val()
                 };
                 break;
-			case "fluxo-04":
-				//Obj enviado no fluxo 04 de edicao
-				acoesNaoConformidadeFormCriarNaoConformidadeObj = {
-					StatusEtapa: $('[name=StatusEtapa]').val(),
-					IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
-					AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
-					ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
-					DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
-					FlEficaz: APP.controller.NaoConformidadeController.getFoiEficaz(),
-					Tags: $('[name=formCriarNaoConformidadeTags]').val(),
-					IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
-					IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
-					IdTipoNaoConformidade: $('[name=formCriarNaoConformidadeTipo] :selected').val(),
-					DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
-					ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
-					NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
-					IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
-					CriticidadeGestaoDeRisco: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
-					DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
-					DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
-					DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
-					IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
-					IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-					DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
-					Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
-					DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
-					DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
-					EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
-					ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
-					ArquivosNaoConformidadeAnexos: APP.controller.NaoConformidadeController.getAnexosArquivosNaoConformidadeAnexos(),
-					Causa: $('[name=formCausa]').val(),
+            case "fluxo-04":
+                //Obj enviado no fluxo 04 de edicao
+                acoesNaoConformidadeFormCriarNaoConformidadeObj = {
+                    StatusEtapa: $('[name=StatusEtapa]').val(),
+                    IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                    AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
+                    DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
+                    FlEficaz: APP.controller.NaoConformidadeController.getFoiEficaz(),
+                    Tags: $('[name=formCriarNaoConformidadeTags]').val(),
+                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
+                    IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
+                    IdTipoNaoConformidade: $('[name=formCriarNaoConformidadeTipo] :selected').val(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
+                    ENaoConformidadeAuditoria: APP.component.Radio.init('formCriarNaoConformidadeEAuditoria'),
+                    NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
+                    IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
+                    CriticidadeGestaoDeRisco: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
+                    DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
+                    DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
+                    DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
+                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao] :selected').val(),
+                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
+                    DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                    DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
+                    EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
+                    ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    ArquivosNaoConformidadeAnexos: APP.controller.NaoConformidadeController.getAnexosArquivosNaoConformidadeAnexos(),
+                    Causa: $('[name=formCausa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                     Parecer: $('[name=formAcaoImadiataParecer]').val(),
-				};
-				break;
+                };
+                break;
             case "fluxo-05":
-                
+
                 acoesNaoConformidadeFormCriarNaoConformidadeObj = {
                     StatusEtapa: $('[name=StatusEtapa]').val(),
                     DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
@@ -1481,7 +1481,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
-                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
+                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao] :selected').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
@@ -1494,10 +1494,10 @@ APP.controller.NaoConformidadeController = {
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                     Parecer: $('[name=formAcaoImadiataParecer]').val(),
 
-					ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
-					
-					NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
-					IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
+                    ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
+
+                    NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
+                    IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
 
                 };
                 break;
@@ -1513,7 +1513,7 @@ APP.controller.NaoConformidadeController = {
         let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoDeEvidenciaAcaoImediata", "IdAcaoImediata");
         return ret;
     },
-    
+
     getAnexosArquivosNaoConformidadeAnexos() {
         let raiz = $("#modal-rai" + "ncabeca")[0];
         let ret = FileUploadGlobal_getArrArquivoRaiz(raiz, "IdArquivoNaoConformidadeAnexo", "IdRegistroConformidade");
@@ -1648,18 +1648,26 @@ APP.controller.NaoConformidadeController = {
             html += '</tr>';
 
             $('#tb-acao-imediata tbody').append(html);
-			$('.add-acao-imediata').removeClass('show').addClass('hide');
-			APP.controller.NaoConformidadeController.bind();
+            $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', false);
+            $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', false);
 
-			
-			//if ($('[name=StatusEtapa]').val() == 1) {
-			//	APP.controller.NaoConformidadeController.bind();
-			//} else {
-			//	APP.controller.NaoConformidadeController.bindAcao();
-			//	//$('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
-			//	//$('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
-			//	$('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
-			//}
+            $('[name=formAcaoImadiataNecessitaAC]').prop('disabled', false);
+            $('[name=formAcaoImadiataECorrecao]').prop('disabled', false);
+
+            $('[name=formAcaoImadiataResponsavelReverificacao]').removeClass('hide').add('show');
+            $('[name=formAcaoImadiataResponsavelTratativa]').removeClass('hide').add('show');
+            $('.add-acao-imediata').removeClass('show').addClass('hide');
+            APP.controller.NaoConformidadeController.bind();
+
+
+            //if ($('[name=StatusEtapa]').val() == 1) {
+            //	APP.controller.NaoConformidadeController.bind();
+            //} else {
+            //	APP.controller.NaoConformidadeController.bindAcao();
+            //	//$('[name=formAcaoImadiataTbDtEfetivaImplementacao]').closest('div').hide();
+            //	//$('[name=formAcaoImadiataTbObservacao]').closest('div').hide();
+            //	$('[name=formAcaoImadiataTbEvidencia]').closest('div').hide();
+            //}
             _options.NumeroAcaoImediataGrid++;
 
         });
@@ -1685,24 +1693,24 @@ APP.controller.NaoConformidadeController = {
             dataType: 'json',
             url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=idProcesso&idSite=' + idSite + '&idFuncao=' + idFuncao,
             beforeSend: function () {
-                $('.add-acao-imediata').removeClass('show').addClass('hide');
+                $('.add-acao-imediata').removeClass('hide').addClass('show');
             },
             success: function (result) {
-				if (result.StatusCode == 200) {
-					//debugger;
+                if (result.StatusCode == 200) {
+                    //debugger;
                     //APP.component.SelectListCompare.selectList(result.Lista, $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"] option'), $('#tb-acao-imediata tbody tr:last-child [name="formAcaoImadiataTbResponsavelImplementar"]'), 'IdUsuario', 'NmCompleto');
                     $('[name="formAcaoImadiataTbResponsavelImplementar"]').each(function () {
                         APP.component.SelectListCompare.selectList(result.Lista, $(this).find('option'), $(this), 'IdUsuario', 'NmCompleto');
                     });
-                } 
+                }
             },
             error: function (result) {
                 bootbox.alert(_options.MsgOcorreuErro);
             },
-			complete: function (result) {
-				if ($('[name=StatusEtapa]').val() == "2" || $('[name=StatusEtapa]').val() == "1") {
-					$('.add-acao-imediata').removeClass('hide').addClass('show');
-				}
+            complete: function (result) {
+                if ($('[name=StatusEtapa]').val() == "2" || $('[name=StatusEtapa]').val() == "1") {
+                    $('.add-acao-imediata').removeClass('hide').addClass('show');
+                }
             }
         });
 
@@ -1753,20 +1761,20 @@ APP.controller.NaoConformidadeController = {
         APP.controller.NaoConformidadeController.setHideRowAcaoImediata();
         APP.controller.NaoConformidadeController.delAcaoImediata();
 
-	},
+    },
 
-	bindAcao: function () {
+    bindAcao: function () {
 
-		APP.component.Datapicker.init();
-		APP.controller.NaoConformidadeController.setup();
-		APP.controller.NaoConformidadeController.setAcaoImediata();
-		APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
-		APP.component.FileUpload.init();
-		APP.controller.NaoConformidadeController.setShowPanelEProcedenteSim();
-		//APP.controller.NaoConformidadeController.setHideRowAcaoImediata();
-		APP.controller.NaoConformidadeController.delAcaoImediata();
+        APP.component.Datapicker.init();
+        APP.controller.NaoConformidadeController.setup();
+        APP.controller.NaoConformidadeController.setAcaoImediata();
+        APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+        APP.component.FileUpload.init();
+        APP.controller.NaoConformidadeController.setShowPanelEProcedenteSim();
+        //APP.controller.NaoConformidadeController.setHideRowAcaoImediata();
+        APP.controller.NaoConformidadeController.delAcaoImediata();
 
-	},
+    },
 
     getObjObjFormAcaoImediataValidate: function () {
 
@@ -1829,10 +1837,10 @@ APP.controller.NaoConformidadeController = {
                 };
             } else if (statusEtapa == 3) {
 
-				acoesNaoConformidadeFormAcaoImediataObj = {
-					Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
-					IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
-					DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                acoesNaoConformidadeFormAcaoImediataObj = {
+                    Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
+                    IdResponsavelImplementar: $(tr).find('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    DtEfetivaImplementacao: $(tr).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
 
                     Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     IdAcaoImediata: $(tr).find('[name=formAcaoImadiataTbIdAcaoImediata]').val(),
@@ -1851,12 +1859,12 @@ APP.controller.NaoConformidadeController = {
 
             } else {
 
-				acoesNaoConformidadeFormAcaoImediataObj = {
+                acoesNaoConformidadeFormAcaoImediataObj = {
 
 
-					
 
-					//Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
+
+                    //Aprovado: $(tr).find('[name=formAcaoImadiataTbAprovado]').val(),
                     Descricao: $(tr).find('[name=formAcaoImadiataTbDescricao]').val(),
                     Observacao: $(tr).find('[name=formAcaoImadiataTbObservacao]').val(),
                     DtPrazoImplementacao: $(tr).find('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
@@ -1874,10 +1882,10 @@ APP.controller.NaoConformidadeController = {
                     SubmitArquivoEvidencia: APP.controller.NaoConformidadeController.getAnexosAcaoImediata($(tr).find(".IdentificadorInicialupload").data("identificador")),
 
 
-					
 
-					
-					
+
+
+
                     //ComentarioMotivo: $(tr).find('[name=formAcaoImediataComentarioMotivo]').val(),
                     //ComentarioOrientacao: $(tr).find('[nameformAcaoImediataComentarioOrientacaoformAcaoImadiataTbIdAcaoImediata]').val()
 
@@ -2002,7 +2010,7 @@ APP.controller.NaoConformidadeController = {
         return naoConformidadeObj;
 
     },
-        
+
     saveFormCriarNaoConformidade: function (naoConformidadeObj, _fluxo) {
         var url = "";
 
@@ -2117,6 +2125,8 @@ APP.controller.NaoConformidadeController = {
         this.buttonDestravar.on('click', function () {
 
 
+            
+
             if (perfil == '4') {
 
                 $('#main').find('input, textarea, button, select').removeAttr('disabled');
@@ -2142,6 +2152,8 @@ APP.controller.NaoConformidadeController = {
 
 
             APP.controller.NaoConformidadeController.getResponsavelImplementarAcaoImediata();
+
+
 
         });
     }

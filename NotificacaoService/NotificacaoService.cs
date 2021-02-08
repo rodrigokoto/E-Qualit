@@ -16,6 +16,8 @@ namespace NotificacaoWindowsService
             InitializeComponent();
         }
 
+
+
         protected override void OnStart(string[] args)
         {
             tTimerEnvioEmail.Interval = 1000; //Da 1ª vez espera um segundo para enviar

@@ -584,6 +584,16 @@ namespace Web.UI.Controllers
         {
             var erros = new List<string>();
 
+            var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+
+            if (acoesImediatasNova.Count > 0)
+            {
+                var registroAcoes = _registroConformidadesAppServico.GetById(naoConformidade.IdRegistroConformidade);
+
+                if (registroAcoes.AcoesImediatas.Count > 0)
+                    naoConformidade.StatusEtapa = 1;
+            }
+
             try
             {
                 var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
@@ -643,7 +653,6 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
-                    var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
                     var acoesEfetivadas = naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
                     acoesEfetivadas.ToList().ForEach(acao =>

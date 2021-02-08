@@ -12,6 +12,7 @@ using Dominio.Servico;
 using Dominio.Interface.Servico;
 using System.Web;
 using System.Threading.Tasks;
+using DAL.Context;
 
 namespace Web.UI.Controllers
 {
@@ -471,19 +472,93 @@ namespace Web.UI.Controllers
         {
             var usuarios = new List<Usuario>();
 
-            usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(idProcesso, idSite, idFuncao));
+            using (var db = new BaseContext()) {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+            
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, null));
 
             var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
 
             return Json(new { StatusCode = HttpStatusCode.OK, Lista = usuariosLista }, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpGet]
+        public JsonResult ObterUsuariosPorFuncaoSiteEProcessoControlDoc(int? idProcesso = null, int? idSite = null, int? idFuncao = null)
+        {
+            var usuarios = new List<Usuario>();
+
+            using (var db = new BaseContext())
+            {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+
+
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, null));
+
+            var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
+
+            return Json(new { StatusCode = HttpStatusCode.OK, Lista = usuariosLista }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        public JsonResult ObterUsuariosPorFuncaoSiteEProcessoIndicadores(int? idProcesso = null, int? idSite = null, int? idFuncao = null)
+        {
+            var usuarios = new List<Usuario>();
+
+            using (var db = new BaseContext())
+            {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+
+
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, 12));
+
+            var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
+
+            return Json(new { StatusCode = HttpStatusCode.OK, Lista = usuariosLista }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
         [HttpGet]
         public async Task<JsonResult> ObterUsuariosPorFuncaoSiteEProcessoAsync(int? idProcesso = null, int? idSite = null, int? idFuncao = null)
         {
             var usuarios = new List<Usuario>();
-            
-            usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(idProcesso, idSite, idFuncao));
+
+            using (var db = new BaseContext())
+            {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(idProcesso, idSite, idFuncao));
 
             var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
 
@@ -526,7 +601,18 @@ namespace Web.UI.Controllers
 
             var perfil = Util.ObterPerfilUsuarioLogado();
 
-            usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, idFuncao));
+            using (var db = new BaseContext())
+            {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, idFuncao));
 
             var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto });
 
@@ -540,7 +626,18 @@ namespace Web.UI.Controllers
 
             var perfil = Util.ObterPerfilUsuarioLogado();
 
-            usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorPerfilESite(idSite, idPerfil, perfil));
+            using (var db = new BaseContext())
+            {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorPerfilESite(idSite, idPerfil, perfil));
 
             var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto });
 

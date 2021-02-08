@@ -67,9 +67,6 @@
                                             <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_StatusEtapa" />
                                             </th>
-                                            <th class="w21 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_ResponsavelImplementar" />
-                                            </th>
                                             <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Tags" />
                                             </th>
@@ -90,9 +87,6 @@
                                             </th>
                                             <th>
                                                 @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_StatusEtapa
-                                            </th>
-                                            <th>
-                                                @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_ResponsavelImplementar
                                             </th>
                                             <th class="">
                                                 @Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Tags
@@ -139,9 +133,6 @@
                                                     {
                                                         <p class="status-encerrada">@Traducao.GestaoMelhoria.ResourceGestaoMelhoria.NC_lbl_Status_Encerrada</p>
                                                     }
-                                                </td>
-                                                <td>
-                                                    @item.ResponsavelInicarAcaoImediata.NmCompleto.Trim()
                                                 </td>
                                                 <td class="">
                                                     @(item.Tags != null ? item.Tags.ToString().Trim() : "")

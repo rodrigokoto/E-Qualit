@@ -1,22 +1,14 @@
-﻿using ApplicationService.Interface;
-using Dominio.Entidade;
-using IoC;
+﻿using IoC;
 using IsotecWindowsService.Interface;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Common;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using System.ServiceProcess;
-using System.Text;
+using Dominio.Interface.Repositorio;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Timers;
 
 namespace IsotecWindowsService
 {
@@ -27,61 +19,55 @@ namespace IsotecWindowsService
         private readonly ICalibracaoService _calibracaoService;
         private readonly IQualificacaoService _qualificacaoService;
         private readonly ILicencaService _licencaService;
-        private Thread IsotecServiceThread;
-        private Thread IsotecFornecedorServiceThread;
-        private Thread IsotecLicencaServiceThread;
-        private Timer _timer = null;
+        System.Timers.Timer _timer;
+        DateTime _scheduleTime;
+
+        public Thread ServicoMensageiroThread { get; private set; }
 
         public ServicoIsotec()
         {
-            var kernel = CreateKernel();
+            try
+            {
+                FileLogger.Log("Inicializando serviço");
+                InitializeComponent();
 
-            _notificationService = kernel.Get<INotificationService>();
-            _calibracaoService = kernel.Get<ICalibracaoService>();
-            _qualificacaoService = kernel.Get<IQualificacaoService>();
-            _licencaService = kernel.Get<ILicencaService>();
+                var kernel = CreateKernel();
 
+                _notificationService = kernel.Get<INotificationService>();
+                _calibracaoService = kernel.Get<ICalibracaoService>();
+                _qualificacaoService = kernel.Get<IQualificacaoService>();
+                _licencaService = kernel.Get<ILicencaService>();
+
+            }
+            catch (Exception ex)
+            {
+                FileLogger.Log("Erro durante o processamento ", ex);
+            }
         }
 
-
-        public void Debug()
+        public void Processar()
         {
             OnStart(null);
         }
 
         protected override void OnStart(string[] args)
         {
+            try
+            {
 
-            //StartTimer(new TimeSpan(6, 0, 0), new TimeSpan(24, 0, 0));
+                ServicoMensageiroThread = new Thread(() => IsotecService());
+                ServicoMensageiroThread.Start();
 
+            }
+            catch (Exception ex)
+            {
+                //Displays and Logs Message
+                FileLogger.Log("Erro durante o processamento ", ex);
 
-
-            IsotecServiceThread = new Thread(() => IsotecService());
-            IsotecServiceThread.Start();
-
-            //IsotecFornecedorServiceThread = new Thread(() => QualificacaoService());
-            //IsotecFornecedorServiceThread.Start();
-
-            //IsotecLicencaServiceThread = new Thread(() => LicencaService());
-            //IsotecLicencaServiceThread.Start();
+            }
         }
 
-        protected void StartTimer(TimeSpan scheduledRunTime, TimeSpan timeBetweenEachRun)
-        {
-            // Initialize timer
-            double current = DateTime.Now.TimeOfDay.TotalMilliseconds;
-            double scheduledTime = scheduledRunTime.TotalMilliseconds;
-            double intervalPeriod = timeBetweenEachRun.TotalMilliseconds;
-            // calculates the first execution of the method, either its today at the scheduled time or tomorrow (if scheduled time has already occurred today)
-            double firstExecution = current > scheduledTime ? intervalPeriod - (current - scheduledTime) : scheduledTime - current;
 
-            // create callback - this is the method that is called on every interval
-            TimerCallback callback = new TimerCallback(IsotecService);
-
-            // create timer
-            _timer = new Timer(callback, null, Convert.ToInt32(firstExecution), Convert.ToInt32(intervalPeriod));
-
-        }
 
         protected override void OnStop()
         {
@@ -89,11 +75,22 @@ namespace IsotecWindowsService
         }
         public void IsotecService()
         {
+            while (true)
+            {
+                FileLogger.Log("Executando Isotec Service");
+
+                if (DateTime.Now.Hour == 1)
+                    _notificationService.SendNotification();
+                _calibracaoService.AtualizaCalibracao();
+                _qualificacaoService.EnfileirarEmail();
+                _licencaService.EnfileirarEmail();
+
+                TimeSpan ts = TimeSpan.FromMilliseconds(3600 * 1000);
+                Thread.Sleep(ts);
+            }
+
             // Code that runs every interval period
-            _notificationService.SendNotification();
-            _calibracaoService.AtualizaCalibracao();
-            _qualificacaoService.EnfileirarEmail();
-            _licencaService.EnfileirarEmail();
+
         }
 
         public void IsotecService(object state)
@@ -104,7 +101,7 @@ namespace IsotecWindowsService
             //_qualificacaoService.EnfileirarEmail();
             //_licencaService.EnfileirarEmail();
         }
-     
+
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();

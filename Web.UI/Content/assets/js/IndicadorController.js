@@ -14,10 +14,13 @@ function allnumeric(inputtxt) {
         return false;
     }
 }
+$('[name=formgestaoriscodtinclusao]').val(APP.component.Datatoday.init());
 
 function SubstituiVirgulaPorPonto(campo) {
-    campo.value = campo.value.replace(/,/gi, ".");
-    campo.value = campo.value.replace(/[A-Za-z]/gi, "");
+
+    
+    //campo.value = campo.value.replace(/\./g, ',');
+    //campo.value = campo.value.replace(/[A-Za-z]/gi, "");
 }
 function setPlanoDeVooDisabled() {
 
@@ -473,6 +476,7 @@ APP.controller.IndicadorController = {
         this.buttonGetRelatorioBarras = $('#relatorioBarras');
         this.buttonGetRelatorioColunas = $('#relatorioColunas');
         this.buttonDestravar = $("#btn-destravar");
+        this.buttonImprimir = $(".btn-imprimir");
 
     },
 
@@ -560,6 +564,8 @@ APP.controller.IndicadorController = {
         this.setValidateForms();
         this.formCriarIndicador();
         this.sendFormCriarIndicador();
+        this.eventoImprimir();
+
 
         if ($('[name=IdIndicador]').val() > 0) {
             this.formEditarIndicador();
@@ -611,6 +617,7 @@ APP.controller.IndicadorController = {
         this.getTotalPlanoDeVoo();
         this.setTotalPlanoDeVoo();
         this.setPeriodicidadeAnalise();
+        this.eventoImprimir();
 
         var idIndicador = $('[name=IdIndicador]').val();
 
@@ -654,9 +661,11 @@ APP.controller.IndicadorController = {
 
     getResponsavel: function () {
 
+    
+        var idProcesso = $('[name=IdProcesso]').val();
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 27; // Funcionalidade(Cadastrar) que permite usuario criar nc
-        $.get('/Usuario/ObterUsuariosPorFuncao?idSite=' + idSite + '&idFuncao=' + idFuncao + '', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcessoIndicadores?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '}', (result) => {
             if (result.StatusCode == 200) {
                 APP.component.SelectListCompare.selectList(result.Lista, $('[name=formCriarIndicadorResponsavel] option'), $('[name=formCriarIndicadorResponsavel]'), 'IdUsuario', 'NmCompleto');
             }
@@ -724,6 +733,7 @@ APP.controller.IndicadorController = {
             Unidade: $('[name=formCriarIndicadorUnidade]').val(),
             Objetivo: $('[name=formCriarIndicadorObjetivo]').val(),
             Descricao: $('[name=formCriarIndicadorIndicador]').val(),
+            Medida: $('[name^=formCriarIndicadorTpMedida] :selected').val(),
 
             PeriodicidadeDeAnalises: [{
                 Id: $('[name=IdPeriodicidade]').val(),
@@ -848,29 +858,92 @@ APP.controller.IndicadorController = {
 
     getTotalPlanoDeVoo: function () {
 
-        $('[name=formCriarIndicadorMeta]').on('change', function () {
-            var val = $(this).val();
-            $('[name=formPlanoDeVooTotal]').val(val);
+
+        $('[name= formCriarIndicadorTpMedida]').on('change', function () {
+
+            var tpMedida = $('[name^=formCriarIndicadorTpMedida] :selected').val();
+
+            switch (tpMedida) {
+
+                case "1":
+                    var valor = $('[name^=formCriarIndicadorMeta]').val().replace('.', ',');
+
+                    if (isNaN($('[name^=formCriarIndicadorMeta]').val())) {
+                        valor = 0;
+                    }
+                    $('[name=formPlanoDeVooTotal]').val(valor);
+                    $('[name=formCriarIndicadorUnidade]').prop('disabled', false).val('%');
+
+                    $('[name^=formPlanoDeVooMeta]').each(function () {
+                        $(this).val(valor)
+                    });
+                    break;
+                case "2":
+                    var valor = $('[name^=formCriarIndicadorMeta]').val().replace('.', ',');
+
+                    if (isNaN($('[name^=formCriarIndicadorMeta]').val())) {
+                        valor = 0;
+                    }
+                    $('[name=formCriarIndicadorUnidade]').prop('disabled', false).val('');
+                    $('[name^=formPlanoDeVooMeta]').each(function () {
+                        $(this).val("")
+                    });
+
+                    $('[name=formPlanoDeVooTotal]').val(valor);
+                    break;
+                default:
+            }
+
         });
 
+
+        $('[name=formCriarIndicadorMeta]').on('change', function () {
+
+            var tpMedida = $('[name=formCriarIndicadorTpMedida] :selected').val();
+            var val = $(this).val();
+
+            switch (tpMedida) {
+
+                case '1':
+                    $('[name^=formPlanoDeVooMeta]').each(function () {
+
+                        var valor = parseFloat($('[name^=formCriarIndicadorMeta]').val());
+
+                        $(this).val(valor)
+                    });
+                case '2':
+                    var val = $(this).val();
+                    $('[name=formPlanoDeVooTotal]').val(val);
+                default:
+            }
+        });
     },
 
     setTotalPlanoDeVoo: function () {
 
         $('[name^=formPlanoDeVooMeta]').on('change', function () {
 
-            var meta = parseInt($('[name=formCriarIndicadorMeta]').val());
-            var total = parseInt(0);
+            var tpMedida = $('[name=formCriarIndicadorTpMedida] :selected').val();
 
-            $('[name^=formPlanoDeVooMeta]').each(function () {
-                var val = parseInt($(this).val());
-                if (!isNaN(val)) {
-                    total = total + val;
-                }
-            });
-            var newTotal = meta - total;
-            $('[name=formPlanoDeVooTotal]').val(newTotal);
+            if (tpMedida == '2') {
 
+                var meta = parseFloat($('[name=formCriarIndicadorMeta]').val());
+                var total = parseInt(0);
+
+                $('[name^=formPlanoDeVooMeta]').each(function () {
+                    var val = parseFloat($(this).val());
+                    if (!isNaN(val)) {
+                        total = total + val;
+                    }
+                });
+                var newTotal = meta - total;
+                $('[name=formPlanoDeVooTotal]').val(newTotal);
+            }
+            else {
+                var newTotal = $('[name=formCriarIndicadorMeta]').val();
+
+                $('[name=formPlanoDeVooTotal]').val(newTotal);
+            }
         });
 
     },
@@ -977,11 +1050,15 @@ APP.controller.IndicadorController = {
         });
         $('[name=formPlanoDeVooTotal]').val()
         var total = parseInt($('[name=formPlanoDeVooTotal]').val());
-        if (total !== parseInt(0)) {
-            valid = false;
-            bootbox.alert("Preencha todos os campos do plano de vôo , total da meta deve ser maior que 0");
-        }
 
+        var tpMedida = $('[name^=formCriarIndicadorTpMedida] :selected').val();
+
+        if (tpMedida == "2") {
+            if (total !== parseInt(0)) {
+                valid = false;
+                bootbox.alert("Preencha todos os campos do plano de vôo , total da meta deve ser maior que 0");
+            }
+        }
         return valid;
 
     },
@@ -1289,6 +1366,45 @@ APP.controller.IndicadorController = {
         });
     },
 
+    eventoImprimir: function () {
+
+        this.buttonImprimir.on('click', function () {
+
+            var IdIndicador = $('[name=IdIndicador]').val();
+
+           
+            APP.controller.IndicadorController.imprimir(IdIndicador);
+
+        });
+
+    },
+
+    imprimir: function (IdIndicador) {
+
+
+        if (IdIndicador != null) {
+
+            APP.component.Loading.showLoading();
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Indicador/PDFDownload?id=' + IdIndicador, true);
+            xhr.responseType = 'arraybuffer';
+            xhr.onload = function (e) {
+                if (this.status == 200) {
+                    var blob = new Blob([this.response], { type: "application/pdf" });
+                    var pdfUrl = URL.createObjectURL(blob);
+                    printJS(pdfUrl);
+                }
+
+                APP.component.Loading.hideLoading();
+
+            };
+
+            xhr.send();
+
+        }
+    },
+
     setPeriodicidadeAnalise: function () {
 
         $('[name=formCriarIndicadorPeriodicidadeMedicao]').on('change', function () {
@@ -1465,7 +1581,7 @@ APP.controller.IndicadorController = {
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 49; // Funcionalidade(Implementar aÃ§Ã£o) que permite Criar aÃ§Ãµes Corretivas
         var idProcesso = $('[name=IdProcesso]').val();
-        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '}', (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcessoIndicadores?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '}', (result) => {
             if (result.StatusCode == 200) {
 
                 if ($(_this).closest('#gestaoDeRisco').find('[name="formGestaoDeRiscoResponsavelDefinicao"]').find("option").length <= 1) {

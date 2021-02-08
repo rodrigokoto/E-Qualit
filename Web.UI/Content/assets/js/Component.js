@@ -354,6 +354,11 @@ APP.component.DataTable = {
 
     setDataTable: function (_nomeTable) {
         table = $(_nomeTable).DataTable({
+            "order": [[0, "asc"],[1 , "asc"]],
+            "columnDefs": [{
+                target: [1],
+                orderData: [0, 1],
+            }],
             "destroy": true,
             "responsive": true,
             "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, _options.tabelaTodosRegistros]],
@@ -1785,7 +1790,7 @@ APP.component.UserMenu = {
 
                     document.cookie = "siteSelecionado=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     document.cookie = "clienteSelecionado=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    
+
                     htmlSites += '<!-- Site - ' + val.NmFantasia + ' -->';
                     htmlSites += '<div class="col-md-2">';
                     htmlSites += '<div class="box-clientes">';

@@ -346,7 +346,7 @@
                                                 <div id="@(processo.Key)" class="subPages collapse class">
                                                     <ul class="nav">
                                                         <li style="border-bottom: 2px solid #e7e7e7;">
-                                                            <a href="#subPages@(processo.Key.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria"
+                                                            <a href="#subPages@(processo.Key.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/","").Replace("(", "").Replace(")", "").Replace("ç", "c").Replace("ã" , "a"))Categoria"
                                                                id="hrefDocs"
                                                                class="hrefDocs active collapsed"
                                                                style="padding-left:0px; text-align:center; display: inline-flex"
@@ -360,7 +360,7 @@
 
                                                             </a>
 
-                                                            <div id="subPages@(processo.Key.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/",""))Categoria" class="subPages2 class collapse" style="height: 0px;">
+                                                            <div id="subPages@(processo.Key.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/","").Replace("(", "").Replace(")", "").Replace("ç", "c").Replace("ã" , "a"))Categoria" class="subPages2 class collapse" style="height: 0px;">
                                                                 <ul class="nav">
                                                                     @{ var item = 0; }
                                                                     @foreach (var categoria in processo)

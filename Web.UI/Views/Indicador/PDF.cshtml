@@ -1,0 +1,576 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@using Dominio.Entidade
+@using Dominio.Enumerado
+@model Dominio.Entidade.Indicador
+
+@{
+    var bgBody = ViewData["background"];
+}
+
+@{
+    ViewBag.Title = "Indicador";
+    Layout = null;
+    var listaPermissoes = new List<PermissoesApp>();
+
+    listaPermissoes.AddRange(ViewBag.Permissoes);
+
+    var temPeriodicidadeAnalise = Model.PeriodicidadeDeAnalises.Count > 0;
+    var listaPeriodicidade = new List<PeriodicidaDeAnalise>();
+    var metas = new List<Meta>();
+    var realizados = new List<PlanoVoo>();
+    if (temPeriodicidadeAnalise)
+    {
+        listaPeriodicidade.AddRange(Model.PeriodicidadeDeAnalises);
+        metas.AddRange(listaPeriodicidade[0].PlanoDeVoo);
+        realizados.AddRange(listaPeriodicidade[0].MetasRealizadas);
+    }
+}
+<html>
+<head>
+    <meta name="page" content="ConteudoDocumento" />
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @Styles.Render("~/Content/assets/css")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container">
+
+
+
+        <style>
+            body {
+                font-size: 10px;
+                background: url( @bgBody ) repeat center center;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+
+                body::after {
+
+                }
+
+            .ui-timepicker {
+                width: 119px !important;
+            }
+
+            .ui-timepicker-container {
+                width: 128px !important;
+                /*overflow: auto;*/
+            }
+
+            .ui-timepicker-viewport {
+                width: 75px !important;
+            }
+
+                .ui-timepicker-viewport li {
+                    width: 85px !important;
+                }
+
+            .caixa {
+                font-family: 'Abel-Regular', sans-serif !important;
+                width: 100%;
+                padding: 12px 10px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+                /*background: #fff;*/
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+                font-size: medium;
+                /*color: #000000;*/
+            }
+
+            .tabela-check {
+                /*background-color: white !important;*/
+            }
+
+            #main {
+                max-height: 700px !important;
+            }
+        </style>
+
+
+        <div class="" id="main1" style="top: 140px; ">
+            <div class="caixa">
+                <div class="panel-body" id="panel-form-indicador">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <!-- Processo -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-processo">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Processo</label>
+                                    <br />
+                                    @Model.Processo.Nome
+                                </div>
+                            </div>
+                            <!-- Responsavel -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-responsavel" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Responsavel</label>
+                                    <br />
+                                    @Model.Responsavel.NmCompleto
+                                </div>
+                            </div>
+                            <!-- Periodicidade Medição -->
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-periodicidade-medicao" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_PeriodicidadeMedicao</label>
+                                    <br />
+
+                                    @switch (Model.PeriodicidadeMedicao)
+                                    {
+                                        case (int)PeriodicidadeMedicao.Mensal:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_mensal
+                                            break;
+                                        case (int)PeriodicidadeMedicao.Bimestral:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_bimestral
+                                            break;
+                                        case (int)PeriodicidadeMedicao.Trimestral:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral
+                                            break;
+                                        case (int)PeriodicidadeMedicao.Semestral:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral
+                                            break;
+                                        case (int)PeriodicidadeMedicao.Anual:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual
+                                            break;
+                                    }
+
+                                </div>
+                            </div>
+                            <!-- Periodicidade -->
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-periodicidade" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade</label>
+                                    <br />
+                                    @switch (Model.Periodicidade)
+                                    {
+                                        case (int)PeriodicidadeMedicao.Mensal:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_mensal
+                                            break;
+                                        case (int)PeriodicidadeMedicao.Bimestral:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_bimestral
+                                            break;
+                                        case (int)PeriodicidadeMedicao.Trimestral:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_trimestral
+                                            break;
+                                        case (int)PeriodicidadeMedicao.Semestral:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_semestral
+                                            break;
+                                        case (int)PeriodicidadeMedicao.Anual:
+                                            @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Periodicidade_anual
+                                            break;
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Sentido da Meta -->
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-sentido" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido</label>
+                                    <br />
+                                    @if (Model.Direcao == (int)DirecaoIndicador.MelhoParaCima)
+                                    {
+                                        @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_cima
+                                    }
+                                    @if (Model.Direcao == (int)DirecaoIndicador.MelhoParaBaixo)
+                                    {
+                                        @Traducao.Indicador.ResourceIndicador.Indicador_lbl_Sentido_dropdown_baixo
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Objetivo -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-objetivo" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Objetivo</label>
+                                    <br />
+                                    @Model.Objetivo
+                                </div>
+                            </div>
+                            <!-- Indicador -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-indicador" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Indicador</label>
+                                    <br />
+                                    @Model.Descricao
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Ano -->
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-ano" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Ano</label>
+                                    <br />
+                                    @(Model.Ano > 0? Model.Ano.ToString():DateTime.Now.Year.ToString())
+                                </div>
+                            </div>
+                            <!-- Meta -->
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-meta" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Meta</label>
+                                    <br />
+                                    @Model.MetaAnual
+                                </div>
+                            </div>
+                            <!-- Unidade -->
+                            <div class="col-lg-6 col-md-2 col-sm-4 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-unidade" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Unidade</label>
+                                    <br />
+                                    @Model.Unidade
+                                </div>
+                            </div>
+
+                            <!-- Tipo Medida -->
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-medida" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_tp_Medida</label>
+                                    <br />
+                                    @if (Model.Medida == (int)UnidadeDeMedida.Porcentagem)
+                                    {
+                                        @Traducao.Indicador.ResourceIndicador.indicador_Porcentagem
+                                    }
+                                    @if (Model.Medida == (int)UnidadeDeMedida.Unidade)
+                                    {
+                                        @Traducao.Indicador.ResourceIndicador.indicador_Unidade
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="panel-planodevoo">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_titulo_plano_de_voo</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="panel-form-planodevoo">
+                        <div class="barra-busca">
+                            <div class="row">
+                                <!-- Painel Plano de Voo -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <table id="tb-plano-de-voo" class="display dataTable no-footer dtr-inline table-bordered table" style="" name="formAcaoImadiata">
+                                        <thead class="titulo-tabela">
+                                            <tr class="bg" role="row">
+                                                <th class="w8"></th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Jan</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Fev</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Mar</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Abr</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Mai</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Jun</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Jul</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Ago</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Set</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Out</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Nov</th>
+                                                <th class="w7">@Traducao.Shared.ResourceLabel.Label_mes_Dez</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Plano de Voo -->
+                                            <tr role="row" class="odd">
+                                                <td>
+                                                    <label>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_titulo_plano_de_voo</label>
+                                                </td>
+                                                <!-- Janeiro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-jan" name="formPlanoDeVooMetaJan" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jan"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[0].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Fevereiro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-fev" name="formPlanoDeVooMetaFev" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Fev"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[1].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Março -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-mar" name="formPlanoDeVooMetaMar" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mar"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[2].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Abril -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-abr" name="formPlanoDeVooMetaAbr" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Abr"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[3].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Maio -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-mai" name="formPlanoDeVooMetaMai" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mai"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[4].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Jun -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-jun" name="formPlanoDeVooMetaJun" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jun"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[5].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Julho -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-jul" name="formPlanoDeVooMetaJul" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jul"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[6].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Agosto -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-ago" name="formPlanoDeVooMetaAgo" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Ago"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[7].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Setembro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-set" name="formPlanoDeVooMetaSet" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Set"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[8].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Outubro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-out" name="formPlanoDeVooMetaOut" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Out"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[9].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Novembro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-nov" name="formPlanoDeVooMetaNov" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Nov"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[10].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Dezembro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="form-planodevoo-meta-dez" name="formPlanoDeVooMetaDez" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Dez"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo" style="min-width:66px;"
+                                                               value="@(metas.Count > 0 ? metas[11].Valor.ToString():null)" />
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            <!-- Realizado -->
+                                            <tr role="row" class="odd">
+                                                <td>
+                                                    <label>@Traducao.Indicador.ResourceIndicador.Indicador_lbl_titulo_realizado</label>
+                                                </td>
+                                                <!-- Janeiro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooJan" value="@(realizados.Count > 0? realizados[0].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-jan" name="formPlanoDeVooRealizadoJan" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jan"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 0 && realizados[0].Realizado.HasValue ? realizados[0].Realizado.Value.ToString():null)" />
+
+                                                    </div>
+                                                </td>
+                                                <!-- Fevereiro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooFev" value="@(realizados.Count > 1? realizados[1].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-fev" name="formPlanoDeVooRealizadoFev" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Fev"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 1  && realizados[1].Realizado.HasValue ? realizados[1].Realizado.Value.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Março -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooMar" value="@(realizados.Count > 2? realizados[2].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-mar" name="formPlanoDeVooRealizadoMar" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mar"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 2  && realizados[2].Realizado.HasValue ? realizados[2].Realizado.Value.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Abril -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooAbr" value="@(realizados.Count > 3 ? realizados[3].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-abr" name="formPlanoDeVooRealizadoAbr" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Abr"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 3  && realizados[3].Realizado.HasValue ? realizados[3].Realizado.Value.ToString():null)" />
+
+                                                    </div>
+                                                </td>
+                                                <!-- Maio -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooMai" value="@(realizados.Count > 4 ? realizados[4].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-mai" name="formPlanoDeVooRealizadoMai" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Mai"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 4  && realizados[4].Realizado.HasValue ? realizados[4].Realizado.Value.ToString():null)" />
+
+                                                    </div>
+                                                </td>
+                                                <!-- Jun -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooJun" value="@(realizados.Count > 5 ? realizados[5].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-jun" name="formPlanoDeVooRealizadoJun" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jun"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 5  && realizados[5].Realizado.HasValue ? realizados[5].Realizado.Value.ToString():null)" />
+
+                                                    </div>
+                                                </td>
+                                                <!-- Julho -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooJul" value="@(realizados.Count > 6 ? realizados[6].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-jul" name="formPlanoDeVooRealizadoJul" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Jul"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 6  && realizados[6].Realizado.HasValue ? realizados[6].Realizado.Value.ToString():null)" />
+
+                                                    </div>
+                                                </td>
+                                                <!-- Agosto -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooAgo" value="@(realizados.Count > 7 ? realizados[7].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-ago" name="formPlanoDeVooRealizadoAgo" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Ago"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 7  && realizados[7].Realizado.HasValue ? realizados[7].Realizado.Value.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Setembro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooSet" value="@(realizados.Count > 8 ? realizados[8].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-set" name="formPlanoDeVooRealizadoSet" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Set"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 8  && realizados[8].Realizado.HasValue ? realizados[8].Realizado.Value.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Outubro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooOut" value="@(realizados.Count > 9 ? realizados[9].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-out" name="formPlanoDeVooRealizadoOut" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Out"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 9  && realizados[9].Realizado.HasValue ? realizados[9].Realizado.Value.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Novembro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooNov" value="@(realizados.Count > 10? realizados[10].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-nov" name="formPlanoDeVooRealizadoNov" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Nov"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 10  && realizados[10].Realizado.HasValue ? realizados[10].Realizado.Value.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <!-- Dezembro -->
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="IdPlanoDeVooDez" value="@(realizados.Count > 11 ? realizados[11].Id.ToString():null)" />
+                                                        <input type="text" id="form-planodevoo-realizado-dez" name="formPlanoDeVooRealizadoDez" class="form-control" onblur="allnumeric(this)" onkeyup="SubstituiVirgulaPorPonto(this)"
+                                                               placeholder="@Traducao.Shared.ResourceLabel.Label_mes_Dez"
+                                                               style="min-width:66px;"
+                                                               data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Plano_de_voo"
+                                                               value="@(realizados.Count > 11  && realizados[11].Realizado.HasValue ? realizados[11].Realizado.Value.ToString():null)" />
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_OpcoesScripts")
+
+        <script type="text/javascript">
+            var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
+            mxDefaultLanguage = 'pt';
+
+            var APP = {
+                core: {},
+                model: {},
+                component: {},
+                controller: {}
+            };
+
+        </script>
+
+        @section scripts {
+            <script src="@Url.Content("~/Content/assets/js/IndicadorController.js")"></script>
+            <script src="@Url.Content("~/ckeditor/ckeditor.js")"></script>
+            <script src="@Url.Content("~/Content/assets_src/js/components/_print.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/js/ControladorCategoriasController.js")"></script>
+            <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        }
+
+</body>
+</html>

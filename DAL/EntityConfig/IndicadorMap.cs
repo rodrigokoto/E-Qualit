@@ -53,6 +53,9 @@ namespace DAL.EntityConfig
                  .HasColumnName("StatusRegistro")
                .IsRequired();
 
+            Property(x => x.Medida)
+                .IsRequired();
+          
             #region Relacionamento
 
             HasRequired(x => x.Processo)

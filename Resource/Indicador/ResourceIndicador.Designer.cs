@@ -61,6 +61,24 @@ namespace Traducao.Indicador {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Area.
+        /// </summary>
+        public static string indicador_Area {
+            get {
+                return ResourceManager.GetString("indicador_Area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comprimento.
+        /// </summary>
+        public static string indicador_Comprimento {
+            get {
+                return ResourceManager.GetString("indicador_Comprimento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ações.
         /// </summary>
         public static string Indicador_lbl_Acoes {
@@ -313,11 +331,29 @@ namespace Traducao.Indicador {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tipo Medida.
+        /// </summary>
+        public static string Indicador_lbl_tp_Medida {
+            get {
+                return ResourceManager.GetString("Indicador_lbl_tp_Medida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unidade.
         /// </summary>
         public static string Indicador_lbl_Unidade {
             get {
                 return ResourceManager.GetString("Indicador_lbl_Unidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Massa.
+        /// </summary>
+        public static string indicador_Massa {
+            get {
+                return ResourceManager.GetString("indicador_Massa", resourceCulture);
             }
         }
         
@@ -345,6 +381,15 @@ namespace Traducao.Indicador {
         public static string Indicador_msg_required_Indicador {
             get {
                 return ResourceManager.GetString("Indicador_msg_required_Indicador", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medida é obrigatório.
+        /// </summary>
+        public static string Indicador_msg_required_Medida {
+            get {
+                return ResourceManager.GetString("Indicador_msg_required_Medida", resourceCulture);
             }
         }
         
@@ -444,6 +489,33 @@ namespace Traducao.Indicador {
         public static string Indicador_msg_save_valid {
             get {
                 return ResourceManager.GetString("Indicador_msg_save_valid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Porcentagem.
+        /// </summary>
+        public static string indicador_Porcentagem {
+            get {
+                return ResourceManager.GetString("indicador_Porcentagem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unidade.
+        /// </summary>
+        public static string indicador_Unidade {
+            get {
+                return ResourceManager.GetString("indicador_Unidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume .
+        /// </summary>
+        public static string indicador_Volume {
+            get {
+                return ResourceManager.GetString("indicador_Volume", resourceCulture);
             }
         }
     }

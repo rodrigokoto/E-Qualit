@@ -246,4 +246,28 @@
   <data name="Indicador_lbl_mediaPlano" xml:space="preserve">
     <value>Média Plano de Vôo</value>
   </data>
+  <data name="indicador_Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="indicador_Comprimento" xml:space="preserve">
+    <value>Comprimento</value>
+  </data>
+  <data name="Indicador_lbl_tp_Medida" xml:space="preserve">
+    <value>Tipo Medida</value>
+  </data>
+  <data name="indicador_Massa" xml:space="preserve">
+    <value>Massa</value>
+  </data>
+  <data name="Indicador_msg_required_Medida" xml:space="preserve">
+    <value>Medida é obrigatório</value>
+  </data>
+  <data name="indicador_Porcentagem" xml:space="preserve">
+    <value>Porcentagem</value>
+  </data>
+  <data name="indicador_Unidade" xml:space="preserve">
+    <value>Unidade</value>
+  </data>
+  <data name="indicador_Volume" xml:space="preserve">
+    <value>Volume </value>
+  </data>
 </root>

@@ -4,8 +4,14 @@
 |--------------------------------------------------------------------------
 */
 
+function SelectAllCargos() {
+
+    let checkState = $("#form-cargos-escolha-all").is(":checked") ? true : false;
+    $('[name=formCargosEscolha]').not(this).prop('checked', checkState);
+}
 
 APP.controller.ControlDocController = {
+
 
     init: function () {
 
@@ -163,10 +169,12 @@ APP.controller.ControlDocController = {
         //Control Doc - EmissaoDocumento
         this.buttonTabs = $(".menu-one li");
         this.buttonSalvar = $('.btn-salvar');
+        this.buttonSalvarCargo = $('.btn-salvar-cargo');
         this.buttonEnviarVerificacao = $('.btn-enviar-verificacao');
         this.buttonEnviarAprovacao = $('.btn-enviar-aprovacao');
         this.buttonVoltarElaboracao = $('.btn-voltar-elaboracao');
         this.buttonAprovar = $('.btn-aprovar');
+        this.buttonCargo = $('.btn-cargo');
 
         //Control Doc - ListDocumentos
         this.buttonExcluirDocumento = $(".excluir-documento");
@@ -236,6 +244,9 @@ APP.controller.ControlDocController = {
         this.setObsoletarDocumento();
         this.setDocHome();
         this.setImprimirDocumento();
+        this.getSelectAllCargos();
+        this.sendFormCargoDocumento();
+        this.setCargosListDocumento();
         this.imprimir();
     },
 
@@ -340,7 +351,7 @@ APP.controller.ControlDocController = {
 
                             $(".usuarioDestinoCopiaControlada").show();
                             event.preventDefault();
-                             
+
                             APP.controller.ControlDocController.solicitarImpressao(perfil, APP.controller.ControlDocController.models.idDocumento);
 
                         }
@@ -838,7 +849,53 @@ APP.controller.ControlDocController = {
         return arrayFormValidate;
 
     },
+    sendFormCargoDocumento: function () {
+        this.buttonSalvarCargo.unbind('click');
+        this.buttonSalvarCargo.on('click', function () {
 
+
+            var IdDocumento = $('#form-iddoc-cargo').val();
+            var table = $('.tabela-cargo-check');
+            var arrayFormCargosObj = [];
+            var cargos = {};
+
+            table.find('[name=formCargosEscolha]:checked').each(function () {
+                cargos = {
+                    Id: $(this).data("iddoccargo"),
+                    IdCargo: $(this).val(),
+                    IdDocumento: IdDocumento,
+
+                };
+                arrayFormCargosObj.push(cargos);
+            });
+
+            var Cargo = APP.controller.ControlDocController.getObjFormCargos();
+            
+            var dataSend = JSON.stringify({ Cargos: Cargo });
+            $.ajax({
+                type: "POST",
+                data: {
+                    'cargos': arrayFormCargosObj
+                },
+                dataType: 'json',
+                url: '/ControlDoc/AdicionarCargosDocumento',
+                beforeSend: function () {
+                    
+                },
+                success: function (result) {
+                    bootbox.alert("Cargos atualizados com sucesso");
+                },
+                error: function (result) {
+                    bootbox.alert("Erro contate o administrador");
+                },
+                complete: function (result) {
+
+                }
+            });
+
+        });
+
+    },
     sendFormEmissaoDocumento: function () {
         this.buttonSalvar.unbind('click');
         this.buttonSalvar.on('click', function () {
@@ -1392,7 +1449,7 @@ APP.controller.ControlDocController = {
             type: "GET",
             dataType: 'JSON',
             data: data,
-            url: '/Usuario/ObterUsuariosPorFuncao',
+            url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcessoControlDoc',
             beforeSend: function () {
 
             },
@@ -1412,7 +1469,7 @@ APP.controller.ControlDocController = {
         var eColaborador = $('#emissao-documento-e-colaborador').val();
         var IdUsuarioLogado = $('#emissao-documento-id-usuario-logado').val();
         if (eColaborador == "true") {
-            $('[name=formCadastroElaborador]').prop('disabled', true);
+            $('[name=formCadastroElaborador]').prop('disabled', false);
             $('[name=formCadastroElaborador]').val(IdUsuarioLogado);
         }
 
@@ -3446,6 +3503,55 @@ APP.controller.ControlDocController = {
 
     },
 
+    setCargosListDocumento: function () {
+        this.buttonCargo.unbind('click');
+        this.buttonCargo.on('click', function () {
+
+            APP.component.Loading.showLoading();
+
+            var iddoc = $(this).data('id-doc');
+
+            $('#form-iddoc-cargo').val(iddoc);
+
+            $.ajax({
+                type: "GET",
+                data: {
+                    id: iddoc
+                },
+                dataType: 'json',
+                url: '/ControlDoc/CargosPorDocumento',
+                beforeSend: function () { },
+                success: function (result) {
+                    if (result.StatusCode == 200) {
+
+                        var $divCargos = $(".tabela-cargo-check");
+
+                        $divCargos.empty();
+
+                        var resetHtml = '';
+                        resetHtml += '<div class="col-md-12 checkbox">'
+                        resetHtml += '<input type="checkbox" name="formCargosEscolhaAll" onclick="SelectAllCargos()" id="form-cargos-escolha-all" class="form-control" value="">'
+                        resetHtml += '<label for="form-cargos-escolha-all">Selecionar Todos</label>'
+                        resetHtml += '</div>'
+
+                        $divCargos.append(resetHtml);
+
+                        $.each(result.Dados, function (index, cargo) {
+                            APP.controller.ControlDocController.addCargosEmissaoDocumentos(cargo);
+                        });
+                    }
+                },
+                error: function (result) {
+                    APP.component.Loading.hideLoading();
+                    bootbox.alert(_options.MsgOcorreuErro);
+                },
+                complete: function (result) {
+                    APP.component.Loading.hideLoading();
+                    $("#modal-panel-form-cargos").modal();
+                }
+            });
+        });
+    },
     setCargosEmissaoDocumentos: function () {
 
         $.ajax({

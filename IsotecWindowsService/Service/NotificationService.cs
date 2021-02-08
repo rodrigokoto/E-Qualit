@@ -16,10 +16,10 @@ namespace IsotecWindowsService.Service
 {
     public class NotificationService : INotificationService
     {
-     
+
         private readonly IFilaEnvioServico _filaEnvioServico;
         private readonly IUsuarioAppServico _usuarioAppServico;
-        
+
         DateTime LastDay = DateTime.Now.AddDays(-1);
         public NotificationService(IFilaEnvioServico filaEnvioServico, IUsuarioAppServico usuarioAppServico)
         {
@@ -31,11 +31,7 @@ namespace IsotecWindowsService.Service
         {
             using (var db = new BaseContext())
             {
-
-
                 var DtVencimento = DateTime.Now.AddDays(-1);
-
-
 
                 var licenca = (from lc in db.Licenca
                                where lc.DataVencimento.Value < DtVencimento
@@ -92,7 +88,7 @@ namespace IsotecWindowsService.Service
 
                 var naoConformidadePrazo = (from nc in db.RegistroConformidade
                                             join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
-                                            where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && nc.TipoRegistro == "nc"
+                                            where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.TipoRegistro == "nc"
                                             select new PendenciaViewModel
                                             {
                                                 Id = (int)nc.IdRegistroConformidade,
@@ -114,12 +110,13 @@ namespace IsotecWindowsService.Service
                                                     });
 
                 var acaoCorretiva = (from ac in db.RegistroConformidade
-                                     where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ac.TipoRegistro == "ac"
+                                     join ai in db.AcaoImediata on ac.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                     where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && ac.TipoRegistro == "ac"
                                      select new PendenciaViewModel
                                      {
                                          Id = ac.IdRegistroConformidade,
                                          Titulo = ac.NuRegistro.ToString(),
-                                         IdResponsavel = ac.ResponsavelInicarAcaoImediata.IdUsuario,
+                                         IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                          Modulo = "AC",
                                          Url = "AcaoCorretiva/Editar/" + ac.IdRegistroConformidade
 
@@ -218,12 +215,13 @@ namespace IsotecWindowsService.Service
                                    });
 
                 var gestaoRiscoPrazo = (from nc in db.RegistroConformidade
-                                        where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtPrazoImplementacao < DateTime.Now && nc.TipoRegistro == "gr"
+                                        join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                        where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.TipoRegistro == "gr"
                                         select new PendenciaViewModel
                                         {
                                             Id = (int)nc.IdRegistroConformidade,
                                             Titulo = nc.NuRegistro.ToString(),
-                                            IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                            IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                             Modulo = "GR",
                                             Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                         });
@@ -253,12 +251,13 @@ namespace IsotecWindowsService.Service
                                       });
 
                 var gestaoMelhoriaPrazo = (from nc in db.RegistroConformidade
-                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtPrazoImplementacao < DateTime.Now && nc.TipoRegistro == "gm"
+                                           join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.TipoRegistro == "gm"
                                            select new PendenciaViewModel
                                            {
                                                Id = (int)nc.IdRegistroConformidade,
                                                Titulo = nc.NuRegistro.ToString(),
-                                               IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                               IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                                Modulo = "GM",
                                                Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                            });
@@ -469,6 +468,16 @@ namespace IsotecWindowsService.Service
                 lstPendencia.AddRange(gestaoMelhoriaReverificacao.ToList());
                 lstPendencia.AddRange(docPendencia);
 
+                lstPendencia = lstPendencia.GroupBy(x => x.Id).Select(j => new PendenciaViewModel()
+                {
+                    Id = j.First().Id,
+                    IdResponsavel = j.First().IdResponsavel,
+                    Modulo = j.First().Modulo,
+                    Titulo = j.First().Titulo,
+                    Url = j.First().Url
+                }).ToList();
+
+                AgendarEmail(lstPendencia);
             }
         }
 
@@ -476,12 +485,13 @@ namespace IsotecWindowsService.Service
         public void AgendarEmail(List<PendenciaViewModel> lstPendencia)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Notificacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
-            string template = System.IO.File.ReadAllText(path);
-
-            string conteudo = template;
+          
 
             foreach (var pendencia in lstPendencia)
             {
+              string template = System.IO.File.ReadAllText(path);
+
+                string conteudo = template;
                 StringBuilder sb = new StringBuilder();
 
                 var Responsavel = _usuarioAppServico.GetById((int)pendencia.IdResponsavel);

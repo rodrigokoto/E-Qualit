@@ -162,6 +162,8 @@ namespace Web.UI.Controllers
                         ind.Direcao = indicador.Direcao;
                         ind.Ano = indicador.Ano;
                         ind.MetaAnual = indicador.MetaAnual;
+                        ind.Medida = indicador.Medida;
+                        ind.Unidade = indicador.Unidade;
 
                         _indicadorAppServico.Update(ind);
 
@@ -239,6 +241,14 @@ namespace Web.UI.Controllers
         public ActionResult PDFDownload(int id)
         {
             var indicador = _indicadorAppServico.GetById(id);
+
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
+
+            if ((indicador.StatusRegistro == 0) && (indicador.IdResponsavel == Util.ObterCodigoUsuarioLogado()))
+            {
+                ViewBag.ScriptCall = "sim";
+            }
 
             var pdf = new ViewAsPdf
             {
@@ -426,6 +436,9 @@ namespace Web.UI.Controllers
 
 
         }
+
+
+
 
     }
 }

@@ -39,6 +39,8 @@ namespace Dominio.Entidade
 
         public ValidationResult ValidationResult { get; set; }
 
+        public int Medida { get; set; }
+
         public bool IsValid()
         {
             return ValidationResult.IsValid;

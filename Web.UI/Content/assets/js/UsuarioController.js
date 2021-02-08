@@ -859,7 +859,8 @@ APP.controller.UsuarioController = {
         var idCliente = 0;
 
         if (form != "meusdados") {
-            idCliente = usuarioObj.UsuarioClienteSites[0].IdCliente;
+            idCliente = $("[name=idCliente]").val();
+                //usuarioObj.UsuarioClienteSites[0].IdCliente;
         }
 
         var idSite = $("#IdSite").val();

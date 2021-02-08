@@ -66,9 +66,6 @@
                                             <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_StatusEtapa" />
                                             </th>
-                                            <th class="w21 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_ResponsavelImplementar" />
-                                            </th>
                                             <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags" />
                                             </th>
@@ -89,9 +86,6 @@
                                             </th>
                                             <th>
                                                 @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_StatusEtapa
-                                            </th>
-                                            <th>
-                                                @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_ResponsavelImplementar
                                             </th>
                                             <th class="">
                                                 @Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags
@@ -138,9 +132,10 @@
                                                     {
                                                         <p class="status-encerrada">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Encerrada</p>
                                                     }
-                                                </td>
-                                                <td>
-                                                    @item.ResponsavelEtapa.NmCompleto.Trim()
+                                                    else if (item.StatusEtapa == 5)
+                                                    {
+                                                        <p class="status-encerrada">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Status_Anulada</p>
+                                                    }
                                                 </td>
                                                 <td class="">
                                                     @(item.Tags != null ? item.Tags.ToString().Trim() : "")
@@ -160,7 +155,7 @@
                                                         if (item.StatusEtapa == 4)
                                                         {
                                                             <a href="@Url.Action("Exibir", "NaoConformidade", new { id = item.IdRegistroConformidade })" class="edit icon-cliente  editar-color">
-                                                                <i class="fa fa-search")" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                                <i class="fa fa-search" )" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                             </a>
                                                         }
                                                         if (item.StatusEtapa != 4)

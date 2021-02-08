@@ -386,10 +386,10 @@ namespace ApplicationService.Servico
             var funcionalidades = new List<Funcionalidade>();
 
             var usuarioCargo = _usuarioCargoRepositorio.Get(x => x.IdUsuario == idUsuario).ToList();
-
+             
             foreach (var usuario in usuarioCargo)
             {
-                foreach (var processo in usuario.Cargo.CargoProcessos.Where(x => x.Cargo.Ativo == true &&
+                foreach (var processo in usuario.Cargo.CargoProcessos.Where(x => x.Cargo.Ativo == true && x.Processo != null &&
                                                                    x.Processo.FlAtivo == true).ToList())
                 {
                     funcionalidades.Add(processo.Funcao.Funcionalidade);

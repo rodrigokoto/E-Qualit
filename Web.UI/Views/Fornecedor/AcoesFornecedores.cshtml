@@ -81,7 +81,8 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 @Html.LabelFor(x => x.TipoFornecedor)
-                                @Html.DropDownListFor(x => x.TipoFornecedor , EnumHelper.GetSelectList(typeof(Dominio.Enumerado.TipoFornecedor)) , "Selecione" , new { @class = "form-control" })
+                                @Html.EnumDropDownListFor(x => x.TipoFornecedor , "Selecione" , new { @class = "form-control" })
+                                @*DropDownListFor(x => x.TipoFornecedor , EnumHelper.GetSelectList(typeof(Dominio.Enumerado.TipoFornecedor)) , "Selecione" , new { @class = "form-control" })*@
                             </div>
                         </div>
                     </div>

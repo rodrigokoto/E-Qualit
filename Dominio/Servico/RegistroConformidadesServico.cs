@@ -690,7 +690,7 @@ namespace Dominio.Servico
             {
                 return new CamposObrigatoriosNaoConformidadeReverificacao();
             }
-            return null;
+            return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
         }
 
         public RegistroConformidade CriarAcaoCorretivaApartirDeNaoConformidade(RegistroConformidade naoConformidade)

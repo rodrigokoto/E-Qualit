@@ -213,7 +213,7 @@
                                 </div>
                             </div>
                             <!-- Meta -->
-                            <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12 ">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
                                 <div class="form-group">
                                     <label for="form-criar-indicador-meta" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_Meta</label>
                                     <input type="number" id="form-criar-indicador-meta" maxlength="50" name="formCriarIndicadorMeta" class="form-control" onkeyup="SubstituiVirgulaPorPonto(this)"
@@ -234,6 +234,20 @@
                                            value="@Model.Unidade" />
                                 </div>
                             </div>
+
+                            <!-- Tipo Medida -->
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label for="form-criar-indicador-medida" class="control-label">@Traducao.Indicador.ResourceIndicador.Indicador_lbl_tp_Medida</label>
+                                    <select id="form-criar-indicador-medida" name="formCriarIndicadorTpMedida" class="form-control"
+                                            data-msg-required="@Traducao.Indicador.ResourceIndicador.Indicador_msg_required_Sentido">
+                                        <option value="">@Traducao.Resource.Dropdown_name_select</option>
+                                        <option value="1" @(Model.Medida == (int)UnidadeDeMedida.Porcentagem ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.indicador_Porcentagem</option>
+                                        <option value="2" @(Model.Medida == (int)UnidadeDeMedida.Unidade ? "selected" : null)>@Traducao.Indicador.ResourceIndicador.indicador_Unidade</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -678,7 +692,7 @@
             }
 
 
-            <button type="button" id="btn-imprimir" onclick="window.print()" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+            <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
             @if (listaPermissoes.Where(x => (x.IdFuncao == (int)FuncoesIndicadores.Editar || x.IdFuncao == (int)FuncoesIndicadores.Cadastrar) || funcoes.Any(y => y == x.IdFuncao)).Any() || ViewBag.IdPerfil != 4)
             {
                 <button class="btn btn-primary btn-salvar" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>

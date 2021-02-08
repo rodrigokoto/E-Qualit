@@ -26,8 +26,6 @@
     var mxBasePath = '../../Content/assets_src/js/vendor/mxGraph/javascript/src';
     mxDefaultLanguage = 'pt';
 
-
-
 </script>
 
 
@@ -112,169 +110,173 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                                        <tr>
-                                            <td>
-                                                @item.Sigla.Descricao 
-                                            </td>
-                                            <td>
-                                                @item.NumeroDocumento
-                                            </td>
-                                            <td>
-                                                @item.Titulo
-                                            </td>
-                                            <td>
-                                                @if (item.Processo != null)
-                                                {
-                                                    @item.Processo.Nome
-                                                }
-                                            </td>
-                                            <td>
-                                                @item.Categoria.Descricao
-
-                                            </td>
-                                            <td>
-                                                @item.Elaborador.NmCompleto
-                                            </td>
-                                            <td>
-                                                <p> @(item.Assuntos.Count > 0 ? item.Assuntos.Max(x => Convert.ToInt32(x.Revisao)) : (item.NuRevisao == null ? 0 : Convert.ToInt32(item.NuRevisao))) </p>
-                                            </td>
-                                            <td class="text-nowrap">
-
-                                                @if (item.FlStatus == (int)StatusDocumento.Aprovado)
-                                                {
-                                                    if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4)
+                                            <tr>
+                                                <td>
+                                                    @item.Sigla.Descricao
+                                                </td>
+                                                <td>
+                                                    @item.NumeroDocumento
+                                                </td>
+                                                <td>
+                                                    @item.Titulo
+                                                </td>
+                                                <td>
+                                                    @if (item.Processo != null)
                                                     {
-                                                        <a href="#" data-IdDocumento="@item.IdDocumento" data-Perfil="@ViewBag.IdPerfil" title="@Traducao.Resource.Imprimir" class="imprimir-documento icon-cliente view-color">
-                                                            <i class="fa fa-print" aria-hidden="true" data-toggle="tooltip" data-original-title="Imprimir"></i>
-                                                        </a>
+                                                        @item.Processo.Nome
                                                     }
-                                                }
+                                                </td>
+                                                <td>
+                                                    @item.Categoria.Descricao
 
-                                                @if (item.FlStatus != (int)StatusDocumento.Aprovado)
-                                                {
-                                                    if (ViewBag.Revisao != false)
+                                                </td>
+                                                <td>
+                                                    @item.Elaborador.NmCompleto
+                                                </td>
+                                                <td>
+                                                    <p> @(item.Assuntos.Count > 0 ? item.Assuntos.Max(x => Convert.ToInt32(x.Revisao)) : (item.NuRevisao == null ? 0 : Convert.ToInt32(item.NuRevisao))) </p>
+                                                </td>
+                                                <td class="text-nowrap">
+
+                                                    @if (item.FlStatus == (int)StatusDocumento.Aprovado)
                                                     {
-                                                        if (ViewBag.UsuarioPodeAlterar && (ViewBag.Obsoletos == null || ViewBag.Obsoletos == false))
+                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4)
                                                         {
-
-                                                            <a href="@Url.Action("Editar", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.btn_lbl_editar" class="edit icon-cliente editar-color">
-                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="Editar"></i>
+                                                            <a href="#" data-IdDocumento="@item.IdDocumento" data-Perfil="@ViewBag.IdPerfil" title="@Traducao.Resource.Imprimir" class="imprimir-documento icon-cliente view-color">
+                                                                <i class="fa fa-print" aria-hidden="true" data-toggle="tooltip" data-original-title="Imprimir"></i>
                                                             </a>
-
                                                         }
                                                     }
-                                                }
 
-                                                @if (item.FlStatus == (int)StatusDocumento.Elaboracao)
-                                                {
-
-
-
-                                                    if (ViewBag.UsuarioPodeDeletar)
+                                                    @if (item.FlStatus != (int)StatusDocumento.Aprovado)
                                                     {
-                                                        <a href="#" class="icon-cliente trash-color excluir-documento" title="@Traducao.Resource.btn_lbl_excluir" data-IdDocumento="@item.IdDocumento">
-                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Excluir"></i>
-                                                        </a>
-                                                    }
-                                                }
+                                                        if (ViewBag.Revisao != false)
+                                                        {
+                                                            if (ViewBag.UsuarioPodeAlterar && (ViewBag.Obsoletos == null || ViewBag.Obsoletos == false))
+                                                            {
 
-                                                @if (item.FlStatus == (int)StatusDocumento.Aprovado)
-                                                {
-                                                    if ((listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4))
-                                                    {
-                                                        <a href="@Url.Action("ConteudoDocumento", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.Visualizar" class="edit icon-cliente editar-color">
-                                                            <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.Visualizar"></i>
-                                                        </a>
+                                                                <a href="@Url.Action("Editar", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.btn_lbl_editar" class="edit icon-cliente editar-color">
+                                                                    <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="Editar"></i>
+                                                                </a>
+
+                                                            }
+                                                        }
                                                     }
 
-                                                    if (ViewBag.PodeRevisar)
+                                                    @if (item.FlStatus == (int)StatusDocumento.Elaboracao)
                                                     {
 
-                                                        <a href="#" data- ="@item.IdDocumento" title="@Traducao.Resource.Revisar" class="icon-cliente controldoc-revisar">
-                                                            <i class="fa fa-files-o" aria-hidden="true"></i>
-                                                        </a>
+                                                        if (ViewBag.UsuarioPodeDeletar)
+                                                        {
+                                                            <a href="#" class="icon-cliente trash-color excluir-documento" title="@Traducao.Resource.btn_lbl_excluir" data-IdDocumento="@item.IdDocumento">
+                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Excluir"></i>
+                                                            </a>
+                                                        }
                                                     }
-                                                    if (ViewBag.IdPerfil != 4)
+
+                                                    @if (item.FlStatus == (int)StatusDocumento.Aprovado)
                                                     {
-                                                        <a href="#" data-id-doc="@item.IdDocumento" title="@Traducao.Resource.Obsoletar" class="icon-cliente controldoc-obsoletar">
-                                                            <i class="fa fa-flag" aria-hidden="true"></i>
-                                                        </a>
-                                                    }
-                                                }
+                                                        if ((listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4))
+                                                        {
+                                                            <a href="@Url.Action("ConteudoDocumento", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.Visualizar" class="edit icon-cliente editar-color">
+                                                                <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.Visualizar"></i>
+                                                            </a>
+                                                        }
 
-                                                @if (item.FlStatus == (int)StatusDocumento.Obsoleto)
-                                                {
-                                                    if (ViewBag.PodeVisualizarObsoletos)
+                                                        if (ViewBag.PodeRevisar)
+                                                        {
+
+                                                            <a href="#" data-id-doc="@item.IdDocumento" title="@Traducao.Resource.Revisar" class="icon-cliente controldoc-revisar">
+                                                                <i class="fa fa-files-o" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
+                                                        if (ViewBag.IdPerfil != 4)
+                                                        {
+                                                            <a href="#" data-id-doc="@item.IdDocumento" title="@Traducao.Resource.Obsoletar" class="icon-cliente controldoc-obsoletar">
+                                                                <i class="fa fa-flag" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
+                                                    }
+                                                    @if (ViewBag.IdPerfil != 4)
                                                     {
-                                                        <a href="@Url.Action("ConteudoDocumento", "ControlDoc", new { id = item.IdDocumento, Obsoleto=1 })" title="@Traducao.Resource.Visualizar" class="icon-cliente view-color">
-                                                            <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Visualizar"></i>
+                                                        <a href="#" data-id-doc="@item.IdDocumento" title="@Traducao.Resource.Cargo" class="icon-cliente btn-cargo">
+                                                            <i class="fa fa-sitemap" aria-hidden="true"></i>
                                                         </a>
                                                     }
+                                                    @if (item.FlStatus == (int)StatusDocumento.Obsoleto)
+                                                    {
+                                                        if (ViewBag.PodeVisualizarObsoletos)
+                                                        {
+                                                            <a href="@Url.Action("ConteudoDocumento", "ControlDoc", new { id = item.IdDocumento, Obsoleto=1 })" title="@Traducao.Resource.Visualizar" class="icon-cliente view-color">
+                                                                <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Visualizar"></i>
+                                                            </a>
+                                                        }
 
-                                                }
-                                                @if (item.Assuntos.Count > 0)
-                                                {
-                                                    <a href="" class="icon-cliente user-color" title="@Traducao.Resource.VisualizarRevisoes">
-                                                        <i class="fa fa-archive" aria-hidden="true" data-original-title="Visualizar Revisões" data-toggle="modal" data-target="@String.Format("#modal-panel-form-assuntos{0}",@item.IdDocumento)"></i>
-                                                    </a>
+                                                    }
 
-                                                    <div id="@String.Format("modal-panel-form-assuntos{0}",@item.IdDocumento)" class="modal fade" role="dialog">
-                                                        <div class="modal-dialog modal-lg" style="text-align:left!important;">
-                                                            <!-- Modal content-->
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal">
-                                                                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
-                                                                    </button>
-                                                                    <h4 class="modal-title">@Traducao.Resource.Revisao</h4>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <table class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
-                                                                        <thead class="bg" role="row">
-                                                                            <tr role="row">
-                                                                                <th class="w20">@Traducao.Resource.DataVersao</th>
-                                                                                <th class="w20">@Traducao.Resource.Revisao</th>
-                                                                                <th class="w80">@Traducao.Resource.Descricao</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            @foreach (var assunto in item.Assuntos)
-                                                                            {
-                                                                                <tr>
-                                                                                    <td>@assunto.DataAssunto.ToString(@Traducao.Resource.dateFormat)</td>
-                                                                                    <td>@assunto.Revisao</td>
-                                                                                    <td>@assunto.Descricao</td>
+                                                    @if (item.Assuntos.Count > 0)
+                                                    {
+                                                        <a href="" class="icon-cliente user-color" title="@Traducao.Resource.VisualizarRevisoes">
+                                                            <i class="fa fa-archive" aria-hidden="true" data-original-title="Visualizar Revisões" data-toggle="modal" data-target="@String.Format("#modal-panel-form-assuntos{0}",@item.IdDocumento)"></i>
+                                                        </a>
+
+                                                        <div id="@String.Format("modal-panel-form-assuntos{0}",@item.IdDocumento)" class="modal fade" role="dialog">
+                                                            <div class="modal-dialog modal-lg" style="text-align:left!important;">
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal">
+                                                                            <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                                                                        </button>
+                                                                        <h4 class="modal-title">@Traducao.Resource.Revisao</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="display table table-striped table-bordered dt-responsive nowrap" style="width:100% !important;">
+                                                                            <thead class="bg" role="row">
+                                                                                <tr role="row">
+                                                                                    <th class="w20">@Traducao.Resource.DataVersao</th>
+                                                                                    <th class="w20">@Traducao.Resource.Revisao</th>
+                                                                                    <th class="w80">@Traducao.Resource.Descricao</th>
                                                                                 </tr>
-                                                                            }
-                                                                        </tbody>
-                                                                    </table>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var assunto in item.Assuntos)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td>@assunto.DataAssunto.ToString(@Traducao.Resource.dateFormat)</td>
+                                                                                        <td>@assunto.Revisao</td>
+                                                                                        <td>@assunto.Descricao</td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="modal-footer">
 
                                                                 </div>
-                                                            </div>
-
-                                                            <div class="modal-footer">
-
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                }
-                                                @if (item.DocHome == true)
-                                                {
-                                                    <a href="#" data-id-doc="@item.IdDocumento" title="Home" style="color:green" class="icon-cliente controldoc-home">
-                                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                                    }
+                                                    @if (item.DocHome == true)
+                                                    {
+                                                        <a href="#" data-id-doc="@item.IdDocumento" title="Home" style="color:green" class="icon-cliente controldoc-home">
+                                                            <i class="fa fa-home" aria-hidden="true"></i>
 
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="#" data-id-doc="@item.IdDocumento" title="Home" class="icon-cliente controldoc-home view-color">
-                                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" data-id-doc="@item.IdDocumento" title="Home" class="icon-cliente controldoc-home view-color">
+                                                            <i class="fa fa-home" aria-hidden="true"></i>
 
-                                                    </a>
-                                                }
-                                            </td>
+                                                        </a>
+                                                    }
+                                                </td>
 
-                                        </tr>
+                                            </tr>
 
                                         }
                                     </tbody>
@@ -309,3 +311,40 @@
         </div>
     </div>
 </div>
+
+<form id="form-emissao-documento-cargos">
+    <div id="modal-panel-form-cargos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeCargos" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">Cargos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca">
+
+                            <div class="form-group">
+                                <input type="hidden" id="form-iddoc-cargo" />
+                                <label for="form-cadastro-escolha">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Escolha</label>
+                                <div class="row tabela-cargo-check">
+                                    <div class="col-md-12 checkbox">
+                                        <input type="checkbox" name="formCargosEscolhaAll" onclick="SelectAllCargos()" id="form-cargos-escolha-all" class="form-control" value="">
+                                        <label for="form-cargos-escolha-all">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_SelecionarTodos</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-salvar-cargo" type="submit">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

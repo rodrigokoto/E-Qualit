@@ -43,7 +43,7 @@ namespace Web.UI.Controllers
         private readonly IDocUsuarioVerificaAprovaServico _docUsuarioVerificaAprovaServico;
 
         private readonly ICargoAppServico _cargoAppServico;
-
+        
         private readonly IDocTemplateAppServico _docTemplateAppServico;
 
         private readonly IDocUsuarioVerificaAprovaAppServico _docUsuarioVerificaAprovaAppServico;
@@ -230,7 +230,7 @@ namespace Web.UI.Controllers
 
             };
 
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content/assets_src/CNC.png");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content\assets_src\imagens\CNC.png");
 
             var b64bg = ImageToBase64(path);
 
@@ -242,7 +242,7 @@ namespace Web.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult PDF([System.Web.Http.FromBody]int id, bool controlada, string usuarioDest, string fluxoBase64)
+        public ActionResult PDF([System.Web.Http.FromBody] int id, bool controlada, string usuarioDest, string fluxoBase64)
         {
             ApplicationService.Entidade.UsuarioApp UsuarioLogado = (ApplicationService.Entidade.UsuarioApp)ViewBag.UsuarioLogado;
 
@@ -335,7 +335,8 @@ namespace Web.UI.Controllers
             {
                 path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content\assets_src\imagens\CC.png");
             }
-            else {
+            else
+            {
                 path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content\assets_src\imagens\CNC.png");
             }
             var b64bg = ImageToBase64(path);
@@ -1073,6 +1074,13 @@ namespace Web.UI.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public JsonResult AdicionarCargosDocumento( List<DocumentoCargo> cargos)
+        {
+            _docCargoAppServico.AlterarCargosDoDocumento(cargos.First().IdDocumento, cargos);
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Retorno = ("Sucesso") }, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult RetornaNumeroPorSigla(int id)
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();

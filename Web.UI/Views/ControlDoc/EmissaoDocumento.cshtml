@@ -286,7 +286,7 @@
                                 <!-- Elaborador -->
                                 <div class="form-group">
                                     <label for="form-cadastro-elaborador">@Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador</label>
-                                    <select id="form-cadastro-elaborador" name="formCadastroElaborador" class="form-control" required data-msg-required="@Traducao.Resource.CampoObrigatorio" @(ViewBag.IdPerfil >= 3 ? "disabled" : "")>
+                                    <select id="form-cadastro-elaborador" name="formCadastroElaborador" class="form-control" required data-msg-required="@Traducao.Resource.CampoObrigatorio")>
                                         <option value="">@Traducao.Resource.Dropdown_name_select</option>
                                         @if (Model.Elaborador != null)
                                         {
