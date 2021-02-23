@@ -34,7 +34,7 @@ namespace Web.UI.Controllers
         private readonly IDocDocumentoAppServico _documentoAppServico;
         private readonly IDocDocumentoServico _documentoServico;
         private readonly IProcessoServico _processoServico;
-
+        
         private readonly IRegistroConformidadesAppServico _registroConformidadeAppServico;
         private readonly IRegistroConformidadesServico _registroConformidadeServico;
         private readonly IDocUsuarioVerificaAprovaServico _docUsuarioVerificaAprovaServico;
@@ -61,8 +61,9 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
         private readonly IAnexoAppServico _AnexoAppServico;
-        
+        private readonly ISiteAppServico _siteAppServico;
 
+       
         public BackupController(IDocDocumentoAppServico docDocumentoAppServico,
                                     IDocDocumentoServico documentoServico,
                                     IRegistroConformidadesAppServico registroConformidadeAppServico,
@@ -82,7 +83,8 @@ namespace Web.UI.Controllers
                                     IProcessoAppServico processoAppServico,
                                     IDocUsuarioVerificaAprovaServico docUsuarioVerificaAprovaServico,
                                     IControladorCategoriasAppServico controladorCategoriasServico,
-                                    IAnexoAppServico anexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                    IAnexoAppServico anexoAppServico,
+                                    ISiteAppServico siteAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
         {
             _AnexoAppServico = anexoAppServico;
             _documentoAppServico = docDocumentoAppServico;
@@ -104,59 +106,80 @@ namespace Web.UI.Controllers
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
             _docUsuarioVerificaAprovaServico = docUsuarioVerificaAprovaServico;
+            _siteAppServico = siteAppServico;
         }
 
+       
         // GET: Backup
         public ActionResult Index()
         {
-            List<DocDocumento> listaResult = _documentoAppServico.ListaDocumentosAprovadosMaiorRevisao(1015, null).ToList();
-            int nrDoc = 1;
-            foreach (var docDocumento in listaResult)
-            {
-                Application app = new Microsoft.Office.Interop.Word.Application();
-                Document doc = new Microsoft.Office.Interop.Word.Document();
+            //List<DocDocumento> listaResult = _documentoAppServico.ListaDocumentosAprovadosMaiorRevisao(1015, null).ToList();
+            //int nrDoc = 1;
+            //foreach (var docDocumento in listaResult)
+            //{
+            //    Application app = new Microsoft.Office.Interop.Word.Application();
+            //    Document doc = new Microsoft.Office.Interop.Word.Document();
 
-                try
-                {
-                    
-                    string TituloDoc = nrDoc+"-"+docDocumento.NumeroDocumento;
-                    string PathDoc = "~/savedoc/" + TituloDoc + ".doc";
-                    string templatePath = Server.MapPath("~/Templates/DocTemplate.docx");
+            //    try
+            //    {
 
-                    string savePath = Server.MapPath(PathDoc);
-                   
-                    doc = app.Documents.Open(templatePath);
-                    doc.Activate();
+            //        string TituloDoc = nrDoc + "-" + docDocumento.NumeroDocumento;
+            //        string PathDoc = "~/savedoc/" + TituloDoc + ".doc";
+            //        string templatePath = Server.MapPath("~/Templates/DocTemplate.docx");
 
-                    doc.Bookmarks["Revisao"].Range.Text = docDocumento.NuRevisao.ToString();
-                    doc.Bookmarks["Titulo"].Range.Text = docDocumento.Titulo.ToString();
-                    doc.Bookmarks["Sigla"].Range.Text = docDocumento.Sigla.Descricao.ToString();
-                    doc.Bookmarks["NrDocumento"].Range.Text = docDocumento.NumeroDocumento.ToString();
-                    doc.Bookmarks["Processo"].Range.Text = docDocumento.Processo.Nome.ToString();
-                    doc.Bookmarks["Categoria"].Range.Text = docDocumento.Categoria.Descricao.ToString();
-                    doc.Bookmarks["Elaborador"].Range.Text = docDocumento.Elaborador.NmCompleto.ToString();
+            //        string savePath = Server.MapPath(PathDoc);
 
-                    if (docDocumento.TextoDoc != null)
-                    {
-                        var decodedCkeditor = System.Net.WebUtility.HtmlDecode(docDocumento.TextoDoc.ToString());
+            //        doc = app.Documents.Open(templatePath);
+            //        doc.Activate();
 
-                        doc.Bookmarks["Texto"].Range.Text = decodedCkeditor;
-                    }
+            //        doc.Bookmarks["Revisao"].Range.Text = docDocumento.NuRevisao.ToString();
+            //        doc.Bookmarks["Titulo"].Range.Text = docDocumento.Titulo.ToString();
+            //        doc.Bookmarks["Sigla"].Range.Text = docDocumento.Sigla.Descricao.ToString();
+            //        doc.Bookmarks["NrDocumento"].Range.Text = docDocumento.NumeroDocumento.ToString();
+            //        doc.Bookmarks["Processo"].Range.Text = docDocumento.Processo.Nome.ToString();
+            //        doc.Bookmarks["Categoria"].Range.Text = docDocumento.Categoria.Descricao.ToString();
+            //        doc.Bookmarks["Elaborador"].Range.Text = docDocumento.Elaborador.NmCompleto.ToString();
 
-                    doc.SaveAs2(savePath);
-                    app.Application.Quit();
-                    nrDoc = nrDoc+1;
+            //        if (docDocumento.TextoDoc != null)
+            //        {
+            //            var decodedCkeditor = System.Net.WebUtility.HtmlDecode(docDocumento.TextoDoc.ToString());
+
+            //            doc.Bookmarks["Texto"].Range.Text = decodedCkeditor;
+            //        }
+
+            //        doc.SaveAs2(savePath);
+            //        app.Application.Quit();
+            //        nrDoc = nrDoc + 1;
 
 
-                }
-                catch (Exception ex)
-                {
-                    app.Application.Quit();
-                }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        app.Application.Quit();
+            //    }
 
-            }
+            //}
 
-            return View(listaResult);
+            //return View(listaResult);
+
+            var pathBackup = CriarEstruturaBackup(9);
+            /*Cria Backup dos registros*/
+            _AnexoAppServico.BackupInstrumento(9, pathBackup);
+
+            return View();
+        }
+
+
+        public string CriarEstruturaBackup(int IdCliente)
+        {
+
+            var siteSelecionado = _siteAppServico.Get(x => x.IdCliente == IdCliente).FirstOrDefault();
+            var nameBackup = "Backup-" + siteSelecionado.NmRazaoSocial;
+
+            Util.VerificaDiretorio(Server.MapPath("~/" + nameBackup + "/" + IdCliente));
+
+
+            return Server.MapPath("~/" + nameBackup + "/" + IdCliente).ToString();
         }
     }
 }

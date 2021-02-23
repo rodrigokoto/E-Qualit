@@ -96,8 +96,6 @@ namespace Web.UI.Helpers
             return Convert.ToInt32(clienteSelecionado.Value);
         }
 
-
-
         public static int ObterCodigoUsuarioLogado()
         {
             var idUsuario = 0;
@@ -259,6 +257,8 @@ namespace Web.UI.Helpers
                 throw ex;
             }
         }
+
+   
 
         public static void DeletaArquivo(string arquivo)
         {
@@ -432,6 +432,8 @@ namespace Web.UI.Helpers
             objetoDeserializado = serializadorXML.Deserialize(new StringReader(objetCodificadoUTF8));
             return objetoDeserializado;
         }
+    
+    
     }
 }
 

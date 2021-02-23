@@ -201,7 +201,9 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AcaoCorretivaController.cs" />
+    <Compile Include="Controllers\AnexoController.cs" />
     <Compile Include="Controllers\BackupController.cs" />
+    <Compile Include="Controllers\IAnexoController.cs" />
     <Compile Include="Controllers\MigracaoAnaliseCriticaController.cs" />
     <Compile Include="Controllers\AnaliseCriticaController.cs" />
     <Compile Include="Controllers\AvaliacaoCriticidadeController.cs" />
