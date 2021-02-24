@@ -59,8 +59,11 @@ namespace ApplicationService.Servico
 
         public void BackupAnexo(int idCliente, string pathBackup)
         {
-
-
+            BackupRegistros(idCliente, pathBackup);
+            BackupDocdocumento(idCliente, pathBackup);
+            BackuAuditoria(idCliente, pathBackup);
+            BackupLicencas(idCliente, pathBackup);
+            BackupInstrumento(idCliente, pathBackup);
         }
 
         public void BackupRegistros(int idCliente , string pathBackup)

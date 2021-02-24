@@ -2,6 +2,7 @@
 {
     public interface IBackupFactory
     {
-        byte[] GerarBackup(BackupModel model);
+        string GerarBackupArquivo(BackupModel model);
+        byte[] GerarBackupBytes(BackupModel model);
     }
 }

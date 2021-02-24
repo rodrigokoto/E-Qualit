@@ -8,6 +8,7 @@ namespace Web.UI.Backup
     public class BackupModel
     {
         public string CaminhoTemplate { get; set; }
+        public string CaminhoBackup { get; set; }
         public List<InformacaoBackupModel> Informacoes { get; set; }
     }
 }

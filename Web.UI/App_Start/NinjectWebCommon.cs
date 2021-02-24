@@ -14,6 +14,7 @@ namespace Web.UI.App_Start
     using Ninject.Modules;
     using IoC;
     using Ninject.Web.Common.WebHost;
+    using Web.UI.Backup;
 
     public static class NinjectWebCommon
     {
@@ -48,6 +49,7 @@ namespace Web.UI.App_Start
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+                kernel.Bind<IBackupFactory>().To<BackupFactory>();
 
                 RegisterServices(kernel);
                 return kernel;
@@ -69,7 +71,8 @@ namespace Web.UI.App_Start
             {
                 new ModuloAplicacao(),
                 new ModuloDominio(),
-                new ModuloRepositorio()
+                new ModuloRepositorio(),
+                
             };
 
             kernel.Load(modules);

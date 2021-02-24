@@ -9,7 +9,7 @@ namespace Web.UI.Backup
     {
         Texto = 1,
         Imagem = 2,
-        Html = 3
+        CkEditor = 3
     }
 
     public class InformacaoBackupModel
