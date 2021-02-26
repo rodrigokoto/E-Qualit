@@ -559,6 +559,19 @@ APP.controller.UsuarioController = {
 
         });
 
+        var idPerfilSelecionado = $('[name=formCriaUsuarioPerfil] :selected').val();
+
+        if (idPerfilSelecionado == 3) {
+            var _idSite = $(this).data('idsite');
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+
+            var idsiteparam = urlParams.get('IdSite');
+
+            var usuarioClienteSite = usuarioClienteSiteModel.constructor(idsiteparam, $('[name=formClienteClientesEscolha]:checked').val() != null ? $('[name=formClienteClientesEscolha]:checked').val() : $('[name=idCliente]').val());
+            arrayAcoesUsuarioFormCriarUsuarioSitesObj.push(usuarioClienteSite);
+        }
+
         if (arrayAcoesUsuarioFormCriarUsuarioClienteObj.length > 0) {
             return arrayAcoesUsuarioFormCriarUsuarioClienteObj;
         } else {

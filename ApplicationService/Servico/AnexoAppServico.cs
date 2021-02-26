@@ -80,7 +80,7 @@ namespace ApplicationService.Servico
                     switch (registro.TipoRegistro.ToLower().ToString())
                     {
                         case "ac":
-                            var relativePathac = pathBackup + "\\AcaoCorretiva";
+                            var relativePathac = pathBackup + "//AcaoCorretiva";
 
                           
                             var AcaoImediataac = registro.AcoesImediatas.Where(x => x.ArquivoEvidencia.Count > 0).ToList();
@@ -100,7 +100,7 @@ namespace ApplicationService.Servico
                             }
                             break;
                         case "nc":
-                            var relativePathnc = pathBackup + "\\NaoConformidade";
+                            var relativePathnc = pathBackup + "//NaoConformidade";
 
                            
                             var AcaoImediatanc = registro.AcoesImediatas.Where(x => x.ArquivoEvidencia.Count > 0).ToList();
@@ -121,7 +121,7 @@ namespace ApplicationService.Servico
 
                             break;
                         case "gr":
-                            var relativePathgr = pathBackup + "\\GestaoRisco";
+                            var relativePathgr = pathBackup + "//GestaoRisco";
 
                             
                             var AcaoImediatagr = registro.AcoesImediatas.Where(x => x.ArquivoEvidencia.Count > 0).ToList();
@@ -141,7 +141,7 @@ namespace ApplicationService.Servico
                             }
                             break;
                         case "gm":
-                            var relativePathgm = pathBackup + "\\GestaoMelhoria";
+                            var relativePathgm = pathBackup + "//GestaoMelhoria";
 
                             var AcaoImediatagm = registro.AcoesImediatas.Where(x => x.ArquivoEvidencia.Count > 0).ToList();
 
@@ -176,7 +176,7 @@ namespace ApplicationService.Servico
             
             foreach (var doc in AnexoDoc)
             {
-                var relativePath = pathBackup + "\\ControlDoc";
+                var relativePath = pathBackup + "//ControlDoc";
                 relativePath = relativePath + "//" + doc.NumeroDocumento;
 
                 foreach (var anexo in doc.ArquivoDocDocumentoAnexo)
@@ -209,7 +209,7 @@ namespace ApplicationService.Servico
                             norma.NomeProcesso = norma.Processo.Nome;
                     }
 
-                    var relativePath = pathBackup + "\\Auditoria";
+                    var relativePath = pathBackup + "//Auditoria";
                     relativePath = relativePath + "//" + pai.Ano + "//" + plai.Mes;
 
                     foreach (var anexo in plai.ArquivoPlai)
@@ -232,13 +232,17 @@ namespace ApplicationService.Servico
 
             foreach (var licenca in licencas)
             {
-                var relativePath = pathBackup + "\\Licenca";
-                relativePath = relativePath + "//" + licenca.Titulo;
+                var relativePath = pathBackup + "//Licenca";
+
+                var titulo = licenca.Titulo.Length > 20 ? licenca.Titulo.Substring(1, 7) : licenca.Titulo;
+
+                relativePath = relativePath + "//" + titulo;
 
                 foreach (var anexo in licenca.ArquivoLicenca)
                 {
                     VerificaDiretorio(relativePath);
                     Permissionamento(relativePath);
+
 
                     var archive = relativePath + "//" + anexo.Anexo.Nome;
                     File.WriteAllBytes(archive, anexo.Anexo.Arquivo);
@@ -253,7 +257,7 @@ namespace ApplicationService.Servico
 
             foreach (var instrumento in instrumentos)
             {
-                var relativePath = pathBackup + "\\Instrumento";
+                var relativePath = pathBackup + "//Instrumento";
                 relativePath = relativePath + "//" + instrumento.Modelo;
 
                 foreach (var anexo in instrumento.ArquivoInstrumento)
@@ -282,7 +286,7 @@ namespace ApplicationService.Servico
                         continue;
                     }
                     else
-                        dir += "\\" + estrutura[i];
+                        dir += "//" + estrutura[i];
 
                     if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
                 }

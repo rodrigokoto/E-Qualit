@@ -66,6 +66,9 @@
     <Reference Include="DomainValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DomainValidation.1.0.0\lib\net451\DomainValidation.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.15.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.15.0\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -1935,6 +1938,8 @@
     <Content Include="Templates\Backup\CKEditor.html" />
     <Content Include="Templates\Backup\DocTemplate.html" />
     <Content Include="Templates\Backup\IdentificacaoNaoConformidade.html" />
+    <Content Include="Templates\Backup\Indicador.html" />
+    <Content Include="Templates\Backup\Instrumento.html" />
     <Content Include="Templates\Backup\TemplateHtml.html" />
     <Content Include="Templates\GestaoRiscoReverificador-pt-BR.html" />
     <Content Include="Templates\GestaoRiscoImplementacao-pt-BR.html" />

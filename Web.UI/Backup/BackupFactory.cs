@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web;
+using Web.UI.Helpers;
 
 namespace Web.UI.Backup
 {
@@ -37,6 +38,8 @@ namespace Web.UI.Backup
 
                 using (MemoryStream mem = new MemoryStream())
                 {
+                    novoHtml = novoHtml.Replace('', '.');
+
                     var parser = new HtmlParser(novoHtml);
 
                     if (!String.IsNullOrEmpty(model.CaminhoBackup) && !model.CaminhoBackup.EndsWith(@"\") && model.CaminhoBackup.Length > 0)
@@ -44,7 +47,10 @@ namespace Web.UI.Backup
 
                     retorno = model.CaminhoBackup + arquivoBackup;
 
+                    Util.VerificaDiretorio(model.CaminhoBackup);
+
                     WordDocument doc = new WordDocument(retorno);
+                   
                     doc.Process(parser);
                     doc.Save();
                 }
@@ -67,15 +73,18 @@ namespace Web.UI.Backup
                     var htmlDoc = new HtmlDocument();
                     htmlDoc.LoadHtml(html);
 
-                    foreach (HtmlNode imgs in htmlDoc.DocumentNode.SelectNodes("//img"))
+                    if (htmlDoc.DocumentNode.SelectNodes("//img") != null)
                     {
-                        var src = imgs.Attributes.Where(a => a.Name == "src").FirstOrDefault();
-
-                        if (src != null)
+                        foreach (HtmlNode imgs in htmlDoc.DocumentNode.SelectNodes("//img"))
                         {
-                            var url = src.Value;
-                            var imagemBase64 = $"data:image/png;base64,{ObterBase64Url(url)}";
-                            src.Value = imagemBase64;
+                            var src = imgs.Attributes.Where(a => a.Name == "src").FirstOrDefault();
+
+                            if (src != null)
+                            {
+                                var url = src.Value;
+                                var imagemBase64 = $"data:image/png;base64,{ObterBase64Url(url)}";
+                                src.Value = imagemBase64;
+                            }
                         }
                     }
 
