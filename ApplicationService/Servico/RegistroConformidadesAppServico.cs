@@ -1067,7 +1067,7 @@ namespace ApplicationService.Servico
 
                 foreach (var obj in objCtx.AcoesImediatas)
                 {
-                    if (obj.IdAcaoImediata == acaoImediata.IdAcaoImediata)
+                    if (obj.IdAcaoImediata == acaoImediata.IdAcaoImediata && obj.IdAcaoImediata != 0)
                     {
 
                         obj.Observacao = obj.Observacao != acaoImediata.Observacao ? acaoImediata.Observacao : obj.Observacao;

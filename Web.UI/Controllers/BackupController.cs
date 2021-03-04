@@ -337,7 +337,9 @@ namespace Web.UI.Controllers
                     Valor = riscotbl
                 });
 
-                _backupFactory.GerarBackupArquivo(modelDoc);
+                string nmArquivo = documento.Sigla.Descricao + " " + documento.NumeroDocumento + "- rev" + documento.NuRevisao;
+
+                _backupFactory.GerarBackupArquivo(modelDoc, nmArquivo);
             }
         }
         public void GerarRegistros(string path, string pathTemplate, int idCliente)
@@ -597,7 +599,9 @@ namespace Web.UI.Controllers
                 Valor = registro.Parecer
             });
 
-            _backupFactory.GerarBackupArquivo(modelDoc);
+            var nmArquivo = registro.Processo.Nome + " " + registro.NuRegistro;
+
+            _backupFactory.GerarBackupArquivo(modelDoc , nmArquivo);
         }
         public void GerarAnaliseTemplate(string path, string pathTemplate, int idCliente)
         {
@@ -677,7 +681,7 @@ namespace Web.UI.Controllers
                     Valor = Tema
                 });
 
-                _backupFactory.GerarBackupArquivo(modelDoc);
+                _backupFactory.GerarBackupArquivo(modelDoc , analise.Ata);
             }
         }
         public void GerarIndicadorTemplate(string path, string pathTemplate, int idCliente)
@@ -952,7 +956,9 @@ namespace Web.UI.Controllers
                     Valor = dezRL
                 });
 
-                _backupFactory.GerarBackupArquivo(modelDoc);
+                string nmArquivo = "Indicador" + "-" + indicador.Id;
+
+                _backupFactory.GerarBackupArquivo(modelDoc , nmArquivo);
             }
         }
         public void GerarInstrumentoTemplate(string path, string pathTemplate, int idCliente)
@@ -1099,7 +1105,9 @@ namespace Web.UI.Controllers
                     Valor = instheadertbl + instbodytbl + instFooter
                 });
 
-                _backupFactory.GerarBackupArquivo(modelDoc);
+                string nmArquivo = instrumento.Equipamento;
+
+                _backupFactory.GerarBackupArquivo(modelDoc , nmArquivo);
             }
         }
         public ActionResult Download(string f)

@@ -25,16 +25,17 @@ namespace Web.UI.Backup
         }
 
 
-        public string GerarBackupArquivo(BackupModel model)
+        public string GerarBackupArquivo(BackupModel model, string nmArquivo = null)
         {
             string retorno = string.Empty;
-
+            nmArquivo = nmArquivo.Replace('/', ' ').Replace("\n" , " ").Replace("\r", " ");
+            
             if (File.Exists(model.CaminhoTemplate))
             {
                 var html = File.ReadAllText(model.CaminhoTemplate);
                 var novoHtml = SubstituirTags(html, model.Informacoes);
 
-                var arquivoBackup = Guid.NewGuid().ToString() + ".docx";
+                var arquivoBackup = nmArquivo == null ? Guid.NewGuid().ToString() + ".docx" : nmArquivo + ".docx";
 
                 using (MemoryStream mem = new MemoryStream())
                 {
@@ -50,7 +51,7 @@ namespace Web.UI.Backup
                     Util.VerificaDiretorio(model.CaminhoBackup);
 
                     WordDocument doc = new WordDocument(retorno);
-                   
+
                     doc.Process(parser);
                     doc.Save();
                 }

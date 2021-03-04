@@ -124,7 +124,8 @@ namespace Web.UI.Controllers
                             {
                                 var teste = metasRealizadas.Where(x => x.Id == meta.Id).First();
 
-                                if (teste.Analise == null) {
+                                if (teste.Analise == null)
+                                {
                                     metasRealizadas.Where(x => x.Id == meta.Id).First().Analise = meta.Analise;
                                 }
                             }
