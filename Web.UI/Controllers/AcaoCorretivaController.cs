@@ -410,6 +410,16 @@ namespace Web.UI.Controllers
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var erros = new List<string>();
 
+            var acoesImediatasNova = acaoCorretiva.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+
+            if (acoesImediatasNova.Count > 0)
+            {
+                var registroAcoes = _registroConformidadesAppServico.GetById(acaoCorretiva.IdRegistroConformidade);
+
+                if (registroAcoes.AcoesImediatas.Count > 0)
+                    acaoCorretiva.StatusEtapa = 1;
+            }
+
             try
             {
 
@@ -462,15 +472,19 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
-                    var acoesNova = acaoCorretiva.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+                    
 
                     var acoesEfetivadas = acaoCorretiva.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
+                    acoesEfetivadas.ToList().ForEach(acao =>
+                    {
+                        acao.IdRegistroConformidade = acaoCorretiva.IdRegistroConformidade;
+                    });
 
                     RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
 
-                    if (acoesNova.Count > 0)
+                    if (acoesImediatasNova.Count > 0)
                     {
-                        EnfileirarEmailsAcaoImediata(acoesNova, acaoCorretiva);
+                        EnfileirarEmailsAcaoImediata(acoesImediatasNova, acaoCorretiva);
                     }
 
                     if (acoesEfetivadas.Count == acaoCorretiva.AcoesImediatas.Count)

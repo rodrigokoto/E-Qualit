@@ -629,7 +629,7 @@ namespace Dominio.Servico
                 return new CamposObrigatoriosAcaoCorretivaEncerrada();
             }
 
-            return null;
+            return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
         }
         private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoGM(RegistroConformidade gestaoDeRisco)
         {
@@ -642,12 +642,15 @@ namespace Dominio.Servico
             {
                 return new CamposObrigatoriosGestaoMelhoriaImplementacaoDtEfetivaImplementacao();
             }
+            else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && acaoImediataUpdateIsValid == true) {
+                return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
+            }
             //else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
             else
             {
                 return new CamposObrigatoriosNaoConformidadeReverificacao();
             }
-            //return null;
+            return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
         }
         private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoGR(RegistroConformidade gestaoDeRisco)
         {
@@ -660,6 +663,10 @@ namespace Dominio.Servico
             {
                 return new CamposObrigatoriosGestaoDeRiscoImplementacaoDtEfetivaImplementacao();
             }
+            else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && acaoImediataUpdateIsValid == true)
+            {
+                return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
+            }
             //else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
             else
             {
@@ -668,7 +675,7 @@ namespace Dominio.Servico
                 else
                     return new CamposObrigatoriosAcaoCorretivaEncerrada();
             }
-            //return null;
+            return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
         }
 
         private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoNC(RegistroConformidade naoConformidade)

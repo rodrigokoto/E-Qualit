@@ -340,7 +340,7 @@ APP.controller.AcaoCorretivaController = {
         });
 
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        $('.add-acao-imediata').hide();
+        
     },
 
     setDisabledStatusEtapa2: function (_disabled) {
@@ -462,7 +462,6 @@ APP.controller.AcaoCorretivaController = {
             $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        $('.add-acao-imediata').hide();
 
     },
 
@@ -1214,7 +1213,7 @@ APP.controller.AcaoCorretivaController = {
             dataType: 'json',
             url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + ' &idSite=' + idSite + '&idFuncao=' + idFuncao + '',
             beforeSend: function () {
-                $('.add-acao-imediata').removeClass('show').addClass('hide');
+                $('.add-acao-imediata').removeClass('hide').addClass('show');
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
@@ -1228,10 +1227,7 @@ APP.controller.AcaoCorretivaController = {
                 bootbox.alert(_options.MsgOcorreuErro);
             },
             complete: function (result) {
-                //$('.add-acao-imediata').removeClass('hide').addClass('show');
-                if ($('[name=StatusEtapa]').val() == "1") {
                     $('.add-acao-imediata').removeClass('hide').addClass('show');
-                }
             }
         });
 

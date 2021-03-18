@@ -267,6 +267,7 @@
     <Compile Include="Backup\InformacaoBackupModel.cs" />
     <Compile Include="Controllers\AcaoCorretivaController.cs" />
     <Compile Include="Controllers\BackupController.cs" />
+    <Compile Include="Controllers\ControlDocManuaisController.cs" />
     <Compile Include="Controllers\IAnexoController.cs" />
     <Compile Include="Controllers\MigracaoAnaliseCriticaController.cs" />
     <Compile Include="Controllers\AnaliseCriticaController.cs" />
@@ -333,6 +334,7 @@
     <Compile Include="Models\GestaoRiscoViewModel.cs" />
     <Compile Include="Models\GraficoNaoConformidadeViewModel.cs" />
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
+    <Compile Include="Models\ManuaisViewModel.cs" />
     <Compile Include="Models\MenuProcessoViewModel.cs" />
     <Compile Include="Models\PdfAcaoCorreticaViewModel.cs" />
     <Compile Include="Models\PendenciaViewModel.cs" />
@@ -2016,6 +2018,15 @@
     <Content Include="Views\Fornecedor\PDF.cshtml" />
     <Content Include="Views\Backup\Index.cshtml" />
     <Content Include="Views\Indicador\PDF.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\___Index.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\_PrimeiraEtapa.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\_primeiraEtapaEdit.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\_SegundaEtapa.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\_segundaEtapaEdit.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\Criar.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\Editar.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\Index.cshtml" />
+    <Content Include="Views\GestaoDeRiscoGUT\PDF.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -141,6 +141,7 @@
     <Compile Include="Entidade\Licenca.cs" />
     <Compile Include="Entidade\Recurso.cs" />
     <Compile Include="Entidade\DocRegistro.cs" />
+    <Compile Include="Entidade\RegistroGut.cs" />
     <Compile Include="Entidade\RegistroLicenca.cs" />
     <Compile Include="Entidade\RegistroQualificacao.cs" />
     <Compile Include="Entidade\RegistroAuditoria.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Enumerado\DirecaoIndicador.cs" />
     <Compile Include="Enumerado\CriticidadeGestaoDeRisco.cs" />
     <Compile Include="Enumerado\Funcionalidades.cs" />
+    <Compile Include="Enumerado\GUT.cs" />
     <Compile Include="Enumerado\PeriodicidadeMedicao.cs" />
     <Compile Include="Enumerado\PeriodicidadeIndicador.cs" />
     <Compile Include="Enumerado\PeriodoAnalise.cs" />
@@ -276,6 +278,7 @@
     <Compile Include="Interface\Repositorio\ICriterioAceitacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\ICriterioQualificacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IDocCargoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IRegistroGut.cs" />
     <Compile Include="Interface\Repositorio\IFilaEnvioRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IFornecedorRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IFuncaoRepositorio.cs" />

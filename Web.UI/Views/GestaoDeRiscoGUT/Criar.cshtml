@@ -1,8 +1,6 @@
 ﻿@using ApplicationService.Enum
 @using ApplicationService.Entidade
 @using Dominio.Entidade
-@using Dominio.Enumerado
-
 @model Dominio.Entidade.RegistroConformidade
 @{
     ViewBag.Title = "Gestão de Risco";
@@ -136,7 +134,6 @@
         <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
         <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
         <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
-        <input type="hidden" name="FlGut" value="@(Model.FlGut == true ? "true" : "false")" />
         <input type="hidden" id="acaoImediataAtual" />
 
         <!-- Formulario Gestão de Risco -->
@@ -290,9 +287,20 @@
                                                 {
                                                     <option value="@ViewBag.UsuarioLogado.IdUsuario" selected>@ViewBag.UsuarioLogado.Nome</option>
                                                 }
+
+
+
+
                                             </select>
+
                                         }
+
+
+
                                     </div>
+
+
+
                                 </div>
 
                                 <div class="col-lg-6 col-md-2 col-sm-12 col-xs-12 ">
@@ -320,58 +328,21 @@
                                                 <option value="14" @(Model.CriticidadeGestaoDeRisco != null && Model.CriticidadeGestaoDeRisco == 14 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
                                                 <option value="15" @(Model.CriticidadeGestaoDeRisco != null && Model.CriticidadeGestaoDeRisco == 15 ? "selected" : null) name="options">@Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto</option>
                                             </select>
-
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                            @if (Model.FlGut == true)
-                            {
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div>
 
-                                    </div>
-                                    <div class="col-lg-6 col-md-2 col-sm-12 col-xs-12 ">
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            <label for="form-criar-gut-gravidade" class="control-label">Gravidade</label>
-                                            <select id="form-criar-gut-gravidade" name="formcriagutgestao" class="form-control"
-                                                    data-msg-required="Preencha o plano do GUT">
-                                                <option value="0">@Traducao.Resource.Dropdown_name_select</option>
-                                                <option value="1" @(Model.RegistroGut.Gravidade == (int)Gravidade.SemGravidade ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Gravidade.SemGravidade)</option>
-                                                <option value="2" @(Model.RegistroGut.Gravidade == (int)Gravidade.PoucoGrave ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Gravidade.PoucoGrave)</option>
-                                                <option value="3" @(Model.RegistroGut.Gravidade == (int)Gravidade.Grave ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Gravidade.Grave)</option>
-                                                <option value="4" @(Model.RegistroGut.Gravidade == (int)Gravidade.MuitoGrave ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Gravidade.MuitoGrave)</option>
-                                                <option value="5" @(Model.RegistroGut.Gravidade == (int)Gravidade.ExtremamenteGrave ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Gravidade.ExtremamenteGrave)</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            <label for="form-criar-gut-urgencia" class="control-label">Urgência</label>
-                                            <select id="form-criar-gut-urgencia" name="formcriaguturgencia" class="form-control"
-                                                    data-msg-required="Preencha o plano do GUT">
-                                                <option value="0">@Traducao.Resource.Dropdown_name_select</option>
-                                                <option value="1" @(Model.RegistroGut.Urgencia == (int)Urgencia.SemUrgência ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Urgencia.SemUrgência)</option>
-                                                <option value="2" @(Model.RegistroGut.Urgencia == (int)Urgencia.PoucoUrgente ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Urgencia.PoucoUrgente)</option>
-                                                <option value="3" @(Model.RegistroGut.Urgencia == (int)Urgencia.Urgente ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Urgencia.Urgente)</option>
-                                                <option value="4" @(Model.RegistroGut.Urgencia == (int)Urgencia.MuitoUrgente ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Urgencia.MuitoUrgente)</option>
-                                                <option value="5" @(Model.RegistroGut.Urgencia == (int)Urgencia.ExtremamenteUrgente ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Urgencia.ExtremamenteUrgente)</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            <label for="form-criar-gut-tendencia" class="control-label">Tendência</label>
-                                            <select id="form-criar-gut-tendencia" name="formcriaguttendencia" class="form-control"
-                                                    data-msg-required="Preencha o plano do GUT">
-                                                <option value="0">@Traducao.Resource.Dropdown_name_select</option>
-                                                <option value="1" @(Model.RegistroGut.Tendencia == (int)Tendencia.Permanece ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Tendencia.Permanece)</option>
-                                                <option value="2" @(Model.RegistroGut.Tendencia == (int)Tendencia.PioralongoPrazo ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Tendencia.PioralongoPrazo)</option>
-                                                <option value="3" @(Model.RegistroGut.Tendencia == (int)Tendencia.Pioramedioprazo ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Tendencia.Pioramedioprazo)</option>
-                                                <option value="4" @(Model.RegistroGut.Tendencia == (int)Tendencia.Pioracurtoprazo ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Tendencia.Pioracurtoprazo)</option>
-                                                <option value="5" @(Model.RegistroGut.Tendencia == (int)Tendencia.Piorarapidamente ? "selected" : null)>@Web.UI.Helpers.EnumExtensions.ToName(Tendencia.Piorarapidamente)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+
+
+
+
+
+
+
+                            </div>
                         </div>
 
                         <div class="row">

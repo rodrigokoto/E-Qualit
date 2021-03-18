@@ -103,6 +103,10 @@ namespace DAL.Context
 
         public DbSet<RegistroLicenca> RegistroLicenca { get; set; }
 
+        public DbSet<RegistroGut> RegistroGut { get; set; }
+
+
+
         #region RH
 
         public DbSet<SubModulo> SubModulo { get; set; }
@@ -219,6 +223,7 @@ namespace DAL.Context
             modelBuilder.Configurations.Add(new ArquivoInstrumentoAnexoMap());
             modelBuilder.Configurations.Add(new ArquivoLicencaAnexoMap());
             modelBuilder.Configurations.Add(new DocExternoMap());
+            modelBuilder.Configurations.Add(new RegistroGutMap());
 
             modelBuilder.Configurations.Add(new DocRotinaMap());
             modelBuilder.Configurations.Add(new DocIndicadoresMap());

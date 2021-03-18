@@ -447,7 +447,6 @@ APP.controller.GestaoMelhoriaController = {
             $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        $('.add-acao-imediata').hide();
 
     },
 
@@ -586,7 +585,6 @@ APP.controller.GestaoMelhoriaController = {
             //$(this).find('td')[6].hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        $('.add-acao-imediata').hide();
 
     },
 
@@ -1685,7 +1683,7 @@ APP.controller.GestaoMelhoriaController = {
             dataType: 'json',
             url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=idProcesso&idSite=' + idSite + '&idFuncao=' + idFuncao,
             beforeSend: function () {
-                $('.add-acao-imediata').removeClass('show').addClass('hide');
+                $('.add-acao-imediata').removeClass('hide').addClass('show');
             },
             success: function (result) {
                 if (result.StatusCode == 200) {

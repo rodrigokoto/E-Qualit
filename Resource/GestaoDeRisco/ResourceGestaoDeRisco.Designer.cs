@@ -19,7 +19,7 @@ namespace Traducao.GestaoDeRisco {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ResourceGestaoDeRisco {
@@ -300,6 +300,15 @@ namespace Traducao.GestaoDeRisco {
         public static string GR_lbl_nova_nao_conformidade {
             get {
                 return ResourceManager.GetString("GR_lbl_nova_nao_conformidade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nova Gestão de Risco GUT.
+        /// </summary>
+        public static string GR_lbl_nova_nao_conformidade_gut {
+            get {
+                return ResourceManager.GetString("GR_lbl_nova_nao_conformidade_gut", resourceCulture);
             }
         }
         

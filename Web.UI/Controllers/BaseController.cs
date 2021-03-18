@@ -6,6 +6,7 @@ using Dominio.Interface.Repositorio;
 using Dominio.Servico;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Drawing;
 using System.IO;
@@ -32,12 +33,14 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
 
+
         public BaseController(ILogAppServico logServico, IUsuarioAppServico usuarioAppServico, IProcessoAppServico processoAppServico, IControladorCategoriasAppServico controladorCategoriasServico)
         {
             _logServico = logServico;
             _usuarioAppServico = usuarioAppServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+
 
             Usuario usuarioLogadoBase = new Usuario();
             int idUsuario = 0;
@@ -70,12 +73,14 @@ namespace Web.UI.Controllers
                 ViewBag.CodClienteSelecionado = 0;
             }
 
+
             try
             {
                 using (var db = new BaseContext())
                 {
                     try
                     {
+
                         if (_usuarioAppServico != null)
                         {
                             usuarioLogadoBase = _usuarioAppServico.GetById(idUsuario);
@@ -190,8 +195,22 @@ namespace Web.UI.Controllers
 
                     var idCliente = Util.ObterClienteSelecionado();
 
-
                     var DtVencimento = DateTime.Now.AddDays(-1);
+
+                    var IdSiteManuais = Convert.ToInt32(ConfigurationManager.AppSettings["IdSiteManuais"]);
+                    var IdCategoria = Convert.ToInt32(ConfigurationManager.AppSettings["IdCategoriaManuais"]);
+
+                    var DocManuaisQuery = (from doc in db.DocDocumento
+                                           join proc in db.Processo on doc.IdProcesso equals proc.IdProcesso
+                                           where doc.IdSite == IdSiteManuais && doc.IdCategoria == IdCategoria
+                                           select new ManuaisViewModel
+                                           {
+                                               IdDocumento = doc.IdDocumento,
+                                               Processo = proc.Nome,
+                                               Titulo = doc.Titulo
+                                           }).ToList().GroupBy(x => x.Processo);
+
+                    ViewBag.Manuais = DocManuaisQuery;
 
 
                     if (idSite != 0)
@@ -246,7 +265,7 @@ namespace Web.UI.Controllers
                                                    Titulo = nc.NuRegistro.ToString(),
                                                    IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
                                                    Modulo = "NC",
-                                                   Url = "NaoConformidade/Editar/"  + (int)nc.IdRegistroConformidade
+                                                   Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                }); ;
 
                         var naoConformidadePrazo = (from nc in db.RegistroConformidade
@@ -367,11 +386,11 @@ namespace Web.UI.Controllers
                                                });
 
                         var gestaoRisco = (from nc in db.RegistroConformidade
-                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "gr" 
+                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "gr"
                                            select new PendenciaViewModel
                                            {
                                                Id = (int)nc.IdRegistroConformidade,
-                                               Titulo = nc.NuRegistro.ToString() ,
+                                               Titulo = nc.NuRegistro.ToString(),
                                                IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
                                                Modulo = "GR",
                                                Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
@@ -634,10 +653,10 @@ namespace Web.UI.Controllers
 
                         lstPendencia = lstPendencia.GroupBy(x => x.Id).Select(j => new PendenciaViewModel()
                         {
-                            Id = j.First().Id, 
+                            Id = j.First().Id,
                             IdResponsavel = j.First().IdResponsavel,
-                            Modulo = j.First().Modulo , 
-                            Titulo = j.First().Titulo , 
+                            Modulo = j.First().Modulo,
+                            Titulo = j.First().Titulo,
                             Url = j.First().Url
                         }).ToList();
 

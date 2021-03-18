@@ -110,6 +110,12 @@ namespace Web.UI.Helpers
                 return Convert.ToInt32(objUsuario.IdUsuario);
             }
 
+            if (idUsuario == 0) {
+                var usuario = Util.ObterUsuario();
+
+                return Convert.ToInt32(usuario.IdUsuario);
+            }
+
             return idUsuario;
         }
 

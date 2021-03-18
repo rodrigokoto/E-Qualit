@@ -35,6 +35,11 @@ APP.controller.GestaoDeRiscoController = {
         this.buttonDestravar = $(".btn-destravar");
 
         this.buttonImprimir = $("#btn-imprimir");
+
+        this.SelectGravidade = $("#form-criar-gut-gravidade");
+        this.SelectUrgencia = $("#form-criar-gut-urgencia");
+        this.SelectTendencia = $("#form-criar-gut-tendencia");
+
     },
 
     //Models
@@ -164,6 +169,9 @@ APP.controller.GestaoDeRiscoController = {
         this.setDestravarCamposGestaoRisco();
         this.sendFormCriarNaoConformidade();
         this.getEmissorPorSite();
+        this.setGravidade();
+        this.setUrgencia();
+        this.setTendencia();
         //if (habilitaLoad == 'sim') {
 
         //    this.HabilitaCamposGestaoRisco(perfil);
@@ -310,6 +318,9 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataEProcedente]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeTags]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeCausa]').prop('disabled', _disabled);
+        $("#form-criar-gut-gravidade").prop('disabled', _disabled);
+        $("#form-criar-gut-tendencia").prop('disabled', _disabled);
+        $("#form-criar-gut-urgencia").prop('disabled', _disabled);
         $('.botaouploadarquivos').prop('disabled', _disabled);
 
     },
@@ -362,7 +373,6 @@ APP.controller.GestaoDeRiscoController = {
             $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        $('.add-acao-imediata').hide();
 
     },
 
@@ -383,7 +393,9 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formCriarNaoConformidadeResponsavel]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeTags]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeCriticidade]').prop('disabled', _disabled);
-
+        $("#form-criar-gut-gravidade").prop('disabled', _disabled);
+        $("#form-criar-gut-tendencia").prop('disabled', _disabled);
+        $("#form-criar-gut-urgencia").prop('disabled', _disabled);
         //Formulario Acao Imediata
         $('[name=formAcaoImadiataDtDescricaoAcao]').prop('disabled', _disabled);
         //Table Acao Imediata
@@ -410,7 +422,7 @@ APP.controller.GestaoDeRiscoController = {
             var idResponsavelImplementar = $(this).find('[name=formAcaoImadiataTbResponsavelImplementar]').val();
             if ((idResponsavelImplementar == idUsuarioLogado) || idPerfil != 4) {
                 if ($(this).find('[name=desabilitaData]').val() == "true") {
-                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', false);
+                    $(this).find('[name=formAcaoImadiataTbDtEfetivaImplementacao]').prop('disabled', true);
                     $(this).find('[name=formAcaoImadiataTbEvidencia]').prop('disabled', false);
                     $(this).find('[name=formAcaoImadiataTbObservacao]').prop('disabled', true);
                     $(this).find('[class^=btn-upload-form-acaoimediata-tb-evidencia]').closest('div').css('background-color', '#fff');
@@ -466,7 +478,6 @@ APP.controller.GestaoDeRiscoController = {
             $('.botoesTd').hide();
         });
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        $('.add-acao-imediata').hide();
 
     },
 
@@ -486,6 +497,9 @@ APP.controller.GestaoDeRiscoController = {
         $('[name=formAcaoImadiataEProcedente]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeResponsavel]').prop('disabled', _disabled);
         $('[name=formCriarNaoConformidadeTags]').prop('disabled', _disabled);
+        $("#form-criar-gut-gravidade").prop('disabled', _disabled);
+        $("#form-criar-gut-tendencia").prop('disabled', _disabled);
+        $("#form-criar-gut-urgencia").prop('disabled', _disabled);
 
         //Formulario Acao Imediata
         $('[name=formAcaoImadiataDtDescricaoAcao]').prop('disabled', _disabled);
@@ -878,6 +892,9 @@ APP.controller.GestaoDeRiscoController = {
         this.getEmissorPorSite();
         this.setResponsavelAnaliseDefinicaoAC();
         this.setEProcedente();
+        this.setGravidade();
+        this.setUrgencia();
+        this.setTendencia();
         APP.controller.GestaoDeRiscoController.setNecessitaAcao();
 
     },
@@ -1051,6 +1068,12 @@ APP.controller.GestaoDeRiscoController = {
                     CriticidadeGestaoDeRisco: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
                     EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
+                    FlGut: $('[name=FlGut]').val(),
+                    RegistroGut: {
+                        Gravidade: parseInt($("#form-criar-gut-gravidade").val()),
+                        Urgencia: parseInt($("#form-criar-gut-urgencia").val()),
+                        Tendencia: parseInt($("#form-criar-gut-tendencia").val()),
+                    }
                 };
 
                 break;
@@ -1084,6 +1107,12 @@ APP.controller.GestaoDeRiscoController = {
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
                     ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
+                    FlGut: $('[name=FlGut]').val(),
+                    RegistroGut: {
+                        Gravidade: parseInt($("#form-criar-gut-gravidade").val()),
+                        Urgencia: parseInt($("#form-criar-gut-urgencia").val()),
+                        Tendencia: parseInt($("#form-criar-gut-tendencia").val()),
+                    }
                 };
 
                 break;
@@ -1116,6 +1145,12 @@ APP.controller.GestaoDeRiscoController = {
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
                     ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
+                    FlGut: $('[name=FlGut]').val(),
+                    RegistroGut: {
+                        Gravidade: parseInt($("#form-criar-gut-gravidade").val()),
+                        Urgencia: parseInt($("#form-criar-gut-urgencia").val()),
+                        Tendencia: parseInt($("#form-criar-gut-tendencia").val()),
+                    }
                 };
                 break;
             case "fluxo-04":
@@ -1146,6 +1181,12 @@ APP.controller.GestaoDeRiscoController = {
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
                     ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
+                    FlGut: $('[name=FlGut]').val(),
+                    RegistroGut: {
+                        Gravidade: parseInt($("#form-criar-gut-gravidade").val()),
+                        Urgencia: parseInt($("#form-criar-gut-urgencia").val()),
+                        Tendencia: parseInt($("#form-criar-gut-tendencia").val()),
+                    },
                     FlEficaz: APP.controller.GestaoDeRiscoController.getFoiEficaz(),
                 };
                 break;
@@ -1177,6 +1218,12 @@ APP.controller.GestaoDeRiscoController = {
                     ArquivosDeEvidenciaAux: APP.controller.GestaoDeRiscoController.getAnexosEvidencias(),
                     ArquivosNaoConformidadeAnexos: APP.controller.GestaoDeRiscoController.getAnexosArquivosNaoConformidadeAnexos(),
                     Causa: $('[name=formCriarNaoConformidadeCausa]').val(), 'required': true, 'minlength': 1, 'maxlength': 500,
+                    FlGut: $('[name=FlGut]').val(),
+                    RegistroGut: {
+                        Gravidade: parseInt($("#form-criar-gut-gravidade").val()),
+                        Urgencia: parseInt($("#form-criar-gut-urgencia").val()),
+                        Tendencia: parseInt($("#form-criar-gut-tendencia").val()),
+                    },
                     FlEficaz: APP.controller.GestaoDeRiscoController.getFoiEficaz(),
                 };
                 break;
@@ -1239,6 +1286,49 @@ APP.controller.GestaoDeRiscoController = {
 
         //$('[name=formAcaoImadiataDtDescricaoAcao]').val(APP.component.Datatoday.init());
 
+    },
+
+    setGravidade: function () {
+        this.SelectGravidade.unbind('change');
+        this.SelectGravidade.bind('change', function () {
+
+            let valUrgencia = parseInt($("#form-criar-gut-urgencia").val());
+            let valTendencia = parseInt($("#form-criar-gut-tendencia").val());
+            let valGravidade = parseInt(this.value);
+
+            let TotalGut = valGravidade + valUrgencia + valTendencia;
+
+            $($('.br-theme-bars-1to10').find('.br-widget a')[TotalGut-1]).trigger("click");
+
+        });
+    },
+
+    setTendencia: function () {
+        this.SelectTendencia.unbind('change');
+        this.SelectTendencia.bind('change', function () {
+
+            let valUrgencia = parseInt($("#form-criar-gut-urgencia").val());
+            let valGravidade = parseInt($("#form-criar-gut-gravidade").val());
+            let valTendencia  = parseInt(this.value);
+
+            let TotalGut = valGravidade + valUrgencia + valTendencia;
+
+            $($('.br-theme-bars-1to10').find('.br-widget a')[TotalGut - 1]).trigger("click");
+        });
+    },
+
+    setUrgencia: function () {
+        this.SelectUrgencia.unbind('change');
+        this.SelectUrgencia.bind('change', function () {
+
+            let valGravidade = parseInt($("#form-criar-gut-gravidade").val());
+            let valTendencia = parseInt($("#form-criar-gut-tendencia").val());
+            let valUrgencia  = parseInt(this.value);
+
+            let TotalGut = valGravidade + valUrgencia + valTendencia;
+
+            $($('.br-theme-bars-1to10').find('.br-widget a')[TotalGut - 1]).trigger("click");
+        });
     },
 
     setAcaoImediata: function () {
@@ -1312,7 +1402,7 @@ APP.controller.GestaoDeRiscoController = {
             html += '</tr>';
 
             $('#tb-acao-imediata tbody').append(html);
-            $('.add-acao-imediata').removeClass('show').addClass('hide');
+            $('.add-acao-imediata').removeClass('hide').addClass('show');
             APP.controller.GestaoDeRiscoController.bind();
 
             $('[name=formAcaoImadiataResponsavelReverificacao]').closest('[class^=col]').show();
@@ -1342,7 +1432,7 @@ APP.controller.GestaoDeRiscoController = {
             dataType: 'json',
             url: '/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idProcesso=' + idProcesso + '&idSite=' + idSite + '&idFuncao=' + idFuncao + '',
             beforeSend: function () {
-                $('.add-acao-imediata').removeClass('show').addClass('hide');
+                $('.add-acao-imediata').removeClass('hide').addClass('show');
             },
             success: function (result) {
                 if (result.StatusCode == 200) {
@@ -1383,8 +1473,8 @@ APP.controller.GestaoDeRiscoController = {
         APP.controller.GestaoDeRiscoController.setAcaoImediata();
         APP.controller.GestaoDeRiscoController.getResponsavelImplementarAcaoImediata();
         APP.component.FileUpload.init();
+        APP.controller.GestaoDeRiscoController.setHideRowAcaoImediata();
         APP.controller.GestaoDeRiscoController.delAcaoImediata();
-        APP.controller.GestaoDeRiscoController.setHideStatusEtapa1();
 
     },
 

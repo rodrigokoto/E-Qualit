@@ -363,4 +363,7 @@
   <data name="GR_lbl_Responsavel" xml:space="preserve">
     <value>Responsável</value>
   </data>
+  <data name="GR_lbl_nova_nao_conformidade_gut" xml:space="preserve">
+    <value>Nova Gestão de Risco GUT</value>
+  </data>
 </root>

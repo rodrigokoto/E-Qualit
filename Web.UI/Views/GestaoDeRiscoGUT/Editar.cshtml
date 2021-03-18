@@ -1,0 +1,150 @@
+﻿@model Dominio.Entidade.RegistroConformidade
+    @*
+        
+    nota em 190806: aparentemente, não é usado
+        *@
+
+@{
+    ViewBag.Title = "Gestao de Risco";
+}
+@section Styles {
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/lobipanel.min.css" rel="stylesheet" />
+    <link href="~/Content/fileUpload.css" rel="stylesheet" />
+}
+@section scripts {
+    <script src="~/Scripts/jQuery.FileUpload/jquery.iframe-transport.js"></script>
+    <script src="~/Scripts/jQuery.FileUpload/jquery.fileupload.js"></script>
+}
+@section Metas {
+    <meta name="page" content="EditarGestaoDeRisco" />
+}
+@Html.AntiForgeryToken()
+<input type="hidden" name="IdGestaoDeRisco" value="@Model.IdRegistroConformidade" />
+<input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado" />
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/GestaoDeRiscoController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+}
+<div class="row header-fixo">
+
+    <div class="col-md-12">
+        <ul class="nav nav-pills menu-one">
+            @if (Model.StatusEtapa == 1 || Model.StatusEtapa == 2)
+            {
+                <li role="presentation" class="col-md-6">
+                    <a href="#identificacao">Identificação da Gestão de Risco</a>
+                </li>
+                <li role="presentation" class="col-md-6">
+                    @if (Model.StatusEtapa == 1)
+                    {
+                        <a href="#implementacao">Ação Imediata</a>
+                    }
+                    else if (Model.StatusEtapa == 2)
+                    {
+                        <a href="#implementacao">Implementação</a>
+                    }
+                </li>
+            }
+            else if (Model.StatusEtapa > 2)
+            {
+                <li role="presentation" class="col-md-6">
+                    <a href="#identificacao">Identificação da Gestão de Risco</a>
+                </li>
+                <li role="presentation" class="col-md-6">
+                    @if (Model.StatusEtapa == 3)
+                    {
+                        <a href="#implementacao">Reverificação</a>
+                    }
+                    else if (Model.StatusEtapa == 4)
+                    {
+                        <a href="#implementacao">Encerrada</a>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="top3" id="main1">
+    <div id="main">
+        <div class="content-painel">
+            sdsadassd
+            @if (Model.StatusEtapa == 1)
+            {
+                <!-- Etapa 1 - Edit -->
+                <div class="panel panel-default" id="identificacao">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>Identificação da Gestão de Risco</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="identificacao">
+                        @Html.Partial("_primeiraEtapaEdit", Model)
+                    </div>
+                </div>
+                <!-- Etapa 2 - Criar -->
+                <div class="panel panel-default " id="implementacao">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>Ação Imediata</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="implementacao">
+                        @Html.Partial("_SegundaEtapa", Model)
+                    </div>
+                </div>
+            }
+            else if (Model.StatusEtapa > 1)
+            {
+                <!-- Etapa 1 Edit-->
+                <div class="panel panel-default " id="identificacao">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h2>Identificação da Gestão de Risco</h2>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="identificacao">
+                        @Html.Partial("_primeiraEtapaEdit", Model)
+                    </div>
+                </div>
+                <!-- Etapa 2 - Edit -->
+                <div class="panel panel-default" id="implementacao">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            @if (Model.StatusEtapa == 2)
+                            {
+                                <h2>Implementação</h2>
+                            }
+                            else if (Model.StatusEtapa == 3)
+                            {
+                                <h2>Reverificação</h2>
+                            }
+                            else if (Model.StatusEtapa == 4)
+                            {
+                                <h2>Encerrada</h2>
+                            }
+                        </div>
+                    </div>
+                    <div class="panel-body" id="implementacao">
+                        @Html.Partial("_segundaEtapaEdit", Model)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container-fluid" id="myNavbar1">
+        <ul class="nav navbar-nav navbar-right pull-right">
+            <li class="botoes-button">
+                <button type="button" class="btn-salvar-notificar btnSalvar btn-primary btn-responsive">@Traducao.Resource.SalvarNotificar</button>
+                @if (ViewBag.IdPerfil == 3 || ViewBag.IdPerfil == 1)
+                {
+                <button type="submit" class="btn btn-primary btn-destravar-etapa">@Traducao.Resource.Destravar</button>
+                }
+            </li>
+        </ul>
+    </div>
+</nav>

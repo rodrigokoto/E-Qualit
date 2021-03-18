@@ -116,6 +116,7 @@
     <Compile Include="EntityConfig\ProdutoMap.cs" />
     <Compile Include="EntityConfig\CriterioAvaliacaoMap.cs" />
     <Compile Include="EntityConfig\DocRegistroMap.cs" />
+    <Compile Include="EntityConfig\RegistroGutMap.cs" />
     <Compile Include="EntityConfig\RegistroLicencaMap.cs" />
     <Compile Include="EntityConfig\RegistroQualificacaoMap.cs" />
     <Compile Include="EntityConfig\RegistroAuditoriaMap.cs" />

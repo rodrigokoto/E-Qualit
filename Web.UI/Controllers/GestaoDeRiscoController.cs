@@ -265,6 +265,8 @@ namespace Web.UI.Controllers
             gestaoDeRisco.Emissor = new Usuario();
             gestaoDeRisco.ResponsavelInicarAcaoImediata = new Usuario();
             gestaoDeRisco.TipoNaoConformidade = new ControladorCategoria();
+            gestaoDeRisco.RegistroGut = new RegistroGut();
+            gestaoDeRisco.FlGut = false;
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.Arquivos = new List<string>();
@@ -284,6 +286,39 @@ namespace Web.UI.Controllers
             ViewBag.NumeroRisco = _registroConformidadesServico.GeraProximoNumeroRegistro(_tipoRegistro, Util.ObterSiteSelecionado());
 
             return View(gestaoDeRisco);
+        }
+
+        [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.CriaNovaGR, (int)Funcionalidades.GestaoDeRiscos)]
+        public ActionResult CriarGut()
+        {
+            var gestaoDeRisco = new RegistroConformidade();
+            gestaoDeRisco.Processo = new Processo();
+            //gestaoDeRisco.Processo.IdProcesso = Util.ObterProcessoSelecionado(); 
+
+            gestaoDeRisco.Emissor = new Usuario();
+            gestaoDeRisco.ResponsavelInicarAcaoImediata = new Usuario();
+            gestaoDeRisco.TipoNaoConformidade = new ControladorCategoria();
+            gestaoDeRisco.RegistroGut = new RegistroGut();
+            gestaoDeRisco.FlGut = true;
+
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            ViewBag.Arquivos = new List<string>();
+            ViewBag.IdCliente = Util.ObterClienteSelecionado();
+            ViewBag.StatusEtapa = 0;
+
+            ViewBag.TipoRegistro = _tipoRegistro;
+            ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
+            ViewBag.UsuarioLogado = Util.ObterUsuario();
+
+            ViewBag.IdUsuarioLogado = Util.ObterCodigoUsuarioLogado();
+            ViewBag.Site = Util.ObterSiteSelecionado();
+            //ViewBag.IdProcesso = Util.ObterProcessoSelecionado();
+
+            //ViewBag.NomeProcesso = _processoServico.GetProcessoById(Util.ObterProcessoSelecionado()).Nome;
+            ViewBag.NomeUsuario = Util.ObterUsuario().Nome;
+            ViewBag.NumeroRisco = _registroConformidadesServico.GeraProximoNumeroRegistro(_tipoRegistro, Util.ObterSiteSelecionado());
+
+            return View("Criar", gestaoDeRisco);
         }
 
         public ActionResult PDF(int id)
@@ -345,8 +380,6 @@ namespace Web.UI.Controllers
 
         }
 
-
-
         public ActionResult Editar(int id)
         {
             ViewBag.NumeroRisco = null;
@@ -397,6 +430,12 @@ namespace Web.UI.Controllers
         [AutorizacaoUsuario((int)FuncoesGestaoDeRisco.CriaNovaGR, (int)Funcionalidades.GestaoDeRiscos)]
         public JsonResult SalvarPrimeiraEtapa(RegistroConformidade gestaoDeRisco)
         {
+
+            if (gestaoDeRisco.RegistroGut.Gravidade == 0 || gestaoDeRisco.RegistroGut.Tendencia == 0 || gestaoDeRisco.RegistroGut.Urgencia == 0)
+            {
+                gestaoDeRisco.RegistroGut = null;
+                gestaoDeRisco.FlGut = false;
+            }
 
             //gestaoDeRisco.IdProcesso = Util.ObterProcessoSelecionado();
             gestaoDeRisco.IdEmissor = Util.ObterCodigoUsuarioLogado();
@@ -612,6 +651,17 @@ namespace Web.UI.Controllers
         {
             var erros = new List<string>();
 
+
+            var acoesImediatasNova = gestaoDeRisco.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+
+            if (acoesImediatasNova.Count > 0)
+            {
+                var registroAcoes = _registroConformidadesAppServico.GetById(gestaoDeRisco.IdRegistroConformidade);
+
+                if (registroAcoes.AcoesImediatas.Count > 0)
+                    gestaoDeRisco.StatusEtapa = 1;
+            }
+
             try
             {
                 var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == gestaoDeRisco.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
@@ -664,9 +714,13 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
-                    var acoesNova = gestaoDeRisco.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
                     var acoesEfetivadas = gestaoDeRisco.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
+
+                    acoesEfetivadas.ToList().ForEach(acao =>
+                    {
+                        acao.IdRegistroConformidade = gestaoDeRisco.IdRegistroConformidade;
+                    });
 
                     AtualizarDatasAgendadas(gestaoDeRisco);
 
@@ -676,10 +730,10 @@ namespace Web.UI.Controllers
 
                     RemoverFilaEnvioAcoesEfetivadas(acoesEfetivadas);
 
-                    if (acoesNova.Count > 0)
+                    if (acoesImediatasNova.Count > 0)
                     {
-                        EnviarEmailsImplementacao(acoesNova, gestaoDeRisco);
-                        EnfileirarEmailsAcaoImediata(acoesNova, gestaoDeRisco);
+                        EnviarEmailsImplementacao(acoesImediatasNova, gestaoDeRisco);
+                        EnfileirarEmailsAcaoImediata(acoesImediatasNova, gestaoDeRisco);
                     }
 
                     if (acoesEfetivadas.Count == gestaoDeRisco.AcoesImediatas.Count)

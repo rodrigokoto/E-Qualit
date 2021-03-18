@@ -172,6 +172,12 @@ namespace DAL.EntityConfig
                 .HasColumnName("Parecer")
                 .IsOptional();
 
+            Property(t => t.IdGut)
+               .HasColumnName("IdGut");
+
+            Property(t => t.FlGut)
+                .HasColumnName("FlGut");
+
             #region Relacionamentos
 
             HasRequired(t => t.Emissor)

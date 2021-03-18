@@ -61,6 +61,7 @@ namespace Dominio.Entidade
         public DateTime? DtEnceramento { get; set; }
         public DateTime? DtPrazoImplementacao { get; set; }
         public byte FlDesbloqueado { get; set; }
+        public bool? FlGut { get; set; }
         public bool? FlEficaz { get; set; }
         public byte? FlStatusAntesAnulacao { get; set; }
         public byte? StatusEtapa { get; set; }
@@ -90,12 +91,14 @@ namespace Dominio.Entidade
 
         public string Tags { get; set; }
 
+        public int? IdGut { get;set; }
 
         public IEnumerable<ArquivoNaoConformidadeAnexo> ArquivosNaoConformidadeAnexos { get; set; } = new List<ArquivoNaoConformidadeAnexo>();
 
         #region Relacionamentos
 
         public virtual ICollection<ArquivosDeEvidencia> ArquivosDeEvidencia { get; set; }
+        public virtual RegistroGut RegistroGut { get; set; }
         public virtual Usuario ResponsavelAcaoCorretiva { get; set; }
         public virtual Usuario ResponsavelAnalisar { get; set; }
         public virtual Usuario ResponsavelReverificador { get; set; }

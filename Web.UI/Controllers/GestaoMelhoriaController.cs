@@ -585,6 +585,16 @@ namespace Web.UI.Controllers
         {
             var erros = new List<string>();
 
+            var acoesImediatasNova = gestaoMelhoria.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+
+            if (acoesImediatasNova.Count > 0)
+            {
+                var registroAcoes = _registroConformidadesAppServico.GetById(gestaoMelhoria.IdRegistroConformidade);
+
+                if (registroAcoes.AcoesImediatas.Count > 0)
+                    gestaoMelhoria.StatusEtapa = 1;
+            }
+
             try
             {
 
@@ -668,9 +678,14 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
-                    var acoesImediatasNova = gestaoMelhoria.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
+                    
 
                     var acoesEfetivadas = gestaoMelhoria.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
+                    acoesEfetivadas.ToList().ForEach(acao =>
+                    {
+                        acao.IdRegistroConformidade = gestaoMelhoria.IdRegistroConformidade;
+                    });
+
                     acoesEfetivadas.ToList().ForEach(acao =>
                     {
                         acao.IdRegistroConformidade = gestaoMelhoria.IdRegistroConformidade;

@@ -9,7 +9,8 @@
         AnularAMDestravar = 94,
         AnularAMEditar = 95,
         CriaNovaGR = 96, 
-        Excluir = 104 
+        Excluir = 104,
+        GUTGR = 128
     }
 }
 
