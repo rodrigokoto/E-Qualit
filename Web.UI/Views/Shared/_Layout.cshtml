@@ -46,7 +46,7 @@
     @RenderSection(name: "Styles", required: false)
 
     <style scoped>
-        
+
         modal-header .btnGrp {
             position: absolute;
             top: 8px;
@@ -303,38 +303,38 @@
                             </a>
                         </li>
                     }
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-book fa-2x" aria-hidden="true"></i><span>Manuais</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user pre-scrollable">
+                            @{
+                                foreach (var Processo in ViewBag.Manuais as IEnumerable<IGrouping<string, Web.UI.Models.ManuaisViewModel>>)
+                                {
+                                    var KeyObject = (Processo.Key);
 
+                                    <li class="nav-settings__topcard nav-settings__no-hover">
+                                        <h3 class="nav-settings__member-name"> @KeyObject</h3>
+                                    </li>
+
+                                    foreach (var manuais in Processo)
+                                    {
+                                        <li class="dropdown-large float-left">
+                                            <a data-id="@manuais.IdDocumento" class="mdlFire" href="#" data-target="#modal-1">@manuais.Titulo</a>
+                                        </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                        @*<a id="nav-user-manuais" class="dropdown-toggle mdlFire" href="#" data-target="#modal-1">
+                                <i class="fa fa-book fa-2x" aria-hidden="true"></i>
+                                <span>Manuais</span>
+                            </a>*@
+                    </li>
                     @if (ViewBag.IdPerfil == 1 || ViewBag.IdPerfil == 2)
                     {
 
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-book fa-2x" aria-hidden="true"></i><span>Manuais</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user pre-scrollable">
-                                @{
-                                    foreach (var Processo in ViewBag.Manuais as IEnumerable<IGrouping<string, Web.UI.Models.ManuaisViewModel>>)
-                                    {
-                                        var KeyObject = (Processo.Key);
 
-                                        <li class="nav-settings__topcard nav-settings__no-hover">
-                                            <h3 class="nav-settings__member-name"> @KeyObject</h3>
-                                        </li>
-
-                                        foreach (var manuais in Processo)
-                                        {
-                                            <li class="dropdown-large float-left">
-                                                <a data-id="@manuais.IdDocumento" class="mdlFire" href="#" data-target="#modal-1">@manuais.Titulo</a>
-                                            </li>
-                                        }
-                                    }
-                                }
-                            </ul>
-                            @*<a id="nav-user-manuais" class="dropdown-toggle mdlFire" href="#" data-target="#modal-1">
-                                    <i class="fa fa-book fa-2x" aria-hidden="true"></i>
-                                    <span>Manuais</span>
-                                </a>*@
-                        </li>
                         <!-- Cliente -->
                         <li class="dropdown">
                             <a id="nav-user-clientes" class="dropdown-toggle" href="#">
@@ -687,8 +687,8 @@
             var $content, $modal, $apnData, $modalCon;
 
             $content = $(".min");
-            
-            
+
+
             //To fire modal
             $(".mdlFire").click(function (e) {
 
@@ -707,7 +707,7 @@
                     },
                     success: function (result) {
                         if (result.StatusCode == 200) {
-                            $(".modal-body-manuais").html(result.TextoDoc) 
+                            $(".modal-body-manuais").html(result.TextoDoc)
                             APP.component.Loading.hideLoading();
                             console.log("passou por aqui");
                         }
@@ -724,7 +724,7 @@
 
 
                 var $id = $(this).attr("data-target");
-                
+
                 $($id).modal({ backdrop: false, keyboard: false });
 
             });
@@ -790,7 +790,7 @@
                 </div>
 
                 <div class="modal-body modal-body-manuais" style="padding:40px 50px;">
-                    
+
                 </div>
             </div>
         </div>

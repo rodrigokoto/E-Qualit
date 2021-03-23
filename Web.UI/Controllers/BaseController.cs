@@ -202,7 +202,7 @@ namespace Web.UI.Controllers
 
                     var DocManuaisQuery = (from doc in db.DocDocumento
                                            join proc in db.Processo on doc.IdProcesso equals proc.IdProcesso
-                                           where doc.IdSite == IdSiteManuais && doc.IdCategoria == IdCategoria
+                                           where doc.IdSite == IdSiteManuais && doc.IdCategoria == IdCategoria && doc.FlStatus == 3
                                            select new ManuaisViewModel
                                            {
                                                IdDocumento = doc.IdDocumento,

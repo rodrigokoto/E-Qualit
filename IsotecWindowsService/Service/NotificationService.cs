@@ -484,6 +484,7 @@ namespace IsotecWindowsService.Service
 
         public void AgendarEmail(List<PendenciaViewModel> lstPendencia)
         {
+            
             string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + $@"Templates\Notificacao-" + System.Threading.Thread.CurrentThread.CurrentCulture.Name + ".html";
           
 
