@@ -35,7 +35,7 @@ APP.controller.FornecedoresController = {
 
         //Produtos - Acoes
         this.buttonSalvar = $('.btn-salvar');
-
+        this.buttonExcluirAnexo = $('.delete-anexo');
         //Produtos - Criticidade
         this.buttonAddNovoCriterioAvaliacaoCriticidadeFormProdutos = $('.btn-add-produtos-criticidade');
         this.buttonEditNovoCriterioAvaliacaoCriticidadeFormProdutos = $('.btn-edit-produtos-criticidade');
@@ -140,11 +140,14 @@ APP.controller.FornecedoresController = {
         this.formCriticidade();
         this.formQualificacaoFornecedor();
         this.formCriterioAvaliacao();
+        
 
         this.sendFormAcoesProdutos();
         this.eventoImprimir();
 
     },
+
+   
 
     setHideAndShow: function () {
 
@@ -1295,7 +1298,83 @@ APP.controller.FornecedoresController = {
 
         this.eventoImprimir();
 
+        var Ancora = $("#Ancora").val();
+
+        if (Ancora == "Editar") {
+
+            this.formDeleteAnexo();
+        }
+        else
+        {
+            $('.delete-anexo').hide()
+        }
     },
+
+    formDeleteAnexo: function () {
+        this.buttonExcluirAnexo.unbind('click');
+        this.buttonExcluirAnexo.on('click', function () {
+
+            var idAnexo = $(this).attr("data-id");
+
+            var data = {
+                "idAnexo": idAnexo,
+            };
+
+            bootbox.dialog({
+                message: "Deseja excluir o anexo ?",
+                onEscape: true,
+                backdrop: true,
+                buttons: {
+
+                    Cancelar: {
+                        label: 'Cancelar',
+                        className: 'btn-primary',
+                        callback: function (e) {
+                            e.preventDefault;
+                            bootbox.hideAll();
+                        }
+                    },
+                    Ok: {
+                        label: 'Ok',
+                        className: 'btn-primary',
+                        callback: function (e) {
+                            $.ajax({
+                                type: "POST",
+                                dataType: 'json',
+                                data: data,
+                                url: "/Fornecedor/RemoverAnexo",
+                                beforeSend: function () {
+                                    APP.component.Loading.showLoading();
+                                },
+                                success: function (result) {
+
+                                    if (result.StatusCode == 200) {
+                                        bootbox.alert("Anexo Excluido com sucesso");
+                                        window.location.reload();
+                                    } else if (result.StatusCode == 505) {
+                                        erro = APP.component.ResultErros.init(result.Erro);
+                                        bootbox.alert(erro);
+                                    } else if (result.StatusCode == 500) {
+                                        erro = APP.component.ResultErros.init(result.Erro);
+                                        bootbox.alert(erro);
+                                    }
+
+                                },
+                                error: function (result) {
+                                    erro = APP.component.ResultErros.init(result.Erro);
+                                    bootbox.alert(erro);
+                                },
+                                complete: function (result) {
+                                    APP.component.Loading.hideLoading();
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        });
+    },
+
 
     eventoImprimir: function () {
 
@@ -1366,6 +1445,7 @@ APP.controller.FornecedoresController = {
         this.buttonSalvar.unbind('click');
         this.buttonSalvar.on('click', function () {
             var validate = APP.controller.FornecedoresController.validateForms();
+            var validate = APP.controller.FornecedoresController.validateForms();
 
             validate = true;
             if (validate == true) {
@@ -1411,6 +1491,34 @@ APP.controller.FornecedoresController = {
                                 bootbox.alert(erro);
                                 retorno = false;
 
+                            }
+                        }
+                        else if (Ancora == "Editar") {
+                            retornoQualificacao = APP.controller.FornecedoresController.saveFormAcoesQualificacoes(criteriosQualificacao);
+
+                            if (retornoQualificacao.StatusCode == 200) {
+                                retorno = true;
+                            }
+                            else {
+
+                                erro = APP.component.ResultErros.init(retornoQualificacao.Erros);
+                                bootbox.alert(erro);
+
+                            }
+
+
+                            retornoAvaliacao = APP.controller.FornecedoresController.saveFormAcoesAvaliacoes(avaliacoes);
+
+                            if (retorno == true) {
+                                if (retornoAvaliacao.StatusCode == 200) {
+                                    retorno = true;
+                                }
+                                else {
+                                    erro = APP.component.ResultErros.init(retornoAvaliacao.Erros);
+                                    bootbox.alert(erro);
+                                    retorno = false;
+
+                                }
                             }
                         }
 
@@ -1508,23 +1616,23 @@ APP.controller.FornecedoresController = {
     validateForms: function () {
 
         var valid = true;
-        $('[id^=panel-form]').each(function () {
-            var isVisible = $(this).is(':visible');
-            if (isVisible) {
-                try {
+        //$('[id^=panel-form]').each(function () {
+        //    var isVisible = $(this).is(':visible');
+        //    if (isVisible) {
+        //        try {
 
-                    var validate = $(this).closest('form').valid();
-                    if (validate != true) {
-                        valid = false;
-                    }
+        //            var validate = $(this).closest('form').valid();
+        //            if (validate != true) {
+        //                valid = false;
+        //            }
 
-                } catch (e) {
-                    valid = true;
-                }
+        //        } catch (e) {
+        //            valid = true;
+        //        }
 
 
-            }
-        });
+        //    }
+        //});
 
         return valid;
 

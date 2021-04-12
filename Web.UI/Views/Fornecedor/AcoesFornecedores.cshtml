@@ -189,6 +189,7 @@
                                                 {
                                                     <li>
                                                         <a href="@evidencia.ArquivoB64" target="_blank" download="@evidencia.Nome">@evidencia.Nome</a>
+                                                        <a href="#" class="delete-anexo" data-id="@evidencia.IdAnexo" ><i class="fa fa-trash fa-1" aria-hidden="true" title="Excluir anexo" data-original-title=""></i></a> 
                                                         <input type="hidden" name="formCriarFornecedorEvidenciaNome-@criterioQualificacao.CriterioQualificacao.IdCriterioQualificacao" value="@evidencia.Nome">
                                                         <input type="hidden" name="formCriarFornecedorEvidenciaIdAnexo-@criterioQualificacao.CriterioQualificacao.IdCriterioQualificacao" value="@ViewBag.IdProduto">
                                                     </li>

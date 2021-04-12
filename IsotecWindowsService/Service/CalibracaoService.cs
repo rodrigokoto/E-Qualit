@@ -22,13 +22,13 @@ namespace IsotecWindowsService.Service
 
         public void AtualizaCalibracao()
         {
-            var Instrumentos = _instrumentoAppServico.GetAll().ToList();
+            var Instrumentos = _instrumentoAppServico.GetAll().Where(x => x.Status != 2).ToList();
 
             foreach (var instrumento in Instrumentos)
             {
-                var calibracoes = _calibracaoAppServico.GetAll().Where(x => x.IdInstrumento == instrumento.IdInstrumento).LastOrDefault();
+                var calibracoes = _calibracaoAppServico.GetAll().Where(x => x.IdInstrumento == instrumento.IdInstrumento).ToList();
 
-                if (calibracoes == null)
+                if (calibracoes.Count() == 0)
                 {
                     instrumento.Status = 0;
                     _instrumentoAppServico.Update(instrumento);
@@ -37,7 +37,7 @@ namespace IsotecWindowsService.Service
                 {
                     if (instrumento.Status != 2 || instrumento.Status != 3)
                     {
-                        var calibracao = _calibracaoAppServico.Get().Where(x => x.IdInstrumento == instrumento.IdInstrumento).LastOrDefault();
+                        var calibracao = _calibracaoAppServico.Get().Where(x => x.IdInstrumento == instrumento.IdInstrumento).OrderByDescending(x => x.DataProximaCalibracao).FirstOrDefault();
 
                         if (calibracao.Aprovado == 0)
                         {
@@ -50,9 +50,13 @@ namespace IsotecWindowsService.Service
                         else if (calibracao.Aprovado == 1)
                         {
 
-                            if (calibracao.DataProximaCalibracao == DateTime.Now.AddDays(1))
+                            if (calibracao.DataProximaCalibracao <= DateTime.Now.AddDays(1))
                             {
                                 instrumento.Status = 0;
+                                _instrumentoAppServico.Update(instrumento);
+                            }
+                            else if (calibracao.DataProximaCalibracao >= DateTime.Now) {
+                                instrumento.Status = 1;
                                 _instrumentoAppServico.Update(instrumento);
                             }
                         }

@@ -22,7 +22,7 @@
           <capability name="type"                            value="Qt${major}" />
           <capability name="ecmascriptversion"               value="3.0" />
           <capability name="javascript"                      value="true" />
-          <capability name="javascriptversion"               value="1.7" />
+          <capability name="javascriptversion"               value="1.12.4" />
           <capability name="w3cdomversion"                   value="1.0" />
           <capability name="tagwriter"                       value="System.Web.UI.HtmlTextWriter" />
           <capability name="cookies"                         value="true" />

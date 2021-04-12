@@ -339,9 +339,9 @@ namespace Web.UI.Controllers
 
                         var InstrumentoQuery = (from ins in db.Instrumento
                                                 join cal in db.Calibracao on ins.IdInstrumento equals cal.IdInstrumento
-                                                where cal.DataProximaCalibracao < DateTime.Now && ins.IdSite == idSite && ins.Status == (byte)EquipamentoStatus.NaoCalibrado
+                                                where ins.IdSite == idSite && ins.Status == (byte)EquipamentoStatus.NaoCalibrado
                                                 group ins by ins.IdInstrumento into idIsntrumentoOrder
-                                                select idIsntrumentoOrder).ToList();
+                                                select idIsntrumentoOrder).ToList(); 
 
                         var Instrumento = new List<PendenciaViewModel>();
                         foreach (var item in InstrumentoQuery)

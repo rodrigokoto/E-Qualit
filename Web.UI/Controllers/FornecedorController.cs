@@ -1,4 +1,5 @@
 ﻿using ApplicationService.Interface;
+using DAL.Context;
 using Dominio.Entidade;
 using Dominio.Interface.Servico;
 using Rotativa;
@@ -573,7 +574,7 @@ namespace Web.UI.Controllers
 
             fornecedor = _fornecedorAppServico.GetById(id);
             ViewBag.avaliacao = _avaliaCriterioAvaliacaoAppServico.Get().Where(x => fornecedor.IdFornecedor == x.IdFornecedor).ToList();
-            
+
 
             var idscriteriosQualificacaoAtual = fornecedor.AvaliaCriteriosQualificacao.Select(avaliacaoCriterioQualificacao => avaliacaoCriterioQualificacao.CriterioQualificacao.IdCriterioQualificacao).ToList();
             var criteriosQualificacaoAtual = fornecedor.AvaliaCriteriosQualificacao.ToList();
@@ -884,6 +885,32 @@ namespace Web.UI.Controllers
             }
 
             return Json(new { StatusCode = (int)HttpStatusCode.BadRequest, Erro = Traducao.Resource.Fornecedor_msg_erro_IdFornecedor_invalido }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        public JsonResult RemoverAnexo(int idAnexo)
+        {
+
+            var erros = new List<string>();
+
+            try
+            {
+
+
+                var anexo = _anexoAppServico.GetById(idAnexo);
+
+                _anexoAppServico.Remove(anexo);
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+                erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
+                return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_delete_valid }, JsonRequestBehavior.AllowGet);
+
 
         }
     }

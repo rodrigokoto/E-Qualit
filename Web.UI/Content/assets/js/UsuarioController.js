@@ -694,7 +694,7 @@ APP.controller.UsuarioController = {
 
         var formAlterarSenhaObj = {
             formAlterarSenhaAtual: { required: true },
-            formAlterarSenhaNova: { required: true, minlength: 6, notEqualsTo: true, strongPassword: true },
+            formAlterarSenhaNova: { required: true, minlength: 6, notEqualsTo: true, strongPassword: false },
             formAlterarSenhaConfirmar: { required: true, minlength: 6, notEqualsTo: true, equalTo: "[name=formAlterarSenhaNova]" },
         };
 

@@ -52,7 +52,33 @@ APP.component.Highcharts = {
 
         Highcharts.chart(filtro.Container, {
             chart: {
-                zoomType: 'xy'
+                zoomType: 'xy', 
+                events: {
+                    load: function () {
+
+                        for (var i = 0; i < this.series[0].points.length; i++) {
+                            if (filtro.Direcao === "1") {
+                                if (this.series[0].points[i].y < this.series[1].points[i].y) {
+                                    var point = this.series[0].points[i];
+
+                                    point.update({
+                                        color: 'red'
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                if (this.series[0].points[i].y > this.series[1].points[i].y) {
+                                    var point = this.series[0].points[i];
+
+                                    point.update({
+                                        color: 'red'
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
             },
             title: {
                 text: filtro.Titulo
@@ -69,7 +95,7 @@ APP.component.Highcharts = {
                     format: '{value} ' + filtro.UnidadeIndicador + '',
                     style: {
                         color: Highcharts.getOptions().colors[1]
-                    }
+                    },
                 },
                 title: {
                     text: '',
@@ -84,6 +110,13 @@ APP.component.Highcharts = {
             }],
             tooltip: {
                 shared: true
+            },
+            plotOptions: {
+                column: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
             },
             legend: filtro.Legenda,
             series: [{

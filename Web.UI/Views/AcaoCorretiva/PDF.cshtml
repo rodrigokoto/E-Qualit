@@ -241,8 +241,9 @@
                                             <!-- Descricao Registro -->
                                             <div class="col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DsRegistro</label>
-                                                    <textarea id="form-criar-nao-conformidade-ds-registro" name="formCriarNaoConformidadeDsRegistro" class="form-control texto" rows="7" readonly>@Model.AcaoCorretiva.DescricaoRegistro</textarea>
+                                                    @Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_DsRegistro
+                                                    </br>
+                                                    @Model.AcaoCorretiva.DescricaoRegistro
                                                 </div>
                                             </div>
                                         </div>
@@ -295,11 +296,7 @@
                                                                 <tr role="row" class="odd">
                                                                     <!-- Descricao -->
                                                                     <td>
-                                                                        @{
-                                                                            var formAcaoimediatatbDescricao = "formAcaoImediataTbDescricao" + Count; }
-                                                                        <textarea type="text" id="@formAcaoimediatatbDescricao" name="formAcaoImadiataTbDescricao" class="form-control texto">@acaoImediata.Descricao</textarea>
-                                                                        <input type="hidden" name="formAcaoImadiataTbIdAcaoImediata" value="@acaoImediata.IdAcaoImediata" />
-                                                                        <input type="hidden" name="formAcaoImadiataTbEstado" value="16" />
+                                                                        @acaoImediata.Descricao
                                                                     </td>
                                                                     <!-- Prazo Implementacao -->
                                                                     <td>
@@ -341,11 +338,18 @@
                                                                     <td>
                                                                         @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value)
                                                                         {
-                                                                            <i class="fa fa-check" aria-hidden="true"></i>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                                            if (acaoImediata.Aprovado.Value == true)
+                                                                            {
+                                                                                <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                                    <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                                </button>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color">
+                                                                                    <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                                                </button>
+                                                                            }
                                                                         }
                                                                     </td>
                                                                 </tr>
@@ -356,59 +360,7 @@
 
                                             </div>
 
-                                            <div class="row">
-                                                <!-- Responsavel Reverificacao -->
-                                                <div class="col-xs-4">
-                                                    <div class="form-group">
-                                                        <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Responsavel_reverificacao</label>
-                                                        @if (@Model.AcaoCorretiva.IdResponsavelReverificador != null)
-                                                        {
-                                                            <br />
-                                                            @Model.AcaoCorretiva.ResponsavelReverificador.NmCompleto
-                                                        }
-                                                    </div>
-                                                </div>
 
-                                                <!-- Foi Eficaz -->
-                                                <div class="col-xs-4">
-                                                    <div class="form-group">
-                                                        <label>@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Foi_eficaz</label>
-                                                        <br />
-                                                        @if (Model.AcaoCorretiva.FlEficaz != null && Model.AcaoCorretiva.FlEficaz.Value)
-                                                        {
-                                                            @Traducao.Shared.ResourceLabel.Label_radio_Sim
-                                                        }
-                                                        else
-                                                        {
-                                                            @Traducao.Shared.ResourceLabel.Label_radio_Nao
-                                                        }
-
-                                                    </div>
-                                                </div>
-
-                                                <!-- Analise do Parecer -->
-                                                <div class="col-xs-2">
-                                                    <div class="form-group">
-                                                        <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
-                                                        <br />
-                                                        @Model.AcaoCorretiva.Parecer
-                                                    </div>
-                                                </div>
-
-                                                <!-- Status Etapa -->
-                                                @if (Model.AcaoCorretiva.StatusEtapa == 4)
-                                                {
-                                                    <div class="row">
-                                                        <!-- Status -->
-                                                        <div class="col-xs-4">
-                                                            <div class="form-group pull-right">
-                                                                <p class="status-encerrada">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Encerrada</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                }
-
-                                            </div>
 
                                         }
                                         else
@@ -423,23 +375,110 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <!-- Status Etapa -->
-                                                @if (Model.AcaoCorretiva.StatusEtapa == 4)
-                                                {
-                                                    <div class="row">
-                                                        <!-- Status -->
-                                                        <div class="col-xs-12">
-                                                            <div class="form-group pull-right">
-                                                                <p class="status-encerrada">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Encerrada</p>
-                                                            </div>
+                                    
+                                        }
+                                        <div class="row">
+                                            <!-- E Correcao -->
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_ECorrecao</label>
+                                                    <br />
+                                                    @(Model.AcaoCorretiva.ECorrecao == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+
+
+                                                </div>
+                                            </div>
+                                            <!-- Necessita Acao corretiva -->
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Necessita_AC</label>
+                                                    <br />
+                                                    @(Model.AcaoCorretiva.NecessitaAcaoCorretiva == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+
+
+                                                </div>
+                                            </div>
+                                            <!-- Responsavel Reverificacao -->
+                                            <div class="col-xs-4">
+                                                <div class="form-group">
+                                                    <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Responsavel_reverificacao</label>
+                                                    @if (@Model.AcaoCorretiva.IdResponsavelReverificador != null)
+                                                    {
+                                                        <br />
+                                                        @Model.AcaoCorretiva.ResponsavelReverificador.NmCompleto
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <!-- Foi Eficaz -->
+                                            <div class="col-xs-4">
+                                                <div class="form-group">
+                                                    <label>@Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_lbl_Foi_eficaz</label>
+                                                    <br />
+                                                    @if (Model.AcaoCorretiva.FlEficaz != null && Model.AcaoCorretiva.FlEficaz.Value)
+                                                    {
+                                                        @Traducao.Shared.ResourceLabel.Label_radio_Sim
+                                                    }
+                                                    else
+                                                    {
+                                                        @Traducao.Shared.ResourceLabel.Label_radio_Nao
+                                                    }
+
+                                                </div>
+                                            </div>
+
+                                            <!-- Responsavel Tratativa -->
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label for="form-acaoimediata-responsavel-tratativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_tratativa</label>
+                                                    <br />
+                                                    @nomeResponsavelAcaoCorretiva
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- Numero Acao Corretiva -->
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label for="form-acaoimediata-numero-ac" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Nm_acao_corretiva</label>
+                                                    <br />
+                                                    @nuRegistro
+                                                </div>
+                                            </div>
+
+                                            <!-- Analise da Causa -->
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Analise_causa</label>
+                                                    <br />
+                                                    @descricaoRegistro
+                                                </div>
+                                            </div>
+
+                                            <!-- Analise do Parecer -->
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
+                                                    <br />
+                                                    @Model.AcaoCorretiva.Parecer
+                                                </div>
+                                            </div>
+
+                                            <!-- Status Etapa -->
+                                            @if (Model.AcaoCorretiva.StatusEtapa == 4)
+                                            {
+                                                <div class="row">
+                                                    <!-- Status -->
+                                                    <div class="col-xs-4">
+                                                        <div class="form-group pull-right">
+                                                            <p class="status-encerrada">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Status_Encerrada</p>
                                                         </div>
                                                     </div>
-                                                }
+                                                </div>
+                                            }
 
-                                            </div>
-                                        }
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>

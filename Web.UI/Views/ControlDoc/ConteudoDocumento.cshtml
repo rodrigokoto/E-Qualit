@@ -1,6 +1,7 @@
 ﻿@using ApplicationService.Entidade
 @using ApplicationService.Enum
 @model Dominio.Entidade.DocDocumento
+@using Dominio.Enumerado;
 
 @{
     ViewBag.Title = "EmissaoDocumento";
@@ -10,7 +11,7 @@
 
 @section scripts {
 
-    
+
 
     <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxClient.js")"></script>
     <script src="@Url.Content("~/Content/assets_src/js/vendor/mxGraph/javascript/src/js/mxApplication.js")"></script>
@@ -230,8 +231,8 @@
                                 </div>
 
                                 <!--<div class="col-sm-2">-->
-                                    <!-- Elaborador -->
-                                    <!--<div class="form-group">
+                                <!-- Elaborador -->
+                                <!--<div class="form-group">
                                         <label for="form-cadastro-elaborador">
                                             @Traducao.ControlDoc.ResourceControlDoc.ControlDoc_lbl_Elaborador
                                         </label>
@@ -1030,14 +1031,16 @@
                     <a href="#" data-toggle="modal" data-target="#modal-panel-form-assuntos">@Traducao.Resource.Assunto</a>
                 </p>
             </div>
-            <div class="dois">
-                <div class="ico-dois">
-                    <span class="fa fa-comments" aria-hidden="true"></span>
+            @if (Model.FlStatus != (int)StatusDocumento.Aprovado) { 
+                <div class="dois">
+                    <div class="ico-dois">
+                        <span class="fa fa-comments" aria-hidden="true"></span>
+                    </div>
+                    <p>
+                        <a href="#" data-toggle="modal" data-target="#modal-panel-form-comentarios">@Traducao.Resource.Comentarios</a>
+                    </p>
                 </div>
-                <p>
-                    <a href="#" data-toggle="modal" data-target="#modal-panel-form-comentarios">@Traducao.Resource.Comentarios</a>
-                </p>
-            </div>
+            }
             <div class="tres">
                 <div class="ico-tres">
                     <span class="fa fa-users" aria-hidden="true"></span>

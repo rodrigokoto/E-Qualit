@@ -20338,6 +20338,6 @@ label .error {
 
 @media all and (min-width: 992px) {
     .dropdown-large {
-        min-width: 500px;
+        min-width: 350px;
     }
 }

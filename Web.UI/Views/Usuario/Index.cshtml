@@ -86,32 +86,15 @@
                                                         <a href="#" class="ativoinativo icon-cargo" data-valor="@item.FlAtivo" data-id="@item.IdUsuario">
                                                             @Html.Raw(item.FlAtivo ? "<i class=\"fa fa-check  ativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativo + "></i>" : "<i class=\"fa fa-check inativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + "></i>")
                                                         </a>
-
-                                                        <a href="#" class="desbloqueaUsuario icon-cargo @(item.FlBloqueado == false?"ativo-color":"inativo-color")" data-valor="@item.FlAtivo" data-id="@item.IdUsuario" data-idUsuario="@item.IdUsuario">
-                                                            <i class="fa @(item.FlBloqueado == false?"fa-unlock-alt":"fa-lock")" aria-hidden="true" data-toggle="tooltip" title="@(item.FlBloqueado == false? @Traducao.Shared.ResourceButtons.btn_lbl_desbloqueado : @Traducao.Shared.ResourceButtons.btn_lbl_bloqueado)"></i>
-                                                        </a>
+                                                     
 
                                                         <a href="#" class="naoRecebeEmail icon-cargo @(item.FlRecebeEmail == false?"inativo-color":"ativo-color")" data-valor="@item.FlAtivo" data-id="@item.IdUsuario" data-idUsuario="@item.IdUsuario">
                                                             <i class="fa @(item.FlRecebeEmail == false?"fa-envelope":"fa-envelope-open")" aria-hidden="true" data-toggle="tooltip" title="@(item.FlRecebeEmail == false? @Traducao.Shared.ResourceButtons.btn_lbl_nao_receber_email : @Traducao.Shared.ResourceButtons.btn_lbl_receber_email)"></i>
                                                         </a>
-
-                                                        <a title="
-                                                    @(item.DtInclusao.HasValue ?
-                                                        Traducao.Shared.ResourceButtons.btn_lbl_dt_inclusao.ToString()+" - "+ item.DtInclusao.Value.ToString("dd/MM/yyyy"):
-                                                        Traducao.Shared.ResourceButtons.btn_lbl_dt_inclusao_nao_informada)">
-                                                            <i class="fa fa-calendar trash-color icon-cliente" aria-hidden="true"></i>
-                                                        </a>
-
-                                                        <a title="
-                                                    @(item.DtAlteracao!= null ?
-                                                        Traducao.Shared.ResourceButtons.btn_lbl_dt_alteracao.ToString() + " - " + item.DtAlteracao.Value.ToString("dd/MM/yyyy") :
-                                                        Traducao.Shared.ResourceButtons.btn_lbl_dt_alteracao_nao_informada) ">
-                                                            <i class="fa fa-calendar trash-color icon-cliente" aria-hidden="true"></i>
-                                                        </a>
-
-                                                        <a href="#" class="abreModalMigracao icon-cliente trash-color" data-idCliente="@ViewBag.IdCliente" data-id="@item.IdUsuario">
+                                                  
+                                                        @*<a href="#" class="abreModalMigracao icon-cliente trash-color" data-idCliente="@ViewBag.IdCliente" data-id="@item.IdUsuario">
                                                             <i class="fa fa-trash" aria-hidden="true" data-toggle="modal" data-target="modal-panel-migracao" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                        </a>
+                                                        </a>*@
 
                                                         @*<a href="" class="icon-cliente user-color" title="@Traducao.Resource.VisualizarRevisoes">
                                                             <i class="fa fa-archive" aria-hidden="true" data-original-title="Visualizar Revisões" ></i>

@@ -319,7 +319,7 @@
 
                                     foreach (var manuais in Processo)
                                     {
-                                        <li class="dropdown-large float-left">
+                                        <li class="float-left">
                                             <a data-id="@manuais.IdDocumento" class="mdlFire" href="#" data-target="#modal-1">@manuais.Titulo</a>
                                         </li>
                                     }
@@ -345,7 +345,7 @@
                         <!-- Admin -->
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-cog fa-2x" aria-hidden="true"></i><span>Admin</span>
+                                <i class="fa fa-cog fa-2x" aria-hidden="true"></i><span>Configurações</span>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <li><a href="@Url.Action("Index", "Cliente/Index")">Lista Clientes</a> </li>
@@ -358,10 +358,10 @@
                     {
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-cog fa-2x" aria-hidden="true"></i><span>Coordenador</span>
+                                <i class="fa fa-cog fa-2x" aria-hidden="true"></i><span>Configurações</span>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="@Url.Action("Index", "Site/Index")"> Lista Site</a></li>
+                                <li><a href="@Url.Action("Index", "Site/Index")">Cargo / Usuários</a></li>
                             </ul>
                         </li>
 

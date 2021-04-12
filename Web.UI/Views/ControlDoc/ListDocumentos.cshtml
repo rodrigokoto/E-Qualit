@@ -176,7 +176,7 @@
 
                                                     @if (item.FlStatus == (int)StatusDocumento.Aprovado)
                                                     {
-                                                        if ((listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Imprimir) || ViewBag.IdPerfil != 4))
+                                                        if ((listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Visualizar) || ViewBag.IdPerfil != 4))
                                                         {
                                                             <a href="@Url.Action("ConteudoDocumento", "ControlDoc", new { id = item.IdDocumento })" title="@Traducao.Resource.Visualizar" class="edit icon-cliente editar-color">
                                                                 <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Resource.Visualizar"></i>
@@ -205,7 +205,7 @@
                                                     }
                                                     @if (item.FlStatus == (int)StatusDocumento.Obsoleto)
                                                     {
-                                                        if (ViewBag.PodeVisualizarObsoletos)
+                                                        if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Obsoletos) && ViewBag.IdPerfil != 4 || ViewBag.IdPerfil != 4)
                                                         {
                                                             <a href="@Url.Action("ConteudoDocumento", "ControlDoc", new { id = item.IdDocumento, Obsoleto=1 })" title="@Traducao.Resource.Visualizar" class="icon-cliente view-color">
                                                                 <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Resource.Visualizar"></i>
@@ -260,19 +260,22 @@
                                                             </div>
                                                         </div>
                                                     }
-                                                    @if (item.DocHome == true)
+                                                    @if (ViewBag.IdPerfil != 4)
                                                     {
-                                                        <a href="#" data-id-doc="@item.IdDocumento" title="Home" style="color:green" class="icon-cliente controldoc-home">
-                                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                                        if (item.DocHome == true)
+                                                        {
+                                                            <a href="#" data-id-doc="@item.IdDocumento" title="Home" style="color:green" class="icon-cliente controldoc-home">
+                                                                <i class="fa fa-home" aria-hidden="true"></i>
 
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a href="#" data-id-doc="@item.IdDocumento" title="Home" class="icon-cliente controldoc-home view-color">
-                                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="#" data-id-doc="@item.IdDocumento" title="Home" class="icon-cliente controldoc-home view-color">
+                                                                <i class="fa fa-home" aria-hidden="true"></i>
 
-                                                        </a>
+                                                            </a>
+                                                        }
                                                     }
                                                 </td>
 

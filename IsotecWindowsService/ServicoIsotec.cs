@@ -33,10 +33,10 @@ namespace IsotecWindowsService
 
                 var kernel = CreateKernel();
 
-                _notificationService = kernel.Get<INotificationService>();
+                //_notificationService = kernel.Get<INotificationService>();
                 _calibracaoService = kernel.Get<ICalibracaoService>();
-                _qualificacaoService = kernel.Get<IQualificacaoService>();
-                _licencaService = kernel.Get<ILicencaService>();
+                //_qualificacaoService = kernel.Get<IQualificacaoService>();
+                //_licencaService = kernel.Get<ILicencaService>();
 
             }
             catch (Exception ex)

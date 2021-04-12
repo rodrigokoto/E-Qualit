@@ -74,22 +74,24 @@
                                                 <td>
                                                     @if (ViewBag.Controller == "Site")
                                                     {
+                                                        if (ViewBag.IdPerfil == 1)
+                                                        {
+                                                            <a href="@Url.Action("Editar", "Site", new { id = item.IdSite })" class="edit icon-cliente  editar-color">
+                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
+                                                            </a>
+                                                            <a href="#" class="ativoinativo icon-cliente" data-valor="@item.FlAtivo" data-id="@item.IdSite">
 
-                                                        <a href="@Url.Action("Editar", "Site", new { id = item.IdSite })" class="edit icon-cliente  editar-color">
-                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
-                                                        </a>
-                                                        <a href="#" class="ativoinativo icon-cliente" data-valor="@item.FlAtivo" data-id="@item.IdSite">
+                                                                @if (item.FlAtivo)
+                                                                {
+                                                                    @Html.Raw("<i class=\"fa fa-check  ativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativar + "></i>")
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.Raw("<i class=\"fa fa-check inativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + "></i>")
+                                                                }
 
-                                                            @if (item.FlAtivo)
-                                                            {
-                                                                @Html.Raw("<i class=\"fa fa-check  ativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativar + "></i>")
-                                                            }
-                                                            else
-                                                            {
-                                                                @Html.Raw("<i class=\"fa fa-check inativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + "></i>")
-                                                            }
-
-                                                        </a>
+                                                            </a>
+                                                        }
                                                     }
 
                                                     <a class="icon-cliente user-color" href="@Url.Action("Index", "Cargo", new { id = item.IdSite})">
@@ -102,9 +104,12 @@
 
                                                     @if (ViewBag.Controller == "Site")
                                                     {
-                                                        <a href="#" class="excluir icon-cliente trash-color" data-id="@item.IdSite">
-                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                        </a>
+                                                        if (ViewBag.IdPerfil == 1)
+                                                        {
+                                                            <a href="#" class="excluir icon-cliente trash-color" data-id="@item.IdSite">
+                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                            </a>
+                                                        }
                                                     }
                                                 </td>
                                             </tr>

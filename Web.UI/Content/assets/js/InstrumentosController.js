@@ -15,6 +15,8 @@ var _options = {
     TitleErroFormulario: "O formulário possui os seguintes erros:",
     messageDelete: "Confirma a exclusão do projeto <strong>{{0}}}</strong>?",
     MessageErro: "O seguinte erro ocorreu ao tentar atualizar os dados.<br>{{0}}",
+    MsgDesejaExcluirRegistro: "Deseja excluir a calibração ?",
+    CalibracaoExcluida: "Calibração excluida com sucesso!.",
     RegistroExlcuido: "Registro excluído com sucesso",
     verificationToken: "[name=__RequestVerificationToken]",
     tabelaLengthMenu: "_MENU_ registros por página",
@@ -607,10 +609,6 @@ APP.controller.InstrumentosController = {
     },
 
     delCalibracao: function () {
-
-
-
-
 
         this.buttonDelCalibracao.unbind("click");
         this.buttonDelCalibracao.bind('click', function (event) {

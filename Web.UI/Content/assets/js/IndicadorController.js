@@ -18,7 +18,7 @@ $('[name=formgestaoriscodtinclusao]').val(APP.component.Datatoday.init());
 
 function SubstituiVirgulaPorPonto(campo) {
 
-    
+
     //campo.value = campo.value.replace(/\./g, ',');
     //campo.value = campo.value.replace(/[A-Za-z]/gi, "");
 }
@@ -661,7 +661,7 @@ APP.controller.IndicadorController = {
 
     getResponsavel: function () {
 
-    
+
         var idProcesso = $('[name=IdProcesso]').val();
         var idSite = $('[name=IdSite]').val();
         var idFuncao = 27; // Funcionalidade(Cadastrar) que permite usuario criar nc
@@ -1242,16 +1242,31 @@ APP.controller.IndicadorController = {
 
         }
 
-
         var dataCheia = APP.component.Datatoday.init();
+
+
+        const NmProcesso = $('[name=formCriarIndicadorProcesso] :selected').text();
+        const Periodicidade = $('[name=formCriarIndicadorPeriodicidade] :selected').text();
+        const PeriodicidadeMedicao = $('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').text();
+        const Direcao = $('[name=formCriarIndicadorSentido] :selected').text();
+        const Ano = $('[name=formCriarIndicadorAno]').val();
+        const MetaAnual = $('[name=formCriarIndicadorMeta]').val();
+        const Unidade = $('[name=formCriarIndicadorUnidade]').val();
+        const Objetivo = $('[name=formCriarIndicadorObjetivo]').val();
+        const Descricao = $('[name=formCriarIndicadorIndicador]').val();
+        const Medida = $('[name^=formCriarIndicadorTpMedida] :selected').text();
+
+        const TituloGraph = "<b>Processo: </b>" + NmProcesso + " &nbsp; &nbsp; &nbsp;<b>Meta: </b>" + MetaAnual + "&nbsp; &nbsp; &nbsp;<b>Sentido da Meta: </b>" + Direcao + "&nbsp; &nbsp; &nbsp;<b>Ano: </b>" + Ano; 
+
 
         var filtro = {
             Container: 'container' + i,
-            Titulo: _options.MetasRealizadas,
+            Titulo: TituloGraph,
             Categorias: categorias,
             UnidadeIndicador: unidadeIndicador,
             SeriesTotais: seriesTotais,
             Chart: { type: 'bar' },
+            Direcao: $('[name=formCriarIndicadorSentido] :selected').val(),
             SubTitulo: _options.AtualizadoDia + dataCheia,
             TituloTextoLinha: _options.AtualizadoCoisa,
             AlinhamentoTituloTextoLinha: 'high',
@@ -1372,7 +1387,7 @@ APP.controller.IndicadorController = {
 
             var IdIndicador = $('[name=IdIndicador]').val();
 
-           
+
             APP.controller.IndicadorController.imprimir(IdIndicador);
 
         });
