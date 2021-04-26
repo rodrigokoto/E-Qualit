@@ -29,6 +29,7 @@ namespace Web.UI.Controllers
         private readonly IProcessoServico _processoServico;
         private readonly IClienteAppServico _clienteServico;
         private readonly INotificacaoAppServico _notificacaoAppServico;
+        private readonly IUsuarioClienteSiteAppServico _usuarioClienteAppServico;
         private readonly ILogAppServico _logAppServico;
         private readonly IRegistroAcaoImediataServico _registroRegistroAcaoImediataServico;
 
@@ -50,6 +51,7 @@ namespace Web.UI.Controllers
                         ISiteAppServico siteService,
                         IUsuarioAppServico usuarioAppServico,
                         ILogAppServico logAppServico,
+                        IUsuarioClienteSiteAppServico usuarioClienteAppServico,
                         IProcessoServico processoServico,
                         IProcessoAppServico processoAppServico,
                         IFilaEnvioServico filaEnvioServico,
@@ -67,6 +69,7 @@ namespace Web.UI.Controllers
             _processoServico = processoServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _usuarioClienteAppServico = usuarioClienteAppServico;
             _filaEnvioServico = filaEnvioServico;
             _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
 
@@ -323,6 +326,7 @@ namespace Web.UI.Controllers
 
         public ActionResult PDF(int id)
         {
+            var idSite = Util.ObterSiteSelecionado();
             ViewBag.NumeroRisco = null;
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             ViewBag.UsuarioLogado = Util.ObterUsuario();
@@ -362,6 +366,11 @@ namespace Web.UI.Controllers
             //{
             //    ViewBag.ScriptCall = "sim";
             //}
+
+            var usuarioClienteApp = _usuarioClienteAppServico.Get(s => s.IdSite == idSite);
+            var clienteLogoAux = usuarioClienteApp.FirstOrDefault().Cliente.ClienteLogo.FirstOrDefault().Anexo;
+
+            ViewBag.LogoCliente = Convert.ToBase64String(clienteLogoAux.Arquivo);
 
 
             var pdf = new ViewAsPdf

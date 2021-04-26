@@ -2114,23 +2114,10 @@ APP.controller.GestaoMelhoriaController = {
 
         this.buttonDestravar.on('click', function () {
 
-
-            if (perfil == '4') {
-
-                $('#main').find('input, textarea, button, select').removeAttr('disabled');
-                $('.botaouploadarquivos').removeAttr('disabled');
-                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-processo").attr("disabled", true);
-                $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
-            }
-            else {
-
-                $('#main').find('input, textarea, button, select').removeAttr('disabled');
-                $('.botaouploadarquivos').removeAttr('disabled');
-                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
-
-            }
+            $('#form-criar-nao-conformidade-ds-registro').removeAttr('disabled');
+            $('#form-criar-nao-conformidade-processo').removeAttr('disabled');
+            $('#form-criar-nao-conformidade-responsavel').removeAttr('disabled');
+            $('#form-acaoimediata').find('input, textarea, button, select').removeAttr('disabled');
 
             $("#form-acaoimediata-numero-ac").attr("disabled", true);
 

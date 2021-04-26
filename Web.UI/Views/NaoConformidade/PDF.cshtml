@@ -162,7 +162,7 @@
 
 
 
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <!-- Data de Emissao -->
                                             <div>
                                                 <div class="form-group">
@@ -173,16 +173,17 @@
                                             </div>
                                         </div>
                                         <!-- Processo -->
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <div>
                                                 <div class="form-group">
                                                     <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Processo</label>
+                                                    <br />
                                                     @Model.Processo.Nome
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Emissor -->
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdEmissor</label>
                                                 <br />
@@ -190,7 +191,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <!-- E Auditoria -->
                                             <div>
                                                 <div class="form-group">
@@ -204,7 +205,7 @@
                                     </div>
                                     <div class="row">
                                         <!-- Tipo Nao Conformidade -->
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-tipo" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tipo</label>
                                                 <br />
@@ -215,7 +216,7 @@
 
 
                                         <!-- Responsavel -->
-                                        <div class="col-xs-4">
+                                        <div class="col-xs-6">
                                             <div class="form-group">
                                                 <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_definir_AC</label>
                                                 <br />
@@ -224,48 +225,26 @@
                                         </div>
 
                                         <!-- Tags -->
-                                        <div class="col-xs-2">
-                                            <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags</label>
-                                                <br />
-                                                @Model.Tags
+                                        @*<div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Tags</label>
+                                                    <br />
+                                                    @Model.Tags
+                                                </div>
+                                            </div>*@
+
+                                        <div class="row">
+                                            <!-- Descricao Registro -->
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DsRegistro</label>
+                                                    <br />
+                                                    @Model.DescricaoRegistro
+                                                </div>
                                             </div>
                                         </div>
 
-
-                                        <!-- Descricao Registro -->
-                                        <div class="col-xs-2">
-                                            <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_DsRegistro</label>
-                                                <br />
-                                                @Model.DescricaoRegistro
-                                            </div>
-                                        </div>
                                     </div>
-
-                                    <div class="row">
-                                        <!-- Arquivo de Evidencia -->
-                                        @*<div class="col-lg-10 col-md-8 col-sm-12 col-xs-12">*@
-                                        <div class="col-xs-12">
-                                            <div class="form-group">
-                                                <label for="form-cria-cliente-contrato" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Arquivo_evidencia</label>
-                                                <br />
-                                                <ul class="@(Model.IdRegistroConformidade > 0 ? "dashed" : null)">
-                                                    @if (listaEvidencias.Count > 0)
-                                                    {
-                                                        foreach (var evidencia in listaEvidencias)
-                                                        {
-                                                            <li>
-                                                                @evidencia.Nome
-                                                            </li>
-                                                        }
-                                                    }
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
 
                                 </div>
 
@@ -454,7 +433,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <!-- E Correcao -->
-                                                    <div class="col-xs-2">
+                                                    <div class="col-xs-4">
                                                         <div class="form-group">
                                                             <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_ECorrecao</label>
                                                             <br />
@@ -464,7 +443,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- Necessita Acao corretiva -->
-                                                    <div class="col-xs-2">
+                                                    <div class="col-xs-4">
                                                         <div class="form-group">
                                                             <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Necessita_AC</label>
                                                             <br />
@@ -474,7 +453,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- Responsavel Reverificacao -->
-                                                    <div class="col-xs-2">
+                                                    <div class="col-xs-4">
                                                         <div class="form-group">
                                                             <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_reverificacao</label>
                                                             <br />
@@ -485,16 +464,15 @@
                                                         </div>
                                                     </div>
                                                     <!-- Foi Eficaz -->
-                                                    <div class="col-xs-2">
+                                                    <div class="col-xs-3">
                                                         <div class="form-group">
                                                             <label>@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Foi_eficaz</label>
                                                             <br />
                                                             @(Model.FlEficaz == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
-
                                                         </div>
                                                     </div>
                                                     <!-- Responsavel Tratativa -->
-                                                    <div class="col-xs-2">
+                                                    <div class="col-xs-6">
                                                         <div class="form-group">
                                                             <label for="form-acaoimediata-responsavel-tratativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Responsavel_tratativa</label>
                                                             <br />
@@ -502,10 +480,9 @@
 
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
+                                                
                                                     <!-- Numero Acao Corretiva -->
-                                                    <div class="col-xs-2">
+                                                    <div class="col-xs-3">
                                                         <div class="form-group">
                                                             <label for="form-acaoimediata-numero-ac" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Nm_acao_corretiva</label>
                                                             <br />
@@ -514,20 +491,24 @@
                                                     </div>
 
                                                     <!-- Analise da Causa -->
-                                                    <div class="col-xs-2">
-                                                        <div class="form-group">
-                                                            <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Analise_causa</label>
-                                                            <br />
-                                                            @descricaoRegistro
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Analise_causa</label>
+                                                                <br />
+                                                                @descricaoRegistro
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <!-- Analise do Parecer -->
-                                                    <div class="col-xs-2">
-                                                        <div class="form-group">
-                                                            <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
-                                                            <br />
-                                                            @Model.Parecer
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
+                                                                <br />
+                                                                @Model.Parecer
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -102,7 +102,7 @@
                                                                    data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                             </a>
                                                         }
-                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Excluir).Count() > 0 || ViewBag.IdPerfil != 4)
+                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesLicenca.Excluir).Count() > 0 && ViewBag.IdPerfil != 4)
                                                         {
 
                                                             <a href="#" class="excluir icon-cliente trash-color " data-id="@licenca.IdLicenca">

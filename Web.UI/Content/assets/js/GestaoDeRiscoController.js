@@ -1793,36 +1793,9 @@ APP.controller.GestaoDeRiscoController = {
         this.buttonDestravar.on('click', function () {
 
 
-            if (perfil == '4') {
-
-                $('#main').find('input, textarea, button, select').removeAttr('disabled');
-                $('.botaouploadarquivos').removeAttr('disabled');
-                //$("#form-criar-nao-conformidade-processo").attr("disabled", true);
-                $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
-                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $('.br-widget').removeClass('barRating-disabled');
-                $("[name=formCriarNaoConformidadeEmissor]").attr("disabled", true);
-
-
-            }
-            //else if (perfil == '3') {
-            //    $('#main').find('input, textarea, button, select').removeAttr('disabled');
-            //    $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-            //    $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
-            //    $('.br-widget').removeClass('barRating-disabled');
-
-
-            //}
-            else {
-
-                $('#main').find('input, textarea, button, select').removeAttr('disabled');
-                $('.botaouploadarquivos').removeAttr('disabled');
-                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
-                $('.br-widget').removeClass('barRating-disabled');
-                $("[name=formCriarNaoConformidadeEmissor]").attr("disabled", false);
-
-            }
+            
+            $('#form-acaoimediata').find('input, textarea, button, select').removeAttr('disabled');
+            $('#form-criar-nao-conformidade-responsavel').removeAttr('disabled');
 
             var idGestaoDeRisco = $("[name=IdRegistroConformidade]").val();
             var data = { "idGestaoDeRisco": idGestaoDeRisco };

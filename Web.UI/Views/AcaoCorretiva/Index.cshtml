@@ -147,7 +147,7 @@
                                                     }
 
 
-                                                    if (ViewBag.UltimoRegistro == item.NuRegistro && listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.Excluir))
+                                                    if (ViewBag.UltimoRegistro == item.NuRegistro && listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAcaoCorretiva.Excluir) || ViewBag.IdPerfil != 4)
                                                     {
                                                         <a href="#" class="icon-cliente trash-color del-acao-corretiva" data-id-acao-corretiva="@item.IdRegistroConformidade">
                                                             <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>

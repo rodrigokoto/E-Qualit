@@ -75,7 +75,7 @@
                     var ArquivoB64 = String.Format("data:application/" + (anexo.AnexoDados.Arquivo != null ? anexo.AnexoDados.Extensao : "") + ";base64," + (anexo.AnexoDados.Arquivo != null ? Convert.ToBase64String(anexo.AnexoDados.Arquivo) : ""));
 
 
-                    switch (anexo.AnexoDados.Extensao)
+                    switch (anexo.AnexoDados.Extensao.ToLower())
                     {
                         case ".png":
                             <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/png')">Visualizar : @anexo.AnexoDados.Nome</a>
@@ -83,7 +83,6 @@
                         case ".PNG":
                             <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/png')">Visualizar : @anexo.AnexoDados.Nome</a>
                             break;
-
                         case ".pdf":
                             <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/pdf')">Visualizar : @anexo.AnexoDados.Nome</a>
                             break;

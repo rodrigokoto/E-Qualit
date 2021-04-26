@@ -586,7 +586,14 @@
 
                                     @if (ViewBag.IdPerfil != 4)
                                     {
-                                        <button type="button" id="btn-destravar-view" onclick="location.href= '@Url.Action("Editar" , "NaoConformidade")' + '/@Model.IdRegistroConformidade' + '?destravar=True'" class="btn btn-primary btn-destravar-view">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                                        if (Model.StatusEtapa != 4)
+                                        {
+                                            <button type="button" id="btn-destravar-view" onclick="location.href= '@Url.Action("Editar", "NaoConformidade")' + '/@Model.IdRegistroConformidade' + '?destravar=True'" class="btn btn-primary btn-destravar-view">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                                        }
+                                        else if (ViewBag.IdPerfil == 1)
+                                        {
+                                            <button type="button" id="btn-destravar-view" onclick="location.href= '@Url.Action("Editar", "NaoConformidade")' + '/@Model.IdRegistroConformidade' + '?destravar=True'" class="btn btn-primary btn-destravar-view">@Traducao.Shared.ResourceButtons.btn_lbl_destravar</button>
+                                        }
                                     }
 
                                     <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "NaoConformidade/Index")</button>

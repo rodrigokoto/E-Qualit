@@ -1,27 +1,15 @@
-﻿@using ApplicationService.Enum
-@using ApplicationService.Entidade
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
 @using Dominio.Entidade
+@*@model Dominio.Entidade.RegistroConformidade*@
 @model Dominio.Entidade.RegistroConformidade
-@{
-    ViewBag.Title = "Gestão de Risco";
 
+
+
+@{
+    ViewBag.Title = "Não Conformidade";
     Layout = null;
 
-    var funcoes = new List<int>
-{
-//(int)FuncoesGestaoDeRisco.Registro,
-(int)FuncoesGestaoDeRisco.DefinirAcao,
-(int)FuncoesGestaoDeRisco.ImplementarAcao,
-(int)FuncoesGestaoDeRisco.Reverificacao,
-(int)FuncoesGestaoDeRisco.VerificacaoDaEficacia,
-(int)FuncoesGestaoDeRisco.AnularAMDestravar,
-(int)FuncoesGestaoDeRisco.AnularAMEditar,
-(int)FuncoesGestaoDeRisco.CriaNovaGR,
-};
-
-    var listaPermissoes = new List<PermissoesApp>();
-
-    listaPermissoes.AddRange(ViewBag.Permissoes);
 
     var listaEvidencias = new List<Anexo>();
 
@@ -58,7 +46,6 @@
     var nomeResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.ResponsavelInicarAcaoImediata.NmCompleto : null;
     var idResponsavelAcaoCorretiva = temAcaoCorretiva != null ? temAcaoCorretiva.IdResponsavelInicarAcaoImediata : null;
 }
-
 <html>
 <head>
     <link href="~/Content/assets/css/style.css" rel="stylesheet" />
@@ -72,6 +59,10 @@
 
 
         <style>
+            body {
+                font-size: 10px;
+            }
+
             .ui-timepicker {
                 width: 119px !important;
             }
@@ -88,346 +79,410 @@
                 .ui-timepicker-viewport li {
                     width: 85px !important;
                 }
+
+            .caixa {
+                font-family: 'Abel-Regular', sans-serif !important;
+                width: 100%;
+                padding: 12px 10px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+                background: #fff;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+                font-size: medium;
+            }
+
+            .tabela-check {
+                background-color: white !important;
+            }
+
+            #main {
+                max-height: 700px !important;
+            }
         </style>
 
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
+        <div class="top3" id="main1" style="top: 140px; ">
+            <div id="main">
+                <div class="content-painel">
+                    <!-- hidden -->
+                    <input type="hidden" name="StatusEtapa" value="@ViewBag.StatusEtapa" />
+                    <input type="hidden" name="labelDesejaCriarNcDtEmissaoAnteriorAUltima" value="@Traducao.Resource.NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" />
+                    <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
+                    <input type="hidden" name="IdSite" id="nao-conformidade-site" value="@ViewBag.IdSite" />
+                    <input type="hidden" name="TipoRegistro" value="nc" />
+                    <input type="hidden" name="IdNaoConformidade" value="" />
+                    <input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
+                    <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
+                    <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
+                    <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
+                    <input type="hidden" name="IdNaoConformidade" class="IdNaoConformidade" value="@Model.IdRegistroConformidade" />
 
-        <div id="main">
-            <div class="content-painel">
-                <!-- hidden -->
-                <input type="hidden" name="StatusEtapa" id="StatusEtapa" value="@ViewBag.StatusEtapa" />
-                <input type="hidden" name="labelDesejaCriarNcDtEmissaoAnteriorAUltima" value="@Traducao.Resource.NaoConformidade_primeiraEtapa_msg_DesejaCriarNCComDiaAnteriorAUltimaCadastrada" />
-                <input type="hidden" name="IdCliente" value="@ViewBag.IdCliente" />
-                <input type="hidden" name="IdSite" id="nao-conformidade-site" value="@ViewBag.IdSite" />
-                <input type="hidden" name="TipoRegistro" value="nc" />
-                <input type="hidden" name="IdGestaoDeRisco" id="IdGestaoDeRisco" class="IdGestaoDeRisco" value="ViewBag.IdGestaoDeRisco" />
-                <input type="hidden" name="UsuarioLogado" value="@ViewBag.UsuarioLogado.IdUsuario" />
-                <input type="hidden" name="IdPerfil" value="@ViewBag.IdPerfil" />
-                <input type="hidden" name="IdProcesso" value="@ViewBag.IdProcesso" />
-                <input type="hidden" name="IdRegistroConformidade" value="@Model.IdRegistroConformidade" />
-
-                <!-- Formulario Gestão de Risco -->
-                <form id="form-criar-gestaoderisco">
-                    <div class="panel panel-default" id="panel-gestaoderisco">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_titulo_identificacao</h2>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <table>
+                                        <tr>
+                                            <td><img src="data:image/png;base64, @ViewBag.LogoCliente" width="120" height="100" /></td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                        <div class="panel-body" id="panel-form-gestaoderisco">
-                            <div class="barra-busca">
-
-                                <div class="row">
-                                    <!-- Descricao Registro -->
-                                    <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 ">
-                                        <div class="form-group">
-                                            <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DsRegistro</label>
-                                            <br />
-                                            @Model.DescricaoRegistro
-                                        </div>
-                                    </div>
-                                    <!-- Arquivo de Evidencia -->
-                                    <div class="col-lg-2 col-md-4 col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="form-cria-cliente-contrato" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Arquivo_evidencia</label>
-                                            <br />
-                                            @foreach (var evidencia in listaEvidencias)
-                                            {
-                                                @evidencia.Nome
-                                            }
-                                        </div>
+                        <div class="row">&nbsp;</div>
+                    </div>
+                    <div class="row" style="background-color: white;padding-left: 20px;">
+                        <!-- Formulario Nao Conformidade -->
+                        <form id="form-criar-naoconformidade">
+                            <div id="panel-naoconformidade">
+                                <div>
+                                    <div>
+                                        <h4>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_titulo_identificacao</h4>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div>
-                                        <!-- Data de Emissao -->
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+
+                                <div class="caixa">
+
+                                    <div class="row">
+                                        <div class="col-xs-2">
+                                            <!-- Numero Registro -->
                                             <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao</label>
+                                                <label for="form-criar-nao-conformidade-nm-registro">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_NmRegistro</label>
                                                 <br />
-                                                @Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)
+                                                @Model.NuRegistro
                                             </div>
                                         </div>
-                                        <!-- Processo -->
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-                                            <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Processo</label>
-                                                <br />
-                                                @(Model.Processo != null ? @Model.Processo.Nome : "")
 
+
+
+
+                                        <div class="col-xs-4">
+                                            <!-- Data de Emissao -->
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-dt-emissao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtEmissao</label>
+                                                    <br />
+                                                    @Model.DtEmissao.ToString(@Traducao.Resource.dateFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <!-- Data de Emissao -->
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-dt-emissao">Criticidade</label>
+                                                    <br />
+                                                    @{
+                                                        if (Model.CriticidadeGestaoDeRisco < 5)
+                                                        {
+                                                            <p>Leve</p>
+                                                        }
+                                                        else if (Model.CriticidadeGestaoDeRisco > 5 && Model.CriticidadeGestaoDeRisco < 10)
+                                                        {
+                                                            <p>Média</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>Alto</p>
+                                                        }
+
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Processo -->
+                                        <div class="col-xs-4">
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-processo" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Processo</label>
+                                                    <br />
+                                                    @Model.Processo.Nome
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- Emissor -->
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                        <div class="col-xs-4">
                                             <div class="form-group">
-                                                <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Emissor</label>
+                                                <label for="form-criar-nao-conformidade-emissor" class="control-label">@Traducao.Resource.NaoConformidade_PrimeiraEtapa_lbl_IdEmissor</label>
                                                 <br />
-                                                @if (ViewBag.IdPerfil != 4)
-                                                {
-
-                                                    @Model.Emissor.NmCompleto
-                                                }
-                                                else
-                                                {
-                                                    @ViewBag.NomeUsuario
-
-                                                }
+                                                @Model.Emissor.NmCompleto
                                             </div>
-
-
-
                                         </div>
 
-                                        <div class="col-lg-6 col-md-2 col-sm-12 col-xs-12 ">
-                                            <!-- Criticidade -->
+                                        <div class="col-xs-4">
+                                            <!-- E Auditoria -->
                                             <div>
                                                 <div class="form-group">
-                                                    <label for="form-criar-nao-conformidade-criticidade" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Criticidade</label>
-                                                    <input type="hidden" name="formGestaoDeRiscoCriticidadeCor" value="@Model.CriticidadeGestaoDeRisco" />
-                                                    @if (Model.CriticidadeGestaoDeRisco > 0 && Model.CriticidadeGestaoDeRisco < 6)
-                                                    {
-                                                        @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_leve
-                                                    }
-                                                    else if (Model.CriticidadeGestaoDeRisco >= 6 && Model.CriticidadeGestaoDeRisco < 11)
-                                                    {
-                                                        @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_medio
-                                                    }
-                                                    else
-                                                    {
-                                                        @Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_lbl_Risco_alto
-                                                    }
-                                                    
+                                                    <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EAuditoria</label>
+                                                    <div class="">
+                                                        @(Model.ENaoConformidadeAuditoria == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+
+
+
+                                        <!-- Responsavel -->
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Responsavel_definir_AC</label>
+                                                <br />
+                                                @Model.ResponsavelInicarAcaoImediata.NmCompleto
+                                            </div>
+                                        </div>
+
+                                        <!-- Tags -->
+                                        @*<div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Tags</label>
+                                                    <br />
+                                                    @Model.Tags
+                                                </div>
+                                            </div>*@
+                                        <!-- Responsavel Tratativa -->
+
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-acaoimediata-analise-causa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Analise_causa</label>
+                                                    <br />
+                                                    @Model.Causa
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <!-- Descricao Registro -->
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="form-criar-nao-conformidade-ds-registro" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DsRegistro</label>
+                                                    <br />
+                                                    @Model.DescricaoRegistro
                                                 </div>
                                             </div>
                                         </div>
 
                                     </div>
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </form>
+
+                        <!-- Formulario Acao Imediata -->
+                        <form id="form-acaoimediata">
+                            <div id="panel-acaoimediata">
+
+
+                                <div>
                                     <div>
-
-
-
-
-
-
-
-
+                                        <h4>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Acao_imediata</h4>
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <!-- Tags -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                        <div class="form-group">
-                                            <label for="form-criar-nao-conformidade-tags" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Tags</label>
-                                            <br />
-                                            @Model.Tags
-                                        </div>
-                                    </div>
-                                    <!-- E Procedente -->
-                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-
-
-
-                                        <div class="form-group">
-                                            <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_EProcedente</label>
-                                            <br />
-                                            @(Model.EProcedente == true ? Traducao.Shared.ResourceLabel.Label_radio_Sim : Traducao.Shared.ResourceLabel.Label_radio_Nao)
-                                            
-                                        </div>
-                                    </div>
+                                <div class="caixa">
+                                    <div id="panel-form-acaoimediata">
+                                        <div>
+                                            <div class="row">
+                                                
+                                                <!-- Data Descricao Acao -->
+                                                <div class="col-xs-2">
+                                                    <div class="form-group">
+                                                        <label for="form-acaoimediata-dt-descricao-acao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtDescricaoAcao</label>
+                                                        <br />
+                                                        @(Model.DtDescricaoAcao.HasValue ? Model.DtDescricaoAcao.Value.ToString(@Traducao.Resource.dateFormat) : "")
+                                                    </div>
+                                                </div>
 
 
-                                    <!-- Numero Registro -->
-                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
-                                        <div class="form-group">
-                                            <label id="lblformCriarNaoConformidadeNmRegistro" for="form-criar-nao-conformidade-nm-registro" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_NmRegistro</label>
-                                            <br />
-                                            @if (ViewBag.NumeroRisco == null)
-                                            {
-                                                @Model.NuRegistro
-                                            }
-                                            else
-                                            {
-                                                @ViewBag.NumeroRisco
-                                            }
-                                            
-                                        </div>
-                                    </div>
 
-                                    <!-- Responsavel -->
-                                    <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12" id="painel-acao-corretiva-sim" style="display: none; width:500px">
-                                        <div class="form-group">
-                                            <label for="form-criar-nao-conformidade-responsavel" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Responsavel_definir_AC</label>
-                                            <br />
-                                            @if (@Model.ResponsavelInicarAcaoImediata != null)
-                                            {
-                                            @Model.ResponsavelInicarAcaoImediata.NmCompleto
-                                            }
-                                        </div>
-                                    </div>
+                                            </div>
 
-                                    <!-- Justificativa -->
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="painel-acao-corretiva-nao">
-                                        <div class="form-group">
 
-                                            @if (Model.EProcedente == true)
-                                            {
-
-                                                <label for="form-criar-nao-conformidade-causa" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Causa</label>
-                                                <br />
-                                                @Model.Causa
-                                            }
-                                            else
-                                            {
-                                                <label for="form-criar-nao-conformidade-ds-justificativa" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_JustificativaControle</label>
-                                                <br />
-                                                @Model.DsJustificativa
-                                            }
 
                                         </div>
-                                    </div>
 
-                                </div>
 
-                            </div>
-                        </div>
-                </form>
+                                        @if (Model.EProcedente == true)
+                                        {
+                                            <div>
 
-                <!-- Formulario Acao Imediata -->
-                <form id="form-acaoimediata">
-                    <div class="panel panel-default" id="panel-acaoimediata">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h2>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Acao_imediata</h2>
-                            </div>
-                        </div>
-                        <div class="panel-body" id="panel-form-acaoimediata">
-                            <div class="barra-busca">
-                                <div class="row">
-                                    <!-- Data Descricao Acao -->
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="form-acaoimediata-dt-descricao-acao">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_DtDescricaoAcao</label>
-                                            <br />
-                                            @(Model.DtDescricaoAcao.HasValue ? Model.DtDescricaoAcao.Value.ToString(@Traducao.Resource.dateFormat) : "")
-                                        </div>
-                                    </div>
-                                    <!-- Painel Acao Imediata -->
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                        <table id="tb-acao-imediata" class="display dataTable no-footer dtr-inline table-bordered table" style="">
-                                            <thead class="titulo-tabela">
-                                                <tr class="bg" role="row">
-                                                    <th class="w20">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Acao_Descricao</th>
-                                                    <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Prazo_implementacao</th>
-                                                    <th class="w10">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Responsavel_implementar</th>
-                                                    <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Efetiva_implementacao</th>
-                                                    <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Arquivo_evidencia</th>
-                                                    <th class="w5"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{var Count = 0;}
-                                                @foreach (var acaoImediata in Model.AcoesImediatas)
-                                                {
-                                                    Count++;
-                                                    <tr role="row" class="odd">
-                                                        <!-- Descricao -->
-                                                        <td>
-                                                            @acaoImediata.Descricao
-                                                        </td>
-                                                        <!-- Prazo Implementacao -->
-                                                        <td>
-                                                            @acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)
-                                                        </td>
-                                                        <!-- Responsavel Implementar -->
-                                                        <td>
-                                                            @acaoImediata.ResponsavelImplementar.NmCompleto
-                                                        </td>
-                                                        <!-- Data Efetiva Implementacao -->
-                                                        <td>
-                                                            @(acaoImediata.DtEfetivaImplementacao != null ? acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat) : null)
-                                                        </td>
-                                                        <!-- Arquivo de Evidencia -->
-                                                        <td>
-                                                            @{
-                                                                if (acaoImediata.ArquivoEvidencia.Count > 0)
-                                                                {
-                                                                    foreach (var acaoImediataArquivoEvidencia in acaoImediata.ArquivoEvidencia)
+                                                <div class="row">
+                                                    <!-- Painel Acao Imediata -->
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <table id="tb-acao-imediata" class="table table-striped table-bordered table-list" style="" name="formAcaoImadiata">
+                                                                <thead>
+                                                                    <tr role="row">
+                                                                        <th class="w20">Descrição</th>
+                                                                        <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Prazo_implementacao</th>
+                                                                        <th class="w10">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Responsavel_implementar</th>
+                                                                        <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Efetiva_implementacao</th>
+                                                                        <th class="w7">Observação</th>
+                                                                        <th class="w7">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_AI_Arquivo_evidencia</th>
+                                                                        <th class="w7"></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @{var count = 0;}
+                                                                    @foreach (var acaoImediata in Model.AcoesImediatas)
                                                                     {
-                                                                        var nomeAnexo = "";
-                                                                        nomeAnexo = acaoImediataArquivoEvidencia.Anexo.Nome;
+                                                                        count++;
+                                                                        <tr role="row" class="odd">
+                                                                            <!-- Descricao -->
+                                                                            <td>
 
-                                                                        @nomeAnexo
-                                                                        <br />
+                                                                                @acaoImediata.Descricao
+                                                                            </td>
+                                                                            <!-- Prazo Implementacao -->
+                                                                            <td>
+                                                                                @acaoImediata.DtPrazoImplementacao.Value.ToString(@Traducao.Resource.dateFormat)
+                                                                            </td>
+                                                                            <!-- Responsavel Implementar -->
+                                                                            <td>
+                                                                                @acaoImediata.ResponsavelImplementar.NmCompleto
+                                                                            </td>
+                                                                            <!-- Data Efetiva Implementacao -->
+                                                                            <td>
+                                                                                @(acaoImediata.DtEfetivaImplementacao != null ? acaoImediata.DtEfetivaImplementacao.Value.ToString(@Traducao.Resource.dateFormat) : null)
+                                                                            </td>
+                                                                            <!-- Observação-->
+                                                                            <td>
+                                                                                @(acaoImediata.Observacao)
+                                                                            </td>
+                                                                            <!-- Arquivo de Evidencia -->
+                                                                            <td>
+                                                                                @{
+                                                                                    if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                                                                    {
+                                                                                        foreach (var acaoImediataArquivoEvidencia in acaoImediata.ArquivoEvidencia)
+                                                                                        {
+                                                                                            var nomeAnexo = "";
+                                                                                            nomeAnexo = acaoImediataArquivoEvidencia.Anexo.Nome;
+
+                                                                                            @nomeAnexo
+                                                                                            <br />
+                                                                                        }
+                                                                                    }
+
+                                                                                }
+
+                                                                            </td>
+                                                                            <!-- Acoes -->
+                                                                            <td>
+                                                                                @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
+                                                                                {
+                                                                                    if (acaoImediata.Aprovado.Value == true)
+                                                                                    {
+                                                                                        <button type="button" class="btn btn-ok-acao-imediata ativo-color">
+                                                                                            <i class="fa fa-check-circle " aria-hidden="true"></i>
+                                                                                        </button>
+
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <button type="button" class="btn btn-notok-acao-imediata trash-color">
+                                                                                            <i class="fa fa-times-circle " aria-hidden="true"></i>
+                                                                                        </button>
+                                                                                    }
+
+                                                                                }
+                                                                            </td>
+                                                                        </tr>
                                                                     }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <!-- Responsavel Reverificacao -->
+                                                    <div class="col-xs-4">
+                                                        <div class="form-group">
+                                                            <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Responsavel_reverificacao</label>
+                                                            <br />
+                                                            @if (@Model.ResponsavelReverificador != null)
+                                                            {
+                                                                @Model.ResponsavelReverificador.NmCompleto
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <!-- Foi Eficaz -->
+                                                    <div class="col-xs-3">
+                                                        <div class="form-group">
+                                                            <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Foi_eficaz</label>
+                                                            <br />
+                                                            @(Model.FlEficaz == true ? Traducao.Resource.Sim : Traducao.Resource.Nao)
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Analise do Parecer -->
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-parecer" class="control-label">Parecer</label>
+                                                                <br />
+                                                                @Model.Parecer
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div>
+                                                        <div class="col-sm-2">
+                                                            <div class="form-group">
+                                                                <label for="form-acaoimediata-Status" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_StatusEtapa</label>
+                                                                <br />
+                                                                @if (@Model.StatusEtapa == 1)
+                                                                {
+                                                                    <p class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Acao_imediata</p>
+                                                                }
+                                                                else if (@Model.StatusEtapa == 2)
+                                                                {
+                                                                    <p class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Implementacao</p>
+                                                                }
+                                                                else if (@Model.StatusEtapa == 3)
+                                                                {
+                                                                    <p class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Reverificacao</p>
+                                                                }
+                                                                else if (@Model.StatusEtapa == 4)
+                                                                {
+                                                                    <p class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Status_Encerrada</p>
                                                                 }
 
-                                                            }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                                        </td>
-
-                                                        <!-- Acoes -->
-                                                        <td>
-                                                            @if (acaoImediata.Aprovado != null && acaoImediata.Aprovado.Value == true)
-                                                            {
-                                                                <button type="button" class="btn btn-ok-acao-imediata ativo-color">
-                                                                    <i class="fa fa-check-circle " aria-hidden="true"></i>
-                                                                </button>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <button type="button" class="btn btn-notok-acao-imediata trash-color">
-                                                                    <i class="fa fa-times-circle " aria-hidden="true"></i>
-                                                                </button>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-
+                                            </div>
+                                        }
                                     </div>
-                                    <!-- Responsavel Reverificacao -->
-                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="form-acaoimediata-responsavel-reverificacao" class="control-label">@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Responsavel_reverificacao</label>
-                                            <br />
-                                            @if (Model.ResponsavelReverificador != null)
-                                            {
-                                                @Model.ResponsavelReverificador.NmCompleto
-                                            }
-                                        </div>
-                                    </div>
-                                    <!-- Foi Eficaz -->
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-                                        <div class="form-group">
-                                            <label>@Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_lbl_Foi_eficaz</label>
-                                            <br />
-                                            @((Model.FlEficaz.HasValue) && Model.FlEficaz == true ? Traducao.Shared.ResourceLabel.Label_radio_Sim : Traducao.Shared.ResourceLabel.Label_radio_Nao)
-
-                                        </div>
-                                    </div>
-
-                                    <!-- Analise do Parecer -->
-                                    <div class="col-xs-2">
-                                        <div class="form-group">
-                                            <label for="form-acaoimediata-parecer" class="control-label">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_Parecer</label>
-                                            <br />
-                                            @Model.Parecer
-                                        </div>
-                                    </div>
-                                </div>                                
+                                </div>
                             </div>
-                        </div>
                     </div>
-                </form>
+                    </form>
 
+                </div>
             </div>
         </div>
-     
-    </body>
+    </div>
+    @*Fim -------*@
+</body>
 </html>

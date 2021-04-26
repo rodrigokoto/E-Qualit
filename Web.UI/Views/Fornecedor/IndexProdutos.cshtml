@@ -107,7 +107,7 @@
                                                             </a>
                                                         }
                                                     }
-                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeprodutosExcluir) || ViewBag.IdPerfil != 4)
+                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesFornecedores.CadastroDeprodutosExcluir) && ViewBag.IdPerfil != 4)
                                                     {
                                                         <a href="#" class="excluir icon-cliente trash-color">
                                                             <i class="fa fa-trash excluirProduto" aria-hidden="true" idProduto="@produto.IdProduto" data-toggle="tooltip" title="@Traducao.Resource.btn_lbl_excluir"></i>

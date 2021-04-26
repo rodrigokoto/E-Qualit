@@ -1622,25 +1622,7 @@ APP.controller.AcaoCorretivaController = {
 
             $('.btn-anular').prop('disabled', false);
 
-            if (perfil == '4') {
-                $('#main').find('input, textarea, button, select').removeAttr('disabled');
-                $('.botaouploadarquivos').removeAttr('disabled');
-                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-processo").attr("disabled", true);
-                $("#form-criar-nao-conformidade-emissor").attr("disabled", true);
-                $('.br-widget').removeClass('barRating-disabled');
-
-
-            }
-            else {
-                $('#main').find('input, textarea, button, select').removeAttr('disabled');
-                $('.botaouploadarquivos').removeAttr('disabled');
-                $("#form-criar-nao-conformidade-nm-registro").attr("disabled", true);
-                $("#form-criar-nao-conformidade-dt-emissao").attr("disabled", true);
-                //$("#form-acaoimediata-responsavel-reverificacao").attr("disabled", true);
-                $('.br-widget').removeClass('barRating-disabled');
-            }
-
+            $('#form-acaoimediata').find('input, textarea, button, select').removeAttr('disabled');
 
             var idAcaoCorretiva = $('[name=IdRegistroConformidade]').val();  // $('#form-criar-nao-conformidade-nm-registro').val();
             var data = { "idAcaoCorretiva": idAcaoCorretiva };

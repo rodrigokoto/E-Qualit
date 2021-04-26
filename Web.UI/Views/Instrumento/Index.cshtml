@@ -123,7 +123,7 @@
                                                             <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                         </a>
                                                     }
-                                                    @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesInstrumento.ExcluirInstrumento).Count() > 0 || ViewBag.IdPerfil != 4)
+                                                    @if (listaPermissoes.Where(x => x.IdFuncao == (int)FuncoesInstrumento.ExcluirInstrumento).Count() > 0 && ViewBag.IdPerfil != 4)
                                                     {
                                                         <a href="#" class="excluir icon-cliente trash-color tb-instrumento-excluir" data-id="@instrumento.IdInstrumento">
                                                             <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>

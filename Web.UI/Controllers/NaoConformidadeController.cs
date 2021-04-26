@@ -581,7 +581,7 @@ namespace Web.UI.Controllers
 
         [HttpPost]
         public JsonResult SalvarSegundaEtapa(RegistroConformidade naoConformidade)
-        {
+         {
             var erros = new List<string>();
 
             var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();

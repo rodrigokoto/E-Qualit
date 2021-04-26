@@ -650,10 +650,8 @@
                 }
 
 
-                if (Model.StatusEtapa == 4)
-                {
-                    <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
-                }
+                <button type="button" id="btn-imprimir" class="btn btn-primary btn-imprimir">@Traducao.Shared.ResourceButtons.btn_lbl_imprimir</button>
+
 
             }
             @if (listaPermissoes.Select(x => x.IdFuncao).Contains((int)FuncoesGestaoMelhoria.Cadastrar)
