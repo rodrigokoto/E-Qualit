@@ -26,7 +26,8 @@ namespace Web.UI.Controllers
                                               ICriterioQualificacaoServico criterioQualificacaoServico,
                                               IUsuarioAppServico usuarioAppServico,
                                               IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                              IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _criterioQualificacaoAppServico = criterioQualificacaoAppServico;
             _logAppServico = logAppServico;

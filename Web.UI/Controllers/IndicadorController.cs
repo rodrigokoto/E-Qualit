@@ -36,7 +36,8 @@ namespace Web.UI.Controllers
                                    IIndicadorServico indicadorServico,
                                    IUsuarioAppServico usuarioAppServico,
                                    IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                   IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _indicadorAppServico = indicadorAppServico;
             _indicadorServico = indicadorServico;

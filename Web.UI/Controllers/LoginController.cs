@@ -36,7 +36,8 @@ namespace Web.UI.Controllers
                                ILoginServico loginServico,
                                ILoginAppServico loginAppServico,
                                ISiteModuloAppServico siteModulo,
-                               IUsuarioCargoAppServico usuarioCargoAppServico) : base(logAppServico, null, null, null)
+                               IPendenciaAppServico pendenciaAppServico,
+                               IUsuarioCargoAppServico usuarioCargoAppServico) : base(logAppServico, null, null, null, pendenciaAppServico)
         {
             _clienteAppServico = clienteAppServico;
             _usuarioAppServico = usuarioAppServico;

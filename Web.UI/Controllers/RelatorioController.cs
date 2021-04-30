@@ -16,8 +16,9 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
 
+
         public RelatorioController(ILogAppServico logAppServico, IRegistroConformidadesAppServico naoConformidade, IUsuarioAppServico usuarioAppServico, IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+           IPendenciaAppServico pendenciaAppServico, IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _logAppServico = logAppServico;
             _naoConformidade = naoConformidade;

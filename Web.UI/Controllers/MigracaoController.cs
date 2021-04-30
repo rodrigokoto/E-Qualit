@@ -82,7 +82,8 @@ namespace Web.UI.Controllers
                                     IProcessoAppServico processoAppServico,
                                     IDocUsuarioVerificaAprovaServico docUsuarioVerificaAprovaServico,
                                     IControladorCategoriasAppServico controladorCategoriasServico,
-                                    IAnexoAppServico anexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                    IPendenciaAppServico pendenciaAppServico,
+                                    IAnexoAppServico anexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _AnexoAppServico = anexoAppServico;
             _documentoAppServico = docDocumentoAppServico;

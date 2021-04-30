@@ -27,6 +27,7 @@ namespace Web.UI.Controllers
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
         private readonly IFilaEnvioServico _filaEnvioServico;
         private readonly IInstrumentoAppServico _instrumentoServico;
+        private readonly IPendenciaAppServico _pendenciaAppServico;
 
         public CalibracaoController(ICalibracaoAppServico calibracaoAppServico,
                                     ICalibracaoServico calibracaoServico,
@@ -38,7 +39,8 @@ namespace Web.UI.Controllers
                                     IProcessoAppServico processoAppServico,
                                     IControladorCategoriasAppServico controladorCategoriasServico,
                                     IFilaEnvioServico filaEnvioServico,
-                                    IInstrumentoAppServico instrumentoServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                    IPendenciaAppServico pendenciaAppServico,
+                                    IInstrumentoAppServico instrumentoServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _calibracaoAppServico = calibracaoAppServico;
             _calibracaoServico = calibracaoServico;
@@ -51,6 +53,7 @@ namespace Web.UI.Controllers
             _controladorCategoriasServico = controladorCategoriasServico;
             _filaEnvioServico = filaEnvioServico;
             _instrumentoServico = instrumentoServico;
+            _pendenciaAppServico = pendenciaAppServico;
         }
 
         // GET: Calibracao

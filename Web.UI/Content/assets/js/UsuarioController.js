@@ -235,6 +235,7 @@ APP.controller.UsuarioController = {
         this.setAndHide();
         this.setValidateForms();
         this.formCriarUsuario();
+        this.sendFormAlterarSenha();
 
         this.sendFormCriarUsuario();
 

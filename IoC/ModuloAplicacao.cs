@@ -66,6 +66,7 @@ namespace IoC
             Bind<IDocumentoComentarioAppServico>().To<DocumentoComentarioAppServico>();
             Bind<ILicencaAppServico>().To<LicencaAppServico>();
             Bind<IArquivoLicencaAnexoAppServico>().To<ArquivoLicencaAnexoAppServico>();
+            Bind<IPendenciaAppServico>().To<PendenciaAppServico>();
             
             
             //RH

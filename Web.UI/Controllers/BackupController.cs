@@ -56,6 +56,7 @@ namespace Web.UI.Controllers
         private readonly IBackupFactory _backupFactory;
         private readonly IClienteAppServico _clienteAppServico;
         private readonly IInstrumentoAppServico _instrumentoAppServico;
+        private readonly IPendenciaAppServico _pendenciaAppServico;
 
         public BackupController(IDocDocumentoAppServico docDocumentoAppServico,
                                     IDocDocumentoServico documentoServico,
@@ -82,7 +83,8 @@ namespace Web.UI.Controllers
                                     IClienteAppServico clienteAppServico,
                                     IAnaliseCriticaAppServico analiseCriticaAppServico,
                                     IIndicadorAppServico indicadorAppServico,
-                                    IInstrumentoAppServico instrumentoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                    IPendenciaAppServico pendenciaAppServico,
+                                    IInstrumentoAppServico instrumentoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _AnexoAppServico = anexoAppServico;
             _documentoAppServico = docDocumentoAppServico;
@@ -110,6 +112,7 @@ namespace Web.UI.Controllers
             _analiseCriticaAppServico = analiseCriticaAppServico;
             _indicadorAppServico = indicadorAppServico;
             _instrumentoAppServico = instrumentoAppServico;
+            _pendenciaAppServico = pendenciaAppServico;
         }
 
 

@@ -28,6 +28,7 @@ namespace Web.UI.Controllers
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
         private readonly IFilaEnvioServico _filaEnvioServico;
         private readonly IRegistroAuditoriaServico _registroAuditoriaServico;
+        private readonly IPendenciaAppServico _pendenciaAppServico;
 
         public AuditoriaController(IPaiAppServico paiAppServico, IPlaiAppServico plaiAppServico, IPlaiProcessoNormaAppServico plaiProcessoNormaAppServico, INormaAppServico normaAppServico,
                             IAnexoAppServico anexoAppServico,
@@ -37,7 +38,8 @@ namespace Web.UI.Controllers
                              IProcessoAppServico processoAppServico,
                              IFilaEnvioServico filaEnvio,
                              IRegistroAuditoriaServico registroAuditoria,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                             IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _paiAppServico = paiAppServico;
             _plaiAppServico = plaiAppServico;
@@ -52,6 +54,7 @@ namespace Web.UI.Controllers
             _filaEnvioServico = filaEnvio;
             _AnexoAppServico = anexoAppServico;
             _registroAuditoriaServico = registroAuditoria;
+            _pendenciaAppServico = pendenciaAppServico;
         }
 
         public ActionResult Index(int? ano)

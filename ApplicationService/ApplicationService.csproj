@@ -41,6 +41,7 @@
       <HintPath>..\packages\DomainValidation.1.0.0\lib\net45\DomainValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.7.3.3\lib\net45\FluentValidation.dll</HintPath>
     </Reference>
@@ -176,6 +177,7 @@
     <Compile Include="Servico\HistoricoCriterioAvaliacaoAppServico.cs" />
     <Compile Include="Servico\IndicadorAppServico.cs" />
     <Compile Include="Servico\InstrumentoAppServico.cs" />
+    <Compile Include="Interface\IPendenciaAppServico.cs" />
     <Compile Include="Servico\LicencaAppServico.cs" />
     <Compile Include="Servico\LoginAppServico.cs" />
     <Compile Include="Servico\LogAppServico.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="Servico\NotificacaoAppServico.cs" />
     <Compile Include="Servico\NotificacaoSmtpAppServico.cs" />
     <Compile Include="Servico\PaiAppServico.cs" />
+    <Compile Include="Servico\PendenciaAppServico.cs" />
     <Compile Include="Servico\PlaiGerentesAppServico.cs" />
     <Compile Include="Servico\PlaiProcessoNormaAppServico.cs" />
     <Compile Include="Servico\PlaiAppServico.cs" />

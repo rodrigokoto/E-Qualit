@@ -25,7 +25,8 @@ namespace Web.UI.Controllers
                                            IControleImpressaoServico controleImpressaoServico,
                                            IUsuarioAppServico usuarioAppServico,
                                            IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                           IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _controleImpressaoAppServico = controleImpressao;
             _controleImpressaoServico = controleImpressaoServico;

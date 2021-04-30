@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entidade\Pendecia.cs" />
     <Compile Include="Entidade\ArquivoLicencaAnexo.cs" />
     <Compile Include="Entidade\ArquivoInstrumentoAnexo.cs" />
     <Compile Include="Entidade\ArquivoNaoConformidadeAnexo.cs" />

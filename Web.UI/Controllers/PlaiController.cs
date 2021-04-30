@@ -39,7 +39,8 @@ namespace Web.UI.Controllers
                               INormaAppServico normaAppServico,
                               IUsuarioAppServico usuarioAppServico,
                               IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                              IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _plaiAppServico = plaiAppServico;
             _plaiProcessoNormaAppServico = plaiProcessoNormaAppServico;

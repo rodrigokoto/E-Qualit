@@ -40,7 +40,8 @@ namespace Web.UI.Controllers
                                       ICargoProcessoAppServico cargoProcessoAppServico,
                                       IProcessoAppServico processoAppServico,
                                       IControladorCategoriasAppServico controladorCategoriasServico,
-                                      IFilaEnvioServico filaEnvioServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                      IPendenciaAppServico pendenciaAppServico,
+                                      IFilaEnvioServico filaEnvioServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _instrumentoAppServico = instrumentoAppServico;
             _instrumentoServico = instrumentoServico;

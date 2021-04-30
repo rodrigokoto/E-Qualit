@@ -18,18 +18,20 @@ namespace Web.UI.Controllers
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
-
+        private readonly IPendenciaAppServico _pendenciaAppServico;
         public AvaliacaoCriticidadeController(IAvaliacaoCriticidadeAppServico avaliacaoCriticidadeAppServico, 
                                               ILogAppServico logAppServico,
                                               IUsuarioAppServico usuarioAppServico,
                                               IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                                  IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _avaliacaoCriticidadeAppServico = avaliacaoCriticidadeAppServico;
             _logAppServico = logAppServico;
             _usuarioAppServico = usuarioAppServico;
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _pendenciaAppServico = pendenciaAppServico;
         }
 
         [HttpGet]

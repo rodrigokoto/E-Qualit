@@ -72,8 +72,9 @@ namespace Web.UI.Controllers
             IControladorCategoriasAppServico controladorCategoriasServico,
             ICriterioAvaliacaoAppServico qualificaAvaliacaoCriticidadeAppServico,
             IAnexoAppServico anexoAppServico,
-            IArquivosEvidenciaCriterioQualificacaoAppServico arquivosEvidenciaCriterioQualificacaoAppServico
-            ) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IArquivosEvidenciaCriterioQualificacaoAppServico arquivosEvidenciaCriterioQualificacaoAppServico,
+            IPendenciaAppServico pendenciaAppServico
+            ) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _fornecedorAppServico = fornecedorAppServico;
             _arquivosEvidenciaCriterioQualificacaoAppServico = arquivosEvidenciaCriterioQualificacaoAppServico;

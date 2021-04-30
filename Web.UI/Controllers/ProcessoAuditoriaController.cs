@@ -23,7 +23,8 @@ namespace Web.UI.Controllers
             IProcessoServico processoServico,
             ILogAppServico logAppServico,
             IUsuarioAppServico usuarioAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _processoAppServico = processoAppServico;
             _processoServico = processoServico;

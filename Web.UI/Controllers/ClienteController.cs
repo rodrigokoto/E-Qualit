@@ -33,6 +33,7 @@ namespace Web.UI.Controllers
         private readonly IClienteContratoAppServico _clienteContratoAppServico;
         private readonly IFuncionalidadeAppServico _funcionalidadeAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IPendenciaAppServico _pendenciaAppServico;
 
         public ClienteController(IClienteAppServico clienteAppServico,
                                  IUsuarioAppServico usuarioAppServico,
@@ -46,7 +47,8 @@ namespace Web.UI.Controllers
                                  IClienteContratoAppServico clienteContratoAppServico,
                                  IClienteServico clienteServico,
                                  IFuncionalidadeAppServico funcionalidadeAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                 IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _clienteAppServico = clienteAppServico;
             _usuarioAppServico = usuarioAppServico;

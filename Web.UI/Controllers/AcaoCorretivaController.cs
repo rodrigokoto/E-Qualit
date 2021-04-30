@@ -34,6 +34,7 @@ namespace Web.UI.Controllers
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
         private readonly IUsuarioClienteSiteAppServico _usuarioClienteAppServico;
         private readonly IFilaEnvioServico _filaEnvioServico;
+        private readonly IPendenciaAppServico _pendenciaAppServico;
 
         public AcaoCorretivaController(
             IRegistroConformidadesAppServico registroConformidadesAppServico,
@@ -46,7 +47,8 @@ namespace Web.UI.Controllers
             IControladorCategoriasAppServico controladorCategoriasServico,
             IUsuarioClienteSiteAppServico usuarioClienteAppServico,
             IFilaEnvioServico filaEnvioServico,
-            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IPendenciaAppServico pendenciaAppServico,
+        IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
             _registroConformidadesServico = registroConformidadesServico;
@@ -59,6 +61,7 @@ namespace Web.UI.Controllers
             _filaEnvioServico = filaEnvioServico;
             _registroRegistroAcaoImediataServico = registroRegistroAcaoImediataServico;
             _usuarioClienteAppServico = usuarioClienteAppServico;
+            _pendenciaAppServico = pendenciaAppServico;
         }
 
         // GET: AcaoCorretiva
@@ -472,7 +475,7 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
-                    
+
 
                     var acoesEfetivadas = acaoCorretiva.AcoesImediatas.Where(x => x.DtEfetivaImplementacao != null).ToList();
                     acoesEfetivadas.ToList().ForEach(acao =>

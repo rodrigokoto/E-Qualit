@@ -47,7 +47,8 @@ namespace Web.UI.Controllers
                                 IUsuarioAnexoAppServico usuarioAnexoAppServico,
                                 IClienteServico clienteServico,
                                 IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             ViewBag.IdForm = "frmUsuario";
             _usuarioClienteSiteAppServico = usuarioClienteSiteAppServico;
@@ -691,7 +692,7 @@ namespace Web.UI.Controllers
 
         [HttpPost]
         public JsonResult AlterarSenha(Usuario Usuario, string NovaSenha, string ConfirmaSenha)
-        {
+         {
             List<string> erros = new List<string>();
 
             Usuario.CdSenha = UtilsServico.Sha1Hash(Usuario.CdSenha);
@@ -710,7 +711,7 @@ namespace Web.UI.Controllers
             }
             else
             {
-                NuArmazenaSenha = 6;
+                NuArmazenaSenha = 0;
                 SenhasUsadas = _usuarioSenhaServico.ListaUltimasSenhas(Usuario.IdUsuario, NuArmazenaSenha).Where(x => x.CdSenha == Usuario.CdSenha).Count();
             }
 

@@ -26,6 +26,7 @@ namespace Web.UI.Controllers
         private readonly ICargoServico _cargoServico;
         private readonly IUsuarioAppServico _usuarioAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
+        private readonly IPendenciaAppServico _pendenciaAppServico;
 
         public CargoController(ILogAppServico logAppServico,
             IProcessoAppServico processoAppServico,
@@ -35,7 +36,8 @@ namespace Web.UI.Controllers
             ICargoProcessoAppServico cargoProcessoAppServico,
             ICargoServico cargoServico,
             IUsuarioAppServico usuarioAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _logAppServico = logAppServico;
             _processoAppServico = processoAppServico;
@@ -46,6 +48,7 @@ namespace Web.UI.Controllers
             _cargoServico = cargoServico;
             _usuarioAppServico = usuarioAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
+            _pendenciaAppServico = pendenciaAppServico;
         }
 
         public ActionResult Index(int id)

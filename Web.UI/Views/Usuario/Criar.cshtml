@@ -152,18 +152,16 @@
                             </div>
                         </div>
                         <!-- Data Expiracao -->
-                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group">
-                                <label for="form-cria-usuario-dt-expiracao">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_DataExpiracao</label>
-                                <div class='input-group' id=''>
-                                    <input type='text' name="formCriaUsuarioDtExpiracao" id="form-cria-usuario-dt-expiracao" class="form-control data datepicker largura-calendario"
-                                           placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_DataExpiracao"
-                                           data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_DataExpiracao"
-                                           value="@(Model.DtExpiracao.HasValue?Model.DtExpiracao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </span>
-                                </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <label for="form-cria-usuario-dt-expiracao">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_DataExpiracao</label>
+                            <div class='input-group' id=''>
+                                <input type='text' style="height:50px!important" name="formCriaUsuarioDtExpiracao" id="form-cria-usuario-dt-expiracao" class="form-control data datepicker"
+                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_DataExpiracao"
+                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_DataExpiracao"
+                                       value="@(Model.DtExpiracao.HasValue?Model.DtExpiracao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </span>
                             </div>
                         </div>
                         <!-- Acoes -->
@@ -204,10 +202,15 @@
                                     </div>
                                     <!-- Bloqueado -->
                                     @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                        <input type="checkbox" name="formCriaUsuarioEscolhaBloqueado" id="form-cria-usuario-escolha-bloqueado" class="form-control" value="true" @(Model.FlBloqueado == false ? "" : "checked")>
-                                        <label for="form-cria-usuario-escolha-bloqueado">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_bloqueado</label>
-                                    </div>*@
+                                            <input type="checkbox" name="formCriaUsuarioEscolhaBloqueado" id="form-cria-usuario-escolha-bloqueado" class="form-control" value="true" @(Model.FlBloqueado == false ? "" : "checked")>
+                                            <label for="form-cria-usuario-escolha-bloqueado">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_bloqueado</label>
+                                        </div>*@
+                                    @if (Model.FlCompartilhado == true)
+                                    {
+                                        <button type="submit" id="btnAlterarSenha" data-toggle="modal" data-target="#modal-alterar-senha" class="btn btn-primary btn-AlterarSenha">@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_titulo</button>
+                                    }
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -393,6 +396,102 @@
         }
     </div>
 </div>
+<form id="form-alterar-senha">
+    <div id="modal-alterar-senha" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                    </button>
+                    <h4 class="modal-title">@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_titulo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel">
+                        <div class="barra-busca">
+                            <input type="hidden" id="IdSite" value="@ViewBag.IdSite" />
+                            <div id="main">
+                                <div class="content-painel">
+                                    <!-- Formulario -->
+
+                                    <div class="panel-body" id="panel-form-alterarsenha">
+
+                                        @if (ViewBag.SenhaExpirada == true)
+                                        {
+                                            <div class="alert alert-info">
+                                                <strong>Atenção!</strong> @Traducao.Usuario.ResourceUsuario.AlteraSenha_lbl_SuaSenhaExpirou
+                                            </div>
+                                        }
+
+                                        <div class="barra-busca">
+                                            <div class="row">
+                                                <input type="hidden" name="formAlterarSenhaUtilizaSenhaForte" value="@ViewBag.UtilizaSenhaForte" />
+                                                <input type="hidden" name="formAlterarSenhaIdUsuario" value="@Model.IdUsuario" />
+                                                <input type="hidden" name="lblStrongPasswordMuitoPequena" value="@Traducao.Resource.StrongPassword_lbl_muito_pequena" />
+                                                <input type="hidden" name="lblStrongPasswordFraca" value="@Traducao.Resource.StrongPassword_lbl_fraca" />
+                                                <input type="hidden" name="lblStrongPasswordMedia" value="@Traducao.Resource.StrongPassword_lbl_media" />
+                                                <input type="hidden" name="lblStrongPasswordForte" value="@Traducao.Resource.StrongPassword_lbl_forte" />
+                                                <input type="hidden" name="lblStrongPasswordMuitoForte" value="@Traducao.Resource.StrongPassword_lbl_muito_forte" />
+                                                <!-- Senha Atual -->
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="form-alterar-senha-atual">@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_Senha_atual</label>
+                                                        <input type="password" id="form-alterar-senha-atual" name="formAlterarSenhaAtual" class="form-control"
+                                                               placeholder="@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_placeholder_Senha_atual"
+                                                               data-msg-required="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_atual"
+                                                               value="" />
+                                                    </div>
+                                                </div>
+                                                <!-- Nova Senha -->
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="form-alterar-senha-nova">@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_Senha_nova</label>
+                                                        <input type="password" id="form-alterar-senha-nova" name="formAlterarSenhaNova" class="form-control"
+                                                               placeholder="@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_placeholder_Senha_nova"
+                                                               data-msg-required="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_nova"
+                                                               data-msg-minlength="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_nova_minlength"
+                                                               data-msg-notEqualsTo="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_notequals"
+                                                               data-msg-strongPassword="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_nova_strong_pwd"
+                                                               value="" />
+                                                    </div>
+                                                </div>
+                                                <!-- Repetir Senha -->
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="form-alterar-senha-confirmar">@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_Senha_confirma</label>
+                                                        <input type="password" id="form-alterar-senha-confirmar" name="formAlterarSenhaConfirmar" class="form-control"
+                                                               placeholder="@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_placeholder_Senha_confirma"
+                                                               data-msg-required="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_confirma"
+                                                               data-msg-minlength="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_confirma_minlength"
+                                                               data-msg-notEqualsTo="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_notequals"
+                                                               data-msg-equalto="@Traducao.Usuario.ResourceUsuario.AlterarSenha_msg_required_Senha_confirma_equals"
+                                                               value="" />
+                                                    </div>
+                                                </div>
+                                                <!-- Botão Salvar-->
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="row pull-right">
+                                                        <div class="col-md-12">
+                                                            <a href="#" class="btn btn-primary btn-alterar-senha">@Traducao.Resource.Salvar</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="send" data-dismiss="modal">Enviar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 <div class="navbar navbar-inverse navbar-fixed-bottom ">
     <div class="row pull-right">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

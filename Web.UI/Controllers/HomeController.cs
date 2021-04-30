@@ -31,8 +31,9 @@ namespace Web.UI.Controllers
                               IUsuarioClienteSiteAppServico usuarioClienteAppServico, ILogAppServico logAppServico,
                               IUsuarioAppServico usuarioAppServico,
             IControladorCategoriasAppServico controladorCategoriasServico,
+            IPendenciaAppServico pendenciaAppServico,
             IDocDocumentoAppServico docDocumentoServico
-            ) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            ) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _clienteAppServico = clienteAppServico;
             _processoAppServico = processoAppServico;

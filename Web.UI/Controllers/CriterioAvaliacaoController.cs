@@ -25,7 +25,8 @@ namespace Web.UI.Controllers
             ICriterioAvaliacaoServico qualificaAvaliacaoCriticidadeServico,
             ILogAppServico logAppService, IUsuarioAppServico usuarioAppServico,
             IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppService, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppService, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _qualificaAvaliacaoCriticidadeAppServico = qualificaAvaliacaoCriticidadeAppServico;
             _qualificaAvaliacaoCriticidadeServico = qualificaAvaliacaoCriticidadeServico;

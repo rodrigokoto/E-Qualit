@@ -20,7 +20,8 @@ namespace Web.UI.Controllers
                                      ILogAppServico logAppServico,
                                      IUsuarioAppServico usuarioAppServico,
                                      IProcessoAppServico processoAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                     IPendenciaAppServico pendenciaAppServico,
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _notificacaoAppServico = notificacaoAppServico;
             _logAppServico = logAppServico;

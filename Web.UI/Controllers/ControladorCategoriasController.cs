@@ -20,7 +20,8 @@ namespace Web.UI.Controllers
         public ControladorCategoriasController(IControladorCategoriasAppServico controladorCategoriasServico,
                                                 ILogAppServico logAppServico,
                                                 IUsuarioAppServico usuarioAppServico,
-                                                IProcessoAppServico processoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                                IPendenciaAppServico pendenciaAppServico,
+                                                IProcessoAppServico processoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _controladorCategoriasServico = controladorCategoriasServico;
             _usuarioAppServico = usuarioAppServico;
@@ -69,9 +70,9 @@ namespace Web.UI.Controllers
         {
             var listaAtivos = _controladorCategoriasServico.ListaAtivos(tipo, site);
 
-            if(tipo == "tnc")
+            if (tipo == "tnc")
             {
-                if(!listaAtivos.Select(x => x.Descricao).Contains("Auditoria"))
+                if (!listaAtivos.Select(x => x.Descricao).Contains("Auditoria"))
                 {
                     _controladorCategoriasServico.Add(new ControladorCategoria
                     {
@@ -85,7 +86,7 @@ namespace Web.UI.Controllers
                 }
             }
 
-            
+
 
             if (listaAtivos != null && listaAtivos.Count > 0)
             {

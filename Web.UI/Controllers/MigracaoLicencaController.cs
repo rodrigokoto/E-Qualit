@@ -43,7 +43,8 @@ namespace Web.UI.Controllers
                                       IFilaEnvioServico filaEnvioServico,
                                       IUsuarioClienteSiteAppServico usuarioClienteAppServico,
                                       IArquivoLicencaAnexoAppServico arquivoLicencaAnexoAppServico,
-                                      ISiteAppServico siteAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                      IPendenciaAppServico pendenciaAppServico,
+                                      ISiteAppServico siteAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
 
             _licencaAppServico = licencaAppServico;

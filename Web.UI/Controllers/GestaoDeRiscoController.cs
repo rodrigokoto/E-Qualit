@@ -55,8 +55,9 @@ namespace Web.UI.Controllers
                         IProcessoServico processoServico,
                         IProcessoAppServico processoAppServico,
                         IFilaEnvioServico filaEnvioServico,
+                        IPendenciaAppServico pendenciaAppServico,
             IControladorCategoriasAppServico controladorCategoriasServico,
-            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+            IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _analiseCriticaTemaAppServico = analiseCriticaTemaAppServico;
             _registroConformidadesAppServico = registroConformidadesAppServico;

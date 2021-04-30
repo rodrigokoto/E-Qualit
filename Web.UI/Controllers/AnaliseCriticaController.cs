@@ -37,6 +37,7 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
         private readonly IFilaEnvioServico _filaEnvioServico;
+        private readonly IPendenciaAppServico _pendenciaAppServico;
 
         public AnaliseCriticaController(IAnaliseCriticaAppServico analiseCriticaAppServico,
                                         IAnaliseCriticaServico analiseCriticaServico,
@@ -49,7 +50,8 @@ namespace Web.UI.Controllers
                                         IRegistroConformidadesServico registroConformidadesServico,
                                         IProcessoAppServico processoAppServico,
                                         IControladorCategoriasAppServico controladorCategoriasServico,
-                                        IFilaEnvioServico filaEnvioServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico)
+                                        IPendenciaAppServico pendenciaAppServico,
+                                        IFilaEnvioServico filaEnvioServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _analiseCriticaAppServico = analiseCriticaAppServico;
             _analiseCriticaServico = analiseCriticaServico;
@@ -63,6 +65,7 @@ namespace Web.UI.Controllers
             _processoAppServico = processoAppServico;
             _controladorCategoriasServico = controladorCategoriasServico;
             _filaEnvioServico = filaEnvioServico;
+            _pendenciaAppServico = pendenciaAppServico;
         }
 
         [AutorizacaoUsuario((int)FuncoesAnaliseCritica.RegistroDaAta, (int)Funcionalidades.AnaliseCritica)]
