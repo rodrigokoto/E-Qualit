@@ -97,6 +97,11 @@ namespace Web.UI.Controllers
 
             foreach (var cliente in clientes)
             {
+                var siteMapping = _siteAppServico.GetAll().Where(x => x.IdCliente == cliente.IdCliente);
+
+                Site siteAux = new Site();
+
+                siteAux.IdSite = siteMapping.FirstOrDefault().IdSite;
 
                 Anexo clienteLogoAux = new Anexo();
 
@@ -110,12 +115,15 @@ namespace Web.UI.Controllers
                     clienteLogoAux.ClientesLogo = new List<ClienteLogo>();
                 }
 
+
+
                 listaJson.Add(new Cliente()
                 {
                     IdCliente = cliente.IdCliente,
                     NmFantasia = cliente.NmFantasia,
                     ClienteLogoAux = clienteLogoAux,
-                });
+                    Site = siteAux
+                }) ;
 
             }
 
@@ -399,7 +407,8 @@ namespace Web.UI.Controllers
 
                     Response.Cookies.Set(cookie);
                 }
-                else {
+                else
+                {
                     cookie = new HttpCookie("clienteSelecionado");
                     cookie.Expires = DateTime.Now.AddDays(1);
                     Response.Cookies.Set(cookie);

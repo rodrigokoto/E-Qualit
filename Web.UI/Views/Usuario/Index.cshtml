@@ -83,22 +83,24 @@
                                                             <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                         </a>
 
-                                                        <a href="#" class="ativoinativo icon-cargo" data-valor="@item.FlAtivo" data-id="@item.IdUsuario">
-                                                            @Html.Raw(item.FlAtivo ? "<i class=\"fa fa-check  ativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativo + "></i>" : "<i class=\"fa fa-check inativo-color\" aria-hidden=\"true\" data-toggle=\"tooltip\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + "></i>")
+                                                        <a href="#" class="ativoinativo icon-cargo" data-valor="@item.FlAtivo" data-idCliente="@ViewBag.IdCliente" data-id="@item.IdUsuario">
+                                                            @Html.Raw(item.FlAtivo ? "<i class=\"fa fa-check  ativo-color\" aria-hidden=\"true\" data-toggle=\"modal\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_ativo + "  data-target=\"modal-panel-migracao-inativo\"></i>" : "<i class=\"fa fa-check inativo-color\" aria-hidden=\"true\" data-toggle=\"modal\" title=" + @Traducao.Shared.ResourceButtons.btn_lbl_inativo + " data-target=\"modal-panel-migracao-inativo\"></i>")
                                                         </a>
-                                                     
+
 
                                                         <a href="#" class="naoRecebeEmail icon-cargo @(item.FlRecebeEmail == false?"inativo-color":"ativo-color")" data-valor="@item.FlAtivo" data-id="@item.IdUsuario" data-idUsuario="@item.IdUsuario">
                                                             <i class="fa @(item.FlRecebeEmail == false?"fa-envelope":"fa-envelope-open")" aria-hidden="true" data-toggle="tooltip" title="@(item.FlRecebeEmail == false? @Traducao.Shared.ResourceButtons.btn_lbl_nao_receber_email : @Traducao.Shared.ResourceButtons.btn_lbl_receber_email)"></i>
                                                         </a>
-                                                  
+
+
+
                                                         @*<a href="#" class="abreModalMigracao icon-cliente trash-color" data-idCliente="@ViewBag.IdCliente" data-id="@item.IdUsuario">
-                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="modal" data-target="modal-panel-migracao" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                        </a>*@
+                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="modal" data-target="modal-panel-migracao" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                            </a>*@
 
                                                         @*<a href="" class="icon-cliente user-color" title="@Traducao.Resource.VisualizarRevisoes">
-                                                            <i class="fa fa-archive" aria-hidden="true" data-original-title="Visualizar Revisões" ></i>
-                                                        </a>*@
+                                                                <i class="fa fa-archive" aria-hidden="true" data-original-title="Visualizar Revisões" ></i>
+                                                            </a>*@
 
                                                     </div>
                                                 </td>
@@ -116,10 +118,10 @@
 </div>
 
 
-<div id="modal-panel-migracao" class="modal fade" role="dialog" style="width: 40%; margin-left: 30%">
-    <div class="modal-dialog modal-lg" style="text-align:left!important;">
-        <!-- Modal content-->
-        <div class="modal-content">
+<!--<div id="modal-panel-migracao" class="modal fade" role="dialog" style="width: 40%; margin-left: 30%">
+    <div class="modal-dialog modal-lg" style="text-align:left!important;">-->
+<!-- Modal content-->
+<!--<div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
@@ -141,43 +143,112 @@
                     <strong>@Traducao.Usuario.ResourceUsuario.AtencaoParaExcluirEsseUsuarioVoceDevePrimeiroCadastrarOutroComOMesmoCargo</strong>
                 </div>
 
-                <button type="button" id="btnExcluir" class="btn btn-primary btnExcluir ">@Traducao.Resource.Excluir</button>
+                <button type="button" id="btnExcluir" class="btn btn-primary btnExcluir ">Inativar</button>
 
             </div>
         </div>
 
         <div class="modal-footer">
-            
+
+        </div>
+    </div>
+</div>-->
+
+
+<div id="modal-panel-migracao-inativo" class="modal fade" role="dialog" style="width: 40%; margin-left: 30%">
+    <div class="modal-dialog modal-lg" style="text-align:left!important;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="fa fa-times-circle-o black-color" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-original-title="@Traducao.Resource.Fechar"></i>
+                </button>
+                <h4 class="modal-title">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_titulo</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <input type="hidden" id="idClienteMigracaoAtualIn" value="" />
+                <input type="hidden" id="idUsuarioMigracaoAtualIn" value="" />
+                <input type="hidden" id="flStatusUsu" value="" />
+
+                <div class="form-group comboUsuarios">
+                    <label for="IdUsuarioMigracao" class="control-label">@Traducao.Usuario.ResourceUsuario.UsuarioMigracaoPendencias:</label>
+                    <select id="IdUsuarioMigracao" name="IdUsuarioMigracao" class="form-control"></select>
+                </div>
+
+                <div class="alert alert-danger alertaPendencias">
+                    <strong>Atenção: para inativar esse usuario você deve cadastrar primeiro outro com o mesmo cargo para migrar suas pendências.</strong>
+                </div>
+
+
+                <button type="button" id="btnInativar" class="btn btn-primary btnInativar ">Ativar / Inativar</button>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+
         </div>
     </div>
 </div>
 
-
 <script>
 
-    
+
     $('.ativoinativo').on('click', function () {
 
-        var idCliente = $('[name=IdCliente]').val();
-        var idUsuario = $(this).data('id');
-        var AtivoInativo = $(this).find('i').attr("title");
+        APP.component.Loading.showLoading();
 
-        var msgIconeAtivoAtivar = $('[name=msgIconeAtivoAtivar]').val();
-        var msgIconeAtivoInativar = $('[name=msgIconeAtivoInativar]').val();
+        var idCliente = $(this).attr('data-idcliente');
+        var idUsuario = $(this).attr('data-id');
+        var flStatus = $(this).attr('data-valor');
 
-        if (AtivoInativo != "Ativo") {
-            bootbox.confirm(msgIconeAtivoAtivar, function (result) {
-                if (result == true) {
-                    APP.controller.UsuarioController.getMsgIconeAtivo(idUsuario, idCliente);
-                }
-            });
-        } else {
-            bootbox.confirm(msgIconeAtivoInativar, function (result) {
-                if (result == true) {
-                    APP.controller.UsuarioController.getMsgIconeAtivo(idUsuario, idCliente);
-                }
-            });
+        console.log(flStatus);
+
+
+        if (flStatus == 'False') {
+            $(".comboUsuarios").hide();
+            $(".alertaPendencias").hide();
         }
+        else {
+            var Lista = APP.controller.UsuarioController.getUsuarioMigracaoPorSite();
+
+            if (Lista != null && Lista.length > 0) {
+                APP.component.SelectListCompare.selectList(Lista, $('[name=IdUsuarioMigracao] option'), $('[name=IdUsuarioMigracao]'), 'IdUsuario', 'NmCompleto');
+
+                $(".alertaPendencias").hide();
+                $(".comboUsuarios").show();
+            }
+            else {
+                $(".alertaPendencias").show();
+                $(".comboUsuarios").hide();
+            }
+        }
+
+        $("#idUsuarioMigracaoAtualIn").val(idUsuario);
+        $("#idClienteMigracaoAtualIn").val(idCliente);
+
+        $('#modal-panel-migracao-inativo').modal('show');
+
+
+
+
+        APP.component.Loading.hideLoading();
+
+        //if (AtivoInativo != "Ativo") {
+        //    bootbox.confirm(msgIconeAtivoAtivar, function (result) {
+        //        if (result == true) {
+        //            APP.controller.UsuarioController.getMsgIconeAtivo(idUsuario, idCliente);
+        //        }
+        //    });
+        //} else {
+        //    bootbox.confirm(msgIconeAtivoInativar, function (result) {
+        //        if (result == true) {
+        //            APP.controller.UsuarioController.getMsgIconeAtivo(idUsuario, idCliente);
+        //        }
+        //    });
+        //}
 
     });
 
@@ -235,14 +306,8 @@
 
         APP.component.Loading.showLoading();
 
-        $('#modal-panel-migracao').modal('show'); 
+        $('#modal-panel-migracao').modal('show');
 
-        var idCliente = $(this).attr('data-idcliente');
-        var idUsuario = $(this).attr('data-id');
-        
-        $("#idUsuarioMigracaoAtual").val(idUsuario);
-        $("#idClienteMigracaoAtual").val(idCliente);
-        
 
         var Lista = APP.controller.UsuarioController.getUsuarioMigracaoPorSite();
 
@@ -267,7 +332,7 @@
 
         $.ajaxSetup({ async: false });
 
-        $('#modal-panel-migracao').modal('hide'); 
+        $('#modal-panel-migracao').modal('hide');
 
         var idCliente = $("#idClienteMigracaoAtual").val();
         var idUsuario = $("#idUsuarioMigracaoAtual").val();
@@ -280,6 +345,24 @@
                 APP.controller.UsuarioController.getMsgIconeExcluir(idUsuario, idCliente, idUsuarioMigracao);
             }
         });
+
+        $.ajaxSetup({ async: true });
+
+    });
+
+
+    $('.btnInativar').on('click', function () {
+
+        $.ajaxSetup({ async: false });
+
+        $('#modal-panel-migracao-inativo').modal('hide');
+
+        var idCliente = $("#idClienteMigracaoAtualIn").val();
+        var idUsuario = $("#idUsuarioMigracaoAtualIn").val();
+
+        var idUsuarioMigracao = $("#IdUsuarioMigracao").val();
+
+        APP.controller.UsuarioController.getMsgIconeInativar(idUsuario, idCliente, idUsuarioMigracao);
 
         $.ajaxSetup({ async: true });
 

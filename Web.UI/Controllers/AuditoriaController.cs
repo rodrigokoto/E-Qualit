@@ -1,5 +1,6 @@
 ﻿using ApplicationService.Interface;
 using Dominio.Entidade;
+using Dominio.Enumerado;
 using Dominio.Interface.Servico;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ namespace Web.UI.Controllers
             var pai = _paiAppServico.GetById(id);
 
             _paiAppServico.Remove(pai);
-
+            GravarLogExclusao((int)Funcionalidades.Auditoria, pai.IdPai);
             return Json(new { StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
         }
 
@@ -252,10 +253,12 @@ namespace Web.UI.Controllers
                         if (plai.IdPlai == 0)
                         {
                             _plaiAppServico.Add(plai);
+                            GravarLogInclusao((int)Funcionalidades.Auditoria, plai.IdPlai);
                         }
                         else
                         {
                             _plaiAppServico.Update(plai);
+                            GravarLogAlteracao((int)Funcionalidades.Auditoria, plai.IdPlai);
                         }
                     });
                 }
@@ -268,6 +271,8 @@ namespace Web.UI.Controllers
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
+
+            
 
             return Json(
                 new

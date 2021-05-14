@@ -33,6 +33,7 @@ namespace Web.UI.Controllers
         private readonly IUsuarioAnexoAppServico _usuarioAnexoAppServico;
         private readonly IClienteServico _clienteServico;
         private readonly IProcessoAppServico _processoAppServico;
+        private readonly IPendenciaAppServico _pendenciaAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
 
         public UsuarioController(ISiteAppServico siteAppServico,
@@ -48,7 +49,7 @@ namespace Web.UI.Controllers
                                 IClienteServico clienteServico,
                                 IProcessoAppServico processoAppServico,
                                 IPendenciaAppServico pendenciaAppServico,
-            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
+            IControladorCategoriasAppServico controladorCategoriasServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             ViewBag.IdForm = "frmUsuario";
             _usuarioClienteSiteAppServico = usuarioClienteSiteAppServico;
@@ -61,6 +62,7 @@ namespace Web.UI.Controllers
             _usuarioSenhaServico = usuarioSenhaServico;
             _usuarioAnexoAppServico = usuarioAnexoAppServico;
             _cargoAppServico = cargoAppServico;
+            _pendenciaAppServico = pendenciaAppServico;
 
             //_clienteAppServico = clienteAppServico;
             _clienteServico = clienteServico;
@@ -69,12 +71,12 @@ namespace Web.UI.Controllers
         }
 
         [AcessoUsuarioSite]
-        public ActionResult Index(int? id, int ? idSite)
+        public ActionResult Index(int? id, int? idSite)
         {
             var usuarios = new List<Usuario>();
             var idPerfil = Util.ObterPerfilUsuarioLogado();
             var idCliente = Util.ObterClienteSelecionado();
-            
+
             var idUsuarioLogado = Util.ObterCodigoUsuarioLogado();
 
 
@@ -86,7 +88,7 @@ namespace Web.UI.Controllers
             {
                 if (id.HasValue)
                 {
-                    usuarios.AddRange(_usuarioClienteSiteAppServico.Get(y => y.IdCliente == id.Value && (idSite == null ||  idSite == 0 || y.IdSite == idSite)).Select(d => d.Usuario).Distinct().ToList());
+                    usuarios.AddRange(_usuarioClienteSiteAppServico.Get(y => y.IdCliente == id.Value && (idSite == null || idSite == 0 || y.IdSite == idSite)).Select(d => d.Usuario).Distinct().ToList());
                     SetCookieClienteSelecionado(id.Value);
                 }
                 else
@@ -149,7 +151,7 @@ namespace Web.UI.Controllers
             var usuario = _usuarioAppServico.GetById(id);
 
             var idCliente = usuario.UsuarioClienteSites.FirstOrDefault().IdCliente;
-            
+
             ViewBag.IdCliente = cliente != 0 ? cliente : idCliente;
 
             ViewBag.IdSite = IdSite != 0 ? IdSite : Util.ObterSiteSelecionado();
@@ -221,8 +223,8 @@ namespace Web.UI.Controllers
             catch
             {
                 return Json(new { StatusCode = 200, Success = Traducao.Usuario.ResourceUsuario.Usuario_msg_ErroEnviarEmail }, JsonRequestBehavior.AllowGet);
-            }           
-            
+            }
+
         }
 
         private void TrataUsuarioCriacao(Usuario usuario)
@@ -309,12 +311,13 @@ namespace Web.UI.Controllers
             usuario.IdUsuarioIncluiu = Util.ObterCodigoUsuarioLogado();
         }
 
-        private void TratarUsuarioCargo(Usuario usuario) {
+        private void TratarUsuarioCargo(Usuario usuario)
+        {
 
             var cargos = _usuarioCargoAppServico.GetAll().Where(x => x.IdUsuario == usuario.IdUsuario).ToList();
 
             var cargos_t = cargos;
-            
+
             for (int i = 0; i < cargos.Count(); i++)
             {
                 _usuarioCargoAppServico.Remove(cargos_t[i]);
@@ -326,7 +329,7 @@ namespace Web.UI.Controllers
 
                 _usuarioCargoAppServico.Add(usuarioCargo);
             }
-            
+
         }
 
         [HttpPost]
@@ -352,17 +355,17 @@ namespace Web.UI.Controllers
                     if (usuario.FotoPerfilAux.IdAnexo == 0 && usuario.FotoPerfilAux.ArquivoB64 != null)
                     {
 
-                            usuario.FotoPerfil.Add(new UsuarioAnexo
-                            {
-                                IdUsuario = usuario.IdPerfil,
-                                Anexo = usuario.FotoPerfilAux
-                            });
-                            _usuarioAnexoAppServico.Add(new UsuarioAnexo
-                            {
-                                IdUsuario = usuario.IdUsuario,
-                                Anexo = usuario.FotoPerfilAux
-                            });
-                            _anexoAppServico.Add(usuario.FotoPerfilAux);
+                        usuario.FotoPerfil.Add(new UsuarioAnexo
+                        {
+                            IdUsuario = usuario.IdPerfil,
+                            Anexo = usuario.FotoPerfilAux
+                        });
+                        _usuarioAnexoAppServico.Add(new UsuarioAnexo
+                        {
+                            IdUsuario = usuario.IdUsuario,
+                            Anexo = usuario.FotoPerfilAux
+                        });
+                        _anexoAppServico.Add(usuario.FotoPerfilAux);
                     }
                     else if (usuario.FotoPerfilAux.IdAnexo > 0)
                     {
@@ -469,11 +472,12 @@ namespace Web.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult ObterUsuariosPorFuncaoSiteEProcesso(int ? idProcesso= null, int? idSite = null, int? idFuncao = null)
+        public JsonResult ObterUsuariosPorFuncaoSiteEProcesso(int? idProcesso = null, int? idSite = null, int? idFuncao = null)
         {
             var usuarios = new List<Usuario>();
 
-            using (var db = new BaseContext()) {
+            using (var db = new BaseContext())
+            {
 
                 var usuariodb = (from usu in db.Usuario
                                  join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
@@ -482,7 +486,7 @@ namespace Web.UI.Controllers
 
                 usuarios = usuariodb;
             }
-            
+
             //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, null));
 
             var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
@@ -572,9 +576,9 @@ namespace Web.UI.Controllers
             var usuarios = new List<Usuario>();
 
             Usuario usuario = _usuarioAppServico.GetById(IdUsuario);
-            
-            usuarios = _usuarioAppServico.Get(x => x.IdUsuario != IdUsuario && x.UsuarioClienteSites.Select(y=> y.IdSite).Contains(IdSite)).Where(x=> (VerificaCargos(x, usuario) || x.IdPerfil == (int)PerfisAcesso.Coordenador)).ToList();
-            
+
+            usuarios = _usuarioAppServico.Get(x => x.IdUsuario != IdUsuario && x.UsuarioClienteSites.Select(y => y.IdSite).Contains(IdSite)).Where(x => (VerificaCargos(x, usuario) || x.IdPerfil == (int)PerfisAcesso.Coordenador)).ToList();
+
             var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
 
             return Json(new { StatusCode = HttpStatusCode.OK, Lista = usuariosLista }, JsonRequestBehavior.AllowGet);
@@ -586,17 +590,17 @@ namespace Web.UI.Controllers
 
             usuarioAtual.UsuarioCargoes.Select(y => y.IdCargo).ToList().ForEach(cargo =>
             {
-                if (!usuarioQuery.UsuarioCargoes.Select(x=> x.IdCargo).Contains(cargo))
+                if (!usuarioQuery.UsuarioCargoes.Select(x => x.IdCargo).Contains(cargo))
                 {
                     retorno = false;
-                }                    
+                }
             });
 
             return retorno;
         }
 
         [HttpGet]
-        public JsonResult ObterUsuariosPorFuncao(int ? idSite = null, int ? idFuncao = null)
+        public JsonResult ObterUsuariosPorFuncao(int? idSite = null, int? idFuncao = null)
         {
             var usuarios = new List<Usuario>();
 
@@ -644,7 +648,7 @@ namespace Web.UI.Controllers
 
             return Json(new { StatusCode = HttpStatusCode.OK, Lista = usuariosLista }, JsonRequestBehavior.AllowGet);
         }
-        
+
 
         public JsonResult ObterUsuarioLogado()
         {
@@ -692,7 +696,7 @@ namespace Web.UI.Controllers
 
         [HttpPost]
         public JsonResult AlterarSenha(Usuario Usuario, string NovaSenha, string ConfirmaSenha)
-         {
+        {
             List<string> erros = new List<string>();
 
             Usuario.CdSenha = UtilsServico.Sha1Hash(Usuario.CdSenha);
@@ -775,7 +779,7 @@ namespace Web.UI.Controllers
                 usuario.IdPerfil = Util.ObterPerfilUsuarioLogado();
 
                 _usuarioServico.ValidoAtualizarMeusDados(usuario, ref erros);
-                
+
                 if (erros.Count > 0)
                 {
                     return Json(new { StatusCode = 505, Erros = erros }, JsonRequestBehavior.AllowGet);
@@ -814,6 +818,36 @@ namespace Web.UI.Controllers
             }
 
             return Json(new { StatusCode = 200, Success = Traducao.Usuario.ResourceUsuario.Usuario_msg_editar_valid }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        public ActionResult InativarMigracao(int idUsuario, int? idUsuarioMigracao, int idCliente)
+        {
+
+            var erros = new List<string>();
+
+            var resposta = _usuarioAppServico.AtivarInativar(idUsuario);
+
+            var site = _siteAppServico.GetAll().Where(x => x.IdCliente == idCliente).FirstOrDefault();
+
+            if (idUsuarioMigracao != null) { 
+                try
+                {
+                    _pendenciaAppServico.AlterarPendencia((int)idUsuarioMigracao, idUsuario, site.IdSite, site.IdCliente);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+            if (!resposta)
+            {
+                return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { StatusCode = 200, Success = Traducao.Usuario.ResourceUsuario.Usuario_msg_icone_ativo_valid }, JsonRequestBehavior.AllowGet);
 
         }
 

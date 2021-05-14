@@ -112,6 +112,8 @@ namespace Web.UI.Controllers
                 {
                     _licencaAppServico.Add(licenca);
                     _licencaAppServico.SalvarArquivoLicenca(licenca);
+                    GravarLogInclusao((int)Funcionalidades.Licencas, licenca.IdLicenca);
+
                 }
                 return Json(new { StatusCode = 200, IdLicenca = licenca.IdLicenca, Success = "Licença incluida com sucesso" }, JsonRequestBehavior.AllowGet);
             }
@@ -188,6 +190,8 @@ namespace Web.UI.Controllers
                     }
                     _licencaAppServico.SalvarArquivoLicenca(licenca);
                 }
+                GravarLogAlteracao((int)Funcionalidades.Licencas, licenca.IdLicenca);
+
                 return Json(new { StatusCode = 200, IdLicenca = licenca.IdLicenca, Success = "Licença alterada com sucesso" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

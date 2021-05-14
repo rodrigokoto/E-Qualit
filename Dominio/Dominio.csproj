@@ -406,6 +406,7 @@
     <Compile Include="Servico\RegistroQualificacaoServico.cs" />
     <Compile Include="Servico\RegistroAuditoriaServico.cs" />
     <Compile Include="Servico\UsuarioSenhaServico.cs" />
+    <Compile Include="Util\EnumHelper.cs" />
     <Compile Include="Validacao\AnaliseCriticas\GestaoDeRiscoDeveTerCriticidadeMediaOuAltaValidation.cs" />
     <Compile Include="Servico\FuncionalidadeServico.cs" />
     <Compile Include="Servico\HistoricoCriterioAvaliacaoServico.cs" />

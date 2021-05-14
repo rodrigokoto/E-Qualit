@@ -190,6 +190,75 @@ APP.controller.UsuarioController = {
 
     },
 
+    getMsgIconeInativar: function (_idUsuario, _idCliente, _idUsuarioMigracao) {
+
+        var idSite = $("#IdSite").val();
+
+        if (_idUsuarioMigracao == null)
+        {
+            var erro = "";
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: '/Usuario/InativarMigracao?idUsuario=' + _idUsuario + "&idCliente=" + _idCliente,
+                beforeSend: function () {
+                    APP.component.Loading.showLoading();
+                },
+                success: function (result) {
+                    if (result.StatusCode == 200) {
+                        window.location.href = "/Usuario/Index/" + _idCliente + "?idSite=" + idSite;
+                    } else if (result.StatusCode == 505) {
+                        erro = APP.component.ResultErros.init(result.Erro);
+                        bootbox.alert(erro);
+                    } else if (result.StatusCode == 500) {
+                        erro = APP.component.ResultErros.init(result.Erro);
+                        bootbox.alert(erro);
+                    }
+
+                },
+                error: function (result) {
+                    erro = APP.component.ResultErros.init(result.Erro);
+                    bootbox.alert(erro);
+                },
+                complete: function (result) {
+                    APP.component.Loading.hideLoading();
+                }
+            });
+        }
+        else
+        {
+
+            var erro = "";
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: '/Usuario/InativarMigracao?idUsuario=' + _idUsuario + "&idUsuarioMigracao=" + _idUsuarioMigracao + "&idCliente=" + _idCliente,
+                beforeSend: function () {
+                    APP.component.Loading.showLoading();
+                },
+                success: function (result) {
+                    if (result.StatusCode == 200) {
+                        window.location.href = "/Usuario/Index/" + _idCliente + "?idSite=" + idSite;
+                    } else if (result.StatusCode == 505) {
+                        erro = APP.component.ResultErros.init(result.Erro);
+                        bootbox.alert(erro);
+                    } else if (result.StatusCode == 500) {
+                        erro = APP.component.ResultErros.init(result.Erro);
+                        bootbox.alert(erro);
+                    }
+
+                },
+                error: function (result) {
+                    erro = APP.component.ResultErros.init(result.Erro);
+                    bootbox.alert(erro);
+                },
+                complete: function (result) {
+                    APP.component.Loading.hideLoading();
+                }
+            });
+        }
+    },
+
     getMsgIconeExcluir: function (_idUsuario, _idCliente, _idUsuarioMigracao) {
 
         var idSite = $("#IdSite").val();
@@ -319,7 +388,7 @@ APP.controller.UsuarioController = {
 
     },
 
-    
+
 
 
     getComboPerfilUsuario: function (_url, _box) {
@@ -874,7 +943,7 @@ APP.controller.UsuarioController = {
 
         if (form != "meusdados") {
             idCliente = $("[name=idCliente]").val();
-                //usuarioObj.UsuarioClienteSites[0].IdCliente;
+            //usuarioObj.UsuarioClienteSites[0].IdCliente;
         }
 
         var idSite = $("#IdSite").val();
@@ -921,11 +990,10 @@ APP.controller.UsuarioController = {
         APP.component.Loading.showLoading();
 
         var IdSite = $('#IdSite').val();
-        var IdUsuario = $('#idUsuarioMigracaoAtual').val();
         var retorno = [];
         $.ajaxSetup({ async: false });
 
-        $.get('/Usuario/ObterUsuariosMigracao?IdSite=' + IdSite + '&IdUsuario=' + IdUsuario, (result) => {
+        $.get('/Usuario/ObterUsuariosPorFuncaoSiteEProcesso?idSite=' + IdSite, (result) => {
             if (result.StatusCode == 200) {
                 APP.component.Loading.hideLoading();
                 retorno = result.Lista;

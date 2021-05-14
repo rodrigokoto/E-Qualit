@@ -13,6 +13,7 @@ using System.Data.Entity;
 using DAL.Context;
 using Newtonsoft.Json;
 using Highsoft.Web.Mvc.Charts;
+using Dominio.Enumerado;
 
 namespace Web.UI.Controllers
 {
@@ -151,7 +152,7 @@ namespace Web.UI.Controllers
                     if (indicador.Id == 0)
                     {
                         _indicadorAppServico.Add(indicador);
-
+                        GravarLogInclusao((int)Funcionalidades.Indicadores, indicador.Id);
                     }
                     else
                     {
@@ -169,6 +170,7 @@ namespace Web.UI.Controllers
                         ind.Unidade = indicador.Unidade;
 
                         _indicadorAppServico.Update(ind);
+                        GravarLogAlteracao((int)Funcionalidades.Indicadores, indicador.Id);
 
                     }
                 }
@@ -280,7 +282,7 @@ namespace Web.UI.Controllers
                 IsJavaScriptDisabled = false, 
                 CustomSwitches = "--debug-javascript --no-stop-slow-scripts --javascript-delay 10000"
             };
-
+            GravarLogImpressao((int)Funcionalidades.Indicadores, indicador.Id);
             return pdf;
         }
 

@@ -1296,6 +1296,8 @@ namespace Web.UI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            GravarLogInclusao((int)Funcionalidades.ControlDoc, doc.IdDocumento);
+
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success, IdDocumento = doc.IdDocumento }, JsonRequestBehavior.AllowGet);
 
         }
@@ -1500,6 +1502,7 @@ namespace Web.UI.Controllers
 
                 return Json(new { StatusCode = (int)HttpStatusCode.InternalServerError, Erro = ex.ToString() }, JsonRequestBehavior.AllowGet);
             }
+            GravarLogAlteracao((int)Funcionalidades.ControlDoc, documentoEditado.IdDocumento);
             return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
         }
 

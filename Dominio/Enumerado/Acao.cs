@@ -20,5 +20,14 @@ namespace Dominio.Enumerado
         ListaProcessosPorUsuario = 7,
         [Description("Servico Mensageiro")]
         ServicoMensageiro = 8,
+        [Description("Salvar")]
+        Salvar = 9,
+        [Description("Alterar")]
+        Alterar = 10,
+        [Description("Excluir")]
+        Excluir = 11,
+        [Description("Impressão")]
+        Impressao = 12,
+
     }
 }

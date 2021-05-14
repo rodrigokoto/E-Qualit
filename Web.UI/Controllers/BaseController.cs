@@ -35,7 +35,7 @@ namespace Web.UI.Controllers
         private readonly IPendenciaAppServico _pendenciaAppServico;
 
 
-        public BaseController(ILogAppServico logServico, IUsuarioAppServico usuarioAppServico, IProcessoAppServico processoAppServico, IControladorCategoriasAppServico controladorCategoriasServico , IPendenciaAppServico pedenciaAppServico)
+        public BaseController(ILogAppServico logServico, IUsuarioAppServico usuarioAppServico, IProcessoAppServico processoAppServico, IControladorCategoriasAppServico controladorCategoriasServico, IPendenciaAppServico pedenciaAppServico)
         {
             _logServico = logServico;
             _usuarioAppServico = usuarioAppServico;
@@ -90,6 +90,8 @@ namespace Web.UI.Controllers
 
                         if (usuarioLogadoBase != null)
                         {
+
+                            ViewBag.UsuarioLogadoBase = usuarioLogadoBase;
 
                             if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 3)
                             {
@@ -218,15 +220,15 @@ namespace Web.UI.Controllers
                     if (idSite != 0)
                     {
 
-                        
+
 
                         if (usuarioLogadoBase.IdPerfil == 1 || usuarioLogadoBase.IdPerfil == 2 || usuarioLogadoBase.IdPerfil == 3)
                         {
-                            ViewBag.Pendencia = _pendenciaAppServico.PendeciaPorSite(idSite , idCliente);
+                            ViewBag.Pendencia = _pendenciaAppServico.PendeciaPorSite(idSite, idCliente);
                         }
                         else
                         {
-                            ViewBag.Pendencia = _pendenciaAppServico.PendeciaPorUsuario(idSite, idCliente ,  usuarioLogadoBase.IdUsuario);
+                            ViewBag.Pendencia = _pendenciaAppServico.PendeciaPorUsuario(idSite, idCliente, usuarioLogadoBase.IdUsuario);
                         }
                     }
                     else
@@ -286,6 +288,10 @@ namespace Web.UI.Controllers
 
             ViewBag.Permissoes = Util.ObterPermissoes();
             //ViewBag.ProcessoSelecionado = Util.ObterProcessoSelecionado();
+            //ViewBag.UsuarioLogadoBase = 
+
+
+
 
             try
             {
@@ -359,6 +365,52 @@ namespace Web.UI.Controllers
             _logServico.Add(log);
         }
 
+        public void GravarLogInclusao(int modulo, int? id)
+        {
+
+            var log = new Log(Util.ObterCodigoUsuarioLogado(),
+                              Convert.ToInt32(Acao.Salvar),
+                              Util.GetIp(HttpContext),
+                              Util.GetBrowser(HttpContext),
+                              modulo,
+                              id);
+
+            _logServico.Add(log);
+        }
+        public void GravarLogAlteracao(int modulo, int? id) 
+        {
+            var log = new Log(Util.ObterCodigoUsuarioLogado(),
+                               Convert.ToInt32(Acao.Alterar),
+                               Util.GetIp(HttpContext),
+                               Util.GetBrowser(HttpContext),
+                               modulo,
+                               id);
+
+            _logServico.Add(log);
+        }
+        public void GravarLogExclusao(int modulo, int? id) 
+        {
+            var log = new Log(Util.ObterCodigoUsuarioLogado(),
+                               Convert.ToInt32(Acao.Excluir),
+                               Util.GetIp(HttpContext),
+                               Util.GetBrowser(HttpContext),
+                               modulo,
+                               id);
+
+            _logServico.Add(log);
+        }
+
+        public void GravarLogImpressao(int modulo, int? id)
+        {
+            var log = new Log(Util.ObterCodigoUsuarioLogado(),
+                               Convert.ToInt32(Acao.Impressao),
+                               Util.GetIp(HttpContext),
+                               Util.GetBrowser(HttpContext),
+                               modulo,
+                               id);
+
+            _logServico.Add(log);
+        }
         public void EscolheProcesso(string idProcesso, string nomeProcesso)
         {
             try

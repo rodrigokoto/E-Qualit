@@ -70,11 +70,8 @@
                         <div class="col-lg-8 col-md-5 col-sm-9 col-xs-12">
                             <div class="form-group">
                                 <label for="form-cria-usuario-responsavel">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Responsavel</label>
-                                <input type="text" name="formCriaUsuarioResponsavel" id="form-cria-usuario-responsavel" class="form-control"
-                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Responsavel"
-                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Responsavel"
-                                       data-msg-maxlength="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Responsavel_maxlength"
-                                       value="@Model.NmCompleto">
+                                @Model.NmCompleto
+                                <br />
                             </div>
                         </div>
                         <!-- Sexo -->
@@ -82,22 +79,16 @@
                         <div class="col-lg-6 col-md-4 col-sm-5 col-xs-12">
                             <div class="form-group">
                                 <label for="form-cria-usuario-email">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Email</label>
-                                <input type="email" name="formCriaUsuarioEmail" id="form-cria-usuario-email" class="form-control"
-                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Email"
-                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Email"
-                                       data-msg-email="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_email_error_format"
-                                       data-msg-maxlength="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Email_maxlength"
-                                       value="@Model.CdIdentificacao">
+                                @Model.CdIdentificacao
+                                <br />
                             </div>
                         </div>
                         <!-- CPF -->
                         <div class="col-lg-4 col-md-2 col-sm-5 col-xs-12">
                             <div class="form-group">
                                 <label for="form-cria-usuario-cpf">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_CPF</label>
-                                <input type="text" name="formCriaUsuarioCpf" id="form-cria-usuario-cpf" class="form-control input-cpf"
-                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_CPF"
-                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF"
-                                       value="@Model.NuCPF">
+                                @Model.NuCPF
+                                <br />
                             </div>
                         </div>
                     </div>
@@ -110,8 +101,8 @@
 <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="row pull-right">
         <div class="col-md-12">
-            <button type="submit" id="btnSalvar" class="btn btn-primary btn-salvar">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>
-            <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Usuario", new { id = ViewBag.IdCliente }, null)</button>
+            @*<button type="submit" id="btnSalvar" class="btn btn-primary btn-salvar">@Traducao.Shared.ResourceButtons.btn_lbl_salvar</button>*@
+            @*<button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "Index", "Usuario", new { id = ViewBag.IdCliente }, null)</button>*@
         </div>
     </div>
 </div>

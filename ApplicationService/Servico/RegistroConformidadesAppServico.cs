@@ -272,17 +272,18 @@ namespace ApplicationService.Servico
             if (gestaoDeRisco.OStatusEImplementacao() && temAcoesImediataParaAtualizar == false)
             {
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(gestaoDeRisco, objCtx);
-
+                return objCtx;
             }
-            if (gestaoDeRisco.OStatusEAcaoImediata() && temAcoesImediataParaAtualizar == true)
+            else if (gestaoDeRisco.OStatusEAcaoImediata() && temAcoesImediataParaAtualizar == true)
             {
                 TrataRegistroQuandoEntraEmFaseDeImplementacao(gestaoDeRisco, objCtx);
                 objCtx.StatusEtapa = 2;
-
+                return objCtx;
             }
             else if (gestaoDeRisco.OStatusEImplementacao() && temAcoesImediataParaAtualizar == true)
             {
                 TrataQuandoResponsavelPorAcaoImediataAtualizaADataDeImplementacao(gestaoDeRisco, listaAcaoImediataUpdate, objCtx);
+                return objCtx;
             }
             else if (gestaoDeRisco.OStatusEReverificacao() && temAcoesImediataParaAtualizar == true)
             {
@@ -315,13 +316,14 @@ namespace ApplicationService.Servico
                 objCtx.DescricaoRegistro = gestaoDeRisco.DescricaoRegistro;
 
                 TrataRegistroAprovacaoReverificador(gestaoDeRisco, listaAcaoImediataUpdate.ToList(), objCtx);
-
+                return objCtx;
             }
             else
             {
                 TrataRegistroAprovacaoReverificador(gestaoDeRisco, listaAcaoImediataUpdate.ToList(), objCtx);
+                return objCtx;
             }
-            return objCtx;
+
         }
         private RegistroConformidade TrataNC(RegistroConformidade naoConformidade)
         {

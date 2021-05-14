@@ -56,6 +56,8 @@ APP.controller.FornecedoresController = {
         this.buttonSaveNovoCriterioAvaliacaoFormCriteriosAvaliacao = $('.btn-confirm-criterios-avaliacao');
         this.buttonDelNovoCriterioAvaliacaoFormCriteriosAvaliacao = $('.btn-del-criterios-avaliacao');
 
+        this.buttonExcluirAva = $('.excluir-ava')
+
         this.btnImprimir = $('.btn-imprimir');
         
     },
@@ -1308,8 +1310,75 @@ APP.controller.FornecedoresController = {
         {
             $('.delete-anexo').hide()
         }
+
+        this.deleteAvaliaCriterioAvaliacao();
     },
 
+ 
+    deleteAvaliaCriterioAvaliacao: function () {
+        this.buttonExcluirAva.unbind('click');
+        this.buttonExcluirAva.on('click', function () {
+
+            var id = $(this).attr("data-id");
+
+            var data = {
+                "id": id,
+            };
+
+            bootbox.dialog({
+                message: "Deseja excluir a avaliação ?",
+                onEscape: true,
+                backdrop: true,
+                buttons: {
+
+                    Cancelar: {
+                        label: 'Cancelar',
+                        className: 'btn-primary',
+                        callback: function (e) {
+                            e.preventDefault;
+                            bootbox.hideAll();
+                        }
+                    },
+                    Ok: {
+                        label: 'Ok',
+                        className: 'btn-primary',
+                        callback: function (e) {
+                            $.ajax({
+                                type: "POST",
+                                dataType: 'json',
+                                data: data,
+                                url: "/Fornecedor/ExecluirCriterioAvaliacao",
+                                beforeSend: function () {
+                                    APP.component.Loading.showLoading();
+                                },
+                                success: function (result) {
+
+                                    if (result.StatusCode == 200) {
+                                        bootbox.alert("Anexo Excluido com sucesso");
+                                        window.location.reload();
+                                    } else if (result.StatusCode == 505) {
+                                        erro = APP.component.ResultErros.init(result.Erro);
+                                        bootbox.alert(erro);
+                                    } else if (result.StatusCode == 500) {
+                                        erro = APP.component.ResultErros.init(result.Erro);
+                                        bootbox.alert(erro);
+                                    }
+
+                                },
+                                error: function (result) {
+                                    erro = APP.component.ResultErros.init(result.Erro);
+                                    bootbox.alert(erro);
+                                },
+                                complete: function (result) {
+                                    APP.component.Loading.hideLoading();
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        });
+    },
     formDeleteAnexo: function () {
         this.buttonExcluirAnexo.unbind('click');
         this.buttonExcluirAnexo.on('click', function () {

@@ -1877,12 +1877,14 @@ APP.component.UserMenu = {
                                 img = val.ClienteLogoAux.ArquivoB64;
                             }
 
-                            htmlCliente += '<!-- Cliente - ' + val.IdCliente + ' -->';
+                           
+                            htmlCliente += '<!-- Site - ' + val.NmFantasia + ' -->';
                             htmlCliente += '<div class="col-md-2">';
                             htmlCliente += '<div class="box-clientes">';
-                            htmlCliente += '<a href="#" class="get-site-cliente">';
+                            htmlCliente += '<a href="/Site/EscolheSite/?idSite=' + val.Site.IdSite + '">';
                             htmlCliente += '<img src="' + img + '" class="img-responsive">';
-                            htmlCliente += '<span><input type="hidden" class="idCliente"' + 'value="' + val.IdCliente + '">' + val.NmFantasia + '</span></a>';
+                            htmlCliente += '<span>' + val.NmFantasia + '</span></a>';
+                            htmlCliente += '</a>';
                             htmlCliente += '</div>';
                             htmlCliente += '</div>';
 

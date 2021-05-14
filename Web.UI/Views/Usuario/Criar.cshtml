@@ -152,16 +152,19 @@
                             </div>
                         </div>
                         <!-- Data Expiracao -->
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label for="form-cria-usuario-dt-expiracao">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_DataExpiracao</label>
-                            <div class='input-group' id=''>
-                                <input type='text' style="height:50px!important" name="formCriaUsuarioDtExpiracao" id="form-cria-usuario-dt-expiracao" class="form-control data datepicker"
-                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_DataExpiracao"
-                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_DataExpiracao"
-                                       value="@(Model.DtExpiracao.HasValue?Model.DtExpiracao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
-                                <span class="input-group-addon">
-                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                </span>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <div class="form-group">
+                                <label for="form-cria-usuario-dt-expiracao">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_DataExpiracao</label>
+                                <br />
+                                <div class='input-group input-group-datepicker'>
+                                    <input type='text' name="formCriaUsuarioDtExpiracao" id="form-cria-usuario-dt-expiracao" class="form-control data datepicker"
+                                           placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_DataExpiracao"
+                                           data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_DataExpiracao"
+                                           value="@(Model.DtExpiracao.HasValue?Model.DtExpiracao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <!-- Acoes -->
@@ -351,14 +354,14 @@
                                                     if (Model.UsuarioCargoes.Where(x => x.Cargo.IdCargo == cargo_i.IdCargo).ToList().Count > 0)
                                                     {
                                                         <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                                            <input type="checkbox" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo" checked>
+                                                            <input type="radio" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo" checked>
                                                             <label for="form-site-cargos-@cargo_i.IdCargo">@cargo_i.NmNome</label>
                                                         </div>
                                                     }
                                                     else
                                                     {
                                                         <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                                            <input type="checkbox" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo">
+                                                            <input type="radio" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo">
                                                             <label for="form-site-cargos-@cargo_i.IdCargo">@cargo_i.NmNome</label>
                                                         </div>
                                                     }
@@ -366,7 +369,7 @@
                                                 else
                                                 {
                                                     <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                                        <input type="checkbox" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo">
+                                                        <input type="radio" name="formSiteCargos" id="form-site-cargos-@cargo_i.IdCargo" class="form-control" value="@cargo_i.IdCargo">
                                                         <label for="form-site-cargos-@cargo_i.IdCargo">@cargo_i.NmNome</label>
                                                     </div>
                                                 }

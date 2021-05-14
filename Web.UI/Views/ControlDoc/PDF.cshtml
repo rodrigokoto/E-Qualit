@@ -39,7 +39,7 @@
             }
 
                 body::after {
-                  
+
                 }
 
             .ui-timepicker {
@@ -290,44 +290,46 @@
                                         <div class="caixa">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <table id="tb-form-rotina" class="table table-striped table-bordered table-list">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="w10 with-input">@Traducao.Resource.Item</th>
-                                                                <th class="w10 with-input">@Traducao.Resource.Oque</th>
-                                                                <th class="w10 with-input">@Traducao.Resource.Quem</th>
-                                                                <th class="w10 with-input">@Traducao.Resource.Registro</th>
-                                                                <th class="w10 with-input">@Traducao.Resource.Como?</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @if (Model.Documento.DocTemplate.Find(t => t.TpTemplate == "RO") != null)
-                                                            {
-                                                                foreach (var rotina in Model.Documento.Rotinas)
-                                                                {
-                                                                    <tr>
-                                                                        <td>
-                                                                            <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdDocRotina" />
-                                                                            @rotina.Item
-                                                                        </td>
-                                                                        <td>
-                                                                            @rotina.OQue
-                                                                        </td>
-                                                                        <td>
-                                                                            @rotina.Quem
-                                                                        </td>
-                                                                        <td>
-                                                                            @rotina.Registro
-                                                                        </td>
-                                                                        <td>
-                                                                            @rotina.Como
-                                                                        </td>
 
-                                                                    </tr>
-                                                                }
-                                                            }
-                                                        </tbody>
-                                                    </table>
+                                                    @if (Model.Documento.DocTemplate.Find(t => t.TpTemplate == "RO") != null)
+                                                    {
+                                                        foreach (var rotina in Model.Documento.Rotinas)
+                                                        {
+                                                            <table id="tb-form-rotina" class="table table-striped table-bordered table-list">
+                                                                <tr>
+                                                                    <th class="w10 with-input">@Traducao.Resource.Item</th>
+                                                                    <th class="w10 with-input">@Traducao.Resource.Oque</th>
+                                                                    <th class="w10 with-input">@Traducao.Resource.Quem</th>
+                                                                    <th class="w10 with-input">@Traducao.Resource.Registro</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type="hidden" name="formRotinaIdRotina" value="@rotina.IdDocRotina" />
+                                                                        @rotina.Item
+                                                                    </td>
+                                                                    <td>
+                                                                        @rotina.OQue
+                                                                    </td>
+                                                                    <td>
+                                                                        @rotina.Quem
+                                                                    </td>
+                                                                    <td>
+                                                                        @rotina.Registro
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="4" class="w10 with-input">@Traducao.Resource.Como?</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="4">
+                                                                        @rotina.Como
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <br />
+                                                            <br />
+                                                        }
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -807,8 +809,6 @@
                             </div>
                         </form>
                     </div>-->
-
-
                     <!-- Assunto -->
                     <form id="form-emissao-documento-assuntos">
                         <div class="row">

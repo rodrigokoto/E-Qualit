@@ -21,7 +21,7 @@ namespace ApplicationService.Servico
             return CarregaPendencia(idSite, idCliente).Where(x => x.IdResponsavel == idUsuario).ToList();
         }
 
-        private List<Pendencia> CarregaPendencia(int idSite , int idCliente)
+        private List<Pendencia> CarregaPendencia(int idSite, int idCliente)
         {
 
             try
@@ -29,7 +29,7 @@ namespace ApplicationService.Servico
                 using (var db = new BaseContext())
                 {
                     DateTime LastDay = DateTime.Now.AddDays(-1);
-                    
+
 
                     var DtVencimento = DateTime.Now.AddDays(-1);
 
@@ -74,9 +74,6 @@ namespace ApplicationService.Servico
                         var doDocumentoRev = (from doc in db.DocDocumento
                                               where doc.FlRevisaoPeriodica == true && doc.DtNotificacao < DateTime.Now && doc.IdSite == idSite
                                               select doc);
-
-
-
 
                         var naoConformidade = (from nc in db.RegistroConformidade
                                                where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "nc"
@@ -496,6 +493,282 @@ namespace ApplicationService.Servico
             {
 
                 throw;
+            }
+        }
+
+        public void AlterarPendencia(int idUsuarioDestino, int idUsuarioOrigem, int idSite, int idCliente)
+        {
+
+            var Pendencias = CarregaPendencia(idSite, idCliente).Where(x => x.IdResponsavel == idUsuarioOrigem);
+
+
+            using (var db = new BaseContext())
+            {
+
+                if (idSite != 0)
+                {
+
+                    DateTime LastDay = DateTime.Now.AddDays(-1);
+
+                    var DtVencimento = DateTime.Now.AddDays(-1);
+
+                    var licenca = (from lc in db.Licenca
+                                   where lc.DataVencimento.Value < DtVencimento && lc.Idcliente == idCliente && lc.Idcliente == idCliente && lc.IdResponsavel == idUsuarioOrigem
+                                   select lc).ToList();
+
+                    licenca.ForEach(a => a.IdResponsavel = idUsuarioDestino);
+
+                    var indicadores = (from ind in db.Indicador
+                                       join per in db.PeriodicidaDeAnalise on ind.Id equals per.IdIndicador
+                                       join meta in db.PlanoVoo on per.Id equals meta.IdPeriodicidadeAnalise
+                                       where meta.DataReferencia < DateTime.Now && meta.Realizado == null && ind.IdSite == idSite && ind.IdResponsavel == idUsuarioOrigem
+                                       select ind).ToList();
+
+                    indicadores.ForEach(a => a.IdResponsavel = idUsuarioDestino);
+
+                    //Docdocumento Resolvido abaixo
+                    var docDocumentoAprov = (from doc in db.DocDocumento
+                                             where doc.StatusRegistro == (int)StatusDocumento.Aprovacao && doc.IdSite == idSite
+                                             select doc);
+
+                    var docDocumentoVer = (from doc in db.DocDocumento
+                                           where doc.StatusRegistro == (int)StatusDocumento.Verificacao && doc.IdSite == idSite
+                                           select doc);
+
+                    var doDocumentoRev = (from doc in db.DocDocumento
+                                          where doc.FlRevisaoPeriodica == true && doc.DtNotificacao < DateTime.Now && doc.IdSite == idSite
+                                          select doc);
+
+                    var naoConformidade = (from nc in db.RegistroConformidade
+                                           where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "nc" && nc.ResponsavelInicarAcaoImediata.IdUsuario == idUsuarioOrigem
+                                           select nc).ToList();
+
+                    naoConformidade.ForEach(a => a.IdResponsavelInicarAcaoImediata = idUsuarioDestino);
+
+                    var naoConformidadePrazo = (from nc in db.RegistroConformidade
+                                                join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                                where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.IdSite == idSite && nc.TipoRegistro == "nc" && ai.ResponsavelImplementar.IdUsuario == idUsuarioOrigem
+                                                select ai).ToList();
+
+                    naoConformidadePrazo.ForEach(a => a.IdResponsavelImplementar = idUsuarioDestino);
+
+                    var naoConformidadeReverificacao = (from nc in db.RegistroConformidade
+                                                        where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && nc.TipoRegistro == "nc" && nc.IdSite == idSite && nc.ResponsavelReverificador.IdUsuario == idUsuarioOrigem
+                                                        select nc).ToList();
+
+                    naoConformidadeReverificacao.ForEach(a => a.IdResponsavelReverificador = idUsuarioDestino);
+
+                    var acaoCorretiva = (from ac in db.RegistroConformidade
+                                         join ai in db.AcaoImediata on ac.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                         where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && ac.IdSite == idSite && ac.TipoRegistro == "ac" && ai.ResponsavelImplementar.IdUsuario == idUsuarioOrigem
+                                         select ac).ToList();
+
+                    acaoCorretiva.ForEach(a => a.IdResponsavelImplementar = idUsuarioDestino);
+
+                    var acaoCorretivaRev = (from ac in db.RegistroConformidade
+                                            where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && ac.TipoRegistro == "ac" && ac.DtPrazoImplementacao < DateTime.Now && ac.IdSite == idSite && ac.ResponsavelImplementar.IdUsuario == idUsuarioOrigem
+                                            select ac).ToList();
+
+                    acaoCorretivaRev.ForEach(a => a.IdResponsavelImplementar = idUsuarioDestino);
+
+                    var data15 = DateTime.Now.AddDays(-15).Day;
+
+                    var Auditoria = (from plai in db.Plai
+                                     where plai.DataReuniaoAbertura.Day <= data15 && plai.Pai.IdSite == idSite && plai.IdElaborador == idUsuarioOrigem
+                                     select plai);
+
+                    var AuditoriaResult = Auditoria.ToList();
+
+                    AuditoriaResult.ForEach(a => a.IdElaborador = idUsuarioDestino);
+
+                    var AnaliseCritica = (from anc in db.AnaliseCritica
+                                          where anc.IdSite == idSite && anc.DataProximaAnalise == LastDay && anc.IdResponsavel == idUsuarioOrigem
+                                          select anc).ToList();
+
+                    AnaliseCritica.ForEach(a => a.IdResponsavel = idUsuarioDestino);
+
+                    var InstrumentoQuery = (from ins in db.Instrumento
+                                            join cal in db.Calibracao on ins.IdInstrumento equals cal.IdInstrumento
+                                            where ins.IdSite == idSite && ins.Status == (byte)EquipamentoStatus.NaoCalibrado && ins.IdResponsavel == idUsuarioOrigem
+                                            group ins by ins.IdInstrumento into idIsntrumentoOrder
+                                            select idIsntrumentoOrder).ToList();
+
+
+                    var Instrumento = new List<Pendencia>();
+                    foreach (var item in InstrumentoQuery)
+                    {
+                        var a = item.FirstOrDefault();
+
+                        a.IdResponsavel = idUsuarioDestino;
+                    }
+
+                    var Fornecedores = (from forn in db.Fornecedor
+                                        join avaq in db.AvaliaCriterioQualificacao on forn.IdFornecedor equals avaq.IdFornecedor
+                                        join prodf in db.ProdutoFornecedor on forn.IdFornecedor equals prodf.IdFornecedor
+                                        where avaq.IdResponsavelPorControlarVencimento != null && avaq.DtVencimento != null && avaq.DtVencimento <= DateTime.Now && forn.IdSite == idSite && avaq.IdResponsavelPorQualificar == idUsuarioOrigem
+                                        select avaq).ToList();
+
+                    Fornecedores.ForEach(a => a.IdResponsavelPorQualificar = idUsuarioDestino);
+
+                    var FornecedoresVal = (from forn in db.Fornecedor
+                                           join avaa in db.AvaliaCriterioAvaliacao on forn.IdFornecedor equals avaa.IdFornecedor
+                                           join prodf in db.ProdutoFornecedor on forn.IdFornecedor equals prodf.IdFornecedor
+                                           where avaa.DtProximaAvaliacao == DateTime.Now && avaa.IdUsuarioAvaliacao != null && avaa.IdUsuarioAvaliacao == idUsuarioOrigem
+                                           select avaa).ToList();
+
+                    FornecedoresVal.ForEach(a => a.IdUsuarioAvaliacao = idUsuarioDestino);
+
+                    var gestaoRisco = (from nc in db.RegistroConformidade
+                                       where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "gr" && nc.ResponsavelInicarAcaoImediata.IdUsuario == idUsuarioOrigem
+                                       select nc).ToList();
+
+                    gestaoRisco.ForEach(a => a.IdResponsavelInicarAcaoImediata = idUsuarioDestino);
+
+                    var gestaoRiscoPrazo = (from nc in db.RegistroConformidade
+                                            join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                            where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.IdSite == idSite && nc.TipoRegistro == "gr" && ai.ResponsavelImplementar.IdUsuario == idUsuarioOrigem
+                                            select nc).ToList();
+
+                    gestaoRiscoPrazo.ForEach(a => a.IdResponsavelImplementar = idUsuarioDestino);
+
+                    var gestaoRiscoReverificacao = (from nc in db.RegistroConformidade
+                                                    where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && nc.TipoRegistro == "gr" && nc.IdSite == idSite && nc.ResponsavelReverificador.IdUsuario == idUsuarioOrigem
+                                                    select nc).ToList();
+
+                    gestaoRiscoReverificacao.ForEach(a => a.IdResponsavelReverificador = idUsuarioDestino);
+
+
+                    var gestaoMelhoria = (from nc in db.RegistroConformidade
+                                          where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "gm" && nc.ResponsavelInicarAcaoImediata.IdUsuario == idUsuarioOrigem
+                                          select nc).ToList();
+
+                    gestaoMelhoria.ForEach(a => a.IdResponsavelInicarAcaoImediata = idUsuarioDestino);
+
+
+                    var gestaoMelhoriaPrazo = (from nc in db.RegistroConformidade
+                                               join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
+                                               where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && ai.DtPrazoImplementacao < DateTime.Now && ai.DtEfetivaImplementacao == null && nc.IdSite == idSite && nc.TipoRegistro == "gm" && ai.ResponsavelImplementar.IdUsuario == idUsuarioOrigem
+                                               select nc).ToList();
+
+                    gestaoMelhoriaPrazo.ForEach(a => a.IdResponsavelImplementar = idUsuarioDestino);
+
+                    var gestaoMelhoriaReverificacao = (from nc in db.RegistroConformidade
+                                                       where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && nc.TipoRegistro == "gm" && nc.IdSite == idSite && nc.ResponsavelImplementar.IdUsuario == idUsuarioOrigem
+                                                       select nc).ToList();
+
+                    gestaoMelhoriaReverificacao.ForEach(a => a.IdResponsavelImplementar = idUsuarioDestino);
+
+
+                    List<Pendencia> docPendencia = new List<Pendencia>();
+
+                    foreach (var docap in docDocumentoAprov.ToList())
+                    {
+                        if (docap.DocUsuarioVerificaAprova != null)
+                        {
+                            var docResult = docap.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "A" && x.IdUsuario == idUsuarioOrigem).OrderBy(x => x.Usuario.NmCompleto).ToList();
+
+                            foreach (var res in docResult)
+                            {
+
+                                res.IdUsuario = idUsuarioDestino;
+                            }
+                        }
+                    }
+
+                    foreach (var docver in docDocumentoVer.ToList())
+                    {
+                        if (docver.DocUsuarioVerificaAprova != null)
+                        {
+                            var docResult = docver.DocUsuarioVerificaAprova.Where(x => x.TpEtapa == "V" && x.IdUsuario == idUsuarioOrigem).OrderBy(x => x.Usuario.NmCompleto).ToList();
+
+                            foreach (var res in docResult)
+                            {
+                                res.IdUsuario = idUsuarioDestino;
+                            }
+                        }
+                    }
+
+                    foreach (var docrev in doDocumentoRev.ToList().Where(x => x.IdElaborador == idUsuarioOrigem))
+                    {
+                        docrev.IdElaborador = idUsuarioDestino;
+                    }
+
+
+                    Dictionary<int, bool> queryIndicadores = new Dictionary<int, bool>();
+
+                    var indicadores1 = (from ind in db.Indicador
+                                        where ind.IdSite == idSite && ind.IdResponsavel == idUsuarioOrigem
+                                        select ind).ToList();
+                    List<Pendencia> lstPendencia = new List<Pendencia>();
+
+                    foreach (var indicador in indicadores1)
+                    {
+                        foreach (var periodo in indicador.PeriodicidadeDeAnalises)
+                        {
+                            var query = periodo.MetasRealizadas.Where(x => x.DataReferencia < DateTime.Now && x.Realizado == null).ToList();
+
+                            if (query.Count > 0)
+                            {
+                                foreach (var plano in query)
+                                {
+                                    var mes = plano.DataReferencia.Date.Month;
+
+                                    switch (indicador.PeriodicidadeMedicao)
+                                    {
+                                        case 1:
+                                            if ((mes % 1) == 0)
+                                            {
+                                                if (mes != DateTime.Now.Month)
+                                                {
+                                                    indicador.IdResponsavel = idUsuarioDestino;
+
+                                                }
+                                            }
+                                            break;
+                                        case 2:
+                                            if ((mes % 2) == 0)
+                                            {
+                                                if (mes != DateTime.Now.Month)
+                                                {
+                                                    indicador.IdResponsavel = idUsuarioDestino;
+                                                }
+                                            }
+                                            break;
+                                        case 3:
+                                            if ((mes % 3) == 0)
+                                            {
+                                                if (mes != DateTime.Now.Month)
+                                                {
+                                                    indicador.IdResponsavel = idUsuarioDestino;
+                                                }
+                                            }
+                                            break;
+                                        case 4:
+                                            if ((mes % 6) == 0)
+                                            {
+                                                if (mes != DateTime.Now.Month)
+                                                {
+                                                    indicador.IdResponsavel = idUsuarioDestino;
+                                                }
+                                            }
+                                            break;
+                                        case 5:
+                                            if ((mes % 12) == 0)
+                                            {
+                                                if (mes != DateTime.Now.Month)
+                                                {
+                                                    indicador.IdResponsavel = idUsuarioDestino;
+                                                }
+                                            }
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    db.SaveChanges();
+                }
             }
         }
     }

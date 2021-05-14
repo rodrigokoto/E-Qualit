@@ -383,7 +383,7 @@ namespace Web.UI.Controllers
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Gestão de Risco " + gestaoDeRisco.IdRegistroConformidade + ".pdf"
             };
-
+            GravarLogImpressao((int)Funcionalidades.GestaoDeRiscos, gestaoDeRisco.IdRegistroConformidade);
             return pdf;
 
             //return View("Criar", acaoCorretiva);
@@ -482,6 +482,7 @@ namespace Web.UI.Controllers
 
 
                     gestaoDeRisco = _registroConformidadesAppServico.SalvarPrimeiraEtapa(gestaoDeRisco);
+                    GravarLogInclusao((int)Funcionalidades.GestaoDeRiscos, gestaoDeRisco.IdRegistroConformidade);
 
                     if (gestaoDeRisco.IdResponsavelEtapa != null)
                         erros = EnviarNotificacao(gestaoDeRisco, erros);
@@ -777,6 +778,7 @@ namespace Web.UI.Controllers
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
 
             }
+            GravarLogAlteracao((int)Funcionalidades.GestaoDeRiscos, gestaoDeRisco.IdRegistroConformidade);
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.GestaoDeRisco.ResourceGestaoDeRisco.GR_msg_save_valid }, JsonRequestBehavior.AllowGet);
         }
 

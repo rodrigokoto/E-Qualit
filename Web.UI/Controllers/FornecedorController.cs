@@ -1,6 +1,7 @@
 ﻿using ApplicationService.Interface;
 using DAL.Context;
 using Dominio.Entidade;
+using Dominio.Enumerado;
 using Dominio.Interface.Servico;
 using Rotativa;
 using Rotativa.Options;
@@ -366,6 +367,29 @@ namespace Web.UI.Controllers
             {
                 var avaliacaoCriticidade = _avaliacaoCriticidadeAppServico.GetById(id);
                 _avaliacaoCriticidadeAppServico.Remove(avaliacaoCriticidade);
+
+                return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Resource.SucessoAoExcluirORegistro }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                erros.Add(Traducao.Resource.ParaExcluirEsseRegistroVoceDeveExcluirNoCriterioOriginal);
+            }
+
+            return Json(new { StatusCode = (int)HttpStatusCode.BadRequest, Erros = erros }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ExecluirCriterioAvaliacao(int id)
+        {
+            List<string> erros = new List<string>();
+
+           var avaliaCriterioAvaliacao =  _avaliaCriterioAvaliacaoAppServico.GetById(id);
+
+            try
+            {
+                var _avaliaCriterioAvaliacao = _avaliaCriterioAvaliacaoAppServico.GetById(id);
+
+                _avaliaCriterioAvaliacaoAppServico.Remove(avaliaCriterioAvaliacao);
 
                 return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Resource.SucessoAoExcluirORegistro }, JsonRequestBehavior.AllowGet);
             }
@@ -837,6 +861,7 @@ namespace Web.UI.Controllers
             if (erros.Count == 0)
             {
                 _fornecedorAppServico.Add(fornecedor);
+                GravarLogInclusao((int)Funcionalidades.Fornecedores, fornecedor.IdFornecedor);
 
                 return Json(new { StatusCode = (int)HttpStatusCode.OK, Fornecedor = fornecedor }, JsonRequestBehavior.AllowGet);
             }

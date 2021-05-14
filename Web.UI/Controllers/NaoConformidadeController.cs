@@ -271,7 +271,7 @@ namespace Web.UI.Controllers
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Não Conformidade " + naoConformidade.IdRegistroConformidade + ".pdf"
             };
-
+            GravarLogImpressao((int)Funcionalidades.NaoConformidade, naoConformidade.IdRegistroConformidade);
             return pdf;
 
             //return View("PDF", naoConformidade);
@@ -464,6 +464,7 @@ namespace Web.UI.Controllers
                     naoConformidade = _registroConformidadesAppServico.SalvarPrimeiraEtapa(naoConformidade);
                     naoConformidade.Site = _siteService.GetById(naoConformidade.IdSite);
 
+                    GravarLogInclusao((int)Funcionalidades.NaoConformidade, naoConformidade.IdRegistroConformidade);
                     try
                     {
                         EnviarEmailResponsavel(naoConformidade);
@@ -716,7 +717,7 @@ namespace Web.UI.Controllers
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
-
+            GravarLogAlteracao((int)Funcionalidades.NaoConformidade, naoConformidade.IdRegistroConformidade);
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_save_valid }, JsonRequestBehavior.AllowGet);
 
         }

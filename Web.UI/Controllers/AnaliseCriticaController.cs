@@ -272,9 +272,13 @@ namespace Web.UI.Controllers
 
                         _analiseCriticaAppServico.AtualizaAnaliseCritica(analiseCritica);
 
+                        GravarLogAlteracao((int)Funcionalidades.AnaliseCritica, analiseCritica.IdAnaliseCritica);
                     }
                     else
                     {
+
+                        GravarLogInclusao((int)Funcionalidades.AnaliseCritica, analiseCritica.IdAnaliseCritica);
+
                         analiseCritica.DataCadastro = DateTime.Now;
                         _analiseCriticaAppServico.SalvarAnaliseCritica(analiseCritica);
                         EnfileirarEmailsAnaliseCritica(analiseCritica);
@@ -292,6 +296,8 @@ namespace Web.UI.Controllers
                 erros.Add(Traducao.Shared.ResourceMensagens.Mensagem_invalid_backend);
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
+
+            
 
             return Json(new { StatusCode = 200, Success = Traducao.AnaliseCritica.ResourceAnaliseCritica.AC_msg_save_valid }, JsonRequestBehavior.AllowGet);
         }
@@ -472,13 +478,14 @@ namespace Web.UI.Controllers
                 analiseCritica.Ativo = false;
 
                 _analiseCriticaAppServico.Update(analiseCritica);
+
+                GravarLogExclusao((int)Funcionalidades.AnaliseCritica, analiseCritica.IdAnaliseCritica);
             }
             catch (Exception ex)
             {
                 GravaLog(ex);
                 return Json(new { StatusCode = 500 }, JsonRequestBehavior.AllowGet);
             }
-
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Resource.SucessoAoExcluirORegistro }, JsonRequestBehavior.AllowGet);
         }
 

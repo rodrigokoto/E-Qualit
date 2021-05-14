@@ -379,9 +379,12 @@
                             <li>
                                 <a href="@Url.Action("MeusDados", "Usuario")"> <i class="fa fa-pencil fa-fw"></i> Meus Dados</a>
                             </li>
-                            <li>
-                                <a href="@Url.Action("AlterarSenha", "Usuario")"> <i class="fa fa-unlock fa-fw"></i> Alterar Senha</a>
-                            </li>
+                            @if (!ViewBag.UsuarioLogadoBase.FlCompartilhado)
+                            {
+                                <li>
+                                    <a href="@Url.Action("AlterarSenha", "Usuario")"> <i class="fa fa-unlock fa-fw"></i> Alterar Senha</a>
+                                </li>
+                            }
                             <li>
                                 <a href="@Url.Action("Logout", "Login")"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                             </li>

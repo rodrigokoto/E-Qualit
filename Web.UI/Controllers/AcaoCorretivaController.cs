@@ -259,6 +259,8 @@ namespace Web.UI.Controllers
                 FileName = "Ação Corretiva " + acaoCorretiva.IdRegistroConformidade + ".pdf"
             };
 
+            GravarLogImpressao((int)Funcionalidades.AcaoCorretiva , acaoCorretiva.IdRegistroConformidade);
+
             return pdf;
 
             //return View("Criar", acaoCorretiva);
@@ -520,6 +522,8 @@ namespace Web.UI.Controllers
                 return Json(new { StatusCode = 500, Erro = erros }, JsonRequestBehavior.AllowGet);
             }
 
+            GravarLogAlteracao((int)Funcionalidades.AcaoCorretiva, acaoCorretiva.IdRegistroConformidade);
+
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.AcaoCorretiva.ResourceAcaoCorretiva.AC_msg_save_valid }, JsonRequestBehavior.AllowGet);
         }
 
@@ -691,6 +695,9 @@ namespace Web.UI.Controllers
 
             if (erros.Count == 0)
             {
+
+                GravarLogExclusao((int)Funcionalidades.AcaoCorretiva, acaoCorretiva.IdRegistroConformidade);
+
                 _registroConformidadesAppServico.Remove(acaoCorretiva);
                 return Json(new { StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
 

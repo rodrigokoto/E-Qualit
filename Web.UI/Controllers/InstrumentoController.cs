@@ -120,6 +120,8 @@ namespace Web.UI.Controllers
                 else
                 {
                     _instrumentoAppServico.Add(instrumento);
+                    GravarLogInclusao((int)Funcionalidades.Instrumentos, instrumento.IdInstrumento);
+
                 }
             }
             catch (Exception ex)
@@ -256,6 +258,7 @@ namespace Web.UI.Controllers
                     instrumento.DataAlteracao = DateTime.Now;
                     instrumento.IdProcesso = instrumento.IdProcesso == 0 ? null : instrumento.IdProcesso;
                     _instrumentoAppServico.Update(instrumento);
+                    GravarLogAlteracao((int)Funcionalidades.Instrumentos, instrumento.IdInstrumento);
 
                 }
                 else
@@ -332,7 +335,7 @@ namespace Web.UI.Controllers
                 PageMargins = new Margins(10, 15, 10, 15),
                 FileName = "Instrumento.pdf"
             };
-
+            GravarLogImpressao((int)Funcionalidades.Instrumentos, analiseCritica.IdInstrumento);
             return pdf;
         }
 

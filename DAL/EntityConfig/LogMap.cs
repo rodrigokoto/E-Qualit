@@ -31,6 +31,12 @@ namespace DAL.EntityConfig
 
             Property(x => x.IdUsuario)
             .HasColumnName("IdUsuario");
+
+            Property(x => x.Modulo)
+                .HasColumnName("Modulo");
+
+            Property(x => x.Id)
+                .HasColumnName("Id");
         }
     }
 }
