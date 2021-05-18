@@ -273,8 +273,9 @@
     <Compile Include="Backup\InformacaoBackupModel.cs" />
     <Compile Include="Controllers\AcaoCorretivaController.cs" />
     <Compile Include="Controllers\BackupController.cs" />
-    <Compile Include="Controllers\ControlDocManuaisController.cs" />
+    <Compile Include="Controllers\ControlDocController.cs" />
     <Compile Include="Controllers\IAnexoController.cs" />
+    <Compile Include="Controllers\LicencaController.cs" />
     <Compile Include="Controllers\MigracaoAnaliseCriticaController.cs" />
     <Compile Include="Controllers\AnaliseCriticaController.cs" />
     <Compile Include="Controllers\AvaliacaoCriticidadeController.cs" />
@@ -284,7 +285,7 @@
     <Compile Include="Controllers\CkeditorController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\ControladorCategoriasController.cs" />
-    <Compile Include="Controllers\ControlDocController.cs" />
+    <Compile Include="Controllers\ControlDocManuaisController.cs" />
     <Compile Include="Controllers\ControleImpressaoController.cs" />
     <Compile Include="Controllers\CriterioQualificacaoController.cs" />
     <Compile Include="Controllers\EpiController.cs" />
@@ -295,7 +296,7 @@
     <Compile Include="Controllers\IndicadorController.cs" />
     <Compile Include="Controllers\MigracaoInstrumentoController.cs" />
     <Compile Include="Controllers\MigracaoLicencaController.cs" />
-    <Compile Include="Controllers\LicencaController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\InstrumentoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\GestaoMelhoriaController.cs" />
@@ -1109,6 +1110,7 @@
     <Content Include="Content\assets\js\jquery-slimscroll\jquery.slimscroll.js" />
     <Content Include="Content\assets\js\jquery-slimscroll\jquery.slimscroll.min.js" />
     <Content Include="Content\assets\js\Jquery.js" />
+    <Content Include="Content\assets\js\LogController.js" />
     <Content Include="Content\assets\js\LoginController.js" />
     <Content Include="Content\assets\js\Model.js" />
     <Content Include="Content\assets\js\GestaoMelhoriaController.js" />
@@ -2034,6 +2036,7 @@
     <Content Include="Views\GestaoDeRiscoGUT\Index.cshtml" />
     <Content Include="Views\GestaoDeRiscoGUT\PDF.cshtml" />
     <Content Include="Views\GestaoMelhoria\PDF.cshtml" />
+    <Content Include="Views\Log\Index.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -246,4 +246,7 @@
   <data name="Action_documentosrevisao" xml:space="preserve">
     <value>Documentos em Revisão</value>
   </data>
+  <data name="Controller_log" xml:space="preserve">
+    <value>Log</value>
+  </data>
 </root>

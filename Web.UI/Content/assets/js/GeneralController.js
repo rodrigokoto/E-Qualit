@@ -122,6 +122,10 @@ APP.controller.General = {
             this.LicencaController();
         }
 
+        if (page == "IndexLog") {
+            this.logController();
+        }
+
     },
 
     loginController: function () {
@@ -214,6 +218,10 @@ APP.controller.General = {
 
     LicencaController: function () {
         APP.controller.LicencaController.init();
+    },
+
+    logController: function () {
+        APP.controller.LogController.init();
     },
 
 };

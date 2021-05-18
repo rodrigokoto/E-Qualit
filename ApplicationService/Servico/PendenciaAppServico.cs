@@ -21,6 +21,11 @@ namespace ApplicationService.Servico
             return CarregaPendencia(idSite, idCliente).Where(x => x.IdResponsavel == idUsuario).ToList();
         }
 
+        public List<Pendencia> ObterTodasPendencias()
+        {
+            throw new NotImplementedException();
+        }
+
         private List<Pendencia> CarregaPendencia(int idSite, int idCliente)
         {
 
@@ -771,5 +776,7 @@ namespace ApplicationService.Servico
                 }
             }
         }
+
+       
     }
 }

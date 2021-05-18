@@ -367,6 +367,15 @@ namespace Traducao.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log.
+        /// </summary>
+        public static string Controller_log {
+            get {
+                return ResourceManager.GetString("Controller_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Não Conformidade.
         /// </summary>
         public static string Controller_naoconformidade {

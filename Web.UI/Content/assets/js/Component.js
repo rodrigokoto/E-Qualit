@@ -10,11 +10,9 @@ APP.component.Highcharts = {
     colunas: function (_highchartsObj) {
 
         return this.setHighchartsRelatorioColunas(_highchartsObj);
-
     },
 
     barraEColuna: function (_highchartsObj) {
-
         return this.setHighchartsRelatorioColuna(_highchartsObj);
     },
 

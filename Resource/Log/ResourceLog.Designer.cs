@@ -22,7 +22,7 @@ namespace Traducao.Log {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ResourceLog {
+    public class ResourceLog {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Traducao.Log {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Traducao.Log.ResourceLog", typeof(ResourceLog).Assembly);
@@ -51,12 +51,93 @@ namespace Traducao.Log {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browser.
+        /// </summary>
+        public static string IN_lbl_Browser {
+            get {
+                return ResourceManager.GetString("IN_lbl_Browser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dt. Cadastro.
+        /// </summary>
+        public static string IN_lbl_DtCadastro {
+            get {
+                return ResourceManager.GetString("IN_lbl_DtCadastro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Id.
+        /// </summary>
+        public static string IN_lbl_Id {
+            get {
+                return ResourceManager.GetString("IN_lbl_Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ação.
+        /// </summary>
+        public static string IN_lbl_IdAcao {
+            get {
+                return ResourceManager.GetString("IN_lbl_IdAcao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Id Log.
+        /// </summary>
+        public static string IN_lbl_IdLog {
+            get {
+                return ResourceManager.GetString("IN_lbl_IdLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuário.
+        /// </summary>
+        public static string IN_lbl_IdUsuario {
+            get {
+                return ResourceManager.GetString("IN_lbl_IdUsuario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP.
+        /// </summary>
+        public static string IN_lbl_IP {
+            get {
+                return ResourceManager.GetString("IN_lbl_IP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mensagem.
+        /// </summary>
+        public static string IN_lbl_Mensagem {
+            get {
+                return ResourceManager.GetString("IN_lbl_Mensagem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modulo.
+        /// </summary>
+        public static string IN_lbl_Modulo {
+            get {
+                return ResourceManager.GetString("IN_lbl_Modulo", resourceCulture);
             }
         }
     }

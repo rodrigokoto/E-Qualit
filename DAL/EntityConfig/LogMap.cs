@@ -37,6 +37,10 @@ namespace DAL.EntityConfig
 
             Property(x => x.Id)
                 .HasColumnName("Id");
+
+            HasRequired(x => x.Usuario)
+                .WithMany()
+                .HasForeignKey(x => x.IdUsuario);
         }
     }
 }

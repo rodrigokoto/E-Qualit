@@ -31805,6 +31805,10 @@ APP.controller.General = {
         if (page == "IndexLicenca" || page == "CriarLicenca") {
             this.licencaController();
         }
+
+        if (page == "IndexLog") {
+            this.logController();
+        }
     },
 
     loginController: function () {
@@ -31891,6 +31895,10 @@ APP.controller.General = {
     licencaController: function () {
         APP.controller.LicencaController.init();
     },
+
+    logController: function(){
+        APP.controller.LogController.init();
+    }
 
 };
 

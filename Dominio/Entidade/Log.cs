@@ -14,6 +14,8 @@ namespace Dominio.Entidade
         public DateTime DataCadastro { get; set; }
         public int? IdUsuario { get; set; }
 
+        public virtual Usuario Usuario { get; set; }
+
         public int? Id { get; set; }
         public Log(int? idUsuario, int idAcao, string ip, string browser, Exception ex)
         {
@@ -48,6 +50,10 @@ namespace Dominio.Entidade
             Mensagem = string.Format("{0} , {1}", Util.EnumExtensions.ToName((Acao)IdAcao), Util.EnumExtensions.ToName((Funcionalidades)modulo));
             Modulo = modulo;
             Id = id;
+        }
+
+        public Log()
+        {
         }
     }
 }

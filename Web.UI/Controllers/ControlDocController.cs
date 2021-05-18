@@ -24,7 +24,10 @@ namespace Web.UI.Controllers
 {
     //[SitePossuiModulo((int)Funcionalidades.ControlDoc)]
     //[ProcessoSelecionado]
-    public class ControlDocManuaisController : BaseController
+    [VerificaIntegridadeLogin]
+    [SitePossuiModulo(2)]
+    [ValidaUsuario]
+    public class ControlDocController : BaseController
     {
         private int _funcaoImprimir = 8;
         private int _funcaoRevisar = 6;
@@ -62,7 +65,7 @@ namespace Web.UI.Controllers
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
         private readonly IAnexoAppServico _AnexoAppServico;
 
-        public ControlDocManuaisController(IDocDocumentoAppServico docDocumentoAppServico,
+        public ControlDocController(IDocDocumentoAppServico docDocumentoAppServico,
                                     IDocDocumentoServico documentoServico,
                                     IRegistroConformidadesAppServico registroConformidadeAppServico,
                                     ICargoAppServico cargoAppServico,
@@ -82,7 +85,7 @@ namespace Web.UI.Controllers
                                     IDocUsuarioVerificaAprovaServico docUsuarioVerificaAprovaServico,
                                     IControladorCategoriasAppServico controladorCategoriasServico,
                                     IPendenciaAppServico pendenciaAppServico,
-                                    IAnexoAppServico anexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
+                                    IAnexoAppServico anexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
         {
             _AnexoAppServico = anexoAppServico;
             _documentoAppServico = docDocumentoAppServico;
@@ -1502,6 +1505,7 @@ namespace Web.UI.Controllers
 
                 return Json(new { StatusCode = (int)HttpStatusCode.InternalServerError, Erro = ex.ToString() }, JsonRequestBehavior.AllowGet);
             }
+
             GravarLogAlteracao((int)Funcionalidades.ControlDoc, documentoEditado.IdDocumento);
             return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
         }
@@ -2294,7 +2298,7 @@ namespace Web.UI.Controllers
                     break;
             }
         }
-        [HttpPost]
+        [HttpGet]
         public ActionResult RetornaDocManuais(int IdDoc) {
 
             var DocumentoManuais = _documentoAppServico.Get(x => x.IdDocumento == IdDoc).First();

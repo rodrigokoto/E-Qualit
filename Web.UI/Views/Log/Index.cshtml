@@ -1,16 +1,20 @@
 ﻿@using ApplicationService.Entidade
 @using ApplicationService.Enum
+@using Dominio.Entidade
+@using Dominio.Enumerado
+
 @model IEnumerable<Dominio.Entidade.Log>
 @{
     ViewBag.Title = "Log";
-    
+
 }
 @section Metas {
     <meta name="page" content="IndexLog" />
 }
 @section scripts {
     <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
-    
+    <script src="@Url.Content("~/Content/assets/js/LogController.js")"></script>
+
 }
 
 @Html.AntiForgeryToken()
@@ -26,30 +30,44 @@
                                 <table id="tb-log" class="display table table-striped table-bordered dt-responsive" style="width:100% !important;">
                                     <thead>
                                         <tr id="hr1" class="bg">
-                                            <th class="w15 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.log.Resourcelog.IN_lbl_Titulo">
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_IdLog">
                                             </th>
                                             <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.log.Resourcelog.IN_lbl_Processo">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_IdAcao">
                                             </th>
                                             <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.log.Resourcelog.IN_lbl_Responsavel">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_IP">
                                             </th>
                                             <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.log.Resourcelog.IN_lbl_DtVencimento">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_Browser">
                                             </th>
                                             <th class="w10 with-input">
-                                                <input type="text" class="form-control" placeholder="@Traducao.log.Resourcelog.IN_lbl_Status">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_Mensagem">
                                             </th>
-                                            <th class="w10"></th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_DtCadastro">
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_IdUsuario">
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_Modulo">
+                                            </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_Id">
+                                            </th>
                                         </tr>
                                         <tr class="bg">
-                                            <th>@Traducao.log.Resourcelog.IN_lbl_Titulo</th>
-                                            <th>@Traducao.log.Resourcelog.IN_lbl_Processo</th>
-                                            <th>@Traducao.log.Resourcelog.IN_lbl_Responsavel</th>
-                                            <th>@Traducao.log.Resourcelog.IN_lbl_DtVencimento</th>
-                                            <th>@Traducao.log.Resourcelog.IN_lbl_Status</th>
-                                            <th>@Traducao.Shared.ResourceLabel.Label_perfil_Acao</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_IdLog</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_IdAcao</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_IP</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_Browser</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_Mensagem</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_DtCadastro</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_NmUsuario</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_Modulo</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_Id</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,54 +76,27 @@
                                             foreach (var log in Model)
                                             {
                                                 <tr class="odd">
-                                                    <td>@log.Titulo</td>
-                                                    <td>@log.Processo.Nome</td>
+                                                    <td>@log.IdLog</td>
+                                                    @{
+                                                        <td>
+                                                            @Web.UI.Helpers.EnumExtensions.ToName((Acao)log.IdAcao)
+                                                        </td>
+                                                    }
+
+                                                    <td>@log.IP</td>
+                                                    <td>@log.Browser</td>
+                                                    <td>@log.Mensagem</td>
+                                                    <td>@log.DataCadastro</td>
                                                     <td>@log.Usuario.NmCompleto</td>
-                                                    <td>@(log.DataVencimento != null ? log.DataVencimento.Value.ToString("dd/MM/yyyy") : "" )</td>
-                                                    <td>
-                                                        @if (log.DataVencimento >= DateTime.Now.Date)
-                                                        {
-                                                            <p style="color:green;font-weight:bold">Atualizado</p>
-                                                        }
-                                                        else if (log.DataVencimento == null && log.DataProximaNotificacao == null && log.DataEmissao == null)
-                                                        {
-                                                            <p style="color:goldenrod;font-weight:bold">Renovação</p>
-                                                        }
-                                                        else 
-                                                        {
-                                                            <p style="color:red;font-weight:bold">Vencido</p>
-                                                        }
-                                                    </td>
-                                                    <td>
-
-                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)Funcoeslog.Visualizar).Count() > 0 || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <a href="@Url.Action("Exibir", "log", new { id = log.Idlog})" class="edit icon-cliente  editar-color">
-                                                                <i class="fa fa-search" )" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
-                                                            </a>
-                                                        }
-
-                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)Funcoeslog.Editar).Count() > 0 || ViewBag.IdPerfil != 4)
-                                                        {
-                                                            <a href="@Url.Action("Editar","log", new {id = log.Idlog}) " class="edit icon-cliente editar-color">
-                                                                <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"
-                                                                   data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
-                                                            </a>
-                                                        }
-                                                        @if (listaPermissoes.Where(x => x.IdFuncao == (int)Funcoeslog.Excluir).Count() > 0 && ViewBag.IdPerfil != 4)
-                                                        {
-
-                                                            <a href="#" class="excluir icon-cliente trash-color " data-id="@log.Idlog">
-                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"
-                                                                   data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                            </a>
-                                                        }
-
-                                                    </td>
+                                                    @{
+                                                        <td>
+                                                            @Web.UI.Helpers.EnumExtensions.ToName((Funcionalidades)log.Modulo)
+                                                        </td>
+                                                    }
+                                                    <td>@log.Id</td>
                                                 </tr>
                                             }
                                         }
-
                                     </tbody>
                                 </table>
                             </div>

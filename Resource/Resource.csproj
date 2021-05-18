@@ -108,6 +108,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Log\ResourceLog.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceLog.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Log\ResourceLog1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceLog.resx</DependentUpon>
+    </Compile>
     <Compile Include="NaoConformidade\ResourceNaoConformidade.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -230,6 +240,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceGestaoMelhoria.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Log\ResourceLog.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceLog1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="NaoConformidade\ResourceNaoConformidade.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceNaoConformidade.Designer.cs</LastGenOutput>
@@ -290,6 +304,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
