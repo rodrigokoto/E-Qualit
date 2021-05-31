@@ -412,6 +412,15 @@ namespace Traducao.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relatórios.
+        /// </summary>
+        public static string Controller_relatorio {
+            get {
+                return ResourceManager.GetString("Controller_relatorio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Site.
         /// </summary>
         public static string Controller_site {

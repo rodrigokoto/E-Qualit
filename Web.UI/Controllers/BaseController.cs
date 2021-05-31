@@ -33,6 +33,7 @@ namespace Web.UI.Controllers
         private readonly IProcessoAppServico _processoAppServico;
         private readonly IControladorCategoriasAppServico _controladorCategoriasServico;
         private readonly IPendenciaAppServico _pendenciaAppServico;
+        
 
 
         public BaseController(ILogAppServico logServico, IUsuarioAppServico usuarioAppServico, IProcessoAppServico processoAppServico, IControladorCategoriasAppServico controladorCategoriasServico, IPendenciaAppServico pedenciaAppServico)
@@ -147,8 +148,10 @@ namespace Web.UI.Controllers
                     }
 
                 }
-
+                ViewBag.FuncionalidadesSite = new List<Funcionalidade>();
                 ViewBag.Funcionalidades = new List<Funcionalidade>();
+                
+                
                 if (_usuarioAppServico != null)
                 {
                     usuarioLogadoBase = _usuarioAppServico.GetById(idUsuario);
@@ -162,6 +165,11 @@ namespace Web.UI.Controllers
                         else
                         {
                             ViewBag.Funcionalidades = _usuarioAppServico.ObterFuncionalidadesPermitidasPorSite(idSite).Where(x => x.Ativo == true).ToList();
+                        }
+
+                        if (idSite != 0)
+                        {
+                            ViewBag.FuncionalidadesSite = _usuarioAppServico.ObterFuncionalidadesPermitidasPorSite(idSite).Where(x => x.Ativo == true).ToList();
                         }
                     }
                 }

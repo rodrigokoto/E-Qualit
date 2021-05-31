@@ -113,11 +113,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceLog.resx</DependentUpon>
     </Compile>
-    <Compile Include="Log\ResourceLog1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ResourceLog.resx</DependentUpon>
-    </Compile>
     <Compile Include="NaoConformidade\ResourceNaoConformidade.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -242,7 +237,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Log\ResourceLog.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ResourceLog1.Designer.cs</LastGenOutput>
+      <LastGenOutput>ResourceLog.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="NaoConformidade\ResourceNaoConformidade.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

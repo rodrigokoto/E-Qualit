@@ -3667,4 +3667,7 @@ www.e-qualit.com.br
   <data name="TpFornecedor" xml:space="preserve">
     <value>Tipo Fornecedor</value>
   </data>
+  <data name="Relatorio" xml:space="preserve">
+    <value>Relatório</value>
+  </data>
 </root>

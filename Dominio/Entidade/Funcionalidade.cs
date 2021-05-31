@@ -60,6 +60,7 @@ namespace Dominio.Entidade
         public virtual ICollection<Funcao> Funcoes { get; set; }
         public virtual ICollection<SiteFuncionalidade> SiteModulos { get; set; }
         public virtual ICollection<Notificacao> Notificacoes { get; set; }
+        public virtual ICollection<Relatorio> Relatorios { get; set; }
 
     }
 }

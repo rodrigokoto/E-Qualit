@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.Design;
 using System.Security.Cryptography;
 using System.Linq.Expressions;
+using DAL.Context;
 
 namespace ApplicationService.Servico
 {
@@ -415,6 +416,18 @@ namespace ApplicationService.Servico
                 return new List<Funcionalidade>();
             }
 
+        }
+
+        public List<Funcionalidade> ObterRelatorioPorSite(int idSite){
+
+            using (var db = new BaseContext()) {
+
+                var query = (from funcionalidade in db.Funcionalidade
+                            join relat in db.Relatorio on funcionalidade.IdFuncionalidade equals relat.IdFuncionalidade
+                            select funcionalidade);
+            }
+
+                return new List<Funcionalidade>();
         }
 
         public bool EAdministrador(int idPerfil)

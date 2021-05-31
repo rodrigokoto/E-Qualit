@@ -101,7 +101,7 @@ APP.controller.General = {
         }
 
         //Relatorio
-        if (page == "DashBoard") {
+        if (page == "DashBoard" || page == "IndexRelatorio") {
             this.relatorioController();
         }
 

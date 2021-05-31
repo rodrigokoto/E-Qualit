@@ -908,7 +908,7 @@ namespace Web.UI.Controllers
                     _notificacaoAppServico.RemovePorFuncionalidade(Funcionalidades.NaoConformidade, naoConformidade.IdRegistroConformidade);
 
                     _registroConformidadesAppServico.Remove(naoConformidade);
-
+                    GravarLogExclusao((int)Funcionalidades.NaoConformidade, idNaoConformidade);
                     if (UtilsServico.EstaPreenchido(acaoCorretiva))
                     {
                         _registroConformidadesAppServico.Remove(acaoCorretiva);

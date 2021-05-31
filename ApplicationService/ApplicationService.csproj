@@ -77,6 +77,7 @@
     <Compile Include="Interface\IAnaliseCriticaFuncionarioAppServico.cs" />
     <Compile Include="Interface\IAnaliseCriticaAppServico.cs" />
     <Compile Include="Interface\IAnaliseCriticaTemaAppServico.cs" />
+    <Compile Include="Interface\IRelatorioAppServico.cs" />
     <Compile Include="Interface\IAnexoAppServico.cs" />
     <Compile Include="Interface\IArquivoInstrumentoAppServico.cs" />
     <Compile Include="Interface\IArquivoControleDeDocumentoAppServico.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Servico\InstrumentoAppServico.cs" />
     <Compile Include="Interface\IPendenciaAppServico.cs" />
     <Compile Include="Servico\LicencaAppServico.cs" />
+    <Compile Include="Servico\RelatorioAppServico.cs" />
     <Compile Include="Servico\LoginAppServico.cs" />
     <Compile Include="Servico\LogAppServico.cs" />
     <Compile Include="Servico\NormaAppServico.cs" />

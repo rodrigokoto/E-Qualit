@@ -120,6 +120,7 @@
     <Compile Include="EntityConfig\RegistroLicencaMap.cs" />
     <Compile Include="EntityConfig\RegistroQualificacaoMap.cs" />
     <Compile Include="EntityConfig\RegistroAuditoriaMap.cs" />
+    <Compile Include="EntityConfig\RelatorioMap.cs" />
     <Compile Include="EntityConfig\RH\AdvertenciaMap.cs" />
     <Compile Include="EntityConfig\RH\AtribuicaoMap.cs" />
     <Compile Include="EntityConfig\RH\CargoRHMap.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="Repository\HistoricoCriterioAvaliacaoRepositorio.cs" />
     <Compile Include="Repository\ComentarioAcaoImediataRepositorio.cs" />
     <Compile Include="Repository\IndicadorRepositorio.cs" />
+    <Compile Include="Repository\RelatorioRepositorio.cs" />
     <Compile Include="Repository\LicencaRepositorio.cs" />
     <Compile Include="Repository\InstrumentoRepositorio.cs" />
     <Compile Include="Repository\LoginRepositorio.cs" />

@@ -79,7 +79,10 @@
                                                     <td>@log.IdLog</td>
                                                     @{
                                                         <td>
-                                                            @Web.UI.Helpers.EnumExtensions.ToName((Acao)log.IdAcao)
+                                                            @if (log.IdAcao != null)
+                                                            {
+                                                                @Web.UI.Helpers.EnumExtensions.ToName((Acao)log.IdAcao)
+                                                            }
                                                         </td>
                                                     }
 
@@ -90,7 +93,10 @@
                                                     <td>@log.Usuario.NmCompleto</td>
                                                     @{
                                                         <td>
-                                                            @Web.UI.Helpers.EnumExtensions.ToName((Funcionalidades)log.Modulo)
+                                                            @if (log.Modulo != null)
+                                                            {
+                                                                @Web.UI.Helpers.EnumExtensions.ToName((Funcionalidades)log.Modulo)
+                                                            }
                                                         </td>
                                                     }
                                                     <td>@log.Id</td>

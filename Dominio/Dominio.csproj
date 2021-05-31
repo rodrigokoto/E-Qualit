@@ -146,6 +146,7 @@
     <Compile Include="Entidade\RegistroLicenca.cs" />
     <Compile Include="Entidade\RegistroQualificacao.cs" />
     <Compile Include="Entidade\RegistroAuditoria.cs" />
+    <Compile Include="Entidade\Relatorio.cs" />
     <Compile Include="Entidade\Residuo.cs" />
     <Compile Include="Entidade\RH\Advertencia.cs" />
     <Compile Include="Entidade\RH\Atribuicao.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="Interface\Repositorio\ICriterioAceitacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\ICriterioQualificacaoRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IDocCargoRepositorio.cs" />
+    <Compile Include="Interface\Repositorio\IRelatorioRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IRegistroGut.cs" />
     <Compile Include="Interface\Repositorio\IFilaEnvioRepositorio.cs" />
     <Compile Include="Interface\Repositorio\IFornecedorRepositorio.cs" />
@@ -328,6 +330,7 @@
     <Compile Include="Interface\Repositorio\RH\IFuncionarioRepositorio.cs" />
     <Compile Include="Interface\Servico\IAnaliseCriticaFuncionarioServico.cs" />
     <Compile Include="Interface\Servico\IAnaliseCriticaServico.cs" />
+    <Compile Include="Interface\Servico\IRelatorioServico.cs" />
     <Compile Include="Interface\Servico\IAnexoServico.cs" />
     <Compile Include="Interface\Servico\IAvaliaCriterioAvaliacaoServico.cs" />
     <Compile Include="Interface\Servico\ICalibracaoServico.cs" />
@@ -383,6 +386,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servico\AnaliseCriticaFuncionarioServico.cs" />
     <Compile Include="Servico\AnaliseCriticaServico.cs" />
+    <Compile Include="Servico\RelatorioServico.cs" />
     <Compile Include="Servico\AnexoServico.cs" />
     <Compile Include="Servico\AvaliacaoDeCriticidadeServico.cs" />
     <Compile Include="Servico\AvaliaCriterioAvaliacaoServico.cs" />

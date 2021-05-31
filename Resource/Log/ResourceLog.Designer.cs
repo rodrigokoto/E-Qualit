@@ -140,5 +140,14 @@ namespace Traducao.Log {
                 return ResourceManager.GetString("IN_lbl_Modulo", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nome.
+        /// </summary>
+        public static string IN_lbl_NmUsuario {
+            get {
+                return ResourceManager.GetString("IN_lbl_NmUsuario", resourceCulture);
+            }
+        }
     }
 }

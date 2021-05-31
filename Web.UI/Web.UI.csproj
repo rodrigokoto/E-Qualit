@@ -2037,6 +2037,11 @@
     <Content Include="Views\GestaoDeRiscoGUT\PDF.cshtml" />
     <Content Include="Views\GestaoMelhoria\PDF.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="Views\Relatorio\Abertas.cshtml" />
+    <Content Include="Views\Relatorio\Index.cshtml" />
+    <Content Include="Views\Relatorio\AbertasAno.cshtml" />
+    <Content Include="Views\Relatorio\Fechadas.cshtml" />
+    <Content Include="Views\Relatorio\FechadasAno.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

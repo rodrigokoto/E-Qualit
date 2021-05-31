@@ -105,6 +105,8 @@ namespace DAL.Context
 
         public DbSet<RegistroGut> RegistroGut { get; set; }
 
+        public DbSet<Relatorio> Relatorio { get; set; }
+
 
 
         #region RH

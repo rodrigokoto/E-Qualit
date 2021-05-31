@@ -9212,6 +9212,15 @@ namespace Traducao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relatório.
+        /// </summary>
+        public static string Relatorio {
+            get {
+                return ResourceManager.GetString("Relatorio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Relatório Barras.
         /// </summary>
         public static string RelatorioBarras {

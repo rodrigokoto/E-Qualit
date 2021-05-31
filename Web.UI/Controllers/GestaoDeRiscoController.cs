@@ -1004,6 +1004,8 @@ namespace Web.UI.Controllers
             });
 
             _registroConformidadesAppServico.Remove(conformidade);
+
+            GravarLogExclusao((int)Funcionalidades.GestaoDeRiscos, idGestaoDeRisco);
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Resource.RegistroExlcuido }, JsonRequestBehavior.AllowGet);
         }
 

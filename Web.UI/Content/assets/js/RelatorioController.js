@@ -10,6 +10,42 @@ APP.controller.RelatorioController = {
     init: function () {
         //var page = APP.component.Util.getPage();
 
+        
+        $('.month-picker').datepicker({
+            dateFormat: "mm/yy",
+            startView: "months",
+            minViewMode: "months"
+        })
+            .datepicker("option", "changeMonth", true)
+            
+        $('.year-picker').datepicker({
+            dateFormat: "yy",
+            startView: "months",
+            minViewMode: "months"
+        })
+            .datepicker("option", "changeYear", true)
+
+
+
+        $('#paramMes').datepicker({
+            dateFormat: "mm/yy",
+            startView: "months",
+            minViewMode: "months"
+        })
+            .datepicker("option", "changeMonth", true)
+            .datepicker("option", "changeYear", true)
+            .datepicker("option", "showButtonPanel", true);
+
+
+        $('#dtAte').datepicker({
+            dateFormat: "mm/yy",
+            startView: "months",
+            minViewMode: "months"
+        })
+            .datepicker("option", "changeMonth", true)
+            .datepicker("option", "changeYear", true)
+            .datepicker("option", "showButtonPanel", true);
+
         this.dashBoard();
     },
 

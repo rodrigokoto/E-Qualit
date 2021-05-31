@@ -249,4 +249,7 @@
   <data name="Controller_log" xml:space="preserve">
     <value>Log</value>
   </data>
+  <data name="Controller_relatorio" xml:space="preserve">
+    <value>Relatórios</value>
+  </data>
 </root>
