@@ -1,0 +1,89 @@
+﻿@model List<Dominio.Entidade.RegistroConformidade>
+@{
+
+    var Modulos = ViewBag.Modulos;
+    var Funcionalidades = ViewBag.Funcionalidades;
+
+    var imgSrcUsuario = "/Content/assets/imagens/avatar.jpg";
+    var imgSrcCliente = "/Content/assets/imagens/cliente-padrao.png";
+    var base64 = "";
+
+    if (ViewBag.UsuarioLogado.Arquivo != null)
+    {
+        var tipoImg = ViewBag.UsuarioLogado.TipoConteudo.ToString();
+        base64 = Convert.ToBase64String(ViewBag.UsuarioLogado.Arquivo);
+        imgSrcUsuario = string.Format("data:image/" + tipoImg + ";base64," + base64);
+    }
+
+    if (ViewBag.ClienteSelecionado != null)
+    {
+        if (ViewBag.ClienteSelecionado.TipoConteudo != null)
+        {
+            var tipoImgCliente = ViewBag.ClienteSelecionado.TipoConteudo.ToString();
+            base64 = Convert.ToBase64String(ViewBag.ClienteSelecionado.Arquivo);
+            imgSrcCliente = string.Format("data:image/" + tipoImgCliente + ";base64," + base64);
+        }
+    }
+}
+
+
+@{
+
+}
+@section Metas {
+    <meta name="page" content="IndexRelatorio" />
+}
+
+
+
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/RelatorioController.js?rnd=3")"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/xrange.js"></script>
+
+}
+
+<div id="main">
+    <div class="content-painel">
+        <!-- Formulario Acao Corretiva -->
+        <form id="form-acaocorretiva">
+            <div class="panel panel-default" id="panel-acaocorretiva">
+                <div class="panel-body" id="panel-form-acaocorretiva">
+                    <div class="barra-busca">
+                        <img class="img-responsive" src="@(HttpContext.Current.Session["siteImg"] != null? (string)HttpContext.Current.Session["siteImg"]:imgSrcCliente)" alt="Equalit" />
+                        <h2>@ViewBag.Relatorio.Nome</h2>
+                        <hr />
+                        <table class="table-striped table" style="width: 100% !important;">
+                            <thead>
+                                <tr>
+                                    <th>Numero</th>
+                                    <th>Data Emissão</th>
+                                    <th>Processo</th>
+                                    <th>Dt. Anulação</th>
+                                    <th>Responsável</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var registro in Model)
+                                {
+                                <tr>
+                                    <td>@registro.NuRegistro</td>
+                                    <td>@registro.DtEmissao</td>
+                                    <td>@registro.Processo.Nome</td>
+                                    <td>@registro.DtEnceramento</td>
+                                    <td>@registro.ResponsavelImplementar</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

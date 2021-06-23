@@ -339,6 +339,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AlterarSenhaUsuarioViewModels.cs" />
     <Compile Include="Models\ArquivoAnexoViewModel.cs" />
+    <Compile Include="Models\RelatorioPendenteViewModel.cs" />
     <Compile Include="Models\GestaoRiscoViewModel.cs" />
     <Compile Include="Models\GraficoNaoConformidadeViewModel.cs" />
     <Compile Include="Models\LayoutImpressaoViewModel.cs" />
@@ -2042,6 +2043,34 @@
     <Content Include="Views\Relatorio\AbertasAno.cshtml" />
     <Content Include="Views\Relatorio\Fechadas.cshtml" />
     <Content Include="Views\Relatorio\FechadasAno.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\AbertasFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\UsuarioCargoPermissoesFiltro.cshtml" />
+    <Content Include="Views\Relatorio\UsuarioCargoPermissoes.cshtml" />
+    <Content Include="Views\Relatorio\UsuarioCargoUsuario.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\UsuarioCargoUsuarioFiltro.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioDocumentosCargo.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\CargosDocumentosFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\DocumentoAprovacaoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\DocumentoVerificacaoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\DocumentoElaboracaoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\DocumentoVencimentoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioDocumentos.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\DocumentoObsoletoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\GeradasTipoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\AbertasPendentesFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\AbertaReverificacaoAtrasoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\AbertasEncerradasFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\TempoTratamentoRegistroFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\TempoAberturaAnaliseDefinicaoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\GeradaProcessoFiltro.cshtml" />
+    <Content Include="Views\Relatorio\Filtros\AnuladasFiltro.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioRegistroTipo.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioRegistroPendente.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioRegistroTempo.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioRegistroProcesso.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioRegistroEncerrada.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioRegistroAnulada.cshtml" />
+    <Content Include="Views\Relatorio\RelatorioRegistroTempoDefinicao.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

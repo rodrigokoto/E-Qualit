@@ -187,6 +187,15 @@ namespace Traducao.Modulo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Usuário.
+        /// </summary>
+        public static string Modulo_lbl_Modulo_usuario {
+            get {
+                return ResourceManager.GetString("Modulo_lbl_Modulo_usuario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Workflow Aprovação.
         /// </summary>
         public static string Modulo_lbl_Modulo_workflow {

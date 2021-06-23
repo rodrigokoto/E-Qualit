@@ -142,8 +142,6 @@ namespace Web.UI.Controllers
                 }
             });
 
-
-
             ViewBag.Modulos = mudulos;
             ViewBag.Funcionalidades = funcionalidades.Where(x => x.Ativo).ToList();
 

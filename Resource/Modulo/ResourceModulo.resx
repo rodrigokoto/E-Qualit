@@ -168,4 +168,7 @@
   <data name="Modulo_lbl_Modulo_gestao_melhoria" xml:space="preserve">
     <value>Gestão de Melhoria</value>
   </data>
+  <data name="Modulo_lbl_Modulo_usuario" xml:space="preserve">
+    <value>Usuário</value>
+  </data>
 </root>

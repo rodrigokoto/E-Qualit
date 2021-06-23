@@ -1,0 +1,23 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model Dominio.Entidade.Relatorio
+
+
+@Html.HiddenFor(x => x.IdRelatorio)
+@Html.HiddenFor(x => x.IdFuncionalidade)
+@Html.HiddenFor(x => x.Nome)
+@Html.HiddenFor(x => x.Funcionalidade)
+
+
+@foreach (var item in Model.Parametros)
+{
+    if (item.Key == "Processo")
+    {
+        <div class="form-group row col-lg-6">
+            @Html.LabelFor(x => x.Parametros[item.Key], item.Key)
+            @Html.DropDownListFor(p => p.Parametros[item.Key], new SelectList(ViewBag.Processo, "IdProcesso", "Nome"), new { @class = "form-control" })
+        </div>
+
+    }
+}
+

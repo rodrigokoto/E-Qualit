@@ -594,56 +594,57 @@
                                     </div>
                                 </li>*@
 
-
-                            <li>
-                                <a href="#Relatorio" class="active collapsed" data-toggle="collapse" id="MenuDocumentosSistema" aria-expanded="false">
-                                    <i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.Relatorio</span> <i style="float: right" class="fa fa-bars"></i>
-                                </a>
-                                <div id="Relatorio" class="subPages class collapse " style="height: 0px;">
-                                    <ul class="nav">
-                                        @foreach (var item in (List<Funcionalidade>)ViewBag.FuncionalidadesSite)
-                                        {
-                                            if (item.Relatorios.Count() > 0)
+                            @if (ViewBag.IdPerfil != 4)
+                            {
+                                <li>
+                                    <a href="#Relatorio" class="active collapsed" data-toggle="collapse" id="MenuDocumentosSistema" aria-expanded="false">
+                                        <i class="lnr lnr-file-empty"></i> <span>@Traducao.Resource.Relatorio</span> <i style="float: right" class="fa fa-bars"></i>
+                                    </a>
+                                    <div id="Relatorio" class="subPages class collapse " style="height: 0px;">
+                                        <ul class="nav">
+                                            @foreach (var item in (List<Funcionalidade>)ViewBag.FuncionalidadesSite)
                                             {
-                                                <li>
-                                                    <div id="Relat@(item.Tag)" class="subPages collapse class">
-                                                        <ul class="nav">
-                                                            <li style="border-bottom: 2px solid #e7e7e7;">
-                                                                <a href="#subPages@(item.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/","").Replace("(", "").Replace(")", "").Replace("ç", "c").Replace("ã" , "a"))Categoria"
-                                                                   id="hrefDocs"
-                                                                   class="hrefDocs active collapsed"
-                                                                   style="padding-left:0px; text-align:center; display: inline-flex"
-                                                                   data-toggle="collapse"
-                                                                   aria-expanded="false">
-                                                                    <i class="lnr lnr-file-empty"></i>
-                                                                    <div style="width: 190px">
-                                                                        <span>@item.Nome</span>
+                                                if (item.Relatorios.Count() > 0)
+                                                {
+                                                    <li>
+                                                        <div id="Relat@(item.Tag)" class="subPages collapse class">
+                                                            <ul class="nav">
+                                                                <li style="border-bottom: 2px solid #e7e7e7;">
+                                                                    <a href="#subPages@(item.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/","").Replace("(", "").Replace(")", "").Replace("ç", "c").Replace("ã" , "a"))Categoria"
+                                                                       id="hrefDocs"
+                                                                       class="hrefDocs active collapsed"
+                                                                       style="padding-left:0px; text-align:center; display: inline-flex"
+                                                                       data-toggle="collapse"
+                                                                       aria-expanded="false">
+                                                                        <i class="lnr lnr-file-empty"></i>
+                                                                        <div style="width: 190px">
+                                                                            <span>@item.Nome</span>
+                                                                        </div>
+                                                                        <i style="float: right" class="fa fa-bars"></i>
+                                                                    </a>
+                                                                    <div id="subPages@(item.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/","").Replace("(", "").Replace(")", "").Replace("ç", "c").Replace("ã" , "a"))Categoria" class="subPages2 class collapse" style="height: 0px;">
+                                                                        <ul class="nav">
+                                                                            @foreach (var relatorio in item.Relatorios)
+                                                                            {
+                                                                                <li class="liDocs" style="display: none;">
+
+                                                                                    @Html.ActionLink((string)relatorio.Nome, relatorio.Url + "Filtro", "Relatorio", new { idRelatorio = relatorio.IdRelatorio }, new { @style = "padding-left:10px;" })
+
+                                                                                </li>
+
+                                                                            }
+                                                                        </ul>
                                                                     </div>
-                                                                    <i style="float: right" class="fa fa-bars"></i>
-                                                                </a>
-                                                                <div id="subPages@(item.Nome.ToString().Replace(" ","").Replace(".","").Replace("&","").Replace("/","").Replace("(", "").Replace(")", "").Replace("ç", "c").Replace("ã" , "a"))Categoria" class="subPages2 class collapse" style="height: 0px;">
-                                                                    <ul class="nav">
-                                                                        @foreach (var relatorio in item.Relatorios)
-                                                                        {
-                                                                            <li class="liDocs" style="display: none;">
-                                                                             
-                                                                                @Html.ActionLink((string)relatorio.Nome, "Index" , "Relatorio/Index", new { idRelatorio = relatorio.IdRelatorio }, new { @style = "padding-left:10px;"})
-                                                                                
-                                                                            </li>
-
-                                                                        }
-                                                                    </ul>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                }
                                             }
-                                        }
-                                    </ul>
-                                </div>
-                            </li>
-
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
 
                         </ul>
                     </nav>

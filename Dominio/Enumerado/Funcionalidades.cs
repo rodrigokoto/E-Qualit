@@ -30,5 +30,7 @@ namespace Dominio.Enumerado
         RecursosHumanos = 12,
         [Description("Doc")]
         Docs = 13,
+        [Description("Usuário")]
+        Usuario = 14,
     }
 }

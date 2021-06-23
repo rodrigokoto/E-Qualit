@@ -48,6 +48,8 @@ namespace Dominio.Entidade
                         return "fa fa-users fa-stack-1x fa-inverse";
                     case (int)Funcionalidades.Docs:
                         return "fa fa-users fa-stack-1x fa-inverse";
+                    case (int)Funcionalidades.Usuario:
+                        return "fa fa-users fa-stack-1x fa-inverse";
                     default:
                         return "";
                 }

@@ -1,0 +1,16 @@
+﻿@using ApplicationService.Entidade
+@using ApplicationService.Enum
+@model Dominio.Entidade.Relatorio
+
+
+@Html.HiddenFor(x => x.IdRelatorio)
+@Html.HiddenFor(x => x.IdFuncionalidade)
+@Html.HiddenFor(x => x.Nome)
+@Html.HiddenFor(x => x.Funcionalidade)
+
+
+@foreach (var item in Model.Parametros)
+{
+   
+}
+
