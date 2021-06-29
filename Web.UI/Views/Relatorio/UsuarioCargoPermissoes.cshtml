@@ -1,6 +1,6 @@
 ﻿@model Dominio.Entidade.Cargo
 @{
-
+    Layout = null;
     var Modulos = ViewBag.Modulos;
     var Funcionalidades = ViewBag.Funcionalidades;
 
@@ -34,7 +34,8 @@
     <meta name="page" content="IndexRelatorio" />
 }
 
-
+<link rel="stylesheet" href="../../content/assets/css/style.css?rnd=3">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 @section scripts {
     <script src="@Url.Content("~/Content/assets/js/RelatorioController.js?rnd=3")"></script>
@@ -68,6 +69,12 @@
                             }
 
                         </table>
+                        <div class="pull-right">
+                            <div class="row">
+                                <input type="button" class="btn btn-primary btn-salvar" value="Imprimir" onclick="window.print();" />
+                                <input type="button" class="btn btn-primary btn-salvar" value="Fechar" onclick="window.frames.close();" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -59,7 +59,7 @@ namespace Web.UI.Controllers
             IControladorCategoriasAppServico controladorCategoriasServico,
             IFilaEnvioServico filaEnvioServico,
             IPendenciaAppServico pendenciaAppServico,
-           IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)        
+           IRegistroAcaoImediataServico registroRegistroAcaoImediataServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _registroConformidadesAppServico = registroConformidadesAppServico;
             _notificacaoAppServico = notificacaoAppServico;
@@ -583,19 +583,27 @@ namespace Web.UI.Controllers
 
         [HttpPost]
         public JsonResult SalvarSegundaEtapa(RegistroConformidade naoConformidade)
-         {
+        {
             var erros = new List<string>();
 
             var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
-            if (acoesImediatasNova.Count > 0)
-            {
-                var registroAcoes = _registroConformidadesAppServico.GetById(naoConformidade.IdRegistroConformidade);
+            var registroAcoes = _registroConformidadesAppServico.GetById(naoConformidade.IdRegistroConformidade);
 
-                if (registroAcoes.AcoesImediatas.Count > 0)
-                    naoConformidade.StatusEtapa = 1;
+            if (acoesImediatasNova.Count > 0 && registroAcoes.AcoesImediatas.Count > 0)
+            {
+
+                naoConformidade.StatusEtapa = 1;
+
             }
 
+            if (registroAcoes.AcoesImediatas.Count > 0)
+            {
+                if (naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao == null).ToList().Count() == registroAcoes.AcoesImediatas.Count() && naoConformidade.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao)
+                {
+                    erros.Add("Favor preencher as datas de efetiva implementação.");
+                }
+            }
             try
             {
                 var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
@@ -640,6 +648,9 @@ namespace Web.UI.Controllers
                     //    erros.Add("Não é possível incluir um arquivo vazio como anexo.");
                     //}
                 }
+
+
+
                 //int count = 0;
                 //RegistroAcaoImediata acaoImediata = new RegistroAcaoImediata();
                 //foreach (var item in naoConformidade.AcoesImediatas)

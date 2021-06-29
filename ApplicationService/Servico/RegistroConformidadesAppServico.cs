@@ -499,7 +499,10 @@ namespace ApplicationService.Servico
                     }
                 }
                 //naoConformidade.EProcedente 
-                if (naoConformidade.ECorrecao == false || naoConformidade.ECorrecao == null && !acoesImediatasIncolpletas)
+                if (naoConformidade.ECorrecao == false && acoesImediatasIncolpletas) {
+                    objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
+                }
+                else if (naoConformidade.ECorrecao == false || naoConformidade.ECorrecao == null && !acoesImediatasIncolpletas)
                 {
                     objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
                     objCtx.DtEnceramento = DateTime.Now;
@@ -691,18 +694,29 @@ namespace ApplicationService.Servico
 
 
             var primeiraAcaoImdediata = objCtx.AcoesImediatas.FirstOrDefault();
-
+            bool acoesImediatasIncolpletas = false;
+            foreach (var item in registroConformidade.AcoesImediatas)
+            {
+                if (item.DtEfetivaImplementacao == null)
+                {
+                    acoesImediatasIncolpletas = true;
+                    break;
+                }
+            }
             if (primeiraAcaoImdediata != null && primeiraAcaoImdediata.DtEfetivaImplementacao != null && primeiraAcaoImdediata.DtEfetivaImplementacao != default(DateTime) || objCtx.StatusEtapa == 4 || objCtx.StatusEtapa == 2)
             {
                 AtualizaAcoesImediatas(registroConformidade.AcoesImediatas.ToList(), objCtx);
             }
-
-            if (registroConformidade.EProcedente == false)
+            if (registroConformidade.ECorrecao == false && acoesImediatasIncolpletas)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
+            }
+            else if (registroConformidade.EProcedente == false)
             {
                 objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
                 objCtx.DtEnceramento = DateTime.Now;
             }
-            if (!Implementacao)
+            else if (!Implementacao)
             {
                 objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.AcaoImediata;
             }
@@ -1038,11 +1052,25 @@ namespace ApplicationService.Servico
             }
             AtualizaAcoesImediatas(listaAcaoImediataUpdate.ToList(), objCtx);
             var listaAcaoImediataNaoImplementadas = registroConformidade.AcoesImediatas.FirstOrDefault(x => x.DtEfetivaImplementacao == null) != null;
-            if (listaAcaoImediataNaoImplementadas == false)
+
+            bool acoesImediatasIncolpletas = false;
+            foreach (var item in registroConformidade.AcoesImediatas)
+            {
+                if (item.DtEfetivaImplementacao == null)
+                {
+                    acoesImediatasIncolpletas = true;
+                    break;
+                }
+            }
+            if (registroConformidade.ECorrecao == false && acoesImediatasIncolpletas)
+            {
+                objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
+            }
+            else if (listaAcaoImediataNaoImplementadas == false)
             {
                 objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Reverificacao;
             }
-            if (registroConformidade.EProcedente == false)
+            else if (registroConformidade.EProcedente == false)
             {
                 objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
                 objCtx.DtEnceramento = DateTime.Now;

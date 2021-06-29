@@ -11,11 +11,11 @@
 
 @foreach (var item in Model.Parametros)
 {
-    if (item.Key == "Cargo")
+    if (item.Key == "Usuario")
     {
         <div class="form-group row col-lg-6">
             @Html.LabelFor(x => x.Parametros[item.Key], item.Key)
-            @Html.DropDownListFor(p => p.Parametros[item.Key], new SelectList(ViewBag.cargo, "IdCargo", "NmNome"), new { @class = "form-control" })
+            @Html.DropDownListFor(p => p.Parametros[item.Key], new SelectList(ViewBag.Usuario, "IdUsuario", "NmCompleto"), new { @class = "form-control" })
         </div>
 
     }

@@ -214,10 +214,31 @@ namespace Web.UI.Controllers
         {
             var idSite = Util.ObterSiteSelecionado();
             var relatorio = _relatorioAppServico.GetById(idRelatorio);
+            var usuarios = new List<Usuario>();
+
+            using (var db = new BaseContext())
+            {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+
+
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, null));
+
+            var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
+
+
 
             relatorio.Parametros = new Dictionary<string, string>();
             relatorio.Parametros.Add("Filtro", "DocumentoAprovacaoFiltro");
-
+            relatorio.Parametros.Add("Usuario", "");
+            
+            ViewBag.Usuario = usuariosLista;
 
             return View("Index", relatorio);
         }
@@ -225,10 +246,31 @@ namespace Web.UI.Controllers
         {
             var idSite = Util.ObterSiteSelecionado();
             var relatorio = _relatorioAppServico.GetById(idRelatorio);
+            var usuarios = new List<Usuario>();
+
+            using (var db = new BaseContext())
+            {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+
+
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, null));
+
+            var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
+
+
 
             relatorio.Parametros = new Dictionary<string, string>();
             relatorio.Parametros.Add("Filtro", "DocumentoAprovacaoFiltro");
+            relatorio.Parametros.Add("Usuario", "");
 
+            ViewBag.Usuario = usuariosLista;
 
             return View("Index", relatorio);
 
@@ -237,10 +279,31 @@ namespace Web.UI.Controllers
         {
             var idSite = Util.ObterSiteSelecionado();
             var relatorio = _relatorioAppServico.GetById(idRelatorio);
+            var usuarios = new List<Usuario>();
+
+            using (var db = new BaseContext())
+            {
+
+                var usuariodb = (from usu in db.Usuario
+                                 join usuSite in db.UsuarioClienteSite on usu.IdUsuario equals usuSite.IdUsuario
+                                 where usuSite.IdSite == idSite && usu.FlAtivo == true
+                                 select usu).OrderBy(x => x.NmCompleto).ToList();
+
+                usuarios = usuariodb;
+            }
+
+
+            //usuarios.AddRange(_usuarioAppServico.ObterUsuariosPorFuncao(null, idSite, null));
+
+            var usuariosLista = usuarios.Select(x => new { x.IdUsuario, x.NmCompleto }).ToList();
+
+
 
             relatorio.Parametros = new Dictionary<string, string>();
             relatorio.Parametros.Add("Filtro", "DocumentoAprovacaoFiltro");
+            relatorio.Parametros.Add("Usuario", "");
 
+            ViewBag.Usuario = usuariosLista;
 
             return View("Index", relatorio);
 
@@ -509,7 +572,7 @@ namespace Web.UI.Controllers
 
             var idSite = Util.ObterSiteSelecionado();
 
-            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Obsoleto).ToList();
+            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Obsoleto).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ThenBy(x => x.NuRevisao).ToList();
 
             ViewBag.Relatorio = relatorio;
 
@@ -520,8 +583,10 @@ namespace Web.UI.Controllers
         {
 
             var idSite = Util.ObterSiteSelecionado();
+            var idUsuario = Convert.ToInt32(relatorio.Parametros["Usuario"]);
+            
 
-            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Aprovacao).ToList();
+            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Aprovacao && x.IdElaborador == idUsuario).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ToList();
 
             ViewBag.Relatorio = relatorio;
 
@@ -530,10 +595,11 @@ namespace Web.UI.Controllers
         }
         public ViewResult DocumentoVerificacao(Relatorio relatorio)
         {
+            var idUsuario = Convert.ToInt32(relatorio.Parametros["Usuario"]);
 
             var idSite = Util.ObterSiteSelecionado();
 
-            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Verificacao).ToList();
+            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Verificacao && x.IdElaborador == idUsuario).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ToList();
 
             ViewBag.Relatorio = relatorio;
 
@@ -542,15 +608,15 @@ namespace Web.UI.Controllers
         public ViewResult DocumentoElaboracao(Relatorio relatorio)
         {
 
+            var idUsuario = Convert.ToInt32(relatorio.Parametros["Usuario"]);
             var idSite = Util.ObterSiteSelecionado();
 
-            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Elaboracao).ToList();
+            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Elaboracao && x.IdElaborador == idUsuario).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ToList();
 
             ViewBag.Relatorio = relatorio;
 
             return View("RelatorioDocumentos", docDocumento);
         }
-
         public ViewResult DocumentoVencimento(Relatorio relatorio)
         {
 
@@ -558,7 +624,7 @@ namespace Web.UI.Controllers
 
             var dt30 = DateTime.Now.AddDays(30);
 
-            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Aprovado && x.FlRevisaoPeriodica == true && x.DtVencimento > dt30).ToList();
+            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Aprovado && x.FlRevisaoPeriodica == true && x.DtNotificacao > dt30).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ThenBy(x => x.NuRevisao).ToList();
 
             ViewBag.Relatorio = relatorio;
 

@@ -281,7 +281,7 @@ APP.controller.LoginController = {
         document.cookie = "siteModulos=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             data: loginObj,
             dataType: 'json',
             async: true,

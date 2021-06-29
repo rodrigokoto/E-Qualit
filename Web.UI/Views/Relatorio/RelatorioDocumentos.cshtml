@@ -1,6 +1,6 @@
 ﻿@model List<Dominio.Entidade.DocDocumento>
 @{
-
+    Layout = null;
     var Modulos = ViewBag.Modulos;
     var Funcionalidades = ViewBag.Funcionalidades;
 
@@ -34,7 +34,8 @@
     <meta name="page" content="IndexRelatorio" />
 }
 
-
+<link rel="stylesheet" href="../../content/assets/css/style.css?rnd=3">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 @section scripts {
     <script src="@Url.Content("~/Content/assets/js/RelatorioController.js?rnd=3")"></script>
@@ -42,6 +43,7 @@
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/xrange.js"></script>
+
 
 }
 
@@ -54,6 +56,7 @@
                     <div class="barra-busca">
                         <img class="img-responsive" src="@(HttpContext.Current.Session["siteImg"] != null? (string)HttpContext.Current.Session["siteImg"]:imgSrcCliente)" alt="Equalit" />
                         <h2>@ViewBag.Relatorio.Nome</h2>
+                        <h4>Cargo: @ViewBag.cargo.NmNome</h4>
                         <hr />
                         <table class="table-striped table" style="width: 100% !important;">
                             <thead>
@@ -69,22 +72,29 @@
                             <tbody>
                                 @foreach (var doc in Model)
                                 {
-                                <tr>
-                                    <td>@doc.Processo.Nome</td>
-                                    <td>@doc.Sigla.Descricao</td>
-                                    <td>@doc.NumeroDocumento</td>
-                                    <td>@doc.Titulo</td>
-                                    <td>@doc.NuRevisao</td>
-                                    <td>@doc.Elaborador.NmCompleto</td>
-                                </tr>
+                                    <tr>
+                                        <td>@doc.Processo.Nome</td>
+                                        <td>@doc.Sigla.Descricao</td>
+                                        <td>@doc.NumeroDocumento</td>
+                                        <td>@doc.Titulo</td>
+                                        <td>@doc.NuRevisao</td>
+                                        <td>@doc.Elaborador.NmCompleto</td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
+                        <div class="pull-right">
+                            <div class="row">
+                                <input type="button" class="btn btn-primary btn-salvar" value="Imprimir" onclick="window.print();" />
+                                <input type="button" class="btn btn-primary btn-salvar" value="Fechar" onclick="window.frames.close();" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
+    
 </div>
 
 

@@ -417,12 +417,21 @@ namespace Web.UI.Controllers
 
             var acoesImediatasNova = acaoCorretiva.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
-            if (acoesImediatasNova.Count > 0)
-            {
-                var registroAcoes = _registroConformidadesAppServico.GetById(acaoCorretiva.IdRegistroConformidade);
+            var registroAcoes = _registroConformidadesAppServico.GetById(acaoCorretiva.IdRegistroConformidade);
 
-                if (registroAcoes.AcoesImediatas.Count > 0)
-                    acaoCorretiva.StatusEtapa = 1;
+            if (acoesImediatasNova.Count > 0 && registroAcoes.AcoesImediatas.Count > 0)
+            {
+
+                acaoCorretiva.StatusEtapa = 1;
+
+            }
+
+            if (registroAcoes.AcoesImediatas.Count > 0)
+            {
+                if (acaoCorretiva.AcoesImediatas.Where(x => x.DtEfetivaImplementacao == null).ToList().Count() == registroAcoes.AcoesImediatas.Count() && acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao)
+                {
+                    erros.Add("Favor preencher as datas de efetiva implementação.");
+                }
             }
 
             try
