@@ -252,4 +252,7 @@
   <data name="Controller_relatorio" xml:space="preserve">
     <value>Relatórios</value>
   </data>
+  <data name="Action_processo" xml:space="preserve">
+    <value>Processo</value>
+  </data>
 </root>

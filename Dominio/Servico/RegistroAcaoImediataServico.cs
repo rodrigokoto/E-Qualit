@@ -34,5 +34,9 @@ namespace ApplicationService.Servico
 
         }
 
+        public void Remove(RegistroAcaoImediata registroAcaoImediata)
+        {
+            _repositorio.Remove(registroAcaoImediata);
+        }
     }
 }

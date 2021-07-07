@@ -340,7 +340,7 @@ APP.controller.AcaoCorretivaController = {
         });
 
         $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').hide();
-        
+
     },
 
     setDisabledStatusEtapa2: function (_disabled) {
@@ -1199,9 +1199,58 @@ APP.controller.AcaoCorretivaController = {
         $('.btn-delete-acao-imediata').unbind('click');
         $('.btn-delete-acao-imediata').on('click', function (event) {
             event.preventDefault();
-            $(this).closest('tr').remove();
-        });
 
+            var idAcaoImediata = $(this).closest('tr').find('[name="formAcaoImadiataTbIdAcaoImediata"]').val();
+            var tableRow = $(this).closest('tr');
+
+            var modal = bootbox.dialog({
+                title: 'Excluir ação imediata.',
+                message: 'Deseja excluir está ação imediata ?',
+                buttons: [
+                    {
+                        label: _options.labelButtonYes,
+                        className: "btn btn-primary pull-right",
+                        callback: function () {
+
+                            $.ajax({
+                                type: "POST",
+                                dataType: 'json',
+                                url: '/AcaoImediata/ExcluirAcaoImediata?IdAcaoImediata=' + idAcaoImediata,
+                                beforeSend: function () {
+                                    APP.component.Loading.showLoading();
+                                },
+                                success: function (result) {
+                                    if (result.StatusCode == 200) {
+                                        bootbox.alert("Ação imediata excluida com sucesso!");
+                                    }
+                                },
+                                error: function (result) {
+                                    bootbox.alert(_options.MsgOcorreuErro);
+                                },
+                                complete: function (result) {
+                                    tableRow.remove();
+                                    APP.component.Loading.hideLoading();
+                                }
+                            });
+                        }
+                    },
+                    {
+                        label: _options.botao_cancelar,
+                        className: "btn btn-default pull-right",
+                        callback: function () {
+                            modal.modal("hide");
+                        }
+                    }
+                ],
+                show: false,
+                onEscape: function () {
+                    modal.modal("hide");
+                }
+            });
+
+            modal.modal("show");
+
+        });
     },
 
     getResponsavelImplementarAcaoImediata: function () {
@@ -1227,7 +1276,7 @@ APP.controller.AcaoCorretivaController = {
                 bootbox.alert(_options.MsgOcorreuErro);
             },
             complete: function (result) {
-                    $('.add-acao-imediata').removeClass('hide').addClass('show');
+                $('.add-acao-imediata').removeClass('hide').addClass('show');
             }
         });
 

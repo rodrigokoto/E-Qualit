@@ -590,20 +590,14 @@ namespace Web.UI.Controllers
 
             var registroAcoes = _registroConformidadesAppServico.GetById(naoConformidade.IdRegistroConformidade);
 
-            if (acoesImediatasNova.Count > 0 && registroAcoes.AcoesImediatas.Count > 0)
+            if (acoesImediatasNova.Count > 0)
             {
 
                 naoConformidade.StatusEtapa = 1;
 
             }
 
-            if (registroAcoes.AcoesImediatas.Count > 0)
-            {
-                if (naoConformidade.AcoesImediatas.Where(x => x.DtEfetivaImplementacao == null).ToList().Count() == registroAcoes.AcoesImediatas.Count() && naoConformidade.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao)
-                {
-                    erros.Add("Favor preencher as datas de efetiva implementação.");
-                }
-            }
+           
             try
             {
                 var responsavelAcaoCorrecao = _registroConformidadesAppServico.Get(x => x.IdRegistroPai == naoConformidade.IdRegistroConformidade && x.TipoRegistro == "ac").OrderByDescending(x => x.IdRegistroConformidade).FirstOrDefault();
@@ -732,6 +726,8 @@ namespace Web.UI.Controllers
             return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_save_valid }, JsonRequestBehavior.AllowGet);
 
         }
+
+        
 
         private void AtualizarDatasAgendadas(RegistroConformidade naoConformidade)
         {

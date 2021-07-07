@@ -205,6 +205,15 @@ namespace Traducao.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Processo.
+        /// </summary>
+        public static string Action_processo {
+            get {
+                return ResourceManager.GetString("Action_processo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recursos.
         /// </summary>
         public static string Action_recursos {

@@ -72,7 +72,7 @@ namespace Web.UI.Controllers
 
                 if (erros.Count == 0)
                 {
-                    var usuarioCTX = _usuarioAppServico.ObterUsuarioPorCdIdentificacao(usuario.CdIdentificacao);
+                    var usuarioCTX = _usuarioAppServico.ObterUsuarioPorIdeSenha(usuario.CdIdentificacao , usuario.CdSenha);
 
                     _loginServico.ValidoParaAcessar(usuarioCTX, ref erros);
 

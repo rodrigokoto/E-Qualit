@@ -623,6 +623,9 @@
                                                         <button type="button" class="btn btn-historico">
                                                             <i class="fa fa-history" aria-hidden="true"></i>
                                                         </button>
+                                                        <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
+                                                            <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
+                                                        </a>
                                                     }
                                                     @if (ViewBag.StatusEtapa == 2)
                                                     {
@@ -647,9 +650,7 @@
                                                                 <input type="hidden" name="formAcaoImadiataTbAprovado" value="@aprovadoAux" />
                                                             }
                                                             @*<input type="hidden" name="formAcaoImadiataTbAprovado" value="" />*@
-                                                            <a href="#" class="btn-delete-acao-imediata icon-cliente trash-color">
-                                                                <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" data-original-title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>
-                                                            </a>
+                                                           
                                                             @if (ViewBag.StatusEtapa == 3 && !Convert.ToBoolean(aprovadoAux))
                                                             {
                                                                 <button type="button" class="btn btn-confirm-acao-imediata ativo-color">

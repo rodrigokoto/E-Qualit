@@ -16,6 +16,8 @@ namespace ApplicationService.Interface
         void AlterarSenha(int idUsuario, string novaSenha);
         void NovaSenhaRandomica(Usuario usuario, string novaSenha);
         Usuario ObterUsuarioPorCdIdentificacao(string cdIdentificacao);
+
+        Usuario ObterUsuarioPorIdeSenha(string cdIdentificacao, string senha);
         List<Usuario> ObterUsuariosPorCargo(int idCargo);
         List<Funcionalidade> ObterFuncionalidadesPermitidas(int idUsuario);
         List<Funcionalidade> ObterFuncionalidadesPermitidasPorSite(int idUsuario);

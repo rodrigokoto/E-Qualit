@@ -88,6 +88,21 @@ namespace Web.UI.Controllers
             return View("Criar", site);
         }
 
+
+        [HttpGet]
+        [AcessoUsuarioSite]
+        public ActionResult Processo()
+        {
+            ViewBag.IdPerfil = Util.ObterPerfilUsuarioLogado();
+
+            var id = Util.ObterSiteSelecionado();
+
+            id = id == 0 ? 4 : id;
+            var site = _siteAppServico.GetById(id);
+            ViewBag.Funcionalidades = _funcionalidadeAppServico.Get(x => x.Ativo == true);
+            return View("Processo", site);
+        }
+
         [HttpPost]
         [AcessoAdmin]
         public JsonResult Excluir(int id)
@@ -241,6 +256,12 @@ namespace Web.UI.Controllers
         public JsonResult Salvar(Site site)
         {
             var erros = new List<string>();
+
+            if (site.NuCNPJ == null) {
+
+                AtualizaProcesso(site);
+                return Json(new { StatusCode = 200, Success = Traducao.Site.ResourceSite.Site_msg_criar_valid }, JsonRequestBehavior.AllowGet);
+            }
 
             try
             {

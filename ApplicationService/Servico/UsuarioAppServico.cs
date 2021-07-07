@@ -649,5 +649,11 @@ namespace ApplicationService.Servico
                 return false;
             }
         }
+
+        public Usuario ObterUsuarioPorIdeSenha(string cdIdentificacao, string senha)
+        {
+            
+            return _usuarioRepositorio.Get(x => x.CdIdentificacao == cdIdentificacao && x.CdSenha == senha).FirstOrDefault();
+        }
     }
 }

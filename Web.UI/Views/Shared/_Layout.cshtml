@@ -328,9 +328,9 @@
                             }
                         </ul>
                         @*<a id="nav-user-manuais" class="dropdown-toggle mdlFire" href="#" data-target="#modal-1">
-                                <i class="fa fa-book fa-2x" aria-hidden="true"></i>
-                                <span>Manuais</span>
-                            </a>*@
+                <i class="fa fa-book fa-2x" aria-hidden="true"></i>
+                <span>Manuais</span>
+            </a>*@
                     </li>
                     @if (ViewBag.IdPerfil == 1 || ViewBag.IdPerfil == 2)
                     {
@@ -363,10 +363,12 @@
                             </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <li><a href="@Url.Action("Index", "Site/Index")">Cargo / Usuários</a></li>
+                                <li><a href="@Url.Action("Index", "Site/Processo")">Processos</a></li>
                             </ul>
                         </li>
 
                     }
+                   
                     <!-- User -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">

@@ -597,13 +597,6 @@ namespace Web.UI.Controllers
 
             }
 
-            if (registroAcoes.AcoesImediatas.Count > 0)
-            {
-                if (gestaoMelhoria.AcoesImediatas.Where(x => x.DtEfetivaImplementacao == null).ToList().Count() == registroAcoes.AcoesImediatas.Count() && gestaoMelhoria.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao)
-                {
-                    erros.Add("Favor preencher as datas de efetiva implementação.");
-                }
-            }
 
             try
             {

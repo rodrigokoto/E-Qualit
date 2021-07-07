@@ -57,6 +57,14 @@
                 <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@action</a></li>
             }
         }
+        else if (controller == "processo")
+        {
+            <li><a class="@(action == "index" ? "active" : null)" style="margin-top: 5px" href=@("/" + controller + "/Index")>@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+            if (action != "index")
+            {
+                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@action</a></li>
+            }
+        }
         else if (controller == "site")
         {
             var idPerfilLogado = Util.ObterPerfilUsuarioLogado();

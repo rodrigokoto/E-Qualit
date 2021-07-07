@@ -271,6 +271,7 @@
     <Compile Include="Backup\BackupModel.cs" />
     <Compile Include="Backup\IBackupFactory.cs" />
     <Compile Include="Backup\InformacaoBackupModel.cs" />
+    <Compile Include="Controllers\AcaoImediata.cs" />
     <Compile Include="Controllers\AcaoCorretivaController.cs" />
     <Compile Include="Controllers\BackupController.cs" />
     <Compile Include="Controllers\ControlDocController.cs" />
@@ -2071,6 +2072,7 @@
     <Content Include="Views\Relatorio\RelatorioRegistroEncerrada.cshtml" />
     <Content Include="Views\Relatorio\RelatorioRegistroAnulada.cshtml" />
     <Content Include="Views\Relatorio\RelatorioRegistroTempoDefinicao.cshtml" />
+    <Content Include="Views\Site\Processo.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

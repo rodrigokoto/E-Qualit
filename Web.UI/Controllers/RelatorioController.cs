@@ -565,7 +565,7 @@ namespace Web.UI.Controllers
             ViewBag.Relatorio = relatorio;
             ViewBag.cargo = cargo;
 
-            return View("RelatorioDocumentos", docDocumento);
+            return View("RelatorioDocumentosCargo", docDocumento);
         }
         public ViewResult DocumentoObsoleto(Relatorio relatorio)
         {
@@ -623,8 +623,9 @@ namespace Web.UI.Controllers
             var idSite = Util.ObterSiteSelecionado();
 
             var dt30 = DateTime.Now.AddDays(30);
+            var dtAtual = DateTime.Now;
 
-            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Aprovado && x.FlRevisaoPeriodica == true && x.DtNotificacao > dt30).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ThenBy(x => x.NuRevisao).ToList();
+            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Aprovado && x.FlRevisaoPeriodica == true && x.DtNotificacao > dtAtual && x.DtNotificacao <= dt30).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ThenBy(x => x.NuRevisao).ToList();
 
             ViewBag.Relatorio = relatorio;
 
