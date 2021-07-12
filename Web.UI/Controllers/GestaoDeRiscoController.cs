@@ -139,8 +139,8 @@ namespace Web.UI.Controllers
                         retorno += acao.ResponsavelImplementar.NmCompleto + ", ";
                     }
                 }
-
-                retorno = retorno.Substring(0, retorno.Length - 2);
+                if (retorno != "")
+                    retorno = retorno.Substring(0, retorno.Length - 2);
             }
             else if (item.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
             {
@@ -674,7 +674,7 @@ namespace Web.UI.Controllers
 
             }
 
-          
+
 
             try
             {

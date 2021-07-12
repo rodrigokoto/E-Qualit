@@ -10,6 +10,9 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoMelhorias
         {
             RuleFor(x => x.AcoesImediatas)
                 .Must(x => x.Count == x.Where(y => y.Aprovado != null).Count()).WithMessage(Traducao.Resource.MsgCampoAprovacaoPreenchido);
+
+            RuleFor(x => x.Parecer)
+                .NotNull().WithMessage("Parecer é obrigatório");
         }
     }
 }

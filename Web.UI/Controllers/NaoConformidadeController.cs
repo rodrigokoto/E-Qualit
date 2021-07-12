@@ -590,11 +590,9 @@ namespace Web.UI.Controllers
 
             var registroAcoes = _registroConformidadesAppServico.GetById(naoConformidade.IdRegistroConformidade);
 
-            if (acoesImediatasNova.Count > 0)
+            if (acoesImediatasNova.Count > 0 && registroAcoes.AcoesImediatas.Count > 0)
             {
-
                 naoConformidade.StatusEtapa = 1;
-
             }
 
            

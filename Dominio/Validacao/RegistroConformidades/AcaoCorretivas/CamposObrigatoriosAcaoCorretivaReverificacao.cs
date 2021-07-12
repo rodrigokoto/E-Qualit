@@ -13,6 +13,9 @@ namespace Dominio.Validacao.RegistroConformidades.AcaoCorretivas
 
             RuleFor(x => x.FlEficaz)
                 .NotNull().WithMessage(Traducao.Resource.MsgNaoPodeVazio);
+
+            RuleFor(x => x.Parecer)
+                .NotNull().WithMessage("Parecer é obrigatório");
         }
     }
 }

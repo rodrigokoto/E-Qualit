@@ -7,7 +7,8 @@ namespace Dominio.Validacao.RegistroConformidades.GestaoDeRiscos
     {
         public CamposObrigatoriosGestaoDeRiscoReverificacao()
         {
-
+            RuleFor(x => x.Parecer)
+                .NotNull().WithMessage("Parecer é obrigatório");
         }
     }
 }

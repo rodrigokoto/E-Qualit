@@ -304,6 +304,7 @@
     <Compile Include="Controllers\MigracaoController.cs" />
     <Compile Include="Controllers\NaoConformidadeController.cs" />
     <Compile Include="Controllers\NormaController.cs" />
+    <Compile Include="Controllers\IsotecController.cs" />
     <Compile Include="Controllers\NotificacaoController.cs" />
     <Compile Include="Controllers\AuditoriaController.cs" />
     <Compile Include="Controllers\PendenciaController.cs" />
