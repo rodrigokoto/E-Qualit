@@ -1,0 +1,652 @@
+﻿@model Web.UI.Models.MailerViewModel
+
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <title>Isotec Equalit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="http://webthemez.com" />
+    <!-- css -->
+    <link href="../../content/assets/Isotec/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../content/assets/Isotec/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../content/assets/Isotec/css/fancybox/jquery.fancybox.css" rel="stylesheet">
+    <link href="../../content/assets/Isotec/css/jcarousel.css" rel="stylesheet" />
+    <link href="../../content/assets/Isotec/css/flexslider.css" rel="stylesheet" />
+    <link href="../../content/assets/Isotec/js/owl-carousel/owl.carousel.css" rel="stylesheet">
+    <link href="../../content/assets/Isotec/css/style.css" rel="stylesheet" />
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <div id="wrapper" class="home-page">
+        <div class="topbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="pull-left hidden-xs">
+                            A prática cotidiana prova que o desafiador cenário globalizado
+                            aponta para a melhoria do fluxo de informações.
+                        </p>
+                        <p class="pull-right"><i class="fa fa-phone"></i>Tel No. (011) 3832-4980 </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- start header -->
+        <header>
+            <div class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html"><img src="../../content/assets/Isotec/img/logo.png" alt="logo" /></a>
+                    </div>
+                    <div class="navbar-collapse collapse ">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#Sobre">Sobre</a></li>
+                            <li><a href="#Modulos">Modulos</a></li>
+                            <li><a href="#Skills">Serviços</a></li>
+                            <li><a href="#Clientes">Clientes</a></li>
+                            <li><a href="#contactForm">Contato</a></li>
+                            <li>@Html.ActionLink("Área do Cliente", "Index", "Login/Index", null ,  new { @class = "btn btn-light" })</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- end header -->
+        <section id="banner">
+
+            <!-- Slider -->
+            <div id="main-slider" class="flexslider">
+                <ul class="slides">
+                    <li>
+                        <img src="../../content/assets/Isotec/img/slides/1.png" alt="" />
+                        <div class="flex-caption">
+
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../../content/assets/Isotec/img/slides/2.jpg" alt="" />
+                        <div class="flex-caption">
+
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- end slider -->
+
+        </section>
+
+        <section id="Sobre">
+            <section class="section-padding">
+                <div class="container">
+                    <div class="row showcase-section">
+                        <div class="col-md-6">
+                            <img src="../../content/assets/Isotec/img/dev1.png" style="max-width: 500px; max-height: 270px" alt="showcase image">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="about-text">
+                                <h3><b>e-Qualit</b> - Um software de compliance e apoio a Sistemas de Gestão.</h3>
+                                <p>
+                                    Clientes exigem produtos e serviços com características que satisfaçam suas
+                                    necessidades e expectativas.
+                                    Como essas necessidades e expectativas estão mudando por causa de pressões
+                                    competitivas e avanços tecnológicos, as organizações são induzidas a melhorar
+                                    continuamente seus produtos e processos.
+
+                                </p>
+                                <p>
+                                    Oferecer soluções através de módulos que tem por objetivo o auxílio na gestão de
+                                    seus sistemas, seja ele para atender Normas da série, ISO, SASSMAQ, ANVISA, PRODIR,
+                                    entre outras.
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container">
+
+                <div class="about">
+
+                    <section class="">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="about-text">
+                                        <h3><span><b>Organização</b></span></h3>
+                                        <p>
+                                            A <b>ISOTEC Sistemas e Controles</b>, foi constituída em outubro de 1991,
+                                            surgindo da
+                                            experiência de profissionais da área da qualidade e consultoria
+                                            organizacional. Tem como objetivo trabalhar como parceira de seus clientes
+                                            na procura de um nível diferenciado de qualidade, produtividade e
+                                            competitividade no mercado globalizado atual.
+                                        </p>
+
+                                        <p>
+                                            Não acreditamos em "pacotes" para consultoria. Buscamos auxiliar nossos
+                                            clientes no levantamento de novas ideias para a implementação de um sistema
+                                            gerencial, avaliação de resultados e apoio na manutenção de sistemas, além
+                                            de oferecer o treinamento necessário em cada etapa do processo.
+                                            A metodologia utilizada é própria, mas antes de
+                                            sua aplicação, serão discutidas e acordadas com nossos clientes a fim de
+                                            respeitar suas particularidades.
+
+                                        </p>
+
+                                        <p><b>Por que e-Qualit?</b></p>
+
+                                        <ul class="withArrow">
+                                            <li>
+                                                <span class="fa fa-angle-right"></span> Garantia de que apenas a última
+                                                versão do documento esteja disponível;
+                                            </li>
+                                            <li>
+                                                <span class="fa fa-angle-right"></span> Todos os documentos em um único
+                                                local;
+                                            </li>
+                                            <li>
+                                                <span class="fa fa-angle-right"></span> Redução de custos, economia de
+                                                papel;
+                                            </li>
+                                            <li><span class="fa fa-angle-right"></span> Melhora a comunicação interna;</li>
+                                            <li><span class="fa fa-angle-right"></span> Histórico de revisões;</li>
+                                            <li>
+                                                <span class="fa fa-angle-right"></span> Atualização automática da lista
+                                                mestra;
+                                            </li>
+                                            <li><span class="fa fa-angle-right"></span> Segurança;</li>
+                                            <li>
+                                                <span class="fa fa-angle-right"></span> Dashboard para gerenciamento de
+                                                pendências.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="about-image">
+                                        <img src="../../content/assets/Isotec/img/Empresa.png" alt="About Images">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <!-- Heading and para -->
+                                    <div class="block-heading-two">
+                                        <h3><span>Por que nos escolher?</span></h3>
+                                    </div>
+                                    <p>
+                                        Qualidade com tecnologia segura e intuitiva.
+                                        Mais de 30 anos de experiências em consultoria, transformados em um
+                                        software de compliance para seu Sistema de Gestão.
+                                    </p>
+                                    <p>
+                                        Conheça uma forma prática de obter melhorias e gestão sobre seu sistema com
+                                        apenas um clique e sem papel.
+                                    </p>
+                                    <p>
+                                        Redução de custo, manutenção das certificações, automatização de prazos e
+                                        datas, segurança da informação e monitoramento da qualidade.
+                                    </p>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="block-heading-two">
+                                        <h3><span>Expertise</span></h3>
+                                    </div>
+                                    <h6>Consultoria</h6>
+                                    <div class="progress pb-sm">
+                                        <!-- White color (progress-bar-white) -->
+                                        <div class="progress-bar progress-bar-red" role="progressbar" aria-valuenow="100"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                            <span class="sr-only">100% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                    <h6>Coaching</h6>
+                                    <div class="progress pb-sm">
+                                        <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="85"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+                                            <span class="sr-only">85% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                    <h6>Treinamento</h6>
+                                    <div class="progress pb-sm">
+                                        <div class="progress-bar progress-bar-lblue" role="progressbar" aria-valuenow="90"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+                                            <span class="sr-only">90% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                    <h6>Auditoria</h6>
+                                    <div class="progress pb-sm">
+                                        <div class="progress-bar progress-bar-yellow" role="progressbar" aria-valuenow="100"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                            <span class="sr-only">100% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="block-heading-two">
+                                        <h3><span>Duvidas Frequentes</span></h3>
+                                    </div>
+                                    <!-- Accordion starts -->
+                                    <div class="panel-group" id="accordion-alt3">
+                                        <!-- Panel. Use "panel-XXX" class for different colors. Replace "XXX" with color. -->
+                                        <div class="panel">
+                                            <!-- Panel heading -->
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion-alt3" href="#collapseOne-alt3">
+                                                        <i class="fa fa-angle-right"></i> Preciso de uma infraestrutura
+                                                        robusta para este software?
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne-alt3" class="panel-collapse collapse">
+                                                <!-- Panel body -->
+                                                <div class="panel-body">
+                                                    Não, pois e-Qualit é um software no conceito Saas, totalmente web.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion-alt3" href="#collapseTwo-alt3">
+                                                        <i class="fa fa-angle-right"></i> Há limites de usuários?
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo-alt3" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    Não há necessidade de contratação de licenças de acesso,
+                                                    por isso pode-se cadastrar quantos usuários desejar.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion-alt3" href="#collapseThree-alt3">
+                                                        <i class="fa fa-angle-right"></i> Há limite para inserção de
+                                                        documentos?
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseThree-alt3" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    Não, pois o sistema não possui limitação de espaço.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion-alt3" href="#collapseFour-alt3">
+                                                        <i class="fa fa-angle-right"></i> Posso compartilhar documentos
+                                                        com clientes e fornecedores?
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseFour-alt3" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    Sim. Para tanto, basta cadastrá-los no sistema e dar respectivos
+                                                    acessos.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Accordion ends -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <br>
+                </div>
+            </div>
+        </section>
+        <section id="Modulos" class="section-padding gray-bg">
+            <div class="container content">
+                <!-- Service Blcoks -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-logo">
+                            <h3>Módulos</h3>
+                            <p>
+                                Clientes exigem produtos e serviços com características que satisfaçam suas necessidades
+                                e expectativas.
+                                Como essas necessidades e expectativas estão mudando por causa de pressões
+                                competitivas e avanços tecnológicos, as organizações são induzidas a melhorar
+                                continuamente seus produtos e processos.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Blcoks -->
+                <div class="row">
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Indicadores</h3>
+                            <p>Medir é fundamental para quem deseja controlar e melhorar o desempenho.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Auditoria</h3>
+                            <p>
+                                Este módulo proporciona a programação, o planejamento e o registro das evidências dos dados
+                                auditáveis.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Análise Crítica SG</h3>
+                            <p>
+                                Como complemento para a tomada de decisões, o módulo fornece subsídios para a obtenção
+                                da visão global e sistêmica do estágio em que se encontra.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Info Blcoks -->
+                <!-- Info Blcoks -->
+                <div class="row">
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Licenças</h3>
+                            <p>
+                                Permite que você faça esse controle, avisando a data de expiração com
+                                antecedência.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Instrumento</h3>
+                            <p>Para quem deseja controlar e melhorar o desempenho, medir é fundamental.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Gestão de Risco</h3>
+                            <p>
+                                A mitigação de situações indesejadas, deve ser uma constante na gestão de uma
+                                organização.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Info Blcoks -->
+                <!-- Info Blcoks -->
+                <div class="row">
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Gestão de Melhoria</h3>
+                            <p>
+                                O aperfeiçoamento contínuo é o que permite que uma organização esteja sempre no caminho
+                                dos melhores resultados.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Controle de Documentos</h3>
+                            <p>
+                                A Gestão de Documentos é de fundamental importância para as organizações, auxiliando na
+                                administração de informações.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 info-blocks">
+                        <i class="icon-info-blocks fa fa-file-text"></i>
+                        <div class="info-blocks-in">
+                            <h3>Relatórios</h3>
+                            <p>Apontamentos para melhor controle de resultados dos módulos.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Info Blcoks -->
+                <div class="row service-v1 margin-bottom-40">
+                    <div class="col-md-4 md-margin-bottom-40">
+                        <img class="img-responsive img-service" src="../../content/assets/Isotec/img/nc-img.png" alt="">
+                        <h3>Não Conformidade</h3>
+                        <p>
+                            Este módulo disponibiliza ferramenta para tratamento de não conformidade, com todas as
+                            etapas exigidas por normas, podendo identificar as várias categorias de ocorrências e, se
+                            necessário, gerar gráficos para levantamentos estatísticos.
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="img-responsive img-service" src="../../content/assets/Isotec/img/ac-img.jpeg" alt="">
+                        <h3>Ação Corretiva</h3>
+                        <p>
+                            Esta ferramenta instiga o usuário a buscar a causa geradora de uma situação não desejada
+                            para seu efetivo tratamento.
+                            Suas etapas atendem as exigências solicitadas por normas e sistemáticas.
+                        </p>
+                    </div>
+                    <div class="col-md-4 md-margin-bottom-40">
+                        <img class="img-responsive  img-service" src="../../content/assets/Isotec/img/fornecedores-img.jpeg" alt="">
+                        <h3>Fornecedores</h3>
+                        <p>
+                            Trabalhar com fornecedores previamente selecionados dentro de requisitos que atendam às
+                            necessidades de sua organização. O módulo conta com a avaliação dos fornecedores para
+                            auxiliar nas medições de qualidade de entrega.
+                        </p>
+                    </div>
+                </div>
+                <!-- End Service Blcoks -->
+
+
+            </div>
+        </section>
+        <section id="Skills" class="section-padding">
+            <div class="container content">
+
+                <div class="row">
+                    <h3>Serviços</h3>
+                    <div class="skill-home">
+                        <div class="skill-home-solid clearfix">
+                            <div class="col-md-3 col-sm-6 text-center">
+                                <span class="icons c1"><i class="fa fa-cogs"></i></span>
+                                <div class="box-area">
+                                    <h3>Consultoria </h3>
+                                    <p>
+                                        Clientes exigem produtos e serviços com características que satisfaçam suas
+                                        necessidades e expectativas.
+                                        Como essas necessidades e expectativas estão mudando, por causa das pressões
+                                        competitivas e dos avanços tecnológicos, as organizações são induzidas a
+                                        melhorar continuamente seus produtos e processos.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 text-center">
+                                <span class="icons c2"><i class="fa fa-rocket"></i></span>
+                                <div class="box-area">
+                                    <h3>Coaching</h3>
+                                    <p>
+                                        Pode ser definido como um processo de desenvolvimento humano, com o objetivo de
+                                        levar o indivíduo a alcançar resultados extraordinários.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 text-center">
+                                <span class="icons c3"><i class="fa fa-trophy"></i></span>
+                                <div class="box-area">
+                                    <h3>Treinamento </h3>
+                                    <p>
+                                        Acreditamos que a capacitação é a única solução aos problemas enfrentados nos
+                                        dias de hoje pelas organizações.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 text-center">
+                                <span class="icons c4"><i class="fa fa-star"></i></span>
+                                <div class="box-area">
+                                    <h3>Auditoria </h3>
+                                    <p>
+                                        Tem como objetivo assegurar a adequada implementação e conformidade para os
+                                        sistemas de gestão, possibilitando identificar correções e oportunidades para
+                                        melhorias.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <section id="Clientes" class="section-padding gray-bg">
+            <div class="container content">
+                <div class="row">
+                    <h3>Clientes</h3>
+                    <!-- Slider -->
+                    <div id="clientes-slider" class="flexslider img-responsive center-block ">
+                        <ul class="slides">
+
+                            @{
+                                foreach (var cliente in ViewBag.Cliente)
+                                {
+                                    <li class="center-block">
+                                        <img src="@cliente" style=" height: 150px!important" alt="" />
+                                        <div class="flex-caption"></div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- end slider -->
+        </section>
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <p style="">Entre em contato conosco para agendar seu teste gratuito.</p>
+
+                            @*@using (Html.BeginForm(Model.Url, "Relatorio", FormMethod.Post, new { target = "_blank" }))*@
+
+                            @using (Html.BeginForm("sentMessage", "Isotec", FormMethod.Post))
+                            {
+                                <h3>Contate-nos</h3>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        @Html.TextBoxFor(x => x.Nome, new { placeholder = "Nome", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Nome)
+                                        <p class="help-block"></p>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        @Html.TextBoxFor(x => x.Email, new { placeholder = "E-mail", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Email)
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <div class="controls">
+                                        @Html.TextAreaFor(x => x.Mensagem, new { rows = "10", col = "100", placeholder = "Mensagem", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Mensagem)
+                                    </div>
+                                </div>
+                                <div id="success"> </div> <!-- For success/fail messages -->
+                                <button type="submit" class="btn btn-primary pull-right">Send</button><br />
+                            }
+
+                            <!-- Form itself -->
+
+                        </div>
+                        <div class="col-md-6">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.1503535384622!2d-46.737575184476285!3d-23.527094066213948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cef8b8f4eb7cef%3A0x4d229e3bb810bbf7!2sR.%20Mergenthaler%2C%20345%20-%2091%20d%20-%20Vila%20Leopoldina%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2005311-030!5e0!3m2!1spt-BR!2sbr!4v1626375124990!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="sub-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="copyright">
+                                <p>
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="social-network">
+                                <li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+    <!-- javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../content/assets/Isotec/js/jquery.js"></script>
+    <script src="../../content/assets/Isotec/js/jquery.easing.1.3.js"></script>
+    <script src="../../content/assets/Isotec/js/bootstrap.min.js"></script>
+    <script src="../../content/assets/Isotec/js/jquery.fancybox.pack.js"></script>
+    <script src="../../content/assets/Isotec/js/jquery.fancybox-media.js"></script>
+    <script src="../../content/assets/Isotec/js/jquery.flexslider.js"></script>
+    <script src="../../content/assets/Isotec/js/animate.js"></script>
+    <!-- Vendor Scripts -->
+    <script src="../../content/assets/Isotec/js/modernizr.custom.js"></script>
+    <script src="../../content/assets/Isotec/js/jquery.isotope.min.js"></script>
+    <script src="../../content/assets/Isotec/js/jquery.magnific-popup.min.js"></script>
+    <script src="../../content/assets/Isotec/js/animate.js"></script>
+    <script src="../../content/assets/Isotec/js/custom.js"></script>
+    <script src="../../content/assets/Isotec/js/owl-carousel/owl.carousel.js"></script>
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    @if (Model != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alert("Mensagem enviada com sucesso");
+                    });
+        </script>
+    }
+</body>
+
+</html>
+

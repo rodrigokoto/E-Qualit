@@ -135,4 +135,24 @@ namespace Web.UI.Models
         [Compare("NewPassword", ErrorMessageResourceName = "ChangePassword_msg_inconsistencia_ConfirmPassword", ErrorMessageResourceType = typeof(Traducao.Resource))]
         public string ConfirmPassword { get; set; }
     }
+
+    public class MailerViewModel {
+
+        [Required(ErrorMessage = "Nome não pode estar vazio")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Nome")]
+        public string Nome { get; set; }
+
+
+        [Required(ErrorMessage = "Adicione um e-mail")]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Digite uma mensagem")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Mensagem")]
+        public string Mensagem { get; set; }
+
+    }
 }

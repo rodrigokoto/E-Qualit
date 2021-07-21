@@ -14,7 +14,7 @@ namespace Web.UI
             routes.MapRoute(
                name: "Login",
                url: "{rotaDoCliente}",
-               defaults: new { controller = "Login", action = "Index", rotaDoCliente = "" }
+               defaults: new { controller = "Isotec", action = "Index", rotaDoCliente = "" }
            );
 
             routes.MapRoute(
