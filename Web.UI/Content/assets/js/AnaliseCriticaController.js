@@ -998,26 +998,44 @@ APP.controller.AnaliseCriticaController = {
 
             var idDocumento = $(this).attr("idAnaliseCritica");
 
-            bootbox.confirm(_options.DesejaRealmenteExcluirEsseRegistro, function (result) {
-                if (result) {
-                    $.post('/AnaliseCritica/Excluir/' + idDocumento, function (data, status) { }).done(function (data) {
-                        if (data.StatusCode == "200") {
+            var modal = bootbox.dialog({
+                title: 'Excluir Analise critica.',
+                message: 'Deseja excluir esta analise critica ?',
+                buttons: [
+                    {
+                        label: _options.labelButtonYes,
+                        className: "btn btn-primary pull-right",
+                        callback: function () {
 
-                            bootbox.alert(data.Success, function (result) {
-                                window.location.href = "/AnaliseCritica/Index";
+                            $.post('/AnaliseCritica/Excluir/' + idDocumento, function (data, status) { }).done(function (data) {
+                                if (data.StatusCode == "200") {
+
+                                    bootbox.alert(data.Success, function (result) {
+                                        window.location.href = "/AnaliseCritica/Index";
+                                    });
+
+                                }
+                                if (data.StatusCode == "500") {
+                                    bootbox.alert(_options.MsgErroExclusaoRegistro);
+                                }
                             });
-
                         }
-                        if (data.StatusCode == "500") {
-                            bootbox.alert(_options.MsgErroExclusaoRegistro);
+                    },
+                    {
+                        label: _options.botao_cancelar,
+                        className: "btn btn-default pull-right",
+                        callback: function () {
+                            modal.modal("hide");
                         }
-                    });
+                    }
+                ],
+                show: false,
+                onEscape: function () {
+                    modal.modal("hide");
                 }
             });
+
+            modal.modal("show");
         });
-
     },
-
-
-
 };

@@ -177,10 +177,12 @@ namespace ApplicationService.Servico
             foreach (var doc in AnexoDoc)
             {
                 var relativePath = pathBackup + "//ControlDoc";
-                relativePath = relativePath + "//" + doc.NumeroDocumento;
+                relativePath = relativePath + "//" + doc.Sigla.Descricao + "//" +doc.NumeroDocumento;
 
                 foreach (var anexo in doc.ArquivoDocDocumentoAnexo)
                 {
+                    relativePath = relativePath.Replace(System.Environment.NewLine, "");
+                        
                     VerificaDiretorio(relativePath);
                     Permissionamento(relativePath);
 
@@ -275,6 +277,7 @@ namespace ApplicationService.Servico
         {
             try
             {
+                pDiretorio = pDiretorio.Replace(System.Environment.NewLine, "");
                 string[] estrutura = pDiretorio.Split('\\');
 
                 string dir = string.Empty;
@@ -302,6 +305,7 @@ namespace ApplicationService.Servico
             bool exists = System.IO.Directory.Exists(file);
             if (!exists)
             {
+                file = file.Replace(System.Environment.NewLine, "");
                 DirectoryInfo di = System.IO.Directory.CreateDirectory(file);
                 Console.WriteLine("The Folder is created Sucessfully");
             }

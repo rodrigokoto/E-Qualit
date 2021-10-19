@@ -95,6 +95,12 @@
                         case ".pdf":
                             <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'application/pdf')">Anexo: @anexo.AnexoDados.Nome</a>
                             break;
+                        case ".gif":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/gif')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
+                        case ".Gif":
+                            <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/gif')">Anexo: @anexo.AnexoDados.Nome</a>
+                            break;
                         case ".jpg":
                             <a href="javascript:void(0)" class="downrai linksemcor" onclick="openBase64InNewTab('@Convert.ToBase64String(anexo.AnexoDados.Arquivo)', 'image/jpg')">Anexo: @anexo.AnexoDados.Nome</a>
                             break;

@@ -9,5 +9,6 @@ namespace Dominio.Interface.Servico
         void ValidoParaAcessar(Usuario usuario, ref List<string> erros);
         void ValidoParaEsqueciSenha(Usuario usuario, ref List<string> erros);
         void ValidoParaAlterarSenhaViaEmail(Usuario usuario, ref List<string> erros);
+
     }
 }

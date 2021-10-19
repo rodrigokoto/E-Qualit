@@ -10,7 +10,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Isotec Equalit</title>
+    <title>e-Qualit</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="http://webthemez.com" />
@@ -63,8 +63,9 @@
                             <li><a href="#Modulos">Modulos</a></li>
                             <li><a href="#Skills">Serviços</a></li>
                             <li><a href="#Clientes">Clientes</a></li>
-                            <li><a href="#contactForm">Contato</a></li>
-                            <li>@Html.ActionLink("Área do Cliente", "Index", "Login/Index", null ,  new { @class = "btn btn-light" })</li>
+                            <li><a href="#Contato">Contato</a></li>
+                            <li>@Html.ActionLink("Área do Cliente", "Index", "Login/Index", null, new { @class = "btn btn-light" })</li>
+                            <li><a href="https://www.egmont.com.br"><img src="../../content/assets/Isotec/img/egmont-logo-dark.png" style="width:82px" alt="Parceiros" /></a></li>
                         </ul>
                     </div>
                 </div>
@@ -74,20 +75,19 @@
         <section id="banner">
 
             <!-- Slider -->
-            <div id="main-slider" class="flexslider">
+            <div id="main-slider-1" class="flexslider">
                 <ul class="slides">
                     <li>
                         <img src="../../content/assets/Isotec/img/slides/1.png" alt="" />
                         <div class="flex-caption">
-
                         </div>
                     </li>
                     <li>
-                        <img src="../../content/assets/Isotec/img/slides/2.jpg" alt="" />
-                        <div class="flex-caption">
-
-
-                        </div>
+                        <a href="#Contato" style="z-index: 100;">
+                            <img src="../../content/assets/Isotec/img/slides/2.jpg" alt="" />
+                            <div class="flex-caption">
+                            </div>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -133,25 +133,19 @@
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="about-text">
-                                        <h3><span><b>Organização</b></span></h3>
+                                        <h3><span><b>Por que nos escolher?</b></span></h3>
                                         <p>
-                                            A <b>ISOTEC Sistemas e Controles</b>, foi constituída em outubro de 1991,
-                                            surgindo da
-                                            experiência de profissionais da área da qualidade e consultoria
-                                            organizacional. Tem como objetivo trabalhar como parceira de seus clientes
-                                            na procura de um nível diferenciado de qualidade, produtividade e
-                                            competitividade no mercado globalizado atual.
+                                            Qualidade com tecnologia segura e intuitiva.
+                                            Mais de 30 anos de experiências em consultoria, transformados em um
+                                            software de compliance para seu Sistema de Gestão.
                                         </p>
-
                                         <p>
-                                            Não acreditamos em "pacotes" para consultoria. Buscamos auxiliar nossos
-                                            clientes no levantamento de novas ideias para a implementação de um sistema
-                                            gerencial, avaliação de resultados e apoio na manutenção de sistemas, além
-                                            de oferecer o treinamento necessário em cada etapa do processo.
-                                            A metodologia utilizada é própria, mas antes de
-                                            sua aplicação, serão discutidas e acordadas com nossos clientes a fim de
-                                            respeitar suas particularidades.
-
+                                            Conheça uma forma prática de obter melhorias e gestão sobre seu sistema com
+                                            apenas um clique e sem papel.
+                                        </p>
+                                        <p>
+                                            Redução de custo, manutenção das certificações, automatização de prazos e
+                                            datas, segurança da informação e monitoramento da qualidade.
                                         </p>
 
                                         <p><b>Por que e-Qualit?</b></p>
@@ -194,21 +188,28 @@
                                 <div class="col-md-4">
                                     <!-- Heading and para -->
                                     <div class="block-heading-two">
-                                        <h3><span>Por que nos escolher?</span></h3>
+                                        <h3><span>Organização</span></h3>
                                     </div>
                                     <p>
-                                        Qualidade com tecnologia segura e intuitiva.
-                                        Mais de 30 anos de experiências em consultoria, transformados em um
-                                        software de compliance para seu Sistema de Gestão.
+                                        A <b>ISOTEC Sistemas e Controles</b>, foi constituída em outubro de 1991,
+                                        surgindo da
+                                        experiência de profissionais da área da qualidade e consultoria
+                                        organizacional. Tem como objetivo trabalhar como parceira de seus clientes
+                                        na procura de um nível diferenciado de qualidade, produtividade e
+                                        competitividade no mercado globalizado atual.
                                     </p>
+
                                     <p>
-                                        Conheça uma forma prática de obter melhorias e gestão sobre seu sistema com
-                                        apenas um clique e sem papel.
+                                        Não acreditamos em "pacotes" para consultoria. Buscamos auxiliar nossos
+                                        clientes no levantamento de novas ideias para a implementação de um sistema
+                                        gerencial, avaliação de resultados e apoio na manutenção de sistemas, além
+                                        de oferecer o treinamento necessário em cada etapa do processo.
+                                        A metodologia utilizada é própria, mas antes de
+                                        sua aplicação, serão discutidas e acordadas com nossos clientes a fim de
+                                        respeitar suas particularidades.
+
                                     </p>
-                                    <p>
-                                        Redução de custo, manutenção das certificações, automatização de prazos e
-                                        datas, segurança da informação e monitoramento da qualidade.
-                                    </p>
+
                                 </div>
                                 <div class="col-md-3">
                                     <div class="block-heading-two">
@@ -440,7 +441,7 @@
                 <!-- End Info Blcoks -->
                 <div class="row service-v1 margin-bottom-40">
                     <div class="col-md-4 md-margin-bottom-40">
-                        <img class="img-responsive img-service" src="../../content/assets/Isotec/img/nc-img.png" alt="">
+                        <img class="img-responsive" style="width:360px; height:218px;" src="../../content/assets/Isotec/img/nc-img.png" alt="">
                         <h3>Não Conformidade</h3>
                         <p>
                             Este módulo disponibiliza ferramenta para tratamento de não conformidade, com todas as
@@ -449,7 +450,7 @@
                         </p>
                     </div>
                     <div class="col-md-4">
-                        <img class="img-responsive img-service" src="../../content/assets/Isotec/img/ac-img.jpeg" alt="">
+                        <img class="img-responsive" style="width:360px; height:218px;" src="../../content/assets/Isotec/img/ac-img.jpeg" alt="">
                         <h3>Ação Corretiva</h3>
                         <p>
                             Esta ferramenta instiga o usuário a buscar a causa geradora de uma situação não desejada
@@ -458,7 +459,7 @@
                         </p>
                     </div>
                     <div class="col-md-4 md-margin-bottom-40">
-                        <img class="img-responsive  img-service" src="../../content/assets/Isotec/img/fornecedores-img.jpeg" alt="">
+                        <img class="img-responsive" style="width:360px; height:218px;" src="../../content/assets/Isotec/img/fornecedores-img.jpeg" alt="">
                         <h3>Fornecedores</h3>
                         <p>
                             Trabalhar com fornecedores previamente selecionados dentro de requisitos que atendam às
@@ -481,45 +482,40 @@
                         <div class="skill-home-solid clearfix">
                             <div class="col-md-3 col-sm-6 text-center">
                                 <span class="icons c1"><i class="fa fa-cogs"></i></span>
-                                <div class="box-area">
+                                <div class="box-area" style="height:392px;">
                                     <h3>Consultoria </h3>
                                     <p>
-                                        Clientes exigem produtos e serviços com características que satisfaçam suas
-                                        necessidades e expectativas.
-                                        Como essas necessidades e expectativas estão mudando, por causa das pressões
-                                        competitivas e dos avanços tecnológicos, as organizações são induzidas a
-                                        melhorar continuamente seus produtos e processos.
+                                        Clientes exigem produtos e serviços com características que satisfaçam suas necessidades e expectativas. Como essas necessidades e expectativas estão mudando, por causa das pressões competitivas e dos avanços tecnológicos, as organizações são induzidas a melhorar continuamente seus produtos e processos.
                                     </p>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-6 text-center">
                                 <span class="icons c2"><i class="fa fa-rocket"></i></span>
-                                <div class="box-area">
+                                <div class="box-area" style="height:392px;">
                                     <h3>Coaching</h3>
                                     <p>
-                                        Pode ser definido como um processo de desenvolvimento humano, com o objetivo de
-                                        levar o indivíduo a alcançar resultados extraordinários.
+                                        Pode ser definido como um processo de desenvolvimento humano, com o objetivo de levar o indivíduo a alcançar resultados extraordinários.
+                                        O principal objetivo é encorajar uma pessoa a estabelecer quais são suas metas e então ajudá-la a alcançar esses objetivos, indo além das limitações visíveis.
                                     </p>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-6 text-center">
                                 <span class="icons c3"><i class="fa fa-trophy"></i></span>
-                                <div class="box-area">
+                                <div class="box-area" style="height:392px;">
                                     <h3>Treinamento </h3>
                                     <p>
-                                        Acreditamos que a capacitação é a única solução aos problemas enfrentados nos
-                                        dias de hoje pelas organizações.
+                                        Acreditamos que a capacitação é a única solução aos problemas enfrentados nos dias de hoje pelas organizações.
+                                        Capacitação profissional é o conjunto de iniciativas (cursos, treinamentos etc.) que ajudam os colaboradores a desenvolverem suas capacidades profissionais.
                                     </p>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-6 text-center">
                                 <span class="icons c4"><i class="fa fa-star"></i></span>
-                                <div class="box-area">
+                                <div class="box-area" style="height:392px;">
                                     <h3>Auditoria </h3>
                                     <p>
-                                        Tem como objetivo assegurar a adequada implementação e conformidade para os
-                                        sistemas de gestão, possibilitando identificar correções e oportunidades para
-                                        melhorias.
+                                        Tem como objetivo assegurar a adequada implementação e conformidade para os sistemas de gestão, possibilitando identificar correções e oportunidades para melhorias.
+                                        Essa análise é promovida por equipe, devidamente qualificada, que se dedica a examinar documentos, registros, tudo mais que esteja sujeito a uma avaliação detalhada sobre sua veracidade e precisão.
                                     </p>
                                 </div>
                             </div>
@@ -553,51 +549,53 @@
             <!-- end slider -->
         </section>
         <footer>
-            <div class="container">
-                <div class="row">
+            <section id="Contato">
+                <div class="container">
                     <div class="row">
-                        <div class="col-md-6 ">
-                            <p style="">Entre em contato conosco para agendar seu teste gratuito.</p>
+                        <div class="row">
+                            <div class="col-md-6 ">
+                                <p style="">Entre em contato conosco para agendar seu teste gratuito.</p>
 
-                            @*@using (Html.BeginForm(Model.Url, "Relatorio", FormMethod.Post, new { target = "_blank" }))*@
+                                @*@using (Html.BeginForm(Model.Url, "Relatorio", FormMethod.Post, new { target = "_blank" }))*@
 
-                            @using (Html.BeginForm("sentMessage", "Isotec", FormMethod.Post))
-                            {
-                                <h3>Contate-nos</h3>
-                                <div class="control-group">
-                                    <div class="controls">
-                                        @Html.TextBoxFor(x => x.Nome, new { placeholder = "Nome", @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Nome)
-                                        <p class="help-block"></p>
+                                @using (Html.BeginForm("sentMessage", "Isotec", FormMethod.Post))
+                                {
+                                    <h3>Contate-nos</h3>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            @Html.TextBoxFor(x => x.Nome, new { placeholder = "Nome", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Nome)
+                                            <p class="help-block"></p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="control-group">
-                                    <div class="controls">
-                                        @Html.TextBoxFor(x => x.Email, new { placeholder = "E-mail", @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Email)
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            @Html.TextBoxFor(x => x.Email, new { placeholder = "E-mail", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Email)
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="control-group">
-                                    <div class="controls">
-                                        @Html.TextAreaFor(x => x.Mensagem, new { rows = "10", col = "100", placeholder = "Mensagem", @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Mensagem)
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            @Html.TextAreaFor(x => x.Mensagem, new { rows = "10", col = "100", placeholder = "Mensagem", @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Mensagem)
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="success"> </div> <!-- For success/fail messages -->
-                                <button type="submit" class="btn btn-primary pull-right">Send</button><br />
-                            }
+                                    <div id="success"> </div> <!-- For success/fail messages -->
+                                    <button type="submit" class="btn btn-primary pull-right">Enviar</button><br />
+                                }
 
-                            <!-- Form itself -->
+                                <!-- Form itself -->
 
+                            </div>
+                            <div class="col-md-6">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.1503535384622!2d-46.737575184476285!3d-23.527094066213948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cef8b8f4eb7cef%3A0x4d229e3bb810bbf7!2sR.%20Mergenthaler%2C%20345%20-%2091%20d%20-%20Vila%20Leopoldina%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2005311-030!5e0!3m2!1spt-BR!2sbr!4v1626375124990!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.1503535384622!2d-46.737575184476285!3d-23.527094066213948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cef8b8f4eb7cef%3A0x4d229e3bb810bbf7!2sR.%20Mergenthaler%2C%20345%20-%2091%20d%20-%20Vila%20Leopoldina%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2005311-030!5e0!3m2!1spt-BR!2sbr!4v1626375124990!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
+
                     </div>
-
                 </div>
-            </div>
+            </section>
             <div id="sub-footer">
                 <div class="container">
                     <div class="row">
@@ -636,14 +634,13 @@
     <script src="../../content/assets/Isotec/js/animate.js"></script>
     <script src="../../content/assets/Isotec/js/custom.js"></script>
     <script src="../../content/assets/Isotec/js/owl-carousel/owl.carousel.js"></script>
-    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
     @if (Model != null)
     {
         <script type="text/javascript">
             $(function () {
                 alert("Mensagem enviada com sucesso");
-                    });
+            });
         </script>
     }
 </body>

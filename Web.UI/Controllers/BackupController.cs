@@ -116,13 +116,25 @@ namespace Web.UI.Controllers
         }
 
 
+
+        public ActionResult Index()
+        {
+
+            ViewBag.Clientes = _clienteAppServico.GetAll().ToList();
+
+            return View();
+        }
+
         // GET: Backup
-        public ActionResult Index(int idCliente)
+        public ActionResult GerarBackup(int idCliente)
         {
 
             var pathBackup = CriarEstruturaBackup(idCliente);
             var docTemplate = Server.MapPath("~/Templates/Backup/DocTemplate.html");
             var RegTemplate = Server.MapPath("~/Templates/Backup/IdentificacaoNaoConformidade.html");
+            var RegTemplateGr = Server.MapPath("~/Templates/Backup/IdentificacaoGestaoRisco.html");
+            var RegTemplateGm = Server.MapPath("~/Templates/Backup/IdentificacaoGestaoMelhoria.html");
+            var RegTemplateAc = Server.MapPath("~/Templates/Backup/IdentificacaoAcaoCorretiva.html");
             var AnaliseTemplate = Server.MapPath("~/Templates/Backup/AnaliseCritica.html");
             var LicencaTemplate = Server.MapPath("~/Templates/Backup/CadastroLicencas.html");
             var IndicadorTemplate = Server.MapPath("~/Templates/Backup/Indicador.html");
@@ -131,7 +143,7 @@ namespace Web.UI.Controllers
 
             /*Cria Backup dos registros*/
             GerarControlDoc(pathBackup, docTemplate, idCliente);
-            GerarRegistros(pathBackup, RegTemplate, idCliente);
+            GerarRegistros(pathBackup, idCliente);
             GerarAnaliseTemplate(pathBackup, AnaliseTemplate, idCliente);
             GerarIndicadorTemplate(pathBackup, IndicadorTemplate, idCliente);
             GerarInstrumentoTemplate(pathBackup, InstrumentoTemplate, idCliente);
@@ -140,7 +152,9 @@ namespace Web.UI.Controllers
             //var arquivo = CompactarDiretorio()
             //var url = GerarUrlDownload(arquivo);
 
-            return View();
+            var pathDownload = Server.MapPath("~/" + CompactarDiretorio(pathBackup, Server.MapPath("~/")));
+
+            return Download(pathDownload);
         }
 
 
@@ -285,12 +299,12 @@ namespace Web.UI.Controllers
 
                 foreach (var rotina in documento.Rotinas)
                 {
-                    registrotbl = registrotbl + string.Format(@"<tr>
+                    rotinatbl = rotinatbl + string.Format(@"<tr>
                     <td style='width: 20%;'>{0}</td>
-                      <td style ='width: 20%;'> {1}</td>
-                      <td style ='width: 20%;'> {2} </td>
-                      <td style ='width: 20%;'> {3}</td>
-                      <td style ='width: 20%;'> {4}</td>
+                      <td style ='width: 20%;'>{1}</td>
+                      <td style ='width: 20%;'>{2} </td>
+                      <td style ='width: 20%;'>{3}</td>
+                      <td style ='width: 20%;'>{4}</td>
                        </tr>", rotina.Item, rotina.OQue, rotina.Quem, rotina.Registro, rotina.Como);
                 }
 
@@ -323,7 +337,7 @@ namespace Web.UI.Controllers
 
                 foreach (var risco in documento.DocRisco)
                 {
-                    registrotbl = registrotbl + string.Format(@"<tr>
+                    riscotbl = riscotbl + string.Format(@"<tr>
                     <td style='width: 16.6667%;'>{0}</td>
                       <td style ='width: 16.6667%;'> {1}</td>
                       <td style ='width: 16.6667%;'> {2} </td>
@@ -345,8 +359,12 @@ namespace Web.UI.Controllers
                 _backupFactory.GerarBackupArquivo(modelDoc, nmArquivo);
             }
         }
-        public void GerarRegistros(string path, string pathTemplate, int idCliente)
+        public void GerarRegistros(string path, int idCliente)
         {
+            var RegTemplate = Server.MapPath("~/Templates/Backup/IdentificacaoNaoConformidade.html");
+            var RegTemplateGr = Server.MapPath("~/Templates/Backup/IdentificacaoGestaoRisco.html");
+            var RegTemplateGm = Server.MapPath("~/Templates/Backup/IdentificacaoGestaoMelhoria.html");
+            var RegTemplateAc = Server.MapPath("~/Templates/Backup/IdentificacaoAcaoCorretiva.html");
 
             var siteSelecionado = _siteAppServico.Get(x => x.IdCliente == idCliente).FirstOrDefault();
             var Registros = _registroConformidadeAppServico.Get(x => x.IdSite == siteSelecionado.IdSite).ToList();
@@ -360,17 +378,17 @@ namespace Web.UI.Controllers
 
                         var modelRegAC = new BackupModel
                         {
-                            CaminhoTemplate = pathTemplate,
+                            CaminhoTemplate = RegTemplateAc,
                             CaminhoBackup = path + "\\AcaoCorretiva",
                             Informacoes = new List<InformacaoBackupModel>()
                         };
-                        ExtrairRegistro(siteSelecionado, clienteLogo, registro, modelRegAC);
+                        ExtrairRegistroAC(siteSelecionado, clienteLogo, registro, modelRegAC);
 
                         break;
                     case "nc":
                         var modelRegNC = new BackupModel
                         {
-                            CaminhoTemplate = pathTemplate,
+                            CaminhoTemplate = RegTemplate,
                             CaminhoBackup = path + "\\NaoConformidade",
                             Informacoes = new List<InformacaoBackupModel>()
                         };
@@ -379,27 +397,27 @@ namespace Web.UI.Controllers
                     case "gr":
                         var modelRegGR = new BackupModel
                         {
-                            CaminhoTemplate = pathTemplate,
+                            CaminhoTemplate = RegTemplateGr,
                             CaminhoBackup = path + "\\GestaoRisco",
                             Informacoes = new List<InformacaoBackupModel>()
                         };
-                        ExtrairRegistro(siteSelecionado, clienteLogo, registro, modelRegGR);
+                        ExtrairRegistroGR(siteSelecionado, clienteLogo, registro, modelRegGR);
                         break;
                     case "gm":
                         var modelRegGM = new BackupModel
                         {
-                            CaminhoTemplate = pathTemplate,
+                            CaminhoTemplate = RegTemplateGm,
                             CaminhoBackup = path + "\\GestaoMelhoria",
                             Informacoes = new List<InformacaoBackupModel>()
                         };
-                        ExtrairRegistro(siteSelecionado, clienteLogo, registro, modelRegGM);
+                        ExtrairRegistroGM(siteSelecionado, clienteLogo, registro, modelRegGM);
                         break;
                     default:
                         break;
                 }
             }
         }
-        private void ExtrairRegistro(Site siteSelecionado, Cliente clienteLogo, RegistroConformidade registro, BackupModel modelDoc)
+        private void ExtrairRegistroGM(Site siteSelecionado, Cliente clienteLogo, RegistroConformidade registro, BackupModel modelDoc)
         {
             modelDoc.Informacoes.Add(new InformacaoBackupModel
             {
@@ -448,7 +466,7 @@ namespace Web.UI.Controllers
                 Tag = "##TIPONAOCONFORMIDADE##",
                 Tipo = TipoInformacaoBackup.Texto,
                 Valor = TpNaoConformidade
-            }) ;
+            });
 
             var ResponsavelAnalise = string.Empty;
 
@@ -489,7 +507,7 @@ namespace Web.UI.Controllers
             });
 
             var statusReg = string.Empty;
-            switch (registro.StatusRegistro)
+            switch (registro.StatusEtapa)
             {
                 case 1:
                     statusReg = "Ação Imediata";
@@ -589,12 +607,25 @@ namespace Web.UI.Controllers
                 Tipo = TipoInformacaoBackup.Texto,
                 Valor = nuAcao.ToString()
             });
-            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            if (nuAcaoCorretiva != null)
             {
-                Tag = "##ANALISECAUSA##",
-                Tipo = TipoInformacaoBackup.Texto,
-                Valor = registro.DescricaoAnaliseCausa
-            });
+                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                {
+                    Tag = "##ANALISECAUSA##",
+                    Tipo = TipoInformacaoBackup.Texto,
+                    Valor = nuAcaoCorretiva.DescricaoRegistro == null ? "" : nuAcaoCorretiva.DescricaoRegistro.ToString()
+                });
+            }
+            else
+            {
+                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                {
+                    Tag = "##ANALISECAUSA##",
+                    Tipo = TipoInformacaoBackup.Texto,
+                    Valor = ""
+                });
+            }
+
             modelDoc.Informacoes.Add(new InformacaoBackupModel
             {
                 Tag = "##PARECER##",
@@ -604,7 +635,679 @@ namespace Web.UI.Controllers
 
             var nmArquivo = registro.Processo.Nome + " " + registro.NuRegistro;
 
-            _backupFactory.GerarBackupArquivo(modelDoc , nmArquivo);
+            _backupFactory.GerarBackupArquivo(modelDoc, nmArquivo);
+        }
+        private void ExtrairRegistroGR(Site siteSelecionado, Cliente clienteLogo, RegistroConformidade registro, BackupModel modelDoc)
+        {
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NOMEEMPRESA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = clienteLogo.NmFantasia
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NUMERO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.NuRegistro.ToString()
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DATAEMISSAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DtEmissao.ToString()
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##ANALISECAUSA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DescricaoAnaliseCausa == null ? "" : registro.DescricaoAnaliseCausa.ToString()
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DESCRICAORISCO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DescricaoRegistro.ToString()
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##PROCESSO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Processo.Nome
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##EMISSORNAOCONFORMIDADE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Emissor.NmCompleto
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NAOCONFORMIDADEAUDITORIA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.ENaoConformidadeAuditoria == true ? "Sim" : "Não"
+            });
+            string TpNaoConformidade = "";
+            if (registro.TipoNaoConformidade != null)
+            {
+                TpNaoConformidade = registro.TipoNaoConformidade.Descricao;
+            }
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TIPONAOCONFORMIDADE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = TpNaoConformidade
+            });
+
+            var ResponsavelAnalise = string.Empty;
+
+            if (registro.ResponsavelAnalisar != null)
+            {
+                ResponsavelAnalise = registro.ResponsavelAnalisar.NmCompleto;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELANALISEDEFINICAOACAOIMEDIATA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = ResponsavelAnalise
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TAGS##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Tags
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DESCRICAOREGISTRO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DescricaoRegistro
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NAOCONFORMIDADEPROCEDENTE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.EProcedente == true ? "Sim" : "Não"
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DATADESCRICAOACAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DtDescricaoAcao.ToString()
+            });
+
+            var statusReg = string.Empty;
+            switch (registro.StatusEtapa)
+            {
+                case 1:
+                    statusReg = "Ação Imediata";
+                    break;
+                case 2:
+                    statusReg = "Implementação";
+                    break;
+                case 3:
+                    statusReg = "Reverificação";
+                    break;
+                case 4:
+                    statusReg = "Encerrada";
+                    break;
+                default:
+                    break;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##STATUS##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = statusReg
+            });
+
+            string acaoImediataTbl = string.Empty;
+
+
+            foreach (var acoes in registro.AcoesImediatas)
+            {
+                var nmImplementar = string.Empty;
+                if (acoes.ResponsavelImplementar != null)
+                {
+                    nmImplementar = acoes.ResponsavelImplementar.NmCompleto;
+                }
+                acaoImediataTbl = acaoImediataTbl + string.Format(@"<tr><td style='width: 20 %; '>{0}</td><td style ='width: 20%;'>{1}</td><td style ='width: 20%;'>{2}</td><td style ='width: 20%;'>{3}</td><td style ='width: 20%;'>{4}</td></tr>", acoes.Descricao, acoes.DtPrazoImplementacao, nmImplementar, acoes.DtEfetivaImplementacao, acoes.Observacao);
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TBLACAOIMEDIATA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = acaoImediataTbl
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##ACAOIMEDIATAECORRECAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.ECorrecao == true ? "Sim" : "Não"
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NECESSITACORRECAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.NecessitaAcaoCorretiva == true ? "Sim" : "Não"
+            });
+
+            string respRV = registro.ResponsavelReverificador == null ? "" : registro.ResponsavelReverificador.NmCompleto;
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELREVERIFICACAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = respRV
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##FOIEFICAZ##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.FlEficaz == true ? "Sim" : "Não"
+            });
+
+            string respIA = "";
+
+            respIA = registro.ResponsavelInicarAcaoImediata == null ? "" : registro.ResponsavelInicarAcaoImediata.NmCompleto;
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELINICIARTRATATIVAACAOCORRETIVA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = respIA
+            });
+
+            var nuAcaoCorretiva = _registroConformidadeAppServico.GetAll().FirstOrDefault(x => x.IdSite == siteSelecionado.IdSite && x.TipoRegistro == "ac" && x.NuRegistro == registro.IdNuRegistroFilho);
+
+            var nuAcao = 0;
+
+            if (nuAcaoCorretiva != null)
+            {
+
+                nuAcao = nuAcaoCorretiva.NuRegistro;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NUMEROACAOCORRETIVA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = nuAcao.ToString()
+            });
+            if (nuAcaoCorretiva != null)
+            {
+                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                {
+                    Tag = "##ANALISECAUSA##",
+                    Tipo = TipoInformacaoBackup.Texto,
+                    Valor = nuAcaoCorretiva.DescricaoRegistro == null ? "" : nuAcaoCorretiva.DescricaoRegistro.ToString()
+                });
+            }
+            else
+            {
+                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                {
+                    Tag = "##ANALISECAUSA##",
+                    Tipo = TipoInformacaoBackup.Texto,
+                    Valor = ""
+                });
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##PARECER##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Parecer
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##JUSTIFICATIVA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DsJustificativa
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##CAUSA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Causa
+            });
+            var nmArquivo = registro.Processo.Nome + " " + registro.NuRegistro;
+
+            _backupFactory.GerarBackupArquivo(modelDoc, nmArquivo);
+        }
+        private void ExtrairRegistroAC(Site siteSelecionado, Cliente clienteLogo, RegistroConformidade registro, BackupModel modelDoc)
+        {
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NOMEEMPRESA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = clienteLogo.NmFantasia
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NUMERO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.NuRegistro.ToString()
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DATAEMISSAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DtEmissao.ToString()
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DESCRICAORISCO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DescricaoRegistro.ToString()
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##PROCESSO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Processo.Nome
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##EMISSORNAOCONFORMIDADE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Emissor.NmCompleto
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NAOCONFORMIDADEAUDITORIA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.ENaoConformidadeAuditoria == true ? "Sim" : "Não"
+            });
+            string TpNaoConformidade = "";
+            if (registro.TipoNaoConformidade != null)
+            {
+                TpNaoConformidade = registro.TipoNaoConformidade.Descricao;
+            }
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TIPONAOCONFORMIDADE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = TpNaoConformidade
+            });
+
+            var ResponsavelAnalise = string.Empty;
+
+            if (registro.ResponsavelAnalisar != null)
+            {
+                ResponsavelAnalise = registro.ResponsavelAnalisar.NmCompleto;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELANALISEDEFINICAOACAOIMEDIATA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = ResponsavelAnalise
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TAGS##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Tags
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DESCRICAOREGISTRO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DescricaoRegistro
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NAOCONFORMIDADEPROCEDENTE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.EProcedente == true ? "Sim" : "Não"
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DATADESCRICAOACAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DtDescricaoAcao.ToString()
+            });
+
+            var statusReg = string.Empty;
+            switch (registro.StatusEtapa)
+            {
+                case 1:
+                    statusReg = "Ação Imediata";
+                    break;
+                case 2:
+                    statusReg = "Implementação";
+                    break;
+                case 3:
+                    statusReg = "Reverificação";
+                    break;
+                case 4:
+                    statusReg = "Encerrada";
+                    break;
+                default:
+                    break;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##STATUS##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = statusReg
+            });
+
+            string acaoImediataTbl = string.Empty;
+
+
+            foreach (var acoes in registro.AcoesImediatas)
+            {
+                var nmImplementar = string.Empty;
+                if (acoes.ResponsavelImplementar != null)
+                {
+                    nmImplementar = acoes.ResponsavelImplementar.NmCompleto;
+                }
+                acaoImediataTbl = acaoImediataTbl + string.Format(@"<tr><td style='width: 20 %; '>{0}</td><td style ='width: 20%;'>{1}</td><td style ='width: 20%;'>{2}</td><td style ='width: 20%;'>{3}</td><td style ='width: 20%;'>{4}</td></tr>", acoes.Descricao, acoes.DtPrazoImplementacao, nmImplementar, acoes.DtEfetivaImplementacao, acoes.Observacao);
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TBLACAOIMEDIATA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = acaoImediataTbl
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##ACAOIMEDIATAECORRECAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.ECorrecao == true ? "Sim" : "Não"
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NECESSITACORRECAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.NecessitaAcaoCorretiva == true ? "Sim" : "Não"
+            });
+
+            string respRV = registro.ResponsavelReverificador == null ? "" : registro.ResponsavelReverificador.NmCompleto;
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELREVERIFICACAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = respRV
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##FOIEFICAZ##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.FlEficaz == true ? "Sim" : "Não"
+            });
+
+            string respIA = "";
+
+            respIA = registro.ResponsavelInicarAcaoImediata == null ? "" : registro.ResponsavelInicarAcaoImediata.NmCompleto;
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELINICIARTRATATIVAACAOCORRETIVA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = respIA
+            });
+
+            var nuAcaoCorretiva = _registroConformidadeAppServico.GetAll().FirstOrDefault(x => x.IdSite == siteSelecionado.IdSite && x.TipoRegistro == "ac" && x.NuRegistro == registro.IdNuRegistroFilho);
+
+            var nuAcao = 0;
+
+            if (nuAcaoCorretiva != null)
+            {
+
+                nuAcao = nuAcaoCorretiva.NuRegistro;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NUMEROACAOCORRETIVA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = nuAcao.ToString()
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##PARECER##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Parecer
+            });
+
+            var nmArquivo = registro.Processo.Nome + " " + registro.NuRegistro;
+
+            _backupFactory.GerarBackupArquivo(modelDoc, nmArquivo);
+        }
+        private void ExtrairRegistro(Site siteSelecionado, Cliente clienteLogo, RegistroConformidade registro, BackupModel modelDoc)
+        {
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NOMEEMPRESA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = clienteLogo.NmFantasia
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NUMERO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.NuRegistro.ToString()
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DATAEMISSAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DtEmissao.ToString()
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##PROCESSO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Processo.Nome
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##EMISSORNAOCONFORMIDADE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Emissor.NmCompleto
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NAOCONFORMIDADEAUDITORIA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.ENaoConformidadeAuditoria == true ? "Sim" : "Não"
+            });
+            string TpNaoConformidade = "";
+            if (registro.TipoNaoConformidade != null)
+            {
+                TpNaoConformidade = registro.TipoNaoConformidade.Descricao;
+            }
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TIPONAOCONFORMIDADE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = TpNaoConformidade
+            });
+
+            var ResponsavelAnalise = string.Empty;
+
+            if (registro.ResponsavelAnalisar != null)
+            {
+                ResponsavelAnalise = registro.ResponsavelAnalisar.NmCompleto;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELANALISEDEFINICAOACAOIMEDIATA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = ResponsavelAnalise
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TAGS##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Tags
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DESCRICAOREGISTRO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DescricaoRegistro
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NAOCONFORMIDADEPROCEDENTE##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.EProcedente == true ? "Sim" : "Não"
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##DATADESCRICAOACAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.DtDescricaoAcao.ToString()
+            });
+
+            var statusReg = string.Empty;
+            switch (registro.StatusEtapa)
+            {
+                case 1:
+                    statusReg = "Ação Imediata";
+                    break;
+                case 2:
+                    statusReg = "Implementação";
+                    break;
+                case 3:
+                    statusReg = "Reverificação";
+                    break;
+                case 4:
+                    statusReg = "Encerrada";
+                    break;
+                default:
+                    break;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##STATUS##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = statusReg
+            });
+
+            string acaoImediataTbl = string.Empty;
+
+
+            foreach (var acoes in registro.AcoesImediatas)
+            {
+                var nmImplementar = string.Empty;
+                if (acoes.ResponsavelImplementar != null)
+                {
+                    nmImplementar = acoes.ResponsavelImplementar.NmCompleto;
+                }
+                acaoImediataTbl = acaoImediataTbl + string.Format(@"<tr><td style='width: 20 %; '>{0}</td><td style ='width: 20%;'>{1}</td><td style ='width: 20%;'>{2}</td><td style ='width: 20%;'>{3}</td><td style ='width: 20%;'>{4}</td></tr>", acoes.Descricao, acoes.DtPrazoImplementacao, nmImplementar, acoes.DtEfetivaImplementacao, acoes.Observacao);
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##TBLACAOIMEDIATA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = acaoImediataTbl
+            });
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##ACAOIMEDIATAECORRECAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.ECorrecao == true ? "Sim" : "Não"
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NECESSITACORRECAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.NecessitaAcaoCorretiva == true ? "Sim" : "Não"
+            });
+
+            string respRV = registro.ResponsavelReverificador == null ? "" : registro.ResponsavelReverificador.NmCompleto;
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELREVERIFICACAO##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = respRV
+            });
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##FOIEFICAZ##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.FlEficaz == true ? "Sim" : "Não"
+            });
+
+            string respIA = "";
+
+            respIA = registro.ResponsavelInicarAcaoImediata == null ? "" : registro.ResponsavelInicarAcaoImediata.NmCompleto;
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##RESPONSAVELINICIARTRATATIVAACAOCORRETIVA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = respIA
+            });
+
+            var nuAcaoCorretiva = _registroConformidadeAppServico.GetAll().FirstOrDefault(x => x.IdSite == siteSelecionado.IdSite && x.TipoRegistro == "ac" && x.NuRegistro == registro.IdNuRegistroFilho);
+
+            var nuAcao = 0;
+
+            if (nuAcaoCorretiva != null)
+            {
+
+                nuAcao = nuAcaoCorretiva.NuRegistro;
+            }
+
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##NUMEROACAOCORRETIVA##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = nuAcao.ToString()
+            });
+            if (nuAcaoCorretiva != null)
+            {
+                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                {
+                    Tag = "##ANALISECAUSA##",
+                    Tipo = TipoInformacaoBackup.Texto,
+                    Valor = nuAcaoCorretiva.DescricaoRegistro == null ? "" : nuAcaoCorretiva.DescricaoRegistro.ToString()
+                });
+            }
+            else
+            {
+                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                {
+                    Tag = "##ANALISECAUSA##",
+                    Tipo = TipoInformacaoBackup.Texto,
+                    Valor = ""
+                });
+            }
+            modelDoc.Informacoes.Add(new InformacaoBackupModel
+            {
+                Tag = "##PARECER##",
+                Tipo = TipoInformacaoBackup.Texto,
+                Valor = registro.Parecer
+            });
+
+            var nmArquivo = registro.Processo.Nome + " " + registro.NuRegistro;
+
+            _backupFactory.GerarBackupArquivo(modelDoc, nmArquivo);
         }
         public void GerarAnaliseTemplate(string path, string pathTemplate, int idCliente)
         {
@@ -626,6 +1329,12 @@ namespace Web.UI.Controllers
                     Tag = "##RESPONSAVEL##",
                     Tipo = TipoInformacaoBackup.Texto,
                     Valor = analise.Responsavel.NmCompleto
+                });
+                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                {
+                    Tag = "##NOMEEMPRESA##",
+                    Tipo = TipoInformacaoBackup.Texto,
+                    Valor = clienteLogo.NmFantasia
                 });
                 modelDoc.Informacoes.Add(new InformacaoBackupModel
                 {
@@ -684,7 +1393,7 @@ namespace Web.UI.Controllers
                     Valor = Tema
                 });
 
-                _backupFactory.GerarBackupArquivo(modelDoc , analise.Ata);
+                _backupFactory.GerarBackupArquivo(modelDoc, analise.Ata);
             }
         }
         public void GerarIndicadorTemplate(string path, string pathTemplate, int idCliente)
@@ -715,7 +1424,12 @@ namespace Web.UI.Controllers
                     Tipo = TipoInformacaoBackup.Texto,
                     Valor = indicador.Responsavel.NmCompleto.ToString()
                 });
-
+                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                {
+                    Tag = "##NOMEEMPRESA##",
+                    Tipo = TipoInformacaoBackup.Texto,
+                    Valor = clienteLogo.NmFantasia
+                });
 
                 modelDoc.Informacoes.Add(new InformacaoBackupModel
                 {
@@ -773,7 +1487,7 @@ namespace Web.UI.Controllers
                     Valor = indicador.Unidade
                 });
 
-                var temPeriodicidadeAnalise = indicador.PeriodicidadeDeAnalises.Count > 0;
+                var temPeriodicidadeAnalise = (indicador.PeriodicidadeDeAnalises.Count > 0);
                 var listaPeriodicidade = new List<PeriodicidaDeAnalise>();
                 var metas = new List<Meta>();
                 var realizados = new List<PlanoVoo>();
@@ -784,184 +1498,264 @@ namespace Web.UI.Controllers
                     realizados.AddRange(listaPeriodicidade[0].MetasRealizadas);
                 }
 
-                var janPV = metas[0].Valor.ToString();
-                var fevPV = metas[1].Valor.ToString();
-                var marPV = metas[2].Valor.ToString();
-                var abrPV = metas[3].Valor.ToString();
-                var maiPV = metas[4].Valor.ToString();
-                var junPV = metas[5].Valor.ToString();
-                var julPV = metas[6].Valor.ToString();
-                var agoPV = metas[7].Valor.ToString();
-                var outPV = metas[8].Valor.ToString();
-                var setPV = metas[9].Valor.ToString();
-                var novPV = metas[10].Valor.ToString();
-                var dezPV = metas[11].Valor.ToString();
-
-                var janRL = realizados[0].Realizado.ToString();
-                var fevRL = realizados[1].Realizado.ToString();
-                var marRL = realizados[2].Realizado.ToString();
-                var abrRL = realizados[3].Realizado.ToString();
-                var maiRL = realizados[4].Realizado.ToString();
-                var junRL = realizados[5].Realizado.ToString();
-                var julRL = realizados[6].Realizado.ToString();
-                var agoRL = realizados[7].Realizado.ToString();
-                var outRL = realizados[8].Realizado.ToString();
-                var setRL = realizados[9].Realizado.ToString();
-                var novRL = realizados[10].Realizado.ToString();
-                var dezRL = realizados[11].Realizado.ToString();
-
-                /*PLANO DE VOO*/
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
+                if (metas.Count > 0)
                 {
-                    Tag = "##JANEIRO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = janPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##FAVEREIRO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = fevPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##MARCO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = marPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##ABRIL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = abrPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##MAIO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = maiPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##JUNHO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = junPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##JULHO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = julPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##AGOSTO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = agoPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##SETEMBRO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = setPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##OUTUBRO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = outPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##NOVEMBRO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = novPV
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##DEZEMBRO##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = dezPV
-                });
+                    var janPV = metas[0].Valor.ToString();
+                    var fevPV = metas[1].Valor.ToString();
+                    var marPV = metas[2].Valor.ToString();
+                    var abrPV = metas[3].Valor.ToString();
+                    var maiPV = metas[4].Valor.ToString();
+                    var junPV = metas[5].Valor.ToString();
+                    var julPV = metas[6].Valor.ToString();
+                    var agoPV = metas[7].Valor.ToString();
+                    var outPV = metas[8].Valor.ToString();
+                    var setPV = metas[9].Valor.ToString();
+                    var novPV = metas[10].Valor.ToString();
+                    var dezPV = metas[11].Valor.ToString();
 
 
-                /*REALIZADO*/
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##JANEIRORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = janRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##FAVEREIRORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = fevRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##MARCORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = marRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##ABRILRL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = abrRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##MAIORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = maiRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##JUNHORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = junRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##JULHORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = julRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##AGOSTORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = agoRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##SETEMBRORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = setRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##OUTUBRORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = outRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##NOVEMBRORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = novRL
-                });
-                modelDoc.Informacoes.Add(new InformacaoBackupModel
-                {
-                    Tag = "##DEZEMBRORL##",
-                    Tipo = TipoInformacaoBackup.Texto,
-                    Valor = dezRL
-                });
+                    /*PLANO DE VOO*/
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JANEIRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = janPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##FAVEREIRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = fevPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##MARCO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = marPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##ABRIL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = abrPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##MAIO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = maiPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JUNHO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = junPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JULHO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = julPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##AGOSTO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = agoPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##SETEMBRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = setPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##OUTUBRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = outPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##NOVEMBRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = novPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##DEZEMBRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = dezPV
+                    });
+                    /*PLANO DE VOO*/
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JANEIRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = janPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##FAVEREIRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = fevPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##MARCO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = marPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##ABRIL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = abrPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##MAIO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = maiPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JUNHO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = junPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JULHO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = julPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##AGOSTO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = agoPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##SETEMBRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = setPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##OUTUBRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = outPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##NOVEMBRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = novPV
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##DEZEMBRO##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = dezPV
+                    });
+                }
 
+                if (realizados.Count > 0)
+                {
+
+                    var janRL = realizados[0].Realizado.ToString();
+                    var fevRL = realizados[1].Realizado.ToString();
+                    var marRL = realizados[2].Realizado.ToString();
+                    var abrRL = realizados[3].Realizado.ToString();
+                    var maiRL = realizados[4].Realizado.ToString();
+                    var junRL = realizados[5].Realizado.ToString();
+                    var julRL = realizados[6].Realizado.ToString();
+                    var agoRL = realizados[7].Realizado.ToString();
+                    var outRL = realizados[8].Realizado.ToString();
+                    var setRL = realizados[9].Realizado.ToString();
+                    var novRL = realizados[10].Realizado.ToString();
+                    var dezRL = realizados[11].Realizado.ToString();
+
+
+                    /*REALIZADO*/
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JANEIRORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = janRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##FAVEREIRORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = fevRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##MARCORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = marRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##ABRILRL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = abrRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##MAIORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = maiRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JUNHORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = junRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##JULHORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = julRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##AGOSTORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = agoRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##SETEMBRORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = setRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##OUTUBRORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = outRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##NOVEMBRORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = novRL
+                    });
+                    modelDoc.Informacoes.Add(new InformacaoBackupModel
+                    {
+                        Tag = "##DEZEMBRORL##",
+                        Tipo = TipoInformacaoBackup.Texto,
+                        Valor = dezRL
+                    });
+                }
                 string nmArquivo = "Indicador" + "-" + indicador.Id;
 
-                _backupFactory.GerarBackupArquivo(modelDoc , nmArquivo);
+                _backupFactory.GerarBackupArquivo(modelDoc, nmArquivo);
             }
         }
         public void GerarInstrumentoTemplate(string path, string pathTemplate, int idCliente)
@@ -1110,22 +1904,22 @@ namespace Web.UI.Controllers
 
                 string nmArquivo = instrumento.Equipamento;
 
-                _backupFactory.GerarBackupArquivo(modelDoc , nmArquivo);
+                _backupFactory.GerarBackupArquivo(modelDoc, nmArquivo);
             }
         }
         public ActionResult Download(string f)
         {
-            var diretorioBackups = ConfigurationManager.AppSettings["DiretorioBackups"];
-            if (!diretorioBackups.EndsWith(@"\"))
-                diretorioBackups += @"\";
+            //var diretorioBackups = ConfigurationManager.AppSettings["DiretorioBackups"];
+            //if (!diretorioBackups.EndsWith(@"\"))
+            //    diretorioBackups += @"\";
 
 
-            var caminhoArquivo = diretorioBackups + f + ".zip";
+            f = f + ".zip";
 
-            if (!System.IO.File.Exists(caminhoArquivo))
+            if (!System.IO.File.Exists(f))
                 return new HttpStatusCodeResult(404, "Arquivo não encontrado");
 
-            return File(System.IO.File.ReadAllBytes(caminhoArquivo), "application/octet-stream", $"Backup_{DateTime.Now.ToString("yyyyMMddHHmmss")}.zip");
+            return File(System.IO.File.ReadAllBytes(f), "application/octet-stream", $"Backup_{DateTime.Now.ToString("yyyyMMddHHmmss")}.zip");
         }
 
         private string GerarUrlDownload(string nomeArquivo)
@@ -1149,7 +1943,7 @@ namespace Web.UI.Controllers
             if (!Directory.Exists(diretorioDestino))
                 Directory.CreateDirectory(diretorioDestino);
 
-            if (Directory.Exists(diretorioOrigem) && Directory.GetFiles(diretorioOrigem).Length > 0)
+            if (Directory.Exists(diretorioOrigem))
             {
 
                 nomeZip = Guid.NewGuid().ToString();

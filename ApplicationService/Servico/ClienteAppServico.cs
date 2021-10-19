@@ -11,12 +11,22 @@ namespace ApplicationService.Servico
     {
         private readonly IClienteRepositorio _clienteRepositorio;
         private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly IUsuarioClienteSiteRepositorio _usuarioClienteSiteRepositorio;
+        private readonly ISiteRepositorio _siteRepositorio;
+        private readonly IFilaEnvioRepositorio _filaEnvio;
 
-        public ClienteAppServico(IClienteRepositorio clienteRepositorio, IUsuarioRepositorio usuarioRepositorio) : 
+        public ClienteAppServico(IClienteRepositorio clienteRepositorio,
+                                 IUsuarioRepositorio usuarioRepositorio,
+                                 IUsuarioClienteSiteRepositorio usuarioClienteSiteRepositorio,
+                                 ISiteRepositorio siteRepositorio,
+                                 IFilaEnvioRepositorio filaEnvioRepositorio) :
             base(clienteRepositorio)
         {
             _clienteRepositorio = clienteRepositorio;
             _usuarioRepositorio = usuarioRepositorio;
+            _usuarioClienteSiteRepositorio = usuarioClienteSiteRepositorio;
+            _siteRepositorio = siteRepositorio;
+            _filaEnvio = filaEnvioRepositorio;
         }
 
         public Cliente ObterPorUrl(string url)
@@ -44,11 +54,11 @@ namespace ApplicationService.Servico
             else if (ECoordenadorOuSuporte(usuario.IdPerfil))
             {
                 return _clienteRepositorio.ListarClientesPorUsuario(idUsuario);
-            }            
+            }
             else
             {
                 return _clienteRepositorio.ListarClientesPorUsuario(idUsuario).Take(1).ToList();
-            }            
+            }
         }
 
         private bool EAdministrador(int perfil)
@@ -73,6 +83,35 @@ namespace ApplicationService.Servico
             {
                 var cliente = _clienteRepositorio.GetById(id);
 
+                var UsuarioCliente = _usuarioClienteSiteRepositorio.Get(x => x.IdCliente == cliente.IdCliente).ToList();
+
+
+                foreach (var usuariocliente in UsuarioCliente)
+                {
+                    var usuario = _usuarioRepositorio.GetById(usuariocliente.IdUsuario);
+
+                    //Altera Usuaruios Ativo / Inativo
+                    usuario.FlAtivo = !cliente.FlAtivo;
+                    _usuarioRepositorio.Update(usuario);
+
+                    var Fila = _filaEnvio.Get(x => x.Destinatario == usuario.CdIdentificacao).ToList();
+
+                    foreach (var email in Fila)
+                    {
+                        _filaEnvio.Remove(email);
+                    }
+                }
+
+                var siteId = (int)UsuarioCliente.FirstOrDefault().IdSite;
+
+                var ClienteSite = _siteRepositorio.GetById(siteId);
+
+                //Altera Site Ativo / Inativo
+                ClienteSite.FlAtivo = !cliente.FlAtivo;
+                _siteRepositorio.Update(ClienteSite);
+
+
+                //Altera Cliente Ativo / Inativo
                 cliente.FlAtivo = !cliente.FlAtivo;
                 _clienteRepositorio.Update(cliente);
 

@@ -178,6 +178,7 @@ namespace Web.UI.Controllers
         {
             var idCliente = Util.ObterClienteSelecionado();
             Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcessoAcaoCorretiva(nc.IdRegistroConformidade);
 
             var usuarioNotificacao = _usuarioAppServico.GetById(nc.IdResponsavelEtapa.Value);
 
@@ -188,6 +189,7 @@ namespace Web.UI.Controllers
             conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
             conteudo = conteudo.Replace("#NuAcaoCorretiva#", nc.NuRegistro.ToString());
             conteudo = conteudo.Replace("#NuRegistroConformidade#", nc.IdRegistroConformidade.ToString());
+            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
 
 
 
@@ -418,6 +420,7 @@ namespace Web.UI.Controllers
             var acoesImediatasNova = acaoCorretiva.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
             var registroAcoes = _registroConformidadesAppServico.GetById(acaoCorretiva.IdRegistroConformidade);
+            acaoCorretiva.NuRegistro = registroAcoes.NuRegistro;
 
             if (acoesImediatasNova.Count > 0 && registroAcoes.AcoesImediatas.Count > 0)
             {
@@ -644,7 +647,7 @@ namespace Web.UI.Controllers
 
         private string MontarUrlAcessoAcaoCorretiva(int idRegistro)
         {
-            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+            var dominio = "https://" + ConfigurationManager.AppSettings["Dominio"];
 
             return dominio + "AcaoCorretiva/Editar/" + idRegistro.ToString();
         }

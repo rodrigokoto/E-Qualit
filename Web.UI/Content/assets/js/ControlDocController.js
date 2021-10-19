@@ -630,7 +630,8 @@ APP.controller.ControlDocController = {
         this.formCargos();
         this.setCargosEmissaoDocumentos();
         this.setValidateAssunto();
-
+        $('[name=formCadastroWorkflow]').trigger('change');
+        this.sendFormEmissaoDocumentoAprovado();
         this.sendFormEmissaoDocumento();
         this.sendFormEmissaoDocumentoVerificacao();
         this.sendFormEmissaoDocumentoAprovacao();
@@ -718,17 +719,19 @@ APP.controller.ControlDocController = {
         $('.btn-enviar-verificacao').hide();
         $('.btn-enviar-aprovacao').hide();
         $('.btn-voltar-elaboracao').hide();
-        $('.btn-aprovar').hide();
+        
 
         var getWorkFlow = $('[name=formCadastroWorkflow]').val();
 
-        if (getWorkFlow == 'true') {
-
+        if (getWorkFlow == "sim") {
+            $('.btn-aprovar').hide();
             if (statusEtapa != 0) {
 
                 $('[name=StatusEtapa]').prop('disabled', true);
 
+
             }
+
 
             switch (statusEtapa) {
                 case 0:
@@ -746,6 +749,9 @@ APP.controller.ControlDocController = {
                     $('.btn-voltar-elaboracao').show();
                     break;
             }
+        }
+        else {
+            $('.btn-aprovar').show();
         }
 
 
@@ -1044,7 +1050,7 @@ APP.controller.ControlDocController = {
                 if (result.StatusCode == 200) {
                     bootbox.alert(result.Success, function (result) {
                         if (!emissaoDocumento.FlWorkFlow) {
-                            window.location.href = "/ControlDoc/DocumentosAprovados/?id=" + emissaoDocumento.IdCategoria + "&?idProcesso=" + emissaoDocumento.IdProcesso;
+                            window.location.href = "/ControlDoc/DocumentosElaboracao";
                             return;
                         }
                         if (eEdicao) {
@@ -3653,7 +3659,14 @@ APP.controller.ControlDocController = {
         $('.btn-enviar-verificacao').hide();
         $('.btn-enviar-aprovacao').hide();
         $('.btn-voltar-elaboracao').hide();
-        $('.btn-aprovar').hide();
+
+        var workFlow = APP.controller.ControlDocController.getWorkFlow();
+        if (workFlow === "sim") {
+            $('.btn-aprovar').hide();
+        }
+        else {
+            $('.btn-aprovar').show();
+        }
 
         APP.controller.ControlDocController.hideOrShowWorkFlow();
         $('[name=formCadastroWorkflow]').trigger('change');
@@ -3665,7 +3678,6 @@ APP.controller.ControlDocController = {
         $('.btn-enviar-verificacao').hide();
         $('.btn-enviar-aprovacao').hide();
         $('.btn-voltar-elaboracao').hide();
-        $('.btn-aprovar').hide();
 
     },
 
@@ -3675,6 +3687,7 @@ APP.controller.ControlDocController = {
 
             var workFlow = APP.controller.ControlDocController.getWorkFlow();
             APP.controller.ControlDocController.setRulesWorkFlow(workFlow);
+            APp.controller.ControlDocController.setHideAndShow();
 
         });
 
@@ -3757,9 +3770,11 @@ APP.controller.ControlDocController = {
         if (RadioFormCadastroWorkflow != "sim") {
             $('#form-cadastro-verificador').closest('.form-group').hide();
             $('#form-cadastro-aprovador').closest('.form-group').hide();
+            $('.btn-aprovar').show();
         } else {
             $('#form-cadastro-verificador').closest('.form-group').show();
             $('#form-cadastro-aprovador').closest('.form-group').show();
+            $('.btn-aprovar').hide();
         }
     },
 

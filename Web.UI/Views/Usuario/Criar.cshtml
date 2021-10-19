@@ -87,9 +87,11 @@
                         </div>
                         <!-- Sexo -->
                         <!-- Email -->
-                        <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <div class="form-group">
                                 <label for="form-cria-usuario-email">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Email</label>
+                                <br />
                                 <input type="email" name="formCriaUsuarioEmail" id="form-cria-usuario-email" class="form-control"
                                        placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_Email"
                                        data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_Email"
@@ -98,19 +100,20 @@
                                        value="@Model.CdIdentificacao">
                             </div>
                         </div>
+
                         <!-- CPF -->
-                        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12">
-                            <div class="form-group">
-                                <label for="form-cria-usuario-cpf">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_CPF</label>
-                                <input type="text" name="formCriaUsuarioCpf" id="form-cria-usuario-cpf" class="form-control input-cpf"
-                                       placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_CPF"
-                                       data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF"
-                                       data-msg-cpf="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF_isvalid"
-                                       value="@Model.NuCPF">
-                            </div>
-                        </div>
+                        <!--<div class="col-lg-2 col-md-2 col-sm-5 col-xs-12">
+        <div class="form-group">
+            <label for="form-cria-usuario-cpf">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_CPF</label>
+            <input type="text" name="formCriaUsuarioCpf" id="form-cria-usuario-cpf" class="form-control input-cpf"
+                   placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_CPF"
+                   data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF"
+                   data-msg-cpf="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_CPF_isvalid"
+                   value="@Model.NuCPF">
+        </div>
+    </div>-->
                         <!-- Perfil -->
-                        <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <div class="form-group">
                                 <label for="form-criar-usuario-perfil" class="control-label">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Perfil</label>
                                 <select id="form-criar-usuario-perfil" name="formCriaUsuarioPerfil" class="form-control"
@@ -152,12 +155,13 @@
                             </div>
                         </div>
                         <!-- Data Expiracao -->
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
                             <div class="form-group">
                                 <label for="form-cria-usuario-dt-expiracao">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_DataExpiracao</label>
                                 <br />
                                 <div class='input-group input-group-datepicker'>
-                                    <input type='text' name="formCriaUsuarioDtExpiracao" id="form-cria-usuario-dt-expiracao" class="form-control data datepicker"
+                                    <input type='text' name="formCriaUsuarioDtExpiracao" id="form-cria-usuario-dt-expiracao"
+                                           class="form-control datepicker data largura-calendario"
                                            placeholder="@Traducao.Usuario.ResourceUsuario.Usuario_lbl_placeholder_DataExpiracao"
                                            data-msg-required="@Traducao.Usuario.ResourceUsuario.Usuario_msg_required_DataExpiracao"
                                            value="@(Model.DtExpiracao.HasValue?Model.DtExpiracao.Value.ToString(@Traducao.Resource.dateFormat):null)" />
@@ -205,9 +209,9 @@
                                     </div>
                                     <!-- Bloqueado -->
                                     @*<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 checkbox">
-                                            <input type="checkbox" name="formCriaUsuarioEscolhaBloqueado" id="form-cria-usuario-escolha-bloqueado" class="form-control" value="true" @(Model.FlBloqueado == false ? "" : "checked")>
-                                            <label for="form-cria-usuario-escolha-bloqueado">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_bloqueado</label>
-                                        </div>*@
+                        <input type="checkbox" name="formCriaUsuarioEscolhaBloqueado" id="form-cria-usuario-escolha-bloqueado" class="form-control" value="true" @(Model.FlBloqueado == false ? "" : "checked")>
+                        <label for="form-cria-usuario-escolha-bloqueado">@Traducao.Usuario.ResourceUsuario.Usuario_lbl_Acoes_bloqueado</label>
+                    </div>*@
                                     @if (Model.FlCompartilhado == true)
                                     {
                                         <button type="submit" id="btnAlterarSenha" data-toggle="modal" data-target="#modal-alterar-senha" class="btn btn-primary btn-AlterarSenha">@Traducao.Usuario.ResourceUsuario.AlterarSenha_lbl_titulo</button>

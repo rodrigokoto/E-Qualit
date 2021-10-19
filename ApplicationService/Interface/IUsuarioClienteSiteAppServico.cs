@@ -8,5 +8,6 @@ namespace ApplicationService.Interface
         List<UsuarioClienteSite> ListarPorUsuario(int idUsuario);
         List<Usuario> ListarPorEmpresa(int idEmpresa);
         List<UsuarioClienteSite> ObterSitesPorUsuario(int idUsuario);
+        void EmpresaValidaLogin(Usuario usuario, ref List<string> erros);
     }
 }

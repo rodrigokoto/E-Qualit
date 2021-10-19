@@ -1483,6 +1483,9 @@
             <li class="botoes-button">
                 <button type="button" class="btn btn-primary btn-salvar">@Traducao.Resource.Salvar</button>
             </li>
+            <li class="botoes-button">
+                <button type="button" class="btn btn-primary btn-aprovar">Aprovar</button>
+            </li>
             @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Elaborar) || ViewBag.IdPerfil != 4)
             {
                 <li class="botoes-button">
@@ -1507,16 +1510,7 @@
             <li class="botoes-button">
                 <button type="button" class="btn btn-primary btn-voltar-elaboracao" style="display: none;">@Traducao.Resource.VoltarElaboracao</button>
             </li>
-            @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesControlDoc.Aprovar) || ViewBag.IdPerfil != 4)
-            {
-                //[cargo]
-                if (ViewBag.IdPerfil == 2 || ViewBag.IdPerfil == 4 || ViewBag.IdPerfil == 3)
-                {
-                    <li class="botoes-button">
-                        <button type="button" class="btn btn-primary btn-aprovar" style="display: none;">Aprovar</button>
-                    </li>
-                }
-            }
+           
             <li>
                 <button type="button" id="btnCancelar" class="btn btn-primary btn-cancelar">@Html.ActionLink(@Traducao.Shared.ResourceButtons.btn_lbl_cancelar, "DocumentosElaboracao", "ControlDoc/")</button>
             </li>

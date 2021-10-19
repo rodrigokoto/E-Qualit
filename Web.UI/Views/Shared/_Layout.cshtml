@@ -1,7 +1,7 @@
 ﻿@using ApplicationService.Entidade
 @using ApplicationService.Enum
 @using Dominio.Entidade
-
+@using Dominio.Enumerado
 @{
     /**/
 
@@ -328,9 +328,9 @@
                             }
                         </ul>
                         @*<a id="nav-user-manuais" class="dropdown-toggle mdlFire" href="#" data-target="#modal-1">
-                <i class="fa fa-book fa-2x" aria-hidden="true"></i>
-                <span>Manuais</span>
-            </a>*@
+                                <i class="fa fa-book fa-2x" aria-hidden="true"></i>
+                                <span>Manuais</span>
+                            </a>*@
                     </li>
                     @if (ViewBag.IdPerfil == 1 || ViewBag.IdPerfil == 2)
                     {
@@ -351,6 +351,7 @@
                             <ul class="dropdown-menu dropdown-user">
                                 <li><a href="@Url.Action("Index", "Cliente/Index")">Lista Clientes</a> </li>
                                 <li><a href="/Usuario/Index">Lista Usuarios</a></li>
+                                <li><a href="@Url.Action("Index" , "Backup/Index")">Backup Cliente</a></li>
                             </ul>
                         </li>
                     }
@@ -368,7 +369,7 @@
                         </li>
 
                     }
-                   
+
                     <!-- User -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -407,18 +408,48 @@
                         </a>
                     </li>
                     <!-- Admin -->
+                   
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-bell-o fa-2x" aria-hidden="true"><span class="badge">@ViewBag.Pendencia.Count</span></i><span>Pendências</span>
+                            <i class="fa fa-bell-o fa-2x" aria-hidden="true"><span class="badge">@ViewBag.Pendencia.Count</span></i><span>Notificações</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-user pre-scrollable" style="max-height:300px; max-width: 500px;">
-                            @foreach (var pendencia in ViewBag.Pendencia)
-                            {
-                                <li>
-                                    <a href="@Url.Content("~/" + pendencia.Url)">@pendencia.Modulo - @pendencia.Titulo</a>
-                                </li>
-                            }
-                        </ul>
+
+                        <div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-350">
+                            <div class="dropdown-content-header">
+                                <span class="font-weight-semibold">Notificações</span>
+                                <a href="#" class="text-default"><i class="fa fa-signal"></i></a>
+                            </div>
+
+                            <div class="dropdown-content-body dropdown-scrollable">
+                                <ul class="media-list">
+                                    @foreach (var pendencia in ViewBag.Pendencia)
+                                    {
+                                        <li class="media">
+                                            <div class="media-body">
+                                                <div class="media-title">
+                                                    <a href="@Url.Content("~/" + pendencia.Url)">
+                                                        @if (pendencia.TipoPendencia == TipoPendencia.Pendencia)
+                                                        {
+                                                            <span class="font-weight-semibold" style="height:100%; width:234px"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> @pendencia.Modulo</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="font-weight-semibold" style="height:100%; width:234px"><i class="fa fa-sticky-note-o" aria-hidden="true"></i> @pendencia.Modulo</span>
+                                                        }
+                                                        <span>@pendencia.Titulo</span>
+                                                    </a>
+                                                </div>
+                                                
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="dropdown-content-footer justify-content-center p-0">
+                                <a href="#" class="bg-light text-grey w-100 py-2" data-popup="tooltip" title=""><i class="fa fa-exclamation-circle d-block top-0"> - Pendência</i> | <i class="fa fa-sticky-note-o d-block top-0"> - Lembrete</i></a>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </nav>

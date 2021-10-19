@@ -10,6 +10,16 @@ namespace DAL.Repository
     {
         private readonly RegistroConformidadesRepositorio _registroConformidadesRepositorio = new RegistroConformidadesRepositorio();
 
+        public void AtualizaAnaliseCritica(AnaliseCritica analiseCritica)
+        {
+            using (var context = new BaseContext()) {
+
+                analiseCritica.DataCadastro = analiseCritica.DataCriacao;
+                context.Entry(analiseCritica).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+
         public void AtualizaAnaliseCriticaFuncionario(AnaliseCritica analiseCritica)
         {
             using (var context = new BaseContext())
@@ -17,10 +27,12 @@ namespace DAL.Repository
                 analiseCritica.Funcionarios.ForEach(funcionario =>
                 {
                     var funcionarioCtx = context.Set<AnaliseCriticaFuncionario>().Find(funcionario.IdAnaliseCriticaFuncionario);
+                    if(funcionarioCtx != null) { 
                     funcionarioCtx.IdUsuario = funcionario.IdUsuario;
                     funcionarioCtx.Funcao = funcionario.Funcao;
 
                     context.Entry(funcionarioCtx).State = EntityState.Modified;
+                    }
                 });
 
                 context.SaveChanges();

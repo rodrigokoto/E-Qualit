@@ -499,14 +499,35 @@ APP.controller.IndicadorController = {
 
             var msgIconeDeleteIndicador = $('[name=msgIconeDeleteIndicador]').val();
             var id = $(this).data("id-indicador");
-            bootbox.confirm(msgIconeDeleteIndicador, function (result) {
-                if (result == true) {
-                    APP.controller.IndicadorController.setDelIndicador(id);
+
+            var modal = bootbox.dialog({
+                title: 'Excluir Indicador.',
+                message: 'Deseja excluir este Indicador ?',
+                buttons: [
+                    {
+                        label: _options.labelButtonYes,
+                        className: "btn btn-primary pull-right",
+                        callback: function () {
+
+                            APP.controller.IndicadorController.setDelIndicador(id);
+                        }
+                    },
+                    {
+                        label: _options.botao_cancelar,
+                        className: "btn btn-default pull-right",
+                        callback: function () {
+                            modal.modal("hide");
+                        }
+                    }
+                ],
+                show: false,
+                onEscape: function () {
+                    modal.modal("hide");
                 }
             });
 
+            modal.modal("show");
         });
-
     },
 
     setDelIndicador: function (idIndicador) {
@@ -529,6 +550,7 @@ APP.controller.IndicadorController = {
 
                 if (result.StatusCode == 200) {
                     window.location.reload([true]);
+                    bootbox.alert("Indicador excluido com sucesso.");
                 } else if (result.StatusCode == 505) {
                     erro = APP.component.ResultErros.init(result.Erro);
                     bootbox.alert(erro);
@@ -1246,17 +1268,26 @@ APP.controller.IndicadorController = {
 
 
         const NmProcesso = $('[name=formCriarIndicadorProcesso] :selected').text();
-        const Periodicidade = $('[name=formCriarIndicadorPeriodicidade] :selected').text();
-        const PeriodicidadeMedicao = $('[name=formCriarIndicadorPeriodicidadeMedicao] :selected').text();
-        const Direcao = $('[name=formCriarIndicadorSentido] :selected').text();
-        const Ano = $('[name=formCriarIndicadorAno]').val();
-        const MetaAnual = $('[name=formCriarIndicadorMeta]').val();
-        const Unidade = $('[name=formCriarIndicadorUnidade]').val();
-        const Objetivo = $('[name=formCriarIndicadorObjetivo]').val();
-        const Descricao = $('[name=formCriarIndicadorIndicador]').val();
-        const Medida = $('[name^=formCriarIndicadorTpMedida] :selected').text();
+        const Periodicidade = dados.Periodicidade;
+        const PeriodicidadeMedicao = dados.PeriodicidadeMedicao;
+        var Direcao = "";
+        const Ano = dados.Ano;
+        const MetaAnual = dados.MetaAnual;
+        const Unidade = dados.Unidade;
+        const Objetivo = dados.Objetivo;
+        const Descricao = dados.Descricao;
+        const Medida = dados.Medida;
+        var DirecaoGraph = dados.Direcao;
+        if (dados.Direcao === 1) {
+            Direcao = "Melhor pra cima";
+        }
+        else {
+            Direcao = "Melhor pra baixo";
+        }
 
-        const TituloGraph = "<b>Processo: </b>" + NmProcesso + " &nbsp; &nbsp; &nbsp;<b>Meta: </b>" + MetaAnual + "&nbsp; &nbsp; &nbsp;<b>Sentido da Meta: </b>" + Direcao + "&nbsp; &nbsp; &nbsp;<b>Ano: </b>" + Ano; 
+
+        const TituloGraph = "<b>Processo: </b>" + NmProcesso + " &nbsp; &nbsp; &nbsp;<b>Meta: </b>" + MetaAnual + "&nbsp; &nbsp; &nbsp;<b>Sentido da Meta: </b>" + Direcao + "&nbsp; &nbsp; &nbsp;<b>Ano: </b>" + Ano;
+
 
 
         var filtro = {
@@ -1266,7 +1297,7 @@ APP.controller.IndicadorController = {
             UnidadeIndicador: unidadeIndicador,
             SeriesTotais: seriesTotais,
             Chart: { type: 'bar' },
-            Direcao: $('[name=formCriarIndicadorSentido] :selected').val(),
+            Direcao: DirecaoGraph,
             SubTitulo: _options.AtualizadoDia + dataCheia,
             TituloTextoLinha: _options.AtualizadoCoisa,
             AlinhamentoTituloTextoLinha: 'high',

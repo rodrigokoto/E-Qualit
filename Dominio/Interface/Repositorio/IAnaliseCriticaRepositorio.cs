@@ -7,5 +7,6 @@ namespace Dominio.Interface.Repositorio
         void SalvarAnaliseCritica(AnaliseCritica analiseCritica);
         void AtualizaAnaliseCriticaTema(AnaliseCritica analiseCritica);
         void AtualizaAnaliseCriticaFuncionario(AnaliseCritica analiseCritica);
+        void AtualizaAnaliseCritica(AnaliseCritica analiseCritica);
     }
 }

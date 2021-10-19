@@ -42,13 +42,14 @@ namespace ApplicationService.Servico
                     if (idSite != 0)
                     {
                         var licenca = (from lc in db.Licenca
-                                       where lc.DataVencimento.Value < DtVencimento && lc.Idcliente == idCliente && lc.Idcliente == idCliente
+                                       where lc.DataVencimento.Value < DateTime.Now && lc.Idcliente == idCliente
 
                                        select new Pendencia
                                        {
                                            Id = lc.IdLicenca,
                                            Titulo = lc.Titulo,
                                            IdResponsavel = lc.IdResponsavel,
+                                           TipoPendencia = TipoPendencia.Pendencia,
                                            Modulo = "Licenca",
                                            Url = "Licenca/Editar/" + lc.IdLicenca
 
@@ -65,19 +66,20 @@ namespace ApplicationService.Servico
                                                Id = ind.Id,
                                                Titulo = ind.Objetivo,
                                                IdResponsavel = ind.IdResponsavel,
+                                               TipoPendencia = TipoPendencia.Pendencia,
                                                Modulo = "Indicador",
                                                Url = "Indicador/Editar/" + ind.Id
                                            });
                         var docDocumentoAprov = (from doc in db.DocDocumento
-                                                 where doc.StatusRegistro == (int)StatusDocumento.Aprovacao && doc.IdSite == idSite
+                                                 where doc.FlStatus == (int)StatusDocumento.Aprovacao && doc.IdSite == idSite
                                                  select doc);
 
                         var docDocumentoVer = (from doc in db.DocDocumento
-                                               where doc.StatusRegistro == (int)StatusDocumento.Verificacao && doc.IdSite == idSite
+                                               where doc.FlStatus == (int)StatusDocumento.Verificacao && doc.IdSite == idSite
                                                select doc);
 
                         var doDocumentoRev = (from doc in db.DocDocumento
-                                              where doc.FlRevisaoPeriodica == true && doc.DtNotificacao < DateTime.Now && doc.IdSite == idSite
+                                              where doc.FlRevisaoPeriodica == true && doc.DtNotificacao < DateTime.Now && doc.IdSite == idSite && doc.FlStatus == (int)StatusDocumento.Aprovado
                                               select doc);
 
                         var naoConformidade = (from nc in db.RegistroConformidade
@@ -87,6 +89,7 @@ namespace ApplicationService.Servico
                                                    Id = (int)nc.IdRegistroConformidade,
                                                    Titulo = nc.NuRegistro.ToString(),
                                                    IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                   TipoPendencia = TipoPendencia.Notificacao,
                                                    Modulo = "NC",
                                                    Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                }); ;
@@ -99,6 +102,7 @@ namespace ApplicationService.Servico
                                                         Id = (int)nc.IdRegistroConformidade,
                                                         Titulo = nc.NuRegistro.ToString(),
                                                         IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
+                                                        TipoPendencia = TipoPendencia.Pendencia,
                                                         Modulo = "NC",
                                                         Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
                                                     });
@@ -109,6 +113,7 @@ namespace ApplicationService.Servico
                                                             {
                                                                 Id = (int)nc.IdRegistroConformidade,
                                                                 Titulo = nc.NuRegistro.ToString(),
+                                                                TipoPendencia = TipoPendencia.Notificacao,
                                                                 IdResponsavel = nc.ResponsavelReverificador.IdUsuario,
                                                                 Modulo = "NC",
                                                                 Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
@@ -121,6 +126,7 @@ namespace ApplicationService.Servico
                                              {
                                                  Id = ac.IdRegistroConformidade,
                                                  Titulo = ac.NuRegistro.ToString(),
+                                                 TipoPendencia = TipoPendencia.Pendencia,
                                                  IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                                  Modulo = "AC",
                                                  Url = "AcaoCorretiva/Editar/" + ac.IdRegistroConformidade
@@ -134,10 +140,11 @@ namespace ApplicationService.Servico
                                                     Id = ac.IdRegistroConformidade,
                                                     Titulo = ac.NuRegistro.ToString(),
                                                     IdResponsavel = ac.ResponsavelImplementar.IdUsuario,
+                                                    TipoPendencia = TipoPendencia.Notificacao,
                                                     Modulo = "AC",
                                                     Url = "AcaoCorretiva/Editar/" + ac.IdRegistroConformidade
                                                 });
-
+                        //No dia 15 do mês anterior P
                         var Auditoria = (from plai in db.Plai
                                          where plai.DataReuniaoAbertura.Day <= DateTime.Now.AddDays(-15).Day && plai.Pai.IdSite == idSite
                                          select new Pendencia
@@ -145,68 +152,149 @@ namespace ApplicationService.Servico
                                              Id = plai.IdPlai,
                                              Titulo = "Auditoria",
                                              IdResponsavel = plai.IdElaborador,
+                                             TipoPendencia = TipoPendencia.Notificacao,
                                              Modulo = "Auditoria",
                                              Url = "Auditoria/Editar/" + plai.IdPlai
                                          });
 
                         var AnaliseCritica = (from anc in db.AnaliseCritica
-                                              where anc.IdSite == idSite && anc.DataProximaAnalise == LastDay
+                                              where anc.IdSite == idSite && anc.DataProximaAnalise == DateTime.Now
                                               select new Pendencia
                                               {
                                                   Id = anc.IdAnaliseCritica,
                                                   Titulo = anc.Ata,
                                                   IdResponsavel = anc.IdResponsavel,
+                                                  TipoPendencia = TipoPendencia.Notificacao,
                                                   Modulo = "AnaliseCritica",
                                                   Url = "AnaliseCritica/Editar/" + anc.IdAnaliseCritica
                                               }).ToList();
 
+
+                        var AnaliseCriticaPendencia = (from anc in db.AnaliseCritica
+                                                       where anc.IdSite == idSite && anc.DataProximaAnalise < DateTime.Now
+                                                       select new Pendencia
+                                                       {
+                                                           Id = anc.IdAnaliseCritica,
+                                                           Titulo = anc.Ata,
+                                                           IdResponsavel = anc.IdResponsavel,
+                                                           TipoPendencia = TipoPendencia.Pendencia,
+                                                           Modulo = "AnaliseCritica",
+                                                           Url = "AnaliseCritica/Editar/" + anc.IdAnaliseCritica
+                                                       }).ToList();
+
+                        //var InstrumentoQuery = (from ins in db.Instrumento
+                        //                        join cal in db.Calibracao on ins.IdInstrumento equals cal.IdInstrumento
+                        //                        where ins.IdSite == idSite && ins.Status == (byte)EquipamentoStatus.NaoCalibrado
+                        //                        group ins by ins.IdInstrumento into idIsntrumentoOrder
+                        //                        select idIsntrumentoOrder).ToList();
+
+
                         var InstrumentoQuery = (from ins in db.Instrumento
-                                                join cal in db.Calibracao on ins.IdInstrumento equals cal.IdInstrumento
                                                 where ins.IdSite == idSite && ins.Status == (byte)EquipamentoStatus.NaoCalibrado
-                                                group ins by ins.IdInstrumento into idIsntrumentoOrder
-                                                select idIsntrumentoOrder).ToList();
+                                                select ins).ToList();
 
                         var Instrumento = new List<Pendencia>();
                         foreach (var item in InstrumentoQuery)
                         {
-                            var a = item.FirstOrDefault();
 
-                            Instrumento.Add(new Pendencia()
+                            var calibracao = (from cal in db.Calibracao
+                                              where cal.IdInstrumento == item.IdInstrumento
+                                              select cal).OrderByDescending(x => x.DataProximaCalibracao).FirstOrDefault();
+
+                            if (calibracao != null)
                             {
-                                Id = a.IdInstrumento,
-                                Titulo = a.Equipamento,
-                                IdResponsavel = (int)a.IdResponsavel,
-                                Modulo = "Instrumento",
-                                Url = "Instrumento/Editar/" + a.IdInstrumento
-                            });
-
+                                if (calibracao.DataProximaCalibracao < DateTime.Now)
+                                {
+                                    Instrumento.Add(new Pendencia()
+                                    {
+                                        Id = item.IdInstrumento,
+                                        Titulo = item.Equipamento,
+                                        IdResponsavel = (int)item.IdResponsavel,
+                                        TipoPendencia = TipoPendencia.Pendencia,
+                                        Modulo = "Instrumento",
+                                        Url = "Instrumento/Editar/" + item.IdInstrumento
+                                    });
+                                }
+                            }
                         }
 
                         var Fornecedores = (from forn in db.Fornecedor
                                             join avaq in db.AvaliaCriterioQualificacao on forn.IdFornecedor equals avaq.IdFornecedor
                                             join prodf in db.ProdutoFornecedor on forn.IdFornecedor equals prodf.IdFornecedor
-                                            where avaq.IdResponsavelPorControlarVencimento != null && avaq.DtVencimento != null && avaq.DtVencimento <= DateTime.Now && forn.IdSite == idSite
+                                            where avaq.IdResponsavelPorControlarVencimento != null && avaq.DtVencimento != null && avaq.DtVencimento < DateTime.Now && forn.IdSite == idSite
                                             select new Pendencia
                                             {
                                                 Id = forn.IdFornecedor,
                                                 Titulo = forn.Nome,
                                                 IdResponsavel = avaq.IdResponsavelPorQualificar,
-                                                Modulo = "Fornecedor",
+                                                TipoPendencia = TipoPendencia.Pendencia,
+                                                Modulo = "Fornecedor - CQ",
                                                 Url = "fornecedor/acoesfornecedores/" + forn.IdFornecedor + "?idProduto=" + prodf.IdProduto + "&Ancora=Qualificar"
                                             });
 
-                        var FornecedoresVal = (from forn in db.Fornecedor
-                                               join avaa in db.AvaliaCriterioAvaliacao on forn.IdFornecedor equals avaa.IdFornecedor
-                                               join prodf in db.ProdutoFornecedor on forn.IdFornecedor equals prodf.IdFornecedor
-                                               where avaa.DtProximaAvaliacao == DateTime.Now && avaa.IdUsuarioAvaliacao != null
-                                               select new Pendencia
-                                               {
-                                                   Id = forn.IdFornecedor,
-                                                   Titulo = forn.Nome,
-                                                   IdResponsavel = (int)avaa.IdUsuarioAvaliacao,
-                                                   Modulo = "Fornecedor",
-                                                   Url = "fornecedor/acoesfornecedores/" + forn.IdFornecedor + "?idProduto=" + prodf.IdProduto + "&Ancora=Avaliar"
-                                               });
+
+
+                        var FornecedoresLembrete = (from forn in db.Fornecedor
+                                                    join avaq in db.AvaliaCriterioQualificacao on forn.IdFornecedor equals avaq.IdFornecedor
+                                                    join prodf in db.ProdutoFornecedor on forn.IdFornecedor equals prodf.IdFornecedor
+                                                    where avaq.IdResponsavelPorControlarVencimento != null && avaq.DtVencimento != null && avaq.DtVencimento == DateTime.Now && forn.IdSite == idSite
+                                                    select new Pendencia
+                                                    {
+                                                        Id = forn.IdFornecedor,
+                                                        Titulo = forn.Nome,
+                                                        IdResponsavel = avaq.IdResponsavelPorQualificar,
+                                                        TipoPendencia = TipoPendencia.Notificacao,
+                                                        Modulo = "Fornecedor - CQ",
+                                                        Url = "fornecedor/acoesfornecedores/" + forn.IdFornecedor + "?idProduto=" + prodf.IdProduto + "&Ancora=Qualificar"
+                                                    });
+
+
+
+                        var FornecedoresQuery = (from forn in db.Fornecedor
+                                                 where forn.IdSite == idSite
+                                                 select forn);
+
+                        var FornecedorP = new List<Pendencia>();
+
+                        foreach (var fornecedor in FornecedoresQuery.ToList())
+                        {
+                            var avaliaCriterioAvaliacao = (from avaa in db.AvaliaCriterioAvaliacao
+                                                           where avaa.IdUsuarioAvaliacao != null
+                                                           select avaa).OrderByDescending(x => x.DtProximaAvaliacao).FirstOrDefault();
+
+                            var Produto = (from prodF in db.ProdutoFornecedor
+                                           where prodF.IdFornecedor == fornecedor.IdFornecedor
+                                           select prodF).FirstOrDefault();
+                            if (avaliaCriterioAvaliacao != null)
+                            {
+                                if (avaliaCriterioAvaliacao.DtProximaAvaliacao < DateTime.Now)
+                                {
+
+                                    FornecedorP.Add(new Pendencia()
+                                    {
+                                        Id = fornecedor.IdFornecedor,
+                                        Titulo = fornecedor.Nome,
+                                        IdResponsavel = (int)avaliaCriterioAvaliacao.IdUsuarioAvaliacao,
+                                        TipoPendencia = TipoPendencia.Pendencia,
+                                        Modulo = "Fornecedor - CA",
+                                        Url = "fornecedor/acoesfornecedores/" + fornecedor.IdFornecedor + "?idProduto=" + Produto.IdProduto + "&Ancora=Avaliar"
+                                    });
+                                }
+                                else if (avaliaCriterioAvaliacao.DtProximaAvaliacao == DateTime.Now)
+                                {
+
+                                    FornecedorP.Add(new Pendencia()
+                                    {
+                                        Id = fornecedor.IdFornecedor,
+                                        Titulo = fornecedor.Nome,
+                                        IdResponsavel = (int)avaliaCriterioAvaliacao.IdUsuarioAvaliacao,
+                                        TipoPendencia = TipoPendencia.Notificacao,
+                                        Modulo = "Fornecedor - CA",
+                                        Url = "fornecedor/acoesfornecedores/" + fornecedor.IdFornecedor + "?idProduto=" + Produto.IdProduto + "&Ancora=Avaliar"
+                                    });
+                                }
+                            }
+                        }
 
                         var gestaoRisco = (from nc in db.RegistroConformidade
                                            where nc.StatusEtapa == (byte)EtapasRegistroConformidade.AcaoImediata && nc.IdSite == idSite && nc.TipoRegistro == "gr"
@@ -215,6 +303,7 @@ namespace ApplicationService.Servico
                                                Id = (int)nc.IdRegistroConformidade,
                                                Titulo = nc.NuRegistro.ToString(),
                                                IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                               TipoPendencia = TipoPendencia.Notificacao,
                                                Modulo = "GR",
                                                Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                            });
@@ -227,6 +316,7 @@ namespace ApplicationService.Servico
                                                     Id = (int)nc.IdRegistroConformidade,
                                                     Titulo = nc.NuRegistro.ToString(),
                                                     IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
+                                                    TipoPendencia = TipoPendencia.Pendencia,
                                                     Modulo = "GR",
                                                     Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
                                                 });
@@ -238,6 +328,7 @@ namespace ApplicationService.Servico
                                                             Id = (int)nc.IdRegistroConformidade,
                                                             Titulo = nc.NuRegistro.ToString(),
                                                             IdResponsavel = nc.ResponsavelReverificador.IdUsuario,
+                                                            TipoPendencia = TipoPendencia.Notificacao,
                                                             Modulo = "GR",
                                                             Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade,
                                                         });
@@ -251,6 +342,7 @@ namespace ApplicationService.Servico
                                                   Id = (int)nc.IdRegistroConformidade,
                                                   Titulo = nc.NuRegistro.ToString(),
                                                   IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                  TipoPendencia = TipoPendencia.Notificacao,
                                                   Modulo = "GM",
                                                   Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                               });
@@ -262,6 +354,7 @@ namespace ApplicationService.Servico
                                                    {
                                                        Id = (int)nc.IdRegistroConformidade,
                                                        Titulo = nc.NuRegistro.ToString(),
+                                                       TipoPendencia = TipoPendencia.Pendencia,
                                                        IdResponsavel = ai.ResponsavelImplementar.IdUsuario,
                                                        Modulo = "GM",
                                                        Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
@@ -274,6 +367,7 @@ namespace ApplicationService.Servico
                                                                Id = (int)nc.IdRegistroConformidade,
                                                                Titulo = nc.NuRegistro.ToString(),
                                                                IdResponsavel = nc.ResponsavelImplementar.IdUsuario,
+                                                               TipoPendencia = TipoPendencia.Notificacao,
                                                                Modulo = "GM",
                                                                Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
                                                            });
@@ -294,6 +388,7 @@ namespace ApplicationService.Servico
                                         Id = docap.IdDocumento,
                                         Titulo = docap.Titulo,
                                         IdResponsavel = res.IdUsuario,
+                                        TipoPendencia = TipoPendencia.Notificacao,
                                         Modulo = "ControlDoc",
                                         Url = "ControlDoc/Editar/" + docap.IdDocumento
                                     };
@@ -316,6 +411,7 @@ namespace ApplicationService.Servico
                                         Id = docver.IdDocumento,
                                         Titulo = docver.Titulo,
                                         IdResponsavel = res.IdUsuario,
+                                        TipoPendencia = TipoPendencia.Notificacao,
                                         Modulo = "ControlDoc",
                                         Url = "ControlDoc/Editar/" + docver.IdDocumento
                                     };
@@ -332,8 +428,9 @@ namespace ApplicationService.Servico
                                 Id = docrev.IdDocumento,
                                 Titulo = docrev.Titulo,
                                 IdResponsavel = docrev.IdElaborador,
+                                TipoPendencia = TipoPendencia.Pendencia,
                                 Modulo = "ControlDoc",
-                                Url = "ControlDoc/Editar/" + docrev.IdDocumento
+                                Url = "ControlDoc/DocumentosRevisao"
                             };
 
                             docPendencia.Add(Pendencia);
@@ -346,6 +443,7 @@ namespace ApplicationService.Servico
                                             where ind.IdSite == idSite
                                             select ind).ToList();
                         List<Pendencia> lstPendencia = new List<Pendencia>();
+                        List<Pendencia> Indicadores = new List<Pendencia>();
 
                         foreach (var indicador in indicadores1)
                         {
@@ -371,6 +469,7 @@ namespace ApplicationService.Servico
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
+                                                            TipoPendencia = TipoPendencia.Pendencia,
                                                             Modulo = "Indicador",
                                                             Url = "Indicador/Editar/" + indicador.Id
                                                         };
@@ -389,6 +488,7 @@ namespace ApplicationService.Servico
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
+                                                            TipoPendencia = TipoPendencia.Pendencia,
                                                             Modulo = "Indicador",
                                                             Url = "Indicador/Editar/" + indicador.Id
                                                         };
@@ -407,6 +507,7 @@ namespace ApplicationService.Servico
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
+                                                            TipoPendencia = TipoPendencia.Pendencia,
                                                             Modulo = "Indicador",
                                                             Url = "Indicador/Editar/" + indicador.Id
                                                         };
@@ -425,6 +526,7 @@ namespace ApplicationService.Servico
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
+                                                            TipoPendencia = TipoPendencia.Pendencia,
                                                             Modulo = "Indicador",
                                                             Url = "Indicador/Editar/" + indicador.Id
                                                         };
@@ -443,6 +545,7 @@ namespace ApplicationService.Servico
                                                             Id = indicador.Id,
                                                             IdResponsavel = indicador.IdResponsavel,
                                                             Titulo = indicador.Objetivo,
+                                                            TipoPendencia = TipoPendencia.Pendencia,
                                                             Modulo = "Indicador",
                                                             Url = "Indicador/Editar/" + indicador.Id
                                                         };
@@ -465,7 +568,10 @@ namespace ApplicationService.Servico
                         lstPendencia.AddRange(acaoCorretivaRev.ToList());
                         lstPendencia.AddRange(Instrumento.ToList());
                         lstPendencia.AddRange(Fornecedores.ToList());
-                        lstPendencia.AddRange(AnaliseCritica);
+                        lstPendencia.AddRange(FornecedorP.ToList());
+                        lstPendencia.AddRange(FornecedoresLembrete.ToList());
+                        //lstPendencia.AddRange(AnaliseCritica.ToList());
+                        //lstPendencia.AddRange(AnaliseCriticaPendencia.ToList());
                         lstPendencia.AddRange(gestaoRisco.ToList());
                         lstPendencia.AddRange(gestaoRiscoPrazo.ToList());
                         lstPendencia.AddRange(gestaoRiscoReverificacao.ToList());
@@ -478,6 +584,7 @@ namespace ApplicationService.Servico
                         {
                             Id = j.First().Id,
                             IdResponsavel = j.First().IdResponsavel,
+                            TipoPendencia = j.First().TipoPendencia,
                             Modulo = j.First().Modulo,
                             Titulo = j.First().Titulo,
                             Url = j.First().Url
@@ -777,6 +884,6 @@ namespace ApplicationService.Servico
             }
         }
 
-       
+
     }
 }

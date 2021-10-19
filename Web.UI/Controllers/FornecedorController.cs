@@ -75,7 +75,7 @@ namespace Web.UI.Controllers
             IAnexoAppServico anexoAppServico,
             IArquivosEvidenciaCriterioQualificacaoAppServico arquivosEvidenciaCriterioQualificacaoAppServico,
             IPendenciaAppServico pendenciaAppServico
-            ) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
+            ) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _fornecedorAppServico = fornecedorAppServico;
             _arquivosEvidenciaCriterioQualificacaoAppServico = arquivosEvidenciaCriterioQualificacaoAppServico;
@@ -383,14 +383,16 @@ namespace Web.UI.Controllers
         {
             List<string> erros = new List<string>();
 
-           var avaliaCriterioAvaliacao =  _avaliaCriterioAvaliacaoAppServico.GetById(id);
+            var avaliaCriterioAvaliacao = _avaliaCriterioAvaliacaoAppServico.GetById(id);
 
             try
             {
-                var _avaliaCriterioAvaliacao = _avaliaCriterioAvaliacaoAppServico.GetById(id);
+                var _avaliaCriterioAvaliacao = _avaliaCriterioAvaliacaoAppServico.Get(x => x.GuidAvaliacao == avaliaCriterioAvaliacao.GuidAvaliacao).ToList();
 
-                _avaliaCriterioAvaliacaoAppServico.Remove(avaliaCriterioAvaliacao);
-
+                foreach (var item in _avaliaCriterioAvaliacao)
+                {
+                    _avaliaCriterioAvaliacaoAppServico.Remove(item);
+                }
                 return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.Resource.SucessoAoExcluirORegistro }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -571,6 +573,10 @@ namespace Web.UI.Controllers
             {
 
                 AvaliaCriterioAvaliacao avaliaCriterioAvaliacao = new AvaliaCriterioAvaliacao();
+                var vcriterioAvaliacao = _criterioAvaliacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).ToList();
+
+
+
                 _criterioAvaliacaoAppServico.Get(x => x.IdProduto == produto.IdProduto).ToList().ForEach(criterioAvaliacao =>
                 {
 
@@ -579,6 +585,36 @@ namespace Web.UI.Controllers
                 });
 
             }
+
+            List<AvaliaCriterioAvaliacao> lstAvaliacaoView = new List<AvaliaCriterioAvaliacao>();
+
+            var fornecedorAverage = fornecedor.AvaliaCriteriosAvaliacao.GroupBy(x => x.GuidAvaliacao)
+                .Select(g => new
+                {
+                    avg = g.Average(n => n.NotaAvaliacao),
+                    key = g.Key
+                }).ToList();
+
+
+            foreach (var avaliacriteriaavaliacao in fornecedorAverage)
+            {
+                if (avaliacriteriaavaliacao.key != null)
+                {
+                    var criterioAvaliacao = _avaliaCriterioAvaliacaoAppServico
+                        .Get(x => x.GuidAvaliacao == avaliacriteriaavaliacao.key)
+                        .OrderByDescending(g => g.DtProximaAvaliacao).FirstOrDefault();
+
+                    criterioAvaliacao.NotaAvaliacao = (int)avaliacriteriaavaliacao.avg;
+
+                    lstAvaliacaoView.Add(criterioAvaliacao);
+                }
+            }
+
+            if (lstAvaliacaoView.Count > 0)
+            {
+                fornecedor.AvaliaCriteriosAvaliacao = lstAvaliacaoView;
+            }
+
             ViewBag.Produto = produto;
 
             return View(fornecedor);

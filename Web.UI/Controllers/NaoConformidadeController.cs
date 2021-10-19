@@ -589,6 +589,8 @@ namespace Web.UI.Controllers
             var acoesImediatasNova = naoConformidade.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
             var registroAcoes = _registroConformidadesAppServico.GetById(naoConformidade.IdRegistroConformidade);
+            naoConformidade.NuRegistro = registroAcoes.NuRegistro;
+
 
             if (acoesImediatasNova.Count > 0 && registroAcoes.AcoesImediatas.Count > 0)
             {
@@ -1168,14 +1170,14 @@ namespace Web.UI.Controllers
 
         private string MontarUrlAcesso(int idRegistroConformidade)
         {
-            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+            var dominio = "https://" + ConfigurationManager.AppSettings["Dominio"];
 
             return dominio + "NaoConformidade/Editar/" + idRegistroConformidade.ToString();
         }
 
         private string MontarUrlAcessoAcaoCorretiva(int idRegistro)
         {
-            var dominio = "http://" + ConfigurationManager.AppSettings["Dominio"];
+            var dominio = "https://" + ConfigurationManager.AppSettings["Dominio"];
 
             return dominio + "AcaoCorretiva/Editar/" + idRegistro.ToString();
         }
@@ -1185,6 +1187,7 @@ namespace Web.UI.Controllers
         {
             var idCliente = Util.ObterClienteSelecionado();
             Cliente cliente = _clienteServico.GetById(idCliente);
+            var urlAcesso = MontarUrlAcesso(nc.IdRegistroConformidade);
 
             var usuarioNotificacao = _usuarioAppServico.GetById(nc.IdResponsavelEtapa.Value);
 
@@ -1195,6 +1198,7 @@ namespace Web.UI.Controllers
             conteudo = conteudo.Replace("#NomeCliente#", cliente.NmFantasia);
             conteudo = conteudo.Replace("#NuNaoConformidade#", nc.NuRegistro.ToString());
             conteudo = conteudo.Replace("#NuRegistroConformidade#", nc.IdRegistroConformidade.ToString());
+            conteudo = conteudo.Replace("#urlAcesso#", urlAcesso);
 
             Email _email = new Email();
 

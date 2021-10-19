@@ -64,8 +64,10 @@ namespace ApplicationService.Servico
 
         public void AtualizaAnaliseCritica(AnaliseCritica analiseCritica)
         {
+            
             _analiseCriticaRepositorio.AtualizaAnaliseCriticaTema(analiseCritica);
             _analiseCriticaRepositorio.AtualizaAnaliseCriticaFuncionario(analiseCritica);
+            _analiseCriticaRepositorio.AtualizaAnaliseCritica(analiseCritica);
             //_analiseCriticaRepositorio.Update(analiseCritica);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using DomainValidation.Interfaces.Validation;
 using DomainValidation.Validation;
+using Dominio.Enumerado;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Dominio.Entidade
         public string Titulo { get; set; }
         public int IdResponsavel { get; set; }
         public string Modulo { get; set; }
-
+        public TipoPendencia TipoPendencia { get; set; }
         public string Url { get; set; }
 
     }

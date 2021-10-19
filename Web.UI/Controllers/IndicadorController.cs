@@ -192,7 +192,7 @@ namespace Web.UI.Controllers
         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var erros = new List<string>();
-
+            GravarLogExclusao((int)Funcionalidades.Indicadores, indicador.Id);
             try
             {
                 using (var db = new BaseContext())

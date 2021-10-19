@@ -85,7 +85,7 @@ namespace Web.UI.Controllers
                                     IDocUsuarioVerificaAprovaServico docUsuarioVerificaAprovaServico,
                                     IControladorCategoriasAppServico controladorCategoriasServico,
                                     IPendenciaAppServico pendenciaAppServico,
-                                    IAnexoAppServico anexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico,  pendenciaAppServico)
+                                    IAnexoAppServico anexoAppServico) : base(logAppServico, usuarioAppServico, processoAppServico, controladorCategoriasServico, pendenciaAppServico)
         {
             _AnexoAppServico = anexoAppServico;
             _documentoAppServico = docDocumentoAppServico;
@@ -520,6 +520,7 @@ namespace Web.UI.Controllers
             var usuarioLogado = Util.ObterCodigoUsuarioLogado();
             documento.DocExterno = new DocExterno();
             documento.DocExterno.Anexo = new Anexo();
+            documento.FlWorkFlow = true;
             documento.NumeroDocumento = _documentoServico.GeraProximoNumeroRegistro(Util.ObterSiteSelecionado()).ToString();
 
             ViewBag.IdSite = Util.ObterSiteSelecionado();
@@ -1171,7 +1172,15 @@ namespace Web.UI.Controllers
                         if (doc.IdDocumento != 0)
                             return Editar(doc, validarAssunto);
                         else
-                            return Criar(doc);
+                        {
+                            if (!doc.FlWorkFlow)
+                            {
+                                return SalvarDocWF(doc);
+                            }
+                            else
+                                return Criar(doc);
+                        }
+
                     }
                 case StatusDocumento.Verificacao:
                     {
@@ -1206,6 +1215,13 @@ namespace Web.UI.Controllers
                             return Editar(doc, validarAssunto);
                         else
                             return Criar(doc);
+                    }
+                case StatusDocumento.Salvar:
+                    {
+                        if (doc.IdDocumento != 0)
+                            return Editar(doc, validarAssunto);
+                        else
+                            return SalvarDocWF(doc);
                     }
             }
 
@@ -1258,15 +1274,6 @@ namespace Web.UI.Controllers
 
                 _documentoAppServico.CriarDocumento(doc);
 
-                //if (_documentoAppServico.AprovadoPorTodos(listaAprova))
-                //	_documentoAppServico.AprovarDocumento(documento);
-                //else
-                //	documento.FlStatus = (byte)StatusDocumento.Aprovacao;
-
-                //_docUsuarioVerificaAprovaAppServico.Update(listaAprova.Where(x => x.IdUsuario == Util.ObterCodigoUsuarioLogado()).FirstOrDefault());
-
-
-
 
                 if (!doc.FlWorkFlow)
                 {
@@ -1286,6 +1293,64 @@ namespace Web.UI.Controllers
                     //_documentoAppServico.Update(doc);
                 }
 
+                EnviaNotificacaoPorEmail(doc);
+            }
+            catch (Exception ex)
+            {
+                GravaLog(ex);
+
+                return Json(new
+                {
+                    StatusCode = (int)HttpStatusCode.InternalServerError,
+                    Erro = ex.ToString()
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            GravarLogInclusao((int)Funcionalidades.ControlDoc, doc.IdDocumento);
+
+            return Json(new { StatusCode = (int)HttpStatusCode.OK, Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success, IdDocumento = doc.IdDocumento }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult SalvarDocWF(DocDocumento doc)
+        {
+            ViewBag.IdSite = Util.ObterSiteSelecionado();
+            try
+            {
+                var erros = new List<string>();
+
+                doc.Assuntos.Add(new DocumentoAssunto { DataAssunto = DateTime.Now, Descricao = Traducao.Resource.DescricaoRevisaoEmissaoInicial, Revisao = "0" });
+
+                TrataCriacaoDoc(doc, ref erros);
+
+                _documentoServico.Valido(doc, ref erros);
+
+                if (erros.Count > 0)
+                    return Json(new { StatusCode = 505, Erro = erros }, JsonRequestBehavior.AllowGet);
+
+                doc.GestaoDeRisco = null;
+                doc.DocRisco.ToList().ForEach(documentoLocal =>
+                {
+                    doc.DocRisco.FirstOrDefault(x => x.IdDocRisco == documentoLocal.IdDocRisco).IdDocumento = doc.IdDocumento;
+
+                });
+
+                if (!doc.FlWorkFlow)
+                {
+                    doc.FlStatus = (int)StatusDocumento.Elaboracao;
+                }
+
+                foreach (var item in doc.DocRisco)
+                {
+
+                    var retorno = PrepararDadosAprovar(doc, item);
+
+                    doc.GestaoDeRisco = retorno;
+
+                    _registroConformidadeAppServico.Add(doc.GestaoDeRisco);
+                }
+
+                _documentoAppServico.CriarDocumento(doc);
                 EnviaNotificacaoPorEmail(doc);
             }
             catch (Exception ex)
@@ -1481,7 +1546,9 @@ namespace Web.UI.Controllers
 
                     if (!baseDocumento.FlWorkFlow)
                     {
-                        baseDocumento.FlStatus = (int)StatusDocumento.Aprovado;
+                        if (baseDocumento.FlStatus != (int)StatusDocumento.Elaboracao)
+                            baseDocumento.FlStatus = (int)StatusDocumento.Aprovado;
+
 
                     }
                     foreach (var item in baseDocumento.DocRisco)
@@ -1934,9 +2001,11 @@ namespace Web.UI.Controllers
 
                     //Editar(documento, false);
 
-                    AdicionaComentario(documento);
-                    AtualizarUsuarioCargosETemplatesDoDocumento(documento);
-
+                    if (documento.FlWorkFlow)
+                    {
+                        AdicionaComentario(documento);
+                        AtualizarUsuarioCargosETemplatesDoDocumento(documento);
+                    }
 
 
 
@@ -2152,7 +2221,7 @@ namespace Web.UI.Controllers
         {
             if (!doc.FlWorkFlow)
             {
-                doc.FlStatus = (int)StatusDocumento.Aprovado;
+                doc.FlStatus = (int)StatusDocumento.Elaboracao;
 
             }
             else
@@ -2299,12 +2368,13 @@ namespace Web.UI.Controllers
             }
         }
         [HttpGet]
-        public ActionResult RetornaDocManuais(int IdDoc) {
+        public ActionResult RetornaDocManuais(int IdDoc)
+        {
 
             var DocumentoManuais = _documentoAppServico.Get(x => x.IdDocumento == IdDoc).First();
 
             return Json(new { StatusCode = 200, TextoDoc = DocumentoManuais.TextoDoc }, JsonRequestBehavior.AllowGet);
-            
+
         }
     }
 }

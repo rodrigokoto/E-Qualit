@@ -55,7 +55,7 @@ APP.component.Highcharts = {
                     load: function () {
 
                         for (var i = 0; i < this.series[0].points.length; i++) {
-                            if (filtro.Direcao === "1") {
+                            if (filtro.Direcao === 1) {
                                 if (this.series[0].points[i].y < this.series[1].points[i].y) {
                                     var point = this.series[0].points[i];
 

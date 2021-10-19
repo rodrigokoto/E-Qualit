@@ -425,7 +425,7 @@ APP.controller.SiteController = {
 
                 if (result.StatusCode == 200) {
                     bootbox.alert(result.Success, function (result) {
-                        window.location.href = "/Site/Index/" + $('[name=IdCliente]').val();
+                        window.location.href = "/Site/Index/";
                     });
                 } else if (result.StatusCode == 505) {
                     erro = APP.component.ResultErros.init(result.Erro);

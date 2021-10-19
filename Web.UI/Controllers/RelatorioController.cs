@@ -320,6 +320,17 @@ namespace Web.UI.Controllers
 
             return View("Index", relatorio);
         }
+        public ViewResult DocumentoVencidoFiltro(int idRelatorio)
+        {
+            var idSite = Util.ObterSiteSelecionado();
+            var relatorio = _relatorioAppServico.GetById(idRelatorio);
+
+            relatorio.Parametros = new Dictionary<string, string>();
+            relatorio.Parametros.Add("Filtro", "DocumentoAprovacaoFiltro");
+
+
+            return View("Index", relatorio);
+        }
         public ViewResult DocumentoObsoletoFiltro(int idRelatorio)
         {
             var idSite = Util.ObterSiteSelecionado();
@@ -626,6 +637,21 @@ namespace Web.UI.Controllers
             var dtAtual = DateTime.Now;
 
             var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Aprovado && x.FlRevisaoPeriodica == true && x.DtNotificacao > dtAtual && x.DtNotificacao <= dt30).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ThenBy(x => x.NuRevisao).ToList();
+
+            ViewBag.Relatorio = relatorio;
+
+            return View("RelatorioDocumentos", docDocumento);
+        }
+
+        public ViewResult DocumentoVencido(Relatorio relatorio)
+        {
+
+            var idSite = Util.ObterSiteSelecionado();
+
+            var dt30 = DateTime.Now;
+            var dtAtual = DateTime.Now;
+
+            var docDocumento = _docDocumentoAppServico.Get(x => x.IdSite == idSite && x.FlStatus == (int)StatusDocumento.Aprovado && x.FlRevisaoPeriodica == true && x.DtNotificacao > dtAtual).OrderBy(x => x.Sigla.Descricao).ThenBy(x => x.NumeroDocumento).ThenBy(x => x.NuRevisao).ToList();
 
             ViewBag.Relatorio = relatorio;
 

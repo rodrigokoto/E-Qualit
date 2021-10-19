@@ -59,7 +59,7 @@ namespace Web.UI.Controllers
             var idUsuario = Util.ObterCodigoUsuarioLogado();
             var idCliente = Util.ObterClienteSelecionado();
 
-            var model = _logAppServico.GetAll();
+            var model = _logAppServico.GetAll().Where(x => x.IdUsuario != null && x.Modulo != null);
 
             
             return View(model);

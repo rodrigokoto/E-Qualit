@@ -41,7 +41,23 @@
                 <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
             }
         }
+        else if (controller == "backup")
+        {
+            <li><a class="@(action == "index" ? "active" : null)" style="margin-top: 5px" href=@("/" + controller + "/Index")>@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+            if (action != "index")
+            {
+                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
+            }
+        }
         else if (controller == "cliente")
+        {
+            <li><a class="@(action == "index" ? "active" : null)" style="margin-top: 5px" href=@("/" + controller + "/Index")>@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
+            if (action != "index")
+            {
+                <li><a href=@("/" + controller + "/" + action) style="margin-top: 5px" class="active">@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Action_" + action)</a></li>
+            }
+        }
+        else if (controller == "backup")
         {
             <li><a class="@(action == "index" ? "active" : null)" style="margin-top: 5px" href=@("/" + controller + "/Index")>@Traducao.Shared.ResourceBreadCrumb.ResourceManager.GetString("Controller_" + controller)</a></li>
             if (action != "index")

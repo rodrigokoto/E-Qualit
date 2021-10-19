@@ -666,6 +666,7 @@ namespace Web.UI.Controllers
             var acoesImediatasNova = gestaoDeRisco.AcoesImediatas.Where(x => x.IdAcaoImediata == 0).ToList();
 
             var registroAcoes = _registroConformidadesAppServico.GetById(gestaoDeRisco.IdRegistroConformidade);
+            gestaoDeRisco.NuRegistro = registroAcoes.NuRegistro;
 
             if (acoesImediatasNova.Count > 0 && registroAcoes.AcoesImediatas.Count > 0)
             {

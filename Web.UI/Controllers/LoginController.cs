@@ -25,6 +25,7 @@ namespace Web.UI.Controllers
 
         private readonly ILoginAppServico _loginAppServico;
         private readonly ILoginServico _loginServico;
+        private readonly IUsuarioClienteSiteAppServico _usuarioClienteSiteAppServico;
 
         private readonly ILogAppServico _logAppServico;
 
@@ -37,12 +38,14 @@ namespace Web.UI.Controllers
                                ILoginAppServico loginAppServico,
                                ISiteModuloAppServico siteModulo,
                                IPendenciaAppServico pendenciaAppServico,
+                               IUsuarioClienteSiteAppServico usuarioClienteSiteAppServico,
                                IUsuarioCargoAppServico usuarioCargoAppServico) : base(logAppServico, null, null, null, pendenciaAppServico)
         {
             _clienteAppServico = clienteAppServico;
             _usuarioAppServico = usuarioAppServico;
             _loginAppServico = loginAppServico;
             _loginServico = loginServico;
+            _usuarioClienteSiteAppServico = usuarioClienteSiteAppServico;
             _logAppServico = logAppServico;
             _siteModulo = siteModulo;
             _usuarioCargoAppServico = usuarioCargoAppServico;
@@ -75,6 +78,7 @@ namespace Web.UI.Controllers
                     var usuarioCTX = _usuarioAppServico.ObterUsuarioPorIdeSenha(usuario.CdIdentificacao , usuario.CdSenha);
 
                     _loginServico.ValidoParaAcessar(usuarioCTX, ref erros);
+                    _usuarioClienteSiteAppServico.EmpresaValidaLogin(usuarioCTX, ref erros);
 
 
 

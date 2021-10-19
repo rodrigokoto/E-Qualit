@@ -174,6 +174,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceNotificacaoMensagem.resx</DependentUpon>
     </Compile>
+    <Compile Include="Site\ResourceSite_US-EN.Designer.cs">
+      <DependentUpon>ResourceSite_US-EN.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Site\ResourceSite.Designer.cs">
       <DependentUpon>ResourceSite.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -288,6 +293,10 @@
     <EmbeddedResource Include="ResourceNotificacaoMensagem.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceNotificacaoMensagem.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Site\ResourceSite_US-EN.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceSite_US-EN.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Site\ResourceSite.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

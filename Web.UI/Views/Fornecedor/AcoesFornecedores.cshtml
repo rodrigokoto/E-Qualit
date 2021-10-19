@@ -456,7 +456,6 @@
                                 <table id="tb-fornecedores-historico" class="table table-striped table-bordered table-list">
                                     <thead class="titulo-tabela">
                                         <tr>
-                                            <th class="w10 sorting">Título</th>
                                             <th class="w10 sorting">Data</th>
                                             <th class="w10 sorting">Data Proxima Avaliação</th>
                                             <th class="w10 sorting">Nota Avaliação</th>
@@ -472,7 +471,6 @@
                                                 if (item.CriterioAvaliacao != null)
                                                 {
                                                     <tr role="row" class="odd">
-                                                        <td>@item.CriterioAvaliacao.Titulo</td>
                                                         <td>@item.DtAvaliacao.ToShortDateString()</td>
                                                         <td>@item.DtProximaAvaliacao.ToShortDateString()</td>
                                                         <td>@item.NotaAvaliacao</td>

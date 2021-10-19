@@ -250,6 +250,15 @@ namespace Traducao.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        public static string Backup {
+            get {
+                return ResourceManager.GetString("Backup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ação Corretiva.
         /// </summary>
         public static string Controller_acaocorretiva {
@@ -273,6 +282,15 @@ namespace Traducao.Shared {
         public static string Controller_auditoria {
             get {
                 return ResourceManager.GetString("Controller_auditoria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        public static string Controller_backup {
+            get {
+                return ResourceManager.GetString("Controller_backup", resourceCulture);
             }
         }
         

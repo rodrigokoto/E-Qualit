@@ -590,13 +590,14 @@ namespace Web.UI.Controllers
 
             var registroAcoes = _registroConformidadesAppServico.GetById(gestaoMelhoria.IdRegistroConformidade);
 
+            gestaoMelhoria.NuRegistro = registroAcoes.NuRegistro;
+
             if (acoesImediatasNova.Count > 0 && registroAcoes.AcoesImediatas.Count > 0)
             {
 
                 gestaoMelhoria.StatusEtapa = 1;
 
             }
-
 
             try
             {

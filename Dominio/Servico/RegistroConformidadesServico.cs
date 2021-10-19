@@ -698,13 +698,26 @@ namespace Dominio.Servico
             {
                 return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
             }
-            else if (naoConformidade.OStatusEReverificacao() && naoConformidade.EProcedente.Value)
+            else if (naoConformidade.OStatusEReverificacao() && naoConformidade.EProcedente.Value && VerificaAcaoImediataAprovada(naoConformidade))
             {
                 return new CamposObrigatoriosNaoConformidadeReverificacao();
             }
             return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
         }
 
+
+        public bool VerificaAcaoImediataAprovada(RegistroConformidade naoConformidade) {
+
+            var result = true;
+
+            foreach (var acao in naoConformidade.AcoesImediatas)
+            {
+                if (acao.Aprovado == false)
+                    result = false;
+            }
+
+            return result;
+        }
         public RegistroConformidade CriarAcaoCorretivaApartirDeNaoConformidade(RegistroConformidade naoConformidade)
         {
 

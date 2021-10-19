@@ -95,7 +95,7 @@
                                                     <a href="@Url.Action("Visualizar", "AnaliseCritica", new { id = item.IdAnaliseCritica })" class="icon-cliente editar-analiseCritica editar-color" data-id-analiseCritica="@item.IdAnaliseCritica">
                                                         <i class="fa fa-search" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_visualizar"></i>
                                                     </a>
-                                                    @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesAnaliseCritica.Excluir) && ViewBag.IdPerfil != 4)
+                                                    @if (ViewBag.IdPerfil != 4)
                                                     {
                                                         <a href="#" class="icon-cliente deletar-analiseCritica trash-color" data-id-analiseCritica="@item.IdAnaliseCritica">
                                                             <i class="fa fa-trash excluir-analise-critica" idAnaliseCritica="@item.IdAnaliseCritica" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>

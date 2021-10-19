@@ -4,6 +4,7 @@ using ApplicationService.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dominio.Servico;
 
 namespace ApplicationService.Servico
 {
@@ -14,6 +15,19 @@ namespace ApplicationService.Servico
         public UsuarioClienteSiteAppServico(IUsuarioClienteSiteRepositorio usuarioClienteSiteRepositorio) : base(usuarioClienteSiteRepositorio)
         {
             _usuarioClienteSiteRepositorio = usuarioClienteSiteRepositorio;
+        }
+
+        public void EmpresaValidaLogin(Usuario usuario, ref List<string> erros)
+        {
+            var _ClienteCtx = _usuarioClienteSiteRepositorio.Get(x => x.IdUsuario == usuario.IdUsuario).FirstOrDefault();
+
+            if (_ClienteCtx != null)
+            {
+                if (_ClienteCtx.Site.FlAtivo != true)
+                {
+                    erros.Add("Empresa Inativa. Contacte um administrador.");
+                }
+            }
         }
 
         public List<Usuario> ListarPorEmpresa(int idEmpresa)

@@ -843,8 +843,12 @@ APP.controller.NaoConformidadeController = {
         }
         if (checkSize == checkAcaoImediata.size()) {
             $('[name=formAcaoImadiataFoiEficaz').filter('[value=true]').prop('checked', true);
+            $('[name=formAcaoImadiataParecer]').show();
+            $('label[for=form-acaoimediata-parecer]').show();
         } else {
             $('[name=formAcaoImadiataFoiEficaz').filter('[value=false]').prop('checked', true);
+            $('[name=formAcaoImadiataParecer]').hide();
+            $('label[for=form-acaoimediata-parecer]').hide();
         }
 
     },

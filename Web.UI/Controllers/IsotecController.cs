@@ -18,12 +18,15 @@ namespace Web.UI.Controllers
     public class IsotecController : Controller
     {
         private readonly ISiteRepositorio _siteRepositorio;
-        public IsotecController(ISiteRepositorio siteRepositorio)
+        private readonly IClienteAppServico _clienteAppServico;
+
+        public IsotecController(ISiteRepositorio siteRepositorio, IClienteAppServico clienteAppServico)
         {
             _siteRepositorio = siteRepositorio;
+            _clienteAppServico = clienteAppServico;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string route)
         {
 
             var sites = _siteRepositorio.GetAll();
@@ -45,9 +48,32 @@ namespace Web.UI.Controllers
             ViewBag.Site = sites;
             ViewBag.Cliente = clientes;
 
+            if (route != "") {
 
+                var clienteCtx = _clienteAppServico.Get(x => x.NmUrlAcesso == route).FirstOrDefault();
+
+                if (clienteCtx != null)
+                {
+                    TrataImg(clienteCtx);
+
+                }
+                return View("../Login/Index" ,  clienteCtx);                
+            }
 
             return View(); 
+        }
+
+        private void TrataImg(Cliente cliente)
+        {
+            if (cliente.ClienteLogo.Count > 0)
+            {
+                var anexo = cliente.ClienteLogo.FirstOrDefault().Anexo;
+                cliente.ClienteLogoAux = new Dominio.Entidade.Anexo
+                {
+                    ArquivoB64 = String.Format("data:image/" + anexo.Extensao + ";base64," + Convert.ToBase64String(anexo.Arquivo))
+                };
+            }
+
         }
 
         [HttpPost]

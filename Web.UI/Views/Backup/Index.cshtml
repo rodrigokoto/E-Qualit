@@ -1,12 +1,39 @@
-﻿@using Dominio.Entidade
+﻿@model Dominio.Entidade.Cliente
+@{
+    ViewBag.Title = "Lista";
+}
+@section Metas {
+    <meta name="page" content="IndexCliente" />
+}
 
-    @{
-        Layout = null;
-    }
+@section scripts {
+    <script src="@Url.Content("~/Content/assets/js/ClienteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/SiteController.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/UsuarioController.js")"></script>
 
-    
+}
 
+<div id="main">
+    <div class="content-painel">
 
-    <h1>Inicio Documento</h1>
-    
-    <h1> Fim Documento</h1>
+        @using (Html.BeginForm("GerarBackup", "Backup", FormMethod.Post))
+        {<div class="panel panel-default" id="panel-relatorio">
+                <div class="panel-body" id="panel-form-relatorio">
+                    <div class="barra-busca">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                @Html.DropDownListFor(x => x.IdCliente, new SelectList(ViewBag.Clientes, "IdCliente", "NmFantasia"), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-primary left">Gerar Backup</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+</div>

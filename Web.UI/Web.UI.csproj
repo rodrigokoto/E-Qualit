@@ -1088,6 +1088,7 @@
     <Content Include="Content\assets\imagens\clips.png" />
     <Content Include="Content\assets\imagens\logo-equalit-bg.jpg" />
     <Content Include="Content\assets\imagens\logo-equalit-bg.png" />
+    <Content Include="Content\assets\Isotec\img\egmont-logo-dark.png" />
     <Content Include="Content\assets\js\AnaliseCriticaController.js" />
     <Content Include="Content\assets\js\AuditoriaController.js" />
     <Content Include="Content\assets\js\CanvasJs\canvasjs.min.js" />
@@ -1952,6 +1953,9 @@
     <Content Include="Templates\Backup\CadastroLicencas.html" />
     <Content Include="Templates\Backup\CKEditor.html" />
     <Content Include="Templates\Backup\DocTemplate.html" />
+    <Content Include="Templates\Backup\IdentificacaoAcaoCorretiva.html" />
+    <Content Include="Templates\Backup\IdentificacaoGestaoMelhoria.html" />
+    <Content Include="Templates\Backup\IdentificacaoGestaoRisco.html" />
     <Content Include="Templates\Backup\IdentificacaoNaoConformidade.html" />
     <Content Include="Templates\Backup\Indicador.html" />
     <Content Include="Templates\Backup\Instrumento.html" />
@@ -2052,7 +2056,7 @@
     <Content Include="Content\assets\Isotec\img\works\6.jpg" />
     <Content Include="Content\assets\Isotec\img\works\7.jpg" />
     <Content Include="Content\assets\Isotec\img\works\8.jpg" />
-    <None Include="Views\Isotec\index.cshtml" />
+    <Content Include="Views\Isotec\index.cshtml" />
     <Content Include="Content\assets\Isotec\js\animate.js" />
     <Content Include="Content\assets\Isotec\js\bootstrap.min.js" />
     <Content Include="Content\assets\Isotec\js\custom.js" />
@@ -2165,6 +2169,7 @@
     <Content Include="Content\assets\Isotec\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\assets\Isotec\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\assets\Isotec\fonts\FontAwesome.otf" />
+    <Content Include="Views\Relatorio\Filtros\DocumentoVencidoFiltro.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

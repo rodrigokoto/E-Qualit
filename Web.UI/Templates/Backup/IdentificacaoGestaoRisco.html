@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
 	<body>
@@ -13,64 +13,64 @@
 			</table>
 		</div>	
 		<div>
-			<h4>Cadastro</h4>
+			<h4>Identificação Gestão de Risco</h4>
 			<div>
 				<table style="border-collapse: collapse;width: 100%;height: 50px; margin-bottom: 5px;">
 					<tr style="height: 18px;">
 						<td style="width: 33.3333%;height: 18px;">Número</td>
 						<td style="width: 33.3333%; height: 18px;">Data emissão</td>
-						<td style="width: 33.3333%; height: 18px;">Processo</td>
+						<td style="width: 33.3333%; height: 18px;">Criticidade</td>
 					</tr>
 					<tr style="height: 18px;">
 						<td style="width: 33.3333%; height: 18px;">##NUMERO##</td>
 						<td style="width: 33.3333%; height: 18px;">##DATAEMISSAO##</td>
-						<td style="width: 33.3333%; height: 18px;">##PROCESSO##</td>
+						<td style="width: 33.3333%; height: 18px;">##CRITICIDADE##</td>
 					</tr>
 				</table>
-				
+
 				<table style="border-collapse: collapse;width: 100%;height: 50px; margin-bottom: 5px;">
 					<tr style="height: 18px;">
-						<td style="width: 33.3333%; height: 18px;">Emissor não conformidade</td>
-						<td style="width: 33.3333%; height: 18px;">Não conformidade de auditoria</td>
-						<td style="width: 33.3333%; height: 18px;">Tipo de não conformidade</td>
+						<td style="width: 25%; height: 18px;">Processo</td>
+						<td style="width: 25%; height: 18px;">Emissor</td>
 					</tr>
 					<tr style="height: 18px;">
-						<td style="width: 33.3333%; height: 18px;">##EMISSORNAOCONFORMIDADE##</td>
-						<td style="width: 33.3333%; height: 18px;">##NAOCONFORMIDADEAUDITORIA##</td>
-						<td style="width: 33.3333%; height: 18px;">##TIPONAOCONFORMIDADE##</td>
+						<td style="width: 25%; height: 18px;">##PROCESSO##</td>
+						<td style="width: 25%; height: 18px;">##EMISSORNAOCONFORMIDADE##</td>
 					</tr>
 				</table>
 				<table style="border-collapse: collapse;width: 100%;height: 50px; margin-bottom: 50px;">
 					<tr style="height: 18px;">
 						<td style="width: 33%; height: 18px;">Responsável por análise e definição de ação imediata</td>
-						<td style="width: 33%; height: 18px;">Tags</td>
-						<td style="width: 33%; height: 18px;">Descricao do Registro</td>							
 					</tr>
 					<tr style="height: 18px;">
 						<td style="width: 33%; height: 18px;">##RESPONSAVELANALISEDEFINICAOACAOIMEDIATA##</td>
-						<td style="width: 33%; height: 18px;">##TAGS##</td>
-						<td style="width: 33%; height: 18px;">##DESCRICAOREGISTRO##</td>							
 					</tr>
 				</table>
-				</div>
+				<table style="border-collapse: collapse;width: 100%;height: 50px; margin-bottom: 50px;">
+					<tr style="height: 18px;">
+						<td style="width: 33%; height: 18px;">Descrição do Risco</td>
+					</tr>
+					<tr style="height: 18px;">
+						<td style="width: 33%; height: 18px;">##DESCRICAORISCO##</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 		<div>
 			<h4>Ação Imediata</h4>
 			<table style="border-collapse: collapse;width: 100%;height: 50px; margin-bottom: 20px;">
 				<tr style="height: 18px;">
-					<td style="width: 33.3333%; height: 18px;">Não conformidade é procedente?</td>
 					<td style="width: 33.3333%; height: 18px;">Data da descrição da ação</td>
 					<td style="width: 33.3333%; height: 18px;">Status</td>
 				</tr>
 
 				<tr style="height: 18px;">
-					<td style="width: 33.3333%; height: 18px;">##NAOCONFORMIDADEPROCEDENTE##</td>
 					<td style="width: 33.3333%; height: 18px;">##DATADESCRICAOACAO##</td>
 					<td style="width: 33.3333%; height: 18px;">##STATUS##</td>
 				</tr>
 			</table>
-			
-			<table style="border-collapse: collapse; width: 79.5302%; margin-bottom: 20px;" border="1">					
+
+			<table style="border-collapse: collapse; width: 79.5302%; margin-bottom: 20px;" border="1">
 				<tr>
 					<td style="width: 20%;">Descrição</td>
 					<td style="width: 20%;">Prazo Implementação</td>
@@ -80,40 +80,53 @@
 				</tr>
 				##TBLACAOIMEDIATA##
 			</table>
-				
+
 			<table style="border-collapse: collapse; width: 100%; height: 55px;  margin-bottom: 5px;">
 				<tr style="height: 18px;">
-					<td style="width: 20%; height: 18px;">Ação imediata é uma correção?</td>
-					<td style="width: 20%; height: 18px;">Necessita ação correção?</td>
 					<td style="width: 20%; height: 18px;">Responsável por reverificação</td>
 					<td style="width: 20%; height: 18px;">Foi Eficaz</td>
-					<td style="width: 20%; height: 18px;">Responsável por iniciar a tratativa de ação corretiva</td>
 				</tr>
-
 				<tr style="height: 18px;">
-					<td style="width: 20%; height: 18px;">##ACAOIMEDIATAECORRECAO##</td>
-					<td style="width: 20%; height: 18px;">##NECESSITACORRECAO##</td>
 					<td style="width: 20%; height: 18px;">##RESPONSAVELREVERIFICACAO##</td>
 					<td style="width: 20%; height: 18px;">##FOIEFICAZ##</td>
-					<td style="width: 20%; height: 18px;">##RESPONSAVELINICIARTRATATIVAACAOCORRETIVA##</td>
 				</tr>
 			</table>
-			
+
 			<table style="border-collapse: collapse; width: 100%; height: 55px;">
 				<tr style="height: 18px;">
-					<td style="width: 20%; height: 18px;">Número Ação Corretiva</td>
-					<td style="width: 20%; height: 18px;">Análise de Causa</td>
-					<td colspan=3 style="width: 20%; height: 18px;">Parecer</td>					
+					<td style="width: 20%; height: 18px;">Causa</td>
 				</tr>
 
 				<tr style="height: 18px;">
-					<td style="width: 20%; height: 18px;">##NUMEROACAOCORRETIVA##</td>
-					<td style="width: 20%; height: 18px;">##ANALISECAUSA##</td>
-					<td colspan="3" style="width: 40%; height: 18px;">##PARECER##</td>
-					<td style="width: 10%; height: 18px;"></td>
-					<td style="width: 10%; height: 18px;"></td>
+					<td style="width: 20%; height: 18px;">##CAUSA##</td>
 				</tr>
 			</table>
+			<table style="border-collapse: collapse; width: 100%; height: 55px;">
+				<tr style="height: 18px;">
+					<td style="width: 20%; height: 18px;">Justificativa</td>
+				</tr>
+
+				<tr style="height: 18px;">
+					<td style="width: 20%; height: 18px;">##JUSTIFICATIVA##</td>
+				</tr>
+			</table>
+			<table style="border-collapse: collapse; width: 100%; height: 55px;">
+				<tr>
+					<td colspan=3 style="width: 100%; height: 18px;">Parecer</td>
+				</tr>
+				<tr>
+					<td colspan="3" style="width: 100%; height: 18px;">##PARECER##</td>
+				</tr>
+			</table>
+			<table style="border-collapse: collapse; width: 100%; height: 55px;">
+				<tr>
+					<td colspan=3 style="width: 100%; height: 18px;">Status</td>
+				</tr>
+				<tr>
+					<td colspan="3" style="width: 100%; height: 18px;">##STATUS##</td>
+				</tr>
+			</table>
+
 		</div>
 
 	</body>

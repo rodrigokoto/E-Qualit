@@ -117,148 +117,130 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Action_alterarsenha" xml:space="preserve">
-    <value>Alterar Senha</value>
+  <data name="Site_lbl_Cnpj" xml:space="preserve">
+    <value>CNPJ</value>
   </data>
-  <data name="Action_bloqueiomodulo" xml:space="preserve">
-    <value>Bloqueio</value>
+  <data name="Site_lbl_Frase" xml:space="preserve">
+    <value>Frase</value>
   </data>
-  <data name="Action_criar" xml:space="preserve">
-    <value>Criar</value>
+  <data name="Site_lbl_Logo" xml:space="preserve">
+    <value>Logotipo do Site</value>
   </data>
-  <data name="Action_documentosaprovacao" xml:space="preserve">
-    <value>Documentos em Aprovação</value>
+  <data name="Site_lbl_Nome" xml:space="preserve">
+    <value>Nome Fantasia</value>
   </data>
-  <data name="Action_documentosaprovados" xml:space="preserve">
-    <value>Documentos Aprovados</value>
+  <data name="Site_lbl_Observacoes" xml:space="preserve">
+    <value>Observações</value>
   </data>
-  <data name="Action_documentoselaboracao" xml:space="preserve">
-    <value>Documentos em Elaboração</value>
+  <data name="Site_lbl_placeholder_Cnpj" xml:space="preserve">
+    <value>Digite o CNPJ</value>
   </data>
-  <data name="Action_documentosverificacao" xml:space="preserve">
-    <value>Documentos em Verificação</value>
+  <data name="Site_lbl_placeholder_Frase" xml:space="preserve">
+    <value>Digite o slogan</value>
   </data>
-  <data name="Action_editar" xml:space="preserve">
-    <value>Editar</value>
+  <data name="Site_lbl_placeholder_Logo" xml:space="preserve">
+    <value>Faça o upload do logo</value>
   </data>
-  <data name="Action_emissaodocumento" xml:space="preserve">
-    <value>Emissão de Documento</value>
+  <data name="Site_lbl_placeholder_Nome" xml:space="preserve">
+    <value>Digite o nome fantasia da empresa</value>
   </data>
-  <data name="Action_imprimir" xml:space="preserve">
-    <value>Imprimir</value>
+  <data name="Site_lbl_placeholder_Observacoes" xml:space="preserve">
+    <value>Digite algumas observações</value>
   </data>
-  <data name="Action_meusdados" xml:space="preserve">
-    <value>Meus Dados</value>
+  <data name="Site_lbl_placeholder_Razao_Social" xml:space="preserve">
+    <value>Digite a razão social da empresa</value>
   </data>
-  <data name="Controller_acaocorretiva" xml:space="preserve">
-    <value>Ação Corretiva</value>
+  <data name="Site_lbl_Razao_Social" xml:space="preserve">
+    <value>Razão Social</value>
   </data>
-  <data name="Controller_analisecritica" xml:space="preserve">
-    <value>Análise Crítica</value>
+  <data name="Site_lbl_titulo" xml:space="preserve">
+    <value>Dados do Site</value>
   </data>
-  <data name="Controller_calibracao" xml:space="preserve">
-    <value>Calibração</value>
+  <data name="Site_msg_required_Cnpj" xml:space="preserve">
+    <value>O campo CNPJ é obrigatório.</value>
   </data>
-  <data name="Controller_cargo" xml:space="preserve">
-    <value>Cargo</value>
+  <data name="Site_msg_required_Frase" xml:space="preserve">
+    <value>O campo Frase é obrigatório.</value>
   </data>
-  <data name="Controller_cliente" xml:space="preserve">
-    <value>Cliente</value>
+  <data name="Site_msg_required_Logo" xml:space="preserve">
+    <value>O campo Logo do Site é obrigatório.</value>
   </data>
-  <data name="Controller_controldoc" xml:space="preserve">
-    <value>ControlDoc</value>
+  <data name="Site_msg_required_maxlength_Frase" xml:space="preserve">
+    <value>O campo Frase deve ter no máximo 60 caracteres.</value>
   </data>
-  <data name="Controller_fornecedor" xml:space="preserve">
-    <value>Qualificação de Fornecedores</value>
+  <data name="Site_msg_required_maxlength_Nome" xml:space="preserve">
+    <value>O campo Nome Fantasia deve ter no máximo 60 caracteres.</value>
   </data>
-  <data name="Controller_gestaoderisco" xml:space="preserve">
-    <value>Gestão de Risco</value>
+  <data name="Site_msg_required_maxlength_Observacoes" xml:space="preserve">
+    <value>O campo Observações deve ter no máximo 60 caracteres.</value>
   </data>
-  <data name="Controller_home" xml:space="preserve">
-    <value>Erro</value>
+  <data name="Site_msg_required_maxlength_Razao_Social" xml:space="preserve">
+    <value>O campo Razão Social deve ter no máximo 60 caracteres.</value>
   </data>
-  <data name="Controller_indicador" xml:space="preserve">
-    <value>Indicadores</value>
+  <data name="Site_msg_required_Nome" xml:space="preserve">
+    <value>O campo Nome Fantasia é obrigatório.</value>
   </data>
-  <data name="Controller_instrumento" xml:space="preserve">
-    <value>Instrumentos</value>
+  <data name="Site_msg_required_Observacoes" xml:space="preserve">
+    <value>O campo Observações é obrigatório.</value>
   </data>
-  <data name="Controller_naoconformidade" xml:space="preserve">
-    <value>Não Conformidade</value>
+  <data name="Site_msg_required_Razao_Social" xml:space="preserve">
+    <value>O campo Razão Social é obrigatório.</value>
   </data>
-  <data name="Controller_norma" xml:space="preserve">
-    <value>Norma</value>
+  <data name="Site_msg_required_Logo_extension" xml:space="preserve">
+    <value>O campo Logo só aceita extensões do tipo ".jpg", ".png" e ".gif"</value>
   </data>
-  <data name="Controller_processo" xml:space="preserve">
-    <value>Processo</value>
+  <data name="Site_msg_required_Ativo" xml:space="preserve">
+    <value>Durante a criação de um novo Site é necessario que o mesmo esteja Ativo.</value>
   </data>
-  <data name="Controller_site" xml:space="preserve">
+  <data name="Site_msg_required_ExtensaoLogo" xml:space="preserve">
+    <value>Extensão do Logo do Site é obrigatória.</value>
+  </data>
+  <data name="Site_msg_required_maxlength_Cnpj" xml:space="preserve">
+    <value>O campo CNPJ deve ter 14 caracteres.</value>
+  </data>
+  <data name="Site_msg_required_NomeLogo" xml:space="preserve">
+    <value>Nome do Logo é obrigatório.</value>
+  </data>
+  <data name="Site_msg_not_found_IdSite" xml:space="preserve">
+    <value>O Id do Site é invalido.</value>
+  </data>
+  <data name="Site_lbl_novo_site" xml:space="preserve">
+    <value>Novo Site</value>
+  </data>
+  <data name="Site_lbl_titulo_site" xml:space="preserve">
     <value>Site</value>
   </data>
-  <data name="Controller_usuario" xml:space="preserve">
-    <value>Usuário</value>
+  <data name="Site_msg_criar_valid" xml:space="preserve">
+    <value>Site salvo com sucesso.</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
+  <data name="Site_lbl_Escolha_site" xml:space="preserve">
+    <value>Escolha os sites</value>
   </data>
-  <data name="Processo" xml:space="preserve">
-    <value>Processo</value>
+  <data name="Site_lbl_Sites" xml:space="preserve">
+    <value>Sites</value>
   </data>
-  <data name="Controller_auditoria" xml:space="preserve">
-    <value>Auditoria</value>
+  <data name="Site_msg_icone_ativo_ativar" xml:space="preserve">
+    <value>Deseja mesmo Ativar o site?</value>
   </data>
-  <data name="Controller_plai" xml:space="preserve">
-    <value>Plai</value>
+  <data name="Site_msg_icone_ativo_inativar" xml:space="preserve">
+    <value>Deseja mesmo Inativar o site?</value>
   </data>
-  <data name="Action_fluxo" xml:space="preserve">
-    <value>Fluxo</value>
+  <data name="Site_msg_icone_ativo_valid" xml:space="preserve">
+    <value>Status modificado com sucesso.</value>
   </data>
-  <data name="Action_recursos" xml:space="preserve">
-    <value>Recursos</value>
+  <data name="Site_msg_required_Cnpj_isvalid" xml:space="preserve">
+    <value>Digite um CNPJ válido.</value>
   </data>
-  <data name="Action_registro" xml:space="preserve">
-    <value>Registro</value>
+  <data name="Site_msg_icone_excluir" xml:space="preserve">
+    <value>Deseja mesmo Excluir o site?</value>
   </data>
-  <data name="Action_riscos" xml:space="preserve">
-    <value>Riscos</value>
+  <data name="Site_lbl_Cliente" xml:space="preserve">
+    <value>Cliente</value>
   </data>
-  <data name="Action_rotina" xml:space="preserve">
-    <value>Rotina</value>
+  <data name="Site_msg_required_LogoNome" xml:space="preserve">
+    <value>O nome do Logo do Site é obrigatório.</value>
   </data>
-  <data name="Action_conteudodocumentoobsoleto" xml:space="preserve">
-    <value>Documento Obsoleto</value>
-  </data>
-  <data name="Action_IndexFornecedores" xml:space="preserve">
-    <value>Fornecedores</value>
-  </data>
-  <data name="Controller_licenca" xml:space="preserve">
-    <value>Licença</value>
-  </data>
-  <data name="Controller_gestaomelhoria" xml:space="preserve">
-    <value>Gestão de Melhoria</value>
-  </data>
-  <data name="Licenca" xml:space="preserve">
-    <value>Licenca</value>
-  </data>
-  <data name="Action_documentosobsoletos" xml:space="preserve">
-    <value>Documentos Obsoletos</value>
-  </data>
-  <data name="Action_documentosrevisao" xml:space="preserve">
-    <value>Documentos em Revisão</value>
-  </data>
-  <data name="Controller_log" xml:space="preserve">
-    <value>Log</value>
-  </data>
-  <data name="Controller_relatorio" xml:space="preserve">
-    <value>Relatórios</value>
-  </data>
-  <data name="Action_processo" xml:space="preserve">
-    <value>Processo</value>
-  </data>
-  <data name="Backup" xml:space="preserve">
-    <value>Backup</value>
-  </data>
-  <data name="Controller_backup" xml:space="preserve">
-    <value>Backup</value>
+  <data name="Site_msg_exluir" xml:space="preserve">
+    <value>Site excluido com sucesso.</value>
   </data>
 </root>

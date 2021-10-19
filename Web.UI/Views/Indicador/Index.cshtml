@@ -151,7 +151,7 @@
                                                         <i class="fa fa-pencil" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_editar"></i>
                                                     </a>
                                                 }
-                                                @if (listaPermissoes.Any(x => x.IdFuncao == (int)FuncoesIndicadores.Excluir) && ViewBag.IdPerfil != 4)
+                                                @if (ViewBag.IdPerfil != 4)
                                                 {
                                                     <a href="#" class="icon-cliente trash-color del-indicador" data-id-indicador="@item.Id">
                                                         <i class="fa fa-trash" aria-hidden="true" data-toggle="tooltip" title="@Traducao.Shared.ResourceButtons.btn_lbl_excluir"></i>

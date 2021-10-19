@@ -735,6 +735,7 @@ APP.controller.UsuarioController = {
         this.setStrongPassword();
         this.sendFormAlterarSenha();
 
+        $('#dv-alterar-senha-nova').tooltip({ boundary: 'window'})
     },
 
     setValidateFormAleterarSenha: function () {
