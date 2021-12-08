@@ -156,7 +156,7 @@ APP.controller.NaoConformidadeController = {
 
         //Criar Nao Conformidade
         this.buttonSalvar = $(".btn-salvar");
-
+        this.buttonAnular = $(".btn-anular");
         //Editar Nao Conformidade
         this.buttonAddAcaoImediata = $('.add-acao-imediata');
 
@@ -266,6 +266,7 @@ APP.controller.NaoConformidadeController = {
         this.setValidateForms();
         this.eventoAuditoria();
         this.eventoImprimir();
+        this.eventoAnular();
 
         this.sendFormCriarNaoConformidade();
 
@@ -275,6 +276,44 @@ APP.controller.NaoConformidadeController = {
 
         //    this.HabilitaCamposNaoConformidade(perfil);
         //}
+    },
+
+    eventoAnular: function () {
+        this.buttonAnular.on('click', function () {
+
+            var dialog = bootbox.dialog({
+                title: 'Anular Não Conformidade',
+                message: "<p>Gostaria de anular essa Não Conformidade?.</p>",
+                size: 'small',
+                buttons: {
+                    cancel: {
+                        label: "Não",
+                        className: 'btn-danger',
+                        callback: function () {
+                            $("#painel-acao-corretiva-nao").hide();
+                            $('[name=StatusEtapa]').val('1');
+                            $('[name=formCriarNaoConformidadeDsJustificativa]').hide();
+
+                            $('.add-acao-imediata').show();
+                            $('.pnl-anular').show();
+                        }
+                    },
+
+                    ok: {
+                        label: "Sim",
+                        className: 'btn-info',
+                        callback: function () {
+                            $("#painel-acao-corretiva-nao").show();
+                            $('[name=StatusEtapa]').val('5');
+                            $('[name=formCriarNaoConformidadeDsJustificativa]').show();
+                            $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', false);
+
+                            $('.pnl-anular').hide();
+                        }
+                    }
+                }
+            });
+        });
     },
 
     eventoImprimir: function () {
@@ -342,6 +381,11 @@ APP.controller.NaoConformidadeController = {
                 break;
             case 4:
                 this.setShowAndHideStatusEtapa4();
+                $('.btn-anular').prop('disabled', true);
+                break;
+            case 5:
+                this.setShowAndHideStatusEtapa5();
+                $('.btn-anular').prop('disabled', true);
                 break;
         }
 
@@ -874,6 +918,19 @@ APP.controller.NaoConformidadeController = {
         this.setDisabledStatusEtapa4(true);
         this.setShowInputsEtapa4();
 
+    },
+
+    setShowAndHideStatusEtapa5: function () {
+
+
+        $("#painel-acao-corretiva-nao").show();
+        $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', false);
+
+        $('.pnl-anular').hide();
+
+        this.setHideStatusEtapa4();
+        this.setDisabledStatusEtapa4(true);
+        this.setShowInputsEtapa4();
     },
 
     setHideStatusEtapa4: function () {
@@ -1504,6 +1561,36 @@ APP.controller.NaoConformidadeController = {
 
                 };
                 break;
+            case "fluxo-06":
+                //Obj enviado no fluxo 04 de edicao
+                acoesNaoConformidadeFormCriarNaoConformidadeObj = {
+                    StatusEtapa: $('[name=StatusEtapa]').val(),
+                    DtDescricaoAcao: $('[name=formAcaoImadiataDtDescricaoAcao]').val(),
+                    IdRegistroConformidade: $('[name=IdRegistroConformidade]').val(),
+                    NuRegistro: $("#form-criar-nao-conformidade-nm-registro").val(),
+                    AcoesImediatas: APP.controller.NaoConformidadeController.getObjFormAcaoImediata(),
+                    FlEficaz: APP.controller.NaoConformidadeController.getFoiEficaz(),
+                    Tags: $('[name=formCriarNaoConformidadeTags]').val(),
+                    IdEmissor: $('[name=formCriarNaoConformidadeEmissor] :selected').val(),
+                    IdProcesso: $('[name=formCriarNaoConformidadeProcesso] :selected').val(),
+                    DtEmissao: $('[name=formCriarNaoConformidadeDtEmissao]').val(),
+                    NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
+                    IdResponsavelInicarAcaoImediata: $('[name=formCriarNaoConformidadeResponsavel] :selected').val(),
+                    CriticidadeAcaoCorretiva: $('[name=formCriarNaoConformidadeCriticidade] :selected').val(),
+                    DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
+                    DsJustificativa: $('[name=formCriarNaoConformidadeDsJustificativa]').val(),
+                    IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
+                    IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
+                    DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
+                    Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
+                    DtPrazoImplementacao: $('[name=formAcaoImadiataTbDtPrazoImplementacao]').val(),
+                    DsAcao: $('[name=formAcaoImadiataTbDescricao]').val(),
+                    EProcedente: $('[name=formAcaoImadiataEProcedente]:checked').val(),
+                    ArquivosDeEvidenciaAux: APP.controller.NaoConformidadeController.getAnexosEvidencias(),
+                    Causa: $('[name=formCausa]').val(),
+                    Parecer: $('[name=formAcaoImadiataParecer]').val(),
+                };
+                break;
         }
 
         return acoesNaoConformidadeFormCriarNaoConformidadeObj;
@@ -1981,7 +2068,10 @@ APP.controller.NaoConformidadeController = {
                     //Status 3 - ReverificaÃ§Ã£o
                     _004: ['fluxo-04'],
                     //Status 3 - Desbloquear
-                    _005: ['fluxo-05']
+                    _005: ['fluxo-05'],
+                    //Anular
+                    _006: ['fluxo-06']
+
 
                 };
 
@@ -2011,6 +2101,10 @@ APP.controller.NaoConformidadeController = {
                     case 4:
                         naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-05");
                         APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-05");
+                        break;
+                    case 5:
+                        naoConformidade = APP.controller.NaoConformidadeController.getCriarNaoConformidadeObj("fluxo-06");
+                        APP.controller.NaoConformidadeController.saveFormCriarNaoConformidade(naoConformidade, "fluxo-06");
                         break;
                 }
             }
@@ -2083,6 +2177,9 @@ APP.controller.NaoConformidadeController = {
                 url = "/NaoConformidade/SalvarSegundaEtapa";
                 break;
             case "fluxo-05":
+                url = "/NaoConformidade/SalvarSegundaEtapa";
+                break;
+            case "fluxo-06":
                 url = "/NaoConformidade/SalvarSegundaEtapa";
                 break;
         }

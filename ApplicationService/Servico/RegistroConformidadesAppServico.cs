@@ -502,6 +502,7 @@ namespace ApplicationService.Servico
                 if (naoConformidade.ECorrecao == false && acoesImediatasIncolpletas) {
                     objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Implementacao;
                 }
+                
                 else if (naoConformidade.ECorrecao == false || naoConformidade.ECorrecao == null && !acoesImediatasIncolpletas)
                 {
                     objCtx.StatusEtapa = (byte)EtapasRegistroConformidade.Encerrada;
@@ -540,6 +541,10 @@ namespace ApplicationService.Servico
                 objCtx.DescricaoRegistro = naoConformidade.DescricaoRegistro;
 
                 TrataRegistroAprovacaoReverificador(naoConformidade, listaAcaoImediataUpdate.ToList(), objCtx);
+            }
+            else if (naoConformidade.OStatusAnulada())
+            {
+                TrataRegistroAnulada(naoConformidade, listaAcaoImediataUpdate.ToList(), objCtx);
             }
             else if (naoConformidade.OStatusEAcaoImediata())
             {

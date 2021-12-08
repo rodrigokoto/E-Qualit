@@ -26,7 +26,7 @@ APP.controller.AcaoCorretivaController = {
         //Index Acao Corretiva
         this.buttonDelAcaoCorretiva = $(".del-acao-corretiva");
 
-        this.buttonAnular = $(".btn-anular")
+        this.buttonAnular = $(".btn-anular");
 
         //Criar Acao Corretiva
         this.buttonSalvar = $(".btn-salvar");
@@ -168,29 +168,6 @@ APP.controller.AcaoCorretivaController = {
                     }
                 }
             });
-
-            //bootbox.confirm("Gostaria de anular essa ação corretiva?", function (result) {
-            //    if (result == true) {
-            //        $("#painel-acao-corretiva-nao").show();
-            //        $('[name=StatusEtapa]').val('5');
-            //        $('[name=formCriarNaoConformidadeDsJustificativa]').show();
-            //        $('[name=formCriarNaoConformidadeDsJustificativa]').prop('disabled', false);
-
-            //        $('.pnl-anular').hide();
-            //    }
-            //    else {
-            //        $("#painel-acao-corretiva-nao").hide();
-            //        $('[name=StatusEtapa]').val('1');
-            //        $('[name=formCriarNaoConformidadeDsJustificativa]').hide();
-
-            //        $('.pnl-anular').show();
-            //    }
-            //});
-
-
-
-
-
         });
     },
     eventoImprimir: function () {
@@ -1039,6 +1016,7 @@ APP.controller.AcaoCorretivaController = {
                     Causa: $('[name=formCausa]').val(),
                     Parecer: $('[name=formAcaoImadiataParecer]').val(),
                 };
+                break;
             case "fluxo-06":
                 //Obj enviado no fluxo 04 de edicao
                 acoesNaoConformidadeFormCriarNaoConformidadeObj = {

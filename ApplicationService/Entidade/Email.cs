@@ -71,7 +71,7 @@ namespace ApplicationService.Entidade
             else
                 emailClient = new SmtpClient(Servidor, Porta);
             emailClient.UseDefaultCredentials = false;
-            emailClient.Credentials = new System.Net.NetworkCredential(this.De, ConfigurationManager.AppSettings["SMTPPassword"]);
+            emailClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPUser"], ConfigurationManager.AppSettings["SMTPPassword"]);
 
             if(EnableSSL)
             {

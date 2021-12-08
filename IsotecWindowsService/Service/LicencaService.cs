@@ -88,6 +88,7 @@ namespace IsotecWindowsService.Service
 
             retorno.AddRange(avaliaCriterioLicencas);
 
+            
             foreach (var item in retorno)
             {
                 var reg = _registroLicencaServico.RetornaRegistro(item.IdLicenca);

@@ -606,7 +606,7 @@ namespace Web.UI.Controllers
         }
 
         public ActionResult DocumentosVerificacao()
-        {
+         {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var idPerfil = Util.ObterPerfilUsuarioLogado();
 
@@ -1925,7 +1925,7 @@ namespace Web.UI.Controllers
                     {
                         _documentoAppServico.NotificacaoAprovadoresEmail(documento, documento.IdSite, documento.Aprovadores);
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Aprovacao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
                     }
