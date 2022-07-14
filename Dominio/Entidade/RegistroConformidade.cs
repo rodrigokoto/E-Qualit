@@ -51,9 +51,7 @@ namespace Dominio.Entidade
 
         public List<Anexo> ArquivosDeEvidenciaAux { get; set; }
 
-
-
-
+        public DateTime? DtRevisao { get; set; }
         public DateTime? DtAnalise { get; set; }
         public DateTime? DtDescricaoAcao { get; set; }
         public DateTime? DtEfetivaImplementacao { get; set; }

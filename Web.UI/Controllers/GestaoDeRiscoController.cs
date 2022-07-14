@@ -106,6 +106,7 @@ namespace Web.UI.Controllers
                         NuRegistro = item.NuRegistro,
                         DtEmissao = item.DtEmissao,
                         DtEncerramento = item.DtEnceramento,
+                        DtRevisao = item.DtRevisao,
                         NomeEmissor = item.Emissor.NmCompleto,
                         Responsavel = IdentificarResponsaveis(item),
                         StatusEtapa = item.StatusEtapa,

@@ -12,6 +12,8 @@ namespace Web.UI.Models
         public string NomeEmissor { get; set; }
         public DateTime DtEmissao { get; set; }
         public DateTime? DtEncerramento { get; set; }
+
+        public DateTime? DtRevisao { get; set; }
         public byte? StatusEtapa { get; set; }
         public string Responsavel { get; set; }
         public string Tags { get; set; }

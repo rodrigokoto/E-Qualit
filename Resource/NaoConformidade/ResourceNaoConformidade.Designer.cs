@@ -124,6 +124,15 @@ namespace Traducao.NaoConformidade {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prazo Reverificação.
+        /// </summary>
+        public static string NC_lbl_AI_Prazo_reverificacao {
+            get {
+                return ResourceManager.GetString("NC_lbl_AI_Prazo_reverificacao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Responsável por implementar.
         /// </summary>
         public static string NC_lbl_AI_Responsavel_implementar {
@@ -606,6 +615,15 @@ namespace Traducao.NaoConformidade {
         public static string NC_msg_required_AI_Prazo_implementacao {
             get {
                 return ResourceManager.GetString("NC_msg_required_AI_Prazo_implementacao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Data Reverificação é obrigatório.
+        /// </summary>
+        public static string NC_msg_required_AI_Prazo_Reverificacao {
+            get {
+                return ResourceManager.GetString("NC_msg_required_AI_Prazo_Reverificacao", resourceCulture);
             }
         }
         

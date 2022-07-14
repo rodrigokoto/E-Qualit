@@ -1089,6 +1089,17 @@
     <Content Include="Content\assets\imagens\logo-equalit-bg.jpg" />
     <Content Include="Content\assets\imagens\logo-equalit-bg.png" />
     <Content Include="Content\assets\Isotec\img\egmont-logo-dark.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\ac.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\Aud.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\controldoc.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\fornec.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\gr.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\indic.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\instrumento.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\licenca.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\melhoria.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\nc.png" />
+    <Content Include="Content\assets\Isotec\img\Equalit_img\SGQ.png" />
     <Content Include="Content\assets\js\AnaliseCriticaController.js" />
     <Content Include="Content\assets\js\AuditoriaController.js" />
     <Content Include="Content\assets\js\CanvasJs\canvasjs.min.js" />

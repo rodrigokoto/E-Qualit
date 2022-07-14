@@ -634,51 +634,51 @@
 
                                                     }
                                                     @*
-                                                                                                                                                upload antigo
+                                                                                                                        upload antigo
 
 
-                                                                                            <td>
-                                                        @{
-                                                            var base64 = "";
-                                                            var dataB64 = "";
-                                                            var nomeAnexo = "";
-                                                            var extensao = "";
-                                                            var idAnexo = 0;
-                                                            if (acaoImediata.ArquivoEvidencia.Count > 0)
-                                                            {
-                                                                idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
-                                                                extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
-                                                                nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
-                                                                base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
-                                                                dataB64 = base64;
-                                                                base64 = String.Format("data:application/" + extensao + ";base64," + base64);
+                                                                    <td>
+                                @{
+                                    var base64 = "";
+                                    var dataB64 = "";
+                                    var nomeAnexo = "";
+                                    var extensao = "";
+                                    var idAnexo = 0;
+                                    if (acaoImediata.ArquivoEvidencia.Count > 0)
+                                    {
+                                        idAnexo = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.IdAnexo;
+                                        extensao = acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Extensao;
+                                        nomeAnexo = acaoImediata.ArquivoEvidenciaAux.Nome;
+                                        base64 = Convert.ToBase64String(acaoImediata.ArquivoEvidencia.FirstOrDefault().Anexo.Arquivo);
+                                        dataB64 = base64;
+                                        base64 = String.Format("data:application/" + extensao + ";base64," + base64);
 
-                                                            }
-                                                        }
+                                    }
+                                }
 
-                                                        <div class="upload-arq form-control" style="height: 40px !important">
-                                                            @if (acaoImediata.ArquivoEvidencia.Count == 0)
-                                                            {
-                                                                <a class="btn-upload-file-evidencia btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" style="width: 80px">
-                                                                    <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
-                                                                </a>
-                                                            }
-                                                            else
-                                                            {
-                                                                <i class="hide">@nomeAnexo</i>
-                                                            }
-                                                            <ul>
-                                                                <li>
-                                                                    <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
-                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
-                                                                    <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
-                                                                </li>
-                                                            </ul>
-                                                            <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
-                                                                   class=""
-                                                                   data-msg-required=""
-                                                                   data-b64="@dataB64">
-                                                        </div>
+                                <div class="upload-arq form-control" style="height: 40px !important">
+                                    @if (acaoImediata.ArquivoEvidencia.Count == 0)
+                                    {
+                                        <a class="btn-upload-file-evidencia btn-upload-file-form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata" style="width: 80px">
+                                            <i class="fa fa-paperclip fa-1x" aria-hidden="true"></i><br />Anexar
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <i class="hide">@nomeAnexo</i>
+                                    }
+                                    <ul>
+                                        <li>
+                                            <a href="@base64" target="_blank" download="@nomeAnexo">@nomeAnexo</a>
+                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaNome" value="@nomeAnexo">
+                                            <input type="hidden" name="formCriarNaoConformidadeEvidenciaIdAnexo" value="@idAnexo">
+                                        </li>
+                                    </ul>
+                                    <input type="file" name="formCriarNaoConformidadeEvidencia-@acaoImediata.IdAcaoImediata" id="form-acaoimediata-tb-evidencia-@acaoImediata.IdAcaoImediata"
+                                           class=""
+                                           data-msg-required=""
+                                           data-b64="@dataB64">
+                                </div>
                                                     *@
                                                 </td>
                                                 <!-- Acoes -->
@@ -784,6 +784,22 @@
                                             <option value="@Model.IdResponsavelReverificador" selected>@Model.ResponsavelReverificador.NmCompleto</option>
                                         }
                                     </select>
+                                </div>
+                            </div>
+                            <!-- Data Reverificação -->
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 dtReverificacao hide">
+                                <div class="form-group">
+                                    <label for="form-acaoimediata-responsavel-reverificacao">@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_AI_Prazo_reverificacao</label>
+                                    <br />
+                                    <div class="input-group date input-group-datepicker">
+                                        <input type='text' name="formAcaoImadiataDtPrazoReverificacao" id="form-Acao-Imadiata-Dt-Prazo-Reverificacao" class="form-control data datepicker largura-calendario"
+                                               placeholder="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_lbl_placeholder_AI_Prazo_implementacao"
+                                               data-msg-required="@Traducao.NaoConformidade.ResourceNaoConformidade.NC_msg_required_AI_Prazo_implementacao"
+                                               value="@(Model.DtRevisao.HasValue?Model.DtRevisao.Value.ToString(@Traducao.Resource.dateFormat):"")" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar" teste="" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Foi Eficaz -->

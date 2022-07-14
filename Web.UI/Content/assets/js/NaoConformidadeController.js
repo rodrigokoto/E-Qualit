@@ -126,6 +126,7 @@ APP.controller.NaoConformidadeController = {
             this.HabilitaCamposNaoConformidade(perfil);
             this.formEditarNaoConformidade();
             this.formAcaoImediata();
+            this.setCheckDtRevisao();
             //this.setAcaoImediata();
             $('.botaouploadarquivos').removeAttr('disabled');
 
@@ -163,6 +164,7 @@ APP.controller.NaoConformidadeController = {
         this.buttonDestravar = $(".btn-destravar");
 
         this.buttonImprimir = $("#btn-imprimir");
+        this.setCheckDtRevisao();
 
     },
 
@@ -451,6 +453,33 @@ APP.controller.NaoConformidadeController = {
 
     },
 
+    setHidePrazoReverificacao: function () {
+        var checkSize = 0;
+        debugger;
+        var checkAcaoImediata = $('#tb-acao-imediata tbody tr').find('[name=formAcaoImadiataTbDtEfetivaImplementacao]');
+        for (i = 0; i < checkAcaoImediata.size(); i++) {
+            var valueAprovador = $(checkAcaoImediata[i]).val();
+            if (valueAprovador == "") {
+                checkSize++;
+            }
+        }
+
+        if (checkAcaoImediata.size() > 0) {
+
+            if (checkSize !== 0) {
+                $('.dtReverificacao').removeClass('show').addClass('hide');
+            }
+            else {
+                $('.dtReverificacao').removeClass('hide').addClass('show');
+                let _disabled = $('[name=formAcaoImadiataDtPrazoReverificacao]').val() !== "" ? true : false;
+                $('[name=formAcaoImadiataDtPrazoReverificacao]').prop('disabled', _disabled);
+            }
+        }
+        else
+            $('.dtReverificacao').removeClass('show').addClass('hide');
+    },
+
+
     setHidePanelEProcedenteSim: function () {
 
         $('#tb-acao-imediata').closest('div').hide();
@@ -480,6 +509,7 @@ APP.controller.NaoConformidadeController = {
         this.setDisabledStatusEtapa2(true);
         this.setShowInputsEtapa2();
         this.setCheckHistorico();
+        this.setHidePrazoReverificacao();
     },
 
     setHideStatusEtapa2: function () {
@@ -533,6 +563,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataECorrecao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataNecessitaAC]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataDtPrazoReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
 
@@ -611,11 +642,13 @@ APP.controller.NaoConformidadeController = {
         this.setDisabledStatusEtapa3(true);
         this.setShowInputsEtapa3();
         this.setCheckAcaoImediataOk();
+        this.setCheckDtRevisao();
         this.setCheckAcaoImediataNotOk();
         //[novo]
         this.setCheckHistorico();
         this.setIncluirComentario();
         this.setBackChecksOnPage();
+        this.setHidePrazoReverificacao();
 
     },
 
@@ -674,6 +707,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataECorrecao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataNecessitaAC]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataDtPrazoReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
 
@@ -703,11 +737,42 @@ APP.controller.NaoConformidadeController = {
             });
 
             $('[name=formAcaoImadiataFoiEficaz]').closest('[class^=col]').show();
+            $('[name=formAcaoImadiataDtPrazoReverificacao]').closest('[class^=col]').show();
 
         }
 
     },
+    setCheckDtRevisao: function () {
 
+
+        $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').change(function () {
+
+            var checkSize = 0;
+            debugger;
+            var checkAcaoImediata = $('#tb-acao-imediata tbody tr').find('[name=formAcaoImadiataTbDtEfetivaImplementacao]');
+            for (i = 0; i < checkAcaoImediata.size(); i++) {
+                var valueAprovador = $(checkAcaoImediata[i]).val();
+                if (valueAprovador == "") {
+                    checkSize++;
+                }
+            }
+
+            if (checkAcaoImediata.size() > 0) {
+
+                if (checkSize !== 0) {
+                    $('.dtReverificacao').removeClass('show').addClass('hide');
+                }
+                else {
+                    $('.dtReverificacao').removeClass('hide').addClass('show');
+                    let _disabled = $('[name=formAcaoImadiataDtPrazoReverificacao]').val() !== "" ? true : false;
+                    $('[name=formAcaoImadiataDtPrazoReverificacao]').prop('disabled', _disabled);
+                }
+            }
+            else 
+                $('.dtReverificacao').removeClass('show').addClass('hide');
+        });
+
+    },
     setCheckAcaoImediataOk: function () {
 
         //$('.btn-confirm-acao-imediata').on('click', function () {
@@ -917,7 +982,8 @@ APP.controller.NaoConformidadeController = {
         this.setTriggerRadioButtonsEtapa4('change');
         this.setDisabledStatusEtapa4(true);
         this.setShowInputsEtapa4();
-
+        this.setHidePrazoReverificacao();
+        this.setCheckDtRevisao();
     },
 
     setShowAndHideStatusEtapa5: function () {
@@ -931,6 +997,8 @@ APP.controller.NaoConformidadeController = {
         this.setHideStatusEtapa4();
         this.setDisabledStatusEtapa4(true);
         this.setShowInputsEtapa4();
+
+
     },
 
     setHideStatusEtapa4: function () {
@@ -998,6 +1066,7 @@ APP.controller.NaoConformidadeController = {
         $('[name=formAcaoImadiataECorrecao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataNecessitaAC]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelReverificacao]').prop('disabled', _disabled);
+        $('[name=formAcaoImadiataDtPrazoReverificacao]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataFoiEficaz]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataResponsavelTratativa]').prop('disabled', _disabled);
         $('[name=formAcaoImadiataAnaliseCausa]').prop('disabled', _disabled);
@@ -1435,6 +1504,7 @@ APP.controller.NaoConformidadeController = {
                     ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     NecessitaAcaoCorretiva: APP.component.Radio.init('formAcaoImadiataNecessitaAC'),
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao] :selected').val(),
+                    DtRevisao: $('[name=formAcaoImadiataDtPrazoReverificacao]').val(),
                     IdResponsavelPorIniciarTratativaAcaoCorretiva: $('[name=formAcaoImadiataResponsavelTratativa]').val(),
                     DescricaoAnaliseCausa: $('[name=formAcaoImadiataAnaliseCausa]').val(),
                     Parecer: $('[name=formAcaoImadiataParecer]').val(),
@@ -1466,6 +1536,7 @@ APP.controller.NaoConformidadeController = {
                     ECorrecao: APP.component.Radio.init('formAcaoImadiataECorrecao'),
                     NumeroAcaoCorretiva: $('[name=formAcaoImadiataNumeroAC]').val(),
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao] :selected').val(),
+                    DtRevisao: $('[name=formAcaoImadiataDtPrazoReverificacao]').val(),
                     DescricaoAcao: $('[name=formAcaoImadiataJustificativa]').val(),
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
@@ -1508,6 +1579,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao] :selected').val(),
+                    DtRevisao: $('[name=formAcaoImadiataDtPrazoReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
@@ -1542,6 +1614,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formAcaoImadiataJustificativa]').val(),
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao] :selected').val(),
+                    DtRevisao: $('[name=formAcaoImadiataDtPrazoReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
@@ -1580,6 +1653,7 @@ APP.controller.NaoConformidadeController = {
                     DescricaoRegistro: $('[name=formCriarNaoConformidadeDsRegistro]').val(),
                     DsJustificativa: $('[name=formCriarNaoConformidadeDsJustificativa]').val(),
                     IdResponsavelReverificador: $('[name=formAcaoImadiataResponsavelReverificacao]').val(),
+                    DtRevisao: $('[name=formAcaoImadiataDtPrazoReverificacao]').val(),
                     IdResponsavelImplementar: $('[name=formAcaoImadiataTbResponsavelImplementar]').val(),
                     DtEfetivaImplementacao: $('[name=formAcaoImadiataTbDtEfetivaImplementacao]').val(),
                     Observacao: $('[name=formAcaoImadiataTbObservacao]').val(),
@@ -1745,6 +1819,7 @@ APP.controller.NaoConformidadeController = {
             $('[name=formAcaoImadiataECorrecao]').prop('disabled', false);
 
             $('[name=formAcaoImadiataResponsavelReverificacao]').removeClass('hide').add('show');
+            $('[name=formAcaoImadiataDtPrazoReverificacao]').removeClass('hide').add('show');
             $('[name=formAcaoImadiataResponsavelTratativa]').removeClass('hide').add('show');
             $('.add-acao-imediata').removeClass('show').addClass('hide');
             APP.controller.NaoConformidadeController.bind();
@@ -2274,7 +2349,7 @@ APP.controller.NaoConformidadeController = {
         this.buttonDestravar.on('click', function () {
 
 
-            
+
             $('#form-criar-nao-conformidade-ds-registro').removeAttr('disabled');
             $('#form-criar-nao-conformidade-processo').removeAttr('disabled');
             $('#form-criar-nao-conformidade-responsavel').removeAttr('disabled');

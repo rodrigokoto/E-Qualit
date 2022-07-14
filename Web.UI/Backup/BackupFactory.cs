@@ -39,7 +39,7 @@ namespace Web.UI.Backup
 
                 using (MemoryStream mem = new MemoryStream())
                 {
-                    novoHtml = novoHtml.Replace('', '.');
+                    novoHtml = novoHtml.Replace('', '.').Replace('' , ' ');
 
                     var parser = new HtmlParser(novoHtml);
 

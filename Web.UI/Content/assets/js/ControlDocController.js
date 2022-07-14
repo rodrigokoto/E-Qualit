@@ -3687,7 +3687,7 @@ APP.controller.ControlDocController = {
 
             var workFlow = APP.controller.ControlDocController.getWorkFlow();
             APP.controller.ControlDocController.setRulesWorkFlow(workFlow);
-            APp.controller.ControlDocController.setHideAndShow();
+            //APP.controller.ControlDocController.setHideAndShow();
 
         });
 

@@ -618,11 +618,21 @@ namespace Dominio.Servico
             }
             else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
             {
-                return new CamposObrigatoriosAcaoCorretivaReverificacao();
+                if (!VerificaAcaoImediataAprovada(acaoCorretiva))
+                {
+                    return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
+                }
+                else
+                    return new CamposObrigatoriosAcaoCorretivaReverificacao();
             }
             else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Encerrada)
             {
-                return new CamposObrigatoriosAcaoCorretivaEncerrada();
+                if (!VerificaAcaoImediataAprovada(acaoCorretiva))
+                {
+                    return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
+                }
+                else
+                    return new CamposObrigatoriosAcaoCorretivaEncerrada();
             }
             else if (acaoCorretiva.StatusEtapa == (byte)EtapasRegistroConformidade.Anulada)
             {
@@ -649,7 +659,12 @@ namespace Dominio.Servico
             //else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
             else
             {
-                return new CamposObrigatoriosNaoConformidadeReverificacao();
+                if (!VerificaAcaoImediataAprovada(gestaoDeRisco))
+                {
+                    return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
+                }
+                else
+                    return new CamposObrigatoriosNaoConformidadeReverificacao();
             }
             return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
         }
@@ -672,15 +687,21 @@ namespace Dominio.Servico
             {
                 return new CamposObrigatoriosGestaoMelhoriaReverificacao();
             }
+            else if (gestaoDeRisco.OStatusEReverificacao() && gestaoDeRisco.EProcedente.Value && VerificaAcaoImediataAprovada(gestaoDeRisco))
+            {
+                return new CamposObrigatoriosNaoConformidadeReverificacao();
+            }
             //else if (gestaoDeRisco.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao)
             else
             {
                 if (gestaoDeRisco.StatusEtapa != (byte)EtapasRegistroConformidade.Encerrada)
                     return new CamposObrigatoriosGestaoMelhoriaReverificacao();
-                else
+                else if (VerificaAcaoImediataAprovada(gestaoDeRisco))
                     return new CamposObrigatoriosAcaoCorretivaEncerrada();
+                else
+                    return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
             }
-            return new CamposObrigatoriosSegundaEtapaAtaulizacaoAcaoImediata();
+
         }
 
         private AbstractValidator<RegistroConformidade> DefineFluxoValidacaoNC(RegistroConformidade naoConformidade)
@@ -706,7 +727,8 @@ namespace Dominio.Servico
         }
 
 
-        public bool VerificaAcaoImediataAprovada(RegistroConformidade naoConformidade) {
+        public bool VerificaAcaoImediataAprovada(RegistroConformidade naoConformidade)
+        {
 
             var result = true;
 
