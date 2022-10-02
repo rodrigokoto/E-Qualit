@@ -606,7 +606,7 @@ namespace Web.UI.Controllers
         }
 
         public ActionResult DocumentosVerificacao()
-         {
+        {
             ViewBag.IdSite = Util.ObterSiteSelecionado();
             var idPerfil = Util.ObterPerfilUsuarioLogado();
 
@@ -1526,14 +1526,23 @@ namespace Web.UI.Controllers
                     foreach (var item in baseDocumento.DocRisco)
                     {
 
-                        var retorno = PrepararDadosAprovar(baseDocumento, item);
-                        //retorno.IdRegistroConformidade = null;
-                        //documento.GestaoDeRisco = registro;
-                        baseDocumento.GestaoDeRisco = retorno;
+                        var risco = _registroConformidadeAppServico.GetAll().ToList();
 
-                        _registroConformidadeAppServico.Add(baseDocumento.GestaoDeRisco);
+                        var result = (from r in risco
+                                      where r.DescricaoRegistro.Contains(item.DescricaoRegistro)
+                                      select r).ToList();
 
-                        //_documentoAppServico.Update(doc);
+                        if (result.Count <= 0)
+                        {
+                            var retorno = PrepararDadosAprovar(baseDocumento, item);
+                            //retorno.IdRegistroConformidade = null;
+                            //documento.GestaoDeRisco = registro;
+                            baseDocumento.GestaoDeRisco = retorno;
+
+
+
+                            _registroConformidadeAppServico.Add(baseDocumento.GestaoDeRisco);
+                        }
                     }
                 }
                 else
@@ -1554,13 +1563,23 @@ namespace Web.UI.Controllers
                     foreach (var item in baseDocumento.DocRisco)
                     {
 
-                        var retorno = PrepararDadosAprovar(baseDocumento, item);
-                        //retorno.IdRegistroConformidade = null;
-                        //documento.GestaoDeRisco = registro;
-                        baseDocumento.GestaoDeRisco = retorno;
+                        var risco = _registroConformidadeAppServico.GetAll().ToList();
 
-                        _registroConformidadeAppServico.Add(baseDocumento.GestaoDeRisco);
+                        var result = (from r in risco
+                                      where r.DescricaoRegistro.Contains(item.DescricaoRegistro)
+                                      select r).ToList();
 
+                        if (result.Count <= 0)
+                        {
+                            var retorno = PrepararDadosAprovar(baseDocumento, item);
+                            //retorno.IdRegistroConformidade = null;
+                            //documento.GestaoDeRisco = registro;
+                            baseDocumento.GestaoDeRisco = retorno;
+
+
+
+                            _registroConformidadeAppServico.Add(baseDocumento.GestaoDeRisco);
+                        }
                         //_documentoAppServico.Update(doc);
                     }
                 }
@@ -1921,14 +1940,14 @@ namespace Web.UI.Controllers
                     documento.FlStatus = (int)StatusDocumento.Aprovacao;
                     //_documentoAppServico.EnviarDocumentoParaAprovacao(documento);
 
-                    try
-                    {
-                        _documentoAppServico.NotificacaoAprovadoresEmail(documento, documento.IdSite, documento.Aprovadores);
-                    }
-                    catch(Exception ex)
-                    {
-                        return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Aprovacao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
-                    }
+                    //try
+                    //{
+                    //    _documentoAppServico.NotificacaoAprovadoresEmail(documento, documento.IdSite, documento.Aprovadores);
+                    //}
+                    //catch(Exception ex)
+                    //{
+                    //    return Json(new { Success = Traducao.ControlDoc.ResourceControlDoc.ControlDoc_msg_Success_Aprovacao_Falha_Email, StatusCode = (int)HttpStatusCode.OK }, JsonRequestBehavior.AllowGet);
+                    //}
                 }
                 else
                 {

@@ -20,7 +20,7 @@ namespace Dominio.Enumerado
         AnaliseCritica = 7,
         [Description("Licenças")]
         Licencas = 8,
-        [Description("Intrumento")]
+        [Description("Instrumento")]
         Instrumentos = 9,
         [Description("Fornecedor")]
         Fornecedores = 10,

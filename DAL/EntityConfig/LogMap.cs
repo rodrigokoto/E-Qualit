@@ -41,6 +41,10 @@ namespace DAL.EntityConfig
             HasRequired(x => x.Usuario)
                 .WithMany()
                 .HasForeignKey(x => x.IdUsuario);
+
+            HasRequired(x => x.Cliente)
+                .WithMany()
+                .HasForeignKey(x => x.IdCliente);
         }
     }
 }

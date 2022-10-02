@@ -95,16 +95,16 @@ namespace ApplicationService.Servico
                                                }); ;
 
                         var naoConformidadeDtRevisao = (from nc in db.RegistroConformidade
-                                               where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtRevisao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "nc"
-                                               select new Pendencia
-                                               {
-                                                   Id = (int)nc.IdRegistroConformidade,
-                                                   Titulo = nc.NuRegistro.ToString(),
-                                                   IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
-                                                   TipoPendencia = TipoPendencia.Pendencia,
-                                                   Modulo = "NC",
-                                                   Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
-                                               }); ;
+                                                        where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtRevisao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "nc"
+                                                        select new Pendencia
+                                                        {
+                                                            Id = (int)nc.IdRegistroConformidade,
+                                                            Titulo = nc.NuRegistro.ToString(),
+                                                            IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                            TipoPendencia = TipoPendencia.Pendencia,
+                                                            Modulo = "NC",
+                                                            Url = "NaoConformidade/Editar/" + (int)nc.IdRegistroConformidade
+                                                        }); ;
 
                         var naoConformidadePrazo = (from nc in db.RegistroConformidade
                                                     join ai in db.AcaoImediata on nc.IdRegistroConformidade equals ai.IdRegistroConformidade
@@ -146,16 +146,16 @@ namespace ApplicationService.Servico
                                              });
 
                         var acaoCorretivaDtRevisao = (from nc in db.RegistroConformidade
-                                                        where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtRevisao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "ac"
-                                                        select new Pendencia
-                                                        {
-                                                            Id = (int)nc.IdRegistroConformidade,
-                                                            Titulo = nc.NuRegistro.ToString(),
-                                                            IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
-                                                            TipoPendencia = TipoPendencia.Pendencia,
-                                                            Modulo = "AC",
-                                                            Url = "AcaoCorretiva/Editar/" + (int)nc.IdRegistroConformidade
-                                                        }); ;
+                                                      where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtRevisao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "ac"
+                                                      select new Pendencia
+                                                      {
+                                                          Id = (int)nc.IdRegistroConformidade,
+                                                          Titulo = nc.NuRegistro.ToString(),
+                                                          IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                          TipoPendencia = TipoPendencia.Pendencia,
+                                                          Modulo = "AC",
+                                                          Url = "AcaoCorretiva/Editar/" + (int)nc.IdRegistroConformidade
+                                                      }); ;
 
                         var acaoCorretivaRev = (from ac in db.RegistroConformidade
                                                 where ac.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && ac.TipoRegistro == "ac" && ac.DtPrazoImplementacao < DateTime.Now && ac.IdSite == idSite
@@ -291,31 +291,34 @@ namespace ApplicationService.Servico
                                            select prodF).FirstOrDefault();
                             if (avaliaCriterioAvaliacao != null)
                             {
-                                if (avaliaCriterioAvaliacao.DtProximaAvaliacao < DateTime.Now)
+                                if (Produto != null)
                                 {
-
-                                    FornecedorP.Add(new Pendencia()
+                                    if (avaliaCriterioAvaliacao.DtProximaAvaliacao < DateTime.Now)
                                     {
-                                        Id = fornecedor.IdFornecedor,
-                                        Titulo = fornecedor.Nome,
-                                        IdResponsavel = (int)avaliaCriterioAvaliacao.IdUsuarioAvaliacao,
-                                        TipoPendencia = TipoPendencia.Pendencia,
-                                        Modulo = "Fornecedor - CA",
-                                        Url = "fornecedor/acoesfornecedores/" + fornecedor.IdFornecedor + "?idProduto=" + Produto.IdProduto + "&Ancora=Avaliar"
-                                    });
-                                }
-                                else if (avaliaCriterioAvaliacao.DtProximaAvaliacao == DateTime.Now)
-                                {
 
-                                    FornecedorP.Add(new Pendencia()
+                                        FornecedorP.Add(new Pendencia()
+                                        {
+                                            Id = fornecedor.IdFornecedor,
+                                            Titulo = fornecedor.Nome,
+                                            IdResponsavel = (int)avaliaCriterioAvaliacao.IdUsuarioAvaliacao,
+                                            TipoPendencia = TipoPendencia.Pendencia,
+                                            Modulo = "Fornecedor - CA",
+                                            Url = "fornecedor/acoesfornecedores/" + fornecedor.IdFornecedor + "?idProduto=" + Produto.IdProduto + "&Ancora=Avaliar"
+                                        });
+                                    }
+                                    else if (avaliaCriterioAvaliacao.DtProximaAvaliacao == DateTime.Now)
                                     {
-                                        Id = fornecedor.IdFornecedor,
-                                        Titulo = fornecedor.Nome,
-                                        IdResponsavel = (int)avaliaCriterioAvaliacao.IdUsuarioAvaliacao,
-                                        TipoPendencia = TipoPendencia.Notificacao,
-                                        Modulo = "Fornecedor - CA",
-                                        Url = "fornecedor/acoesfornecedores/" + fornecedor.IdFornecedor + "?idProduto=" + Produto.IdProduto + "&Ancora=Avaliar"
-                                    });
+
+                                        FornecedorP.Add(new Pendencia()
+                                        {
+                                            Id = fornecedor.IdFornecedor,
+                                            Titulo = fornecedor.Nome,
+                                            IdResponsavel = (int)avaliaCriterioAvaliacao.IdUsuarioAvaliacao,
+                                            TipoPendencia = TipoPendencia.Notificacao,
+                                            Modulo = "Fornecedor - CA",
+                                            Url = "fornecedor/acoesfornecedores/" + fornecedor.IdFornecedor + "?idProduto=" + Produto.IdProduto + "&Ancora=Avaliar"
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -347,16 +350,16 @@ namespace ApplicationService.Servico
 
 
                         var gestaoRiscoDtRevisao = (from nc in db.RegistroConformidade
-                                                      where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtRevisao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "gr"
-                                                      select new Pendencia
-                                                      {
-                                                          Id = (int)nc.IdRegistroConformidade,
-                                                          Titulo = nc.NuRegistro.ToString(),
-                                                          IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
-                                                          TipoPendencia = TipoPendencia.Pendencia,
-                                                          Modulo = "GR",
-                                                          Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
-                                                      }); ;
+                                                    where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtRevisao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "gr"
+                                                    select new Pendencia
+                                                    {
+                                                        Id = (int)nc.IdRegistroConformidade,
+                                                        Titulo = nc.NuRegistro.ToString(),
+                                                        IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                        TipoPendencia = TipoPendencia.Pendencia,
+                                                        Modulo = "GR",
+                                                        Url = "GestaoDeRisco/Editar/" + (int)nc.IdRegistroConformidade
+                                                    }); ;
 
                         var gestaoRiscoReverificacao = (from nc in db.RegistroConformidade
                                                         where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && nc.TipoRegistro == "gr" && nc.IdSite == idSite
@@ -398,16 +401,16 @@ namespace ApplicationService.Servico
                                                    });
 
                         var gestaoMelhoriaDtRevisao = (from nc in db.RegistroConformidade
-                                                    where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtRevisao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "gm"
-                                                    select new Pendencia
-                                                    {
-                                                        Id = (int)nc.IdRegistroConformidade,
-                                                        Titulo = nc.NuRegistro.ToString(),
-                                                        IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
-                                                        TipoPendencia = TipoPendencia.Pendencia,
-                                                        Modulo = "GM",
-                                                        Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
-                                                    }); ;
+                                                       where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Implementacao && nc.DtRevisao < DateTime.Now && nc.IdSite == idSite && nc.TipoRegistro == "gm"
+                                                       select new Pendencia
+                                                       {
+                                                           Id = (int)nc.IdRegistroConformidade,
+                                                           Titulo = nc.NuRegistro.ToString(),
+                                                           IdResponsavel = nc.ResponsavelInicarAcaoImediata.IdUsuario,
+                                                           TipoPendencia = TipoPendencia.Pendencia,
+                                                           Modulo = "GM",
+                                                           Url = "GestaoMelhoria/Editar/" + (int)nc.IdRegistroConformidade
+                                                       }); ;
 
                         var gestaoMelhoriaReverificacao = (from nc in db.RegistroConformidade
                                                            where nc.StatusEtapa == (byte)EtapasRegistroConformidade.Reverificacao && nc.TipoRegistro == "gm" && nc.IdSite == idSite

@@ -381,7 +381,8 @@ namespace Web.UI.Controllers
                               Util.GetIp(HttpContext),
                               Util.GetBrowser(HttpContext),
                               modulo,
-                              id);
+                              id,
+                              Util.ObterClienteSelecionado());
 
             _logServico.Add(log);
         }
@@ -392,7 +393,8 @@ namespace Web.UI.Controllers
                                Util.GetIp(HttpContext),
                                Util.GetBrowser(HttpContext),
                                modulo,
-                               id);
+                               id,
+                               Util.ObterClienteSelecionado());
 
             _logServico.Add(log);
         }
@@ -403,7 +405,8 @@ namespace Web.UI.Controllers
                                Util.GetIp(HttpContext),
                                Util.GetBrowser(HttpContext),
                                modulo,
-                               id);
+                               id, 
+                               Util.ObterClienteSelecionado());
 
             _logServico.Add(log);
         }
@@ -415,7 +418,8 @@ namespace Web.UI.Controllers
                                Util.GetIp(HttpContext),
                                Util.GetBrowser(HttpContext),
                                modulo,
-                               id);
+                               id,
+                               Util.ObterClienteSelecionado());
 
             _logServico.Add(log);
         }

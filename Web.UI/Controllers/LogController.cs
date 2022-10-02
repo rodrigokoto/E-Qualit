@@ -61,7 +61,6 @@ namespace Web.UI.Controllers
 
             var model = _logAppServico.GetAll().Where(x => x.IdUsuario != null && x.Modulo != null);
 
-            
             return View(model);
         }
     }

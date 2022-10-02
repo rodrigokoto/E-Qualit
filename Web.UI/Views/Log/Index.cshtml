@@ -57,6 +57,9 @@
                                             <th class="w10 with-input">
                                                 <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_Id">
                                             </th>
+                                            <th class="w10 with-input">
+                                                <input type="text" class="form-control" placeholder="@Traducao.Log.ResourceLog.IN_lbl_NmCliente">
+                                            </th>
                                         </tr>
                                         <tr class="bg">
                                             <th>@Traducao.Log.ResourceLog.IN_lbl_IdLog</th>
@@ -68,6 +71,7 @@
                                             <th>@Traducao.Log.ResourceLog.IN_lbl_NmUsuario</th>
                                             <th>@Traducao.Log.ResourceLog.IN_lbl_Modulo</th>
                                             <th>@Traducao.Log.ResourceLog.IN_lbl_Id</th>
+                                            <th>@Traducao.Log.ResourceLog.IN_lbl_NmCliente</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -100,6 +104,14 @@
                                                         </td>
                                                     }
                                                     <td>@log.Id</td>
+                                                    @{
+                                                        <td>
+                                                            @if (log.Cliente != null)
+                                                            {
+                                                                @log.Cliente.NmFantasia
+                                                            }
+                                                        </td>
+                                                    }
                                                 </tr>
                                             }
                                         }
